@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ophanim Library — PDFs &amp; Audio</title>
+<style>
+:root{--bg:#070b12;--panel:#0b1420;--panel2:#0a111b;--line:#16283b;--text:#cfe3f3;--dim:#6f8499;--cyan:#00f0ff;--amber:#ffb700;--green:#19e08a;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13px}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%,#0d1a2b 0%,var(--bg) 60%)}
+a{color:var(--cyan)}
+button,input,select,textarea{font-family:inherit;font-size:12px;color:var(--text)}
+button{background:#0c1a28;border:1px solid #17445a;border-radius:4px;padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--cyan)}button.on{border-color:var(--cyan);color:var(--cyan)}button.amber{border-color:#6b4b00;color:var(--amber)}
+input,select,textarea{background:#070b12;border:1px solid var(--line);border-radius:4px;padding:7px 9px;width:100%}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
+h1{margin:0;font-size:17px;color:var(--cyan);letter-spacing:.5px}
+.emb{vertical-align:middle;margin-right:8px}
+.quote{color:#fff;font-weight:700;font-size:12px;margin-top:4px}
+.sub{color:var(--amber);font-size:11px;margin-top:3px}
+main{max-width:1100px;margin:0 auto;padding:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bar input{flex:1;min-width:200px;width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.card h3{margin:0 0 4px;font-size:14px;color:#fff}
+.tag{display:inline-block;font-size:10px;border:1px solid var(--line);border-radius:3px;padding:1px 6px;margin-right:4px;color:var(--dim)}
+.tag.pdf{color:var(--amber);border-color:#6b4b00}.tag.audio{color:var(--green);border-color:#0f5a3a}.tag.stones{color:#fff;border-color:#2f7bff}
+.mut{color:var(--dim)}
+audio{width:100%;margin-top:8px}
+iframe{width:100%;height:60vh;border:1px solid var(--line);border-radius:6px;background:#fff;margin-top:8px}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+#editBox{display:none;margin-top:14px}#editBox.open{display:block}
+textarea{min-height:200px;white-space:pre}
+.empty{border:1px dashed var(--line);border-radius:8px;padding:20px;text-align:center;color:var(--dim)}
+</style></head>
+<body>
+<header>
+  <div>
+    <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></svg>OPHANIM LIBRARY <span style="color:var(--dim);font-weight:400">// PDFs &amp; Audio</span></h1>
+    <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone | <a href="https://x.com/Mandos16" target="_blank" rel="noopener">@Mandos16</a></div>
+    <div class="quote">Listen To The Shape in the Word. - "Speak responsibly"</div>
+  </div>
+  <div class="row" style="margin:0">
+    <a href="index.html"><button>← Field Console</button></a>
+    <button id="zOut">A−</button><button id="zIn">A+</button>
+    <button id="btnEdit" class="amber">✎ Edit list</button>
+  </div>
+</header>
+<main>
+  <div class="bar">
+    <button data-f="all" class="on">All</button><button data-f="pdf">PDF</button><button data-f="audio">Audio</button>
+    <input id="q" placeholder="Search title or description…">
+    <span class="mut" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <div class="card" id="editBox">
+    <b style="color:var(--amber)">Edit the library</b>
+    <p class="mut">One item per line: <code>type | Title | URL | Description | access</code><br>
+    type = <code>pdf</code> or <code>audio</code> · URL = https link, or a file next to this page such as <code>files/manifesto.pdf</code> · access = <code>public</code> or <code>stones</code> (optional).<br>
+    No limit in the code on how many items. Files must already be hosted online or sit in the same folder as this page.</p>
+    <textarea id="txt" spellcheck="false"></textarea>
+    <div class="row"><button id="save" class="amber">Save</button><button id="reset">Reset to default</button><button id="copy">Copy list</button><span class="mut" id="msg"></span></div>
+    <p class="mut">Note: the “stones” label is only a badge for now. Real access control (members-only files) arrives with the sign-in system; this page’s editing is stored in this browser only and is not secure.</p>
+  </div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const DEF=`audio | SomaFM — Drone Zone (live stream) | https://ice1.somafm.com/dronezone-128-mp3 | Ambient drone radio. | public`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let filter='all';
+function parse(t){
+  return t.split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(a=>a.length>=3&&(a[0]==='pdf'||a[0]==='audio')&&a[1]&&safeUrl(a[2]))
+   .map(a=>({type:a[0],title:a[1],url:a[2],desc:a[3]||'',stones:(a[4]||'').toLowerCase()==='stones'}));
+}
+function render(){
+  const items=parse(store.get('ophanim.library',DEF)),q=$('q').value.toLowerCase();
+  const list=items.filter(i=>(filter==='all'||i.type===filter)&&(i.title+' '+i.desc).toLowerCase().includes(q));
+  $('count').textContent=list.length+' of '+items.length;
+  $('grid').innerHTML=list.length?list.map((i,n)=>`<div class="card"><span class="tag ${i.type}">${i.type.toUpperCase()}</span>${i.stones?'<span class="tag stones">🔒 STONES</span>':''}
+    <h3>${esc(i.title)}</h3><div class="mut">${esc(i.desc)}</div>
+    ${i.type==='audio'?`<audio controls preload="none" src="${esc(i.url)}"></audio>`:`<div class="row"><button data-v="${n}">View here</button><a href="${esc(i.url)}" target="_blank" rel="noopener"><button>Open ↗</button></a></div><div id="v${n}"></div>`}
+    </div>`).join(''):'<div class="empty" style="grid-column:1/-1">Nothing here yet. Press “✎ Edit list” and add a line.</div>';
+  document.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{
+    const h=$('v'+b.dataset.v),i=list[b.dataset.v];
+    h.innerHTML=h.innerHTML?'':`<iframe src="${esc(i.url)}" title="${esc(i.title)}"></iframe>`;
+  });
+}
+document.querySelectorAll('button[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll('button[data-f]').forEach(x=>x.classList.toggle('on',x===b));render()});
+$('q').oninput=render;
+$('btnEdit').onclick=()=>{$('editBox').classList.toggle('open');$('txt').value=store.get('ophanim.library',DEF)};
+$('save').onclick=()=>{store.set('ophanim.library',$('txt').value);render();$('msg').textContent='Saved ('+parse($('txt').value).length+' valid items).';};
+$('reset').onclick=()=>{store.set('ophanim.library',DEF);$('txt').value=DEF;render();$('msg').textContent='Reset.'};
+$('copy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($('txt').value).then(()=>$('msg').textContent='Copied.')};
+const ZS=[1,1.15,1.3,1.5];let zi=0;try{zi=Math.min(3,Math.max(0,+localStorage.getItem('ophanim.zoom')||0))}catch(e){}
+const zA=()=>{document.documentElement.style.zoom=ZS[zi];try{localStorage.setItem('ophanim.zoom',zi)}catch(e){}};
+$('zIn').onclick=()=>{zi=Math.min(3,zi+1);zA()};$('zOut').onclick=()=>{zi=Math.max(0,zi-1);zA()};zA();
+render();
+</script></body></html>
