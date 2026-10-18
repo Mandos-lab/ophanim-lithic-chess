@@ -164,7 +164,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
       
       <div class="flex items-center space-x-3 shrink-0">
-        <svg class="shrink-0" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="Phonetic Archaeology emblem"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></svg>
+        <svg class="shrink-0" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="font-display-tech font-bold text-base sm:text-lg tracking-wider text-white">Ezekiel's Reed<span class="text-tactical-accent">//</span>deck</h1>
@@ -1263,11 +1263,14 @@ function wormhole(go){
       if (l) l.textContent = n.label;
       if (/^(https:\/\/|[\w-]+\.html$)/i.test(n.url)) {
         a.href = n.url;
+        a.removeAttribute('target');                      // open in this same tab: nothing extra to close
         a.addEventListener('click', e => {
           if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return;
           e.preventDefault();
-          const w = window.open('', '_blank');           // opened now so pop-up blockers allow it
-          wormhole(() => { if (w) { try { w.opener = null; } catch(_){} w.location.href = new URL(n.url, location.href).href; } else location.href = n.url; });
+          const dest = new URL(n.url, location.href).href;
+          let done = false; const go = () => { if (done) return; done = true; location.href = dest; };
+          wormhole(go);
+          setTimeout(go, 2500);                           // safety net if the animation is ever paused
         });
       }
       else { a.href = '#'; a.style.opacity = '.55'; a.title = 'Empty slot'; a.addEventListener('click', e => e.preventDefault()); a.removeAttribute('target'); }
