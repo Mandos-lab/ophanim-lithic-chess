@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="consent.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ophanim Field Console: Dual 360° Vector &amp; Alphanumeric Gematria Engine</title>
@@ -122,7 +123,7 @@ header{position:relative}
   <div class="brand">
     <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>OPHANIM FIELD CONSOLE <span style="color:var(--dim);font-weight:400">// Dual 360° Vector &amp; Alphanumeric Gematria Engine</span></h1>
     <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone</div>
-    <div class="quote">Listen To The Shape in the Word. - "Speak responsibly"</div>
+    <div class="quote">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</div>
   </div>
   <nav>
     <span class="clk" id="clkUtc">UTC --:--:--</span><span class="clk" id="clkLoc">LOCAL --:--:--</span>
@@ -896,8 +897,8 @@ function droneToggle(){
   droneEl.src=DRONE_URL;droneEl.volume=droneVolGet();
   droneEl.play().then(()=>{btn.textContent='🔊 Drone';btn.classList.add('amber')}).catch(()=>{btn.textContent='⚠ Drone blocked'});
 }
-const DEF_SITES=[['Lithic Chess','chess.html'],['Tavli / Backgammon','backgammon.html'],["Ezekiel's Reed//deck",'ezekiels-reed.html'],['Site 4',''],['Site 5','']];
-function sitesGet(){const v=store.get('ophanim.sites',DEF_SITES);return DEF_SITES.map((d,i)=>{const x=v[i];if(!x)return d;if(/^Site \d$/.test(x[0])&&!x[1])return d;if(/ophanim-lithic-chess\.vercel\.app/.test(x[1]||''))return d;return x})}
+const DEF_SITES=[['Games','games.html'],["Ezekiel's Reed//deck",'ezekiels-reed.html'],['About','about.html'],['Site 4',''],['Site 5','']];
+function sitesGet(){const v=store.get('ophanim.sites',DEF_SITES);return DEF_SITES.map((d,i)=>{const x=v[i];if(!x)return d;if(/^Site \d$/.test(x[0])&&!x[1])return d;if(/ophanim-lithic-chess\.vercel\.app/.test(x[1]||''))return d;if(/^(chess|backgammon)\.html$/.test(x[1]||'')||(x[1]==='ezekiels-reed.html'&&i!==1))return d;return x})}
 
 /* ---- wormhole transition: plays a short tunnel, then calls go() ---- */
 function wormhole(go){
@@ -942,6 +943,10 @@ function tickTop(){
 /* ============ X timeline ============ */
 let xLoaded=false;
 function loadX(){
+  if(window.OphanimConsent&&!OphanimConsent.media()){
+    $('xHost').innerHTML='The X timeline loads from x.com, so it stays off until you allow third-party content. Use <b>Cookie settings</b> (bottom-left), then reopen this panel. You can also use the buttons above.';
+    return;
+  }
   if(xLoaded)return;xLoaded=true;
   $('xHost').innerHTML='<a class="twitter-timeline" data-theme="dark" data-height="420" href="https://twitter.com/Mandos16?ref_src=twsrc%5Etfw">Posts by @Mandos16</a>';
   const s=document.createElement('script');s.async=true;s.src='https://platform.twitter.com/widgets.js';
