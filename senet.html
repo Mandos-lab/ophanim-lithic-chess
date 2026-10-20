@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en"><head>
 <script src="consent.js"></script>
+<script src="solids.js"></script>
+<script src="audio.js"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
 <title>Ophanim Lithic Senet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -206,17 +208,6 @@ html{background:var(--bg)}
 .sq.water{background:linear-gradient(#0e3550,#0b2538)}
 .sq.dest{outline:2px solid var(--emerald);outline-offset:-2px;background:#0d3a33;cursor:pointer}
 .sq.last{box-shadow:inset 0 0 0 2px rgba(255,212,0,.5)}
-.pc{position:relative;width:76%;height:76%;border-radius:50%;transform-style:preserve-3d;transform:translateZ(calc(var(--sq)*.2));display:flex;align-items:center;justify-content:center;font:700 calc(var(--sq)*.3) var(--f-display);color:rgba(0,0,0,.55);z-index:2}
-.pc.c{background:radial-gradient(circle at 35% 30%,#8ffaff,#00c8d8 62%,#0092a0);}
-.pc.a{background:radial-gradient(circle at 35% 30%,#ffe08a,#ffb700 62%,#c78500);}
-.pc::before,.pc::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none}
-.pc.c::before{background:#007684;transform:translateZ(calc(var(--sq)*-.07))}
-.pc.c::after{background:#005a66;transform:translateZ(calc(var(--sq)*-.14))}
-.pc.a::before{background:#a06c00;transform:translateZ(calc(var(--sq)*-.07))}
-.pc.a::after{background:#7d5300;transform:translateZ(calc(var(--sq)*-.14))}
-#scene.flat .pc{transform:none}
-#scene.flat .pc::before,#scene.flat .pc::after{display:none}
-.pc.can{box-shadow:0 0 0 3px var(--emerald);cursor:pointer;animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(24,227,156,.35)}}
 @media (prefers-reduced-motion:reduce){.pc.can{animation:none}#board{transition:none}.stick.flip{animation:none}}
 .rails{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
@@ -235,10 +226,18 @@ html{background:var(--bg)}
 .tw{overflow-x:auto}
 .src{font:400 12px/1.6 var(--f-mono);color:var(--muted);max-width:80ch}
 @media (max-width:520px){.sticks{gap:5px}.stick{width:13px;height:52px}}
+
+.pc{position:relative;width:76%;height:76%;border-radius:50%;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;z-index:2}
+.pc .disc{position:absolute;inset:0;border-radius:50%;display:none}
+.pc.c .disc{background:radial-gradient(circle at 35% 30%,#8ffaff,#00c8d8 62%,#0092a0)}
+.pc.a .disc{background:radial-gradient(circle at 35% 30%,#ffe08a,#ffb700 62%,#c78500)}
+.pc .halo{position:absolute;inset:-14%;border-radius:50%;pointer-events:none}
+.pc.c .halo{background:radial-gradient(circle,rgba(70,227,240,.38),rgba(70,227,240,0) 66%)}
+.pc.a .halo{background:radial-gradient(circle,rgba(232,195,117,.4),rgba(232,195,117,0) 66%)}
+#scene.flat .pc .disc{display:block}
+#scene.flat .pc .sol,#scene.flat .pc .halo{display:none}
+.pc.can{box-shadow:0 0 0 3px var(--emerald);cursor:pointer;animation:pulse 1.2s ease-in-out infinite}
 </style>
-<script>/* Embed mode: when shown inside the Senet scroll page, show only the game */
-(function(){if(/[?&]embed=1/.test(location.search)){document.documentElement.classList.add('embed');}})();</script>
-<style>html.embed .nav,html.embed header.top,html.embed .sec2,html.embed footer,html.embed .fticker{display:none!important}html.embed body{padding-block:8px}</style>
 </head><body>
 <canvas id="bgfx" aria-hidden="true"></canvas>
 <div class="mstrip" role="region" aria-label="Clocks and cryptocurrency prices">
@@ -277,6 +276,9 @@ html{background:var(--bg)}
         </div>
         <div class="viewrow">
           <button class="btn small" type="button" id="btnResetView">Reset view</button>
+          <a class="btn small" href="senet-codex.html" style="text-decoration:none">Read the codex</a>
+          <button class="btn small" type="button" id="btnSound" aria-pressed="false">Sound: off</button>
+          <button class="btn small" type="button" id="btnDrone" aria-pressed="false">Drone: off</button>
           <label class="check" style="margin:0"><input type="checkbox" id="chkBg"> Background motion</label>
         </div>
       </div>
@@ -331,14 +333,14 @@ html{background:var(--bg)}
     </aside>
   </main>
 
-  <section class="sec2" aria-label="History of Senet">
+  <section class="sec2" aria-label="History of Senet" data-narrate data-audio="audio/senet-history.mp3">
     <h2>History of Senet</h2>
-    <p>Senet (written <i>zenet</i> in transliteration and often glossed as &ldquo;passing&rdquo;) is one of the oldest board games we know of. Boards and playing pieces appear in Egyptian burials from around 3000&nbsp;BCE, and a Senet game is painted in the tomb of Hesy-Ra at Saqqara from about 2650&nbsp;BCE. Mehen, the coiled snake board, is of similar age, so which game is &ldquo;the oldest&rdquo; is debated.</p>
-    <p>The game lasted for roughly three thousand years. Tutankhamun was buried with four Senet boxes, and a wall painting in the tomb of Queen Nefertari (about 1250&nbsp;BCE) shows her playing it. Over time the game took on religious meaning: players pictured the pieces as the soul journeying through the underworld, and later boards give the last squares the names of divine places. The playing pieces are usually called <i>ibau</i>, often translated &ldquo;dancers&rdquo;, and boards show anything from five to ten of them per side. Egyptian funerary texts, including Chapter 17 of the Book of the Dead, mention playing Senet in the afterlife. Many Egyptologists think the game began as a pastime and gained its religious meaning over the centuries, but this is an inference from the evidence, not a recorded fact.</p>
+    <p>Senet (written <i>zenet</i> in transliteration and often glossed as &ldquo;passing&rdquo;) is one of the oldest board games we know of. Boards and playing pieces appear in Egyptian burials from around 3000&nbsp;BCE, and a Senet game is painted in the tomb of Hesy-Ra at Saqqara from about 2620&nbsp;BCE. Mehen, the coiled snake board, is of similar age, so which game is &ldquo;the oldest&rdquo; is debated.</p>
+    <p>The game lasted for roughly three thousand years. Tutankhamun was buried with four Senet boxes, and a wall painting in the tomb of Queen Nefertari (about 1250&nbsp;BCE) shows her playing it. Over time the game took on religious meaning: players pictured the pieces as the soul journeying through the underworld, and later boards give the last squares the names of divine places. A complete ancient set had five pieces per side, though some boards and modern reconstructions use more (up to ten). By the New Kingdom the pieces were often cones, spools or dog-headed figures. Egyptian funerary texts mention playing Senet in the afterlife: Chapter 17 of the Book of the Dead shows the dead person playing against an unseen opponent, and an earlier Coffin Text links the game to the passage between the living and the dead. Many Egyptologists think the game began as a pastime and gained its religious meaning over the centuries, but this is an inference from the evidence, not a recorded fact.</p>
     <p>The ancient rules were never written down. What survives are the boards, the pieces, a few pictures and some hints in texts, so every modern version is a reconstruction. The best known come from R.&nbsp;C. Bell, Timothy Kendall and Peter Piccione, and they disagree on details. This page follows a Kendall-style version with a few simplifications of my own, listed below.</p>
   </section>
 
-  <section class="sec2" aria-label="How to play">
+  <section class="sec2" aria-label="How to play" data-narrate data-audio="audio/senet-how-to-play.mp3">
     <h2>How to play</h2>
     <div class="cards">
       <div class="card"><h3>Setup</h3><p>Thirty squares in three rows of ten. Read them as one winding path: row one left to right (1&ndash;10), row two right to left (11&ndash;20), row three left to right (21&ndash;30). Each side has five pieces, set on squares 1&ndash;10 alternating cyan, amber, cyan, amber. Cyan starts.</p></div>
@@ -346,7 +348,7 @@ html{background:var(--bg)}
       <div class="card"><h3>Moving</h3><p>Move one piece forward by exactly the number thrown. You may not land on your own piece. If you have no legal move, your turn passes. A throw of 1, 4 or 5 earns another throw, a 2 or 3 does not.</p></div>
       <div class="card"><h3>Swapping</h3><p>Landing on a single enemy piece swaps the two pieces. You cannot swap with a piece that has a friend directly beside it (a guarded pair), nor with any piece on a sanctuary square (15, 26, 28, 29, 30).</p></div>
       <div class="card"><h3>Walls</h3><p>Three pieces in a row form a wall. An opponent cannot pass over it, so those pieces can hold a whole side back, until the wall has to move.</p></div>
-      <div class="card"><h3>The last squares</h3><p>Every piece must stop on square 26 first. From there it leaves with the exact throw (see the table). Squares 28, 29 and 30 need exactly 3, 2 and 1 to bear off. First to bear off all five pieces wins.</p></div>
+      <div class="card"><h3>The last squares</h3><p>Every piece must stop on square 26 first. From there it leaves with the exact throw (see the table). Squares 28, 29 and 30 need exactly 3, 2 and 1 to bear off, and a piece on 28 or 29 stays put until it gets that throw. First to bear off all five pieces wins.</p></div>
     </div>
   </section>
 
@@ -357,14 +359,14 @@ html{background:var(--bg)}
       <tr><td>15 &#9765;</td><td>House of Rebirth</td><td>Sanctuary. Pieces that fall in the Water come back here, or to the nearest empty square before it.</td><td>The re-entry point, where a lost piece begins again.</td></tr>
       <tr><td>26 &#10022;</td><td>House of Beauty</td><td>Every piece must land here exactly. Sanctuary. Bears off with a 5, or steps on with 1&ndash;4.</td><td>The 26 outer cells of the 3&times;3&times;3 cube.</td></tr>
       <tr><td>27 &asymp;</td><td>House of Water</td><td>Landing here sends the piece back to Rebirth.</td><td>The water trap: a reset, not an end.</td></tr>
-      <tr><td>28 III</td><td>House of Three Truths</td><td>Sanctuary. Bears off with exactly 3.</td><td>The triad judging the traveller.</td></tr>
-      <tr><td>29 II</td><td>House of Re-Atum</td><td>Sanctuary. Bears off with exactly 2.</td><td>The last trial before the final threshold.</td></tr>
+      <tr><td>28 III</td><td>House of Three Truths</td><td>Sanctuary. A piece here waits for the exact throw: it bears off with exactly 3 and cannot move on.</td><td>The triad judging the traveller.</td></tr>
+      <tr><td>29 II</td><td>House of Re-Atum</td><td>Sanctuary. A piece here waits for the exact throw: it bears off with exactly 2 and cannot move on.</td><td>The last trial before the final threshold.</td></tr>
       <tr><td>30 I</td><td>House of Horus</td><td>Sanctuary. Bears off with exactly 1.</td><td>The exit from the board.</td></tr>
     </table></div>
     <p class="src" style="margin-top:8px">The last column is interpretation, explained in the &ldquo;&Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading&rdquo; section below. The names and the exact-throw rule are from the Kendall-style reconstruction.</p>
   </section>
 
-  <section class="sec2" aria-label="Strategy">
+  <section class="sec2" aria-label="Strategy" data-narrate data-audio="audio/senet-strategy.mp3">
     <h2>Strategy</h2>
     <div class="cards">
       <div class="card"><h3>Keep pairs</h3><p>Two pieces side by side cannot be swapped. Moving one breaks the guard, so move pieces that are already alone first.</p></div>
@@ -374,7 +376,7 @@ html{background:var(--bg)}
     </div>
   </section>
 
-  <section class="sec2" id="reading" aria-label="The &Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading">
+  <section class="sec2" id="reading" aria-label="The &Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading" data-narrate data-audio="audio/senet-reading.mp3">
     <h2>The &Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading</h2>
     <p class="src">Everything in this section is interpretation: numbers, geometry and Greek letter-values read onto the board as part of the &Phi;&Upsilon; &Psi;&#x3A9;&#x389; framework. It is not Egyptology, and the ancient Egyptians did not use these correspondences. Enjoy it as a way of thinking about the board, not as history.</p>
     <div class="cards" style="margin-top:12px">
@@ -406,7 +408,7 @@ html{background:var(--bg)}
 
   <section class="sec2" aria-label="About these rules">
     <h2>About these rules</h2>
-    <p class="src">Senet has no surviving rulebook. This version follows a Kendall-style reconstruction. Choices of my own: the sanctuary squares are 15, 26, 28, 29 and 30; a piece landing in the Water returns to square 15 or the nearest empty square before it; the guard (pair) and wall (three in a row) rules are as described above; and the two computer opponents use simple rules of thumb, not deep search. The 3D view is built with plain CSS, so it needs no outside library.</p>
+    <p class="src">Senet has no surviving rulebook. This version follows a Kendall-style reconstruction. Choices of my own: the sanctuary squares are 15, 26, 28, 29 and 30 (some reconstructions let a piece on 30 be swapped); a piece landing in the Water returns to square 15 or the nearest empty square before it; the guard (pair) and wall (three in a row) rules are as described above; and the two computer opponents use simple rules of thumb, not deep search. The 3D view is built with plain CSS, so it needs no outside library.</p>
   </section>
 
 
@@ -471,6 +473,7 @@ var Senet = (function () {
       if (b[f] !== p) continue;
       var d = f + v;
       if (f < BEAUTY && d > BEAUTY) continue;            // every piece must stop on the House of Beauty
+      if ((f === TRUTHS || f === REATOUM) && d !== OFF) continue;   // on the last-but-two houses a piece waits for its exact throw
       if (f >= BEAUTY) {
         if (d > OFF) continue;                           // exact throw needed to leave
         if (d === OFF) { out.push({ from: f, to: OFF, kind: 'off', dest: OFF }); continue; }
@@ -550,6 +553,13 @@ var Senet = (function () {
   var GLYPH = { 15: ['☥', 'Rebirth'], 26: ['✦', 'Beauty'], 27: ['≈', 'Water'], 28: ['III', '3 Truths'], 29: ['II', 'Re-Atoum'], 30: ['I', 'Horus'] };
   var PN = { 1: 'Cyan', 2: 'Amber' };
 
+  function mkPiece(p, seed) {
+    var pc = document.createElement('div'); pc.className = 'pc ' + (p === 1 ? 'c' : 'a');
+    pc.innerHTML = '<span class="halo"></span><span class="disc"></span>';
+    if (window.Solids) pc.appendChild(Solids.make(p === 1 ? 'octa' : 'merkaba', p === 1 ? 'cyan' : 'gold', seed, p === 1 ? 16 : 21));
+    return pc;
+  }
+  function snd(n) { if (window.OphanimSound) OphanimSound.play(n); }
   var G, phase, V, L, mode, timer, last = null, score = [0, 0, 0], view3d = true;
   var board = $('board'), scene = $('scene'), squares = [];
 
@@ -570,7 +580,7 @@ var Senet = (function () {
   function size() {
     var w = $('stage').clientWidth, h = $('stage').clientHeight;
     var sq = view3d ? Math.min(w / 11.2, h / 3.4) : Math.min(w / 10.6, h / 3.3);
-    board.style.setProperty('--sq', Math.max(24, sq) + 'px');
+    board.style.setProperty('--sq', Math.max(24, sq) + 'px'); board.style.setProperty('--k', Math.max(24, sq));
   }
   window.addEventListener('resize', size);
 
@@ -580,7 +590,7 @@ var Senet = (function () {
       var sq = squares[n]; sq.classList.remove('dest', 'last');
       var old = sq.querySelector('.pc'); if (old) old.remove();
       var p = G.b[n];
-      if (p) { var pc = document.createElement('div'); pc.className = 'pc ' + (p === 1 ? 'c' : 'a'); sq.appendChild(pc); }
+      if (p) sq.appendChild(mkPiece(p, n));
     }
     if (last) squares[last].classList.add('last');
     var human = phase === 'move' && isHuman(G.turn);
@@ -641,7 +651,7 @@ var Senet = (function () {
     if (phase !== 'roll') return;
     clear();
     var t = S.throwSticks(), lit = t.sticks.filter(Boolean).length;
-    V = t.value; paintSticks(t.sticks, true);
+    V = t.value; paintSticks(t.sticks, true); snd('clatter');
     $('tval').textContent = V;
     $('tdesc').textContent = lit === 0 ? 'None lit counts as 5' : lit + ' lit';
     L = S.moves(G, G.turn, V);
@@ -670,8 +680,9 @@ var Senet = (function () {
     else if (m.kind === 'water') msg += 'falls in the Water and returns to ' + sq(m.dest) + '.';
     else msg += 'moves ' + m.from + ' → ' + sq(m.to) + '.';
     log(msg);
+    snd(m.kind === 'off' ? 'off' : m.kind === 'swap' ? 'swap' : m.kind === 'water' ? 'water' : (m.to === S.BEAUTY ? 'chime' : 'tap'));
     if (G.winner) {
-      phase = 'over'; score[G.winner]++; render();
+      phase = 'over'; score[G.winner]++; render(); snd('win');
       log('<b>' + who(G.winner) + ' win the game.</b>');
       return;
     }

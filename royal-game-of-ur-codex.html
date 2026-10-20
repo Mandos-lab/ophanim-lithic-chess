@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="consent.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Royal Game of Ur · Ophanim Codex</title>
@@ -17,7 +18,7 @@
 :root{
   --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
   --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
-  --ink:#c9c2b2; --ink-2:#929ca0; --ink-3:#6f7d83;
+  --ink:#ebe5d6; --ink-2:#a9b4b8; --ink-3:#6f7d83;
   --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
   --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
 }
@@ -297,10 +298,6 @@ footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
 .audit .ok{color:var(--cyan)}
 details.auditbox{border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
 details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
-
-.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
-.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
-.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
 </style>
 </head>
 <body>
@@ -383,7 +380,6 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
         </table>
         <p class="dim" style="margin-top:16px;font-size:18px">Each player's route is 4 private + 8 shared + 2 private = <b style="color:var(--gold)">14 squares</b>, with 6 safe squares per side and 8 combat squares.</p>
         <div class="insight"><b>The 5 Rosettes</b>Five squares carry an 8-petalled rosette. In Irving Finkel's reconstruction, landing on any rosette gives an extra throw, and the central rosette on the shared runway is a sanctuary where a piece can't be captured. The other four sit on private squares, where the opponent can't reach anyway.</div>
-        <p class="dim" style="font-size:17px">Codex reading: the five rosettes as the five vowels Α Ε Ι Ο Υ. <a href="cadmeian-code.html#ur">See Volume III ▸</a></p>
         <div class="hud compact" data-gk="Ῥόδον" data-tr="Rhodon" data-mn="“Rose” (rosette)"></div>
         <div class="hud compact" data-gk="Πέντε" data-tr="Pente" data-mn="“Five” (rosettes)"></div>
       </div>
@@ -559,10 +555,9 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </main>
 
 <footer>
-  <div class="codexlib"><a href="sacred-geometry-codex.html">Vol I · Sacred Geometry of Chess</a><a href="royal-game-of-ur-codex.html" class="cur">Vol II · Royal Game of Ur</a><a href="cadmeian-code.html">Vol III · The Cadmeian Code</a><a href="senet-codex.html">Vol IV · Senet</a></div>
   <div style="margin-bottom:10px">ΦΥ ΨΗ (ΦΥΣΗΣ &amp; ΨΗΦΑΚΙ) — Metrological Research Series · @Mandos16</div>
   <div>Listen For The Shape In A Word — Responsible Manifestation</div>
-</footer>
+<div style="margin-top:10px"><a href="ur.html">Play the 3D game &#9656;</a> &nbsp;&middot;&nbsp; <a href="games.html">All games</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy and cookies</a></div></footer>
 
 <script>
 /* ===== EDIT to match your site's file names ===== */
@@ -719,96 +714,5 @@ function calc(){const w=gin.value,v=gval(w);gout.innerHTML=`<div class="tiles">$
   gfacts.innerHTML=ch.map(c=>`<span class="chip${c.startsWith('<b>')?' hit':''}">${c}</span>`).join('');}
 gin.addEventListener('input',calc);gin.value='Οὐρ';calc();
 </script>
-<!-- ===== LISTEN BAR =====
-     Reads the page aloud with the browser's own voice.
-     To use your own recording instead: put an MP3 with the same name as this page next to it,
-     e.g. senet-codex.html -> senet-codex.mp3. The bar finds it and plays your voice automatically. -->
-<style>
-.listen{position:fixed;right:18px;bottom:18px;z-index:30;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100vw - 100px);
-  background:rgba(6,12,16,.92);border:1px solid var(--line-g,rgba(232,195,117,.35));padding:8px 10px;border-radius:4px;backdrop-filter:blur(6px);
-  font-family:var(--mono,monospace);font-size:11px;letter-spacing:.08em;color:var(--ink-2,#929ca0);box-shadow:0 6px 30px rgba(0,0,0,.5)}
-.listen button,.listen select{background:transparent;border:1px solid var(--line,rgba(70,227,240,.22));color:var(--ink,#c9c2b2);font:inherit;padding:6px 9px;cursor:pointer;border-radius:2px}
-.listen button:hover{border-color:var(--gold,#e8c375);color:var(--gold,#e8c375)}
-.listen .lplay{border-color:var(--gold,#e8c375);color:var(--gold,#e8c375);min-width:92px;text-transform:uppercase}
-.listen .lstat{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
-.listen .lmore{display:none;gap:6px;align-items:center}
-.listen.open .lmore{display:flex}
-.listen select{max-width:170px}
-.reading-now{outline:1px solid rgba(232,195,117,.55);outline-offset:6px;background:rgba(232,195,117,.05)}
-@media(max-width:640px){.listen{left:84px;right:10px;bottom:12px;max-width:none}.listen .lstat{display:none}.listen select{max-width:120px}}
-</style>
-<div class="listen" id="listenBar" role="region" aria-label="Listen to this page">
-  <button class="lplay" id="lPlay" title="Listen to this page">▶ Listen</button>
-  <button id="lStop" title="Stop and go back to the start">■</button>
-  <span class="lstat" id="lStat">Read aloud</span>
-  <button id="lMore" title="Speed and voice">⚙</button>
-  <span class="lmore">
-    <select id="lRate" title="Speed"><option value="0.7">0.7× slow</option><option value="0.85" selected>0.85×</option><option value="1">1×</option><option value="1.15">1.15×</option></select>
-    <select id="lVoice" title="Voice"></select>
-    <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="lFollow" checked> follow</label>
-  </span>
-</div>
-<script>
-(function(){
-  const $=id=>document.getElementById(id), bar=$('listenBar'), play=$('lPlay'), stat=$('lStat');
-  const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-  $('lRate').value=store.get('listen.rate','0.85');
-  $('lMore').onclick=()=>bar.classList.toggle('open');
-
-  /* ---- 1. your own recording, if one sits next to the page ---- */
-  const page=(location.pathname.split('/').pop()||'index.html').replace(/\.html?$/,'');
-  const rec=new Audio(); rec.preload='metadata'; let recorded=false;
-  rec.addEventListener('loadedmetadata',()=>{recorded=true;stat.textContent='Narrated by @Mandos16';$('lVoice').style.display='none';});
-  rec.src=page+'.mp3';
-  rec.onended=()=>{play.textContent='▶ Listen';};
-
-  /* ---- 2. otherwise the browser reads the page ---- */
-  const synth=window.speechSynthesis;
-  if(!synth){ if(!recorded){stat.textContent='Not supported here';} }
-  const SKIP='.tiles,.kb,.presets,.box,.game,.auditbox,.dots,.bar,.listen,svg,.cune,.formula,.eq,.btns,.trays,.dist,.sticks,.dice,table,.timeline,.ph-grid,.houses,.arch-btns,.zones,.forces,.legend,.scrollcue,.kicker,.num-badge,footer';
-  function chunks(){
-    const els=[...document.querySelectorAll('main h1, main h2, main h3, main p, main dt, main dd, main .insight, main .omen div, main .hud .row')];
-    return els.filter(e=>!e.closest(SKIP)&&!e.parentElement.closest('.insight')&&e.offsetParent!==null&&e.innerText.trim().length>1)
-      .map(e=>{if(e.classList.contains('row')){const h=e.closest('.hud');const v=(typeof gval==='function')?gval(h.dataset.gk):'';return {el:h,text:`${h.dataset.tr}. ${h.dataset.mn.replace(/[“”]/g,'')}. Value ${v}.`};}return {el:e,text:e.innerText.replace(/\s+/g,' ').trim()};});
-  }
-  let voices=[];
-  function loadVoices(){ if(!synth) return; voices=synth.getVoices().filter(v=>/^en|^el/i.test(v.lang));
-    const sel=$('lVoice'), want=store.get('listen.voice','');
-    sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/Microsoft |Google /,'')} · ${v.lang}</option>`).join('');
-    const pref=voices.findIndex(v=>v.name===want); const gb=voices.findIndex(v=>/en-GB/i.test(v.lang));
-    sel.value=String(pref>=0?pref:(gb>=0?gb:0)); }
-  if(synth){loadVoices(); synth.onvoiceschanged=loadVoices;}
-  $('lVoice').onchange=()=>{const v=voices[+$('lVoice').value]; if(v) store.set('listen.voice',v.name); if(state==='play'){restartAt(idx);} };
-  $('lRate').onchange=()=>{store.set('listen.rate',$('lRate').value); rec.playbackRate=+$('lRate').value; if(state==='play'&&!recorded){restartAt(idx);} };
-
-  let list=[], idx=0, state='stop', cur=null;
-  function mark(e){ document.querySelectorAll('.reading-now').forEach(x=>x.classList.remove('reading-now')); if(e){e.classList.add('reading-now'); if($('lFollow').checked){const r=e.getBoundingClientRect(); if(r.top<80||r.bottom>innerHeight-90) e.scrollIntoView({behavior:'smooth',block:'center'});}} }
-  function speak(){
-    if(idx>=list.length){stop();stat.textContent='Finished';return;}
-    const c=list[idx]; mark(c.el);
-    const u=new SpeechSynthesisUtterance(c.text); const v=voices[+$('lVoice').value]; if(v){u.voice=v;u.lang=v.lang;}
-    u.rate=+$('lRate').value; u.pitch=1;
-    u.onend=()=>{ if(state!=='play'||cur!==u) return; idx++; speak(); };
-    u.onerror=()=>{ if(state!=='play'||cur!==u) return; idx++; speak(); };
-    cur=u; stat.textContent=(idx+1)+' / '+list.length; synth.speak(u);
-  }
-  function restartAt(i){ synth.cancel(); idx=i; setTimeout(speak,60); }
-  function startFromView(){ // begin at the first paragraph on screen
-    list=chunks(); const i=list.findIndex(c=>c.el.getBoundingClientRect().bottom>90); idx=Math.max(0,i); }
-  function stop(){ state='stop'; if(synth) synth.cancel(); rec.pause(); rec.currentTime=0; mark(null); play.textContent='▶ Listen'; }
-  play.onclick=()=>{
-    if(recorded){ if(rec.paused){rec.playbackRate=+$('lRate').value;rec.play();play.textContent='❚❚ Pause';state='play';} else {rec.pause();play.textContent='▶ Resume';state='pause';} return; }
-    if(!synth) return;
-    if(state==='play'){ state='pause'; synth.cancel(); play.textContent='▶ Resume'; return; }
-    if(state==='stop') startFromView();
-    state='play'; play.textContent='❚❚ Pause'; restartAt(idx);
-  };
-  $('lStop').onclick=()=>{stop();stat.textContent=recorded?'Narrated by @Mandos16':'Read aloud';};
-  // tap any paragraph while listening to jump there
-  document.addEventListener('dblclick',e=>{ if(recorded||!synth) return; const p=e.target.closest('main p, main h2, main h3, main dd, main .insight'); if(!p) return; list=chunks(); const i=list.findIndex(c=>c.el===p||c.el.contains(p)); if(i>=0){state='play';play.textContent='❚❚ Pause';restartAt(i);} });
-  addEventListener('pagehide',()=>{ if(synth) synth.cancel(); });
-})();
-</script>
-
 </body>
 </html>
