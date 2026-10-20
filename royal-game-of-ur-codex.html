@@ -300,6 +300,7 @@ details.auditbox{border:1px solid var(--line);background:var(--panel);padding:14
 details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 </style>
 <style>@media(max-width:900px){.game iframe{height:2300px!important}}</style>
+<style>.gp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}.gp-cards .c{border:1px solid var(--line-g);background:var(--panel);padding:16px}.gp-cards .c h3{margin:0 0 6px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.gp-cards .c p{margin:0;color:var(--dim);font-size:16px;line-height:1.6}.gp-sec p{max-width:74ch}</style>
 </head>
 <body>
 <div class="progress" id="prog"></div>
@@ -327,8 +328,62 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
   </div>
 </section>
 
+<section id="ur-history" class="gp-sec" data-label="History" data-narrate data-audio="audio/ur-history.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">History</div>
+      <h2>History of the Royal Game of Ur</h2>
+
+    
+    <p>The Royal Game of Ur takes its name from the ancient Sumerian city of Ur, in what is now southern Iraq. Sir Leonard Woolley found five boards in the Royal Cemetery there in the 1920s. The finest, inlaid with shell, red limestone and lapis lazuli, is in the British Museum, and these boards date from about 2600&ndash;2400&nbsp;BCE. That puts the game among the oldest board games with a surviving board, close in age to Senet.</p>
+    <p>The same twenty-square board turns up far beyond Ur: in Iran, Egypt (where it is carved on the back of several Senet boxes, including some from Tutankhamun&rsquo;s tomb), Crete, and in later versions as far as India. A form of it was still played in Kerala within living memory. People played it for roughly three thousand years.</p>
+    <p>The rules came from a cuneiform clay tablet in the British Museum, written in Babylon in 177&nbsp;BCE by the scribe Itti-Marduk-bal&#257;&#7789;u. Irving Finkel, a curator there, translated it in the early 1980s and reconstructed the game (published in 2007). The tablet is some two thousand years younger than the boards. It copies an earlier description by another scribe, Iddin-B&#275;l, and it ties certain squares to omens, such as good fortune. Finkel&rsquo;s version combines the tablet&rsquo;s rules with the equipment found in the Ur graves: seven pieces a side and pyramid dice. Some details remain uncertain. This page uses a Finkel-style version.</p>
+  
+    </div>
+  </div>
+</section>
+
+<section id="ur-how-to-play" class="gp-sec" data-label="How to play" data-narrate data-audio="audio/ur-how-to-play.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">How to play</div>
+      <h2>How to play</h2>
+
+    
+    <div class="gp-cards">
+      <div class="c"><h3>The board</h3><p>Twenty squares: a block of 3&times;4 and a block of 2&times;3 joined by a narrow bridge. Each player has fourteen squares to walk along: four private squares, eight in the shared middle lane, and two private squares at the end.</p></div>
+      <div class="c"><h3>Pieces and dice</h3><p>Seven pieces each, all starting off the board. Four pyramid dice, each with two of its four tips marked. Count the marked tips pointing up. The chances are 0: 6.25%, 1: 25%, 2: 37.5%, 3: 25%, 4: 6.25%.</p></div>
+      <div class="c"><h3>Moving</h3><p>Move one piece forward by the number rolled, or enter a new piece from off the board. You may not land on your own piece. With no legal move, or a roll of zero, your turn passes.</p></div>
+      <div class="c"><h3>Capturing</h3><p>In the middle lane, landing on an enemy piece sends it back off the board, to start again. Pieces on the private squares are never at risk, because only you can enter them.</p></div>
+      <div class="c"><h3>Rosettes</h3><p>There are five rosettes. Landing on one gives you another roll. The central rosette (square 8) is also a safe square: a piece there cannot be captured, and an enemy cannot land on it.</p></div>
+      <div class="c"><h3>Bearing off</h3><p>A piece leaves the board only by an exact count from the last square. The first player to bring all seven pieces home wins.</p></div>
+    </div>
+  
+    </div>
+  </div>
+</section>
+
+<section id="ur-strategy" class="gp-sec" data-label="Strategy" data-narrate data-audio="audio/ur-strategy.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Strategy</div>
+      <h2>Strategy</h2>
+
+    
+    <div class="gp-cards">
+      <div class="c"><h3>Hold the central rosette</h3><p>A piece on the middle rosette is untouchable and blocks the lane for your opponent. Many players try to take it early and keep it.</p></div>
+      <div class="c"><h3>Mind the gap behind you</h3><p>A piece in the middle lane is in danger from enemy pieces one to four squares behind it, most of all two behind (37.5%). A move that puts a piece out of reach is often worth more than a longer one.</p></div>
+      <div class="c"><h3>Chase rosettes</h3><p>Landing on a rosette gives a free roll, and some squares are reachable only by a 4, so a 2 or 3 into a rosette is a gift.</p></div>
+      <div class="c"><h3>Keep pieces in reserve</h3><p>Pieces waiting off the board are completely safe, and you can enter them whenever the roll fits. Do not rush all seven into the shared lane at once.</p></div>
+    </div>
+  
+    </div>
+  </div>
+</section>
+
+
 <!-- I ARCHAEOLOGY -->
-<section id="discovery" data-label="Discovery">
+<section id="discovery" data-label="Discovery" data-narrate data-audio="audio/ur-codex-discovery.mp3">
   <div class="wrap grid2">
     <div class="reveal">
       <div class="kicker">I · Archaeology &amp; Discovery</div>
@@ -361,7 +416,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- II GEOMETRY -->
-<section id="geometry" data-label="The Matrix">
+<section id="geometry" data-label="The Matrix" data-narrate data-audio="audio/ur-codex-geometry.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">II · Board Geometry</div>
@@ -393,7 +448,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- III TABLET -->
-<section id="tablet" data-label="The Tablet">
+<section id="tablet" data-label="The Tablet" data-narrate data-audio="audio/ur-codex-tablet.mp3">
   <div class="wrap grid2">
     <div class="reveal">
       <div class="kicker">III · The Cuneiform Rulebook</div>
@@ -421,7 +476,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- IV DICE -->
-<section id="dice" data-label="Dice">
+<section id="dice" data-label="Dice" data-narrate data-audio="audio/ur-codex-dice.mp3">
   <div class="wrap grid2">
     <div class="reveal">
       <div class="kicker">IV · The Tetrahedral Throw</div>
@@ -440,7 +495,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 <!-- V PLAY -->
 
 <!-- VI ISOPSEPHY -->
-<section id="engine" data-label="Isopsephy">
+<section id="engine" data-label="Isopsephy" data-narrate data-audio="audio/ur-codex-engine.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">VI · ΦΥ ΨΗ Isopsephic Breakdown</div>
@@ -481,7 +536,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- VII COMPARISON -->
-<section id="compare" data-label="Grid Matrix">
+<section id="compare" data-label="Grid Matrix" data-narrate data-audio="audio/ur-codex-compare.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">VII · Comparative Grid Matrix</div>
@@ -524,7 +579,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- FINALE -->
-<section id="finale" data-label="Afterlife">
+<section id="finale" data-label="Afterlife" data-narrate data-audio="audio/ur-codex-finale.mp3">
   <div class="wrap" style="text-align:center">
     <div class="reveal">
       <div class="beam" style="width:2px;height:150px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)"></div>
@@ -699,5 +754,6 @@ function calc(){const w=gin.value,v=gval(w);gout.innerHTML=`<div class="tiles">$
   gfacts.innerHTML=ch.map(c=>`<span class="chip${c.startsWith('<b>')?' hit':''}">${c}</span>`).join('');}
 gin.addEventListener('input',calc);gin.value='Οὐρ';calc();
 </script>
+<script src="audio.js"></script>
 </body>
 </html>

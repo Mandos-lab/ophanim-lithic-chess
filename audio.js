@@ -26,7 +26,8 @@
     var s = ctx.createBufferSource(); s.buffer = b; return s;
   }
   function env(g, t, a, peak, d) { g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
-  function tap(t, pitch, vol) {                                   // stone on stone: a click of filtered noise plus a short low knock
+  function tap() { /* the stone-on-stone knock was removed on request: pieces now land silently */ }
+  function tapOld(t, pitch, vol) {                                   // stone on stone: a click of filtered noise plus a short low knock
     t = t || ctx.currentTime; pitch = pitch || 1; vol = vol || 1;
     var n = noise(0.08), f = ctx.createBiquadFilter(), g = ctx.createGain();
     f.type = 'bandpass'; f.frequency.value = 1500 * pitch; f.Q.value = 1.2;
@@ -148,7 +149,7 @@
 
   function init() {
     var b = $('btnSound'), d = $('btnDrone');
-    if (b) b.addEventListener('click', function () { on = !on; set('ophanim.sound', on ? '1' : '0'); label(); if (on) { unlock(); play('tap'); } else if (drone) { droneOn = false; stopDrone(); label(); } });
+    if (b) b.addEventListener('click', function () { on = !on; set('ophanim.sound', on ? '1' : '0'); label(); if (on) { unlock(); play('chime'); } else if (drone) { droneOn = false; stopDrone(); label(); } });
     if (d) d.addEventListener('click', function () { droneOn = !droneOn; if (droneOn) { if (!on) { on = true; set('ophanim.sound', '1'); } unlock(); startDrone(); } else stopDrone(); label(); });
     label(); initNarrate();
   }

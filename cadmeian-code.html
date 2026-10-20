@@ -336,7 +336,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- I PHONEMES -->
-<section id="phonemes" data-label="Mother's Code">
+<section id="phonemes" data-label="Mother's Code" data-narrate data-audio="audio/cadmeian-phonemes.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">I · The Phonetic Matrix</div>
@@ -354,7 +354,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- II HULUPPU -->
-<section id="huluppu" data-label="Huluppu Tree">
+<section id="huluppu" data-label="Huluppu Tree" data-narrate data-audio="audio/cadmeian-huluppu.mp3">
   <div class="wrap grid2">
     <div class="reveal tree">
       <svg viewBox="0 0 300 340" id="treeSvg"></svg>
@@ -369,7 +369,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- III PHI -->
-<section id="phi" data-label="Φ & the Me">
+<section id="phi" data-label="Φ & the Me" data-narrate data-audio="audio/cadmeian-phi.mp3">
   <div class="wrap grid2">
     <div class="reveal" style="text-align:center">
       <div style="font-family:var(--serif);font-size:clamp(150px,22vw,260px);line-height:1;color:var(--gold);text-shadow:0 0 50px rgba(232,195,117,.35)">Φ</div>
@@ -387,7 +387,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- IV ARAGATS -->
-<section id="aragats" data-label="Aragats">
+<section id="aragats" data-label="Aragats" data-narrate data-audio="audio/cadmeian-aragats.mp3">
   <div class="wrap grid2 flip">
     <div class="reveal peaks"><svg viewBox="0 0 400 360" id="peakSvg"></svg></div>
     <div class="reveal">
@@ -411,7 +411,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- V CADMUS -->
-<section id="cadmus" data-label="Cadmus v2.0">
+<section id="cadmus" data-label="Cadmus v2.0" data-narrate data-audio="audio/cadmeian-cadmus.mp3">
   <div class="wrap">
     <div class="reveal" style="text-align:center">
       <div class="kicker" style="justify-content:center">V · The Technological Theft of Language</div>
@@ -440,7 +440,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- VI ELLIN LOGOS -->
-<section id="logos" data-label="Ellin Logos">
+<section id="logos" data-label="Ellin Logos" data-narrate data-audio="audio/cadmeian-logos.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">VI · Ellin Logos</div>
@@ -472,7 +472,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- VII UR VOWELS -->
-<section id="ur" data-label="Ur Vowels">
+<section id="ur" data-label="Ur Vowels" data-narrate data-audio="audio/cadmeian-ur.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">VII · The Royal Game of Ur &amp; the 26-Point Highland Grid</div>
@@ -505,7 +505,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- VIII NUMBERS -->
-<section id="numbers" data-label="Number Ladder">
+<section id="numbers" data-label="Number Ladder" data-narrate data-audio="audio/cadmeian-numbers.mp3">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">VIII · Final Alchemical Repatriation</div>
@@ -557,7 +557,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- AUDIT + FINALE -->
-<section id="finale" data-label="Audit">
+<section id="finale" data-label="Audit" data-narrate data-audio="audio/cadmeian-finale.mp3">
   <div class="wrap">
     <div class="reveal" style="text-align:center">
       <div class="kicker" style="justify-content:center">IX · Restoring Wings to the Stone</div>
@@ -716,5 +716,6 @@ function calc(){const w=gin.value,v=gval(w);gout.innerHTML=`<div class="tiles">$
   gfacts.innerHTML=ch.map(c=>`<span class="chip${c.startsWith('<b>')?' hit':''}">${c}</span>`).join('');}
 gin.addEventListener('input',calc);gin.value='Κάδμος';calc();
 </script>
+<script src="audio.js"></script>
 </body>
 </html>

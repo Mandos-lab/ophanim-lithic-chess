@@ -22,7 +22,8 @@ h2{font-size:15px;color:#fff;margin:0 0 10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
 a.card{text-decoration:none;color:inherit}a.card:hover{border-color:var(--cyan)}
-.card h3{margin:0;font-size:15px;color:#fff}
+.card h3{margin:0;font-size:15px;color:#d3dbe6}
+.tag{align-self:flex-start;font:500 10px ui-monospace,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow,#e8c375);border:1px solid #3a3320;border-radius:3px;padding:2px 7px}
 .card p{margin:0;color:var(--dim);line-height:1.55}
 .card.empty{border-style:dashed;opacity:.6}
 .go{margin-top:auto;color:var(--cyan);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
@@ -45,10 +46,10 @@ footer{max-width:1100px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-
 <main>
   <h2>Games</h2>
   <div class="grid">
-    <a class="card" href="chess.html"><h3>Ophanim Lithic Chess</h3><p>Chess with sacred-geometry stones, 3D and 2D, a computer opponent, famous games and learner tools.</p><span class="go">Play &rarr;</span></a>
-    <a class="card" href="backgammon.html"><h3>Ophanim Lithic Backgammon</h3><p>Backgammon and its regional variants, with a doubling-cube lab and the objective/subjective formula.</p><span class="go">Play &rarr;</span></a>
-    <a class="card" href="senet-codex.html#play"><h3>Ophanim Lithic Senet</h3><p>The Egyptian game of passing, from about 3000 BCE. Throwing sticks, a winding 30-square path and the journey through the underworld squares.</p><span class="go">Play &rarr;</span></a>
-    <a class="card" href="royal-game-of-ur-codex.html#play"><h3>Ophanim Lithic Royal Game of Ur</h3><p>The Sumerian race game from about 2600 BCE, found in the royal graves of Ur. Pyramid dice, rosettes and captures along a shared lane.</p><span class="go">Play &rarr;</span></a>
+    <a class="card" href="chess.html"><h3>Ophanim Lithic Chess</h3><span class="tag" title="No dice: every result comes from the players">Pure strategy</span><p>Chess with sacred-geometry stones, 3D and 2D, a computer opponent, famous games and learner tools.</p><span class="go">Play &rarr;</span></a>
+    <a class="card" href="backgammon.html"><h3>Ophanim Lithic Backgammon</h3><span class="tag" title="Dice decide the moves, skill decides how you use them">Strategy and luck</span><p>Backgammon and its regional variants, with a doubling-cube lab and the objective/subjective formula.</p><span class="go">Play &rarr;</span></a>
+    <a class="card" href="senet-codex.html#play"><h3>Ophanim Lithic Senet</h3><span class="tag" title="The sticks decide the distance, you choose which piece moves">Luck with some strategy</span><p>The Egyptian game of passing, from about 3000 BCE. Throwing sticks, a winding 30-square path and the journey through the underworld squares.</p><span class="go">Play &rarr;</span></a>
+    <a class="card" href="royal-game-of-ur-codex.html#play"><h3>Ophanim Lithic Royal Game of Ur</h3><span class="tag" title="Dice race, with real choices about captures and rosettes">Strategy and luck</span><p>The Sumerian race game from about 2600 BCE, found in the royal graves of Ur. Pyramid dice, rosettes and captures along a shared lane.</p><span class="go">Play &rarr;</span></a>
     <div class="card empty"><h3>Empty slot</h3><p>An ancient game will go here.</p><span class="soon">Coming soon</span></div>
   </div>
 </main>

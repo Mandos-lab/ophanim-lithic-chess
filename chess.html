@@ -395,7 +395,7 @@ footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid
     </aside>
   </main>
 
-  <section class="codex" aria-label="Piece codex">
+  <section class="codex" aria-label="Piece codex" data-narrate data-audio="audio/chess-codex.mp3">
     <aside class="adslot" aria-label="Advertisement space">
       <span class="adlabel">Advertisement</span>
       <div class="adbody">Space reserved for advertisers &middot; sponsor this page</div>
@@ -403,6 +403,12 @@ footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid
     <h2>Piece codex</h2>
     <p>Every piece is a solid from the Phonetic Archaeology grid. Cyan pieces are White, amber pieces are Black. The 3D board shows the solids; the 2D board shows their flat projections.</p>
     <div class="cards" id="codex"></div>
+  </section>
+
+  <section class="codex" aria-label="History of chess scroll">
+    <h2>The history of chess, as a scroll</h2>
+    <p>From the Indian chaturanga to the sacred-geometry pieces: a long, slow read with the glass solids turning between the chapters.</p>
+    <p><a class="btn accent" href="sacred-geometry-codex.html" style="text-decoration:none;display:inline-block">Read the scroll &#9656;</a></p>
   </section>
 
   <section class="store card" aria-label="Coming soon in store">
@@ -755,9 +761,9 @@ function init3D(){
   if(typeof THREE==='undefined')return false;
   try{
     var host=$('#gl');
-    renderer=new THREE.WebGLRenderer({antialias:true});
+    renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
     renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-    renderer.setClearColor(0x06080d,1);
+    renderer.setClearColor(0x06080d,0);
     host.appendChild(renderer.domElement);
     scene=new THREE.Scene();
     scene.fog=new THREE.Fog(0x06080d,15,32);
@@ -1848,4 +1854,6 @@ updatePanel();
   });
 })();
 </script>
+<script src="depthbg.js"></script>
+<script src="audio.js"></script>
 </body></html>
