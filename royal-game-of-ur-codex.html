@@ -318,7 +318,11 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
     <div class="kicker" style="justify-content:center">Ophanim Codex · Volume II · ΦΥ ΨΗ Metrological Research Series</div>
     <h1>The Royal Game <em>of Ur</em></h1>
     <p class="sub" style="font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 34px;max-width:44ch">Archaeology, the 20-square matrix and isopsephic mechanics of the oldest playable board game.</p>
-    <div style="max-width:760px;margin:0 auto"><svg class="urboard" id="heroBoard"></svg></div>
+    <div id="play" style="max-width:1180px;margin:34px auto 0;text-align:left"><p class="dim" style="text-align:center;margin:0 0 14px">Play it here: drag the board to turn it, roll the four pyramid dice, tap a glowing piece.</p>
+    <div class="game reveal" style="padding:0;overflow:hidden">
+      <iframe src="ur.html?embed=1" title="Ophanim Lithic Royal Game of Ur, 3D" loading="lazy" style="display:block;width:100%;height:1250px;border:0;background:#07090d"></iframe>
+      <div style="padding:10px 16px;text-align:right"><a href="ur.html" style="font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none">Open full screen &#9656;</a></div>
+    </div></div>
     <div class="scrollcue" style="margin-top:36px">SCROLL ▾</div>
   </div>
 </section>
@@ -434,19 +438,6 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </section>
 
 <!-- V PLAY -->
-<section id="play" data-label="Play">
-  <div class="wrap">
-    <div class="reveal">
-      <div class="kicker">V · Play the Royal Game</div>
-      <h2>White shell <em>vs.</em> Lapis</h2>
-      <p class="dim">Finkel's rules, 7 pieces each, in our own 3D board. Drag the board to turn it, or switch to flat 2D. Roll the four pyramid dice, then tap a glowing piece. Bear all seven off with an exact throw to win. Rosettes give another throw, and the central rosette is safe.</p>
-    </div>
-    <div class="game reveal" style="padding:0;overflow:hidden">
-      <iframe src="ur.html?embed=1" title="Ophanim Lithic Royal Game of Ur, 3D" loading="lazy" style="display:block;width:100%;height:1250px;border:0;background:#07090d"></iframe>
-      <div style="padding:10px 16px;text-align:right"><a href="ur.html" style="font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none">Open full screen &#9656;</a></div>
-    </div>
-  </div>
-</section>
 
 <!-- VI ISOPSEPHY -->
 <section id="engine" data-label="Isopsephy">
@@ -598,7 +589,7 @@ const sqEl=(svg,r,c)=>svg.querySelector(`[data-rc="${r},${c}"]`);
 const routeRC=(pr,p)=>p<=4?[pr,4-p]:p<=12?[1,p-5]:[pr,20-p]; // 13->(pr,7), 14->(pr,6)
 
 /* hero: light the two routes in sequence */
-(function(){const svg=document.getElementById('heroBoard');let k=0;
+(function(){const svg=document.getElementById('heroBoard');if(!svg)return;let k=0;
   setInterval(()=>{svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl','hlg'));
     const p=(k%16)+1;if(p<=14){const [r,c]=routeRC(0,p);sqEl(svg,r,c).classList.add('hl');const [r2,c2]=routeRC(2,p);sqEl(svg,r2,c2).classList.add('hlg');}k++;},380);})();
 
