@@ -18,7 +18,7 @@
 :root{
   --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
   --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
-  --ink:#ebe5d6; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
   --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
   --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
 }
@@ -299,6 +299,7 @@ footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
 details.auditbox{border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
 details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 </style>
+<style>@media(max-width:900px){.game iframe{height:2300px!important}}</style>
 </head>
 <body>
 <div class="progress" id="prog"></div>
@@ -438,19 +439,11 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
     <div class="reveal">
       <div class="kicker">V · Play the Royal Game</div>
       <h2>White shell <em>vs.</em> Lapis</h2>
-      <p class="dim">Finkel's rules, 7 pieces each. You play <b style="color:var(--ink)">white</b> along the top row, and the lapis Stone plays the bottom. Throw, then tap a glowing piece. Bear all seven off with an exact throw to win. Rosettes give another throw, and the central rosette is safe.</p>
+      <p class="dim">Finkel's rules, 7 pieces each, in our own 3D board. Drag the board to turn it, or switch to flat 2D. Roll the four pyramid dice, then tap a glowing piece. Bear all seven off with an exact throw to win. Rosettes give another throw, and the central rosette is safe.</p>
     </div>
-    <div class="game reveal">
-      <div class="trays"><div class="t">Your start: <span id="trayA"></span></div><div class="t">Home: <span id="homeA"></span></div></div>
-      <svg class="urboard" id="gameBoard"></svg>
-      <div class="trays"><div class="t">Stone's start: <span id="trayB"></span></div><div class="t">Home: <span id="homeB"></span></div></div>
-      <div class="gbar">
-        <div class="dice" id="gameDice"></div>
-        <button class="btn gold" id="gRoll">Throw</button>
-        <button class="btn" id="gNew">New game</button>
-        <div id="gstatus">Your throw.</div>
-      </div>
-      <div class="score" id="gScore" style="margin-top:8px"></div>
+    <div class="game reveal" style="padding:0;overflow:hidden">
+      <iframe src="ur.html?embed=1" title="Ophanim Lithic Royal Game of Ur, 3D" loading="lazy" style="display:block;width:100%;height:1250px;border:0;background:#07090d"></iframe>
+      <div style="padding:10px 16px;text-align:right"><a href="ur.html" style="font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none">Open full screen &#9656;</a></div>
     </div>
   </div>
 </section>
@@ -599,7 +592,7 @@ function drawBoard(svg,{labels=false}={}){
   svg.innerHTML=s;
 }
 const sqEl=(svg,r,c)=>svg.querySelector(`[data-rc="${r},${c}"]`);
-['heroBoard','zoneBoard','gameBoard'].forEach(id=>drawBoard(document.getElementById(id)));
+['heroBoard','zoneBoard','gameBoard'].filter(id=>document.getElementById(id)).forEach(id=>drawBoard(document.getElementById(id)));
 
 // route: position 1..14 for player row pr (0 or 2)
 const routeRC=(pr,p)=>p<=4?[pr,4-p]:p<=12?[1,p-5]:[pr,20-p]; // 13->(pr,7), 14->(pr,6)
@@ -646,6 +639,7 @@ function showDice(el,d){el.innerHTML=d.map(tetraSVG).join('')+`<span class="sum"
 
 /* ================= THE GAME (Finkel rules) ================= */
 (function(){
+  if(!document.getElementById('gameBoard'))return;
   const svg=document.getElementById('gameBoard'),layer=svg.querySelector('.layer');
   const st=document.getElementById('gstatus'),rollB=document.getElementById('gRoll'),gd=document.getElementById('gameDice'),score=document.getElementById('gScore');
   const ROW={A:0,B:2},OPP={A:'B',B:'A'},SAFE=8,ROSP=new Set([4,8,14]);

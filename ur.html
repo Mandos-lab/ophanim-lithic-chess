@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en"><head>
-<script src="consent.js"></script>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script>
+<style>
+.embed .mstrip,.embed .fticker,.embed nav.nav,.embed header.top,.embed .sec2,.embed footer.sw-foot,.embed #bgfx,.embed .viewrow a{display:none!important}
+.embed body{background:transparent}
+.embed .wrap{padding-top:6px}
+</style>
 <script src="solids.js"></script>
 <script src="audio.js"></script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
@@ -294,6 +299,7 @@ html{background:var(--bg)}
         <div class="viewrow">
           <button class="btn small" type="button" id="btnResetView">Reset view</button>
           <a class="btn small" href="royal-game-of-ur-codex.html" style="text-decoration:none">Read the codex</a>
+          <a class="btn small" href="cadmeian-code.html" style="text-decoration:none">The Cadmeian Code</a>
           <button class="btn small" type="button" id="btnSound" aria-pressed="false">Sound: off</button>
           <button class="btn small" type="button" id="btnDrone" aria-pressed="false">Drone: off</button>
           <label class="check" style="margin:0"><input type="checkbox" id="chkBg"> Background motion</label>
