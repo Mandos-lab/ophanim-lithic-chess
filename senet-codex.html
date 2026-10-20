@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Senet · Ophanim Codex</title>
+<meta name="description" content="Σήνετ · Senet: the cosmological and isopsephic matrix of the ancient Egyptian grid. Play the game of passing. By @Mandos16.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#c9c2b2; --ink-2:#929ca0; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Ur additions ---------- */
+:root{--lapis:#3a6fd8;--shell:#efe6d2;--carn:#c4553a}
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03;transition:fill .35s,stroke .35s}
+.urboard .sq.hl{fill:rgba(70,227,240,.22);stroke:var(--cyan)}
+.urboard .sq.hlg{fill:rgba(232,195,117,.25);stroke:var(--gold)}
+.urboard .sq.dim{fill:#071015}
+.urboard .ros{pointer-events:none}
+.urboard .lab{font-family:var(--mono);font-size:.2px;fill:var(--ink-2);pointer-events:none}
+.zones{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.zinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);min-height:3.2em;border-left:2px solid var(--cyan);padding:6px 14px;background:rgba(70,227,240,.04)}
+.zinfo b{color:var(--gold)}
+.museum{border:1px solid var(--line-g);background:var(--panel);padding:22px 24px;margin:20px 0;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.museum h3{font-size:18px;letter-spacing:.06em;margin-bottom:12px}
+.museum dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:18px}
+.museum dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding-top:4px}
+.museum dd{color:var(--ink)}
+.fix{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--bg);background:var(--gold);padding:1px 6px;margin-left:6px;vertical-align:2px;cursor:help}
+.tablet{background:linear-gradient(145deg,#2b2620,#191612);border:1px solid #4a4032;border-radius:14px 14px 22px 22px;padding:26px;box-shadow:inset 0 0 40px rgba(0,0,0,.6),0 0 40px rgba(232,195,117,.08);position:relative}
+.tablet .cune{font-size:22px;color:#8d7c63;letter-spacing:.3em;line-height:1.6;word-break:break-all;opacity:.75;font-family:serif}
+.tablet .omen{margin-top:16px;display:grid;gap:8px}
+.tablet .omen div{font-style:italic;color:var(--shell);font-size:20px;border-left:2px solid var(--gold-d);padding-left:12px}
+.birds{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.birds span{font-family:var(--mono);font-size:12px;border:1px solid var(--line-g);color:var(--gold);padding:4px 10px}
+.compare2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.compare2>div{border:1px solid var(--line);padding:14px 16px;background:var(--panel)}
+.compare2 h4{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;font-weight:400}
+.compare2 .g h4{color:var(--gold)}
+.compare2 p{font-size:17px;margin:0}
+@media(max-width:600px){.compare2{grid-template-columns:1fr}}
+/* dice */
+.dice{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.tetra{width:54px;height:50px;transition:transform .5s}
+.dist{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end;height:170px;margin-top:20px;max-width:420px}
+.dist .col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.dist .bar{width:100%;background:linear-gradient(var(--cyan),rgba(70,227,240,.2));transition:height .4s;position:relative}
+.dist .bar.you{position:absolute;bottom:0;left:30%;width:40%;background:var(--gold);opacity:.85}
+.dist .col b{color:var(--ink);font-size:14px}
+/* game */
+.game{border:1px solid var(--line-g);background:var(--panel);padding:20px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.trays{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase;margin:6px 4px}
+.trays .t{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pc{width:16px;height:16px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.5)}
+.pc.a{background:radial-gradient(circle at 35% 35%,#fff,#cfd6da)}
+.pc.b{background:radial-gradient(circle at 35% 35%,#6f9cff,#1f3d8a)}
+.pc.go{opacity:.25}
+.pc.click{cursor:pointer;box-shadow:0 0 0 2px var(--gold),0 0 12px var(--gold)}
+.gbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+#gstatus{font-family:var(--mono);font-size:13px;color:var(--ink);flex:1;min-width:200px}
+#gstatus b{color:var(--gold)}
+.urboard .piece{cursor:default;transition:transform .3s}
+.urboard .piece.click{cursor:pointer}
+.urboard .ring{fill:none;stroke:var(--gold);stroke-width:.06;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.score{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+.audit s{color:var(--carn);text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+details.auditbox{border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+
+/* ---------- Senet additions ---------- */
+:root{--sand:#d9b878;--faience:#2fb4a8;--ebony:#1a120c}
+.sboard{width:100%;display:block}
+.sboard .sq{fill:#141009;stroke:rgba(217,184,120,.35);stroke-width:.025;transition:fill .35s,stroke .35s}
+.sboard .sq.hl{fill:rgba(70,227,240,.22);stroke:var(--cyan)}
+.sboard .sq.hlg{fill:rgba(232,195,117,.28);stroke:var(--gold)}
+.sboard .sq.dim{fill:#0a0805}
+.sboard .num{font-family:var(--mono);font-size:.17px;fill:rgba(217,184,120,.45);pointer-events:none}
+.sboard .glyph{pointer-events:none}
+.sboard .house{cursor:pointer}
+.frame{background:linear-gradient(145deg,#2a1d12,#140d07);border:1px solid #5a4024;padding:12px;border-radius:6px;box-shadow:inset 0 0 30px rgba(0,0,0,.6),0 0 40px rgba(217,184,120,.08)}
+.tetractys{display:block;margin:auto;width:150px}
+.arch-btns{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.sticks{display:flex;gap:8px;align-items:center}
+.stick{width:16px;height:72px;border-radius:8px;border:1px solid #5a4024;transition:transform .4s,background .3s}
+.stick.w{background:linear-gradient(90deg,#f3ead4,#d8cba8)}
+.stick.b{background:linear-gradient(90deg,#2a1d12,#120b06)}
+.houses{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}
+.houses button{background:var(--panel);border:1px solid var(--line-g);color:var(--gold);font-family:var(--mono);font-size:13px;padding:8px 0;cursor:pointer}
+.houses button.on{background:var(--gold);color:var(--bg)}
+.pc.s-a{background:radial-gradient(circle at 35% 35%,#fff,#cfc5ad)}
+.pc.s-b{background:radial-gradient(circle at 35% 35%,#59d0c4,#14605a)}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">◂ Games</a>
+  <div class="t">Ophanim Codex · <b>Σήνετ · Senet</b></div>
+  <a href="senet.html">Game ▸</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<button class="fab" id="fab" title="Open the Greek Translator"><span>Ψ</span></button>
+
+<main>
+<!-- HERO -->
+<section id="hero" data-label="Prologue">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex · Volume IV · ΦΥ ΨΗ</div>
+    <h1>Σήνετ · <em>Senet</em></h1>
+    <p style="font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:46ch">The cosmological and isopsephic matrix of the ancient Egyptian grid: the Game of Passing.</p>
+    <div class="frame" style="max-width:820px;margin:0 auto"><svg class="sboard" id="heroBoard"></svg></div>
+    <div class="legend" style="justify-content:center">
+      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">The Codex</b>&nbsp;· your research</span>
+      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">The Record</b>&nbsp;· the audit</span>
+    </div>
+    <div class="scrollcue" style="margin-top:30px">SCROLL ▾</div>
+  </div>
+</section>
+
+<!-- I ORIGINS -->
+<section id="origins" data-label="Origins">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">I · Historical Origins &amp; Ritual Evolution</div>
+      <h2>The Game of <em>Passing</em></h2>
+      <p>Ancient Egyptian <b style="color:var(--gold)">zn.t</b>: “passing”, in full <i>zn.t n.t ḥꜥb</i>, the passing game. It began as a game of skill and chance and became a map of the soul's journey through the Duat.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p>Senet is the <b>oldest recorded grid-based board game</b>, dating to Predynastic Egypt, c. 3100 BCE. First a secular strategy game on a 3 × 10 grid, it underwent a theological metamorphosis in the New Kingdom (c. 1550–1070 BCE).</p>
+        <p>By the Eighteenth Dynasty the board had become a <b>cosmological simulator of the Duat</b>. Its 5 to 7 pawns, the <i>ibau</i> or “dancers”, carried the <b>Ba</b> past archontic watchers, traps and halls of judgment. Complete sets were buried in royal tombs, most famously Tutankhamun's, alongside Chapter 17 of the Book of the Dead, as a ritual map of ascension.</p>
+      </div>
+      <div class="record">
+        <p><b>Date:</b> fragmentary boards that may be senet come from <b>First Dynasty</b> burials, c. 3100 BCE, which is Early Dynastic rather than Predynastic. The earliest secure depiction is in the tomb of <b>Hesy-Re</b>, c. 2620 BCE. It is “one of the oldest” rather than certainly the oldest: the 20-square game and Mehen are as old, and some scholars look for senet's origins in the Levant.</p>
+        <p><b>Religious turn:</b> earlier than the New Kingdom. Old Kingdom tomb scenes already tie the game to the dead, and Coffin Text 405 makes it a link between the living and the dead. In the early 18th Dynasty it enters <b>Book of the Dead 17</b>, and in the 20th Dynasty the “Great Game Text” describes the board as the netherworld journey.</p>
+        <p><b>Pieces:</b> a full set had <b>5 per player</b>; the 7 come from Kendall's modern rules. I couldn't find a source for the name <i>ibau</i>, “dancers”, so please add yours. New Kingdom pieces were often cones and spools, or dog-headed.</p>
+        <p><b>Tutankhamun:</b> his finest set (Cairo, JE 62058) is ebony and ivory on a sledge stand. A drawer held the pieces, knucklebones and throwsticks, and there's a 20-square game on the back. BD 17 is the text that names senet; it isn't a document buried “alongside” the set. “Archontic watchers” is your Gnostic lens on the Duat's gate-keepers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- II ARCHITECTURE -->
+<section id="architecture" data-label="3 × 10 Matrix">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">II · Cosmic &amp; Geometric Architecture</div>
+      <h2>The <em>3 × 10</em> Matrix</h2>
+      <p class="dim">Exactly 30 squares in 3 parallel rows of 10, walked in a <b>boustrophedon</b> S-path (“as the ox ploughs”). Tap a lens to light the board.</p>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="reveal">
+        <div class="frame"><svg class="sboard" id="archBoard"></svg></div>
+        <div class="arch-btns" id="archBtns"></div>
+        <svg class="tetractys" id="tetra" viewBox="-60 -10 120 100" style="display:none"></svg>
+      </div>
+      <div class="reveal" id="archText"></div>
+    </div>
+  </div>
+</section>
+
+<!-- III HOUSES -->
+<section id="houses" data-label="Duat Gateways">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">III · The Duat Gateways</div>
+      <h2>The <em>Houses</em> of the passage</h2>
+      <p class="dim">Most boards mark square 15 and the last five, 26–30, with special signs. Tap a house.</p>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="reveal">
+        <div class="frame"><svg class="sboard" id="houseBoard"></svg></div>
+        <div class="houses" id="houseBtns"></div>
+      </div>
+      <div class="reveal" id="houseText"></div>
+    </div>
+  </div>
+</section>
+
+<!-- IV THROWSTICKS -->
+<section id="sticks" data-label="Throwsticks">
+  <div class="wrap grid2">
+    <div class="reveal">
+      <div class="kicker">IV · The Casting</div>
+      <h2>Four sticks, <em>five</em> numbers</h2>
+      <p>Senet was cast with flat throwsticks, one face light and one dark, or with knucklebones. In Kendall's reconstruction, count the light faces: 1, 2, 3 or 4. All dark counts as <b style="color:var(--gold)">5</b>. A throw of 1, 4 or 5 earns another throw.</p>
+      <div class="sticks" id="stickDemo"></div>
+      <div class="btns"><button class="btn gold" id="cast1">Cast</button><button class="btn" id="cast100">Cast ×100</button></div>
+      <p class="score" id="castLog" style="margin-top:10px">Cyan: the exact odds. Gold: your casts.</p>
+    </div>
+    <div class="reveal"><div class="dist" id="dist"></div>
+      <div class="hud compact" data-gk="Ψῆφος" data-tr="Psēphos" data-mn="“Pebble / calculating stone”"></div>
+    </div>
+  </div>
+</section>
+
+<!-- V PLAY -->
+<section id="play" data-label="Play">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">V · Play Ophanim Lithic Senet</div>
+      <h2>Cyan <em>vs.</em> Amber</h2>
+      <p class="dim">The full 3D game. Drag the board to turn it, throw the sticks and tap a glowing piece. Choose the Vizier, the Scribe or a friend on the same screen.</p>
+    </div>
+    <div class="reveal" style="border:1px solid var(--line-g);background:#06080d;padding:6px">
+      <iframe src="senet.html?embed=1" title="Ophanim Lithic Senet, 3D game" style="width:100%;height:min(1180px,170vw);border:0;display:block;background:#06080d" loading="lazy"></iframe>
+    </div>
+    <div class="btns"><a class="btn gold" href="senet.html">Open the game full screen ▸</a></div>
+    <details class="auditbox reveal" style="margin-top:22px">
+      <summary>Quick 2D board · for sharing and promotion</summary>
+      <div class="game" style="margin-top:14px">
+      <div class="trays"><div class="t">You · borne off: <span id="offA"></span></div><div class="t">Stone · borne off: <span id="offB"></span></div></div>
+      <div class="frame"><svg class="sboard" id="gameBoard"></svg></div>
+      <div class="gbar">
+        <div class="sticks" id="gameSticks"></div>
+        <button class="btn gold" id="gRoll">Cast</button>
+        <button class="btn" id="gNew">New game</button>
+        <div id="gstatus">Your cast.</div>
+      </div>
+      <div class="score" id="gScore" style="margin-top:8px"></div>
+      <p class="dim" style="font-size:15px;margin-top:10px">No ancient rulebook survives. These are modern reconstructed rules (after Kendall, 1978), so treat them as one honest guess at how the passing was played.</p>
+    </div>
+    </details>
+  </div>
+</section>
+
+<!-- VI ISOPSEPHY -->
+<section id="engine" data-label="Isopsephy">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VI · ΦΥ ΨΗ Alternative Greek Teaching Matrix</div>
+      <h2>The pebbles <em>count</em> the passage</h2>
+      <p class="dim">The four-step engine: Greek script, Latin phonetics, English meaning, letter-by-letter value. Every total is calculated live, and all six in the source check out.</p>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="reveal">
+        <div class="hud" data-gk="Σήνετ" data-tr="Sēnet" data-mn="“Game of Transit / Passing”"></div>
+        <div class="hud" data-gk="Ψῆφος" data-tr="Psēphos" data-mn="“Pebble / Calculating Stone”"></div>
+        <div class="hud" data-gk="Ψηφάκι" data-tr="Psēphaki" data-mn="“Small Voting Stone” · ΦΥ ΨΗ root"></div>
+      </div>
+      <div class="reveal">
+        <div class="hud" data-gk="Νόμος" data-tr="Nomos" data-mn="“Unyielding Baseline Law”"></div>
+        <div class="hud" data-gk="Ἀλήθεια" data-tr="Alētheia" data-mn="“Truth / 4³ Spatial Volume”"></div>
+        <div class="hud" data-gk="Τὸ Δίκτυον" data-tr="To Diktyon" data-mn="“The Net Matrix” · 153 × 8"></div>
+        <div class="record" style="margin-top:12px"><p><b>Note:</b> Σήνετ is a modern Greek transliteration, as no ancient Greek writer names the game. Ψηφάκι is a modern Greek diminutive; the ancient form is ψηφίον or ψηφῖς.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VII LINEAGE -->
+<section id="lineage" data-label="Lineage">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VII · One Continuous Lineage?</div>
+      <h2>Senet · Tavli · <em>Chess</em></h2>
+    </div>
+    <div class="layers reveal">
+      <div class="codex"><p>Senet, Tavli and Chess form a <b>single continuous lineage</b> of ancient grid games. They were built as physical, interactive teaching tools for geometry, language and spiritual liberation.</p><p>Senet's 30 squares mirror Tavli's 30 checkers (15 waxing light against 15 waning dark) on a 24-point solar track.</p></div>
+      <div class="record"><p><b>On the historical record</b> they are kin in spirit rather than one family tree. Tavli descends from the Roman <i>tabula</i> and <i>ludus duodecim scriptorum</i> and the Persian <i>nard</i>. Chess descends from Indian <i>chaturanga</i>, c. 600 CE. A direct descent from senet isn't documented, so present the lineage as a <b>thematic</b> one: race games of fate (Senet, Ur, Tavli) against war games of will (Chess).</p><p><b>Confirmed:</b> Tavli does use 15 + 15 = 30 checkers on 24 points.</p></div>
+    </div>
+    <div class="tablewrap reveal" style="margin-top:20px">
+      <table class="cmp">
+        <thead><tr><th>Game</th><th>Origin</th><th class="l">Grid</th><th>Pieces</th><th class="p">Family</th></tr></thead>
+        <tbody>
+          <tr><td>Senet</td><td>Egypt · c. 3100 BCE</td><td class="l">30<small>3 × 10, S-path</small></td><td>5 vs 5</td><td class="p">Race game · the soul's passage</td></tr>
+          <tr><td>Royal Game of Ur</td><td>Sumer · c. 2600 BCE</td><td class="l">20<small>4×3 + 1×2 + 2×3</small></td><td>7 vs 7</td><td class="p">Race game · shared runway</td></tr>
+          <tr><td>Τάβλι · Tavli</td><td>Rome · Persia · Hellas</td><td class="l">24 points<small>4 × 6</small></td><td>15 vs 15</td><td class="p">Race game · Fate (Τύχη 1308)</td></tr>
+          <tr><td>Chess · Ζατρίκιον</td><td>India · c. 600 CE</td><td class="l">64<small>8 × 8 = 4³</small></td><td>16 vs 16</td><td class="p">War game · Law (Νόμος 430)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSLATOR -->
+<section id="translator" data-label="Translator">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">The Translator</div>
+      <h2>Count the <em>pebbles</em> yourself</h2>
+    </div>
+    <div class="box reveal">
+      <input id="gin" placeholder="Σήνετ" autocomplete="off" spellcheck="false" aria-label="Greek word">
+      <div class="kb" id="kb"></div>
+      <div id="gout"></div>
+      <div id="gtotal">0</div>
+      <div class="facts" id="gfacts"></div>
+      <div class="presets" id="presets"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section id="finale" data-label="Audit">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">VIII · Escape from the Matrix</div>
+      <h2>The House of <em>Horus</em></h2>
+      <p style="margin:0 auto 14px">The last square opens and the piece leaves the board: the Ba passes beyond the thirty houses.</p>
+      <div class="big-quote">Thirty houses, <em>one passage.</em></div>
+      <div class="btns" style="justify-content:center"><a class="btn gold" href="#play">Play again</a><a class="btn" id="backGames2" href="#">Back to Games</a></div>
+    </div>
+    <details class="auditbox reveal" open>
+      <summary>Audit log · Senet Cosmological &amp; Isopsephic Matrix</summary>
+      <table class="audit">
+        <thead><tr><th>Claim</th><th></th><th>Finding</th></tr></thead>
+        <tbody>
+          <tr><td>znt = “passing”</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">zn.t n.t ḥꜥb, “the passing game”</td></tr>
+          <tr><td>Predynastic, c. 3100 BCE</td><td><span class="k fix">FIX</span></td><td>c. 3100 BCE is <span class="ok">First Dynasty</span> (Early Dynastic). The first secure depiction is Hesy-Re, c. 2620 BCE.</td></tr>
+          <tr><td>“The oldest” grid game</td><td><span class="k chk">SOFTEN</span></td><td><span class="ok">One of the oldest.</span> The 20-square game and Mehen are of similar age.</td></tr>
+          <tr><td>Religious turn in the New Kingdom</td><td><span class="k fix">FIX</span></td><td>It began <span class="ok">earlier</span>: Old Kingdom scenes, Coffin Text 405, then BD 17 in the early 18th Dynasty.</td></tr>
+          <tr><td>5–7 pawns</td><td><span class="k chk">NOTE</span></td><td>Historical sets have <span class="ok">5 a side</span>; 7 comes from Kendall's modern rules.</td></tr>
+          <tr><td>Pieces called <i>ibau</i>, “dancers”</td><td><span class="k chk">CITE</span></td><td>No source found. Please add your reference.</td></tr>
+          <tr><td>Tutankhamun's set with BD 17</td><td><span class="k fix">FIX</span></td><td>His set is real (JE 62058, ebony and ivory, with a drawer). BD 17 is the text that mentions senet, not an object buried with it.</td></tr>
+          <tr><td>“3D cosmological simulator”</td><td><span class="k chk">THESIS</span></td><td>The board is flat, so “3D” is the Codex's reading.</td></tr>
+          <tr><td>30 squares = synodic lunar month</td><td><span class="k fix">FIX</span></td><td>The synodic month is about 29.5 days. The <span class="ok">Egyptian civil month was exactly 30 days</span>, a better anchor.</td></tr>
+          <tr><td>3 rows = X, Y, Z / three realms</td><td><span class="k chk">THESIS</span></td><td>A Codex reading</td></tr>
+          <tr><td>Tetractys 1+2+3+4 = 10</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">Pythagorean (later than senet, so an echo, not a source)</td></tr>
+          <tr><td>Λ = 30</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">Greek (Milesian) numeral</td></tr>
+          <tr><td>“Final row 21–30” contains the gates</td><td><span class="k fix">FIX</span></td><td>Square <span class="ok">15 is in the middle row</span>. The gates are 15 and 26–30.</td></tr>
+          <tr><td>Square 15 = Per-Nefer</td><td><span class="k fix">FIX</span></td><td>15 is the <span class="ok">House of Rebirth, marked ☥ (ankh)</span>. <i>Nefer</i> is square 26.</td></tr>
+          <tr><td>26 = House of Beauty</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">nfr, also translated “House of Happiness”</td></tr>
+          <tr><td>27 = House of Waters, back to 15</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">Water symbol; the return to 15 is in Kendall's rules</td></tr>
+          <tr><td>28 = “Per-3”, Three Judges</td><td><span class="k fix">FIX</span></td><td>Usually the <span class="ok">House of Three Truths</span>, marked with 3 signs. Exact 3 per Kendall.</td></tr>
+          <tr><td>29 = Re-Atoum (Two Truths)</td><td><span class="k fix">FIX</span></td><td>The <span class="ok">House of Re-Atum</span>, marked with 2 signs. Exact 2 per Kendall. “Two Truths” isn't this square's usual name.</td></tr>
+          <tr><td>30 = House of Horus → Treasury of Light</td><td><span class="k chk">NOTE</span></td><td>The House of Horus (or Re-Horakhty) is confirmed. “Treasury of Light” is a Gnostic term (Books of Jeu), so it's a Codex link.</td></tr>
+          <tr><td>All six isopsephy sums</td><td><span class="k ok">CONFIRMED</span></td><td class="ok">563 · 1478 · 1239 · 430 · 64 · 1224</td></tr>
+          <tr><td>One continuous lineage</td><td><span class="k chk">THESIS</span></td><td>Tavli ← tabula / nard; Chess ← chaturanga. A thematic kinship, not documented descent.</td></tr>
+          <tr><td>Rules</td><td><span class="k chk">NOTE</span></td><td>No ancient rulebook survives. Kendall (1978) and Bell made modern reconstructions.</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="codexlib"><a href="sacred-geometry-codex.html">Vol I · Sacred Geometry of Chess</a><a href="royal-game-of-ur-codex.html">Vol II · Royal Game of Ur</a><a href="cadmeian-code.html">Vol III · The Cadmeian Code</a><a href="senet-codex.html" class="cur">Vol IV · Senet</a></div>
+  <div style="margin-bottom:10px">ΦΥ ΨΗ (ΦΥΣΗΣ &amp; ΨΗΦΑΚΙ) · @Mandos16</div>
+  <div>Listen For The Shape In A Word — Responsible Manifestation</div>
+</footer>
+
+<script>
+const LINKS={games:"games.html"};
+document.getElementById('backGames').href=document.getElementById('backGames2').href=LINKS.games;
+
+/* ===== isopsephy ===== */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+function buildHuds(root=document){root.querySelectorAll('.hud:not([data-built])').forEach(el=>{el.dataset.built=1;const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;io.observe(el);});}
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));buildHuds();
+
+/* ===== nav ===== */
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+document.getElementById('fab').onclick=()=>{document.getElementById('translator').scrollIntoView();setTimeout(()=>document.getElementById('gin').focus({preventScroll:true}),600)};
+
+/* ===== board ===== */
+const RC=n=>{const r=Math.floor((n-1)/10),i=(n-1)%10;return [r,r===1?9-i:i];}; // boustrophedon
+function glyph(n,x,y){const g='#d9b878';
+  if(n===15) return `<text class="glyph" x="${x}" y="${y+.2}" text-anchor="middle" font-size=".55" fill="${g}">☥</text>`;
+  if(n===26) return `<g class="glyph" stroke="${g}" stroke-width=".05" fill="none"><path d="M${x-.16} ${y+.02} Q${x-.2} ${y+.32} ${x} ${y+.34} Q${x+.2} ${y+.32} ${x+.16} ${y+.02} Q${x} ${y-.06} ${x-.16} ${y+.02}Z" fill="rgba(217,184,120,.25)"/><line x1="${x}" y1="${y-.02}" x2="${x}" y2="${y-.34}"/><line x1="${x-.07}" y1="${y-.24}" x2="${x+.07}" y2="${y-.24}"/><line x1="${x-.07}" y1="${y-.16}" x2="${x+.07}" y2="${y-.16}"/></g>`;
+  if(n===27) return `<g class="glyph" stroke="#46e3f0" stroke-width=".04" fill="none">${[-.15,0,.15].map(d=>`<path d="M${x-.28} ${y+d} l.07 -.06 l.07 .06 l.07 -.06 l.07 .06 l.07 -.06 l.07 .06 l.07 -.06 l.07 .06"/>`).join('')}</g>`;
+  if(n===28) return `<g class="glyph" fill="${g}">${[-.16,0,.16].map(d=>`<rect x="${x+d-.03}" y="${y-.18}" width=".06" height=".36" rx=".02"/>`).join('')}</g>`;
+  if(n===29) return `<g class="glyph" fill="${g}">${[-.08,.08].map(d=>`<rect x="${x+d-.03}" y="${y-.18}" width=".06" height=".36" rx=".02"/>`).join('')}</g>`;
+  if(n===30) return `<g class="glyph" stroke="${g}" stroke-width=".04" fill="none"><path d="M${x-.24} ${y} Q${x} ${y-.2} ${x+.24} ${y} Q${x} ${y+.16} ${x-.24} ${y}Z"/><circle cx="${x}" cy="${y}" r=".07" fill="${g}"/><path d="M${x-.05} ${y+.1} l-.05 .2 M${x+.1} ${y+.08} q.1 .2 .2 .12"/></g>`;
+  return '';}
+function drawBoard(svg,{arrows=false}={}){svg.setAttribute('viewBox','-.1 -.1 10.2 3.2');let s='';
+  for(let n=1;n<=30;n++){const [r,c]=RC(n);s+=`<rect class="sq${[15,26,27,28,29,30].includes(n)?' house':''}" data-n="${n}" x="${c+.04}" y="${r+.04}" width=".92" height=".92" rx=".05"/><text class="num" x="${c+.1}" y="${r+.24}">${n}</text>`+glyph(n,c+.5,r+.55);}
+  if(arrows){s+=`<path d="M.5 .5 H9.5 V1.5 H.5 V2.5 H9.5" fill="none" stroke="rgba(70,227,240,.35)" stroke-width=".04" stroke-dasharray=".12 .1"/>`;}
+  s+='<g class="layer"></g>';svg.innerHTML=s;}
+const sq=(svg,n)=>svg.querySelector(`[data-n="${n}"]`);
+['heroBoard','archBoard','houseBoard','gameBoard'].forEach((id,i)=>drawBoard(document.getElementById(id),{arrows:i<2}));
+// hero: walk the S-path
+(function(){const s=document.getElementById('heroBoard');let n=1;setInterval(()=>{s.querySelectorAll('.sq').forEach(e=>e.classList.remove('hlg'));sq(s,n).classList.add('hlg');n=n%30+1;},260);})();
+
+/* ===== II architecture lenses ===== */
+(function(){const svg=document.getElementById('archBoard'),txt=document.getElementById('archText'),btns=document.getElementById('archBtns'),tet=document.getElementById('tetra');
+  let t='';[[0],[-1,1],[-2,0,2],[-3,-1,1,3]].forEach((row,ri)=>row.forEach(x=>{t+=`<circle cx="${x*12}" cy="${ri*24+6}" r="6" fill="#e8c375"/>`;}));tet.innerHTML=t;
+  const L={
+   'Lunar 30':[n=>true,`<div class="layers" style="grid-template-columns:1fr"><div class="codex"><p>The <b>30 squares</b> are the 30 days of the lunar cycle. Tavli mirrors them with 30 checkers, 15 waxing light against 15 waning dark, moving on a 24-point solar track.</p></div><div class="record"><p>The synodic month is about <b>29.5 days</b>. But the <b>Egyptian civil calendar</b> had twelve months of exactly <b>30 days</b> plus 5 extra days, so the 30-day anchor is stronger in Egypt itself.</p></div></div><div class="hud compact" data-gk="Σελήνη" data-tr="Selēnē" data-mn="“Moon”"></div>`],
+   'Triad · 3 rows':[n=>true,`<div class="layers" style="grid-template-columns:1fr"><div class="codex"><p>The <b>3 rows</b> are the 3 spatial axes (X, Y, Z) and the threefold division of reality: <b>Heaven, Earth, Underworld</b>.</p></div><div class="record"><p>The path snakes through the rows in a boustrophedon, so the rows are one continuous road rather than three separate tracks. The axes reading is the Codex's own.</p></div></div>`,'rows'],
+   'Decad · 10 columns':[n=>true,`<div class="layers" style="grid-template-columns:1fr"><div class="codex"><p>Each row of <b>10</b> echoes the Pythagorean <b>Tetractys</b>, 1 + 2 + 3 + 4 = 10: physical completion.</p></div><div class="record"><p>The Tetractys is Greek and some 2,500 years younger than senet, so it's an echo rather than a source. The arithmetic is exact.</p></div></div>`,'tet'],
+   'Λ = 30':[n=>true,`<div class="layers" style="grid-template-columns:1fr"><div class="codex"><p>In Milesian isopsephy, <b>30 is Λ</b> (Lambda), which governs solar radiation, fluid conductance and the baseline measuring vectors.</p></div><div class="record"><p><b>Confirmed:</b> Λ = 30 in the Greek (Milesian) numeral system.</p></div></div><div class="hud compact" data-gk="Λάμψη" data-tr="Lampsē" data-mn="“Radiance” · Λ"></div>`],
+   'S-path':[null,`<div class="layers" style="grid-template-columns:1fr"><div class="record"><p>Pieces run <b>1 → 10</b> along the top row, <b>11 → 20</b> back along the middle and <b>21 → 30</b> along the bottom, the boustrophedon. Squares 15 and 26–30 carry the house signs.</p></div></div>`]
+  };
+  let tm;
+  function show(k){clearInterval(tm);tet.style.display=L[k][2]==='tet'?'block':'none';[...btns.children].forEach(b=>b.classList.toggle('on',b.textContent===k));
+    svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl','hlg','dim'));txt.innerHTML=L[k][1];buildHuds(txt);txt.querySelectorAll('.hud').forEach(playHud);
+    if(k==='S-path'){let n=1;tm=setInterval(()=>{if(n>30){n=1;svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl'));}sq(svg,n).classList.add('hl');n++;},120);return;}
+    if(L[k][2]==='rows'){let r=0;const paint=()=>{svg.querySelectorAll('.sq').forEach(e=>{const rr=RC(+e.dataset.n)[0];e.classList.toggle('hlg',rr===r);e.classList.toggle('dim',rr!==r);});r=(r+1)%3;};paint();tm=setInterval(paint,900);return;}
+    if(L[k][2]==='tet'){let c=0;const paint=()=>{svg.querySelectorAll('.sq').forEach(e=>{const cc=RC(+e.dataset.n)[1];e.classList.toggle('hl',cc<=c);});c=(c+1)%11;};paint();tm=setInterval(paint,260);return;}
+    let n=1;tm=setInterval(()=>{if(n<=30)sq(svg,n).classList.add('hlg');n++;if(n>40){n=1;svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hlg'));}},90);}
+  Object.keys(L).forEach(k=>{const b=document.createElement('button');b.className='btn';b.textContent=k;b.onclick=()=>show(k);btns.appendChild(b);});
+  show('Lunar 30');})();
+
+/* ===== III houses ===== */
+(function(){const svg=document.getElementById('houseBoard'),txt=document.getElementById('houseText'),btns=document.getElementById('houseBtns');
+  const H={
+   15:['☥ House of Rebirth','The re-entry zero-point. Pieces drowned in square 27 are resurrected back to square 15.','The source names this square <b>Per-Nefer</b>, but <i>nefer</i> belongs to square 26. Square 15 is the <b>House of Rebirth</b>, marked with the <b>ankh</b> ☥, the sign of life. Kendall\'s rules return a drowned piece here.','Ἀνάστασις','Anastasis','“Resurrection”'],
+   26:['House of Beauty · Per-Nefer','<b>The 26-Point Hardware Hull</b>: the 26 outer nodes of the 3 × 3 × 3 material cage (Fe²⁶), the same cage as the Lithic Rook.','<b>Confirmed:</b> marked with <b>nfr</b> (“good, beautiful”) and also called the House of Happiness. In Kendall\'s rules every piece must stop exactly here. A 3×3×3 cube does have 26 outer cells (27 − 1), and iron\'s atomic number is 26.','Κάλλος','Kallos','“Beauty”'],
+   27:['House of Waters · Per-Mu','The Water Trap: landing here drowns the soul and resets it to the House of Rebirth (15).','<b>Confirmed:</b> marked with water signs (<i>mw</i>, water). Sending the piece back to 15 is Kendall\'s rule.','Ὕδωρ','Hydōr','“Water”'],
+   28:['House of Three Truths','The Triad evaluation: an exact cast of 3 is needed to pass.','Usually called the <b>House of Three Truths</b> and marked with three signs. “Per-3, Three Judges” is the source\'s gloss. The exact 3 comes from Kendall.','Τρεῖς','Treis','“Three”'],
+   29:['House of Re-Atum','The Ma\'at trial before the final threshold: an exact cast of 2 is needed.','The <b>House of Re-Atum</b>, marked with two signs. The source calls it “Two Truths”, which isn\'t this square\'s usual name. The exact 2 comes from Kendall.','Δύο','Duo','“Two”'],
+   30:['House of Horus','Escape from the Matrix: reaching 30 leaves the board and frees the soul into the Treasury of Light.','<b>Confirmed:</b> the House of Horus, or Re-Horakhty, the rising sun. “Treasury of Light” is the Gnostic Books of Jeu\'s term, a bridge to Volume I\'s finale rather than an Egyptian name.','Ὧρος','Hōros','“Horus”']
+  };
+  function show(n){[...btns.children].forEach(b=>b.classList.toggle('on',+b.dataset.n===n));svg.querySelectorAll('.sq').forEach(e=>{e.classList.toggle('hlg',+e.dataset.n===n);e.classList.toggle('dim',+e.dataset.n!==n&&!e.classList.contains('house'));});
+    const h=H[n];txt.innerHTML=`<h3 style="font-size:30px">${n} · ${h[0]}</h3><div class="layers" style="grid-template-columns:1fr"><div class="codex"><p>${h[1]}</p></div><div class="record"><p>${h[2]}</p></div></div><div class="hud compact" data-gk="${h[3]}" data-tr="${h[4]}" data-mn="${h[5]}"></div>`;buildHuds(txt);txt.querySelectorAll('.hud').forEach(playHud);}
+  Object.keys(H).forEach(n=>{const b=document.createElement('button');b.dataset.n=n;b.textContent=n;b.onclick=()=>show(+n);btns.appendChild(b);});
+  svg.querySelectorAll('.house').forEach(e=>e.onclick=()=>show(+e.dataset.n));
+  show(15);})();
+
+/* ===== IV throwsticks ===== */
+function cast(){const f=[0,1,2,3].map(()=>Math.random()<.5?1:0);const w=f.reduce((a,b)=>a+b,0);return {f,v:w===0?5:w};}
+function showSticks(el,c){el.innerHTML=c.f.map(x=>`<div class="stick ${x?'w':'b'}" style="transform:rotate(${(Math.random()-.5)*24}deg)"></div>`).join('')+`<span class="sum" style="font-size:34px">${c.v}</span>`;}
+(function(){const sd=document.getElementById('stickDemo'),dist=document.getElementById('dist'),log=document.getElementById('castLog');
+  const P=[4,6,4,1,1],cnt=[0,0,0,0,0];let n=0;
+  dist.innerHTML=P.map((p,i)=>`<div class="col"><span>${p}/16</span><div class="bar" style="height:${p/6*100}%"><div class="bar you" id="y${i}" style="height:0"></div></div><b>${i+1}${[0,3,4].includes(i)?' ↻':''}</b></div>`).join('');
+  function rec(k){let c;for(let j=0;j<k;j++){c=cast();cnt[c.v-1]++;n++;}showSticks(sd,c);
+    cnt.forEach((x,i)=>document.getElementById('y'+i).style.height=Math.min(100,(x/n)/(P[i]/16)*100)+'%');
+    log.textContent=`${n} casts · `+cnt.map((x,i)=>`${i+1}: ${(x/n*100).toFixed(0)}%`).join(' · ')+' · ↻ = cast again';}
+  showSticks(sd,{f:[1,0,1,1],v:3});
+  document.getElementById('cast1').onclick=()=>rec(1);document.getElementById('cast100').onclick=()=>rec(100);})();
+
+/* ===== V the game ===== */
+(function(){const svg=document.getElementById('gameBoard'),layer=svg.querySelector('.layer');
+  const st=document.getElementById('gstatus'),rollB=document.getElementById('gRoll'),gs=document.getElementById('gameSticks'),score=document.getElementById('gScore');
+  const OPP={A:'B',B:'A'},OFF=31;let S,wins={A:0,B:0};
+  function reset(){S={A:[1,3,5,7,9],B:[2,4,6,8,10],turn:'A',roll:null,over:false};showSticks(gs,{f:[0,0,0,0],v:5});gs.querySelector('.sum').textContent='–';status('Your cast.');rollB.disabled=false;render();}
+  const status=t=>st.innerHTML=t;
+  const owner=n=>S.A.includes(n)?'A':S.B.includes(n)?'B':null;
+  const prot=(pl,n)=>owner(n-1)===pl||owner(n+1)===pl;
+  function target(p,r){if(p===26)return r===5?OFF:26+r;if(p===28)return r===3?OFF:null;if(p===29)return r===2?OFF:null;if(p===30)return r===1?OFF:null;const t=p+r;if(p<26&&t>26)return null;return t;}
+  function moves(pl,r){const out=[],op=OPP[pl];
+    S[pl].forEach((p,i)=>{if(p===OFF)return;const t=target(p,r);if(t==null)return;
+      // blockade: three enemy pieces in a row strictly between
+      for(let k=p+1;k+2<Math.min(t,31);k++){if(owner(k)===op&&owner(k+1)===op&&owner(k+2)===op)return;}
+      if(t!==OFF){const o=owner(t);if(o===pl)return;if(o===op){if(t>=26||prot(op,t))return;}}
+      out.push({i,from:p,to:t,cap:t!==OFF&&owner(t)===op});});
+    return out;}
+  function drown(pl,i){let d=15;while(d>0&&owner(d))d--;if(d===0){d=16;while(owner(d))d++;}S[pl][i]=d;}
+  function apply(pl,m){const op=OPP[pl];
+    if(m.cap){const j=S[op].indexOf(m.to);S[op][j]=m.from;}
+    S[pl][m.i]=m.to;let note='';
+    if(m.to===27){drown(pl,m.i);note=' The <b>waters</b> take it back to the House of Rebirth.';}
+    if(S[pl].every(p=>p===OFF)){S.over=true;wins[pl]++;render();status(pl==='A'?'<b>Your soul has passed.</b> All five pieces are borne off. You win!':'<b>The Stone has passed first.</b> Cast again?');rollB.disabled=true;return {r:'over',note};}
+    return {r:[1,4,5].includes(S.roll)?'again':'next',note};}
+  function render(){const M=S.turn==='A'&&S.roll!=null?moves('A',S.roll):[];let s='';
+    ['A','B'].forEach(pl=>S[pl].forEach((p,i)=>{if(p===OFF)return;const [r,c]=RC(p);const mv=pl==='A'&&M.find(m=>m.i===i);
+      s+=`<g class="piece${mv?' click':''}" data-i="${i}" transform="translate(${c+.5} ${r+.5})">`+(pl==='A'?`<path d="M-.22 .28 L-.12 -.2 Q0 -.34 .12 -.2 L.22 .28Z" fill="url(#sA)" stroke="rgba(255,255,255,.7)" stroke-width=".025"/>`:`<path d="M-.24 .28 Q-.24 .05 -.12 .02 Q-.2 -.12 -.1 -.22 Q0 -.3 .1 -.22 Q.2 -.12 .12 .02 Q.24 .05 .24 .28Z" fill="url(#sB)" stroke="rgba(255,255,255,.5)" stroke-width=".025"/>`)+(mv?'<circle class="ring" r=".42"/>':'')+'</g>';}));
+    M.forEach(m=>{if(m.to!==OFF){const [r,c]=RC(m.to);s+=`<rect x="${c+.08}" y="${r+.08}" width=".84" height=".84" rx=".05" fill="none" stroke="#e8c375" stroke-dasharray=".08 .06" stroke-width=".03" opacity=".7"/>`;}});
+    layer.innerHTML=`<defs><linearGradient id="sA" x1="0" x2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#c9bea3"/></linearGradient><linearGradient id="sB" x1="0" x2="1"><stop offset="0" stop-color="#5fd6c9"/><stop offset="1" stop-color="#14605a"/></linearGradient></defs>`+s;
+    layer.querySelectorAll('.piece.click').forEach(g=>g.onclick=()=>choose(M.find(m=>m.i===+g.dataset.i)));
+    const tray=(pl,id,cls)=>{const b=document.getElementById(id);b.innerHTML='';S[pl].forEach(p=>{if(p!==OFF)return;const d=document.createElement('span');d.className='pc '+cls;b.appendChild(d);});
+      if(pl==='A'){const mv=M.find(m=>m.to===OFF);if(mv){const d=document.createElement('span');d.className='pc s-a click';d.title='Bear off';d.onclick=()=>choose(mv);b.appendChild(d);}}};
+    tray('A','offA','s-a');tray('B','offB','s-b');
+    score.textContent=`Games won: you ${wins.A} · Stone ${wins.B}`;}
+  function choose(m){if(!m||S.over)return;const res=apply('A',m);S.roll=null;if(res.r==='over')return;
+    if(res.r==='again'){status('Cast again: 1, 4 and 5 earn another throw.'+res.note);rollB.disabled=false;render();return;}
+    S.turn='B';status('The Stone is casting…'+res.note);render();setTimeout(ai,800);}
+  rollB.onclick=()=>{if(S.over||S.turn!=='A'||S.roll!=null)return;const c=cast();showSticks(gs,c);S.roll=c.v;const M=moves('A',c.v);
+    if(!M.length){status(`You cast <b>${c.v}</b>, but no move is possible.`);S.roll=null;S.turn='B';render();rollB.disabled=true;setTimeout(ai,1100);return;}
+    status(`You cast <b>${c.v}</b>${[1,4,5].includes(c.v)?' (another cast follows)':''}. Tap a glowing piece${M.some(m=>m.to===OFF)?' or the bear-off marker':''}.`);rollB.disabled=true;render();};
+  function val(m){let s=m.to===OFF?60:m.to;if(m.to===27)s-=80;if(m.cap)s+=25;if(m.to===26)s+=18;if(m.to!==OFF&&m.to<26&&(owner(m.to-1)==='B'||owner(m.to+1)==='B'))s+=6;return s+Math.random()*3;}
+  function ai(){if(S.over)return;S.turn='B';const c=cast();showSticks(gs,c);S.roll=c.v;const M=moves('B',c.v);
+    if(!M.length){S.roll=null;status(`The Stone cast <b>${c.v}</b> and cannot move. <b>Your cast.</b>`);S.turn='A';rollB.disabled=false;render();return;}
+    const m=M.sort((a,b)=>val(b)-val(a))[0];
+    setTimeout(()=>{const res=apply('B',m);if(res.r==='over')return;const what=m.cap?' and <b>swapped places</b> with your piece!':m.to===OFF?' and bore a piece off.':'.';
+      if(res.r==='again'){S.roll=null;render();status(`The Stone cast ${c.v}${what}${res.note} It casts again…`);setTimeout(ai,1100);return;}
+      S.roll=null;S.turn='A';rollB.disabled=false;render();status(`The Stone cast <b>${c.v}</b>${what}${res.note} <b>Your cast.</b>`);},500);}
+  document.getElementById('gNew').onclick=reset;reset();})();
+
+/* ===== translator ===== */
+const LEX=[['Σήνετ','Senet'],['Ψῆφος','Pebble'],['Ψηφάκι','Small pebble'],['Νόμος','Law'],['Ἀλήθεια','Truth'],['Τὸ Δίκτυον','The Net'],['Σελήνη','Moon'],['Ἀνάστασις','Resurrection'],['Κάλλος','Beauty'],['Ὕδωρ','Water'],['Ὧρος','Horus'],['Οὐρ','Ur'],['Τύχη','Fate'],['ΦΥ ΨΗ','Physēs & Psēphaki']];
+const gin=document.getElementById('gin'),gout=document.getElementById('gout'),gtot=document.getElementById('gtotal'),gfacts=document.getElementById('gfacts'),kb=document.getElementById('kb');
+'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'.split('').forEach(c=>{const b=document.createElement('button');b.innerHTML=`${c}<small>${VAL[c]}</small>`;b.onclick=()=>{gin.value+=c;calc();};kb.appendChild(b);});
+[['SPACE',' '],['⌫',null],['CLEAR','']].forEach(([t,v])=>{const b=document.createElement('button');b.className='wide';b.textContent=t;b.onclick=()=>{gin.value=v===null?[...gin.value].slice(0,-1).join(''):(v===''?'':gin.value+v);calc();};kb.appendChild(b);});
+LEX.forEach(([w])=>{const b=document.createElement('button');b.textContent=w;b.onclick=()=>{gin.value=w;calc();};document.getElementById('presets').appendChild(b);});
+function factor(n){const f=[];let m=n;for(let p=2;p*p<=m;p++)while(m%p===0){f.push(p);m/=p;}if(m>1)f.push(m);return f;}
+function calc(){const w=gin.value,v=gval(w);gout.innerHTML=`<div class="tiles">${tilesHTML(w)}</div>`;[...gout.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>t.classList.add('lit'),i*35));gtot.textContent=v;
+  const ch=[];if(v>1){const f=factor(v);ch.push(f.length===1?`${v} is prime`:`${v} = ${f.join(' × ')}`);}if(v&&v%30===0)ch.push(`30 × ${v/30}`);if(v&&v%37===0)ch.push(`37 × ${v/37}`);
+  const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
+  LEX.forEach(([lw,m])=>{if(gval(lw)===v&&v&&norm(lw)!==norm(w))ch.push(`<b>≡ ${lw}</b> · ${m}`);});
+  gfacts.innerHTML=ch.map(c=>`<span class="chip${c.startsWith('<b>')?' hit':''}">${c}</span>`).join('');}
+gin.addEventListener('input',calc);gin.value='Σήνετ';calc();
+</script>
+<!-- ===== LISTEN BAR =====
+     Reads the page aloud with the browser's own voice.
+     To use your own recording instead: put an MP3 with the same name as this page next to it,
+     e.g. senet-codex.html -> senet-codex.mp3. The bar finds it and plays your voice automatically. -->
+<style>
+.listen{position:fixed;right:18px;bottom:18px;z-index:30;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100vw - 100px);
+  background:rgba(6,12,16,.92);border:1px solid var(--line-g,rgba(232,195,117,.35));padding:8px 10px;border-radius:4px;backdrop-filter:blur(6px);
+  font-family:var(--mono,monospace);font-size:11px;letter-spacing:.08em;color:var(--ink-2,#929ca0);box-shadow:0 6px 30px rgba(0,0,0,.5)}
+.listen button,.listen select{background:transparent;border:1px solid var(--line,rgba(70,227,240,.22));color:var(--ink,#c9c2b2);font:inherit;padding:6px 9px;cursor:pointer;border-radius:2px}
+.listen button:hover{border-color:var(--gold,#e8c375);color:var(--gold,#e8c375)}
+.listen .lplay{border-color:var(--gold,#e8c375);color:var(--gold,#e8c375);min-width:92px;text-transform:uppercase}
+.listen .lstat{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
+.listen .lmore{display:none;gap:6px;align-items:center}
+.listen.open .lmore{display:flex}
+.listen select{max-width:170px}
+.reading-now{outline:1px solid rgba(232,195,117,.55);outline-offset:6px;background:rgba(232,195,117,.05)}
+@media(max-width:640px){.listen{left:84px;right:10px;bottom:12px;max-width:none}.listen .lstat{display:none}.listen select{max-width:120px}}
+</style>
+<div class="listen" id="listenBar" role="region" aria-label="Listen to this page">
+  <button class="lplay" id="lPlay" title="Listen to this page">▶ Listen</button>
+  <button id="lStop" title="Stop and go back to the start">■</button>
+  <span class="lstat" id="lStat">Read aloud</span>
+  <button id="lMore" title="Speed and voice">⚙</button>
+  <span class="lmore">
+    <select id="lRate" title="Speed"><option value="0.7">0.7× slow</option><option value="0.85" selected>0.85×</option><option value="1">1×</option><option value="1.15">1.15×</option></select>
+    <select id="lVoice" title="Voice"></select>
+    <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="lFollow" checked> follow</label>
+  </span>
+</div>
+<script>
+(function(){
+  const $=id=>document.getElementById(id), bar=$('listenBar'), play=$('lPlay'), stat=$('lStat');
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  $('lRate').value=store.get('listen.rate','0.85');
+  $('lMore').onclick=()=>bar.classList.toggle('open');
+
+  /* ---- 1. your own recording, if one sits next to the page ---- */
+  const page=(location.pathname.split('/').pop()||'index.html').replace(/\.html?$/,'');
+  const rec=new Audio(); rec.preload='metadata'; let recorded=false;
+  rec.addEventListener('loadedmetadata',()=>{recorded=true;stat.textContent='Narrated by @Mandos16';$('lVoice').style.display='none';});
+  rec.src=page+'.mp3';
+  rec.onended=()=>{play.textContent='▶ Listen';};
+
+  /* ---- 2. otherwise the browser reads the page ---- */
+  const synth=window.speechSynthesis;
+  if(!synth){ if(!recorded){stat.textContent='Not supported here';} }
+  const SKIP='.tiles,.kb,.presets,.box,.game,.auditbox,.dots,.bar,.listen,svg,.cune,.formula,.eq,.btns,.trays,.dist,.sticks,.dice,table,.timeline,.ph-grid,.houses,.arch-btns,.zones,.forces,.legend,.scrollcue,.kicker,.num-badge,footer';
+  function chunks(){
+    const els=[...document.querySelectorAll('main h1, main h2, main h3, main p, main dt, main dd, main .insight, main .omen div, main .hud .row')];
+    return els.filter(e=>!e.closest(SKIP)&&!e.parentElement.closest('.insight')&&e.offsetParent!==null&&e.innerText.trim().length>1)
+      .map(e=>{if(e.classList.contains('row')){const h=e.closest('.hud');const v=(typeof gval==='function')?gval(h.dataset.gk):'';return {el:h,text:`${h.dataset.tr}. ${h.dataset.mn.replace(/[“”]/g,'')}. Value ${v}.`};}return {el:e,text:e.innerText.replace(/\s+/g,' ').trim()};});
+  }
+  let voices=[];
+  function loadVoices(){ if(!synth) return; voices=synth.getVoices().filter(v=>/^en|^el/i.test(v.lang));
+    const sel=$('lVoice'), want=store.get('listen.voice','');
+    sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name.replace(/Microsoft |Google /,'')} · ${v.lang}</option>`).join('');
+    const pref=voices.findIndex(v=>v.name===want); const gb=voices.findIndex(v=>/en-GB/i.test(v.lang));
+    sel.value=String(pref>=0?pref:(gb>=0?gb:0)); }
+  if(synth){loadVoices(); synth.onvoiceschanged=loadVoices;}
+  $('lVoice').onchange=()=>{const v=voices[+$('lVoice').value]; if(v) store.set('listen.voice',v.name); if(state==='play'){restartAt(idx);} };
+  $('lRate').onchange=()=>{store.set('listen.rate',$('lRate').value); rec.playbackRate=+$('lRate').value; if(state==='play'&&!recorded){restartAt(idx);} };
+
+  let list=[], idx=0, state='stop', cur=null;
+  function mark(e){ document.querySelectorAll('.reading-now').forEach(x=>x.classList.remove('reading-now')); if(e){e.classList.add('reading-now'); if($('lFollow').checked){const r=e.getBoundingClientRect(); if(r.top<80||r.bottom>innerHeight-90) e.scrollIntoView({behavior:'smooth',block:'center'});}} }
+  function speak(){
+    if(idx>=list.length){stop();stat.textContent='Finished';return;}
+    const c=list[idx]; mark(c.el);
+    const u=new SpeechSynthesisUtterance(c.text); const v=voices[+$('lVoice').value]; if(v){u.voice=v;u.lang=v.lang;}
+    u.rate=+$('lRate').value; u.pitch=1;
+    u.onend=()=>{ if(state!=='play'||cur!==u) return; idx++; speak(); };
+    u.onerror=()=>{ if(state!=='play'||cur!==u) return; idx++; speak(); };
+    cur=u; stat.textContent=(idx+1)+' / '+list.length; synth.speak(u);
+  }
+  function restartAt(i){ synth.cancel(); idx=i; setTimeout(speak,60); }
+  function startFromView(){ // begin at the first paragraph on screen
+    list=chunks(); const i=list.findIndex(c=>c.el.getBoundingClientRect().bottom>90); idx=Math.max(0,i); }
+  function stop(){ state='stop'; if(synth) synth.cancel(); rec.pause(); rec.currentTime=0; mark(null); play.textContent='▶ Listen'; }
+  play.onclick=()=>{
+    if(recorded){ if(rec.paused){rec.playbackRate=+$('lRate').value;rec.play();play.textContent='❚❚ Pause';state='play';} else {rec.pause();play.textContent='▶ Resume';state='pause';} return; }
+    if(!synth) return;
+    if(state==='play'){ state='pause'; synth.cancel(); play.textContent='▶ Resume'; return; }
+    if(state==='stop') startFromView();
+    state='play'; play.textContent='❚❚ Pause'; restartAt(idx);
+  };
+  $('lStop').onclick=()=>{stop();stat.textContent=recorded?'Narrated by @Mandos16':'Read aloud';};
+  // tap any paragraph while listening to jump there
+  document.addEventListener('dblclick',e=>{ if(recorded||!synth) return; const p=e.target.closest('main p, main h2, main h3, main dd, main .insight'); if(!p) return; list=chunks(); const i=list.findIndex(c=>c.el===p||c.el.contains(p)); if(i>=0){state='play';play.textContent='❚❚ Pause';restartAt(i);} });
+  addEventListener('pagehide',()=>{ if(synth) synth.cancel(); });
+})();
+</script>
+
+</body>
+</html>
