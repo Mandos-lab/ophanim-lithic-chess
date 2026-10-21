@@ -132,7 +132,7 @@
         btn.addEventListener('click', function () { if (speaking) stopSpeak(); else speakSection(sec, function () { return parseFloat(sel.value); }, btn); });
       }
       var note = document.createElement('span'); note.className = 'nn';
-      note.textContent = canTTS ? 'Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.' : 'Read aloud is not available in this browser.';
+      note.textContent = canTTS ? (sec.getAttribute('data-note') || 'Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.') : 'Read aloud is not available in this browser.';
       bar.appendChild(note);
       var h = sec.querySelector('h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
       if (audioSrc) {                                                // offer the recording only if the file really exists

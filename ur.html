@@ -337,6 +337,12 @@ html{background:var(--bg)}
               <option value="watch">Watch the Vizier play itself</option>
             </select>
           </label>
+          <label class="field"><span>Variant</span>
+            <select id="selVar">
+              <option value="7">Finkel &middot; 7 pieces</option>
+              <option value="12">Asha-style &middot; 12 pieces</option>
+            </select>
+          </label>
           <div class="field"><span>Session score</span><div id="scoreTxt" style="font:500 14px var(--f-mono);padding:8px 0">0 &ndash; 0</div></div>
         </div>
         <div class="row"><button class="btn" type="button" id="btnNew">New game</button></div>
@@ -361,6 +367,7 @@ html{background:var(--bg)}
     <p>The Royal Game of Ur takes its name from the ancient Sumerian city of Ur, in what is now southern Iraq. Sir Leonard Woolley found five boards in the Royal Cemetery there in the 1920s. The finest, inlaid with shell, red limestone and lapis lazuli, is in the British Museum, and these boards date from about 2600&ndash;2400&nbsp;BCE. That puts the game among the oldest board games with a surviving board, close in age to Senet.</p>
     <p>The same twenty-square board turns up far beyond Ur: in Iran, Egypt (where it is carved on the back of several Senet boxes, including some from Tutankhamun&rsquo;s tomb), Crete, and in later versions as far as India. A form of it was still played in Kerala within living memory. People played it for roughly three thousand years.</p>
     <p>The rules came from a cuneiform clay tablet in the British Museum, written in Babylon in 177&nbsp;BCE by the scribe Itti-Marduk-bal&#257;&#7789;u. Irving Finkel, a curator there, translated it in the early 1980s and reconstructed the game (published in 2007). The tablet is some two thousand years younger than the boards. It copies an earlier description by another scribe, Iddin-B&#275;l, and it ties certain squares to omens, such as good fortune. Finkel&rsquo;s version combines the tablet&rsquo;s rules with the equipment found in the Ur graves: seven pieces a side and pyramid dice. Some details remain uncertain. This page uses a Finkel-style version.</p>
+    <p>The game outlived Mesopotamia. A form of it called <i>Asha</i> was played by the Jewish community of Kochi (Cochin) in southern India until the 1950s, when many of them left for Israel, and it is the last known living form of the game. It kept twenty squares but gave each player twelve pieces, and the squares were laid out a little differently. The exact Asha layout is not documented, so the &ldquo;Asha-style&rdquo; option here keeps the Ur board and rules and only changes the piece count to twelve.</p>
   </section>
 
   <section class="sec2" aria-label="How to play" data-narrate data-audio="audio/ur-how-to-play.mp3">
@@ -460,7 +467,7 @@ html{background:var(--bg)}
 var Ur = (function () {
   'use strict';
   var HOME = 15, NP = 7, ROS = { 4: 1, 8: 1, 14: 1 };
-  function newGame() { var a = [], b = []; for (var i = 0; i < NP; i++) { a.push(0); b.push(0); } return { p: [null, a, b], turn: 1, winner: 0 }; }
+  function newGame(np) { np = np || NP; var a = [], b = []; for (var i = 0; i < np; i++) { a.push(0); b.push(0); } return { p: [null, a, b], turn: 1, winner: 0 }; }
   function clone(s) { return { p: [null, s.p[1].slice(), s.p[2].slice()], turn: s.turn, winner: s.winner }; }
   function roll(rnd) { rnd = rnd || Math.random; var d = [], n = 0; for (var i = 0; i < 4; i++) { var m = rnd() < 0.5; d.push(m); if (m) n++; } return { dice: d, value: n }; }
   function occ(arr, t) { return t > 0 && t < HOME && arr.indexOf(t) >= 0; }
@@ -624,7 +631,7 @@ var Ur = (function () {
     return '<svg viewBox="0 0 30 30" aria-hidden="true"><polygon points="15,2 28,26 2,26" fill="' + (marked ? '#f7e8bd' : '#2a1d0c') + '" stroke="' + (marked ? '#a8873c' : '#3a2a12') + '" stroke-width="1.5"/>' + (marked ? '<circle cx="15" cy="9" r="2.6" fill="#0a0f17"/>' : '') + '</svg>';
   }
   function newGame() {
-    clear(); mode = $('selOpp').value; G = U.newGame(); phase = 'roll'; V = 0; L = []; last = null;
+    clear(); mode = $('selOpp').value; G = U.newGame(+$('selVar').value || 7); phase = 'roll'; V = 0; L = []; last = null;
     $('logList').textContent = ''; $('tval').textContent = '–'; $('tdesc').textContent = 'Roll the dice to begin';
     paintDice([0, 0, 0, 0], false);
     log('New game. <b>Cyan</b> rolls first.');
@@ -705,7 +712,7 @@ var Ur = (function () {
     });
   })();
   $('btnResetView').onclick = function () { tx = 54; rz = 0; zoom = 1; applyView(); size(); };
-  $('btnThrow').onclick = doRoll; $('btnNew').onclick = newGame; $('selOpp').onchange = newGame;
+  $('btnThrow').onclick = doRoll; $('btnNew').onclick = newGame; $('selOpp').onchange = newGame; $('selVar').onchange = newGame;
 
   /* ---------- background: shapes along serpentine (boustrophedon) lanes at three depths ---------- */
   var cv = $('bgfx'), cx = cv.getContext('2d'), W = 0, H = 0, DPR = 1, bgOn = false, raf = 0, t0 = 0;

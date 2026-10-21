@@ -35,7 +35,8 @@
   }
   var COL = {
     cyan: { edge: '#46e3f0', fill: 'rgba(70,227,240,.20)' },
-    gold: { edge: '#e8c375', fill: 'rgba(232,195,117,.20)' }
+    gold: { edge: '#e8c375', fill: 'rgba(232,195,117,.20)' },
+    ice: { edge: '#f4f9ff', fill: 'rgba(235,245,255,.28)' }
   };
   var injected = false;
   function css() {
@@ -50,7 +51,7 @@
     document.head.appendChild(s);
   }
   var T0 = performance.now();
-  /* kind: 'octa' | 'tetra' | 'merkaba'; color: 'cyan' | 'gold'; seed varies the starting angle; dur in seconds */
+  /* kind: 'octa' | 'tetra' | 'merkaba'; color: 'cyan' | 'gold' | 'ice'; seed varies the starting angle; dur in seconds */
   function make(kind, color, seed, dur) {
     css();
     var c = COL[color] || COL.cyan, root = document.createElement('div'); root.className = 'sol';
