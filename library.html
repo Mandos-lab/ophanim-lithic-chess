@@ -42,17 +42,13 @@ textarea{min-height:200px;white-space:pre}
   </div>
   <div class="row" style="margin:0">
     <a href="index.html"><button>← Field Console</button></a>
+    <a href="calendar-codex.html"><button>Calendar scroll</button></a>
+    <a href="jewellery.html"><button>Jewellery</button></a>
     <button id="zOut">A−</button><button id="zIn">A+</button>
     <button id="btnEdit" class="amber">✎ Edit list</button>
   </div>
 </header>
 <main>
-  <h2 style="font-size:14px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin:4px 0 10px">Codex · scrolling presentations</h2>
-  <div class="grid" style="margin-bottom:22px">
-    <div class="card"><span class="tag pdf">CODEX</span><h3>Vol I · The Sacred Geometry of Chess</h3><div class="mut">The Cosmic Compass &amp; the 64 Truths: wheat on the squares, the board folding into 4³, the Metacube and the six Lithic stones.</div><div class="row"><a href="sacred-geometry-codex.html"><button>Open ↗</button></a><a href="chess.html"><button>Play chess</button></a></div></div>
-    <div class="card"><span class="tag pdf">CODEX</span><h3>Vol III · The Cadmeian Code</h3><div class="mut">Phonetic Archaeology: the Mother&#39;s Code, the Huluppu tree, Mount Aragats, Cadmus v2.0 and the five vowel rosettes.</div><div class="row"><a href="cadmeian-code.html"><button>Open ↗</button></a></div></div>
-  </div>
-  <h2 style="font-size:14px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px">PDFs &amp; Audio</h2>
   <div class="bar">
     <button data-f="all" class="on">All</button><button data-f="pdf">PDF</button><button data-f="audio">Audio</button>
     <input id="q" placeholder="Search title or description…">
@@ -72,7 +68,11 @@ textarea{min-height:200px;white-space:pre}
 </main>
 <script>
 const $=id=>document.getElementById(id);
-const DEF=`audio | SomaFM — Drone Zone (live stream) | https://ice1.somafm.com/dronezone-128-mp3 | Ambient drone radio. | public`;
+const DEF=`audio | SomaFM — Drone Zone (live stream) | https://ice1.somafm.com/dronezone-128-mp3 | Ambient drone radio. | public
+audio | How a Typo Broke Viking Chess | audio/tafl-typo-talk.mp3 | A talk for the Tafl page, about 22 minutes. | public
+audio | Why Reality Needs Hidden Flaws | audio/ur-hidden-flaws-talk.mp3 | A talk for the Royal Game of Ur page, about 26 minutes. | public
+audio | Why Imperfect Math Keeps Reality Alive | audio/chess-imperfect-math-talk.mp3 | A talk for the Sacred Geometry of Chess page. | public
+audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public`;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
