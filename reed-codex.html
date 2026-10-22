@@ -350,6 +350,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">The Record</b>&nbsp;&middot; what sources and anatomy say</span>
     </div>
     <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">Each chapter keeps the treatise intact in gold. Beside it, in cyan, is a check against the ancient texts, anatomy and linguistics, including the arithmetic. Where they differ, you can see exactly how.</p>
+    <p style="margin:26px 0 0;font-size:17px"><a href="reed-codex-el.html" lang="el">Ελληνική έκδοση &#9656;</a></p>
     <div class="scrollcue" style="margin-top:40px">SCROLL &#9662;</div>
   </div>
 </section>
@@ -702,6 +703,7 @@ const S=[
  c:'The thread is anchored in stone, the fused bone of the coccyx. The final sigma ς appears only at the end of a word.',
  r:'The coccyx is three to five fused vertebrae. A final sigma has the same value as an ordinary sigma, 200.'}
 ];
+
 const btns=[];
 S.forEach((s,i)=>{const g=el('g',{class:'st',tabindex:0,role:'button','aria-label':s.t});el('circle',{cx:x+70,cy:s.y,r:7},g);const t=el('text',{x:x+84,y:s.y},g);t.textContent=s.lab;g.addEventListener('click',()=>show(i));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i);}});btns.push(g);});
 function show(i){const s=S[i];btns.forEach((b,k)=>b.classList.toggle('on',k===i));

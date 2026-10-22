@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ο Κάλαμος και ο Κώδικας · Ophanim Codex</title>
+<meta name="description" content="Ο Κάλαμος και ο Κώδικας: ο Κάλαμος και ο Καρπός, ο Κάδμος και η Αρμονία, το Yam Suph και το ελληνικό αλφάβητο, διαβασμένα μέσα από την αναπνοή και τη σπονδυλική στήλη, με έλεγχο των πηγών. Από τον @Mandos16, Φωνητική Αρχαιολογία.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">&#9666; Παιχνίδια</a>
+  <div class="t">Ophanim Codex &middot; <b>Ο Κάλαμος και ο Κώδικας</b></div>
+  <a href="reed-codex.html">English &#9656;</a>
+</header>
+<nav class="dots" id="dots"></nav>
+
+<main>
+<section id="hero" data-label="Πρόλογος">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Synkresis V3.0 &middot; Φωνητική Αρχαιολογία</div>
+    <h1>Ο Κάλαμος και ο Κώδικας<br><em>και το Ζωντανό Ιερό</em></h1>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">Πραγματεία του Mandos16: ένας κούφιος κάλαμος, ένα περιδέραιο από οστά, μια λανθασμένη μετάφραση της θάλασσας και το ελληνικό αλφάβητο, διαβασμένα ως η ανθρώπινη σπονδυλική στήλη.</p>
+    <div class="legend" style="justify-content:center">
+      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">Ο Κώδικας</b>&nbsp;&middot; η πραγματεία</span>
+      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">Η Καταγραφή</b>&nbsp;&middot; τι λένε οι πηγές και η ανατομία</span>
+    </div>
+    <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">Σε κάθε κεφάλαιο η πραγματεία μένει ακέραιη με χρυσό χρώμα. Δίπλα της, με κυανό, βρίσκεται ένας έλεγχος με βάση τα αρχαία κείμενα, την ανατομία και τη γλωσσολογία, μαζί με την αριθμητική. Όπου διαφέρουν, φαίνεται ακριβώς πώς.</p>
+    <figure class="fig reveal"><img src="img/reed-el-01.jpg" alt="Διαφάνεια: ο Κώδικας του Καλάμου, μια χρυσή και κυανή έλικα με σπονδυλική στήλη και ελληνικά γράμματα" loading="lazy"><figcaption>Η διαφάνεια τίτλου από την ελληνική παρουσίαση.</figcaption></figure>
+    <div class="scrollcue" style="margin-top:40px">ΚΥΛΙΣΤΕ &#9662;</div>
+  </div>
+</section>
+
+<section id="listen" data-label="Ακούστε">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Ακούστε &middot; στα Ελληνικά &middot; 18 λεπτά</div>
+      <h2 lang="el">Ο κώδικας του καλάμου στη σπονδυλική στήλη</h2>
+      <div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin-top:14px">
+        <audio controls preload="none" src="audio/reed-greek-talk.mp3" style="width:100%;color-scheme:dark">Ο περιηγητής σας δεν μπορεί να παίξει ήχο.</audio>
+        <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">Ηχογραφημένη ομιλία στα Ελληνικά. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:46px">
+      <div class="kicker">Ακούστε &middot; στα Αγγλικά &middot; 24 λεπτά</div>
+      <h2 lang="en">The Greek Alphabet <em>Maps the Human Spine</em></h2>
+      <div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin-top:14px">
+        <audio controls preload="none" src="audio/reed-english-talk.mp3" style="width:100%;color-scheme:dark">Ο περιηγητής σας δεν μπορεί να παίξει ήχο.</audio>
+        <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">Ηχογραφημένη ομιλία στα Αγγλικά. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reed" data-label="Ο Κάλαμος">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Ι &middot; Το Κούφιο Στέλεχος</div>
+      <h2>Κάλαμος <em>και Καρπός</em></h2>
+      <p>Ο Κάλαμος και ο Καρπός ήταν νεαροί εραστές. Ο Καρπός πνίγηκε στον ποταμό Μαίανδρο σε έναν αγώνα κολύμβησης. Ο Κάλαμος, συντετριμμένος από τη θλίψη, μεταμορφώθηκε σε κούφιο ποτάμιο καλάμι που θροΐζει όταν περνά ο άνεμος.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Η αποκωδικοποίηση του σώματος.</b> Ο Κάλαμος είναι το κούφιο στέλεχος της σπονδυλικής στήλης και ο κεντρικός της σωλήνας. Το καλάμι λυγίζει στον άνεμο και βουίζει όταν περνά αέρας μέσα του. Η σπονδυλική στήλη λειτουργεί ως κούφιος αγωγός για τις υγρές ταλαντώσεις της αναπνοής και του καρδιακού παλμού.</p>
+        <p>Ο θρόος του καλαμιού ακουγόταν ως θρήνος. Ο μύθος δένει ένα φυσικό καλάμι με τη φωνή, την αναπνοή, το υγρό και τον αντίλαλο.</p>
+      </div>
+      <div class="record">
+        <p><b>Η πηγή.</b> Την ιστορία αφηγείται ο Νόννος στα <i>Διονυσιακά</i> (βιβλίο 11, 5ος αιώνας μ.Χ.). Ο Κάλαμος είναι γιος του ποταμόθεου Μαιάνδρου· στην αφήγηση ο Καρπός γίνεται ο καρπός και ο Κάλαμος το καλάμι.</p>
+        <p><b>Η λέξη.</b> Το «κάλαμος» προέρχεται από ινδοευρωπαϊκή ρίζα που σημαίνει «καλάμι, άχυρο», από την οποία προέρχονται και το λατινικό <i>culmus</i> και το παλαιοαγγλικό <i>healm</i>. Το αραβικό <i>qalam</i>, «πένα», είναι διαφορετική περίπτωση: δανείστηκε από τα ελληνικά, άρα είναι συγγενής μέσω δανεισμού και όχι κλάδος της ίδιας ρίζας.</p>
+        <p><b>Η ανατομία.</b> Ο σπονδυλικός σωλήνας είναι κούφιος και περιέχει τον νωτιαίο μυελό, που περιβάλλεται από εγκεφαλονωτιαίο υγρό (ΕΝΥ). Το υγρό αυτό πάλλεται με κάθε καρδιακό παλμό και κάθε αναπνοή. Ο ίδιος ο αέρας δεν ταξιδεύει μέσα στον σωλήνα.</p>
+      </div>
+    </div>
+    <div class="hud compact reveal" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="«Καλάμι»"></div>
+    <figure class="fig reveal"><img src="img/reed-el-03.jpg" alt="Διαφάνεια: ο μύθος του Καλάμου, ένα διάφανο πλάσμα από καλάμια μέσα στο νερό, με τον κούφιο σωλήνα και τον παλλόμενο ρυθμό" loading="lazy"><figcaption>Διαφάνεια: ο κούφιος σωλήνας και ο παλλόμενος ρυθμός.</figcaption></figure>
+  </div>
+</section>
+
+<section id="wave" data-label="Το Κύμα">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">ΙΙ &middot; Το Κύμα στον Σωλήνα</div>
+      <h2>Το Καλάμι Φτιάχνει <em>τον Δικό του Άνεμο</em></h2>
+      <p>Ένα καλάμι του κήπου κινείται μόνο όταν το κινεί ο άνεμος. Στην πραγματεία το ανθρώπινο καλάμι γεννά τον δικό του άνεμο, και το υγρό μέσα του κινείται σε κύμα.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Ο κόμβος.</b> Στην κορυφή του στελέχους, στον προμήκη μυελό, ο κεντρικός σωλήνας ανοίγει στην τέταρτη κοιλία. Στην πλάγια κοιλιακή περιοχή του προμήκη βρίσκεται το σύμπλεγμα προ-B&ouml;tzinger, ο βηματοδότης της αναπνοής. Ο «άνεμος» γεννιέται εδώ.</p>
+        <p><b>Το κύμα.</b> Το ΕΝΥ δεν μένει ακίνητο. Με κάθε καρδιακό παλμό πιέζεται προς τα κάτω και αναπηδά καθώς πέφτει η πίεση, ενώ η αναπνοή το διαμορφώνει. Το αποτέλεσμα είναι στάσιμο κύμα σε κούφιο σωλήνα.</p>
+        <p><b>Ο νευρικός σωλήνας, ένα απολίθωμα.</b> Τις εβδομάδες 3 με 4 της κύησης η νευρική πλάκα διπλώνει και κλείνει σε κούφιο σωλήνα. Ο κεντρικός σωλήνας είναι η μικρογραφία του.</p>
+      </div>
+      <div class="record">
+        <p><b>Συμφωνεί.</b> Το σύμπλεγμα προ-B&ouml;tzinger είναι πραγματική γεννήτρια αναπνευστικού ρυθμού. Το ΕΝΥ πάλλεται με τον καρδιακό παλμό και ρέει προς τα κάτω στον αυχένα καθώς ο εγκέφαλος διογκώνεται στη συστολή. Ο νευρικός σωλήνας κλείνει τις εβδομάδες 3 με 4 και ο κεντρικός σωλήνας είναι το κατάλοιπό του.</p>
+        <p><b>Διαφέρει.</b> (1) Η αναπνοή ηρεμίας, 12 με 20 αναπνοές το λεπτό, είναι 0,2 έως 0,33 Hz και όχι 0,1 έως 0,2 Hz όπως γράφει η παρουσίαση. (2) Απ' όσο γνωρίζω, μελέτες μαγνητικής τομογραφίας σε πραγματικό χρόνο δείχνουν ότι η <i>εισπνοή</i> κινεί το ΕΝΥ προς το κεφάλι, αντίθετα από τα αρχεία, που λένε προς τα κάτω. Ελέγξτε το. (3) Ο κεντρικός σωλήνας είναι σε μεγάλο βαθμό κλειστός σε πολλούς ενήλικες, οπότε το παλλόμενο κύμα ταξιδεύει στον περιβάλλοντα υποαραχνοειδή χώρο· το ένα αρχείο σας το λέει σωστά και το άλλο όχι. (4) Η μέγιστη ταχύτητα 78 mm/s αναφέρεται στα αρχεία σας· δεν μπόρεσα να την επαληθεύσω, και οι ταχύτητες διαφέρουν ανά άτομο και επίπεδο.</p>
+      </div>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-el-07.jpg" alt="Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός δίπλα δίπλα, με το ΕΝΥ να πάλλεται πάνω και κάτω" loading="lazy"><figcaption>Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός.</figcaption></figure>
+    <figure class="reveal" style="margin:26px auto 0;max-width:380px">
+      <video controls preload="none" playsinline poster="img/spine-poster.jpg" src="audio/spinal-fluid-wave.mp4" style="display:block;width:100%;height:auto;max-height:82vh;border:1px solid var(--line-g);background:#000">Ο περιηγητής σας δεν μπορεί να παίξει αυτό το βίντεο.</video>
+      <figcaption class="dim" style="margin-top:10px;font-size:15px">Πώς κατεβαίνει το κύμα του νωτιαίου υγρού: κινούμενο σχέδιο 83 δευτερολέπτων από το Gemini Notebook, με αγγλικούς υπότιτλους. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="unsealed" data-label="Ο Κώδικας">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">ΙΙΙ &middot; Ο Κώδικας Ξεσφραγίζεται</div>
+      <h2>Από τον <em>Κάδμο</em> στον <em>Κάλαμο</em></h2>
+      <p>Οι δύο λέξεις έχουν τον ίδιο σκελετό και διαφέρουν σε ένα σημείο. Το ΚΑΔΜΟΣ έχει ως τρίτο γράμμα ένα κλειστό τρίγωνο, το Δ. Το ΚΑΛΑΜΟΣ ανοίγει αυτό το τρίγωνο σε δύο γράμματα, το Λ και το Α.</p>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start">
+      <div class="hud compact" data-gk="Κάδμος" data-tr="Kadmos" data-mn="«Κάδμος»"></div>
+      <div class="hud compact" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="«Καλάμι»"></div>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Φωνητική υγροποίηση.</b> Το Δέλτα είναι κλειστό δοχείο: στατική, αρχιτεκτονική δύναμη. Ανοιγμένο στην κορυφή του Λάμδα και στην πρωταρχική δύναμη του Άλφα, γίνεται το ρευστό, λικνιζόμενο καλάμι. Ο Κάδμος, το συμπαγές πλαίσιο του αλφαβήτου, υγροποιείται σε Κάλαμο.</p>
+        <p><b>Η διαφορά.</b> 362 &minus; 335 = 27. Το Δ είναι 4 και το Λ + Α είναι 31, άρα η αλλαγή προσθέτει 27, τον αριθμό των γραμμάτων του αρχαϊκού ελληνικού αλφαβήτου, που ρέει ως κύμα μέσα από τα 31 νωτιαία τμήματα.</p>
+      </div>
+      <div class="record">
+        <p><b>Η αριθμητική βγαίνει.</b> ΚΑΔΜΟΣ = 335, ΚΑΛΑΜΟΣ = 362, διαφορά 27, και Λ + Α &minus; Δ = 31 &minus; 4 = 27. Τα 31 νωτιαία τμήματα υπάρχουν πραγματικά, ένα για καθένα από τα 31 ζεύγη νωτιαίων νεύρων.</p>
+        <p><b>Αξίζει δοκιμή.</b> Το κλασικό αλφάβητο έχει 24 γράμματα· το 27 μετρά και τα τρία αρχαϊκά αριθμητικά γράμματα. Μία ταιριαστή διαφορά δεν ξεχωρίζει τον σχεδιασμό από την τύχη, οπότε ένας δίκαιος έλεγχος είναι να μετρηθεί πόσα άλλα ζεύγη λέξεων του ελληνικού λεξιλογίου διαφέρουν κατά 27.</p>
+      </div>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-el-12.jpg" alt="Διαφάνεια: ΚΑΛΑΜΟΣ ίσον το υγρό του ΚΑΔΜΟΥ, δίπλα σε μια εικόνα σπονδυλικής στήλης σε στυλ μαγνητικής τομογραφίας" loading="lazy"><figcaption>Η διαφάνεια τιτλοφορείται «PC-MRI 21ου αιώνα»· η εικόνα όμως είναι απεικόνιση σε στυλ μαγνητικής τομογραφίας και όχι πραγματική εξέταση.</figcaption></figure>
+    <div class="reveal" style="margin-top:46px">
+      <div class="kicker">Η γραμμή 1729</div>
+      <h3 style="font-family:var(--title);font-weight:500;font-size:28px;color:var(--ink)">Αποκάλυψη 11:1, <em style="color:var(--gold)">καλάμι όμοιο με ράβδο</em></h3>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p>Στην Αποκάλυψη 11:1 δίνεται στον Ιωάννη ένα καλάμι μέτρησης: <i>κάλαμος ὅμοιος ῥάβδῳ</i>, «καλάμι όμοιο με ράβδο». Η πραγματεία μετρά τη φράση ως 1729 και λέει ότι, με τον κανόνα του <i>colel</i>, ισούται με <i>σῶμα τοῦ Ἰησοῦ</i>, «το σώμα του Ιησού». Το καλάμι μέτρησης είναι τότε το ανθρώπινο σώμα που λειτουργεί ως γραμμή βάσης.</p>
+      </div>
+      <div class="record">
+        <p><b>Το πρώτο μισό ισχύει.</b> κάλαμος 362 + ὅμοιος 460 + ῥάβδῳ 907 = <b>1729</b>. Το άθροισμα είναι σωστό. Τα μέρη που αναφέρονται στα αρχεία, 390 και 977, δεν είναι οι τιμές των λέξεων, αν και τυχαίνει να δίνουν το ίδιο άθροισμα, 1367.</p>
+        <p><b>Το δεύτερο μισό ισχύει επίσης, χωρίς το άρθρο.</b> σῶμα 1041 + Ἰησοῦ 688 = <b>1729</b>, με απλή μιλησιακή ισοψηφία και χωρίς ειδικό κανόνα. Αν προστεθεί το άρθρο, <i>τὸ σῶμα τοῦ Ἰησοῦ</i> όπως το γράφει συνήθως η Καινή Διαθήκη, το άθροισμα αλλάζει (το σῶμα τοῦ Ἰησοῦ είναι 2499). Άρα η ισότητα είναι ακριβής για την γυμνή φράση <i>σῶμα Ἰησοῦ</i>. Η πραγματεία πρέπει να δηλώνει αυτή τη μορφή, γιατί ένας αναγνώστης που δοκιμάζει τη συνήθη διατύπωση δεν θα βρει 1729.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="necklace" data-label="Το Περιδέραιο">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">IV &middot; Η Αλυσίδα από Οστά</div>
+      <h2>Ο Κάδμος, η Αρμονία <em>και το Περιδέραιο</em></h2>
+      <p>Ο Κάδμος, ιδρυτής της Θήβας, σκότωσε τον δράκο του Άρη και έσπειρε τα δόντια του, και από τη γη ξεπήδησαν ένοπλοι άνδρες, οι Σπαρτοί. Παντρεύτηκε την Αρμονία, κόρη του Άρη και της Αφροδίτης. Στον γάμο ο Ήφαιστος της χάρισε ένα λαμπερό περιδέραιο που κουβάλησε μια κατάρα στις γενιές, ώσπου ο Κάδμος και η Αρμονία μεταμορφώθηκαν σε φίδια.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Ο Κάδμος</b> είναι η άκαμπτη δομή: το οστό και η συμπαγής σπονδυλική στήλη. Φέρνει τα διακριτά γράμματα, τα δομικά στοιχεία που χύνονται μέσα στο ζωντανό καλάμι.</p>
+        <p><b>Η Αρμονία</b> («το συναρμολόγημα») είναι η δομική ισορροπία: οι φυσικές καμπύλες και η ισορροπία που κρατούν το σώμα ενωμένο.</p>
+        <p><b>Το περιδέραιο</b> είναι ο κεντρικός σωλήνας που διατρέχει τους ευθυγραμμισμένους σπονδύλους. <b>Η κατάρα</b> είναι το αργό κλείσιμό του: με την ηλικία ο σωλήνας γεμίζει με κυτταρικά υπολείμματα και σφραγίζεται.</p>
+        <p><b>Τα φίδια</b> είναι η τελευταία μορφή του καλαμιού: καθώς ο μυελός τελειώνει, στενεύει σε κώνο και σε ξερή ινώδη κλωστή, αγκυροβολημένη στην απολιθωμένη κόκκυγα.</p>
+        <p><b>Η παλαιότερη παράδοση.</b> Σε παλαιότερη παράδοση ο Κάδμος ήταν φύλακας του Πρώτου Ναού της Γνώσης στην αρχαία Αρμενία, τη χώρα του θεού της γραφής Τιρ, και μετέφερε μια ιερή γραφή προς τα δυτικά.</p>
+      </div>
+      <div class="record">
+        <p><b>Ο μύθος.</b> Η Αρμονία είναι κόρη του Άρη και της Αφροδίτης και το περιδέραιο το φτιάχνει ο Ήφαιστος· σε ορισμένες εκδοχές το καταριέται από οργή προς την Αφροδίτη. Η κατάρα του πέφτει στον βασιλικό οίκο της Θήβας. Ο Οβίδιος αφηγείται πώς ο Κάδμος και η Αρμονία έγιναν φίδια στην Ιλλυρία. Πέντε Σπαρτοί επιζούν από τη μάχη των σπαρμένων ανδρών.</p>
+        <p><b>Τα γράμματα.</b> Ο Ηρόδοτος λέει ότι ο Κάδμος έφερε δεκαέξι γράμματα, τα <i>Καδμεία γράμματα</i>. Στις ελληνικές πηγές ο Κάδμος έρχεται από τη Φοινίκη, από την Τύρο ή τη Σιδώνα. Ο αρμενικός ναός και η σύνδεση με τον Τιρ δεν υπάρχουν στις κλασικές πηγές· ανήκουν στον Κώδικα.</p>
+        <p><b>Η ανατομία.</b> Το νωτιαίο κωνίο τελειώνει περίπου στο L1 με L2 και το τελικό νημάτιο είναι μια ινώδης κλωστή που αγκυροβολεί στην κόκκυγα, η οποία είναι συνήθως τέσσερις συνενωμένοι σπόνδυλοι, από τρεις έως πέντε. Ο κεντρικός σωλήνας στενεύει, και συχνά κλείνει, στους ενήλικες.</p>
+      </div>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start">
+      <div class="hud compact" data-gk="Αρμονία" data-tr="Harmonia" data-mn="«Αρμονία»"></div>
+      <div class="hud compact" data-gk="Σπονδυλος" data-tr="Spondylos" data-mn="«Σπόνδυλος»"></div>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-el-04.jpg" alt="Διαφάνεια: ο Κάδμος σπέρνει τον κώδικα, με τα γράμματα να ριζώνουν στη γη" loading="lazy"><figcaption>Η διαφάνεια λέει «27 φοινικικά γράμματα»· το φοινικικό αλφάβητο είχε 22 γράμματα, και το 27 είναι το ελληνικό σύνολο με τα αρχαϊκά.</figcaption></figure>
+    <figure class="fig reveal"><img src="img/reed-el-05.jpg" alt="Διαφάνεια: η Αρμονία και το περιδέραιο του Ηφαίστου, δύο φίδια πλεγμένα σε σχήμα καρδιάς" loading="lazy"><figcaption>Διαφάνεια: η Αρμονία και το περιδέραιο.</figcaption></figure>
+  </div>
+</section>
+
+<section id="suph" data-label="Yam Suph">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">V &middot; Η Θάλασσα των Καλάμων</div>
+      <h2>Yam Suph <em>και η Ερυθρά Θάλασσα</em></h2>
+      <p>Η εβραϊκή φράση <i>Yam Suph</i> (<span lang="he" dir="rtl">ים סוף</span>) είναι η θάλασσα που διασχίζουν οι Ισραηλίτες στην Έξοδο. Οι Έλληνες μεταφραστές στην Αλεξάνδρεια την απέδωσαν <i>Ἐρυθρὰ Θάλασσα</i>, «Ερυθρά Θάλασσα», και οι μεταγενέστερες μεταφράσεις ακολούθησαν.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Η ανάγνωση.</b> Αυτή είναι μια επικάλυψη μετάφρασης 2.300 ετών. Το <i>suph</i> είναι αιγυπτιακός δανεισμός για τους πάπυρους και τα φυτά του έλους, οπότε το κείμενο περιγράφει τη διάβαση μιας βαλτώδους Θάλασσας των Καλάμων. Παραλληλίζεται με το πώς τα <i>Φοινικήια γράμματα</i> μετονομάστηκαν «φοινικικά γράμματα».</p>
+        <p><b>Ο Μωυσής ως αυτός που τραβά έξω.</b> Το <i>Μωσέ</i> προέρχεται από τη ρίζα <i>m-sh-h</i>, «τραβώ έξω». Τραβιέται ως μωρό από τα καλάμια του Νείλου, και τραβά τον λαό του μέσα από τη Θάλασσα των Καλάμων. Εσωτερικά, είναι η πρόθεση που τραβά την προσοχή και το υγρό προς τα πάνω στο κούφιο καλάμι.</p>
+        <p><b>Ο σύνδεσμος με το σώμα.</b> Η Θάλασσα των Καλάμων είναι το εσωτερικό καλάμι, η σπονδυλική στήλη, και το υγρό κύμα στη βαθιά ακινησία.</p>
+      </div>
+      <div class="record">
+        <p><b>Συμφωνεί.</b> Η Μετάφραση των Εβδομήκοντα, που έγινε στην Αλεξάνδρεια τον 3ο αιώνα π.Χ., λέει πράγματι <i>Ἐρυθρὰ Θάλασσα</i>, και οι λατινικές και αγγλικές Βίβλοι την κράτησαν. Το εβραϊκό <i>suph</i> σημαίνει καλάμια ή βούρλα: στην Έξοδο 2 το μωρό τοποθετείται ανάμεσα στα <i>suph</i> στην όχθη του ποταμού. Η Έξοδος 2:10 εξηγεί η ίδια το όνομα Μωυσής ως «τραβηγμένος έξω». Έχει προταθεί αιγυπτιακή προέλευση του <i>suph</i>, από το <i>twf</i>, «πάπυρος», και ο αιγυπτιολόγος James Hoffmeier υποστηρίζει ανάγνωση με έλος καλαμιών στο <i>Israel in Egypt</i>.</p>
+        <p><b>Διαφέρει.</b> Το <i>Yam Suph</i> ονομάζει και πραγματική αλμυρή θάλασσα: το Α' Βασιλέων 9:26 τοποθετεί την Εσιών-γκεβέρ στην ακτή του, στον κόλπο της Άκαμπα. Οι μεταφραστές ίσως ονόμαζαν μια πραγματική θάλασσα και όχι απλώς διάβασαν λάθος μια λέξη, και ποιο νερό ήταν η διάβαση συζητείται ακόμη. Πολλοί μελετητές επισημαίνουν επίσης ότι το όνομα Μωυσής μοιάζει με την αιγυπτιακή λέξη <i>mose</i>, «γεννημένος από», όπως στον Θούθμωση.</p>
+      </div>
+    </div>
+    <div class="tw reveal"><table class="audit">
+      <thead><tr><th>Εποχή</th><th>Γλώσσα</th><th>Όρος</th><th>Σημασία</th></tr></thead>
+      <tbody>
+        <tr><td>Αρχικό κείμενο</td><td>Εβραϊκά</td><td lang="he" dir="rtl">ים סוף</td><td>«Θάλασσα των Καλάμων»</td></tr>
+        <tr><td>3ος αιώνας π.Χ.</td><td>Ελληνικά (Εβδομήκοντα)</td><td lang="grc">Ἐρυθρὰ Θάλασσα</td><td>«Ερυθρά Θάλασσα»</td></tr>
+        <tr><td>4ος με 5ος αιώνας μ.Χ.</td><td>Λατινικά (Vulgata)</td><td><i>Mare Rubrum</i></td><td>«Ερυθρά Θάλασσα»</td></tr>
+        <tr><td>1611</td><td>Αγγλικά (King James)</td><td>Red Sea</td><td>παγιώθηκε στα αγγλικά</td></tr>
+      </tbody></table></div>
+    <figure class="fig reveal"><img src="img/reed-el-02.jpg" alt="Διαφάνεια: το σφάλμα της μετάφρασης, με τη διαγραμμένη Ερυθρά Θάλασσα σε χάρτη και τη βοτανική αλήθεια του Yam Suph με φωτεινά καλάμια" loading="lazy"><figcaption>Διαφάνεια: το σφάλμα της μετάφρασης και η βοτανική αλήθεια.</figcaption></figure>
+  </div>
+</section>
+
+<section id="pineal" data-label="Γάλα και Μέλι">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VI &middot; Η Βιολογική Έξοδος</div>
+      <h2>Ο Προμήκης Κόμβος <em>και η Γη του Γάλακτος και του Μελιού</em></h2>
+      <p>Η πραγματεία ακολουθεί την Έξοδο προς τα πάνω στο καλάμι, ως την κορυφή του, στο σημείο του αυχένα που λέγεται GV-16, <i>Fengfu</i>, «Ανεμόσπιτο».</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Το κατώφλι.</b> Ο προμήκης μυελός, εκεί όπου το νωτιαίο καλάμι διευρύνεται σε εγκεφαλικό στέλεχος, βρίσκεται πίσω από το σημείο βελονισμού GV-16 στη μεγάλη δεξαμενή (cisterna magna). Όταν η αναπνοή επιβραδύνεται στον διαλογισμό, ο καρδιακός παλμός και η αναπνοή συζεύγνυνται σε ένα μεγάλο κύμα εκεί, και η τέταρτη κοιλία ανοίγει.</p>
+        <p><b>Το γάλα.</b> Το λευκό, θρεπτικό εγκεφαλονωτιαίο υγρό.</p>
+        <p><b>Το μέλι.</b> Στη βαθιά ακινησία, με τις αισθήσεις αποσυρμένες, η επίφυση εκκρίνει τις χρυσές εκκρίσεις της στις κοιλίες: μελατονίνη, πινολίνη και παράγωγα DMT. Αυτό πλημμυρίζει τη μεγάλη δεξαμενή και κατεβαίνει τα 31 νωτιαία τμήματα, ένας εσωτερικός ωκεανός.</p>
+        <p><b>Το τόξο.</b> <i>Namu</i>, η ασύστατη μήτρα (Μ)· <i>Inana</i>, το κινητικό εγώ· <i>Gestinana</i>, η κορεσμένη επίλυση, που αποκωδικοποιείται ως GE-SH-D: Έδαφος (Γ = 3), Σιωπή (SH) και Όριο (Δ = 4).</p>
+      </div>
+      <div class="record">
+        <p><b>Συμφωνεί.</b> Το GV-16 βρίσκεται στην κοιλότητα κάτω από το κρανίο στον αυχένα, κοντά στο ινιακό τρήμα και τη μεγάλη δεξαμενή. Η επίφυση εκκρίνει μελατονίνη, που φτάνει στο ΕΝΥ της τρίτης κοιλίας, και η έκκριση αυξάνεται στο σκοτάδι. Υπάρχουν 31 ζεύγη νωτιαίων νεύρων. «Γη του γάλακτος και του μελιού» είναι η φράση της Βίβλου για τη γη της επαγγελίας. Η Namu, η Inana και η Geshtinanna είναι σουμερικές θεές.</p>
+        <p><b>Διαφέρει.</b> (1) Το ΕΝΥ παράγεται κυρίως από το χοριοειδές πλέγμα στις κοιλίες και όχι από την υπόφυση. (2) Η πινολίνη βρίσκεται στην επίφυση και το DMT έχει μετρηθεί σε επιφυσιακό ιστό αρουραίου, αλλά δεν γνωρίζω καμία απόδειξη ότι ο διαλογισμός κάνει την επίφυση να απελευθερώνει DMT στο ΕΝΥ ενός ανθρώπου. Αυτός είναι ο λιγότερο τεκμηριωμένος ισχυρισμός του κεφαλαίου. (3) Το κλείσιμο των ματιών δεν γυρίζει την επίφυση σε πλήρη νυχτερινή έκκριση. (4) Το αρχείο που λέει ότι ο υποαραχνοειδής χώρος «διατηρεί» τον νευρικό σωλήνα είναι μπερδεμένο: το κατάλοιπο του σωλήνα είναι ο κεντρικός σωλήνας.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spine" data-label="Η Σπονδυλική Στήλη">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VII &middot; Τα Γράμματα Κατεβαίνουν</div>
+      <h2>Το Αλφάβητο <em>στη Σπονδυλική Στήλη</em></h2>
+      <p>Στο σύστημα Έλλην Λόγος του Θεολόγου Σημαιοφόρου, τα γράμματα είναι πράξεις και χωρίζονται σε δύο στρατόπεδα. Επτά φωνήεντα φέρνουν δύναμη και φως. Δεκαεπτά σύμφωνα δίνουν δομή. Διαλέξτε έναν σταθμό στη σπονδυλική στήλη.</p>
+    </div>
+    <div class="spinewrap reveal">
+      <svg id="spsvg" viewBox="0 0 330 800" role="img" aria-label="Η σπονδυλική στήλη ως 24 σπόνδυλοι, ο καθένας με ένα ελληνικό γράμμα, με τον μυελό και το τελικό νημάτιο"></svg>
+      <div class="sppanel" id="sppanel" aria-live="polite"></div>
+    </div>
+    <div class="layers reveal" style="margin-top:30px">
+      <div class="codex">
+        <p><b>Η μέτρηση.</b> 7 φωνήεντα + 17 σύμφωνα = 24 γράμματα. Η σειρά μέσα σε κάθε ομάδα εδώ είναι μία φυσική επιλογή: οι πηγές δίνουν μόνο τον χωρισμό 7 + 17.</p>
+        <p><b>Οι δίφθογγοι</b> σημαδεύουν τα σημεία καμπής όπου η δύναμη (φωνήεν) συγχωνεύεται με τη δομή (σύμφωνο), όπως στις διευρύνσεις. <b>Το τελικό σίγμα</b> ς εμφανίζεται μόνο στο τέλος της λέξης, όπως η κόκκυγα είναι το τέλος του καλαμιού.</p>
+      </div>
+      <div class="record">
+        <p><b>Μια πραγματική αριθμητική σύμπτωση.</b> Το ελληνικό αλφάβητο έχει 24 γράμματα. Η σπονδυλική στήλη έχει 7 αυχενικούς, 12 θωρακικούς και 5 οσφυϊκούς σπονδύλους: 7 + 12 + 5 = 24. Επτά ελληνικά φωνήεντα και επτά αυχενικοί σπόνδυλοι, και 17 σύμφωνα απέναντι σε 12 + 5, είναι ακριβή πλήθη, όχι στρογγυλεμένα.</p>
+        <p><b>Πού διαφέρει.</b> Τα φωνήεντα σχηματίζονται στον λάρυγγα και το στόμα και όχι κατά μήκος της σπονδυλικής στήλης, άρα ο χάρτης είναι βοήθημα μνήμης. Το τελικό σίγμα είναι απλώς η μορφή του γράμματος στο τέλος της λέξης και έχει την ίδια τιμή με το σ, 200. Ο ίδιος ο μυελός σταματά στο L1 με L2, πολύ πάνω από τους κάτω σπονδύλους.</p>
+      </div>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-09.jpg" alt="Διαφάνεια: τα επτά φωνήεντα του φωτός, με έναν χρυσό αυχένα και πίνακα αντιστοιχίας" loading="lazy"><figcaption>Διαφάνεια: τα 7 φωνήεντα και οι αυχενικοί σπόνδυλοι.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-10.jpg" alt="Διαφάνεια: τα δεκαεπτά σύμφωνα της γης, με θωρακικούς και οσφυϊκούς σπονδύλους" loading="lazy"><figcaption>Διαφάνεια: τα 17 σύμφωνα, 12 θωρακικοί + 5 οσφυϊκοί.</figcaption></figure>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-11.jpg" alt="Διαφάνεια: οι μεταλλάξεις, δίφθογγοι και ανατομικές διευρύνσεις, από κυλινδρικό σε ορθογώνιο σχήμα" loading="lazy"><figcaption>Διαφάνεια: οι μεταλλάξεις, δίφθογγοι και διευρύνσεις.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-13.jpg" alt="Διαφάνεια: η τελική μεταμόρφωση, το ερπετό στο τέλος, με την κόκκυγα, δύο φίδια και το τελικό σίγμα" loading="lazy"><figcaption>Διαφάνεια: η τελική μεταμόρφωση.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="lateral" data-label="Το Πλάγιο Κύμα">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VIII &middot; Κυτταρική Ενεργητική</div>
+      <h2>Το Οριζόντιο <em>Συνημίτονο</em></h2>
+      <p>Το τελευταίο κεφάλαιο του χειρογράφου περνά από τη σπονδυλική στήλη στο κύτταρο, και από τον κάθετο άξονα της κάθοδου σε έναν οριζόντιο άξονα διάσωσης.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Δύο άξονες.</b> Ο κάθετος άξονας (Ημίτονο) είναι η καταγωγή: από γονέα σε θυγατέρα με κυτταρική διαίρεση. Ο οριζόντιος άξονας (Συνημίτονο, Κάλαμος) είναι πλευρικός: Οριζόντια Μεταφορά Μιτοχονδρίων (HMT), όπου υγιή κύτταρα περνούν μιτοχόνδρια, πακέτα ενέργειας, σε πεινασμένους γείτονες χωρίς διαίρεση.</p>
+        <p><b>Η πύλη.</b> Μια πύλη συνοχής H(c, u), έλεγχος των γλυκοπρωτεϊνών της επιφάνειας, ανοίγει τη γέφυρα των νανοσωλήνων σήραγγας. Η εξίσωση είναι D(t) = O(t) + &Sigma; [ H(c, u) &middot; S<sub>lat</sub> ], με S<sub>lat</sub> = cos(&theta;) &middot; M<sub>mito</sub>.</p>
+        <p><b>Η γεωμετρία.</b> Το Jitterbug του Buckminster Fuller, η συστολή και διαστολή ανάμεσα σε εικοσάεδρο και οκτάεδρο, δίνει χώρο για τη φωνητική αντήχηση και το νωτιαίο κύμα. 4995 &divide; 135 = 37 και 1 + 9 + 27 = 37 σφραγίζει το σύστημα.</p>
+      </div>
+      <div class="record">
+        <p><b>Συμφωνεί.</b> Τα κύτταρα μπορούν να περνούν μιτοχόνδρια μεταξύ τους μέσω νανοσωλήνων σήραγγας, και έχει δειχθεί σε μελέτες εργαστηρίου και ζώων ότι βλαστοκύτταρα και αστροκύτταρα δωρίζουν μιτοχόνδρια σε κατεστραμμένα κύτταρα. Η αριθμητική είναι σωστή: 4995 &divide; 135 = 37 και 1 + 9 + 27 = 37.</p>
+        <p><b>Διαφέρει.</b> Η μεταφορά μιτοχονδρίων είναι ενεργό ερευνητικό πεδίο και οι περισσότερες ενδείξεις προέρχονται από καλλιέργειες και ζωικά μοντέλα, όχι από υγιείς ανθρώπους, άρα το «επιβεβαιωμένο» είναι ισχυρότερο από τις ενδείξεις. Η «πύλη γλυκοπρωτεΐνης με c = 1», το συνημίτονο του διανύσματος ενέργειας και η αντιστοίχιση στους άξονες Ημιτόνου και Συνημιτόνου είναι το δικό του μοντέλο του Κώδικα και όχι αποδεδειγμένη βιολογία.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fractal" data-label="Το Φράκταλ">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">IX &middot; Η Ίδια Ιστορία σε Κάθε Κλίμακα</div>
+      <h2>Η Φράκταλ <em>Ιστορία του Καλαμιού</em></h2>
+      <p>Η περίληψη της πραγματείας: η ίδια ιστορία λέγεται σε κάθε κλίμακα, από τη μήτρα ως το τοπίο.</p>
+    </div>
+    <div class="tw reveal"><table class="audit">
+      <thead><tr><th>Κλίμακα</th><th>Το καλάμι</th><th>Η ιστορία</th></tr></thead>
+      <tbody>
+        <tr><td>Εμβρυολογία</td><td>Νευρικός σωλήνας</td><td>Σχηματίζεται το κούφιο.</td></tr>
+        <tr><td>Σπονδυλική στήλη</td><td>Κεντρικός σωλήνας και ΕΝΥ</td><td>Το καλάμι πάλλεται.</td></tr>
+        <tr><td>Αλφάβητο</td><td>Κάλαμος, το υγρό του Κάδμου</td><td>Το καλάμι κουβαλά τον κώδικα.</td></tr>
+        <tr><td>Θάλασσα</td><td>Yam Suph</td><td>Το καλάμι χωρίζεται και διασχίζεται.</td></tr>
+        <tr><td>Κόκκυγα</td><td>Συνενωμένο οστό</td><td>Το καλάμι γίνεται πέτρα.</td></tr>
+      </tbody></table></div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-14.jpg" alt="Διαφάνεια: ο Φράκταλ Κώδικας, πίνακας από τη γεωγραφία ως την ανατομία" loading="lazy"><figcaption>Διαφάνεια: ο ίδιος πίνακας, όπως σχεδιάστηκε στην παρουσίαση.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-06.jpg" alt="Διαφάνεια: η Μεγάλη Αποκάλυψη, ο μύθος είναι βιολογία, από το καλάμι ως τον εγκέφαλο" loading="lazy"><figcaption>Διαφάνεια: ο μύθος ως βιολογία.</figcaption></figure>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-el-15.jpg" alt="Διαφάνεια: ΝΟΗΜΑ και ΛΗΞΙΣ, με τη σπονδυλική στήλη στο κέντρο" loading="lazy"><figcaption>Διαφάνεια: το νόημα και η λήξη.</figcaption></figure>
+  </div>
+</section>
+
+<section id="notes" data-label="Σημειώσεις">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Πηγές και έλεγχοι</div>
+      <h2>Τι Ελέγχθηκε</h2>
+    </div>
+    <div class="record reveal">
+      <p><b>Οι ετικέτες του ίδιου του χειρογράφου.</b> Αποκαλεί το ΦΎ «Physis = 900» και το ΨΉ «Psephos = 708». Αυτές είναι οι τιμές των δύο γραμμάτων κάθε ζεύγους (Φ + Υ = 900, Ψ + Η = 708, σύνολο 1608). Οι ολόκληρες λέξεις βγάζουν ΦΥΣΙΣ 1310 και ΨΗΦΟΣ 1478.</p>
+      <p><b>Οι διαφάνειες</b> είναι εικονογραφήσεις ιδεών που έγιναν στο Gemini Notebook, όχι δεδομένα. Μία δεν χρησιμοποιήθηκε, γιατί λέει «27 γράμματα = 27 δομικά στοιχεία», κάτι που δεν ελέγχεται, και τα γράμματα στην εικόνα της είναι παραμορφωμένα.</p>
+      <p><b>Το διάγραμμα</b> «Kalamos – Soma 1729 Cosine Baseline» δεν εμφανίζεται εδώ, γιατί δίνει τα μέρη ως 390 και 977 ενώ οι λέξεις είναι 460 και 907 (κεφάλαιο ΙΙΙ).</p>
+      <details style="margin-top:14px"><summary>Οι βιβλιογραφικές αναφορές του χειρογράφου, ελεγμένες όσο μπορούσα</summary>
+        <p style="margin-top:10px"><b>Waal (2022), Journal of Hellenic Studies 142.</b> Δεν μπόρεσα να επιβεβαιώσω αυτό το άρθρο. Το αρχικό και ο τίτλος μοιάζουν λάθος· το έργο που γνωρίζω για τα <i>phoinikeia</i> της Willemijn Waal είναι του 2018. Ελέγξτε το πριν το παραθέσετε.</p>
+        <p><b>Simaioforos, <i>Ellin Logos</i>.</b> Ένα αρχείο λέει 1993 και άλλο 2018, και ο εκδότης δεν επιβεβαιώνεται.</p>
+        <p><b>Hoffmeier, <i>Israel in Egypt</i>.</b> Πραγματικό και σχετικό βιβλίο, που εκδόθηκε πρώτα από το Oxford University Press το 1996.</p>
+        <p><b>Fuller, <i>Synergetics</i> (1975).</b> Πραγματικό βιβλίο, Macmillan.</p>
+        <p><b>StatPearls NBK513247, NASS 2023, Frontiers in Neurology 2024 (GV-16) και Frontiers in Cell &amp; Developmental Biology 2023.</b> Δεν μπόρεσα να τα ελέγξω από εδώ. Οι αριθμοί άρθρου στις δύο καταχωρίσεις Frontiers μοιάζουν με παλαιότερα έτη. Ελέγξτε το καθένα.</p>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+<div style="text-align:center;padding:30px 24px 50px"><a href="library.html">Βιβλιοθήκη</a> &nbsp;&middot;&nbsp; <a href="games.html">Όλα τα παιχνίδια</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></div>
+<script>
+const LINKS={games:"games.html"};
+document.getElementById('backGames').href=LINKS.games;
+
+/* ===== isopsephy engine ===== */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+function buildHuds(root=document){root.querySelectorAll('.hud:not([data-built])').forEach(el=>{el.dataset.built=1;const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;io.observe(el);});}
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+buildHuds();
+
+/* ===== nav ===== */
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+
+
+/* ===== spine diagram ===== */
+(function(){
+const L='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'.split('');
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('spsvg'),panel=document.getElementById('sppanel');
+const top=70,h=24,gap=8,x=165;
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
+el('path',{class:'cord',d:`M${x} 40 L${x} ${top+24*(h+gap)-gap-60} L${x} ${top+24*(h+gap)+20}`});
+const vs=[];
+L.forEach((c,i)=>{const y=top+i*(h+gap);const w=i<7?70:i<19?90:110;const g=el('g',{class:'v'});el('rect',{x:x-w/2,y,width:w,height:h,rx:6},g);const t=el('text',{x,y:y+h/2+1},g);t.textContent=c;vs.push(g);});
+el('text',{class:'lab',x:10,y:top+3*(h+gap)},null).textContent='C1–C7';
+el('text',{class:'lab',x:10,y:top+13*(h+gap)},null).textContent='T1–T12';
+el('text',{class:'lab',x:10,y:top+21*(h+gap)},null).textContent='L1–L5';
+const yy=i=>top+i*(h+gap)+h/2;
+const S=[
+{id:'med',y:44,lab:'Προμήκης',t:'Ο Προμήκης Κόμβος',
+ c:'Εκεί όπου το καλάμι διευρύνεται σε εγκεφαλικό στέλεχος και γεννά τον δικό του άνεμο. Ο βηματοδότης της αναπνοής βρίσκεται εδώ, πίσω από το GV-16, <i>Fengfu</i>, «Ανεμόσπιτο». Γράμματα: τα φωνήεντα αρχίζουν να κινούνται.',
+ r:'Το σύμπλεγμα προ-Bötzinger είναι πραγματική γεννήτρια αναπνευστικού ρυθμού στον προμήκη. Το GV-16 είναι σημείο βελονισμού στον αυχένα. Το αν επηρεάζει το ΕΝΥ είναι ισχυρισμός της πραγματείας και όχι εύρημα.'},
+{id:'cer',y:yy(3),lab:'Αυχενικοί',t:'Αυχενικοί: Επτά Φωνήεντα',
+ c:'Επτά φωνήεντα, επτά αυχενικοί σπόνδυλοι. Δύναμη και φως μπαίνουν στο καλάμι από πάνω. Η μέτρηση είναι ακριβής.',
+ r:'Επτά αυχενικούς σπονδύλους έχουν σχεδόν όλα τα θηλαστικά. Τα ελληνικά έχουν επτά φωνήεντα: α ε η ι ο υ ω. Η αντιστοίχισή τους είναι ανάγνωση του Κώδικα.'},
+{id:'tho',y:yy(13),lab:'Θωρακικοί',t:'Θωρακικοί: Η Σκαλωσιά',
+ c:'Οι δώδεκα θωρακικοί σπόνδυλοι φέρουν τα πλευρά, το περίβλημα της καρδιάς και των πνευμόνων, όπου αναπνοή και παλμός συναντιούνται για πρώτη φορά.',
+ r:'Δώδεκα θωρακικοί σπόνδυλοι, ο καθένας με ζεύγος πλευρών. Η καρδιά και οι πνεύμονες βρίσκονται στον θώρακα, άρα η τοποθέτηση της αναπνοής και του παλμού είναι ανατομικά σωστή.'},
+{id:'lum',y:yy(20),lab:'Οσφυϊκοί',t:'Οσφυϊκή Διεύρυνση',
+ c:'Όπου οι δίφθογγοι σημαδεύουν τα σημεία καμπής δύναμης και δομής, ο μυελός διογκώνεται ξανά για να τροφοδοτήσει τα πόδια.',
+ r:'Η οσφυϊκή διόγκωση του μυελού, περίπου στο επίπεδο T9 με T12 των σπονδύλων, νευρώνει τα πόδια. Βρίσκεται ψηλότερα από τους οσφυϊκούς σπονδύλους.'},
+{id:'con',y:yy(21)+10,lab:'Τέλος μυελού',t:'Νωτιαίο Κωνίο',
+ c:'Ο μυελός στενεύει σε κώνο και λεπταίνει σε ξερή κλωστή: το καλάμι κλείνει.',
+ r:'Ο μυελός τελειώνει περίπου στο L1 με L2 στους ενήλικες. Από κάτω τρέχει η ιππουρίδα, μια δέσμη νευρικών ριζών, και το τελικό νημάτιο, μια ινώδης κλωστή.'},
+{id:'coc',y:yy(23)+22,lab:'Κόκκυγα',t:'Κόκκυγα και Τελικό Σίγμα',
+ c:'Η κλωστή αγκυροβολεί σε πέτρα, το συνενωμένο οστό της κόκκυγας. Το τελικό σίγμα ς εμφανίζεται μόνο στο τέλος της λέξης.',
+ r:'Η κόκκυγα είναι τρεις έως πέντε συνενωμένοι σπόνδυλοι. Το τελικό σίγμα έχει την ίδια τιμή με το συνηθισμένο σίγμα, 200.'}
+];
+
+const btns=[];
+S.forEach((s,i)=>{const g=el('g',{class:'st',tabindex:0,role:'button','aria-label':s.t});el('circle',{cx:x+70,cy:s.y,r:7},g);const t=el('text',{x:x+84,y:s.y},g);t.textContent=s.lab;g.addEventListener('click',()=>show(i));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i);}});btns.push(g);});
+function show(i){const s=S[i];btns.forEach((b,k)=>b.classList.toggle('on',k===i));
+ vs.forEach((v,k)=>v.classList.toggle('on',(i===1&&k<7)||(i===2&&k>=7&&k<19)||(i===3&&k>=19&&k<21)||(i===4&&k===21)||(i===5&&k===23)));
+ panel.innerHTML=`<h3>${s.t}</h3><p><b style="color:var(--gold);font-weight:400">Ο Κώδικας.</b> ${s.c}</p><p class="rec"><b style="color:var(--cyan);font-weight:400">Η Καταγραφή.</b> ${s.r}</p><button type="button" data-d="-1">&#9664; Πάνω</button><button type="button" data-d="1">Κάτω &#9654;</button>`;
+ panel.querySelectorAll('button').forEach(b=>b.onclick=()=>show((i+ +b.dataset.d+S.length)%S.length));}
+vs.forEach((v,k)=>v.addEventListener('click',()=>show(k<7?1:k<19?2:k<21?3:k===21?4:k===23?5:k<24?3:5)));
+svg.setAttribute('viewBox','0 0 330 '+(top+24*(h+gap)+30));
+show(0);
+})();
+</script>
+<script src="refs.js"></script>
+</body>
+</html>
