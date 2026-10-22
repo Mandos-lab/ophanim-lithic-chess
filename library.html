@@ -43,6 +43,7 @@ textarea{min-height:200px;white-space:pre}
   <div class="row" style="margin:0">
     <a href="index.html"><button>← Field Console</button></a>
     <a href="calendar-codex.html"><button>Calendar scroll</button></a>
+    <a href="reed-codex.html"><button>Reed scroll</button></a>
     <a href="jewellery.html"><button>Jewellery</button></a>
     <button id="zOut">A−</button><button id="zIn">A+</button>
     <button id="btnEdit" class="amber">✎ Edit list</button>
@@ -72,6 +73,8 @@ const DEF=`audio | SomaFM — Drone Zone (live stream) | https://ice1.somafm.com
 audio | How a Typo Broke Viking Chess | audio/tafl-typo-talk.mp3 | A talk for the Tafl page, about 22 minutes. | public
 audio | Why Reality Needs Hidden Flaws | audio/ur-hidden-flaws-talk.mp3 | A talk for the Royal Game of Ur page, about 26 minutes. | public
 audio | Why Imperfect Math Keeps Reality Alive | audio/chess-imperfect-math-talk.mp3 | A talk for the Sacred Geometry of Chess page. | public
+audio | The Greek Alphabet Maps the Human Spine | audio/reed-english-talk.mp3 | An English talk for The Reed and the Code page, about 24 minutes. | public
+audio | Ο κώδικας του καλάμου στη σπονδυλική στήλη | audio/reed-greek-talk.mp3 | A Greek talk for The Reed and the Code page, about 18 minutes. | public
 audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public`;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
