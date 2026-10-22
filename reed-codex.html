@@ -308,6 +308,26 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 .goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
 .goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
 details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -322,14 +342,14 @@ details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8p
 <main>
 <section id="hero" data-label="Prologue">
   <div class="wrap" style="text-align:center">
-    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Phonetic Archaeology</div>
-    <h1>The Reed and the Code<br><em>&amp; the Spine</em></h1>
-    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">Myth, breath and posture: how a hollow reed, a necklace of bone and a mistranslated sea can be read as the body.</p>
+    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Synkresis V3.0 &middot; Phonetic Archaeology</div>
+    <h1>The Reed and the Code<br><em>&amp; the Living Sanctuary</em></h1>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">A treatise by Mandos16: a hollow reed, a necklace of bone, a mistranslated sea and the Greek alphabet, read as the human spine.</p>
     <div class="legend" style="justify-content:center">
-      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">The Codex</b>&nbsp;&middot; your reading</span>
-      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">The Record</b>&nbsp;&middot; what sources say</span>
+      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">The Codex</b>&nbsp;&middot; the treatise</span>
+      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">The Record</b>&nbsp;&middot; what sources and anatomy say</span>
     </div>
-    <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">Each chapter keeps the reading in gold. Beside it, in cyan, is what the ancient sources and modern anatomy and linguistics say. Where they differ, you can see exactly how.</p>
+    <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">Each chapter keeps the treatise intact in gold. Beside it, in cyan, is a check against the ancient texts, anatomy and linguistics, including the arithmetic. Where they differ, you can see exactly how.</p>
     <div class="scrollcue" style="margin-top:40px">SCROLL &#9662;</div>
   </div>
 </section>
@@ -346,7 +366,7 @@ details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8p
     </div>
     <div class="reveal" style="margin-top:46px">
       <div class="kicker">Listen &middot; in Greek &middot; 18 minutes</div>
-      <h2 lang="el">&Omicron; &kappa;&#974;&delta;&iota;&kappa;&alpha;&sigmaf; &tau;&omicron;&upsilon; &kappa;&alpha;&lambda;&#940;&mu;&omicron;&upsilon; &sigma;&tau;&eta; &sigma;&pi;&omicron;&nu;&delta;&upsilon;&lambda;&iota;&kappa;&#942; &sigma;&tau;&#942;&lambda;&eta;</h2>
+      <h2 lang="el">Ο κώδικας του καλάμου στη σπονδυλική στήλη</h2>
       <div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin-top:14px">
         <audio controls preload="none" src="audio/reed-greek-talk.mp3" style="width:100%;color-scheme:dark">Your browser cannot play audio.</audio>
         <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">A recorded talk in Greek. It loads only when you press play.</p>
@@ -364,15 +384,18 @@ details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8p
     </div>
     <div class="layers reveal">
       <div class="codex">
-        <p><b>The body decode.</b> Kalamos is the hollow stalk of the spine and its central canal. A reed sways in the wind and hums when air passes through it. The spine acts as a hollow conduit for breath and for the fluid oscillations of quiet breathing.</p>
+        <p><b>The body decode.</b> Kalamos is the hollow stalk of the spine and its central canal. A reed sways in the wind and hums when air passes through it. The spine acts as a hollow conduit for the fluid oscillations of breath and heartbeat.</p>
+        <p>The rustle of the reed was heard as a lament. The myth binds a physical reed to voice, breath, fluid and resonance.</p>
         <details lang="el"><summary>&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</summary><p>&Omicron; &Kappa;&#940;&lambda;&alpha;&mu;&omicron;&sigmaf; &alpha;&nu;&tau;&iota;&pi;&rho;&omicron;&sigma;&omega;&pi;&epsilon;&#973;&epsilon;&iota; &tau;&omicron;&nu; &kappa;&omicron;&#943;&lambda;&omicron; &#940;&xi;&omicron;&nu;&alpha; &tau;&eta;&sigmaf; &sigma;&pi;&omicron;&nu;&delta;&upsilon;&lambda;&iota;&kappa;&#942;&sigmaf; &sigma;&tau;&#942;&lambda;&eta;&sigmaf;. &Omicron;&pi;&omega;&sigmaf; &omicron; &kappa;&#940;&lambda;&alpha;&mu;&omicron;&sigmaf; &pi;&alpha;&rho;&#940;&gamma;&epsilon;&iota; &#951;&chi;&omicron; &mu;&epsilon; &tau;&omicron;&nu; &#940;&nu;&epsilon;&mu;&omicron;, &#941;&tau;&sigma;&iota; &kappa;&alpha;&iota; &#951; &sigma;&pi;&omicron;&nu;&delta;&upsilon;&lambda;&iota;&kappa;&#942; &sigma;&tau;&#942;&lambda;&eta; &lambda;&epsilon;&iota;&tau;&omicron;&upsilon;&rho;&gamma;&#949;&#943; &omega;&sigmaf; &kappa;&omicron;&#943;&lambda;&omicron;&sigmaf; &alpha;&gamma;&omega;&gamma;&#972;&sigmaf; &gamma;&iota;&alpha; &tau;&eta;&nu; &alpha;&nu;&alpha;&pi;&nu;&omicron;&#942; &kappa;&alpha;&iota; &tau;&eta; &rho;&omicron;&#942; &tau;&omicron;&upsilon; &sigma;&#974;&mu;&alpha;&tau;&omicron;&sigmaf;.</p></details>
       </div>
       <div class="record">
-        <p><b>The source.</b> The story is told by Nonnus in his <i>Dionysiaca</i> (book 11, 5th century CE). In his telling Karpos becomes the fruit and Kalamos the reed. <i>Kalamos</i> is the ordinary Greek word for a reed.</p>
-        <p><b>The anatomy.</b> The spinal canal is hollow and contains the spinal cord, surrounded by cerebrospinal fluid. That fluid really does pulse with each heartbeat and with each breath. Air, however, does not travel in the canal; it moves through the windpipe and lungs.</p>
+        <p><b>The source.</b> The story is told by Nonnus in his <i>Dionysiaca</i> (book 11, 5th century CE). Kalamos is a son of the river god Maiandros, and in the telling Karpos becomes the fruit and Kalamos the reed.</p>
+        <p><b>The word.</b> <i>Kalamos</i> descends from a Proto-Indo-European root for &ldquo;reed, straw&rdquo;, which also gave Latin <i>culmus</i> and Old English <i>healm</i>. Arabic <i>qalam</i>, &ldquo;pen&rdquo;, is a different case: it was borrowed from Greek, so it is a relative by loan, not a branch of the same root.</p>
+        <p><b>The anatomy.</b> The spinal canal is hollow and contains the spinal cord, surrounded by cerebrospinal fluid (CSF). That fluid pulses with each heartbeat and each breath. Air itself does not travel in the canal.</p>
       </div>
     </div>
     <div class="hud compact reveal" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="“Reed”"></div>
+    <figure class="fig reveal"><img src="img/reed-s2.jpg" alt="Slide: the origin of the hollow stalk, with a figure kneeling in a river among reeds" loading="lazy"><figcaption>Concept slide from the deck.</figcaption></figure>
   </div>
 </section>
 
@@ -380,39 +403,95 @@ details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8p
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">II &middot; The Wave in the Canal</div>
-      <h2>How the Spinal Fluid <em>Descends</em></h2>
-      <p>A short animation, 83 seconds long. It follows the hollow pathway from beneath the brain down through the thoracic and lumbar cord to its tapered end, the conus medullaris, and the fibrous thread below it, the filum terminale.</p>
+      <h2>The Reed Makes <em>Its Own Wind</em></h2>
+      <p>A garden reed sways only when the wind moves it. In the treatise the human reed generates its own wind, and the fluid in it moves in a wave.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>The node.</b> At the top of the stalk, the medulla oblongata, the central canal opens into the fourth ventricle. In the ventrolateral medulla sits the pre-B&ouml;tzinger complex, the pacemaker of breathing. The &ldquo;wind&rdquo; is born here.</p>
+        <p><b>The wave.</b> CSF does not sit still. With each heartbeat it is pressed downward, and it rebounds as the pressure falls, and breathing modulates it. The result is a standing wave in a hollow tube.</p>
+        <p><b>The neural tube, a fossil.</b> In weeks 3 to 4 of gestation the neural plate folds shut into a hollow tube. The central canal is a miniature preservation of it.</p>
+      </div>
+      <div class="record">
+        <p><b>Agrees.</b> The pre-B&ouml;tzinger complex is a real rhythm-generating cluster for breathing. CSF does pulse with the heartbeat, flowing downward through the neck as the brain swells in systole. The neural tube does close in weeks 3 to 4, and the central canal is its remnant.</p>
+        <p><b>Differs.</b> (1) Resting breathing at 12 to 20 breaths a minute is 0.2 to 0.33 Hz, not the 0.1 to 0.2 Hz written in the deck. (2) As far as I know, real-time MRI studies find that <i>inspiration</i> moves CSF toward the head, the opposite of the files, which say downward. Please check this one. (3) The central canal is largely closed in many adults, so the pulsing wave travels in the surrounding subarachnoid space; one of your files has this right and another does not. (4) The 78 mm/s peak speed is quoted in your files; I could not check it, and speeds vary by person and level.</p>
+      </div>
     </div>
     <figure class="reveal" style="margin:26px auto 0;max-width:380px">
       <video controls preload="none" playsinline poster="img/spine-poster.jpg" src="audio/spinal-fluid-wave.mp4" style="display:block;width:100%;height:auto;max-height:82vh;border:1px solid var(--line-g);background:#000">Your browser cannot play this video.</video>
-      <figcaption class="dim" style="margin-top:10px;font-size:15px">Animation made in Gemini Notebook, with English captions. It loads only when you press play.</figcaption>
+      <figcaption class="dim" style="margin-top:10px;font-size:15px">How the Spinal Fluid Wave Descends: an 83-second animation made in Gemini Notebook, with English captions. It loads only when you press play.</figcaption>
     </figure>
+  </div>
+</section>
+
+<section id="unsealed" data-label="Unsealed">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">III &middot; The Code Unsealed</div>
+      <h2>From <em>Kadmos</em> to <em>Kalamos</em></h2>
+      <p>The two words share the same frame and differ in one place. ΚΑΔΜΟΣ has a closed triangle, Δ, as its third letter. ΚΑΛΑΜΟΣ opens that triangle into two letters, Λ and Α.</p>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start">
+      <div class="hud compact" data-gk="Κάδμος" data-tr="Kadmos" data-mn="“Cadmus”"></div>
+      <div class="hud compact" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="“Reed”"></div>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Phonetic liquefaction.</b> Delta is a closed container: static, architectural force. Opened into the peak of Lambda and the primary force of Alpha, it becomes the fluid, swaying reed. Cadmus, the solid frame of the alphabet, liquefies into Kalamos.</p>
+        <p><b>The delta.</b> 362 &minus; 335 = 27. Δ is 4 and Λ + Α is 31, so the swap adds 27, the number of letters in the archaic Greek alphabet, flowing as a wave through the 31 spinal segments.</p>
+      </div>
+      <div class="record">
+        <p><b>Arithmetic checks out.</b> ΚΑΔΜΟΣ = 335, ΚΑΛΑΜΟΣ = 362, difference 27, and Λ + Α &minus; Δ = 31 &minus; 4 = 27. The 31 spinal segments are real, one for each of 31 pairs of spinal nerves.</p>
+        <p><b>Worth testing.</b> The classical alphabet has 24 letters; 27 counts the three archaic number-letters. One matching difference cannot tell design from chance, so a fair test is to see how many other word pairs in the Greek lexicon differ by 27.</p>
+      </div>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-s15.jpg" alt="Slide: the words KADMOS and KALAMOS stacked, with the triangle of delta opening into lambda and alpha" loading="lazy"><figcaption>Concept slide: the triangle opens.</figcaption></figure>
+    <div class="reveal" style="margin-top:46px">
+      <div class="kicker">The 1729 line</div>
+      <h3 style="font-family:var(--title);font-weight:500;font-size:28px;color:var(--ink)">Revelation 11:1, <em style="color:var(--gold)">a reed like a rod</em></h3>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p>In Revelation 11:1 John is given a measuring reed: <i>kalamos homoios rhabd&#333;</i>, &ldquo;a reed like a rod&rdquo;. The treatise counts the phrase as 1729 and says that, by the rule of <i>colel</i>, it equals <i>s&#333;ma tou I&#275;sou</i>, &ldquo;the body of Jesus&rdquo;. The measuring reed is then the human body acting as a baseline.</p>
+      </div>
+      <div class="record">
+        <p><b>The first half holds.</b> κάλαμος 362 + ὅμοιος 460 + ῥάβδῳ 907 = <b>1729</b>. The total is right. The parts quoted in the files, 390 and 977, are not the values of the words, though they happen to sum to the same 1367.</p>
+        <p><b>The second half holds too, without the article.</b> σῶμα 1041 + Ἰησοῦ 688 = <b>1729</b>, in plain Milesian isopsephy with no special rule. Add the article, <i>τὸ σῶμα τοῦ Ἰησοῦ</i> as the New Testament usually writes it, and the total changes (σῶμα τοῦ Ἰησοῦ is 2499). So the match is exact for the bare phrase <i>σῶμα Ἰησοῦ</i>. The treatise should state that form, because a reader who tries the usual wording will not get 1729.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="necklace" data-label="The Necklace">
   <div class="wrap">
     <div class="reveal">
-      <div class="kicker">III &middot; The Chain of Bone</div>
+      <div class="kicker">IV &middot; The Chain of Bone</div>
       <h2>Cadmus, Harmonia <em>&amp; the Necklace</em></h2>
-      <p>Cadmus, founder of Thebes, married Harmonia, daughter of Ares and Aphrodite. At the wedding Hephaestus gave her a radiant necklace. It carried a curse of tension down the generations, until Cadmus and Harmonia were themselves changed into serpents.</p>
+      <p>Cadmus, founder of Thebes, killed the dragon of Ares and sowed its teeth, and armed men, the Spartoi, rose from the ground. He married Harmonia, daughter of Ares and Aphrodite. At the wedding Hephaestus gave her a radiant necklace that carried a curse down the generations, until Cadmus and Harmonia were changed into serpents.</p>
     </div>
     <div class="layers reveal">
       <div class="codex">
-        <p><b>Cadmus</b> is rigid structure: bone, and the solid vertebral column.</p>
-        <p><b>Harmonia</b> is structural balance: the equilibrium and fluid flow that hold the body together.</p>
-        <p><b>The necklace</b> is the central spinal channel and the neural chain running from the neck down the back.</p>
-        <p><b>The serpents</b> are the wave-like movement of the spine when rigid tension gives way to breath.</p>
+        <p><b>Cadmus</b> is rigid structure: bone, and the solid vertebral column. He brings the discrete letters, the building blocks poured into the living reed.</p>
+        <p><b>Harmonia</b> (&ldquo;fitting together&rdquo;) is structural balance: the natural curves and equilibrium that hold the body together.</p>
+        <p><b>The necklace</b> is the central canal running through the aligned vertebrae. <b>The curse</b> is its slow closing: with age the canal fills with cell debris and seals.</p>
+        <p><b>The serpents</b> are the last form of the reed: as the cord ends it tapers to a cone and a dry fibrous thread, anchored in the fused stone of the coccyx.</p>
+        <p><b>The older story.</b> In an older tradition Cadmus was keeper of the First Temple of Knowledge in ancient Armenia, the land of the writing god Tir, and carried a sacred script westward.</p>
         <details lang="el"><summary>&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</summary><p>&Omicron; &Kappa;&#940;&delta;&mu;&omicron;&sigmaf; &alpha;&nu;&tau;&iota;&pi;&rho;&omicron;&sigma;&omega;&pi;&epsilon;&#973;&epsilon;&iota; &tau;&eta; &sigma;&upsilon;&mu;&pi;&alpha;&gamma;&#942; &delta;&omicron;&mu;&#942;, &tau;&alpha; &omicron;&sigma;&tau;&#940; &kappa;&alpha;&iota; &tau;&eta; &sigma;&pi;&omicron;&nu;&delta;&upsilon;&lambda;&iota;&kappa;&#942; &sigma;&tau;&#942;&lambda;&eta;. &Eta; &Alpha;&rho;&mu;&omicron;&nu;&#943;&alpha; &tau;&eta; &phi;&upsilon;&sigma;&iota;&kappa;&#942; &iota;&sigma;&omicron;&rho;&rho;&omicron;&pi;&#943;&alpha; &kappa;&alpha;&iota; &tau;&eta; &rho;&omicron;&#942; &pi;&omicron;&upsilon; &kappa;&rho;&alpha;&tau;&#940; &tau;&omicron; &sigma;&#974;&mu;&alpha; &sigma;&epsilon; &epsilon;&upsilon;&theta;&upsilon;&gamma;&#942;&mu;&mu;&iota;&sigma;&eta;. &Tau;&omicron; &Pi;&epsilon;&rho;&iota;&delta;&#941;&rho;&alpha;&iota;&omicron; &sigma;&upsilon;&mu;&beta;&omicron;&lambda;&#943;&zeta;&epsilon;&iota; &tau;&omicron; &nu;&omega;&tau;&iota;&alpha;&#943;&omicron; &kappa;&alpha;&nu;&#940;&lambda;&iota; &kappa;&alpha;&iota; &tau;&omicron;&nu; &nu;&epsilon;&upsilon;&rho;&iota;&kappa;&#972; &#940;&xi;&omicron;&nu;&alpha;.</p></details>
       </div>
       <div class="record">
-        <p><b>The myth.</b> Harmonia is the daughter of Ares and Aphrodite, and the necklace is made by Hephaestus. Its curse falls on the royal house of Thebes. Ovid tells how Cadmus and Harmonia became serpents in Illyria.</p>
-        <p><b>The letters.</b> Greek tradition, from Herodotus, also credits Cadmus with bringing the alphabet to Greece, and calls the early letters <i>Kadmeia grammata</i>, &ldquo;Cadmean letters&rdquo;. That is the thread that links this chapter to the Cadmeian Code.</p>
+        <p><b>The myth.</b> Harmonia is the daughter of Ares and Aphrodite, and the necklace is made by Hephaestus; in some tellings he curses it out of anger at Aphrodite. Its curse falls on the royal house of Thebes. Ovid tells how Cadmus and Harmonia became serpents in Illyria. Five Spartoi survive the fight among the sown men.</p>
+        <p><b>The letters.</b> Herodotus says Cadmus brought sixteen letters, the <i>Kadmeia grammata</i>. In Greek sources Cadmus comes from Phoenicia, from Tyre or Sidon. The Armenian temple and the link to Tir are not in the classical sources; they belong to the Codex.</p>
+        <p><b>The anatomy.</b> The conus medullaris ends at about L1 to L2, and the filum terminale is a fibrous thread that anchors to the coccyx, which is usually four fused vertebrae, three to five in all. The central canal does narrow, and is often closed, in adults.</p>
       </div>
     </div>
     <div class="grid2 reveal" style="gap:20px;align-items:start">
-      <div class="hud compact" data-gk="Κάδμος" data-tr="Kadmos" data-mn="“Cadmus”"></div>
       <div class="hud compact" data-gk="Αρμονία" data-tr="Harmonia" data-mn="“Harmony”"></div>
+      <div class="hud compact" data-gk="Σπονδυλος" data-tr="Spondylos" data-mn="“Vertebra”"></div>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-s5.jpg" alt="Slide: Cadmus the Phoenician plants the code, with a dragon and glowing letters rising from the sown teeth" loading="lazy"><figcaption>Concept slide: the sowing.</figcaption></figure>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-s6.jpg" alt="Slide: the curse of the central canal, with a glowing golden necklace along the spine" loading="lazy"><figcaption>Concept slide: the necklace.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-s7.jpg" alt="Slide: the sealing of the dry pith, with two serpents coiled along the end of the spine" loading="lazy"><figcaption>Concept slide: the sealing.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -420,44 +499,148 @@ details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8p
 <section id="suph" data-label="Yam Suph">
   <div class="wrap">
     <div class="reveal">
-      <div class="kicker">IV &middot; The Sea of Reeds</div>
+      <div class="kicker">V &middot; The Sea of Reeds</div>
       <h2>Yam Suph <em>&amp; the Red Sea</em></h2>
-      <p>The Hebrew phrase <i>Yam Suph</i> (<span lang="he" dir="rtl">&#1497;&#1501; &#1505;&#1493;&#1507;</span>) is the sea the Israelites cross in Exodus. Greek translators in Alexandria rendered it <i>Erythra Thalassa</i>, the &ldquo;Red Sea&rdquo;, and the English Bible followed them.</p>
+      <p>The Hebrew phrase <i>Yam Suph</i> (<span lang="he" dir="rtl">ים סוף</span>) is the sea the Israelites cross in Exodus. Greek translators in Alexandria rendered it <i>Erythra Thalassa</i>, the &ldquo;Red Sea&rdquo;, and later translations followed.</p>
     </div>
     <div class="layers reveal">
       <div class="codex">
-        <p><b>The reading.</b> This is a 2,300-year translation error. <i>Suph</i> points to papyrus reeds and marsh plants, so the original text describes crossing a marshy Sea of Reeds.</p>
-        <p><b>The body link.</b> The Sea of Reeds is also a metaphor for the internal reed, the spine, and the fluid wave that passes through the body in deep stillness.</p>
+        <p><b>The reading.</b> This is a 2,300-year translation overlay. <i>Suph</i> is an Egyptian loanword for papyrus reeds and marsh plants, so the text describes crossing a marshy Sea of Reeds. It parallels the way <i>Phoinikeia grammata</i> was renamed &ldquo;Phoenician letters&rdquo;.</p>
+        <p><b>Moses as the one who draws out.</b> <i>Mosh&eacute;</i> comes from the root <i>m-sh-h</i>, &ldquo;to draw out&rdquo;. He is drawn from the reeds of the Nile as a baby, and he draws his people through the Sea of Reeds. Inside, he is the intent that draws attention and fluid up the hollow reed.</p>
+        <p><b>The body link.</b> The Sea of Reeds is the internal reed, the spine, and the fluid wave in deep stillness.</p>
         <details lang="el"><summary>&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</summary><p>&Kappa;&alpha;&tau;&#940; &tau;&omicron;&nu; 3&omicron; &alpha;&iota;&#974;&nu;&alpha; &pi;.&Chi;., &omicron;&iota; &mu;&epsilon;&tau;&alpha;&phi;&rho;&alpha;&sigma;&tau;&#941;&sigmaf; &tau;&eta;&sigmaf; &Mu;&epsilon;&tau;&#940;&phi;&rho;&alpha;&sigma;&eta;&sigmaf; &tau;&omega;&nu; &Epsilon;&beta;&delta;&omicron;&mu;&#942;&kappa;&omicron;&nu;&tau;&alpha; &alpha;&pi;&#941;&delta;&omega;&sigma;&alpha;&nu; &tau;&eta;&nu; &epsilon;&beta;&rho;&alpha;&#970;&kappa;&#942; &phi;&rho;&#940;&sigma;&eta; <i>Yam Suph</i> &omega;&sigmaf; &laquo;&Epsilon;&rho;&upsilon;&theta;&rho;&#940; &Theta;&#940;&lambda;&alpha;&sigma;&sigma;&alpha;&raquo;. &Eta; &lambda;&#941;&xi;&eta; <i>Suph</i> &epsilon;&#943;&nu;&alpha;&iota; &alpha;&iota;&gamma;&upsilon;&pi;&tau;&iota;&alpha;&kappa;&#972;&sigmaf; &delta;&alpha;&nu;&epsilon;&iota;&sigma;&mu;&#972;&sigmaf; &pi;&omicron;&upsilon; &sigma;&eta;&mu;&alpha;&#943;&nu;&epsilon;&iota; &laquo;&pi;&#940;&pi;&upsilon;&rho;&omicron;&sigmaf;&raquo; &kappa;&alpha;&iota; &laquo;&kappa;&#940;&lambda;&alpha;&mu;&omicron;&iota; &epsilon;&lambda;&#974;&nu;&raquo;.</p></details>
       </div>
       <div class="record">
-        <p><b>Where it agrees.</b> The Septuagint, the Greek translation of the Torah made in Alexandria in the 3rd century BCE, does say <i>Erythra Thalassa</i>. And Hebrew <i>suph</i> does mean reeds or rushes: in Exodus 2 the baby Moses is put among the <i>suph</i> at the river&rsquo;s edge. An Egyptian origin for the word, from <i>twf</i>, &ldquo;papyrus&rdquo;, has been proposed.</p>
-        <p><b>Where it differs.</b> <i>Yam Suph</i> is also the name of real salt water: 1 Kings 9:26 places Ezion-geber on its shore, at the head of the Gulf of Aqaba. So the name covers more than one water, and the translators may have been naming a real sea, not simply misreading a word. The question of which water the crossing was is still debated.</p>
+        <p><b>Agrees.</b> The Septuagint, made in Alexandria in the 3rd century BCE, does say <i>Erythra Thalassa</i>, and the Latin and English Bibles kept it. Hebrew <i>suph</i> does mean reeds or rushes: in Exodus 2 the baby is put among the <i>suph</i> at the river&rsquo;s edge. Exodus 2:10 itself explains the name Moses as &ldquo;drawn out&rdquo;. An Egyptian source for <i>suph</i>, from <i>twf</i>, &ldquo;papyrus&rdquo;, has been proposed, and the Egyptologist James Hoffmeier argues for a reed-marsh reading in <i>Israel in Egypt</i>.</p>
+        <p><b>Differs.</b> <i>Yam Suph</i> also names real salt water: 1 Kings 9:26 puts Ezion-geber on its shore, on the Gulf of Aqaba. The translators may have been naming a real sea, not just misreading a word, and which water the crossing was is still debated. Many scholars also note that the name Moses resembles the Egyptian word <i>mose</i>, &ldquo;born of&rdquo;, as in Thutmose.</p>
+      </div>
+    </div>
+    <div class="tw reveal"><table class="audit">
+      <thead><tr><th>Era</th><th>Language</th><th>Term</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Original text</td><td>Hebrew</td><td lang="he" dir="rtl">ים סוף</td><td>&ldquo;Sea of Reeds&rdquo;</td></tr>
+        <tr><td>3rd century BCE</td><td>Greek (Septuagint)</td><td lang="grc">Ἐρυθρὰ Θάλασσα</td><td>&ldquo;Red Sea&rdquo;</td></tr>
+        <tr><td>4th to 5th century CE</td><td>Latin (Vulgate)</td><td><i>Mare Rubrum</i></td><td>&ldquo;Red Sea&rdquo;</td></tr>
+        <tr><td>1611</td><td>English (King James)</td><td>Red Sea</td><td>fixed in English</td></tr>
+      </tbody></table></div>
+    <figure class="fig reveal"><img src="img/reed-s13.jpg" alt="Slide: the physical fact of the landscape, a reed marsh beside a papyrus basket" loading="lazy"><figcaption>Concept slide: the deck&rsquo;s reading of the landscape.</figcaption></figure>
+  </div>
+</section>
+
+<section id="pineal" data-label="Milk &amp; Honey">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VI &middot; The Biological Exodus</div>
+      <h2>The Medullary Node <em>&amp; the Land of Milk and Honey</em></h2>
+      <p>The treatise follows the Exodus up the reed to its top, to the point on the nape of the neck called GV-16, <i>Fengfu</i>, &ldquo;Wind Mansion&rdquo;.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>The threshold.</b> The medulla oblongata, where the spinal reed widens into the brainstem, lies behind the acupuncture point GV-16 at the cisterna magna. When breath slows in meditation, heartbeat and breath couple into one large wave there, and the fourth ventricle opens.</p>
+        <p><b>The milk.</b> The white, nourishing cerebrospinal fluid.</p>
+        <p><b>The honey.</b> In deep stillness, with the senses withdrawn, the pineal gland releases its golden secretions into the ventricles: melatonin, pinoline and DMT derivatives. This floods the cisterna magna and descends the 31 spinal segments, an inner ocean.</p>
+        <p><b>The arc.</b> <i>Namu</i>, the unmanifest womb (M); <i>Inana</i>, the kinetic ego; <i>Gestinana</i>, satiated resolution, decoded as GE-SH-D: Ground (Γ = 3), Silence (SH) and Limit (Δ = 4).</p>
+      </div>
+      <div class="record">
+        <p><b>Agrees.</b> GV-16 sits in the hollow below the skull at the nape, close to the foramen magnum and the cisterna magna. The pineal gland does secrete melatonin, which reaches the CSF of the third ventricle, and secretion rises in darkness. There are 31 pairs of spinal nerves. &ldquo;Land of milk and honey&rdquo; is the Bible&rsquo;s phrase for the promised land. Namu, Inana and Geshtinanna are Sumerian goddesses.</p>
+        <p><b>Differs.</b> (1) CSF is made mainly by the choroid plexus in the ventricles, not by the pituitary. (2) Pinoline is found in the pineal gland, and DMT has been measured in rat pineal tissue, but I know of no evidence that meditation makes the pineal release DMT into the CSF of a person. This is the least supported claim in the chapter. (3) Closing the eyes does not switch the pineal gland to its full night-time secretion. (4) The file that says the subarachnoid space &ldquo;preserves&rdquo; the neural tube is mixed up: the remnant of the tube is the central canal.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="alphabet" data-label="The Alphabet">
+<section id="spine" data-label="The Spine">
   <div class="wrap">
     <div class="reveal">
-      <div class="kicker">V &middot; Letters and the Body</div>
-      <h2>Learning Greek <em>Through the Body</em></h2>
-      <p>The last chapter maps the Greek letters onto breath and the spine, as a way for a learner to feel the language, not only memorise it.</p>
+      <div class="kicker">VII &middot; The Letters Descend</div>
+      <h2>The Alphabet <em>Down the Spine</em></h2>
+      <p>In the Ellin Logos system of Theologos Simaioforos, letters are acts, and they fall into two camps. Seven vowels carry force and light. Seventeen consonants give structure. Choose a station on the spine.</p>
     </div>
-    <div class="layers reveal">
+    <div class="spinewrap reveal">
+      <svg id="spsvg" viewBox="0 0 330 800" role="img" aria-label="The spine drawn as 24 vertebrae, each carrying a Greek letter, with the cord and filum terminale"></svg>
+      <div class="sppanel" id="sppanel" aria-live="polite"></div>
+    </div>
+    <div class="layers reveal" style="margin-top:30px">
       <div class="codex">
-        <p><b>Vowels from the neck.</b> Soft vowels flow without stopping the breath, starting at the top of the throat and neck.</p>
-        <p><b>Consonants down the back.</b> Consonants make structural stops: teeth, tongue and lip contacts. They give speech its shape as vertebrae give the torso its structure.</p>
-        <p><b>The final sigma (&sigmaf;).</b> It is the resting baseline at the base of the spine, where movement settles into balance.</p>
+        <p><b>The count.</b> 7 vowels + 17 consonants = 24 letters. The ordering inside each group below is one natural choice: the sources give only the 7 + 17 split.</p>
+        <p><b>Diphthongs</b> mark the inflection points where force (vowel) merges with structure (consonant), as at the enlargements. <b>The final sigma</b> ς appears only at the end of a word, as the coccyx is the end of the reed.</p>
         <details lang="el"><summary>&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</summary><p>&Tau;&alpha; &phi;&omega;&nu;&#942;&epsilon;&nu;&tau;&alpha; &rho;&#941;&omicron;&upsilon;&nu; &epsilon;&lambda;&#941;&upsilon;&theta;&epsilon;&rho;&alpha; &mu;&epsilon; &tau;&eta;&nu; &alpha;&nu;&alpha;&pi;&nu;&omicron;&#942;, &xi;&epsilon;&kappa;&iota;&nu;&#974;&nu;&tau;&alpha;&sigmaf; &alpha;&pi;&#972; &tau;&omicron; &pi;&#940;&nu;&omega; &mu;&#941;&rho;&omicron;&sigmaf; &tau;&omicron;&upsilon; &lambda;&alpha;&iota;&mu;&omicron;&#973;. &Tau;&alpha; &sigma;&#973;&mu;&phi;&omega;&nu;&alpha; &delta;&eta;&mu;&iota;&omicron;&upsilon;&rho;&gamma;&omicron;&#973;&nu; &delta;&omicron;&mu;&iota;&kappa;&#940; &sigma;&eta;&mu;&epsilon;&#943;&alpha; &epsilon;&pi;&alpha;&phi;&#942;&sigmaf; (&gamma;&lambda;&#974;&sigma;&sigma;&alpha;, &delta;&#972;&nu;&tau;&iota;&alpha;, &chi;&#949;&#943;&lambda;&eta;). &Tau;&omicron; &tau;&epsilon;&lambda;&iota;&kappa;&#972; &sigma;&#943;&gamma;&mu;&alpha; (&sigmaf;) &alpha;&nu;&tau;&iota;&pi;&rho;&omicron;&sigma;&omega;&pi;&epsilon;&#973;&epsilon;&iota; &tau;&omicron; &sigma;&eta;&mu;&epsilon;&#943;&omicron; &eta;&rho;&epsilon;&mu;&#943;&alpha;&sigmaf; &sigma;&tau;&eta; &beta;&#940;&sigma;&eta; &tau;&eta;&sigmaf; &sigma;&pi;&omicron;&nu;&delta;&upsilon;&lambda;&iota;&kappa;&#942;&sigmaf; &sigma;&tau;&#942;&lambda;&eta;&sigmaf;.</p></details>
       </div>
       <div class="record">
-        <p><b>Where it agrees.</b> In phonetics, vowels are made with the vocal tract open, so the breath flows freely, and consonants are made by closing or narrowing it at the lips, teeth or tongue. The picture of vowels as open flow and consonants as structure is accurate.</p>
-        <p><b>Where it differs.</b> Vowels are shaped in the throat and mouth, not along the spine, so the neck, chest and lower-back map is the Codex&rsquo;s own, a memory aid, not anatomy. And the final sigma &sigmaf; is simply the form the letter takes at the end of a word; it has no special meaning of its own.</p>
+        <p><b>A real number match.</b> The Greek alphabet has 24 letters. The spine has 7 cervical, 12 thoracic and 5 lumbar vertebrae: 7 + 12 + 5 = 24. Seven Greek vowels and seven cervical vertebrae, and 17 consonants against 12 + 5, are exact counts, not rounded ones.</p>
+        <p><b>Where it differs.</b> Vowels are shaped in the throat and mouth, not along the spine, so the map is a memory aid. A final sigma is only the form the letter takes at the end of a word, and it has the same value as σ, 200. The cord itself stops at L1 to L2, well above the lower vertebrae.</p>
       </div>
     </div>
-    <div class="hud compact reveal" data-gk="Σπονδυλος" data-tr="Spondylos" data-mn="“Vertebra”"></div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-s9.jpg" alt="Slide: the letters descend the living temple, the Greek alphabet running down beside a glowing spine" loading="lazy"><figcaption>Concept slide: the letters descend.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-s10.jpg" alt="Slide: orthographic mutation at the lumbar enlargement, with cord cross-sections and the letters A and AI" loading="lazy"><figcaption>Concept slide: mutation at the lumbar enlargement.</figcaption></figure>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-s11.jpg" alt="Slide: the final sigma and the stone, a glowing sigma over the coccyx" loading="lazy"><figcaption>Concept slide: the final sigma and the stone.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-s8.jpg" alt="Slide: the alphabet as biological action, vowels as light and consonants as the scaffold" loading="lazy"><figcaption>Concept slide: vowels and consonants.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="lateral" data-label="The Lateral Wave">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VIII &middot; Cellular Energetics</div>
+      <h2>The Horizontal <em>Cosine</em></h2>
+      <p>The last chapter of the manuscript turns from the spine to the cell, and from the vertical axis of descent to a horizontal axis of rescue.</p>
+    </div>
+    <div class="layers reveal">
+      <div class="codex">
+        <p><b>Two axes.</b> The vertical axis (Sine) is lineage: parent to daughter by cell division. The horizontal axis (Cosine, Kalamos) is lateral: Horizontal Mitochondrial Transfer (HMT), in which healthy cells pass mitochondria, packets of energy, to starving neighbours without dividing.</p>
+        <p><b>The gate.</b> A coherence gate H(c, u), a check of surface glycoproteins, opens the tunnelling nanotube bridge. The equation is D(t) = O(t) + &Sigma; [ H(c, u) &middot; S<sub>lat</sub> ], with S<sub>lat</sub> = cos(&theta;) &middot; M<sub>mito</sub>.</p>
+        <p><b>The geometry.</b> Buckminster Fuller&rsquo;s Jitterbug, the contraction and expansion between icosahedron and octahedron, gives the space for vocal resonance and the spinal wave. 4995 &divide; 135 = 37, and 1 + 9 + 27 = 37 seals the system.</p>
+      </div>
+      <div class="record">
+        <p><b>Agrees.</b> Cells can pass mitochondria to one another through tunnelling nanotubes, and stem cells and astrocytes have been shown to donate mitochondria to damaged cells in laboratory and animal studies. The arithmetic is right: 4995 &divide; 135 = 37, and 1 + 9 + 27 = 37.</p>
+        <p><b>Differs.</b> Mitochondrial transfer is an active research field, and most of the evidence comes from cultures and animal models, not from healthy people, so &ldquo;confirmed&rdquo; is stronger than the evidence. The &ldquo;glycoprotein gate with c = 1&rdquo;, the cosine of the energy vector and the mapping onto the Sine and Cosine axes are the Codex&rsquo;s own model, not established biology.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fractal" data-label="The Fractal">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">IX &middot; The Same Story at Every Scale</div>
+      <h2>The Fractal <em>Story of the Reed</em></h2>
+      <p>The treatise&rsquo;s summary: the same story is told at every scale, from the womb to the landscape.</p>
+    </div>
+    <div class="tw reveal"><table class="audit">
+      <thead><tr><th>Scale</th><th>The reed</th><th>The story</th></tr></thead>
+      <tbody>
+        <tr><td>Embryology</td><td>Neural tube</td><td>The hollow is formed.</td></tr>
+        <tr><td>Spine</td><td>Central canal and CSF</td><td>The reed pulses.</td></tr>
+        <tr><td>Alphabet</td><td>Kalamos, the fluid of Kadmos</td><td>The reed carries the code.</td></tr>
+        <tr><td>Sea</td><td>Yam Suph</td><td>The reed is parted and crossed.</td></tr>
+        <tr><td>Coccyx</td><td>Fused bone</td><td>The reed becomes stone.</td></tr>
+      </tbody></table></div>
+    <figure class="fig reveal"><img src="img/reed-s14.jpg" alt="Slide: the fractal story of the reed, a table from embryology to coccyx" loading="lazy"><figcaption>Concept slide: the same table, as drawn in the deck.</figcaption></figure>
+  </div>
+</section>
+
+<section id="notes" data-label="Notes">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Sources and checks</div>
+      <h2>What Was Checked</h2>
+    </div>
+    <div class="record reveal">
+      <p><b>The manuscript&rsquo;s own labels.</b> It calls ΦΎ &ldquo;Physis = 900&rdquo; and ΨΉ &ldquo;Psephos = 708&rdquo;. Those are the values of the two letters in each pair (Φ + Υ = 900, Ψ + Η = 708, total 1608). The whole words come to ΦΎΣΙΣ 1310 and ΨΉΦΟΣ 1478.</p>
+      <p><b>Slides from the deck</b> are concept illustrations made in Gemini Notebook, not data. Three were left out because they carry figures that do not check out: the one on the fluid wave and 78 mm/s, the one that gives the rhythm as 0.1 to 0.2 Hz, and the one that says nobody crossed a Red Sea.</p>
+      <p><b>The diagram</b> &ldquo;Kalamos &ndash; Soma 1729 Cosine Baseline&rdquo; is not shown here, because it gives the parts as 390 and 977 where the words are 460 and 907 (chapter III).</p>
+      <details style="margin-top:14px"><summary>References in the manuscript, checked as far as I could</summary>
+        <p style="margin-top:10px"><b>Waal (2022), Journal of Hellenic Studies 142.</b> I could not confirm this article. The initial and the title look wrong; the work I know on <i>phoinikeia</i> by Willemijn Waal is from 2018. Please look it up before citing it.</p>
+        <p><b>Simaioforos, <i>Ellin Logos</i>.</b> One file says 1993 and another says 2018, and the publisher is not confirmed.</p>
+        <p><b>Hoffmeier, <i>Israel in Egypt</i>.</b> A real and relevant book, first published by Oxford University Press in 1996.</p>
+        <p><b>Fuller, <i>Synergetics</i> (1975).</b> A real book, Macmillan.</p>
+        <p><b>StatPearls NBK513247, NASS 2023, Frontiers in Neurology 2024 (GV-16) and Frontiers in Cell &amp; Developmental Biology 2023.</b> I could not check these from here. The article numbers on the two Frontiers entries look like earlier years. Please look each one up.</p>
+      </details>
+    </div>
   </div>
 </section>
 </main>
@@ -485,6 +668,50 @@ function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollT
 addEventListener('scroll',onScroll,{passive:true});onScroll();
 
 
+
+/* ===== spine diagram ===== */
+(function(){
+const L='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'.split('');
+const NS='http://www.w3.org/2000/svg',svg=document.getElementById('spsvg'),panel=document.getElementById('sppanel');
+const top=70,h=24,gap=8,x=165;
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
+el('path',{class:'cord',d:`M${x} 40 L${x} ${top+24*(h+gap)-gap-60} L${x} ${top+24*(h+gap)+20}`});
+const vs=[];
+L.forEach((c,i)=>{const y=top+i*(h+gap);const w=i<7?70:i<19?90:110;const g=el('g',{class:'v'});el('rect',{x:x-w/2,y,width:w,height:h,rx:6},g);const t=el('text',{x,y:y+h/2+1},g);t.textContent=c;vs.push(g);});
+el('text',{class:'lab',x:10,y:top+3*(h+gap)},null).textContent='C1–C7';
+el('text',{class:'lab',x:10,y:top+13*(h+gap)},null).textContent='T1–T12';
+el('text',{class:'lab',x:10,y:top+21*(h+gap)},null).textContent='L1–L5';
+const yy=i=>top+i*(h+gap)+h/2;
+const S=[
+{id:'med',y:44,lab:'Medulla',t:'The Medullary Node',
+ c:'Where the reed widens into the brainstem and generates its own wind. The pacemaker of breath sits here, behind GV-16, <i>Fengfu</i>, “Wind Mansion”. Letters: the vowels start to move.',
+ r:'The pre-Bötzinger complex is a real breathing-rhythm generator in the medulla. GV-16 is an acupuncture point on the nape. Whether it acts on the CSF is the treatise’s claim, not a finding.'},
+{id:'cer',y:yy(3),lab:'Cervical',t:'Cervical: Seven Vowels',
+ c:'Seven vowels, seven cervical vertebrae. Force and light enter the reed from above. The count is exact.',
+ r:'Seven cervical vertebrae is standard in nearly all mammals. Greek has seven vowels: α ε η ι ο υ ω. The pairing of the two is the Codex’s reading.'},
+{id:'tho',y:yy(13),lab:'Thoracic',t:'Thoracic: The Scaffold',
+ c:'The twelve thoracic vertebrae carry the ribs, the enclosure of heart and lung where breath and pulse first meet.',
+ r:'Twelve thoracic vertebrae, each with a pair of ribs. Heart and lungs sit in the rib cage, so the placement of breath and pulse is anatomically sound.'},
+{id:'lum',y:yy(20),lab:'Lumbar',t:'Lumbar Enlargement',
+ c:'Where diphthongs mark the inflection points of force and structure, the cord swells again to feed the legs.',
+ r:'The lumbar enlargement of the cord, roughly T9 to T12 in vertebral level, supplies the legs. It lies higher than the lumbar vertebrae.'},
+{id:'con',y:yy(21)+10,lab:'Cord ends',t:'Conus Medullaris',
+ c:'The cord tapers to a cone and thins to a dry thread: the reed is closing.',
+ r:'The cord ends at about L1 to L2 in adults. Below it runs the cauda equina, a bundle of nerve roots, and the filum terminale, a fibrous thread.'},
+{id:'coc',y:yy(23)+22,lab:'Coccyx',t:'Coccyx and the Final Sigma',
+ c:'The thread is anchored in stone, the fused bone of the coccyx. The final sigma ς appears only at the end of a word.',
+ r:'The coccyx is three to five fused vertebrae. A final sigma has the same value as an ordinary sigma, 200.'}
+];
+const btns=[];
+S.forEach((s,i)=>{const g=el('g',{class:'st',tabindex:0,role:'button','aria-label':s.t});el('circle',{cx:x+70,cy:s.y,r:7},g);const t=el('text',{x:x+84,y:s.y},g);t.textContent=s.lab;g.addEventListener('click',()=>show(i));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i);}});btns.push(g);});
+function show(i){const s=S[i];btns.forEach((b,k)=>b.classList.toggle('on',k===i));
+ vs.forEach((v,k)=>v.classList.toggle('on',(i===1&&k<7)||(i===2&&k>=7&&k<19)||(i===3&&k>=19&&k<21)||(i===4&&k===21)||(i===5&&k===23)));
+ panel.innerHTML=`<h3>${s.t}</h3><p><b style="color:var(--gold);font-weight:400">The Codex.</b> ${s.c}</p><p class="rec"><b style="color:var(--cyan);font-weight:400">The Record.</b> ${s.r}</p><button type="button" data-d="-1">&#9664; Up</button><button type="button" data-d="1">Down &#9654;</button>`;
+ panel.querySelectorAll('button').forEach(b=>b.onclick=()=>show((i+ +b.dataset.d+S.length)%S.length));}
+vs.forEach((v,k)=>v.addEventListener('click',()=>show(k<7?1:k<19?2:k<21?3:k===21?4:k===23?5:k<24?3:5)));
+svg.setAttribute('viewBox','0 0 330 '+(top+24*(h+gap)+30));
+show(0);
+})();
 </script>
 <script src="refs.js"></script>
 </body>
