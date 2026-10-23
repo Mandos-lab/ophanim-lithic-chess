@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Mother’s Code · Carl Tate · Ophanim Codex</title>
+<meta name="description" content="The Mother’s Code: Karekin Sevan Tatev (Carl Tate) on the Armenian alphabet as a 36-pillar vocal palace, with a check of the numbers, names and history. Philosophy From A Stone Φώ · ΨΉ, Phonetic Archaeology.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+
+.sharefoot{padding:46px 0 60px;border-top:1px solid var(--line)}
+.shbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--gold);background:none;border:1px solid var(--line-g);padding:10px 14px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
+.shbtns.big{margin-top:28px}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:1px solid var(--line-g);background:#05090d;margin-top:14px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.short{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.short video{width:min(320px,100%);height:auto;border:1px solid var(--line-g);background:#05090d;color-scheme:dark}
+.short .txt{flex:1 1 260px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+.gal figcaption,figure.fig figcaption{font:12px var(--mono);letter-spacing:.05em;color:var(--ink-3);margin-top:6px}
+table.mx{border-collapse:collapse;width:100%;max-width:640px;margin:18px 0 6px;font-family:var(--mono);font-size:13px}
+table.mx th{color:var(--gold);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid var(--line-g)}
+table.mx td{text-align:center;padding:5px 3px;border:1px solid var(--line)}
+table.mx td b{display:block;font:500 22px var(--serif);color:var(--ink)}
+table.mx td s{text-decoration:none;color:var(--cyan);font-size:11px}
+table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
+.tw{overflow-x:auto}
+.photo{max-width:420px;margin:26px auto 0}.photo img{display:block;width:100%;height:auto;border:1px solid var(--line-g)}
+.photo figcaption{text-align:center;font:13px var(--mono);letter-spacing:.08em;color:var(--ink-2);margin-top:8px}
+
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">&#9666; Games</a>
+  <div class="t">Ophanim Codex &middot; <b>The Mother&rsquo;s Code</b></div>
+  <a href="reed-codex.html">The Reed &#9656;</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<main>
+<section id="hero" data-label="Prologue">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Phonetic Archaeology &middot; The Armenian Key</div>
+    <h1>The Mother&rsquo;s Code<br><em>Karekin Sevan Tatev &middot; Carl Tate</em></h1>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">A quarter-century of friendship, and a lifetime reading of sound: speech as a body, a mother&rsquo;s face, and a palace of thirty-six pillars.</p>
+    <div class="legend" style="justify-content:center">
+      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">The Codex</b>&nbsp;&middot; Carl&rsquo;s thesis, as presented</span>
+      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">The Record</b>&nbsp;&middot; what the sources say</span>
+    </div>
+    <p style="margin:0 auto 18px;font-size:17px"><a href="carl-tate-codex-el.html" lang="el">Ελληνική έκδοση &#9656;</a></p>
+    <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">The thesis stays whole in gold. Beside it, in cyan, are the checks: the letter values, the dates, the geography and the arithmetic. Where a figure does not match, the page says so.</p>
+    <div class="scrollcue" style="margin-top:40px">SCROLL &#9662;</div>
+  </div>
+</section>
+
+<section id="watch" data-label="Watch">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Watch</div>
+      <h2>Two Videos <em>&amp; a Short</em></h2>
+      <p class="dim" style="font-size:17px">The videos load from YouTube only after you allow third-party content in the cookie settings.</p>
+      <div class="vid"><iframe src="https://www.youtube.com/embed/3mdZOxPW09M" title="Video one" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <div class="vid"><iframe src="https://www.youtube.com/embed/4e-sY3RAdAg" title="Video two" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    </div>
+    <div class="reveal" style="margin-top:46px">
+      <div class="kicker">Short &middot; 1 minute 21</div>
+      <h2>Four Pillars <em>vs the Seven Gates</em></h2>
+      <div class="short">
+        <video controls preload="none" playsinline poster="img/carl-short-poster.jpg" data-title="Four Pillars vs the Seven Gates"><source src="audio/carl-four-pillars-seven-gates.mp4" type="video/mp4"></video>
+        <div class="txt"><p>Four pillars hold up the earth. Seven gates strip a person back to what is left. The short sets the two pictures side by side. It loads only when you press play.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mirror" data-label="First Mirror">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">I &middot; Before Words</div>
+      <h2>The First <em>Mirror</em></h2>
+      <p>Before grammar there is a hum, a click, a sharp breath. A baby makes a sound with a tension in the face. The mother does not consult a book: she reads the face and the voice, and answers. In that answer the child learns it exists.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Sound is not a label stuck on a world that was already there. It is the first engine of consciousness. The mother is the first decoder, and the loop of signal, reflection and identity is the First Mirror. Three Sumerian goddesses mark its stages: Namu, the sealed womb-sea (the M sound); Inana, the hungry kinetic ego; and Gestinana, who accepts the cycle and is satisfied.</p></div><div class="record"><p><b>The science.</b> Mother and infant do mirror each other&rsquo;s faces and voices. Researchers call this contingent responding, and it matters for early development. Paul Ekman&rsquo;s Facial Action Coding System is real: Action Unit 26 is &ldquo;jaw drop&rdquo;.</p><p><b>The names.</b> Nammu is the Sumerian primeval sea in the usual spelling; Inanna and Ereshkigal are standard. Reading the goddesses as stages of a voice is Carl&rsquo;s own step. It is a reading, not an established fact about Sumerian religion.</p></div></div>
+    <figure class="fig reveal"><a href="img/carl-cos-06.jpg" target="_blank" rel="noopener"><img src="img/carl-cos-06.jpg" alt="Slide: The First Mirror as a loop of signal, reflection, identity and observer" loading="lazy"></a><figcaption>The First Mirror, from the deck.</figcaption></figure>
+  </div>
+</section>
+
+<section id="palace" data-label="36 Pillars">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">II &middot; The Alphabet as a Body</div>
+      <h2>The 36-Pillar <em>Palace</em></h2>
+      <p>In 405 AD Mesrop Mashtots gave Armenia its alphabet. Carl reads its thirty-six letters as thirty-six pillars: a map of the mouth and throat, each sound a first-person act of the body.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>The sounds.</b> A: the jaw drops and the throat opens, &ldquo;I am here.&rdquo; M: the lips seal and the hum fills skull and chest, &ldquo;I am within.&rdquo; L: the tongue licks the sky, liquid between open A and solid G. G: a strike at the root of the tongue, gravity and ground. JJ: clenched molars, the friction of &ldquo;I want&rdquo; meeting &ldquo;you must.&rdquo; TS: a hissing jet through the teeth, the spark of an idea.</p><p><b>MEG, &ldquo;one&rdquo;:</b> M (the womb) + E (existence emerging) + G (the ground). The whole journey from void to matter in one syllable.</p></div><div class="record"><p><b>The history.</b> The Armenian alphabet is credited to Mesrop Mashtots, traditionally dated 405 or 406 AD. It began with 36 letters. Two more, Օ and Ֆ, were added in the Middle Ages, which is why modern counts say 38.</p><p><b>The meaning.</b> Linguists treat the link between a letter and a sound as convention, though the shapes of the mouth are real and some sounds do carry feeling (the sound-symbolism literature). Reading each letter as a body state is Carl&rsquo;s thesis, not a result of historical linguistics.</p><p><b>The word.</b> <i lang="hy">Մեկ</i> (<i>mek</i>) does mean &ldquo;one&rdquo;. The M + E + G reading is a way of hearing it, not an etymology.</p></div></div>
+    <figure class="fig reveal"><a href="img/carl-cos-04.jpg" target="_blank" rel="noopener"><img src="img/carl-cos-04.jpg" alt="Slide: the letters A, M, L and G on a head in profile" loading="lazy"></a><figcaption>The 36-pillar palace, from the deck.</figcaption></figure>
+    <figure class="fig reveal"><a href="img/carl-cos-05.jpg" target="_blank" rel="noopener"><img src="img/carl-cos-05.jpg" alt="Slide: M plus E plus G equals Meg" loading="lazy"></a><figcaption>Meg, from the deck.</figcaption></figure>
+  </div>
+</section>
+
+<section id="matrix" data-label="9 &times; 4 Grid">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">III &middot; Letters That Count</div>
+      <h2>The 9&times;4 <em>Matrix</em></h2>
+      <p>Armenian letters are also numbers. Nine ones, nine tens, nine hundreds, nine thousands: thirty-six in all, four columns of nine. The grid below is built from the standard values.</p>
+    </div>
+    <div class="reveal"><div class="tw"><table class="mx"><thead><tr><th>Ones</th><th>Tens</th><th>Hundreds</th><th>Thousands</th></tr></thead><tbody><tr><td><b lang="hy">Ա</b><s>1</s></td><td><b lang="hy">Ժ</b><s>10</s></td><td><b lang="hy">Ճ</b><s>100</s></td><td><b lang="hy">Ռ</b><s>1000</s></td></tr><tr><td><b lang="hy">Բ</b><s>2</s></td><td><b lang="hy">Ի</b><s>20</s></td><td><b lang="hy">Մ</b><s>200</s></td><td><b lang="hy">Ս</b><s>2000</s></td></tr><tr><td><b lang="hy">Գ</b><s>3</s></td><td><b lang="hy">Լ</b><s>30</s></td><td><b lang="hy">Յ</b><s>300</s></td><td><b lang="hy">Վ</b><s>3000</s></td></tr><tr><td><b lang="hy">Դ</b><s>4</s></td><td><b lang="hy">Խ</b><s>40</s></td><td><b lang="hy">Ն</b><s>400</s></td><td><b lang="hy">Տ</b><s>4000</s></td></tr><tr><td class="mid"><b lang="hy">Ե</b><s>5</s></td><td><b lang="hy">Ծ</b><s>50</s></td><td><b lang="hy">Շ</b><s>500</s></td><td><b lang="hy">Ր</b><s>5000</s></td></tr><tr><td><b lang="hy">Զ</b><s>6</s></td><td><b lang="hy">Կ</b><s>60</s></td><td><b lang="hy">Ո</b><s>600</s></td><td><b lang="hy">Ց</b><s>6000</s></td></tr><tr><td><b lang="hy">Է</b><s>7</s></td><td><b lang="hy">Հ</b><s>70</s></td><td><b lang="hy">Չ</b><s>700</s></td><td><b lang="hy">Ւ</b><s>7000</s></td></tr><tr><td><b lang="hy">Ը</b><s>8</s></td><td><b lang="hy">Ձ</b><s>80</s></td><td><b lang="hy">Պ</b><s>800</s></td><td><b lang="hy">Փ</b><s>8000</s></td></tr><tr><td><b lang="hy">Թ</b><s>9</s></td><td><b lang="hy">Ղ</b><s>90</s></td><td><b lang="hy">Ջ</b><s>900</s></td><td><b lang="hy">Ք</b><s>9000</s></td></tr></tbody></table></div>
+      <p class="dim" style="font-size:16px">The highlighted cell is the middle of the grid: row five of the first column, <i lang="hy">Ե</i> = 5.</p></div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Column one is Earth, ones, a dense container, anchored by the first letter. Column two is Water, tens, the fluid circuit of breath, ending at 90. Column three is Fire, hundreds, the forge where sound becomes thought. Column four is Air, thousands, ending at 9000. At the midpoint sits the letter for 5, which Carl hears as the declaration &ldquo;I am.&rdquo; The Armenian word for God, <i lang="hy">Աստված</i>, he reads as spanning all four columns at once.</p></div><div class="record"><p><b>Checked.</b> The grid is right: 9 rows by 4 columns, and the values run 1&ndash;9, 10&ndash;90, 100&ndash;900, 1000&ndash;9000 (Wikipedia, Armenian numerals). Row five is the true middle.</p><p><b>Two corrections.</b> First, the Armenian word for &ldquo;is&rdquo; is <i lang="hy">է</i>, which is the letter for <b>7</b>, not 5. The letter at 5, <i lang="hy">Ե</i>, is a letter and not a word. Second, the tribute gives the Armenian word for God as 13,052. The modern spelling <i lang="hy">Աստված</i> sums to <b>9,052</b>, and the classical <i lang="hy">Աստուած</i> sums to <b>13,652</b>. Neither is 13,052, which looks like a slip for 13,652. Either way the word touches all four columns: <i lang="hy">Ա</i> and <i lang="hy">Ծ</i> from the first two, and <i lang="hy">Ս</i>, <i lang="hy">Տ</i>, <i lang="hy">Վ</i> from the thousands. It has no hundreds letter in the modern spelling, so &ldquo;all four&rdquo; holds only for the classical one (<i lang="hy">Ո</i> = 600).</p></div></div>
+    <div class="hud compact reveal" data-built="1"><div class="row"><span class="gk" lang="hy">ԱՍՏՎԱԾ</span><span class="tr">Astvats</span><span class="mn">modern spelling</span></div><div class="tiles"><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ս</i><s>2000</s></span><span class="tile"><i lang="hy">Տ</i><s>4000</s></span><span class="tile"><i lang="hy">Վ</i><s>3000</s></span><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ծ</i><s>50</s></span><span class="sum">0</span></div></div>
+    <div class="hud compact reveal" data-built="1"><div class="row"><span class="gk" lang="hy">ԱՍՏՈՒԱԾ</span><span class="tr">Astuats</span><span class="mn">classical spelling</span></div><div class="tiles"><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ս</i><s>2000</s></span><span class="tile"><i lang="hy">Տ</i><s>4000</s></span><span class="tile"><i lang="hy">Ո</i><s>600</s></span><span class="tile"><i lang="hy">Ւ</i><s>7000</s></span><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ծ</i><s>50</s></span><span class="sum">0</span></div></div>
+  </div>
+</section>
+
+<section id="geometry" data-label="Geometry">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">IV &middot; Squaring the Circle</div>
+      <h2>The 3-4-5 <em>Bridge</em></h2>
+      <p>The circle is heaven and the infinite. The square is earth and the cycle. Carl closes the gap with a right triangle.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Three is the upright rod toward heaven. Four is the flat earth. Five, the diagonal, is the binder that weaves the two into one fabric. He hears the binder in the Armenian root <i>KBR</i>, and in <i>Kabir</i> turning to <i>Kapor</i> by the shift of B to P. In his &ldquo;magpie reversal&rdquo; the three becomes the womb-triangle, the four the bed inside it, and the five the child. Noah&rsquo;s Ark and the founding of Yerevan are read as scaled hearths on this triangle.</p></div><div class="record"><p><b>Checked.</b> 3&sup2; + 4&sup2; = 5&sup2;. The Ark of Genesis 6:15 is 300 &times; 50 &times; 30 cubits, a ratio of 10 : 5/3 : 1, which is not a 3-4-5 shape. Yerevan grew from the fortress of Erebuni, founded in 782 BC by Argishti I (the date is on its foundation inscription).</p><p><b>The tetractys.</b> The classical tetractys has four rows and ten points. The slides draw five rows and fifteen points, which is the next triangular number, not the Pythagorean figure.</p></div></div>
+    <figure class="fig reveal"><a href="img/carl-arm-02.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-02.jpg" alt="Slide: the tetractys with four points of the primordial seed" loading="lazy"></a><figcaption>The tetractys slide shows five rows and fifteen points.</figcaption></figure>
+  </div>
+</section>
+
+<section id="mountain" data-label="Aragats">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">V &middot; The Mountain</div>
+      <h2>Aragats <em>&amp; Ararat</em></h2>
+      <p>For Carl the Armenian highland is a laboratory of fire and water, and the myths are what people saw.</p>
+    </div>
+    <div class="reveal" style="margin-top:6px"><div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin:0 0 8px">
+        <div class="kicker">Listen &middot; 32 minutes</div><h3 style="font-family:var(--title);font-weight:500;font-size:22px;color:var(--gold);margin:6px 0 10px">Aragats and the Four Pillars of Heaven</h3>
+        <audio controls preload="none" src="audio/carl-aragats-four-pillars.mp3" data-title="Aragats and the Four Pillars of Heaven" style="width:100%;color-scheme:dark">Your browser cannot play audio.</audio>
+        <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">A recorded talk in English. It loads only when you press play.</p></div></div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Mount Aragats is a giant colander, <i>gats</i>, straining boiling magma and venting gas. The dragon-slaying of Vahagn is a memory of a thermodynamic blowout, fire shot through the mountain into the sky. The Vishapakar, the dragon stones, were set around the volcanic slopes as markers of thermal lines. The classical name of the mountain he hears as &ldquo;the atmosphere of the sun god&rsquo;s cauldron.&rdquo;</p></div><div class="record"><p><b>Checked.</b> Aragats is a stratovolcano with four summits, 4,090 m north, 3,995 m west, 3,908 m east and 3,888 m south. It covers about a fifth of Armenia. Its last eruption is listed as unknown, and Holocene activity is only possible, so the &ldquo;Plinian eruption around 3000 BC&rdquo; in the manifesto is not established.</p><p><b>The dragon stones.</b> They are real: carved stelae of 1.1 to 5.5 m, often near springs. A 2025 study dates them to about 4200&ndash;4000 BC and ties them to water, not to volcanic heat.</p><p><b>The name.</b> The usual tradition links it to &ldquo;Ara&rsquo;s throne&rdquo;, which sources call a folk etymology. <i>Alagöz</i> is Turkic for &ldquo;variegated eye&rdquo;. I could not find the claim that Thutmose III wrote &ldquo;heaven rests on four pillars&rdquo; of Armenia, so treat it as unconfirmed.</p></div></div>
+  </div>
+</section>
+
+<section id="names" data-label="Three Names">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VI &middot; The Name</div>
+      <h2>Karekin, Sevan, <em>Tatev</em></h2>
+      <p>Karekin Sevan Tatev: three names, read as three stages.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>Karekin.</b> <i>Kar</i>, stone, and <i>kin</i>, woman: stone born of woman, the body as anchor. <b>Sevan.</b> The high black lake, a dark mirror turned up to heaven. <b>Tatev.</b> The monastery on the cliff, read as <i>DA-TE-V</i>: <i>da</i>, the giving and the stamp of the foot; <i>te</i>, the upright pillar, the backbone of Osiris; <i>ve</i>, the wing. Giving wings to the stone.</p></div><div class="record"><p><b>Checked.</b> Tatev monastery stands above the Vorotan gorge in Syunik, and the 9th century is when it grew into a bishop&rsquo;s seat. The common explanation of the name is Eustathius, a disciple of St Thaddeus. The &ldquo;give me wings&rdquo; reading (<i>ta tev</i>) is a folk etymology tied to a legend of a builder who fell, and it is the one Carl uses. <i>Sev</i> does mean &ldquo;black&rdquo;, and the old explanation of Sevan is &ldquo;black monastery&rdquo;. <i>Kar</i> is &ldquo;stone&rdquo; and <i>kin</i> is &ldquo;woman&rdquo;; whether the given name Karekin is built from them is not established.</p></div></div>
+  </div>
+</section>
+
+<section id="gold" data-label="Sulfide to Gold">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VII &middot; The Armenian&ndash;Greek Axis</div>
+      <h2>Sulfide <em>to Gold</em></h2>
+      <p>A twelve-step deck follows the Armenian sounds across the Greek ones as an alchemy: from dark ore to gold, ending where the work began, on the letters &Phi;&Upsilon; &Psi;&Eta;.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Armenian is the central crucible, the marriage bed, between the Western and Eastern sound systems. Armenian <i>M</i> and <i>Mu</i> are the container of the hum. The dialects pass through seven stages of rectification. The classical alphabet is a cage, and its 36 letters break into a wider grid. At the end the stone remembers how to fly, and the word for gold, <i lang="hy">ոսկի</i>, closes the codex.</p></div><div class="record"><p><b>Checked.</b> <i lang="hy">Մայր</i> is &ldquo;mother&rdquo; and <i lang="hy">մուկ</i> is &ldquo;mouse&rdquo;; the deck links them to Proto-Indo-European words for mother and mouse, which is the standard comparison. <i lang="hy">Ոսկի</i> is &ldquo;gold&rdquo; (voski). The alphabet really went from 36 to 38 letters, and a 39th form, the ligature <i lang="hy">և</i>, is counted in some lists. I have not audited the dialect table of stop consonants, and I could not confirm that Armenian was the source of Greek sounds, so read it as a model.</p><p><b>1/137.</b> The fine-structure constant is about 1/137.036, not exactly 1/137. The slide&rsquo;s 1 + 7 reading is numerology. The Armenian letter <i lang="hy">Ի</i> is 20 and <i lang="hy">Է</i> is 7, which is as the slide says.</p></div></div>
+    <div class="hud compact reveal" data-gk="ΦΥ ΨΗ" data-tr="" data-mn=""></div>
+    <div class="gal reveal"><figure><a href="img/carl-arm-01.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-01.jpg" alt="Slide 1 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>01</figcaption></figure><figure><a href="img/carl-arm-02.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-02.jpg" alt="Slide 2 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>02</figcaption></figure><figure><a href="img/carl-arm-03.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-03.jpg" alt="Slide 3 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>03</figcaption></figure><figure><a href="img/carl-arm-04.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-04.jpg" alt="Slide 4 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>04</figcaption></figure><figure><a href="img/carl-arm-05.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-05.jpg" alt="Slide 5 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>05</figcaption></figure><figure><a href="img/carl-arm-06.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-06.jpg" alt="Slide 6 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>06</figcaption></figure><figure><a href="img/carl-arm-07.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-07.jpg" alt="Slide 7 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>07</figcaption></figure><figure><a href="img/carl-arm-08.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-08.jpg" alt="Slide 8 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>08</figcaption></figure><figure><a href="img/carl-arm-09.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-09.jpg" alt="Slide 9 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>09</figcaption></figure><figure><a href="img/carl-arm-10.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-10.jpg" alt="Slide 10 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>10</figcaption></figure><figure><a href="img/carl-arm-11.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-11.jpg" alt="Slide 11 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>11</figcaption></figure><figure><a href="img/carl-arm-12.jpg" target="_blank" rel="noopener"><img src="img/carl-arm-12.jpg" alt="Slide 12 of the Sulfide to Gold deck" loading="lazy"></a><figcaption>12</figcaption></figure></div>
+  </div>
+</section>
+
+<section id="keys" data-label="Two Keys">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VIII &middot; Two Keys</div>
+      <h2>Armenian <em>&amp; Greek</em></h2>
+      <p>Carl&rsquo;s Mother&rsquo;s Code reads sound as body and myth. The Ellin Logos of Theologos Simaioforos reads the Greek letters as mathematics and light. The two meet in the figure of the human vessel: <i>AR</i>, the sun-engine, and <i>MEN</i>, the structuring mind.</p>
+    </div>
+    <figure class="fig reveal"><a href="img/carl-cos-03.jpg" target="_blank" rel="noopener"><img src="img/carl-cos-03.jpg" alt="Slide: the two master keys of antiquity compared in a table" loading="lazy"></a><figcaption>The two keys, side by side.</figcaption></figure>
+    <figure class="fig reveal"><a href="img/carl-cos-12.jpg" target="_blank" rel="noopener"><img src="img/carl-cos-12.jpg" alt="Slide: the sun-minded architect, the active and the receptive" loading="lazy"></a><figcaption>AR and MEN, the sun-minded architect.</figcaption></figure>
+    <div class="layers reveal"><div class="codex"><p><b>The meeting.</b> Seven Greek vowels, seven cervical vertebrae, seven colours, seven notes. Seventeen consonants for the spine below. The alphabet maps the body.</p></div><div class="record"><p><b>Checked.</b> Greek has seven vowels (&alpha; &epsilon; &eta; &iota; &omicron; &upsilon; &omega;), and humans have seven neck vertebrae. Seventeen consonants plus seven vowels make twenty-four letters, and 12 thoracic + 5 lumbar vertebrae also make seventeen. That the one is a map of the other is the thesis; no source supports it as fact. The chapter on the spine is in <a href="reed-codex.html#spine">The Reed and the Code</a>. The Ellin Logos has its own page, still to come.</p></div></div>
+  </div>
+</section>
+
+<section id="ur" data-label="Game of Ur">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">IX &middot; The Board</div>
+      <h2>Twenty Squares <em>of Ur</em></h2>
+      <p>The manifesto turns to the Royal Game of Ur as a map for the soul&rsquo;s walk through a life.</p>
+    </div>
+    <div class="layers reveal"><div class="codex"><p><b>The thesis.</b> Seven pawns for the seven decrees (<i>me</i>) Inanna carried down. Four pyramid dice for four pillars. A central lane of friction. Five rosettes, granting safety and an extra throw, answer to five vowels. Ur itself is U, the abyss, and R, the sun-engine.</p></div><div class="record"><p><b>Checked.</b> A side has seven pieces, the dice are four-sided, and the board has five rosettes (Royal Game of Ur page). Inanna takes seven <i>me</i> into the underworld in the myth; the match to the pawns is a reading. Greek has seven vowels, not five: the manifesto&rsquo;s five (A E I O Y) leave out &Eta; and &Omega;. The full game, with its own codex, is <a href="royal-game-of-ur-codex.html">the Ur page</a>.</p></div></div>
+  </div>
+</section>
+
+<section id="tribute" data-label="Tribute">
+  <div class="wrap" style="text-align:center">
+    <div class="reveal">
+      <div class="kicker" style="justify-content:center">X &middot; Dedication</div>
+      <h2>To Carl <em>&amp; Sharron</em></h2>
+      <p style="max-width:56ch;margin:0 auto">A friendship of twenty-five years, with a teacher twenty-five years older. His search for the sources of speech set another soul on fire, and sent it off to the myths of Ararat and Olympus. Our own mouth is a loom, weaving the ten of earth with the nine of heaven.</p>
+      <figure class="photo"><img src="img/carl-friends.jpg" alt="Carl and Sharron, smiling, arm in arm" loading="lazy"><figcaption>Carl and Sharron</figcaption></figure>
+      <p class="dim" style="font-size:17px;max-width:56ch;margin:28px auto 0">Named in the tribute, with thanks: Theologos Simaioforos and Barbara Stagiannou, of the Ellin Logos school; Foteini Tyraski; and the scholars of the VII International Scientific Congress at Crimean Federal University.</p>
+      <p style="margin-top:26px;font-style:italic;color:var(--gold);max-width:48ch;margin-left:auto;margin-right:auto">&ldquo;The root has found quiet at the limit.&rdquo;</p>
+    </div>
+  </div>
+</section>
+
+<section id="notes" data-label="Notes">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">Sources and checks</div><h2>What Was Checked</h2></div>
+    <div class="record reveal">
+      <p><b>Method.</b> Letter values come from the standard Armenian numeral system. Words were summed by running the arithmetic, not by hand. Geography, dates and names were checked against Wikipedia and the sources linked below. Everything stated as the thesis is Carl&rsquo;s, as written in the tribute and the manifesto.</p>
+      <p><b>Left out.</b> The manifesto&rsquo;s book on a modern political name, and its reading of the Huluppu tree and the felling of the wild, are not on this page. The tree is usually not identified with the pistachio by scholars, and the other claims there are too uncertain to repeat without more checking. They can be added.</p>
+      <p><b>The slides</b> are concept illustrations, not data. One draws the tetractys with fifteen points (see IV).</p>
+      <details style="margin-top:14px"><summary>Sources</summary>
+        <p style="margin-top:10px"><a href="https://en.wikipedia.org/wiki/Armenian_numerals" target="_blank" rel="noopener">Armenian numerals</a> &middot; <a href="https://en.wikipedia.org/wiki/Mount_Aragats" target="_blank" rel="noopener">Mount Aragats</a> &middot; <a href="https://en.wikipedia.org/wiki/Vishapakar" target="_blank" rel="noopener">Vishapakar</a> &middot; <a href="https://en.wikipedia.org/wiki/Tatev_Monastery" target="_blank" rel="noopener">Tatev Monastery</a></p>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Share this page</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="kicker" style="justify-content:center;margin-top:26px">Follow</div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">Donate &middot; Bitcoin</a></div>
+    <div class="shbtns big"><a href="library.html">Library</a><a href="games.html">All games</a></div>
+    <p class="dim" style="font-size:15px;margin-top:22px"><a href="carl-tate-codex-el.html" lang="el">Ελληνικά</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy and cookies</a></p>
+  </div>
+</footer>
+<script>
+const LINKS={games:"games.html"};
+document.getElementById('backGames').href=LINKS.games;
+
+/* ===== isopsephy engine ===== */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+function buildHuds(root=document){root.querySelectorAll('.hud:not([data-built])').forEach(el=>{el.dataset.built=1;const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;io.observe(el);});}
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+buildHuds();
+
+/* ===== nav ===== */
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+
+
+/* ===== share buttons ===== */
+(function(){const box=document.getElementById('shbtns');if(!box)return;const u=()=>location.href.split('#')[0],t=document.title;
+const L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)],['Facebook',()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())],['WhatsApp',()=>'https://wa.me/?text='+encodeURIComponent(t+' '+u())],[L.mail,()=>'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())]];
+items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
+const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+</script>
+<script src="refs.js"></script>
+<script src="miniplayer.js"></script>
+</body>
+</html>
