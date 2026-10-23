@@ -38,6 +38,7 @@ function make(cv){
   var rh=cv.hasAttribute('data-rhomb'),D=.2,ay=.5+Math.random()*.5,ax=.18,drag=null,vis=false,W=0,H=0,g=cv.getContext('2d');
   var still=false;try{still=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   var lines=[],nodes=[];
+  if(cv.hasAttribute('data-double')){sp={p:[[[0,.85],[.6,0],[0,-.85],[-.6,0],[0,.85]],[[0,.45],[.3,0],[0,-.45],[-.3,0],[0,.45]]]};}
   sp.p.forEach(function(pl){
     var ne=sp.ne||1;
     for(var i=0;i<pl.length;i++){
@@ -45,7 +46,10 @@ function make(cv){
       if(i%ne===0&&!(pl.length>2&&i===pl.length-1&&pl[0][0]===a[0]&&pl[0][1]===a[1])){nodes.push([a[0],a[1],D]);nodes.push([a[0],a[1],-D]);lines.push([[a[0],a[1],D],[a[0],a[1],-D]]);}
     }
   });
-  if(rh){ // convergence: two vectors meeting in the rhombus
+  if(cv.hasAttribute('data-double')){[[0,.85,0,.45],[.6,0,.3,0],[0,-.85,0,-.45],[-.6,0,-.3,0]].forEach(function(q){lines.push([[q[0],q[1],D],[q[2],q[3],D]]);lines.push([[q[0],q[1],-D],[q[2],q[3],-D]]);});
+    for(var k=0;k<6;k++){var ph=k/6*Math.PI*2;nodes.push([.16*Math.cos(ph),.28*Math.sin(ph),0]);}
+    lines.push([[0,.45,0],[0,-.45,0]]);lines.push([[-.3,0,0],[.3,0,0]]);}
+  else if(rh){ // convergence: two vectors meeting in the rhombus
     lines.push([[-.55,0,D],[0,0,D]]);lines.push([[0,0,D],[.55,0,D]]);nodes.push([0,0,0]);
   }
   function size(){var d=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth||200;H=cv.clientHeight||200;cv.width=Math.round(W*d);cv.height=Math.round(H*d);g.setTransform(d,0,0,d,0,0);}
@@ -53,6 +57,7 @@ function make(cv){
   function draw(){
     g.clearRect(0,0,W,H);g.globalCompositeOperation='lighter';
     var gr=g.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.min(W,H)*.5);gr.addColorStop(0,'rgba('+tint+',.10)');gr.addColorStop(1,'rgba('+tint+',0)');g.fillStyle=gr;g.fillRect(0,0,W,H);
+    if(cv.hasAttribute('data-double')){[D,-D].forEach(function(z,ii){var q=[[0,.85],[.6,0],[0,-.85],[-.6,0]].map(function(a){return proj([a[0],a[1],z]);});g.beginPath();g.moveTo(q[0][0],q[0][1]);for(var k=1;k<4;k++)g.lineTo(q[k][0],q[k][1]);g.closePath();g.fillStyle='rgba('+tint+','+(ii?.035:.06)+')';g.fill();});}
     g.lineCap='round';g.lineJoin='round';
     lines.forEach(function(l){var A=proj(l[0]),B=proj(l[1]),z=(A[2]+B[2])/2,al=Math.max(.14,Math.min(1,.7-z*.45));g.beginPath();g.moveTo(A[0],A[1]);g.lineTo(B[0],B[1]);g.strokeStyle='rgba('+tint+','+al+')';g.lineWidth=l[0][2]===l[1][2]?1.7:.8;g.stroke();});
     nodes.forEach(function(n){var P=proj(n),al=Math.max(.25,Math.min(1,.85-P[2]*.4));g.beginPath();g.arc(P[0],P[1],2.3,0,7);g.fillStyle='rgba(70,227,240,'+al+')';g.fill();});

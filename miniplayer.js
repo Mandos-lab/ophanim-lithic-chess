@@ -21,11 +21,11 @@
     if (bar) return;
     bar = document.createElement('div'); bar.id = 'mp'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Now playing');
     ttl = document.createElement('span'); ttl.className = 'mt';
-    bPlay = btn('❚❚', 'Pause or play', function () { if (!cur) return; if (cur.paused) cur.play(); else cur.pause(); });
+    bPlay = btn('❚❚', 'Pause or play', function () { if (speech) { try { if (speechPaused) speechSynthesis.resume(); else speechSynthesis.pause(); speechPaused = !speechPaused; } catch (x) {} refresh(); return; } if (!cur) return; if (cur.paused) cur.play(); else cur.pause(); });
     bar.appendChild(ttl); bar.appendChild(bPlay);
-    bar.appendChild(btn('■', 'Stop', function () { if (!cur) return; cur.pause(); cur.currentTime = 0; started = false; refresh(); }));
-    bar.appendChild(btn('▲', 'Go to the player', function () { if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
-    bar.appendChild(btn('✕', 'Close this bar', function () { dismissed = true; refresh(); }));
+    bar.appendChild(btn('■', 'Stop', function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } if (!cur) return; cur.pause(); cur.currentTime = 0; started = false; refresh(); }));
+    bar.appendChild(btn('▲', 'Go to the player', function () { if (speech) { var n = document.querySelector('.narr-now'); if (n) n.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; } if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+    bar.appendChild(btn('✕', 'Close this bar', function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } dismissed = true; refresh(); }));
     document.body.appendChild(bar);
   }
   function title(m) {
@@ -33,12 +33,22 @@
     if (!t) { var s = m.closest('section,figure'); var h = s && s.querySelector('h2'); t = h ? h.textContent : (m.tagName === 'VIDEO' ? 'Video' : 'Recorded talk'); }
     return t.replace(/\s+/g, ' ').trim();
   }
+  var speech = null, speechPaused = false;
   function refresh() {
     build();
+    if (speech) {                                                  // the computer voice is reading a section
+      bar.classList.add('on'); ttl.textContent = 'Reading aloud · ' + speech; bPlay.textContent = speechPaused ? '▶' : '❚❚'; return;
+    }
     var show = cur && started && !dismissed && !inView;
     bar.classList.toggle('on', !!show);
     if (cur) { ttl.textContent = title(cur); bPlay.textContent = cur.paused ? '▶' : '❚❚'; }
   }
+  window.addEventListener('ophanim-speech', function (e) {
+    var d = e.detail || {};
+    if (d.on) { speech = d.title || 'This page'; speechPaused = false; document.querySelectorAll('audio,video').forEach(function (o) { if (!o.paused) o.pause(); }); }
+    else { speech = null; speechPaused = false; }
+    refresh();
+  });
   function watch(m) {
     if (io) io.disconnect();
     io = new IntersectionObserver(function (es) { inView = es[0].isIntersecting; refresh(); }, { threshold: 0.1 });

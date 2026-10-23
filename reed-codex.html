@@ -336,6 +336,16 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
 .shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
 .shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
 .shbtns.big{margin-top:28px}
+
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr);gap:44px;align-items:start}
+.cols .layers{grid-template-columns:1fr}
+.fx{position:sticky;top:100px}
+.fx canvas{width:100%;aspect-ratio:1;display:block;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.07),rgba(4,8,12,.6));cursor:grab;touch-action:pan-y}
+.fx canvas[data-holo=spine],.fx canvas[data-holo=lateral],.fx canvas[data-holo=necklace],.fx canvas[data-holo=reed],.fx canvas[data-holo=wave],.fx canvas[data-holo=helix]{aspect-ratio:3/4}
+.fx .cap{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;text-align:center}
+@media(max-width:900px){.cols{grid-template-columns:1fr;gap:26px}.fx{position:static;max-width:320px;margin:0 auto}}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
 </style>
 </head>
 <body>
@@ -385,7 +395,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
 </section>
 
 <section id="reed" data-label="The Reed">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">I &middot; The Hollow Stalk</div>
       <h2>Kalamos <em>&amp; Karpos</em></h2>
@@ -404,12 +414,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       </div>
     </div>
     <div class="hud compact reveal" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="“Reed”"></div>
-    <figure class="fig reveal"><img src="img/reed-s2.jpg" alt="Slide: the origin of the hollow stalk, with a figure kneeling in a river among reeds" loading="lazy"><figcaption>Concept slide from the deck.</figcaption></figure>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="reed" aria-label="The hollow stalk · a reed, its nodes and its bore"></canvas><div class="cap">The hollow stalk · a reed, its nodes and its bore</div></aside></div></div>
 </section>
 
 <section id="wave" data-label="The Wave">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">II &middot; The Wave in the Canal</div>
       <h2>The Reed Makes <em>Its Own Wind</em></h2>
@@ -430,11 +439,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       <video controls preload="none" playsinline poster="img/spine-poster.jpg" src="audio/spinal-fluid-wave.mp4" style="display:block;width:100%;height:auto;max-height:82vh;border:1px solid var(--line-g);background:#000">Your browser cannot play this video.</video>
       <figcaption class="dim" style="margin-top:10px;font-size:15px">How the Spinal Fluid Wave Descends: an 83-second animation with English captions. It loads only when you press play.</figcaption>
     </figure>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="wave" aria-label="The fluid wave along the canal"></canvas><div class="cap">The fluid wave along the canal</div></aside></div></div>
 </section>
 
 <section id="obex" data-label="The Obex">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">III &middot; The Pen at the Door</div>
       <h2>Calamus Scriptorius, <em>the Writing Reed</em></h2>
@@ -453,11 +462,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       </div>
     </div>
     <figure class="fig reveal" style="max-width:480px;margin-left:auto;margin-right:auto"><img src="img/obex-gray709.jpg" alt="Engraving of the hind-brain seen from behind, labelled Quadrigeminal lamina, Cerebellum, Rhomboid fossa, Taenia, Rhombic lip, Medulla oblongata and Obex" loading="lazy"><figcaption>The hind-brain seen from behind, with the obex at the lower tip of the rhomboid fossa. Henry Vandyke Carter, <i>Gray&rsquo;s Anatomy</i> (1918), Plate 709, public domain. It shows an embryo of about three months, so the nib shape is clearer in the adult brain.</figcaption></figure>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="obex" aria-label="Hind-brain · the rhomboid floor and the obex"></canvas><div class="cap">Hind-brain · the rhomboid floor and the obex</div></aside></div></div>
 </section>
 
 <section id="unsealed" data-label="Unsealed">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">IV &middot; The Code Unsealed</div>
       <h2>From <em>Kadmos</em> to <em>Kalamos</em></h2>
@@ -477,7 +486,6 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Worth testing.</b> The classical alphabet has 24 letters; 27 counts the three archaic number-letters. One matching difference cannot tell design from chance, so a fair test is to see how many other word pairs in the Greek lexicon differ by 27.</p>
       </div>
     </div>
-    <figure class="fig reveal"><img src="img/reed-s15.jpg" alt="Slide: the words KADMOS and KALAMOS stacked, with the triangle of delta opening into lambda and alpha" loading="lazy"><figcaption>Concept slide: the triangle opens.</figcaption></figure>
     <div class="reveal" style="margin-top:46px">
       <div class="kicker">The 1729 line</div>
       <h3 style="font-family:var(--title);font-weight:500;font-size:28px;color:var(--ink)">Revelation 11:1, <em style="color:var(--gold)">a reed like a rod</em></h3>
@@ -491,11 +499,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>The second half holds too, without the article.</b> σῶμα 1041 + Ἰησοῦ 688 = <b>1729</b>, in plain Milesian isopsephy with no special rule. Add the article, <i>τὸ σῶμα τοῦ Ἰησοῦ</i> as the New Testament usually writes it, and the total changes (σῶμα τοῦ Ἰησοῦ is 2499). So the match is exact for the bare phrase <i>σῶμα Ἰησοῦ</i>. The treatise should state that form, because a reader who tries the usual wording will not get 1729.</p>
       </div>
     </div>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="helix" aria-label="The cord and the two serpents"></canvas><div class="cap">The cord and the two serpents</div></aside></div></div>
 </section>
 
 <section id="necklace" data-label="The Necklace">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">V &middot; The Chain of Bone</div>
       <h2>Cadmus, Harmonia <em>&amp; the Necklace</em></h2>
@@ -520,16 +528,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       <div class="hud compact" data-gk="Αρμονία" data-tr="Harmonia" data-mn="“Harmony”"></div>
       <div class="hud compact" data-gk="Σπονδυλος" data-tr="Spondylos" data-mn="“Vertebra”"></div>
     </div>
-    <figure class="fig reveal"><img src="img/reed-s5.jpg" alt="Slide: Cadmus the Phoenician plants the code, with a dragon and glowing letters rising from the sown teeth" loading="lazy"><figcaption>Concept slide: the sowing.</figcaption></figure>
-    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
-      <figure class="fig reveal"><img src="img/reed-s6.jpg" alt="Slide: the curse of the central canal, with a glowing golden necklace along the spine" loading="lazy"><figcaption>Concept slide: the necklace.</figcaption></figure>
-      <figure class="fig reveal"><img src="img/reed-s7.jpg" alt="Slide: the sealing of the dry pith, with two serpents coiled along the end of the spine" loading="lazy"><figcaption>Concept slide: the sealing.</figcaption></figure>
-    </div>
-  </div>
+    </div><aside class="fx reveal"><canvas data-holo="necklace" aria-label="The golden necklace along the spine"></canvas><div class="cap">The golden necklace along the spine</div></aside></div></div>
 </section>
 
 <section id="suph" data-label="Yam Suph">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">VI &middot; The Sea of Reeds</div>
       <h2>Yam Suph <em>&amp; the Red Sea</em></h2>
@@ -555,12 +558,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <tr><td>4th to 5th century CE</td><td>Latin (Vulgate)</td><td><i>Mare Rubrum</i></td><td>&ldquo;Red Sea&rdquo;</td></tr>
         <tr><td>1611</td><td>English (King James)</td><td>Red Sea</td><td>fixed in English</td></tr>
       </tbody></table></div>
-    <figure class="fig reveal"><img src="img/reed-s13.jpg" alt="Slide: the physical fact of the landscape, a reed marsh beside a papyrus basket" loading="lazy"><figcaption>Concept slide: the deck&rsquo;s reading of the landscape.</figcaption></figure>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="marsh" aria-label="Sea of reeds · the parted way"></canvas><div class="cap">Sea of reeds · the parted way</div></aside></div></div>
 </section>
 
 <section id="pineal" data-label="Milk &amp; Honey">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">VII &middot; The Biological Exodus</div>
       <h2>The Medullary Node <em>&amp; the Land of Milk and Honey</em></h2>
@@ -578,11 +580,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Differs.</b> (1) CSF is made mainly by the choroid plexus in the ventricles, not by the pituitary. (2) Pinoline is found in the pineal gland, and DMT has been measured in rat pineal tissue, but I know of no evidence that meditation makes the pineal release DMT into the CSF of a person. This is the least supported claim in the chapter. (3) Closing the eyes does not switch the pineal gland to its full night-time secretion. (4) The file that says the subarachnoid space &ldquo;preserves&rdquo; the neural tube is mixed up: the remnant of the tube is the central canal.</p>
       </div>
     </div>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="pinecone" aria-label="The pineal cone"></canvas><div class="cap">The pineal cone</div></aside></div></div>
 </section>
 
 <section id="spine" data-label="The Spine">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">VIII &middot; The Letters Descend</div>
       <h2>The Alphabet <em>Down the Spine</em></h2>
@@ -603,19 +605,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Where it differs.</b> Vowels are shaped in the throat and mouth, not along the spine, so the map is a memory aid. A final sigma is only the form the letter takes at the end of a word, and it has the same value as σ, 200. The cord itself stops at L1 to L2, well above the lower vertebrae.</p>
       </div>
     </div>
-    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
-      <figure class="fig reveal"><img src="img/reed-s9.jpg" alt="Slide: the letters descend the living temple, the Greek alphabet running down beside a glowing spine" loading="lazy"><figcaption>Concept slide: the letters descend.</figcaption></figure>
-      <figure class="fig reveal"><img src="img/reed-s10.jpg" alt="Slide: orthographic mutation at the lumbar enlargement, with cord cross-sections and the letters A and AI" loading="lazy"><figcaption>Concept slide: mutation at the lumbar enlargement.</figcaption></figure>
-    </div>
-    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
-      <figure class="fig reveal"><img src="img/reed-s11.jpg" alt="Slide: the final sigma and the stone, a glowing sigma over the coccyx" loading="lazy"><figcaption>Concept slide: the final sigma and the stone.</figcaption></figure>
-      <figure class="fig reveal"><img src="img/reed-s8.jpg" alt="Slide: the alphabet as biological action, vowels as light and consonants as the scaffold" loading="lazy"><figcaption>Concept slide: vowels and consonants.</figcaption></figure>
-    </div>
-  </div>
+    </div><aside class="fx reveal"><canvas data-holo="spine" aria-label="Human spine · cyan 7 neck · gold 12 chest · rust 5 lower back"></canvas><div class="cap">Human spine · cyan 7 neck · gold 12 chest · rust 5 lower back</div></aside></div></div>
 </section>
 
 <section id="lateral" data-label="The Lateral Wave">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">IX &middot; Cellular Energetics</div>
       <h2>The Horizontal <em>Cosine</em></h2>
@@ -632,11 +626,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Differs.</b> Mitochondrial transfer is an active research field, and most of the evidence comes from cultures and animal models, not from healthy people, so &ldquo;confirmed&rdquo; is stronger than the evidence. The &ldquo;glycoprotein gate with c = 1&rdquo;, the cosine of the energy vector and the mapping onto the Sine and Cosine axes are the Codex&rsquo;s own model, not established biology.</p>
       </div>
     </div>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="lateral" aria-label="The lateral wave"></canvas><div class="cap">The lateral wave</div></aside></div></div>
 </section>
 
 <section id="fractal" data-label="The Fractal">
-  <div class="wrap">
+  <div class="wrap"><div class="cols"><div class="colL">
     <div class="reveal">
       <div class="kicker">X &middot; The Same Story at Every Scale</div>
       <h2>The Fractal <em>Story of the Reed</em></h2>
@@ -651,9 +645,10 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <tr><td>Sea</td><td>Yam Suph</td><td>The reed is parted and crossed.</td></tr>
         <tr><td>Coccyx</td><td>Fused bone</td><td>The reed becomes stone.</td></tr>
       </tbody></table></div>
-    <figure class="fig reveal"><img src="img/reed-s14.jpg" alt="Slide: the fractal story of the reed, a table from embryology to coccyx" loading="lazy"><figcaption>Concept slide: the same table, as drawn in the deck.</figcaption></figure>
-  </div>
+  </div><aside class="fx reveal"><canvas data-holo="fractal" aria-label="The fractal · one stem, branching"></canvas><div class="cap">The fractal · one stem, branching</div></aside></div></div>
 </section>
+
+<section id="slides" data-label="Slides"><div class="wrap"><details class="auditbox reveal"><summary>The slide deck (15)</summary><div class="gal"><figure><a href="img/reed-c01.jpg" target="_blank" rel="noopener"><img src="img/reed-c01.jpg" alt="Slide 1" loading="lazy"></a></figure><figure><a href="img/reed-c02.jpg" target="_blank" rel="noopener"><img src="img/reed-c02.jpg" alt="Slide 2" loading="lazy"></a></figure><figure><a href="img/reed-c03.jpg" target="_blank" rel="noopener"><img src="img/reed-c03.jpg" alt="Slide 3" loading="lazy"></a></figure><figure><a href="img/reed-c04.jpg" target="_blank" rel="noopener"><img src="img/reed-c04.jpg" alt="Slide 4" loading="lazy"></a></figure><figure><a href="img/reed-c05.jpg" target="_blank" rel="noopener"><img src="img/reed-c05.jpg" alt="Slide 5" loading="lazy"></a></figure><figure><a href="img/reed-c06.jpg" target="_blank" rel="noopener"><img src="img/reed-c06.jpg" alt="Slide 6" loading="lazy"></a></figure><figure><a href="img/reed-c07.jpg" target="_blank" rel="noopener"><img src="img/reed-c07.jpg" alt="Slide 7" loading="lazy"></a></figure><figure><a href="img/reed-c08.jpg" target="_blank" rel="noopener"><img src="img/reed-c08.jpg" alt="Slide 8" loading="lazy"></a></figure><figure><a href="img/reed-c09.jpg" target="_blank" rel="noopener"><img src="img/reed-c09.jpg" alt="Slide 9" loading="lazy"></a></figure><figure><a href="img/reed-c10.jpg" target="_blank" rel="noopener"><img src="img/reed-c10.jpg" alt="Slide 10" loading="lazy"></a></figure><figure><a href="img/reed-c11.jpg" target="_blank" rel="noopener"><img src="img/reed-c11.jpg" alt="Slide 11" loading="lazy"></a></figure><figure><a href="img/reed-c12.jpg" target="_blank" rel="noopener"><img src="img/reed-c12.jpg" alt="Slide 12" loading="lazy"></a></figure><figure><a href="img/reed-c13.jpg" target="_blank" rel="noopener"><img src="img/reed-c13.jpg" alt="Slide 13" loading="lazy"></a></figure><figure><a href="img/reed-c14.jpg" target="_blank" rel="noopener"><img src="img/reed-c14.jpg" alt="Slide 14" loading="lazy"></a></figure><figure><a href="img/reed-c15.jpg" target="_blank" rel="noopener"><img src="img/reed-c15.jpg" alt="Slide 15" loading="lazy"></a></figure></div></details></div></section>
 
 <section id="notes" data-label="Notes">
   <div class="wrap">
@@ -764,6 +759,7 @@ const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent
 items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
+<script src="holo3d.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
 </body>

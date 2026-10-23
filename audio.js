@@ -84,7 +84,7 @@
     '.narr .nn{flex-basis:100%;font-weight:400;font-size:11px}' +
     '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}';
   var speaking = null;
-  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = 'Read aloud'; }); }
+  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = 'Read aloud'; }); }
   function pickVoice() {
     var vs = []; try { vs = speechSynthesis.getVoices() || []; } catch (e) {}
     var lang = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
@@ -100,6 +100,7 @@
     stopSpeak();
     var nodes = Array.prototype.slice.call(sec.querySelectorAll('h2,h3,p,li')).filter(function (n) { return !n.closest('.narr') && !n.closest('table') && !n.classList.contains('src') && n.textContent.trim().length > 1; });
     var token = { stop: false }; speaking = token; btn.textContent = 'Stop';
+    try { var hh = sec.querySelector('h2'); window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: true, title: hh ? hh.textContent.replace(/\s+/g, ' ').trim() : 'This page' } })); } catch (e) {}
     var i = 0, voice = pickVoice();
     function nextNode() {
       if (token.stop || i >= nodes.length) { if (!token.stop) stopSpeak(); return; }
@@ -145,6 +146,7 @@
       }
     });
     window.addEventListener('pagehide', stopSpeak);
+    window.addEventListener('ophanim-speech-stop', stopSpeak);
   }
 
   function init() {
