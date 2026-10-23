@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ο Πίνακας Μηχανικής του Ημερολογίου · Φωνητική Αρχαιολογία</title>
+<meta name="description" content="360, 365,2422 και ο ισχυρισμός 13 x 28: έλεγχος του ημερολογίου με υπολογιστή απόκλισης, ολογράμματα Ήλιου, Γης και Σελήνης, τις επαγόμενες ημέρες και τον κύκλο του Μέτωνα. Από τον @Mandos16, Φωνητική Αρχαιολογία.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Runic&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#060d1a; --bg2:#0a1630; --panel:rgba(9,22,46,.82);
+  --gold:#c9a35a; --gold2:#e2c27f; --red:#c8414b; --cyan:#7fa6d6;
+  --ink:#d3d6dc; --muted:#8e9bb3; --line:rgba(201,163,90,.28); --bp:rgba(127,166,214,.07);
+  --serif:"EB Garamond",Georgia,serif; --cap:"Cinzel","EB Garamond",serif; --mono:"JetBrains Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.6;overflow-x:hidden;
+  background-image:linear-gradient(var(--bp) 1px,transparent 1px),linear-gradient(90deg,var(--bp) 1px,transparent 1px);background-size:44px 44px;background-attachment:fixed}
+img{display:block;max-width:100%}
+a{color:var(--gold2)}
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--cyan),var(--gold2));z-index:60}
+.kicker{font-family:var(--cap);letter-spacing:.32em;text-transform:uppercase;font-size:.62rem;color:var(--gold)}
+h1,h2{font-family:var(--cap);font-weight:500;color:var(--gold2);letter-spacing:.06em;line-height:1.15}
+h2{font-size:clamp(1.7rem,4vw,2.8rem);margin:.4rem 0 1.2rem}
+h3{font-family:var(--cap);font-weight:500;color:var(--gold2);font-size:1.15rem;letter-spacing:.05em}
+p+p{margin-top:1rem}
+em{color:var(--gold2);font-style:italic}
+.gr{letter-spacing:.02em}
+.mono{font-family:var(--mono);font-size:.85em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.narrow{max-width:760px;margin:0 auto;padding:0 24px}
+section{position:relative}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.15s}.rv.d2{transition-delay:.3s}.rv.d3{transition-delay:.45s}
+.note{border-left:2px solid var(--gold);background:rgba(201,163,90,.07);padding:.8rem 1rem;margin-top:1.4rem;font-size:.88rem;color:var(--muted)}
+.note b{color:var(--gold2);font-weight:600}
+.frame{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:4px;box-shadow:0 30px 80px rgba(0,0,0,.6);background:var(--bg2)}
+.frame img{width:100%;height:118%;object-fit:cover;will-change:transform}
+.frame figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 16px 10px;font-size:.78rem;color:var(--muted);background:linear-gradient(transparent,rgba(0,0,0,.75));font-style:italic}
+.corner::before,.corner::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--gold);z-index:3}
+.corner::before{top:6px;left:6px;border-right:0;border-bottom:0}.corner::after{bottom:6px;right:6px;border-left:0;border-top:0}
+
+/* HERO */
+#hero{height:100vh;min-height:620px;overflow:hidden;display:grid;place-items:center;text-align:center;background:#000}
+#hero .bg{position:absolute;inset:0 -5% -4%;background:center bottom/max(110%,170vh) auto no-repeat;will-change:transform;transform-origin:50% 80%;
+  -webkit-mask-image:linear-gradient(180deg,transparent 28%,#000 55%);mask-image:linear-gradient(180deg,transparent 28%,#000 55%)}
+#hero svg.lattice{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+#hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4),transparent 40%,transparent 75%,var(--bg))}
+#hero .title{position:relative;z-index:2;margin-top:-30vh;padding:0 16px}
+#hero h1{font-size:clamp(2.4rem,8vw,5.4rem);text-shadow:0 0 40px rgba(226,194,127,.35)}
+#hero .sub{font-size:clamp(1rem,2.4vw,1.35rem);margin-top:.6rem;font-style:italic}
+#hero .gk{font-size:clamp(1rem,2.6vw,1.5rem);color:var(--gold);letter-spacing:.3em;margin-top:.4rem}
+.cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--cap);font-size:.6rem;letter-spacing:.35em;color:var(--muted);text-align:center}
+.cue span{display:block;width:1px;height:46px;margin:10px auto 0;background:linear-gradient(var(--gold),transparent);animation:drip 2.2s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:16vh 0}
+.duo{position:relative;height:min(78vh,640px)}
+.duo .frame{position:absolute}
+.duo .a{width:58%;left:0;top:0;aspect-ratio:420/460}
+.duo .b{width:56%;right:0;bottom:0;aspect-ratio:440/336}
+.terms{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:1.4rem;font-size:.92rem}
+.terms dt{color:var(--gold2);white-space:nowrap}
+.terms dd{color:var(--ink)}
+
+/* PHILOSOPHERS */
+#phil{padding:12vh 0}
+#phil .frame{aspect-ratio:1200/355;margin:2rem 0}
+#phil .frame img{height:112%}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px 22px;position:relative}
+.card .ref{font-family:var(--mono);font-size:.7rem;color:var(--cyan);margin:.2rem 0 .8rem}
+.card p{font-size:.93rem}
+.card blockquote{margin:.9rem 0 0;padding:.6rem .9rem;border-left:2px solid var(--gold);font-style:italic;color:var(--gold2);font-size:1rem;background:rgba(201,163,90,.06)}
+.card blockquote small{display:block;font-style:normal;color:var(--muted);font-size:.78rem;margin-top:.3rem}
+
+/* CAPTURE PIN */
+#capture{height:380vh}
+.pin-in{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center;max-width:1240px;margin:0 auto;padding:0 24px}
+#pboard{width:100%;max-height:86vh;filter:drop-shadow(0 30px 60px rgba(0,0,0,.7))}
+#pboard .pc{transition:transform .6s cubic-bezier(.3,1.1,.4,1),opacity .6s}
+#laser{transition:opacity .4s}
+.steps{list-style:none}
+.steps li{padding:14px 0 14px 18px;border-left:2px solid rgba(201,163,90,.15);color:var(--muted);transition:all .5s;font-size:.95rem}
+.steps li b{display:block;font-family:var(--cap);font-weight:500;letter-spacing:.08em;font-size:.9rem;color:var(--muted);transition:color .5s}
+.steps li.on{border-color:var(--gold2);color:var(--ink)}
+.steps li.on b{color:var(--gold2)}
+.formula{font-family:var(--mono);color:var(--gold2);font-size:.9rem;margin:.4rem 0 1rem}
+
+/* PERAS banner */
+.banner{position:relative;height:115vh;overflow:hidden;display:grid;place-items:center}
+.banner .bg{position:absolute;inset:-12% 0;background:center/cover no-repeat;will-change:transform}
+.banner .veil{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(6,13,26,.2) 30%,rgba(6,13,26,.35) 70%,var(--bg) 100%)}
+.banner .box{position:relative;z-index:2;max-width:760px;margin:0 24px;padding:34px 36px;background:rgba(6,13,26,.78);border:1px solid var(--line);backdrop-filter:blur(4px);text-align:center}
+
+/* ALPHABET */
+#iso{padding:16vh 0 8vh}
+.alpha{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;max-width:720px;margin:2.4rem auto 0}
+.alpha div{border:1px solid var(--line);text-align:center;padding:8px 0;font-size:1.35rem;border-radius:3px;background:var(--panel);color:var(--gold2);opacity:0;transform:scale(.6);transition:all .5s cubic-bezier(.3,1.4,.4,1)}
+.alpha.in div{opacity:1;transform:none}
+.alpha div small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--ink)}
+.alpha .arch{color:var(--cyan)}
+.row-lab{display:grid;grid-template-columns:repeat(3,1fr);max-width:720px;margin:.6rem auto 0;font-family:var(--cap);font-size:.62rem;letter-spacing:.2em;color:var(--muted)}
+
+/* WORD PINS */
+.word{height:210vh}
+.word .stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.word .bg{position:absolute;inset:-8%;background:center/cover no-repeat;will-change:transform}
+.word .veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(6,13,26,.4),rgba(6,13,26,.93) 75%),linear-gradient(180deg,var(--bg),transparent 20%,transparent 80%,var(--bg))}
+.word .inner{position:relative;z-index:2;text-align:center;max-width:860px;padding:0 20px}
+.word .gw{font-size:clamp(3rem,10vw,6.2rem);color:var(--gold2);letter-spacing:.06em;line-height:1;text-shadow:0 0 50px rgba(226,194,127,.4)}
+.word .gloss{font-family:var(--cap);font-size:.8rem;letter-spacing:.3em;color:var(--gold);margin:.8rem 0 1.6rem}
+.tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.tile{width:60px;padding:8px 0 6px;border:1px solid var(--line);border-radius:4px;background:rgba(6,13,26,.75);opacity:.25;transform:translateY(14px);transition:all .45s cubic-bezier(.3,1.4,.4,1)}
+.tile.on{opacity:1;transform:none;border-color:var(--gold);box-shadow:0 0 18px rgba(226,194,127,.25)}
+.tile .l{font-size:1.6rem;color:var(--gold2);line-height:1.1}
+.tile .v{font-family:var(--mono);font-size:.72rem}
+.sum{font-family:var(--mono);font-size:clamp(2rem,6vw,3.2rem);color:var(--gold2);margin-top:1.2rem}
+.sum small{font-size:.8rem;color:var(--muted);display:block;letter-spacing:.2em}
+.word .desc{margin-top:1.2rem;font-size:1.02rem}
+
+/* ALETHEIA PIN */
+#truth{height:320vh}
+#truth .pin-in{grid-template-columns:1fr 1fr}
+.g64{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;width:min(100%,460px);aspect-ratio:1;margin:0 auto;padding:10px;border:1px solid var(--gold);background:rgba(6,13,26,.8);box-shadow:0 0 60px rgba(226,194,127,.12);transform-style:preserve-3d;will-change:transform}
+.g64 i{display:block;border:1px solid rgba(127,166,214,.18);transition:background .3s,box-shadow .3s}
+.g64 i.on{background:rgba(226,194,127,.18);border-color:rgba(226,194,127,.5)}
+.g64 i.on.dk{background:rgba(226,194,127,.42)}
+.count64{text-align:center;font-family:var(--mono);font-size:clamp(2.2rem,6vw,3.6rem);color:var(--gold2);margin-top:1rem}
+.count64 small{display:block;font-size:.75rem;color:var(--muted);letter-spacing:.2em}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:1.2rem}
+.facts div{text-align:center;border:1px solid var(--line);border-radius:3px;padding:8px 4px;font-family:var(--mono);color:var(--gold2);font-size:.95rem;opacity:.25;transition:opacity .5s}
+.facts div.on{opacity:1}
+.facts small{display:block;color:var(--muted);font-size:.62rem;font-family:var(--serif)}
+
+/* TABLE */
+#matrix{padding:14vh 0 8vh}
+table{width:100%;border-collapse:collapse;margin-top:1.6rem;font-size:.95rem}
+th{font-family:var(--cap);font-weight:500;font-size:.7rem;letter-spacing:.18em;color:var(--gold);text-align:left;padding:10px 12px;border-bottom:1px solid var(--gold)}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+td.g{font-size:1.35rem;color:var(--gold2);white-space:nowrap}
+td.n{font-family:var(--mono);color:var(--gold2);text-align:right}
+tr{opacity:0;transform:translateX(-24px);transition:all .7s}
+table.in tr{opacity:1;transform:none}
+table.in tr:nth-child(2){transition-delay:.1s}table.in tr:nth-child(3){transition-delay:.2s}table.in tr:nth-child(4){transition-delay:.3s}table.in tr:nth-child(5){transition-delay:.4s}table.in tr:nth-child(6){transition-delay:.5s}table.in tr:nth-child(7){transition-delay:.6s}
+
+/* COMPARE */
+#compare{padding:10vh 0 14vh}
+.games{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:2rem}
+.gcard{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 16px;font-size:.86rem}
+.gcard.me{border-color:var(--gold);box-shadow:0 0 30px rgba(226,194,127,.15)}
+.gcard h3{font-size:.95rem}
+.gcard .when{font-family:var(--mono);font-size:.68rem;color:var(--cyan);margin:.2rem 0 .7rem}
+.gcard svg{width:100%;height:70px;margin-bottom:.7rem}
+.gcard dl{display:grid;grid-template-columns:auto 1fr;gap:3px 8px}
+.gcard dt{color:var(--gold);font-family:var(--cap);font-size:.6rem;letter-spacing:.1em;padding-top:3px}
+
+/* END */
+#end{height:130vh;position:relative;overflow:hidden}
+#end .bg{position:absolute;inset:-10% 0;background:center/cover no-repeat;will-change:transform}
+#end .veil{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(6,13,26,.1) 25%,rgba(6,13,26,.3) 55%,var(--bg) 92%)}
+#end .fin{position:absolute;left:0;right:0;bottom:12vh;text-align:center;z-index:2;padding:0 20px}
+#end .fin p{max-width:780px;margin:0 auto;font-size:clamp(1.1rem,2.4vw,1.45rem);font-style:italic}
+.btn{display:inline-block;margin-top:1.8rem;font-family:var(--cap);letter-spacing:.2em;font-size:.78rem;text-decoration:none;color:var(--bg);background:linear-gradient(180deg,var(--gold2),var(--gold));padding:14px 28px;border-radius:2px;box-shadow:0 10px 30px rgba(201,163,90,.25)}
+#notes{padding:8vh 0 6vh}
+details{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:14px 20px}
+summary{cursor:pointer;font-family:var(--cap);letter-spacing:.14em;font-size:.82rem;color:var(--gold2)}
+details ol{margin:1rem 0 0 1.2rem;font-size:.9rem}
+details li{margin:.5rem 0}
+footer{text-align:center;padding:5vh 20px 7vh;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+footer .q{font-style:italic;color:var(--gold);font-size:1rem;margin-bottom:.4rem}
+
+@media (max-width:900px){
+  body{font-size:18px}
+  .split{grid-template-columns:1fr;gap:36px;padding:10vh 0}
+  .duo{height:auto;display:grid;gap:14px}.duo .frame{position:relative;width:100%!important;inset:auto}
+  .cards{grid-template-columns:1fr}
+  .games{grid-template-columns:1fr 1fr}
+  .pin-in,#truth .pin-in{grid-template-columns:1fr;gap:10px;align-content:center}
+  #pboard{max-height:46vh}
+  .steps li{padding:6px 0 6px 12px;font-size:.82rem}
+  .steps li:not(.on){display:none}
+  .g64{width:min(60vw,240px)}.count64{font-size:1.8rem;margin-top:.3rem}#truth h2{margin:.2rem 0 .6rem}#truth p{font-size:.9rem}
+  .alpha{grid-template-columns:repeat(9,1fr);gap:3px}.alpha div{font-size:1rem}
+  .tile{width:44px}.tile .l{font-size:1.2rem}
+  table{font-size:.82rem}td.g{font-size:1.05rem}
+  .hide-m{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ---- Tafl additions ---- */
+.rune{font-family:"Noto Sans Runic","Segoe UI Historic","Segoe UI Symbol",sans-serif;font-style:normal}
+.rune.big{font-size:1.5rem;letter-spacing:.1em;color:var(--gold2);white-space:nowrap}
+.dim{color:var(--muted);font-size:.8em}
+.tw{overflow-x:auto}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:2rem}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 16px;text-align:center}
+.mini svg{width:100%;max-width:300px;height:auto}
+.mini h3{margin-bottom:.2rem}
+.mini .cnt{font-family:var(--mono);font-size:.74rem;color:var(--cyan);margin-bottom:.6rem}
+.mini p{font-size:.85rem;color:var(--muted)}
+.cards.two{grid-template-columns:repeat(2,1fr)}
+.rune-t td.rn{text-align:center;padding:8px 4px}
+.rune-t td.rn .rune{font-size:1.7rem;color:var(--gold2);display:block;line-height:1.2}
+.rune-t td.rn small{font-family:var(--mono);font-size:.62rem;line-height:1.3;color:var(--muted);display:block}
+.rune-t td.rn small b{color:var(--ink);font-weight:600}
+.calc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px 22px;max-width:720px;margin-top:1.6rem}
+.calc .lbl{font-family:var(--cap);letter-spacing:.2em;font-size:.7rem;color:var(--gold)}
+.calc .field span{display:block;font-size:.85rem;color:var(--muted);margin:.5rem 0 .3rem}
+.calc input[type=text]{width:100%;background:rgba(6,13,26,.8);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:9px 11px;font:500 15px var(--mono)}
+.calc label{font-size:.9rem}
+.calc .hint-txt{font-size:.95rem;color:var(--ink)}
+.src{font-family:var(--mono);font-size:.74rem;line-height:1.7;color:var(--muted);max-width:80ch}
+.cap{display:block;margin-top:.5rem;font-size:.76rem;color:var(--muted);font-style:italic}
+#play iframe{height:900px}
+#hero .title{margin-top:-40vh}
+#ptag{paint-order:stroke;stroke:#081530;stroke-width:5px;stroke-linejoin:round}
+@media (max-width:900px){.minis{grid-template-columns:1fr}.cards.two{grid-template-columns:1fr}#play iframe{height:1700px!important}}
+
+#hero{min-height:100vh}
+#ring{position:absolute;left:50%;top:50%;width:min(92vmin,760px);transform:translate(-50%,-50%);opacity:.5}
+#hero .title{margin-top:0}
+.fig{margin:2.4rem 0 0}
+.fig img{width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+.fig figcaption{margin-top:.5rem;font-size:.78rem;color:var(--muted);font-style:italic}
+.calc select{width:100%;background:rgba(6,13,26,.8);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:9px 11px;font:500 15px var(--mono)}
+td.n.neg{color:var(--red)}
+th:nth-child(n+2){text-align:right}
+.hf canvas{width:100%;display:block;border:1px solid var(--line);border-radius:4px;background:radial-gradient(circle,rgba(127,166,214,.08),transparent 72%);cursor:grab;touch-action:pan-y}
+.hf figcaption{font-style:normal;font-size:.82rem}
+table.tl th,table.tl td{text-align:left!important}
+table.tl td{vertical-align:top;font-size:.9rem}
+.langsw{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<section id="hero">
+  <svg class="lattice" aria-hidden="true"><defs><pattern id="lp" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(127,166,214,.12)"/></pattern></defs><rect width="100%" height="100%" fill="url(#lp)"/></svg>
+  <svg id="ring" viewBox="-230 -230 460 460" aria-hidden="true"></svg>
+  <div class="veil"></div>
+  <div class="title">
+    <div class="kicker">Φωνητική Αρχαιολογία &middot; Έλεγχος Ημερολογίου</div>
+    <h1>Ο Πίνακας Μηχανικής του Ημερολογίου</h1>
+    <div class="sub">360, 365,2422 και ο ισχυρισμός 13 &times; 28: τρία διαφορετικά πράγματα</div>
+  </div>
+  <div class="cue">ΚΥΛΙΣΤΕ<span></span></div>
+</section>
+
+<section id="talk" class="wrap" style="padding:12vh 24px 0">
+  <div class="kicker rv">Ακούστε &middot; 20 λεπτά</div>
+  <h2 class="rv">Πώς τα ελαττώματα του ημερολογίου κρατούν την πραγματικότητα ακέραιη</h2>
+  <div class="rv" style="border:1px solid var(--line);background:var(--panel);padding:16px 18px;margin-top:14px">
+    <audio controls preload="none" src="audio/calendar-flaws-talk.mp3" data-title="Calendar Flaws (English)" style="width:100%;color-scheme:dark">Ο περιηγητής σας δεν παίζει ήχο.</audio>
+    <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--muted)">Ηχογραφημένη ομιλία στα αγγλικά. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p>
+  </div>
+  <dl class="terms rv" style="margin-top:2rem;max-width:760px"><dt>360&deg; η στροφή</dt><dd>η γεωμετρική βάση</dd><dt>365,2425 ημέρες</dt><dd>ο ηλιακός κύκλος, το μέσο γρηγοριανό έτος</dd><dt>29,53 ημέρες</dt><dd>ο κύκλος των φάσεων της Σελήνης</dd><dt>13 &times; 28 = 364</dt><dd>το δημοφιλές ημερολόγιο, μία ημέρα κάτω από το 365</dd><dt>+1,2425 ημέρες τον χρόνο</dt><dd>το σφάλμα που μαζεύεται απέναντι στο γρηγοριανό έτος, αν χρησιμοποιηθεί το 364</dd></dl>
+  <p class="src rv" style="margin-top:.8rem">Η παρουσίαση με μια ματιά: τα στοιχεία της πρώτης διαφάνειας.</p>
+</section>
+
+<section id="circle" class="wrap" style="padding:10vh 24px">
+  <div class="kicker rv">I &middot; Το έτος ως κύκλος</div>
+  <h2 class="rv">Γιατί 360</h2>
+  <div class="split" style="padding:4vh 0 0">
+    <div>
+      <p class="rv">Επί χιλιάδες χρόνια οι παρατηρητές του ουρανού έβαζαν το έτος σε έναν κύκλο 360 μερών: δώδεκα μήνες των τριάντα ημερών. Το βαβυλωνιακό αστρικό ημερολόγιο <em>MUL.APIN</em> χρησιμοποιεί ένα «σχηματικό έτος» 12 &times; 30, και το πολιτικό ημερολόγιο της Αιγύπτου χτίστηκε σε δώδεκα μήνες των τριάντα ημερών. Ήταν ένα τακτοποιημένο ιδεώδες, όχι μέτρηση του ουρανού.</p>
+      <p class="rv">Ο αριθμός 360 έχει πολλούς διαιρέτες. Έχει 24, ώστε το μισό, το τρίτο, το τέταρτο, το πέμπτο, το έκτο, το όγδοο, το ένατο, το δέκατο και το δωδέκατο βγαίνουν ακέραια. Γι&rsquo; αυτό ο κύκλος έχει 360 μοίρες.</p>
+      <p class="rv">Γι&rsquo; αυτό και το «μία μοίρα την ημέρα» είναι τόσο ελκυστική εικόνα για την πορεία του Ήλιου. Η εικόνα είναι ελαφρώς λανθασμένη. Σε ένα πραγματικό έτος ο Ήλιος διανύει 360&deg; σε 365,2422 ημέρες, δηλαδή περίπου 0,9856&deg; την ημέρα.</p>
+    </div>
+    <div>
+      <dl class="terms rv">
+        <dt>12 &times; 30</dt><dd>360 ημέρες: το σχηματικό έτος</dd>
+        <dt>24 διαιρέτες</dt><dd>1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120, 180, 360</dd>
+        <dt>0,9856&deg;</dt><dd>το πραγματικό ημερήσιο βήμα του Ήλιου, 360 &divide; 365,2422</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="sky" class="wrap" style="padding:6vh 24px 10vh">
+  <div class="kicker rv">II &middot; Το έτος που κρατά ο ουρανός</div>
+  <h2 class="rv">365,2422 ημέρες</h2>
+  <p class="rv" style="max-width:70ch">Το τροπικό έτος, από μία εαρινή ισημερία ως την επόμενη, διαρκεί περίπου 365,2422 ημέρες: 365 ημέρες, 5 ώρες, 48 λεπτά και 45 δευτερόλεπτα. Ένα ημερολογιακό έτος με άλλο μήκος γλιστρά σε σχέση με τις εποχές. Διαλέξτε ημερολόγιο και πλήθος ετών και δείτε πόσο.</p>
+  <div class="calc rv">
+    <div class="lbl">ΑΠΟΚΛΙΣΗ ΑΠΟ ΤΙΣ ΕΠΟΧΕΣ</div>
+    <label class="field"><span>Ημερολόγιο</span>
+      <select id="cm"></select></label>
+    <label class="field"><span>Έτη</span>
+      <input type="text" id="cy" inputmode="numeric" value="10"></label>
+    <p class="hint-txt" id="co" style="margin-top:1rem"></p>
+  </div>
+  <figure class="fig hf rv"><canvas data-holo="orrery" data-tilt=".7" style="aspect-ratio:1.5" aria-label="Περιστρεφόμενο μοντέλο του Ήλιου, της Γης στην τροχιά της και της Σελήνης γύρω από τη Γη"></canvas><figcaption>Η Γη κάνει μία στροφή γύρω από τον Ήλιο σε 365,2422 ημέρες, και η Σελήνη κάνει γύρω από τη Γη περίπου 12,37 στροφές μέσα σε αυτό το έτος. Τα χρυσά σημάδια είναι οι δώδεκα μήνες των τριάντα ημερών· οι κόκκινες κουκκίδες οι πέντε επιπλέον ημέρες. Σύρετε για να γυρίσει.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>Ροπή και τριβή</h3><p>Η παρουσίαση εικονίζει το κενό ως έναν τέλειο κύκλο 360 ημερών απέναντι στο πραγματικό έτος: ιδανική βάση 360,0000 ημέρες, τροπικό ηλιακό έτος 365,2422 ημέρες, ετήσια απόκλιση +5,2422 ημέρες, σχεδιασμένη ως <em>ροπή</em> και <em>τριβή</em>. Η ανάλυσή της: «Η φυσική των πλανητικών κινήσεων δεν υπακούει στην τέλεια εξηκονταδική γεωμετρία. Η ταλάντωση της Γης και η ελλειπτική τροχιά δημιουργούν μια διαρκή, συσσωρευόμενη τριβή απέναντι στη βάση των 360&deg;. Ένα άκαμπτο ημερολόγιο 360 ημερών χωρίς παρεμβαλλόμενες ημέρες θα αποκλίνει: τα ηλιοστάσια και οι ισημερίες γλιστρούν προς τα πίσω μέσα στους μήνες.»</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Έλεγχος.</b> Η απόκλιση είναι πραγματική και η αιτία της είναι πιο απλή από την τριβή: το έτος είναι απλώς 5,2422 ημέρες μεγαλύτερο από το 360. Η έλλειψη της τροχιάς κάνει τις τέσσερις εποχές άνισες, από περίπου 89 έως περίπου 94 ημέρες. Η ταλάντωση, η αργή περιστροφή του άξονα της Γης μία φορά σε περίπου 25.770 χρόνια, είναι ο λόγος που το τροπικό έτος (365,2422) είναι περίπου 20 λεπτά μικρότερο από το αστρικό (365,2564).</p></article>
+  </div>
+</section>
+
+<section id="five" class="wrap" style="padding:6vh 24px 10vh">
+  <div class="kicker rv">III &middot; Πέντε ημέρες έξω από τη μέτρηση</div>
+  <h2 class="rv">Οι Επαγόμενες Ημέρες</h2>
+  <div class="split" style="padding:3vh 0 0">
+    <div>
+      <p class="rv">Η Αίγυπτος κράτησε τους μήνες των τριάντα ημερών και πρόσθεσε πέντε ημέρες στο τέλος του έτους, κάνοντας 12 &times; 30 + 5 = 365. Αυτές είναι οι <em>επαγόμενες</em> ημέρες, από τις ελληνικές <em>ἡμέραι ἐπαγόμεναι</em>, «ημέρες που προστίθενται». Στον μύθο, όπως τον διηγείται ο Πλούταρχος, είναι τα γενέθλια του Όσιρι, της Ίσιδας, του Ώρου του Πρεσβύτερου, του Σετ και της Νέφθυος, ημέρες που δεν ανήκαν σε κανέναν μήνα.</p>
+      <p class="rv">Οι Μάγια έκαναν το ίδιο με τους δικούς τους αριθμούς. Ο <em>tun</em> των 360 ημερών βρίσκεται μέσα στο <em>Haab&rsquo;</em> των 365: δεκαοκτώ μήνες των είκοσι ημερών, και μετά πέντε ημέρες που λέγονται <em>Wayeb&rsquo;</em>.</p>
+      <p class="rv">Οι πέντε ημέρες κλείνουν το μεγαλύτερο μέρος του κενού αλλά όχι ολόκληρο. Το 365 υπολείπεται ακόμη κατά 0,2422 της ημέρας, γι&rsquo; αυτό το αιγυπτιακό πολιτικό έτος γλιστρούσε μία ημέρα σε σχέση με τις εποχές περίπου κάθε τέσσερα χρόνια, και χρειαζόταν περίπου 1.460 χρόνια για να κάνει ολόκληρο τον γύρο: ο σωθιακός κύκλος. Η μεταρρύθμιση του Ιουλίου Καίσαρα, από το 45 π.Χ., πρόσθεσε μία δίσεκτη ημέρα κάθε τέταρτο έτος (365,25). Η γρηγοριανή μεταρρύθμιση του 1582 αφαίρεσε τρεις δίσεκτες ημέρες κάθε 400 χρόνια (365,2425) και παρέλειψε δέκα ημερολογιακές ημέρες για να προλάβει.</p>
+    </div>
+    <div>
+      <dl class="terms rv">
+        <dt>360 + 5</dt><dd>= 365, όχι 365,2422</dd>
+        <dt>+ 0,2422</dt><dd>ό,τι υπάρχουν οι δίσεκτες ημέρες και οι δίσεκτοι μήνες για να απορροφούν</dd>
+        <dt>365,25</dt><dd>μέσο ιουλιανό έτος</dd>
+        <dt>365,2425</dt><dd>μέσο γρηγοριανό έτος</dd>
+      </dl>
+    </div>
+  </div>
+  <figure class="fig hf rv"><canvas data-holo="ring365" data-tilt=".8" style="aspect-ratio:1.25" aria-label="Δακτύλιος 360 σημαδιών με τις πέντε επιπλέον ημέρες και το υπόλοιπο πέρα από αυτές"></canvas><figcaption>Τα 360 σημάδια είναι οι δώδεκα μήνες των τριάντα ημερών (χρυσό ανά τριάντα). Οι πέντε κόκκινες κουκκίδες έξω είναι οι επαγόμενες ημέρες· η λεπτή χρυσή λωρίδα είναι το 0,2422 της ημέρας που ακόμη δεν χωρά. Η γραμμή που γυρίζει είναι ο Ήλιος. Σύρετε για να γυρίσει.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>Η βαλβίδα πίεσης</h3><p>Η παρουσίαση σχεδιάζει τις πέντε ημέρες ως βαλβίδα ανάμεσα σε δύο τροχούς των 360 ημερών: ο <em>tun</em> των Μάγια εκτονώνεται μέσω του <em>Wayeb&rsquo;</em>, και το αιγυπτιακό πολιτικό ημερολόγιο μέσω των γενεθλίων του Όσιρι, της Ίσιδας, του Ώρου, του Σετ και της Νέφθυος. Το βασικό της συμπέρασμα: οι αρχαίοι μετρολόγοι δεν κατέστρεψαν τη βάση των 360&deg;. Κράτησαν τον πυρήνα των 360 ημερών για να διατηρήσουν την εξηκονταδική και μαντική αρμονία. Οι πέντε επιπλέον ημέρες έζησαν έξω από τον γεωμετρικό νόμο, απορροφώντας τη ροπή των +5,2422 ημερών χωρίς να αλλοιώσουν τα αγνά μαθηματικά των 360&deg;.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Έλεγχος.</b> Ως εικόνα είναι δίκαιο: οι πέντε ημέρες στέκουν πράγματι έξω από τη μέτρηση 12 &times; 30. Το «απορροφούν τη ροπή» όμως ξεπερνά το μέτρο: μένει ακόμη το 0,2422 της ημέρας.</p></article>
+    <article class="card rv d1"><h3>Η εξίσωση της χειραψίας</h3><p>Η κύρια εξίσωση της παρουσίασης είναι 365,24 = 360 [O(t)] + 5,24 [H(c,u)&middot;S<sub>k</sub>], σχεδιασμένη ως κρεμαστή γέφυρα. Οι άκαμπτοι πυλώνες είναι η αντικειμενική βάση, 360. Τα καλώδια τάσης είναι η επαγόμενη επέκταση, 5,24: ευέλικτα στοιχεία φτιαγμένα να απορροφούν τη ροπή της μετάπτωσης και την τριβή της περιστροφής. Ένα τέλεια συμμετρικό σύστημα αποτυγχάνει σε έναν περιστρεφόμενο κόσμο, άρα η απόκλιση δεν είναι σφάλμα αλλά η ανοχή που εμποδίζει τη δομή να θρυμματιστεί κάτω από το βάρος της αστρονομικής πραγματικότητας.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Έλεγχος.</b> Τα O(t), H(c,u) και S<sub>k</sub> ανήκουν στο πλαίσιο (ενότητα VII), όχι στην αστρονομία. Το ίδιο το άθροισμα είναι απλό: 360 + 5,24 = 365,24.</p></article>
+  </div>
+</section>
+
+<section id="claim" class="wrap" style="padding:8vh 24px 10vh">
+  <div class="kicker rv">IV &middot; Ο ισχυρισμός 13 &times; 28</div>
+  <h2 class="rv">Δεκατρία Φεγγάρια</h2>
+  <p class="rv" style="max-width:70ch">Ο ισχυρισμός λέει: δεκατρείς μήνες των 28 ημερών (364 ημέρες, συν μία) είναι το φυσικό σεληνιακό ημερολόγιο, και μας το πήραν. Τρία πράγματα σε αυτόν μπορούν να ελεγχθούν.</p>
+  <div class="cards" style="margin-top:1.4rem">
+    <article class="card rv"><h3>Η Σελήνη δεν έχει 28 ημέρες</h3><p>Οι φάσεις της Σελήνης επαναλαμβάνονται κάθε 29,53 ημέρες (ο συνοδικός μήνας), και η Σελήνη κάνει μία στροφή στον ουρανό σε 27,32 ημέρες (ο αστρικός μήνας). Δεκατρείς πραγματικοί σεληνιακοί μήνες διαρκούν 13 &times; 29,53 = 383,9 ημέρες, σχεδόν 19 ημέρες περισσότερο από το ηλιακό έτος.</p></article>
+    <article class="card rv d1"><h3>Ένα έτος χωρά 12,37 φεγγάρια</h3><p>Το 365,2422 &divide; 29,53 κάνει περίπου 12,37, άρα ένα σεληνιακό ημερολόγιο χρειάζεται δέκατο τρίτο μήνα μόνο που και που: επτά φορές σε 19 χρόνια. Τα πραγματικά σεληνοηλιακά ημερολόγια χρησιμοποιούν 12 μήνες και έναν περιστασιακό δίσεκτο μήνα.</p></article>
+    <article class="card rv d2"><h3>Είναι σύγχρονο σχέδιο</h3><p>Δεκατρείς μήνες των 28 ημερών προτάθηκαν από τον Ωγκύστ Κοντ στο Θετικιστικό ημερολόγιό του (1849) και από τον Μόζες Κότσγουορθ ως Διεθνές Σταθερό Ημερολόγιο (1902), που η Kodak χρησιμοποίησε εσωτερικά επί δεκαετίες. Και τα δύο είναι ηλιακά και κανένα δεν διεκδικεί αρχαία καταγωγή. Η μεταρρύθμιση του 1582 αφαίρεσε δέκα ημέρες, όχι έναν μήνα.</p></article>
+  </div>
+  <p class="rv" style="max-width:70ch;margin-top:2rem">Για να είμαστε δίκαιοι: κάθε μήνας αρχίζει την ίδια ημέρα της εβδομάδας, το 364 διαιρείται σε 52 ακριβείς εβδομάδες και τέσσερα τρίμηνα των 91 ημερών, και με μία Ημέρα του Έτους και μία Δίσεκτη Ημέρα ακολουθεί το γρηγοριανό έτος. Η αδυναμία του είναι η ιστορία που λέγεται γι&rsquo; αυτό, όχι η αριθμητική του. Ένας ακόμη έλεγχος, από την πλευρά του 360: το 360 &divide; 13 είναι 27,692&hellip; μοίρες, άρα δεκατρείς ίσοι μήνες δεν μπορούν να καλύψουν τον κύκλο σε ακέραιες μοίρες, πράγμα στο οποίο οι 24 διαιρέτες του 360 είναι καλοί.</p>
+  <figure class="fig hf rv"><canvas data-holo="lunar" data-tilt=".35" style="aspect-ratio:1.1" aria-label="Έλικα δεκατριών πραγματικών σεληνιακών μηνών που ανεβαίνει πέρα από το τέλος του έτους, απέναντι σε δεκατρία ίσα σημάδια των 28 ημερών"></canvas><figcaption>Δεκατρία ίσα σημάδια των 28 ημερών (κυανά) γύρω από το έτος, απέναντι σε δεκατρία πραγματικά φεγγάρια των 29,53 ημερών (χρυσά) που ανεβαίνουν σε σπείρα. Τα πραγματικά φεγγάρια περνούν πέρα από το τέλος του έτους: το σκουριασμένο τμήμα είναι η υπέρβαση των σχεδόν 19 ημερών. Σύρετε για να γυρίσει.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>13 &times; 28 = 364, συν μία ημέρα</h3><p>Ο τύπος της παρουσίασης: 13 μήνες &times; 28 ημέρες = 364 ημέρες, με μία ημέρα εκτός χρόνου. Η κατηγορία της: διαφημισμένο ως φυσική και αρμονική εναλλακτική του γρηγοριανού συστήματος, το ημερολόγιο δανείζεται την όψη της αρχαίας γνώσης αγνοώντας τη μηχανική των τροχιών, και επιβάλλει μια συμμετρία (13 &times; 28) που δεν ταιριάζει ούτε στο γεωμετρικό ιδεώδες των 360 ούτε στους πραγματικούς σεληνιακούς και ηλιακούς κύκλους.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Έλεγχος.</b> Η ασυμφωνία με τη Σελήνη και με το 360 είναι σωστή. Ως σχέδιο ηλιακής μέτρησης όμως λειτουργεί, και το λέει ανοιχτά.</p></article>
+    <article class="card rv d1"><h3>Αστρικός απέναντι σε συνοδικό</h3><p>Ο αστρικός μήνας, 27,32 ημέρες, φέρνει τη Σελήνη πίσω στα ίδια αστέρια του βάθους. Ο συνοδικός μήνας, 29,53 ημέρες, τη φέρνει πίσω στην ίδια φάση. Η υπέρβαση της παρουσίασης: 13 &times; 29,53 = 383,89 ημέρες, σχεδόν 19 ημέρες πέρα από το ηλιακό έτος, άρα ένα ημερολόγιο 13 &times; 28 αποκόπτεται από τις σεληνιακές φάσεις που ισχυρίζεται ότι τιμά.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Έλεγχος.</b> 13 &times; 29,53059 = 383,9 ημέρες και 383,9 &minus; 365,2422 = 18,66. Και τα δύο στέκουν.</p></article>
+  </div>
+</section>
+
+<section id="moon" class="wrap" style="padding:6vh 24px 10vh">
+  <div class="kicker rv">V &middot; Πώς δουλεύουν πραγματικά τα ημερολόγια της Σελήνης</div>
+  <h2 class="rv">Δώδεκα μήνες και ένας δίσεκτος</h2>
+  <div class="split" style="padding:3vh 0 0">
+    <div>
+      <p class="rv">Δώδεκα συνοδικοί μήνες διαρκούν 354,37 ημέρες, περίπου έντεκα ημέρες λιγότερο από το ηλιακό έτος. Τα βαβυλωνιακά, ελληνικά και εβραϊκά ημερολόγια κρατούσαν μαζί τις φάσεις της Σελήνης και τις εποχές προσθέτοντας δίσεκτο μήνα. Το μοτίβο που δουλεύει καλύτερα είναι ο κύκλος του Μέτωνα: 19 ηλιακά έτη χωρούν σχεδόν ακριβώς 235 σεληνιακούς μήνες (6.939,60 ημέρες απέναντι σε 6.939,69), δηλαδή επτά δίσεκτους μήνες σε 19 χρόνια.</p>
+      <p class="rv">Η παρουσίαση το λέει έτσι: για να μένει το σεληνιακό έτος των 354 ημερών δεμένο με τις ηλιακές εποχές των 365, προστίθενται επτά παρεμβαλλόμενοι δίσεκτοι μήνες σε έναν κύκλο 19 ετών, και οι Βαβυλώνιοι, οι Έλληνες και οι Εβραίοι είδαν ότι 19 τροπικά ηλιακά έτη ισούνται με 235 συνοδικούς σεληνιακούς μήνες.</p>
+      <p class="rv">Το καθαρά σεληνιακό ημερολόγιο του Ισλάμ κάνει την αντίθετη επιλογή. Δεν προσθέτει ποτέ μήνα, και έτσι οι μήνες του περιπλανώνται σε όλες τις εποχές σε περίπου 33 χρόνια.</p>
+    </div>
+    <figure class="fig hf rv" style="margin:0"><canvas data-holo="metonic" data-tilt=".8" style="aspect-ratio:1.25" aria-label="Δακτύλιος δεκαεννέα ετών, επτά από αυτά με δέκατο τρίτο μήνα, και 235 σεληνιακοί μήνες μέσα"></canvas><figcaption>Δεκαεννέα έτη γύρω από τον δακτύλιο, επτά από αυτά χρυσά: τα έτη που έχουν δέκατο τρίτο μήνα. Τα 235 μικρά σημάδια μέσα είναι οι σεληνιακοί μήνες. Τα χρυσά έτη ακολουθούν το μοτίβο του εβραϊκού ημερολογίου (3, 6, 8, 11, 14, 17 και 19 του κύκλου). Σύρετε για να γυρίσει.</figcaption></figure>
+  </div>
+</section>
+
+<section id="matrix" class="wrap" style="padding:6vh 24px 10vh">
+  <div class="kicker rv">VI &middot; Δίπλα δίπλα</div>
+  <h2 class="rv">Ο Πίνακας</h2>
+  <p class="rv" style="max-width:70ch">Κάθε ημερολόγιο συγκρινόμενο με το τροπικό έτος των 365,2422 ημερών. Η τελευταία στήλη δείχνει πόσο χωρίζουν ημερολόγιο και εποχές σε δέκα χρόνια.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Ημερολόγιο</th><th>Ημέρες τον χρόνο</th><th>Διαφορά από 365,2422</th><th>Ολίσθηση σε 10 χρόνια</th></tr></thead>
+    <tbody>
+<tr><td>Εξηκονταδικό ιδεώδες, 12 × 30</td><td class="n">360</td><td class="n neg">-5,2422</td><td class="n">52,4 ημέρες</td></tr>
+<tr><td>Αιγυπτιακό πολιτικό έτος, 12 × 30 + 5</td><td class="n">365</td><td class="n">-0,2422</td><td class="n">2,4 ημέρες</td></tr>
+<tr><td>13 × 28, χωρίς επιπλέον ημέρα</td><td class="n">364</td><td class="n neg">-1,2422</td><td class="n">12,4 ημέρες</td></tr>
+<tr><td>Ιουλιανό έτος</td><td class="n">365,25</td><td class="n">+0,0078</td><td class="n">0,08 ημέρες</td></tr>
+<tr><td>Μέσο γρηγοριανό έτος</td><td class="n">365,24</td><td class="n">+0,0003</td><td class="n">0,003 ημέρες</td></tr>
+<tr><td>12 σεληνιακοί μήνες</td><td class="n">354,37</td><td class="n neg">-10,8751</td><td class="n">108,8 ημέρες</td></tr>
+<tr><td>13 σεληνιακοί μήνες</td><td class="n">383,90</td><td class="n neg">+18,6555</td><td class="n">186,6 ημέρες</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="rv" style="margin-top:2.6rem">Η ίδια σύγκριση όπως τη σχεδιάζει η παρουσίαση</h3>
+  <div class="tw"><table class="tl">
+    <thead><tr><th>Μέτρο</th><th>Ιδανική βάση 360&deg;</th><th>Ηλιακό 365,24 ημ. (τροπικό)</th><th>Αληθινό σεληνοηλιακό (Μέτωνος)</th><th>Το ημερολόγιο 13 &times; 28</th></tr></thead>
+    <tbody>
+<tr><td>Γεωμετρικός συντονισμός</td><td>Τέλειος (24 διαιρέτες)</td><td>Με απόκλιση (θέλει παρεμβολή)</td><td>Σύνθετος (αρμονική στοίχιση)</td><td>Σπασμένος (πρώτος αριθμός 13)</td></tr>
+<tr><td>Αστρονομική άγκυρα</td><td>Χωρική (ζωδιακός, μοίρες)</td><td>Ηλιακή (ισημερία, ηλιοστάσιο)</td><td>Συνοδική (σεληνιακή φάση 29,53 ημερών)</td><td>Καμία (τεχνητό κατασκεύασμα)</td></tr>
+<tr><td>Μετριασμός της απόκλισης</td><td>Δεν ισχύει (στατικό δοχείο)</td><td>5 επαγόμενες ημέρες και μία δίσεκτη</td><td>7 δίσεκτοι μήνες ανά 19 χρόνια</td><td>Καμία για τη Σελήνη· ακολουθεί το ηλιακό έτος</td></tr>
+<tr><td>Δομική κρίση</td><td>Νόμος, απόλυτος νόμος</td><td>Εξίσωση της χειραψίας</td><td>Δυναμικός ουράνιος συντονισμός</td><td>«Εντροπική αποτυχία του συστήματος»</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src rv" style="margin-top:.8rem">Οι κρίσεις της τελευταίας γραμμής είναι λόγια της ίδιας της παρουσίασης. Ελέγξιμος είναι ο πρώτος πίνακας· για το ημερολόγιο 13 &times; 28 ο έλεγχος είναι ότι ακολουθεί το έτος, όχι τη Σελήνη.</p>
+</section>
+
+<section id="reading" class="wrap" style="padding:6vh 24px 12vh">
+  <div class="kicker rv">VII &middot; Μια ανάγνωση</div>
+  <h2 class="rv">Η Χειραψία</h2>
+  <p class="src rv">Όλα τα παραπάνω είναι αστρονομία και ιστορία. Αυτή η ενότητα είναι ερμηνεία, μέσα στο πλαίσιο του Mandos16, και δεν είναι τεκμηριωμένη επιστήμη.</p>
+  <div class="cards two" style="margin-top:1.4rem">
+    <article class="card rv"><h3>Το 360 είναι ο σταθερός νόμος</h3><p>Ο κύκλος των 360 είναι η αμετάβλητη βάση: ακέραιοι αριθμοί, πολλοί διαιρέτες, κανένα υπόλοιπο. Στο πλαίσιο αυτή είναι η αντικειμενική βάση, O(t).</p></article>
+    <article class="card rv d1"><h3>Ο ουρανός προσθέτει υπόλοιπο</h3><p>Το πραγματικό έτος είναι 5,2422 ημέρες μεγαλύτερο. Πέντε ημέρες μπορούν να προστεθούν ως ακέραιος αριθμός, και μένει το 0,2422: κανένας ακέραιος αριθμός ημερών δεν θα το χωρέσει ποτέ, γι&rsquo; αυτό τα ημερολόγια συνεχίζουν να προσθέτουν δίσεκτες ημέρες και μήνες. Το ελάττωμα, σε αυτή την ανάγνωση, είναι αυτό που κρατά το σύστημα να δουλεύει.</p></article>
+  </div>
+</section>
+
+<section id="notes" class="narrow">
+  <details>
+    <summary>Πηγές και σημειώσεις</summary>
+    <ol>
+      <li>Σταθερές: τροπικό έτος 365,2422 ημέρες· συνοδικός μήνας 29,53059 ημέρες· αστρικός μήνας 27,32166 ημέρες. Έλεγχος Μέτωνα: 19 &times; 365,2422 = 6.939,60 ημέρες· 235 &times; 29,53059 = 6.939,69 ημέρες.</li>
+      <li>Διορθώθηκε από το πρώτο PDF: η εξίσωση 365,24 = 360 + 5 δεν ισορροπεί, γιατί 360 + 5 είναι 365· το υπόλοιπο 0,2422 είναι αυτό που χειρίζονται οι δίσεκτες ημέρες. Η εκδοχή της παρουσίασης, 360 + 5,24, είναι σωστή.</li>
+      <li>Διορθώθηκε από το πρώτο PDF: ο πίνακας ονόμαζε το 360 + 5 «ακριβή» ηλιακή αντιστοιχία. Δεν είναι· το αιγυπτιακό πολιτικό έτος γλιστρούσε μία ημέρα περίπου κάθε τέσσερα χρόνια.</li>
+      <li>Διορθώθηκε από το πρώτο PDF: ο Ήλιος διανύει περίπου 0,9856&deg; την ημέρα, όχι ακριβώς μία μοίρα. Ένα έτος 360 ημερών είναι αυτό που το κάνει ακριβώς μία.</li>
+      <li>Μετριάστηκε από το πρώτο PDF: η «καταστροφική απώλεια μέσα σε μια δεκαετία» είναι 52 ημέρες ολίσθησης σε δέκα χρόνια, σχεδόν δύο μήνες, αρκετά μεγάλη ώστε να μετρά για τους αγρότες.</li>
+      <li>Διευκρινίστηκε από το πρώτο PDF: το ότι το 13 είναι πρώτος εμποδίζει δεκατρείς ίσους μήνες να καλύψουν τις 360 μοίρες, αλλά οι 364 ημέρες χωρίζονται ακόμη σε τέσσερα τρίμηνα των 91. Το ημερολόγιο 13 &times; 28 δεν είναι επίσης μόνο μια πρόσφατη λαϊκή ιδέα· οι Κοντ και Κότσγουορθ το πρότειναν, ως ηλιακά ημερολόγια.</li>
+      <li>Παραλείφθηκαν από αυτή τη σελίδα: η διαφάνεια που ονομάζει το 1&deg; την ημέρα «τέλειο», και οι διαφάνειες με συγκεκριμένους ισχυρισμούς του πλαισίου σας που δεν μπορούσαν να ελεγχθούν εδώ (ένας συντονισμός 99, συντεταγμένες της Κάαμπα, η γεωμετρία του σιδερένιου κλουβιού). Υπάρχουν ακόμη στην παρουσίασή σας.</li>
+      <li>Τα σχήματα σε αυτή τη σελίδα σχεδιάζονται ζωντανά από τους αριθμούς του κειμένου, όχι από εικόνες. Ό,τι έλεγαν οι διαφάνειες της παρουσίασης είναι γραμμένο στις ενότητες II έως VI.</li>
+    </ol>
+  </details>
+</section>
+<footer>
+  <div class="q">&ldquo;Listen For The Shape In A Word&rdquo;</div>
+  Ophanim &middot; Phonetic Archaeology &middot; @Mandos16
+</footer>
+<div style="text-align:center;padding:0 24px 40px"><a href="calendar-codex.html">English</a> &nbsp;&middot;&nbsp; <a href="library.html">Βιβλιοθήκη</a> &nbsp;&middot;&nbsp; <a href="games.html">Όλα τα παιχνίδια</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></div>
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* hero ring: 360 ticks, a gold 5-day arc and a thin 0.24 arc */
+(function(){
+  const NS='http://www.w3.org/2000/svg',svg=$('#ring');
+  const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e};
+  for(let i=0;i<360;i++){
+    const a=(i-90)*Math.PI/180,long=i%30===0,mid=i%5===0,r1=long?186:mid?194:199,r2=210;
+    mk('line',{x1:Math.cos(a)*r1,y1:Math.sin(a)*r1,x2:Math.cos(a)*r2,y2:Math.sin(a)*r2,stroke:long?'#e2c27f':'rgba(127,166,214,.55)','stroke-width':long?1.6:.7});
+  }
+  const arc=(a0,a1,r,col,w)=>{const p=a=>[Math.cos((a-90)*Math.PI/180)*r,Math.sin((a-90)*Math.PI/180)*r];const s=p(a0),e=p(a1);
+    mk('path',{d:'M'+s[0]+' '+s[1]+' A'+r+' '+r+' 0 0 1 '+e[0]+' '+e[1],fill:'none',stroke:col,'stroke-width':w,'stroke-linecap':'butt'})};
+  mk('circle',{cx:0,cy:0,r:172,fill:'none',stroke:'rgba(127,166,214,.25)','stroke-width':1});
+  arc(360,365,172,'#c8414b',5);
+  arc(365,365.2422,172,'#e2c27f',5);
+})();
+/* drift calculator */
+const T=365.2422;
+const MODELS=[['Εξηκονταδικό ιδεώδες, 360 ημέρες',360],['Αιγυπτιακό πολιτικό έτος, 365 ημέρες',365],['13 \u00d7 28 χωρίς επιπλέον ημέρα, 364 ημέρες',364],['Ιουλιανό έτος, 365,25 ημέρες',365.25],['Γρηγοριανό μέσο έτος, 365,2425 ημέρες',365.2425],['12 σεληνιακοί μήνες, 354,37 ημέρες',354.36708],['13 σεληνιακοί μήνες, 383,90 ημέρες',383.89767]];
+const cm=$('#cm'),cy=$('#cy'),co=$('#co');
+MODELS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m[0];cm.appendChild(o)});
+function calc(){
+  const m=MODELS[+cm.value],y=Math.max(0,Math.min(100000,parseFloat(cy.value)||0)),gp=Math.abs(m[1]-T),tot=gp*y;
+  const dc=s=>s.replace('.',',');
+  const f=n=>dc(n>=100?Math.round(n).toLocaleString('el'):n>=10?n.toFixed(1):n>=1?n.toFixed(2):n>=0.01?n.toFixed(3):n.toPrecision(2));
+  let t='Μετά από '+y.toLocaleString('el')+' '+(y===1?'έτος':'έτη')+' αυτό το ημερολόγιο και οι εποχές έχουν αποκλίνει κατά <b>'+f(tot)+' ημέρες</b>';
+  if(tot>=45)t+=', περίπου '+dc((tot/30.44).toFixed(1))+' μήνες';
+  t+='. ';
+  if(gp<1e-9)t+='Συμπίπτει με το τροπικό έτος.';else t+='Αυτό είναι '+f(gp)+' ημέρες τον χρόνο, ή μία ολόκληρη ημέρα '+(1/gp<1?'περίπου κάθε '+Math.round(365.2422/gp)+' ημέρες.':'κάθε '+(1/gp>=100?Math.round(1/gp).toLocaleString('el'):dc((1/gp).toFixed(1)))+' χρόνια.');
+  co.innerHTML=t;
+}
+cm.addEventListener('change',calc);cy.addEventListener('input',calc);calc();
+/* reveal and scroll engine */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+$$('.rv,table').forEach(e=>io.observe(e));
+const vh=()=>innerHeight;
+function frame(){
+  const y=scrollY,H=document.documentElement.scrollHeight-vh();
+  $('#progress').style.width=(y/H*100)+'%';
+  if(reduce)return;
+  const r=$('#ring');if(r)r.style.transform='translate(-50%,-50%) rotate('+(y*0.04)+'deg)';
+}
+let tick=false;addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(()=>{frame();tick=false})}},{passive:true});
+addEventListener('resize',frame);frame();
+})();
+</script>
+<script src="holo3d.js"></script>
+<script src="refs.js"></script>
+<script src="miniplayer.js"></script>
+</body>
+</html>

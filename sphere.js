@@ -34,7 +34,7 @@ var $=function(id){return document.getElementById(id);};
 var inp=$('hyin'),kb=$('hykb'),out=$('hyout'),sum=$('hysum'),ang=$('hyang'),facts=$('hyfacts'),pre=$('hypre'),note=$('hynote');
 AR.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='hyk';b.setAttribute('lang',CFG.lang);b.innerHTML='<b>'+c+'</b><small>'+VALMAP[c]+'</small>';b.title='Armenian '+c+' = '+VALMAP[c]+' · '+Math.round(freq(c))+' Hz';b.onclick=function(){add(c);};kb.appendChild(b);});
 [['␣',' '],['⌫',null],['Clear','']].forEach(function(p){var b=document.createElement('button');b.type='button';b.className='hyk wide';b.textContent=p[0];b.onclick=function(){if(p[1]===null)inp.value=Array.from(inp.value).slice(0,-1).join('');else if(p[1]==='')inp.value='';else inp.value+=p[1];recalc();};kb.appendChild(b);});
-words.forEach(function(w){var b=document.createElement('button');b.type='button';b.className='hyw';b.setAttribute('lang',CFG.lang);b.textContent=w[0];b.title=w[1]+' · '+w[2];b.onclick=function(){inp.value=w[0];recalc();};pre.appendChild(b);});
+words.forEach(function(w){var b=document.createElement('button');b.type='button';b.className='hyw';b.setAttribute('lang',CFG.lang);b.textContent=w[0];b.title=w[1]+' · '+w[2];b.onclick=function(){inp.value=w[0];recalc();play();};pre.appendChild(b);});
 function sumOf(arr){return arr.reduce(function(s,c){return s+(VALMAP[c]||0);},0);}
 function factor(n){var f=[],m=n;for(var p=2;p*p<=m;p++)while(m%p===0){f.push(p);m/=p;}if(m>1)f.push(m);return f;}
 var cur=[],lit=-1,total=0,bearing=0;
@@ -151,6 +151,6 @@ function setMode(){if(CFG.sofit){VAL=BASE.slice();if(sof&&sof.checked){CFG.sofit
 if(sof)sof.addEventListener('change',function(){setMode();recalc();window.dispatchEvent(new CustomEvent('sphere-mode'));});
 function info(w){var a=parse(w),t=a.reduce(function(x,c){return x+(VALMAP[c]||0);},0),b=t%360;if(t>0&&b===0)b=360;var sc=Math.min(N,Math.floor((b%360)/(360/N))+1),cs=a.filter(function(c){return c!==' ';});
   return{total:t,bearing:b,sector:sc,letter:AR[sc-1],count:cs.length,hzLow:cs.length?Math.round(Math.min.apply(null,cs.map(freq))):0,hzHigh:cs.length?Math.round(Math.max.apply(null,cs.map(freq))):0,letters:a};}
-window.SPHERE={info:info,load:function(w){inp.value=w;recalc();},play:play,say:say,letters:AR,val:function(c){return VALMAP[c];},freq:freq};
+window.SPHERE={info:info,load:function(w){inp.value=w;recalc();play();},play:play,say:say,letters:AR,val:function(c){return VALMAP[c];},freq:freq};
 setMode();recalc();size();draw();window.dispatchEvent(new CustomEvent('sphere-ready'));
 })();

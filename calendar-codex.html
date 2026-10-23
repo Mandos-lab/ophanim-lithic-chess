@@ -232,6 +232,11 @@ footer .q{font-style:italic;color:var(--gold);font-size:1rem;margin-bottom:.4rem
 .calc select{width:100%;background:rgba(6,13,26,.8);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:9px 11px;font:500 15px var(--mono)}
 td.n.neg{color:var(--red)}
 th:nth-child(n+2){text-align:right}
+.hf canvas{width:100%;display:block;border:1px solid var(--line);border-radius:4px;background:radial-gradient(circle,rgba(127,166,214,.08),transparent 72%);cursor:grab;touch-action:pan-y}
+.hf figcaption{font-style:normal;font-size:.82rem}
+table.tl th,table.tl td{text-align:left!important}
+table.tl td{vertical-align:top;font-size:.9rem}
+.langsw{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em}
 </style>
 </head>
 <body>
@@ -256,7 +261,8 @@ th:nth-child(n+2){text-align:right}
     <audio controls preload="none" src="audio/calendar-flaws-talk.mp3" style="width:100%;color-scheme:dark">Your browser cannot play audio.</audio>
     <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--muted)">A recorded talk. It loads only when you press play.</p>
   </div>
-  <figure class="fig rv"><a href="img/cal-s1.jpg" target="_blank" rel="noopener"><img src="img/cal-s1.jpg" alt="Title slide of the Calendar Mechanics Matrix deck, with a gear-wheel dial and the three year lengths" loading="lazy"></a><figcaption>Title slide of the deck. Concept illustrations in this page were made in Gemini Notebook; click any to enlarge.</figcaption></figure>
+  <dl class="terms rv" style="margin-top:2rem;max-width:760px"><dt>360&deg; a turn</dt><dd>the geometric baseline</dd><dt>365.2425 days</dt><dd>the solar cycle, the Gregorian mean year</dd><dt>29.53 days</dt><dd>the lunar phase cycle</dd><dt>13 &times; 28 = 364</dt><dd>the popular calendar, a day short of 365</dd><dt>+1.2425 days a year</dt><dd>the error that builds up against the Gregorian year if 364 is used</dd></dl>
+  <p class="src rv" style="margin-top:.8rem">The deck at a glance: the figures from its title slide.</p>
 </section>
 
 <section id="circle" class="wrap" style="padding:10vh 24px">
@@ -290,7 +296,11 @@ th:nth-child(n+2){text-align:right}
       <input type="text" id="cy" inputmode="numeric" value="10"></label>
     <p class="hint-txt" id="co" style="margin-top:1rem"></p>
   </div>
-  <figure class="fig rv"><a href="img/cal-s4.jpg" target="_blank" rel="noopener"><img src="img/cal-s4.jpg" alt="Slide showing the 360-day ideal against the 365.2422-day solar year with a gap of 5.2422 days" loading="lazy"></a><figcaption>Concept slide: the ideal 360 against the real year.</figcaption></figure>
+  <figure class="fig hf rv"><canvas data-holo="orrery" data-tilt=".7" style="aspect-ratio:1.5" aria-label="A turning model of the Sun, the Earth on its orbit and the Moon round the Earth"></canvas><figcaption>The Earth goes once round the Sun in 365.2422 days, and the Moon goes round the Earth about 12.37 times in that year. Gold ticks are the twelve months of thirty days; the red dots are the five extra days. Drag to turn it.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>Torque and friction</h3><p>The deck pictures the gap as a perfect 360-day circle set against the real year: ideal baseline 360.0000 days, tropical solar year 365.2422 days, annual variance +5.2422 days, drawn as <em>torque</em> and <em>friction</em>. Its analysis: &ldquo;Physical planetary mechanics do not obey perfect sexagesimal geometry. The Earth&rsquo;s wobble and elliptical orbit generate an ongoing, compounding friction against the 360&deg; baseline. A rigid 360-day calendar without intercalary adjustment would drift: solstices and equinoxes slide backwards through the months.&rdquo;</p></article>
+    <article class="card rv d1"><h3>Check</h3><p>The drift is real, and its cause is plainer than friction: the year is simply 5.2422 days longer than 360. The ellipse of the orbit makes the four seasons unequal, from about 89 to about 94 days. The wobble, the slow turning of the Earth&rsquo;s axis once in about 25,770 years, is why the tropical year (365.2422) is about 20 minutes shorter than the sidereal year (365.2564).</p></article>
+  </div>
 </section>
 
 <section id="five" class="wrap" style="padding:6vh 24px 10vh">
@@ -311,9 +321,10 @@ th:nth-child(n+2){text-align:right}
       </dl>
     </div>
   </div>
-  <div class="split" style="padding:6vh 0 0">
-    <figure class="fig rv" style="margin:0"><a href="img/cal-s5.jpg" target="_blank" rel="noopener"><img src="img/cal-s5.jpg" alt="Slide showing the five epagomenal days as a pressure valve between a 360-day Maya and an Egyptian calendar" loading="lazy"></a><figcaption>Concept slide: the five days as a pressure valve.</figcaption></figure>
-    <figure class="fig rv d1" style="margin:0"><a href="img/cal-s6.jpg" target="_blank" rel="noopener"><img src="img/cal-s6.jpg" alt="Slide showing the master handshake equation as a suspension bridge" loading="lazy"></a><figcaption>Concept slide: 365.24 = 360 + 5.24, drawn as an expansion joint in a bridge.</figcaption></figure>
+  <figure class="fig hf rv"><canvas data-holo="ring365" data-tilt=".8" style="aspect-ratio:1.25" aria-label="A ring of 360 day marks with the five extra days and the remainder beyond it"></canvas><figcaption>The 360 ticks are the twelve months of thirty days (gold every thirty). The five red dots outside are the epagomenal days; the thin gold sliver is the 0.2422 of a day that still does not fit. The line sweeping round is the Sun. Drag to turn it.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>The pressure valve</h3><p>The deck draws the five days as a valve between two 360-day wheels: the Maya <em>tun</em> venting through <em>Wayeb&rsquo;</em>, and the Egyptian civil calendar venting through the birthdays of Osiris, Isis, Horus, Set and Nephthys. Its key insight: ancient metrologists did not destroy the 360&deg; baseline. They kept the 360-day core to preserve sexagesimal and divinatory harmony. The five extra days lived outside the geometric law, absorbing the +5.2422-day torque without corrupting the pristine 360&deg; mathematics.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Check.</b> As a picture this is fair: the five days really do stand outside the 12 &times; 30 count. &ldquo;Absorbing the torque&rdquo; goes too far: 0.2422 of a day is still left over.</p></article>
+    <article class="card rv d1"><h3>The handshake equation</h3><p>The deck&rsquo;s master equation is 365.24 = 360 [O(t)] + 5.24 [H(c,u)&middot;S<sub>k</sub>], drawn as a suspension bridge. The rigid pylons are the objective baseline, 360. The tension cables are the epagomenal expansion, 5.24: flexible elements built to absorb precessional torque and rotational friction. A perfectly symmetrical system fails in a rotating world, so the offset is not an error but the tolerance that stops the structure shattering under the weight of astronomical reality.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Check.</b> O(t), H(c,u) and S<sub>k</sub> belong to the framework (section VII), not to astronomy. The sum itself is plain: 360 + 5.24 = 365.24.</p></article>
   </div>
 </section>
 
@@ -327,9 +338,10 @@ th:nth-child(n+2){text-align:right}
     <article class="card rv d2"><h3>It is a modern design</h3><p>Thirteen months of 28 days were proposed by Auguste Comte in his Positivist calendar (1849) and by Moses Cotsworth as the International Fixed Calendar (1902), which Kodak used internally for decades. Both are solar and neither claims ancient origin. The 1582 reform removed ten days, not a month.</p></article>
   </div>
   <p class="rv" style="max-width:70ch;margin-top:2rem">To be fair to it: every month starts on the same weekday, 364 divides into 52 exact weeks and four quarters of 91 days, and with a Year Day and a Leap Day it follows the Gregorian year. Its weakness is the story told about it, not its arithmetic. One more check, from the 360 side: 360 &divide; 13 is 27.692&hellip; degrees, so thirteen equal months cannot tile the circle in whole degrees, which is what the 24 divisors of 360 are good at.</p>
-  <div class="split" style="padding:6vh 0 0">
-    <figure class="fig rv" style="margin:0"><a href="img/cal-s7.jpg" target="_blank" rel="noopener"><img src="img/cal-s7.jpg" alt="Slide titled Deconstructing the 13 by 28 pop fallacy, with a grid of 13 by 28" loading="lazy"></a><figcaption>Concept slide: the 13 &times; 28 grid.</figcaption></figure>
-    <figure class="fig rv d1" style="margin:0"><a href="img/cal-s8.jpg" target="_blank" rel="noopener"><img src="img/cal-s8.jpg" alt="Slide showing the lunar overshoot: 13 times 29.53 is 383.89 days" loading="lazy"></a><figcaption>Concept slide: 13 &times; 29.53 = 383.89 days.</figcaption></figure>
+  <figure class="fig hf rv"><canvas data-holo="lunar" data-tilt=".35" style="aspect-ratio:1.1" aria-label="A helix of thirteen real lunar months climbing past the end of the year, against thirteen equal marks of 28 days"></canvas><figcaption>Thirteen equal 28-day marks (cyan) round the year, against thirteen real moons of 29.53 days (gold) climbing as a spiral. The real moons run past the end of the year: the rust stretch is the overshoot of nearly 19 days. Drag to turn it.</figcaption></figure>
+  <div class="cards two" style="margin-top:1.6rem">
+    <article class="card rv"><h3>13 &times; 28 = 364, plus a day</h3><p>The deck&rsquo;s formula: 13 months &times; 28 days = 364 days, with one day out of time. Its charge: marketed as a natural and harmonic alternative to the Gregorian system, the calendar borrows the look of ancient lore while ignoring orbital mechanics, and forces a symmetry (13 &times; 28) that matches neither the geometric ideal of 360 nor the true lunar and solar cycles.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Check.</b> The mismatch with the Moon and with 360 is right. As a solar-count design it does work, and says so openly.</p></article>
+    <article class="card rv d1"><h3>Sidereal against synodic</h3><p>The sidereal month, 27.32 days, brings the Moon back to the same background stars. The synodic month, 29.53 days, brings it back to the same phase. The deck&rsquo;s overshoot: 13 &times; 29.53 = 383.89 days, nearly 19 days past the solar year, so a 13 &times; 28 calendar is cut off from the lunar phases it claims to honour.</p><p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)"><b style="color:var(--gold2)">Check.</b> 13 &times; 29.53059 = 383.9 days and 383.9 &minus; 365.2422 = 18.66. Both hold.</p></article>
   </div>
 </section>
 
@@ -339,9 +351,10 @@ th:nth-child(n+2){text-align:right}
   <div class="split" style="padding:3vh 0 0">
     <div>
       <p class="rv">Twelve synodic months last 354.37 days, about eleven days short of the solar year. The Babylonian, Greek and Hebrew calendars kept the Moon&rsquo;s phases and the seasons together by adding a leap month. The pattern that works best is the Metonic cycle: 19 solar years hold almost exactly 235 lunar months (6,939.60 days against 6,939.69), which means seven leap months in 19 years.</p>
+      <p class="rv">The deck puts it this way: to keep the 354-day lunar year locked to the 365-day solar seasons, seven intercalary leap months are added over a 19-year cycle, and the Babylonians, Greeks and Hebrews saw that 19 tropical solar years equal 235 synodic lunar months.</p>
       <p class="rv">The purely lunar calendar of Islam makes the opposite choice. It never adds a month, and so its months wander through every season over about 33 years.</p>
     </div>
-    <figure class="fig rv d1" style="margin:0"><a href="img/cal-s9.jpg" target="_blank" rel="noopener"><img src="img/cal-s9.jpg" alt="Slide showing the Metonic cycle: 19 years, 7 leap months, drawn as a suspension bridge" loading="lazy"></a><figcaption>Concept slide: the Metonic cycle of 19 years.</figcaption></figure>
+    <figure class="fig hf rv" style="margin:0"><canvas data-holo="metonic" data-tilt=".8" style="aspect-ratio:1.25" aria-label="A ring of nineteen years, seven of them with a thirteenth month, and 235 lunar months inside"></canvas><figcaption>Nineteen years round the ring, seven of them gold: the years that carry a thirteenth month. The 235 small marks inside are the lunar months. The gold years follow the Hebrew calendar&rsquo;s pattern (3, 6, 8, 11, 14, 17 and 19 of the cycle). Drag to turn it.</figcaption></figure>
   </div>
 </section>
 
@@ -361,7 +374,18 @@ th:nth-child(n+2){text-align:right}
 <tr><td>13 lunar months</td><td class="n">383.90</td><td class="n neg">+18.6555</td><td class="n">186.6 days</td></tr>
     </tbody>
   </table></div>
-  <figure class="fig rv"><a href="img/cal-s11.jpg" target="_blank" rel="noopener"><img src="img/cal-s11.jpg" alt="Slide with a comparison matrix of the 360-day, 365.24-day, Metonic and 13 by 28 calendars" loading="lazy"></a><figcaption>Concept slide: the comparison matrix as drawn in the deck.</figcaption></figure>
+  
+  <h3 class="rv" style="margin-top:2.6rem">The same comparison as the deck draws it</h3>
+  <div class="tw"><table class="tl">
+    <thead><tr><th>Metric</th><th>360&deg; ideal baseline</th><th>365.24 d solar (tropical)</th><th>True lunisolar (Metonic)</th><th>The 13 &times; 28 calendar</th></tr></thead>
+    <tbody>
+<tr><td>Geometric resonance</td><td>Perfect (24 divisors)</td><td>Offset (needs intercalation)</td><td>Complex (harmonic alignment)</td><td>Fractured (prime 13)</td></tr>
+<tr><td>Astronomical anchor</td><td>Spatial (zodiac, degrees)</td><td>Solar (equinox, solstice)</td><td>Synodic (29.53-day lunar phase)</td><td>None (an artificial construct)</td></tr>
+<tr><td>Drift mitigation</td><td>Not applicable (a static container)</td><td>5 epagomenal days and a leap day</td><td>7 leap months per 19 years</td><td>None for the Moon; it follows the solar year</td></tr>
+<tr><td>Structural verdict</td><td>Nomos, absolute law</td><td>Master handshake equation</td><td>Dynamic celestial sync</td><td>&ldquo;Entropic system failure&rdquo;</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src rv" style="margin-top:.8rem">The verdicts in the last row are the deck&rsquo;s own words. What can be checked is the first table; for the 13 &times; 28 calendar the check is that it follows the year, not the Moon.</p>
 </section>
 
 <section id="reading" class="wrap" style="padding:6vh 24px 12vh">
@@ -384,8 +408,8 @@ th:nth-child(n+2){text-align:right}
       <li>Corrected from the first PDF: the Sun moves about 0.9856&deg; a day, not exactly one degree. A 360-day year is what makes it exactly one.</li>
       <li>Softened from the first PDF: &ldquo;catastrophic loss within a decade&rdquo; is 52 days of slide in ten years, nearly two months, which is already large enough to matter to farmers.</li>
       <li>Qualified from the first PDF: 13 being prime stops thirteen equal months tiling 360 degrees, but 364 days still split into four quarters of 91. The 13 &times; 28 calendar is also not only a recent popular idea; Comte and Cotsworth proposed it, as solar calendars.</li>
-      <li>Slides left out of this page: the one that calls 1&deg; a day &ldquo;perfect&rdquo;, and the ones with specific claims from your framework that could not be checked here (a 99 resonance, Kaaba coordinates, the iron-cage geometry). They are still in your deck.</li>
-      <li>The slide pictures are concept illustrations made in Gemini Notebook, not data.</li>
+      <li>Left out of this page: the one that calls 1&deg; a day &ldquo;perfect&rdquo;, and the ones with specific claims from your framework that could not be checked here (a 99 resonance, Kaaba coordinates, the iron-cage geometry). They are still in your deck.</li>
+      <li>The figures on this page are drawn live from the numbers in the text, not taken from pictures. Everything the deck&rsquo;s slides said is written out in sections II to VI.</li>
     </ol>
   </details>
 </section>
@@ -393,7 +417,7 @@ th:nth-child(n+2){text-align:right}
   <div class="q">&ldquo;Listen For The Shape In A Word&rdquo;</div>
   Ophanim &middot; Phonetic Archaeology &middot; @Mandos16
 </footer>
-<div style="text-align:center;padding:0 24px 40px"><a href="library.html">Library</a> &nbsp;&middot;&nbsp; <a href="games.html">All games</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy and cookies</a></div>
+<div style="text-align:center;padding:0 24px 40px"><a href="calendar-codex-el.html" lang="el">Ελληνικά</a> &nbsp;&middot;&nbsp; <a href="library.html">Library</a> &nbsp;&middot;&nbsp; <a href="games.html">All games</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy and cookies</a></div>
 <script>
 (function(){
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -441,6 +465,7 @@ let tick=false;addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimati
 addEventListener('resize',frame);frame();
 })();
 </script>
+<script src="holo3d.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
 </body>

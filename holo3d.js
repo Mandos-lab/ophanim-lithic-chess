@@ -1,5 +1,5 @@
 /* Philosophy From A Stone: holographic figures, drawn in plain canvas (no library).
-   <canvas data-holo="spine|lateral|necklace|reed|wave|obex|helix|pinecone|marsh|fractal">
+   <canvas data-holo="spine|lateral|necklace|reed|wave|obex|helix|pinecone|marsh|fractal|orrery|ring365|lunar|metonic">
    Additive, see-through wire figures with a slow scan beam. Drag to turn. Pauses off-screen. Respects reduced motion. */
 (function(){
 'use strict';
@@ -118,12 +118,80 @@ marsh:function(sc,t){var i,j;
 fractal:function(sc,t){
   function br(p,d,len,depth){if(depth>4)return;var e=[p[0]+d[0]*len,p[1]+d[1]*len,p[2]+d[2]*len],col=depth<2?'gold':depth<4?'cyan':'green';sc.line(p,e,col,Math.max(.7,2.2-depth*.4),1-depth*.12);if(depth===4){sc.dot(e,'cyan',2,.9);return;}
     var a0=PI/5+Math.sin(t*.6)*.06,kids=3;for(var k=0;k<kids;k++){var az=k/kids*2*PI+depth*.9,sa=Math.sin(a0),nd=[Math.cos(az)*sa+d[0]*Math.cos(a0),d[1]*Math.cos(a0)+.0,Math.sin(az)*sa+d[2]*Math.cos(a0)];var L=Math.hypot(nd[0],nd[1],nd[2])||1;br(e,[nd[0]/L,nd[1]/L,nd[2]/L],len*.62,depth+1);}}
-  br([0,-.9,0],[0,1,0],.62,0);}
+  br([0,-.9,0],[0,1,0],.62,0);},
+/* ---- calendar figures ---- */
+orrery:function(sc,t){
+  var i,k;
+  function ball(c,r,col,n,al){sc.poly(ringPts(c,r,r,n||28),col,1,al);[-.6,.6].forEach(function(h){var y=r*h,rr=r*Math.sqrt(1-h*h);sc.poly(ringPts([c[0],c[1]+y,c[2]],rr,rr,24),col,.7,al*.7);});
+    for(k=0;k<3;k++){var a=k/3*PI,pts=[];for(i=0;i<=24;i++){var u=i/24*2*PI;pts.push([c[0]+r*Math.cos(u)*Math.cos(a),c[1]+r*Math.sin(u),c[2]+r*Math.cos(u)*Math.sin(a)]);}sc.poly(pts,col,.6,al*.55);}}
+  var R=1.0,wE=.22,th=t*wE,e=[R*Math.cos(th),0,R*Math.sin(th)];
+  /* sun */
+  ball([0,0,0],.17,'gold',24,1);sc.dot([0,0,0],'gold',6,1);for(i=0;i<8;i++){var a=i/8*2*PI+t*.3;sc.line([.2*Math.cos(a),0,.2*Math.sin(a)],[.3*Math.cos(a),0,.3*Math.sin(a)],'gold',1,.5);}
+  /* orbit with 12 month marks and 5 epagomenal days, drawn as the 365-day year */
+  sc.poly(ringPts([0,0,0],R,R,120),'cyan',1,.45);
+  for(i=0;i<12;i++){var b=i/12*2*PI*(360/365.2422),p=[R*Math.cos(b),0,R*Math.sin(b)];sc.line([p[0]*.96,0,p[2]*.96],[p[0]*1.05,0,p[2]*1.05],'gold',1.4,.9);}
+  for(i=0;i<5;i++){var b2=(360+i+.5)/365.2422*2*PI;sc.dot([R*Math.cos(b2),0,R*Math.sin(b2)],'rust',2.4,.95);}
+  /* earth trail */
+  var tr=[];for(i=0;i<=30;i++){var q=th-i*.03;tr.push([R*Math.cos(q),0,R*Math.sin(q)]);}sc.poly(tr,'gold',1.8,.7);
+  /* earth, tilted axis */
+  ball(e,.09,'cyan',20,1);var tl=23.44*PI/180,ax=[Math.sin(tl)*.13,Math.cos(tl)*.13,0];
+  sc.line([e[0]-ax[0],e[1]-ax[1],e[2]-ax[2]],[e[0]+ax[0],e[1]+ax[1],e[2]+ax[2]],'cyan',1.2,.9);sc.dot([e[0]+ax[0],e[1]+ax[1],e[2]+ax[2]],'cyan',1.8,1);
+  sc.poly(ringPts(e,.09,.09,20),'green',.7,.5);
+  /* moon: 12.37 turns for every turn of the earth */
+  var rm=.24,tm=th*12.368,inc=5.14*PI/180;
+  sc.poly(ringPts(e,rm,rm,40,inc),'dim',.7,.5);
+  var mp=rotX([rm*Math.cos(tm),0,rm*Math.sin(tm)],inc);mp=add(mp,e);ball(mp,.04,'rust',14,1);sc.dot(mp,'rust',2,1);
+  var mt=[];for(i=0;i<=14;i++){var qq=tm-i*.12,pp=rotX([rm*Math.cos(qq),0,rm*Math.sin(qq)],inc);mt.push(add(pp,e));}sc.poly(mt,'rust',1.2,.6);
+},
+ring365:function(sc,t){
+  var i,R=1,y=.05,N=360;
+  for(i=0;i<N;i++){var a=i/N*2*PI,long=i%30===0,mid=i%5===0,r1=long?R*.86:mid?R*.92:R*.95,c=Math.cos(a),s=Math.sin(a);
+    sc.line([R*c,0,R*s],[r1*c,0,r1*s],long?'gold':'cyan',long?1.6:.6,long?1:.55);}
+  sc.poly(ringPts([0,0,0],R,R,120),'cyan',1,.6);
+  /* the five epagomenal days and the 0.2422 remainder beyond 360 */
+  var A0=2*PI*360/365.2422;
+  for(i=0;i<5;i++){var a1=A0+(i+.5)/365.2422*2*PI;sc.dot([R*1.1*Math.cos(a1),0,R*1.1*Math.sin(a1)],'rust',3.2,1);sc.line([R*Math.cos(a1),0,R*Math.sin(a1)],[R*1.1*Math.cos(a1),0,R*1.1*Math.sin(a1)],'rust',1.2,.9);}
+  var arc=[];for(i=0;i<=20;i++){var u=A0+(i/20)*(2*PI*5/365.2422);arc.push([R*1.1*Math.cos(u),0,R*1.1*Math.sin(u)]);}sc.poly(arc,'rust',2,.9);
+  var gs=[];for(i=0;i<=8;i++){var u2=2*PI-(1-i/8)*(2*PI*.2422/365.2422);gs.push([R*1.2*Math.cos(u2),0,R*1.2*Math.sin(u2)]);}sc.poly(gs,'gold',3,1);
+  /* inner 12 x 30 and the 360 day pointer sweeping, the sun's real step is .9856 degrees */
+  sc.poly(ringPts([0,0,0],R*.7,R*.7,60),'dim',.8,.5);
+  var ph=(t*.08)%1,pa=ph*2*PI;sc.line([0,0,0],[R*.98*Math.cos(pa),0,R*.98*Math.sin(pa)],'gold',1.6,.9);sc.dot([R*.98*Math.cos(pa),0,R*.98*Math.sin(pa)],'gold',3.6,1);
+  sc.dot([0,0,0],'gold',4,1);
+},
+lunar:function(sc,t){
+  var i,R=.9,H=.55,syn=29.53059,yr=365.2422,tot=13*syn,n;
+  /* year ring */
+  sc.poly(ringPts([0,-H,0],R,R,100),'cyan',1,.5);
+  /* the 13 x 28 grid: 13 equal cyan marks round the ring, 364 days */
+  for(i=0;i<13;i++){var a=i/13*2*PI+0*PI;sc.line([R*.9*Math.cos(a),-H,R*.9*Math.sin(a)],[R*1.0*Math.cos(a),-H,R*1.0*Math.sin(a)],'cyan',1.6,.9);sc.dot([R*.82*Math.cos(a),-H,R*.82*Math.sin(a)],'cyan',2.2,.9);}
+  /* thirteen real moons climbing as a helix: each is 29.53 days, 13 of them run past the year */
+  var pts=[],steps=260;for(i=0;i<=steps;i++){var d=i/steps*tot,a2=d/yr*2*PI,y=-H+d/tot*2*H;pts.push([R*1.12*Math.cos(a2),y,R*1.12*Math.sin(a2)]);}sc.poly(pts,'gold',1.8,.95);
+  for(n=0;n<=13;n++){var dd=n*syn,a3=dd/yr*2*PI,y3=-H+dd/tot*2*H,p=[R*1.12*Math.cos(a3),y3,R*1.12*Math.sin(a3)];sc.dot(p,n===13?'rust':'gold',n===13?4.2:3,1);}
+  /* the year ends here; the overshoot is the rust segment from 365.24 to 383.9 */
+  var ye=yr/tot,over=[];for(i=0;i<=30;i++){var d3=yr+(i/30)*(tot-yr),a4=d3/yr*2*PI,y4=-H+d3/tot*2*H;over.push([R*1.12*Math.cos(a4),y4,R*1.12*Math.sin(a4)]);}sc.poly(over,'rust',3.2,1);
+  sc.line([R*1.12,-H,0],[R*1.12,H,0],'dim',.8,.45);
+  var ph=(t*.1)%1,dm=ph*tot,am=dm/yr*2*PI,ym=-H+dm/tot*2*H;sc.dot([R*1.12*Math.cos(am),ym,R*1.12*Math.sin(am)],'green',4.6,1);
+  sc.poly(ringPts([0,H,0],R*1.12,R*1.12,60),'rust',.8,.4);
+},
+metonic:function(sc,t){
+  var i,R=1,leap={3:1,6:1,8:1,11:1,14:1,17:1,19:1};
+  sc.poly(ringPts([0,0,0],R,R,100),'cyan',1,.55);
+  /* 19 years round the ring, 7 of them with a thirteenth month */
+  for(i=1;i<=19;i++){var a=(i-1)/19*2*PI,L=!!leap[i],c=Math.cos(a),s=Math.sin(a);
+    sc.line([R*.88*c,0,R*.88*s],[R*c,0,R*s],L?'gold':'cyan',L?2:1,.9);
+    sc.dot([R*1.08*c,0,R*1.08*s],L?'gold':'cyan',L?4:2.4,1);
+    if(L){sc.line([R*c,0,R*s],[R*1.08*c,.16,R*1.08*s],'gold',1.4,.9);sc.dot([R*1.08*c,.16,R*1.08*s],'gold',3,1);}}
+  /* 235 lunar months as an inner ring of small marks */
+  for(i=0;i<235;i++){var b=i/235*2*PI,c2=Math.cos(b),s2=Math.sin(b);sc.line([R*.62*c2,0,R*.62*s2],[R*.68*c2,0,R*.68*s2],'dim',.6,.6);}
+  sc.poly(ringPts([0,0,0],R*.62,R*.62,80),'dim',.7,.45);
+  var ph=(t*.07)%1,pa=ph*2*PI;sc.line([0,0,0],[R*.98*Math.cos(pa),0,R*.98*Math.sin(pa)],'green',1.5,.85);sc.dot([R*.98*Math.cos(pa),0,R*.98*Math.sin(pa)],'green',3.6,1);
+  sc.dot([0,0,0],'gold',4,1);
+}
 };
 /* ---------- engine ---------- */
 function make(cv){
   var kind=cv.getAttribute('data-holo'),fn=SH[kind];if(!fn)return;
-  var g=cv.getContext('2d'),W=0,H=0,ay=.6,ax=.12,drag=null,vis=false,ext=1,t0=performance.now(),still=false;
+  var g=cv.getContext('2d'),W=0,H=0,ay=.6,ax=parseFloat(cv.getAttribute('data-tilt'))||.12,drag=null,vis=false,ext=1,t0=performance.now(),still=false;
   try{still=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   function size(){var d=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth||300;H=cv.clientHeight||300;cv.width=Math.round(W*d);cv.height=Math.round(H*d);g.setTransform(d,0,0,d,0,0);}
   function proj(p,S){var c=Math.cos(ay),s=Math.sin(ay),x=p[0]*c+p[2]*s,z=-p[0]*s+p[2]*c,c2=Math.cos(ax),s2=Math.sin(ax),y=p[1]*c2-z*s2,z2=p[1]*s2+z*c2,f=4/(4+z2);return[W/2+x*f*S,H/2-y*f*S,z2];}

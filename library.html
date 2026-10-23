@@ -43,6 +43,7 @@ textarea{min-height:200px;white-space:pre}
   <div class="row" style="margin:0">
     <a href="index.html"><button>← Field Console</button></a>
     <a href="calendar-codex.html"><button>Calendar scroll</button></a>
+    <a href="calendar-codex-el.html"><button lang="el">Ημερολόγιο 365</button></a>
     <a href="reed-codex.html"><button>Reed scroll</button></a>
     <a href="carl-tate-codex.html"><button>Karakin scroll</button></a>
     <a href="ellin-logos-codex.html"><button>Ellin Logos</button></a>
@@ -82,7 +83,9 @@ audio | Why Reality Needs Hidden Flaws | audio/ur-hidden-flaws-talk.mp3 | A talk
 audio | Why Imperfect Math Keeps Reality Alive | audio/chess-imperfect-math-talk.mp3 | A talk for the Sacred Geometry of Chess page. | public
 audio | The Greek Alphabet Maps the Human Spine | audio/reed-english-talk.mp3 | An English talk for The Reed and the Code page, about 24 minutes. | public
 audio | Ο κώδικας του καλάμου στη σπονδυλική στήλη | audio/reed-greek-talk.mp3 | A Greek talk for The Reed and the Code page, about 18 minutes. | public
-audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public`;
+audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public
+audio | Ancient Board Games Were Cosmic Calculators (Petteia) | audio/petteia-overview-en.mp3 | An English audio overview for the Petteia and Polis pages, about 23 minutes. | public
+audio | Τα αρχαία επιτραπέζια ως κοσμικοί υπολογιστές | audio/petteia-overview-el.mp3 | A Greek audio overview for the Petteia and Polis pages, about 23 minutes. | public`;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
