@@ -78,6 +78,9 @@
     { t: 'Petteia', p: 'petteia-codex.html' },
     { t: 'Senet', p: 'senet-codex.html' },
     { t: 'Royal Game of Ur', p: 'royal-game-of-ur-codex.html' },
+    { t: 'Huluppu', p: 'carl-tate-codex.html#wild' },
+    { t: 'Inanna', p: 'royal-game-of-ur-codex.html' },
+    { t: 'Inana', p: 'royal-game-of-ur-codex.html' },
     { t: 'Tavli', p: 'tavli-codex.html' },
     { t: 'Backgammon', p: 'tavli-codex.html' }
   ];
@@ -128,6 +131,7 @@
       while ((m = re.exec(txt))) {
         var term = m[2], e = byText[term];
         var key = e.w || e.s || e.p;
+        if (e.p && location.pathname.split('/').pop() === e.p.split('#')[0]) continue;
         if (seen[key] || (total[key] || 0) >= 2) continue;
         seen[key] = 1;
         total[key] = (total[key] || 0) + 1;
