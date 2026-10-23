@@ -78,6 +78,7 @@
     { t: 'Petteia', p: 'petteia-codex.html' },
     { t: 'Senet', p: 'senet-codex.html' },
     { t: 'Royal Game of Ur', p: 'royal-game-of-ur-codex.html' },
+    { t: 'Ellin Logos', p: 'ellin-logos-codex.html' },
     { t: 'Huluppu', p: 'carl-tate-codex.html#wild' },
     { t: 'Inanna', p: 'royal-game-of-ur-codex.html' },
     { t: 'Inana', p: 'royal-game-of-ur-codex.html' },
