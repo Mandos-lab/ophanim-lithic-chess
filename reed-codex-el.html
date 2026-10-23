@@ -328,6 +328,13 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
 .sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
 .sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
 .sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+
+.sharefoot{padding:46px 0 60px;border-top:1px solid var(--line)}
+.shbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--gold);background:none;border:1px solid var(--line-g);padding:10px 14px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
+.shbtns.big{margin-top:28px}
 </style>
 </head>
 <body>
@@ -344,7 +351,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
   <div class="wrap" style="text-align:center">
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Synkresis V3.0 &middot; Φωνητική Αρχαιολογία</div>
     <h1>Ο Κάλαμος και ο Κώδικας<br><em>και το Ζωντανό Ιερό</em></h1>
-    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">Πραγματεία του Mandos16: ένας κούφιος κάλαμος, ένα περιδέραιο από οστά, μια λανθασμένη μετάφραση της θάλασσας και το ελληνικό αλφάβητο, διαβασμένα ως η ανθρώπινη σπονδυλική στήλη.</p>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">Πραγματεία από το Philosophy From A Stone ΦΎ · ΨΉ: ένας κούφιος κάλαμος, ένα περιδέραιο από οστά, μια λανθασμένη μετάφραση της θάλασσας και το ελληνικό αλφάβητο, διαβασμένα ως η ανθρώπινη σπονδυλική στήλη.</p>
     <div class="legend" style="justify-content:center">
       <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">Ο Κώδικας</b>&nbsp;&middot; η πραγματεία</span>
       <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">Η Καταγραφή</b>&nbsp;&middot; τι λένε οι πηγές και η ανατομία</span>
@@ -420,7 +427,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
     <figure class="fig reveal"><img src="img/reed-el-07.jpg" alt="Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός δίπλα δίπλα, με το ΕΝΥ να πάλλεται πάνω και κάτω" loading="lazy"><figcaption>Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός.</figcaption></figure>
     <figure class="reveal" style="margin:26px auto 0;max-width:380px">
       <video controls preload="none" playsinline poster="img/spine-poster.jpg" src="audio/spinal-fluid-wave.mp4" style="display:block;width:100%;height:auto;max-height:82vh;border:1px solid var(--line-g);background:#000">Ο περιηγητής σας δεν μπορεί να παίξει αυτό το βίντεο.</video>
-      <figcaption class="dim" style="margin-top:10px;font-size:15px">Πώς κατεβαίνει το κύμα του νωτιαίου υγρού: κινούμενο σχέδιο 83 δευτερολέπτων από το Gemini Notebook, με αγγλικούς υπότιτλους. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</figcaption>
+      <figcaption class="dim" style="margin-top:10px;font-size:15px">Πώς κατεβαίνει το κύμα του νωτιαίου υγρού: κινούμενο σχέδιο 83 δευτερολέπτων, με αγγλικούς υπότιτλους. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</figcaption>
     </figure>
   </div>
 </section>
@@ -440,10 +447,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p>Το καλάμι δεν είναι μόνο σύμβολο. Βρίσκεται στη βάση του εγκεφάλου σε κάθε εγχειρίδιο ανατομίας από πάντα.</p>
       </div>
       <div class="record">
-        <p><b>Συμφωνεί.</b> Το <i>obex</i> είναι λατινικά «φραγμός», και το <i>calamus scriptorius</i>, «καλάμι γραφής», είναι η παραδοσιακή ονομασία για το κάτω άκρο του δαπέδου της τέταρτης κοιλίας στο obex, που έχει σχήμα μύτης πένας. Ο κεντρικός σωλήνας αρχίζει εδώ, και υγρό από την τέταρτη κοιλία μπορεί να περάσει μέσα του. Στους περισσότερους ανθρώπους το obex βρίσκεται περίπου 10 με 12 mm πάνω από το ινιακό τρήμα· με χαμηλή θέση της παρεγκεφαλιδικής αμυγδαλής μπορεί να βρίσκεται στο ίδιο επίπεδο ή χαμηλότερα. Οι αισθητικές ίνες διασταυρώνονται στον κάτω προμήκη κοντά σε αυτό το επίπεδο. Το λατινικό <i>calamus</i> δανείστηκε από το ελληνικό <i>κάλαμος</i>, άρα η φράση των ανατόμων είναι η ελληνική λέξη με λατινικό ένδυμα.</p>
+        <p><b>Συμφωνεί.</b> Το <i>obex</i> είναι λατινικά «φραγμός», και το <i>calamus scriptorius</i>, «καλάμι γραφής», είναι η παραδοσιακή ονομασία για ολόκληρη την κάτω κορυφή του δαπέδου της τέταρτης κοιλίας (του ρομβοειδούς βόθρου), που έχει σχήμα μύτης πένας. Το obex είναι η ακριβής άκρη αυτής της μύτης, το στενότερο σημείο όπου η κοιλία γίνεται κεντρικός σωλήνας. Ο κεντρικός σωλήνας αρχίζει εδώ, και υγρό από την τέταρτη κοιλία μπορεί να περάσει μέσα του. Στους περισσότερους ανθρώπους το obex βρίσκεται περίπου 10 με 12 mm πάνω από το ινιακό τρήμα· με χαμηλή θέση της παρεγκεφαλιδικής αμυγδαλής μπορεί να βρίσκεται στο ίδιο επίπεδο ή χαμηλότερα. Οι αισθητικές ίνες διασταυρώνονται στον κάτω προμήκη κοντά σε αυτό το επίπεδο. Το λατινικό <i>calamus</i> δανείστηκε από το ελληνικό <i>κάλαμος</i>, άρα η φράση των ανατόμων είναι η ελληνική λέξη με λατινικό ένδυμα.</p>
         <p><b>Προσοχή.</b> Το calamus scriptorius είναι παραδοσιακό όνομα· οι σύγχρονοι ανατομικοί κατάλογοι τείνουν να χρησιμοποιούν το συντομότερο «obex» (δεν μπόρεσα να το ελέγξω από εδώ). Το όνομα προέρχεται από το σχήμα, άρα δείχνει ότι το ανατομικό λεξιλόγιο χρησιμοποιεί ήδη το καλάμι και όχι ότι ο μύθος είναι αληθινός. Το «κύμα του υγρού» είναι θεωρία του Gardner: οι χειρουργοί που θεραπεύουν τη συριγγομυελία φράζουν μερικές φορές το obex για να μη φτάνουν οι παλμοί του υγρού στον σωλήνα, και η Wikipedia σημειώνει ότι η δήλωση αυτή χρειάζεται παραπομπή. Σε πολλούς ενήλικες ο σωλήνας είναι κλειστός κάτω από το obex, άρα το πόσο υγρό περνά συζητείται.</p>
       </div>
     </div>
+    <figure class="fig reveal" style="max-width:480px;margin-left:auto;margin-right:auto"><img src="img/obex-gray709.jpg" alt="Χάραξη του οπίσθιου εγκεφάλου από πίσω, με επιγραφές Quadrigeminal lamina, Cerebellum, Rhomboid fossa, Taenia, Rhombic lip, Medulla oblongata και Obex" loading="lazy"><figcaption>Ο οπίσθιος εγκέφαλος από πίσω, με το obex στην κάτω κορυφή του ρομβοειδούς βόθρου. Henry Vandyke Carter, <i>Gray&rsquo;s Anatomy</i> (1918), Πίνακας 709, κοινό κτήμα. Δείχνει έμβρυο περίπου τριών μηνών, άρα το σχήμα της μύτης φαίνεται καθαρότερα στον ενήλικο εγκέφαλο.</figcaption></figure>
   </div>
 </section>
 
@@ -653,7 +661,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
     <div class="record reveal">
       <p><b>Έλεγχος τυχαιότητας.</b> Πέρασα τη διαφορά Κάδμος προς Κάλαμος από ένα φίλτρο πολλών σταδίων σε μια ελληνική λίστα λέξεων: το σύγχρονο ελληνικό ορθογραφικό λεξικό, 812.096 μορφές λέξεων. (Ένα λεξικό της αρχαίας ελληνικής θα ήταν καλύτερος έλεγχος.) <b>Στάδιο 1:</b> όλα τα δυνατά ζεύγη λέξεων, περίπου 330 δισεκατομμύρια. <b>Στάδιο 2:</b> ζεύγη με διαφορά τιμών ακριβώς 27, περίπου 310 εκατομμύρια (0,09%), άρα ο αριθμός από μόνος του δεν αποδεικνύει τίποτα. <b>Στάδιο 3:</b> ζεύγη που διαφέρουν με τον ίδιο τον δομικό κανόνα, ένα Δ που ανοίγει σε ΛΑ, που ανάγει ολόκληρη τη γλώσσα σε <b>86 ζεύγη</b>, από περίπου 17 οικογένειες λέξεων (τα περισσότερα είναι κλίσεις του ίδιου θέματος, όπως ΔΙΚΟ και ΛΑΙΚΟ ή ΙΔΡΟ και ΙΛΑΡΟ). <b>Στάδιο 4:</b> ζεύγη των οποίων οι δύο λέξεις συνδέονται και στο νόημα. Διαβάζοντας και τα 86, μόνο τα ΚΑΔΜΟΣ και ΚΑΛΑΜΟΣ συνδέουν τον αρχιτέκτονα των γραμμάτων με τον κούφιο κάλαμο, άρα το χωνί καταλήγει σε <b>ένα</b>. Δύο επιφυλάξεις: το στάδιο 4 είναι ανθρώπινη κρίση νοήματος, που έγινε αφού βρέθηκε το ζεύγος, και η λίστα λέξεων είναι νεοελληνική και όχι αρχαία.</p>
       <p><b>Οι ετικέτες του ίδιου του χειρογράφου.</b> Αποκαλεί το ΦΎ «Physis = 900» και το ΨΉ «Psephos = 708». Αυτές είναι οι τιμές των δύο γραμμάτων κάθε ζεύγους (Φ + Υ = 900, Ψ + Η = 708, σύνολο 1608). Οι ολόκληρες λέξεις βγάζουν ΦΥΣΙΣ 1310 και ΨΗΦΟΣ 1478.</p>
-      <p><b>Οι διαφάνειες</b> είναι εικονογραφήσεις ιδεών που έγιναν στο Gemini Notebook, όχι δεδομένα. Μία δεν χρησιμοποιήθηκε, γιατί λέει «27 γράμματα = 27 δομικά στοιχεία», κάτι που δεν ελέγχεται, και τα γράμματα στην εικόνα της είναι παραμορφωμένα.</p>
+      <p><b>Οι διαφάνειες</b> είναι εικονογραφήσεις ιδεών, όχι δεδομένα. Μία δεν χρησιμοποιήθηκε, γιατί λέει «27 γράμματα = 27 δομικά στοιχεία», κάτι που δεν ελέγχεται, και τα γράμματα στην εικόνα της είναι παραμορφωμένα.</p>
       <p><b>Το διάγραμμα</b> «Kalamos – Soma 1729 Cosine Baseline» δεν εμφανίζεται εδώ, γιατί δίνει τα μέρη ως 390 και 977 ενώ οι λέξεις είναι 460 και 907 (κεφάλαιο IV).</p>
       <details style="margin-top:14px"><summary>Οι βιβλιογραφικές αναφορές του χειρογράφου, ελεγμένες όσο μπορούσα</summary>
         <p style="margin-top:10px"><b>Waal (2022), Journal of Hellenic Studies 142.</b> Δεν μπόρεσα να επιβεβαιώσω αυτό το άρθρο. Το αρχικό και ο τίτλος μοιάζουν λάθος· το έργο που γνωρίζω για τα <i>phoinikeia</i> της Willemijn Waal είναι του 2018. Ελέγξτε το πριν το παραθέσετε.</p>
@@ -666,7 +674,17 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
   </div>
 </section>
 </main>
-<div style="text-align:center;padding:30px 24px 50px"><a href="library.html">Βιβλιοθήκη</a> &nbsp;&middot;&nbsp; <a href="games.html">Όλα τα παιχνίδια</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></div>
+
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Μοιραστείτε τη σελίδα</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="kicker" style="justify-content:center;margin-top:26px">Ακολουθήστε</div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">Δωρεά &middot; Bitcoin</a></div>
+    <div class="shbtns big"><a href="library.html">Βιβλιοθήκη</a><a href="games.html">Όλα τα παιχνίδια</a></div>
+    <p class="dim" style="font-size:15px;margin-top:22px"><a href="reed-codex.html">English</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></p>
+  </div>
+</footer>
 <script>
 const LINKS={games:"games.html"};
 document.getElementById('backGames').href=LINKS.games;
@@ -735,7 +753,15 @@ vs.forEach((v,k)=>v.addEventListener('click',()=>show(k<7?1:k<19?2:k<21?3:k===21
 svg.setAttribute('viewBox','0 0 330 '+(top+24*(h+gap)+30));
 show(0);
 })();
+
+/* ===== share buttons ===== */
+(function(){const box=document.getElementById('shbtns');if(!box)return;const u=()=>location.href.split('#')[0],t=document.title;
+const L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)],['Facebook',()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())],['WhatsApp',()=>'https://wa.me/?text='+encodeURIComponent(t+' '+u())],[L.mail,()=>'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())]];
+items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
+const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
 <script src="refs.js"></script>
+<script src="miniplayer.js"></script>
 </body>
 </html>
