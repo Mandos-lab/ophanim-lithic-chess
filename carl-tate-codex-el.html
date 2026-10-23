@@ -368,6 +368,31 @@ table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
 .links a{border:1px solid var(--line);padding:8px 14px;text-decoration:none;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase}
   .sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
 blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--line-g);padding-left:16px;margin:14px 0}
+
+#calc .hyc{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start;margin-top:22px}
+@media(max-width:900px){#calc .hyc{grid-template-columns:1fr}}
+#calc .hylab{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim,#9aa7ab);display:block;margin-bottom:6px}
+#calc #hyin{width:100%;box-sizing:border-box;font-size:26px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(232,195,117,.4);color:inherit;border-radius:8px}
+#calc .hykb{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:5px;margin:12px 0}
+#calc .hyk,#calc .hyw,#calc .hyrow button{background:rgba(232,195,117,.07);border:1px solid rgba(232,195,117,.3);color:inherit;border-radius:6px;cursor:pointer;font:inherit}
+#calc .hyk{padding:4px 0;display:flex;flex-direction:column;align-items:center;min-height:46px}
+#calc .hyk b{font-size:19px;font-weight:400}#calc .hyk small{font-size:10px;opacity:.6}
+#calc .hyk.wide{grid-column:span 2;justify-content:center;font-size:14px}
+#calc .hyk:hover,#calc .hyw:hover,#calc .hyrow button:hover{background:rgba(232,195,117,.18)}
+#calc .hyrow{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}#calc .hyrow button{padding:9px 14px;font-size:15px}
+#calc .tiles{display:flex;flex-wrap:wrap;gap:6px}#calc .gap{width:14px}
+#calc .tile{display:inline-flex;flex-direction:column;align-items:center;min-width:42px;padding:6px 8px;border:1px solid rgba(70,227,240,.4);border-radius:6px;background:rgba(70,227,240,.06)}
+#calc .tile i{font-style:normal;font-size:24px}#calc .tile s{text-decoration:none;font-size:13px;color:rgb(70,227,240)}
+#calc .hytot{margin:14px 0 6px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+#calc .hysum{font-size:46px;color:rgb(232,195,117);line-height:1}#calc .hyang{font-size:16px}
+#calc .chip{display:inline-block;margin:3px 6px 3px 0;padding:3px 10px;border:1px solid rgba(70,227,240,.3);border-radius:99px;font-size:14px}
+#calc .chip.hit{border-color:rgba(232,195,117,.6)}
+#calc .hypre{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;max-height:150px;overflow:auto}
+#calc .hyw{padding:5px 10px;font-size:16px}
+#calc .hynote{font-size:14px;color:rgb(232,195,117);min-height:1em}
+#calc .hyr{position:sticky;top:76px}
+#calc canvas{width:100%;aspect-ratio:1/1;display:block;touch-action:pan-y;cursor:grab;background:radial-gradient(circle,rgba(70,227,240,.05),transparent 70%)}
+#calc .hycap{text-align:center;font-size:13px;opacity:.7}
 </style>
 </head><body>
 <div class="progress" id="prog"></div>
@@ -544,6 +569,16 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="torus" aria-label="Δοχείο &middot; τόρος"></canvas><div class="cap">Δοχείο &middot; τόρος</div></aside>
   </div></div>
 </section>
+<section id="calc" data-label="Υπολογιστής">
+  <div class="wrap">
+    <p class="kick">Φωνητικός Υπολογιστής 360</p>
+    <h2>Αρμενική <em>λέξη &amp; σφαίρα</em></h2>
+    <p class="dim" style="max-width:66ch">Πληκτρολογήστε μια αρμενική λέξη και μετριέται με τις δικές της αξίες γραμμάτων, το αριθμητικό σύστημα που φέρει το αλφάβητο του Μεσρόπ (<i lang="hy">Ա</i> = 1 ώς <i lang="hy">Ք</i> = 9000). Οι ελληνικές αξίες μένουν μόνο για ελληνικές λέξεις. Το σύνολο διαβάζεται και ως διεύθυνση στην πυξίδα των 360&deg;: κάθε 10&deg; είναι ένα από τα 36 γράμματα. Μέσα στο ολόγραμμα, ένας πυρήνας jitterbug (κυβοκτάεδρο που διπλώνει σε εικοσάεδρο) στέλνει μια ακτίνα από το κέντρο σε κάθε γράμμα της επιφάνειας, και μια χρυσή διαδρομή τα ενώνει με τη σειρά της λέξης.</p>
+    <div id="hycalc"></div>
+    <p class="dim" style="max-width:66ch;font-size:15px;margin-top:18px">Ήχος: κάθε γράμμα είναι μια νότα σε κλίμακα 432 Hz, οι εννέα γραμμές ως βαθμίδες κλίμακας και οι τέσσερις στήλες ως μισές οκτάβες. Η ομιλία χρησιμοποιεί τη φωνή της συσκευής σας· αν δεν έχει αρμενική φωνή, η λέξη διαβάζεται από τη λατινική γραφή της. Η λίστα λέξεων είναι αρχική, για να αντικατασταθεί από την πλήρη.</p>
+  </div>
+</section>
+
 <section id="tribute" data-label="Αφιέρωμα">
   <div class="wrap" style="text-align:center">
     <div class="reveal">
@@ -613,6 +648,8 @@ items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.hr
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
 <script src="carl3d.js"></script>
+<script src="hy-words.js"></script>
+<script src="hy-calc.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
 </body>
