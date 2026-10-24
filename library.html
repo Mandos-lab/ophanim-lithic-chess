@@ -87,7 +87,12 @@ audio | The Greek Alphabet Maps the Human Spine | audio/reed-english-talk.mp3 | 
 audio | Ο κώδικας του καλάμου στη σπονδυλική στήλη | audio/reed-greek-talk.mp3 | A Greek talk for The Reed and the Code page, about 18 minutes. | public
 audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public
 audio | Ancient Board Games Were Cosmic Calculators (Petteia) | audio/petteia-overview-en.mp3 | An English audio overview for the Petteia and Polis pages, about 23 minutes. | public
-audio | Τα αρχαία επιτραπέζια ως κοσμικοί υπολογιστές | audio/petteia-overview-el.mp3 | A Greek audio overview for the Petteia and Polis pages, about 23 minutes. | public`;
+audio | Τα αρχαία επιτραπέζια ως κοσμικοί υπολογιστές | audio/petteia-overview-el.mp3 | A Greek audio overview for the Petteia and Polis pages, about 23 minutes. | public
+audio | Ancient Board Games Were Cosmic Simulators (Tavli) | audio/tavli-overview-en.mp3 | An English audio overview for the Tavli page, about 23 minutes. | public
+audio | Η κρυφή γεωμετρία του κενού (Τάβλι) | audio/tavli-overview-el.mp3 | A Greek audio overview for the Tavli page, about 22 minutes. | public
+audio | שש בש כמחשב קוסמי עתיק | audio/tavli-overview-he.mp3 | A Hebrew audio overview for the Tavli page, about 19 minutes. | public
+audio | The Ophanim Engine: forensic audit of the compass | audio/engine-talk-en.mp3 | An English talk for the Engine page, about 41 minutes. | public
+audio | Η Μηχανή των Ophanim (ελληνικά) | audio/engine-talk-el.mp3 | A Greek talk for the Greek Engine page, about 16 minutes. | public`;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
