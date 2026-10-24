@@ -33,5 +33,5 @@ Sector edges use exact integer arithmetic.
 
 ## Next
 
-Step 2: Bible and literature references for each word, each citation checked.
+Step 2 (started): `data/references.json` holds the first two anchors, Genesis 1:1 (Hebrew and Greek) and John 21:11, rebuilt by `tools/build_refs.py`. More references follow one at a time, each checked.
 Step 3: Strong's and BDB (public domain) as the root baseline for Greek and Hebrew; other lexicons only after their licence is checked.

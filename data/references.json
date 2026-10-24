@@ -1,0 +1,147 @@
+{
+ "note": "Step 2 references. Every sum is recomputed by tools/build_refs.py.",
+ "items": [
+  {
+   "id": "gen-1-1-he",
+   "ref": "Genesis 1:1",
+   "lang": "he",
+   "edition": "Hebrew (Masoretic) text, words as in any standard edition, without vowel marks",
+   "words": [
+    {
+     "w": "בראשית",
+     "v": 913
+    },
+    {
+     "w": "ברא",
+     "v": 203
+    },
+    {
+     "w": "אלהים",
+     "v": 86
+    },
+    {
+     "w": "את",
+     "v": 401
+    },
+    {
+     "w": "השמים",
+     "v": 395
+    },
+    {
+     "w": "ואת",
+     "v": 407
+    },
+    {
+     "w": "הארץ",
+     "v": 296
+    }
+   ],
+   "total": 2701,
+   "factors": [
+    37,
+    73
+   ],
+   "triangular": 73,
+   "notes": [
+    "2701 = 37 x 73, and also the 73rd triangular number (1 + 2 + ... + 73). The page reads that as a triangle, delta 73 (delta is the Greek triangle).",
+    "Hebrew letter values here are the standard ones with final letters counted as plain."
+   ],
+   "status": "computed here, all numbers recomputed by this script"
+  },
+  {
+   "id": "gen-1-1-lxx",
+   "ref": "Genesis 1:1",
+   "lang": "grc",
+   "edition": "Septuagint, Swete (1909), as in LXX-Swete-1930",
+   "words": [
+    {
+     "w": "Ἐν",
+     "v": 55
+    },
+    {
+     "w": "ἀρχῇ",
+     "v": 709
+    },
+    {
+     "w": "ἐποίησεν",
+     "v": 428
+    },
+    {
+     "w": "ὁ",
+     "v": 70
+    },
+    {
+     "w": "θεὸς",
+     "v": 284
+    },
+    {
+     "w": "τὸν",
+     "v": 420
+    },
+    {
+     "w": "οὐρανὸν",
+     "v": 741
+    },
+    {
+     "w": "καὶ",
+     "v": 31
+    },
+    {
+     "w": "τὴν",
+     "v": 358
+    },
+    {
+     "w": "γῆν",
+     "v": 61
+    }
+   ],
+   "total": 3157,
+   "factors": [
+    7,
+    11,
+    41
+   ],
+   "notes": [
+    "This is the Greek of the Septuagint, a different text from the Hebrew above. Its total has no relation to 2701; the two should not be compared as one verse."
+   ],
+   "status": "computed here"
+  },
+  {
+   "id": "john-21-11",
+   "ref": "John 21:11",
+   "lang": "grc",
+   "edition": "Greek New Testament (Nestle 1904 text as printed on Bible Hub)",
+   "words": [
+    {
+     "w": "τὸ δίκτυον",
+     "v": 1224,
+     "in_verse": true
+    },
+    {
+     "w": "ἰχθύες",
+     "v": 1224,
+     "in_verse": false,
+     "note": "nominative plural, \"fish\" as a dictionary form"
+    },
+    {
+     "w": "ἰχθύων",
+     "v": 1869,
+     "in_verse": true,
+     "note": "the form the verse actually has: \"full of large fish\""
+    }
+   ],
+   "total": null,
+   "fish_count": 153,
+   "fish_count_check": {
+    "value": 153,
+    "triangular": 17,
+    "sum_of": "1 + 2 + ... + 17"
+   },
+   "notes": [
+    "The verse says the net was full of 153 large fish. The pairing of the net with fish at 1224 is exact, but it uses the form ἰχθύες, which is not in the verse. The verse has ἰχθύων, which is 1869.",
+    "153 is the 17th triangular number. The Greek has 17 consonants, which is a coincidence of number, not a link of meaning."
+   ],
+   "status": "computed here; verse wording read from Bible Hub, to be confirmed against a printed edition"
+  }
+ ]
+}
