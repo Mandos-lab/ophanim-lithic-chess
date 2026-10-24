@@ -1,0 +1,2748 @@
+{
+ "script": "futhark",
+ "rule": "HOUSE RULE: runes were not used as numbers. Each rune carries its place in the Kylver row, Fehu 1 to Othala 24 (Dagaz 23, Othala 24). Latin letters are read by sound.",
+ "count": 61,
+ "words": [
+  {
+   "id": "fut-001",
+   "script": "futhark",
+   "text": "ᚠᛖᚺᚢ",
+   "lang": "non",
+   "transliteration": "fehu",
+   "translation_en": "cattle, wealth",
+   "group": "Runes",
+   "letters": [
+    "ᚠ",
+    "ᛖ",
+    "ᚺ",
+    "ᚢ"
+   ],
+   "value": 31,
+   "mod36": 31,
+   "node_degrees": 310,
+   "bearing_360": 31,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    1,
+    19,
+    9,
+    2
+   ],
+   "hz_low": 216,
+   "hz_high": 540,
+   "rune_names": [
+    "fehu",
+    "ehwaz",
+    "hagalaz",
+    "uruz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛁᛊᚨ",
+    "ᚠᚱᛁᚷᚷ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-002",
+   "script": "futhark",
+   "text": "ᚢᚱᚢᛉ",
+   "lang": "non",
+   "transliteration": "uruz",
+   "translation_en": "aurochs (name uncertain)",
+   "group": "Runes",
+   "letters": [
+    "ᚢ",
+    "ᚱ",
+    "ᚢ",
+    "ᛉ"
+   ],
+   "value": 24,
+   "mod36": 24,
+   "node_degrees": 240,
+   "bearing_360": 24,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    2,
+    5,
+    2,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 573,
+   "rune_names": [
+    "uruz",
+    "raidho",
+    "uruz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-003",
+   "script": "futhark",
+   "text": "ᚦᚢᚱᛁᛊᚨᛉ",
+   "lang": "non",
+   "transliteration": "thurisaz",
+   "translation_en": "giant (name uncertain)",
+   "group": "Runes",
+   "letters": [
+    "ᚦ",
+    "ᚢ",
+    "ᚱ",
+    "ᛁ",
+    "ᛊ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 56,
+   "mod36": 20,
+   "node_degrees": 200,
+   "bearing_360": 56,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    3,
+    2,
+    5,
+    11,
+    16,
+    4,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 611,
+   "rune_names": [
+    "thurisaz",
+    "uruz",
+    "raidho",
+    "isa",
+    "sowilo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚹᚢᚾᛃᛟ",
+    "ᛟᚦᚨᛚᚨ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:יום"
+   ]
+  },
+  {
+   "id": "fut-004",
+   "script": "futhark",
+   "text": "ᚨᚾᛊᚢᛉ",
+   "lang": "non",
+   "transliteration": "ansuz",
+   "translation_en": "a god",
+   "group": "Runes",
+   "letters": [
+    "ᚨ",
+    "ᚾ",
+    "ᛊ",
+    "ᚢ",
+    "ᛉ"
+   ],
+   "value": 47,
+   "mod36": 11,
+   "node_degrees": 110,
+   "bearing_360": 47,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    4,
+    10,
+    16,
+    2,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 611,
+   "rune_names": [
+    "ansuz",
+    "nauthiz",
+    "sowilo",
+    "uruz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-005",
+   "script": "futhark",
+   "text": "ᚱᚨᛁᛞᚺᛟ",
+   "lang": "non",
+   "transliteration": "raidho",
+   "translation_en": "ride, journey",
+   "group": "Runes",
+   "letters": [
+    "ᚱ",
+    "ᚨ",
+    "ᛁ",
+    "ᛞ",
+    "ᚺ",
+    "ᛟ"
+   ],
+   "value": 76,
+   "mod36": 4,
+   "node_degrees": 40,
+   "bearing_360": 76,
+   "sector": 6,
+   "sector_count": 24,
+   "sector_letter": "ᚲ",
+   "tone_sequence": [
+    5,
+    4,
+    11,
+    23,
+    9,
+    24
+   ],
+   "hz_low": 288,
+   "hz_high": 864,
+   "rune_names": [
+    "raidho",
+    "ansuz",
+    "isa",
+    "dagaz",
+    "hagalaz",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-006",
+   "script": "futhark",
+   "text": "ᚲᛖᚾᚨᛉ",
+   "lang": "non",
+   "transliteration": "kenaz",
+   "translation_en": "torch or boil (name uncertain)",
+   "group": "Runes",
+   "letters": [
+    "ᚲ",
+    "ᛖ",
+    "ᚾ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 54,
+   "mod36": 18,
+   "node_degrees": 180,
+   "bearing_360": 54,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    6,
+    19,
+    10,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 573,
+   "rune_names": [
+    "kenaz",
+    "ehwaz",
+    "nauthiz",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚷᛟᛞ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-007",
+   "script": "futhark",
+   "text": "ᚷᛖᛒᛟ",
+   "lang": "non",
+   "transliteration": "gebo",
+   "translation_en": "gift",
+   "group": "Runes",
+   "letters": [
+    "ᚷ",
+    "ᛖ",
+    "ᛒ",
+    "ᛟ"
+   ],
+   "value": 68,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 68,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    7,
+    19,
+    18,
+    24
+   ],
+   "hz_low": 405,
+   "hz_high": 864,
+   "rune_names": [
+    "gebo",
+    "ehwaz",
+    "berkano",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛟᛞᛁᚾ",
+    "ᛖᛚᛞᚱ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:חיים"
+   ]
+  },
+  {
+   "id": "fut-008",
+   "script": "futhark",
+   "text": "ᚹᚢᚾᛃᛟ",
+   "lang": "non",
+   "transliteration": "wunjo",
+   "translation_en": "joy",
+   "group": "Runes",
+   "letters": [
+    "ᚹ",
+    "ᚢ",
+    "ᚾ",
+    "ᛃ",
+    "ᛟ"
+   ],
+   "value": 56,
+   "mod36": 20,
+   "node_degrees": 200,
+   "bearing_360": 56,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    8,
+    2,
+    10,
+    12,
+    24
+   ],
+   "hz_low": 243,
+   "hz_high": 864,
+   "rune_names": [
+    "wunjo",
+    "uruz",
+    "nauthiz",
+    "jera",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚦᚢᚱᛁᛊᚨᛉ",
+    "ᛟᚦᚨᛚᚨ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:יום"
+   ]
+  },
+  {
+   "id": "fut-009",
+   "script": "futhark",
+   "text": "ᚺᚨᚷᚨᛚᚨᛉ",
+   "lang": "non",
+   "transliteration": "hagalaz",
+   "translation_en": "hail",
+   "group": "Runes",
+   "letters": [
+    "ᚺ",
+    "ᚨ",
+    "ᚷ",
+    "ᚨ",
+    "ᛚ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 64,
+   "mod36": 28,
+   "node_degrees": 280,
+   "bearing_360": 64,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    9,
+    4,
+    7,
+    4,
+    21,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 648,
+   "rune_names": [
+    "hagalaz",
+    "ansuz",
+    "gebo",
+    "ansuz",
+    "laguz",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "greek:ΑΛΗΘΕΙΑ"
+   ]
+  },
+  {
+   "id": "fut-010",
+   "script": "futhark",
+   "text": "ᚾᚨᚢᚦᛁᛉ",
+   "lang": "non",
+   "transliteration": "nauthiz",
+   "translation_en": "need",
+   "group": "Runes",
+   "letters": [
+    "ᚾ",
+    "ᚨ",
+    "ᚢ",
+    "ᚦ",
+    "ᛁ",
+    "ᛉ"
+   ],
+   "value": 45,
+   "mod36": 9,
+   "node_degrees": 90,
+   "bearing_360": 45,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    10,
+    4,
+    2,
+    3,
+    11,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 573,
+   "rune_names": [
+    "nauthiz",
+    "ansuz",
+    "uruz",
+    "thurisaz",
+    "isa",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛗᚨᚾᛁ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:אדם"
+   ]
+  },
+  {
+   "id": "fut-011",
+   "script": "futhark",
+   "text": "ᛁᛊᚨ",
+   "lang": "non",
+   "transliteration": "isa",
+   "translation_en": "ice",
+   "group": "Runes",
+   "letters": [
+    "ᛁ",
+    "ᛊ",
+    "ᚨ"
+   ],
+   "value": 31,
+   "mod36": 31,
+   "node_degrees": 310,
+   "bearing_360": 31,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    11,
+    16,
+    4
+   ],
+   "hz_low": 288,
+   "hz_high": 611,
+   "rune_names": [
+    "isa",
+    "sowilo",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚠᛖᚺᚢ",
+    "ᚠᚱᛁᚷᚷ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-012",
+   "script": "futhark",
+   "text": "ᛃᛖᚱᚨ",
+   "lang": "non",
+   "transliteration": "jera",
+   "translation_en": "year, harvest",
+   "group": "Runes",
+   "letters": [
+    "ᛃ",
+    "ᛖ",
+    "ᚱ",
+    "ᚨ"
+   ],
+   "value": 40,
+   "mod36": 4,
+   "node_degrees": 40,
+   "bearing_360": 40,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    12,
+    19,
+    5,
+    4
+   ],
+   "hz_low": 288,
+   "hz_high": 540,
+   "rune_names": [
+    "jera",
+    "ehwaz",
+    "raidho",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-013",
+   "script": "futhark",
+   "text": "ᛖᛁᚺᚹᚨᛉ",
+   "lang": "non",
+   "transliteration": "eihwaz",
+   "translation_en": "yew (name uncertain)",
+   "group": "Runes",
+   "letters": [
+    "ᛖ",
+    "ᛁ",
+    "ᚺ",
+    "ᚹ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 66,
+   "mod36": 30,
+   "node_degrees": 300,
+   "bearing_360": 66,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    19,
+    11,
+    9,
+    8,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 573,
+   "rune_names": [
+    "ehwaz",
+    "isa",
+    "hagalaz",
+    "wunjo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-014",
+   "script": "futhark",
+   "text": "ᛈᛖᚱᚦᚱᛟ",
+   "lang": "non",
+   "transliteration": "perthro",
+   "translation_en": "meaning unknown",
+   "group": "Runes",
+   "letters": [
+    "ᛈ",
+    "ᛖ",
+    "ᚱ",
+    "ᚦ",
+    "ᚱ",
+    "ᛟ"
+   ],
+   "value": 70,
+   "mod36": 34,
+   "node_degrees": 340,
+   "bearing_360": 70,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    14,
+    19,
+    5,
+    3,
+    5,
+    24
+   ],
+   "hz_low": 270,
+   "hz_high": 864,
+   "rune_names": [
+    "perthro",
+    "ehwaz",
+    "raidho",
+    "thurisaz",
+    "raidho",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛊᚲᚨᛚᛞ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-015",
+   "script": "futhark",
+   "text": "ᚨᛚᚷᛁᛉ",
+   "lang": "non",
+   "transliteration": "algiz",
+   "translation_en": "elk (name lost, reconstructed)",
+   "group": "Runes",
+   "letters": [
+    "ᚨ",
+    "ᛚ",
+    "ᚷ",
+    "ᛁ",
+    "ᛉ"
+   ],
+   "value": 58,
+   "mod36": 22,
+   "node_degrees": 220,
+   "bearing_360": 58,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    4,
+    21,
+    7,
+    11,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 648,
+   "rune_names": [
+    "ansuz",
+    "laguz",
+    "gebo",
+    "isa",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "hebrew:נח"
+   ]
+  },
+  {
+   "id": "fut-016",
+   "script": "futhark",
+   "text": "ᛊᛟᚹᛁᛚᛟ",
+   "lang": "non",
+   "transliteration": "sowilo",
+   "translation_en": "sun",
+   "group": "Runes",
+   "letters": [
+    "ᛊ",
+    "ᛟ",
+    "ᚹ",
+    "ᛁ",
+    "ᛚ",
+    "ᛟ"
+   ],
+   "value": 104,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 104,
+   "sector": 7,
+   "sector_count": 24,
+   "sector_letter": "ᚷ",
+   "tone_sequence": [
+    16,
+    24,
+    8,
+    11,
+    21,
+    24
+   ],
+   "hz_low": 382,
+   "hz_high": 864,
+   "rune_names": [
+    "sowilo",
+    "othala",
+    "wunjo",
+    "isa",
+    "laguz",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-017",
+   "script": "futhark",
+   "text": "ᛏᛁᚹᚨᛉ",
+   "lang": "non",
+   "transliteration": "tiwaz",
+   "translation_en": "the god Tiwaz (Tyr)",
+   "group": "Runes",
+   "letters": [
+    "ᛏ",
+    "ᛁ",
+    "ᚹ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 55,
+   "mod36": 19,
+   "node_degrees": 190,
+   "bearing_360": 55,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    17,
+    11,
+    8,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 573,
+   "rune_names": [
+    "tiwaz",
+    "isa",
+    "wunjo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛖᚺᚹᚨᛉ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-018",
+   "script": "futhark",
+   "text": "ᛒᛖᚱᚲᚨᚾᛟ",
+   "lang": "non",
+   "transliteration": "berkano",
+   "translation_en": "birch",
+   "group": "Runes",
+   "letters": [
+    "ᛒ",
+    "ᛖ",
+    "ᚱ",
+    "ᚲ",
+    "ᚨ",
+    "ᚾ",
+    "ᛟ"
+   ],
+   "value": 86,
+   "mod36": 14,
+   "node_degrees": 140,
+   "bearing_360": 86,
+   "sector": 6,
+   "sector_count": 24,
+   "sector_letter": "ᚲ",
+   "tone_sequence": [
+    18,
+    19,
+    5,
+    6,
+    4,
+    10,
+    24
+   ],
+   "hz_low": 288,
+   "hz_high": 864,
+   "rune_names": [
+    "berkano",
+    "ehwaz",
+    "raidho",
+    "kenaz",
+    "ansuz",
+    "nauthiz",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "hebrew:אלהים"
+   ]
+  },
+  {
+   "id": "fut-019",
+   "script": "futhark",
+   "text": "ᛖᚺᚹᚨᛉ",
+   "lang": "non",
+   "transliteration": "ehwaz",
+   "translation_en": "horse",
+   "group": "Runes",
+   "letters": [
+    "ᛖ",
+    "ᚺ",
+    "ᚹ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 55,
+   "mod36": 19,
+   "node_degrees": 190,
+   "bearing_360": 55,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    19,
+    9,
+    8,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 573,
+   "rune_names": [
+    "ehwaz",
+    "hagalaz",
+    "wunjo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛏᛁᚹᚨᛉ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-020",
+   "script": "futhark",
+   "text": "ᛗᚨᚾᚾᚨᛉ",
+   "lang": "non",
+   "transliteration": "mannaz",
+   "translation_en": "man, human",
+   "group": "Runes",
+   "letters": [
+    "ᛗ",
+    "ᚨ",
+    "ᚾ",
+    "ᚾ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 63,
+   "mod36": 27,
+   "node_degrees": 270,
+   "bearing_360": 63,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    20,
+    4,
+    10,
+    10,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 576,
+   "rune_names": [
+    "mannaz",
+    "ansuz",
+    "nauthiz",
+    "nauthiz",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-021",
+   "script": "futhark",
+   "text": "ᛚᚨᚷᚢᛉ",
+   "lang": "non",
+   "transliteration": "laguz",
+   "translation_en": "water (name uncertain)",
+   "group": "Runes",
+   "letters": [
+    "ᛚ",
+    "ᚨ",
+    "ᚷ",
+    "ᚢ",
+    "ᛉ"
+   ],
+   "value": 49,
+   "mod36": 13,
+   "node_degrees": 130,
+   "bearing_360": 49,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    21,
+    4,
+    7,
+    2,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 648,
+   "rune_names": [
+    "laguz",
+    "ansuz",
+    "gebo",
+    "uruz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-022",
+   "script": "futhark",
+   "text": "ᛁᛜᚹᚨᛉ",
+   "lang": "non",
+   "transliteration": "ingwaz",
+   "translation_en": "the god Ing",
+   "group": "Runes",
+   "letters": [
+    "ᛁ",
+    "ᛜ",
+    "ᚹ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 60,
+   "mod36": 24,
+   "node_degrees": 240,
+   "bearing_360": 60,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    11,
+    22,
+    8,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 720,
+   "rune_names": [
+    "isa",
+    "ingwaz",
+    "wunjo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚷᚨᛚᛞᚱ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-023",
+   "script": "futhark",
+   "text": "ᛞᚨᚷᚨᛉ",
+   "lang": "non",
+   "transliteration": "dagaz",
+   "translation_en": "day",
+   "group": "Runes",
+   "letters": [
+    "ᛞ",
+    "ᚨ",
+    "ᚷ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 53,
+   "mod36": 17,
+   "node_degrees": 170,
+   "bearing_360": 53,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    23,
+    4,
+    7,
+    4,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "dagaz",
+    "ansuz",
+    "gebo",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚠᚱᛖᛃᛃᚨ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:אבן",
+    "hebrew:גן"
+   ]
+  },
+  {
+   "id": "fut-024",
+   "script": "futhark",
+   "text": "ᛟᚦᚨᛚᚨ",
+   "lang": "non",
+   "transliteration": "othala",
+   "translation_en": "inheritance, homeland",
+   "group": "Runes",
+   "letters": [
+    "ᛟ",
+    "ᚦ",
+    "ᚨ",
+    "ᛚ",
+    "ᚨ"
+   ],
+   "value": 56,
+   "mod36": 20,
+   "node_degrees": 200,
+   "bearing_360": 56,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    24,
+    3,
+    4,
+    21,
+    4
+   ],
+   "hz_low": 270,
+   "hz_high": 864,
+   "rune_names": [
+    "othala",
+    "thurisaz",
+    "ansuz",
+    "laguz",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚦᚢᚱᛁᛊᚨᛉ",
+    "ᚹᚢᚾᛃᛟ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:יום"
+   ]
+  },
+  {
+   "id": "fut-025",
+   "script": "futhark",
+   "text": "ᚦᛟᚱ",
+   "lang": "non",
+   "transliteration": "thor",
+   "translation_en": "Thor, god of thunder",
+   "group": "Gods",
+   "letters": [
+    "ᚦ",
+    "ᛟ",
+    "ᚱ"
+   ],
+   "value": 32,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 32,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    3,
+    24,
+    5
+   ],
+   "hz_low": 270,
+   "hz_high": 864,
+   "rune_names": [
+    "thurisaz",
+    "othala",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚠᚨᛏᚾ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:לב"
+   ]
+  },
+  {
+   "id": "fut-026",
+   "script": "futhark",
+   "text": "ᛟᛞᛁᚾ",
+   "lang": "non",
+   "transliteration": "odin",
+   "translation_en": "Odin (Old Norse Óðinn)",
+   "group": "Gods",
+   "letters": [
+    "ᛟ",
+    "ᛞ",
+    "ᛁ",
+    "ᚾ"
+   ],
+   "value": 68,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 68,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    24,
+    23,
+    11,
+    10
+   ],
+   "hz_low": 344,
+   "hz_high": 864,
+   "rune_names": [
+    "othala",
+    "dagaz",
+    "isa",
+    "nauthiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚷᛖᛒᛟ",
+    "ᛖᛚᛞᚱ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:חיים"
+   ]
+  },
+  {
+   "id": "fut-027",
+   "script": "futhark",
+   "text": "ᚠᚱᛖᛃᚱ",
+   "lang": "non",
+   "transliteration": "freyr",
+   "translation_en": "Freyr, god of fertility",
+   "group": "Gods",
+   "letters": [
+    "ᚠ",
+    "ᚱ",
+    "ᛖ",
+    "ᛃ",
+    "ᚱ"
+   ],
+   "value": 42,
+   "mod36": 6,
+   "node_degrees": 60,
+   "bearing_360": 42,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    1,
+    5,
+    19,
+    12,
+    5
+   ],
+   "hz_low": 216,
+   "hz_high": 540,
+   "rune_names": [
+    "fehu",
+    "raidho",
+    "ehwaz",
+    "jera",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-028",
+   "script": "futhark",
+   "text": "ᚠᚱᛖᛃᛃᚨ",
+   "lang": "non",
+   "transliteration": "freyja",
+   "translation_en": "Freyja",
+   "group": "Gods",
+   "letters": [
+    "ᚠ",
+    "ᚱ",
+    "ᛖ",
+    "ᛃ",
+    "ᛃ",
+    "ᚨ"
+   ],
+   "value": 53,
+   "mod36": 17,
+   "node_degrees": 170,
+   "bearing_360": 53,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    1,
+    5,
+    19,
+    12,
+    12,
+    4
+   ],
+   "hz_low": 216,
+   "hz_high": 540,
+   "rune_names": [
+    "fehu",
+    "raidho",
+    "ehwaz",
+    "jera",
+    "jera",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛞᚨᚷᚨᛉ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:אבן",
+    "hebrew:גן"
+   ]
+  },
+  {
+   "id": "fut-029",
+   "script": "futhark",
+   "text": "ᚠᚱᛁᚷᚷ",
+   "lang": "non",
+   "transliteration": "frigg",
+   "translation_en": "Frigg",
+   "group": "Gods",
+   "letters": [
+    "ᚠ",
+    "ᚱ",
+    "ᛁ",
+    "ᚷ",
+    "ᚷ"
+   ],
+   "value": 31,
+   "mod36": 31,
+   "node_degrees": 310,
+   "bearing_360": 31,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    1,
+    5,
+    11,
+    7,
+    7
+   ],
+   "hz_low": 216,
+   "hz_high": 405,
+   "rune_names": [
+    "fehu",
+    "raidho",
+    "isa",
+    "gebo",
+    "gebo"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚠᛖᚺᚢ",
+    "ᛁᛊᚨ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-030",
+   "script": "futhark",
+   "text": "ᛒᚨᛚᛞᚱ",
+   "lang": "non",
+   "transliteration": "baldr",
+   "translation_en": "Baldr",
+   "group": "Gods",
+   "letters": [
+    "ᛒ",
+    "ᚨ",
+    "ᛚ",
+    "ᛞ",
+    "ᚱ"
+   ],
+   "value": 71,
+   "mod36": 35,
+   "node_degrees": 350,
+   "bearing_360": 71,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    18,
+    4,
+    21,
+    23,
+    5
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "berkano",
+    "ansuz",
+    "laguz",
+    "dagaz",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-031",
+   "script": "futhark",
+   "text": "ᛚᛟᚲᛁ",
+   "lang": "non",
+   "transliteration": "loki",
+   "translation_en": "Loki",
+   "group": "Gods",
+   "letters": [
+    "ᛚ",
+    "ᛟ",
+    "ᚲ",
+    "ᛁ"
+   ],
+   "value": 62,
+   "mod36": 26,
+   "node_degrees": 260,
+   "bearing_360": 62,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    21,
+    24,
+    6,
+    11
+   ],
+   "hz_low": 360,
+   "hz_high": 864,
+   "rune_names": [
+    "laguz",
+    "othala",
+    "kenaz",
+    "isa"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-032",
+   "script": "futhark",
+   "text": "ᛏᛃᚱ",
+   "lang": "non",
+   "transliteration": "tyr",
+   "translation_en": "Tyr, god of the oath",
+   "group": "Gods",
+   "letters": [
+    "ᛏ",
+    "ᛃ",
+    "ᚱ"
+   ],
+   "value": 34,
+   "mod36": 34,
+   "node_degrees": 340,
+   "bearing_360": 34,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    17,
+    12,
+    5
+   ],
+   "hz_low": 324,
+   "hz_high": 432,
+   "rune_names": [
+    "tiwaz",
+    "jera",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-033",
+   "script": "futhark",
+   "text": "ᚺᛖᛁᛗᛞᚨᛚᛚ",
+   "lang": "non",
+   "transliteration": "heimdall",
+   "translation_en": "Heimdall",
+   "group": "Gods",
+   "letters": [
+    "ᚺ",
+    "ᛖ",
+    "ᛁ",
+    "ᛗ",
+    "ᛞ",
+    "ᚨ",
+    "ᛚ",
+    "ᛚ"
+   ],
+   "value": 128,
+   "mod36": 20,
+   "node_degrees": 200,
+   "bearing_360": 128,
+   "sector": 9,
+   "sector_count": 24,
+   "sector_letter": "ᚺ",
+   "tone_sequence": [
+    9,
+    19,
+    11,
+    20,
+    23,
+    4,
+    21,
+    21
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "hagalaz",
+    "ehwaz",
+    "isa",
+    "mannaz",
+    "dagaz",
+    "ansuz",
+    "laguz",
+    "laguz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "greek:ΑΙΘΗΡ"
+   ]
+  },
+  {
+   "id": "fut-034",
+   "script": "futhark",
+   "text": "ᛃᚷᚷᛞᚱᚨᛊᛁᛚ",
+   "lang": "non",
+   "transliteration": "yggdrasil",
+   "translation_en": "the world tree",
+   "group": "Cosmos",
+   "letters": [
+    "ᛃ",
+    "ᚷ",
+    "ᚷ",
+    "ᛞ",
+    "ᚱ",
+    "ᚨ",
+    "ᛊ",
+    "ᛁ",
+    "ᛚ"
+   ],
+   "value": 106,
+   "mod36": 34,
+   "node_degrees": 340,
+   "bearing_360": 106,
+   "sector": 8,
+   "sector_count": 24,
+   "sector_letter": "ᚹ",
+   "tone_sequence": [
+    12,
+    7,
+    7,
+    23,
+    5,
+    4,
+    16,
+    11,
+    21
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "jera",
+    "gebo",
+    "gebo",
+    "dagaz",
+    "raidho",
+    "ansuz",
+    "sowilo",
+    "isa",
+    "laguz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-035",
+   "script": "futhark",
+   "text": "ᛗᛁᛞᚷᚨᚱᛞ",
+   "lang": "non",
+   "transliteration": "midgard",
+   "translation_en": "Midgard, the middle enclosure",
+   "group": "Cosmos",
+   "letters": [
+    "ᛗ",
+    "ᛁ",
+    "ᛞ",
+    "ᚷ",
+    "ᚨ",
+    "ᚱ",
+    "ᛞ"
+   ],
+   "value": 93,
+   "mod36": 21,
+   "node_degrees": 210,
+   "bearing_360": 93,
+   "sector": 7,
+   "sector_count": 24,
+   "sector_letter": "ᚷ",
+   "tone_sequence": [
+    20,
+    11,
+    23,
+    7,
+    4,
+    5,
+    23
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "mannaz",
+    "isa",
+    "dagaz",
+    "gebo",
+    "ansuz",
+    "raidho",
+    "dagaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "greek:ΑΓΑΠΗ"
+   ]
+  },
+  {
+   "id": "fut-036",
+   "script": "futhark",
+   "text": "ᚨᛊᚷᚨᚱᛞ",
+   "lang": "non",
+   "transliteration": "asgard",
+   "translation_en": "Asgard, the gods' enclosure",
+   "group": "Cosmos",
+   "letters": [
+    "ᚨ",
+    "ᛊ",
+    "ᚷ",
+    "ᚨ",
+    "ᚱ",
+    "ᛞ"
+   ],
+   "value": 59,
+   "mod36": 23,
+   "node_degrees": 230,
+   "bearing_360": 59,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    4,
+    16,
+    7,
+    4,
+    5,
+    23
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "ansuz",
+    "sowilo",
+    "gebo",
+    "ansuz",
+    "raidho",
+    "dagaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-037",
+   "script": "futhark",
+   "text": "ᚠᚨᛚᚺᚨᛚᛚᚨ",
+   "lang": "non",
+   "transliteration": "valhalla",
+   "translation_en": "Valhalla, hall of the slain",
+   "group": "Cosmos",
+   "letters": [
+    "ᚠ",
+    "ᚨ",
+    "ᛚ",
+    "ᚺ",
+    "ᚨ",
+    "ᛚ",
+    "ᛚ",
+    "ᚨ"
+   ],
+   "value": 85,
+   "mod36": 13,
+   "node_degrees": 130,
+   "bearing_360": 85,
+   "sector": 6,
+   "sector_count": 24,
+   "sector_letter": "ᚲ",
+   "tone_sequence": [
+    1,
+    4,
+    21,
+    9,
+    4,
+    21,
+    21,
+    4
+   ],
+   "hz_low": 216,
+   "hz_high": 648,
+   "rune_names": [
+    "fehu",
+    "ansuz",
+    "laguz",
+    "hagalaz",
+    "ansuz",
+    "laguz",
+    "laguz",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "hebrew:פה"
+   ]
+  },
+  {
+   "id": "fut-038",
+   "script": "futhark",
+   "text": "ᚱᚨᚷᚾᚨᚱᛟᚲ",
+   "lang": "non",
+   "transliteration": "ragnarok",
+   "translation_en": "Ragnarok, fate of the powers",
+   "group": "Cosmos",
+   "letters": [
+    "ᚱ",
+    "ᚨ",
+    "ᚷ",
+    "ᚾ",
+    "ᚨ",
+    "ᚱ",
+    "ᛟ",
+    "ᚲ"
+   ],
+   "value": 65,
+   "mod36": 29,
+   "node_degrees": 290,
+   "bearing_360": 65,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    5,
+    4,
+    7,
+    10,
+    4,
+    5,
+    24,
+    6
+   ],
+   "hz_low": 288,
+   "hz_high": 864,
+   "rune_names": [
+    "raidho",
+    "ansuz",
+    "gebo",
+    "nauthiz",
+    "ansuz",
+    "raidho",
+    "othala",
+    "kenaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-039",
+   "script": "futhark",
+   "text": "ᛗᛃᛟᛚᚾᛁᚱ",
+   "lang": "non",
+   "transliteration": "mjolnir",
+   "translation_en": "Mjölnir, Thor's hammer",
+   "group": "Cosmos",
+   "letters": [
+    "ᛗ",
+    "ᛃ",
+    "ᛟ",
+    "ᛚ",
+    "ᚾ",
+    "ᛁ",
+    "ᚱ"
+   ],
+   "value": 103,
+   "mod36": 31,
+   "node_degrees": 310,
+   "bearing_360": 103,
+   "sector": 7,
+   "sector_count": 24,
+   "sector_letter": "ᚷ",
+   "tone_sequence": [
+    20,
+    12,
+    24,
+    21,
+    10,
+    11,
+    5
+   ],
+   "hz_low": 324,
+   "hz_high": 864,
+   "rune_names": [
+    "mannaz",
+    "jera",
+    "othala",
+    "laguz",
+    "nauthiz",
+    "isa",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-040",
+   "script": "futhark",
+   "text": "ᛒᛁᚠᚱᛟᛊᛏ",
+   "lang": "non",
+   "transliteration": "bifrost",
+   "translation_en": "Bifröst, the rainbow bridge",
+   "group": "Cosmos",
+   "letters": [
+    "ᛒ",
+    "ᛁ",
+    "ᚠ",
+    "ᚱ",
+    "ᛟ",
+    "ᛊ",
+    "ᛏ"
+   ],
+   "value": 92,
+   "mod36": 20,
+   "node_degrees": 200,
+   "bearing_360": 92,
+   "sector": 7,
+   "sector_count": 24,
+   "sector_letter": "ᚷ",
+   "tone_sequence": [
+    18,
+    11,
+    1,
+    5,
+    24,
+    16,
+    17
+   ],
+   "hz_low": 216,
+   "hz_high": 864,
+   "rune_names": [
+    "berkano",
+    "isa",
+    "fehu",
+    "raidho",
+    "othala",
+    "sowilo",
+    "tiwaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-041",
+   "script": "futhark",
+   "text": "ᚱᚢᚾ",
+   "lang": "non",
+   "transliteration": "run",
+   "translation_en": "rún, secret, rune",
+   "group": "Words",
+   "letters": [
+    "ᚱ",
+    "ᚢ",
+    "ᚾ"
+   ],
+   "value": 17,
+   "mod36": 17,
+   "node_degrees": 170,
+   "bearing_360": 17,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    5,
+    2,
+    10
+   ],
+   "hz_low": 243,
+   "hz_high": 344,
+   "rune_names": [
+    "raidho",
+    "uruz",
+    "nauthiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-042",
+   "script": "futhark",
+   "text": "ᚢᚱᛞ",
+   "lang": "non",
+   "transliteration": "urd",
+   "translation_en": "Urðr, fate (one of the Norns)",
+   "group": "Words",
+   "letters": [
+    "ᚢ",
+    "ᚱ",
+    "ᛞ"
+   ],
+   "value": 30,
+   "mod36": 30,
+   "node_degrees": 300,
+   "bearing_360": 30,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    2,
+    5,
+    23
+   ],
+   "hz_low": 243,
+   "hz_high": 810,
+   "rune_names": [
+    "uruz",
+    "raidho",
+    "dagaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-043",
+   "script": "futhark",
+   "text": "ᛖᛞᛞᚨ",
+   "lang": "non",
+   "transliteration": "edda",
+   "translation_en": "Edda, the name of the poetry books",
+   "group": "Words",
+   "letters": [
+    "ᛖ",
+    "ᛞ",
+    "ᛞ",
+    "ᚨ"
+   ],
+   "value": 69,
+   "mod36": 33,
+   "node_degrees": 330,
+   "bearing_360": 69,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    19,
+    23,
+    23,
+    4
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "ehwaz",
+    "dagaz",
+    "dagaz",
+    "ansuz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "greek:ΑΘΗΝΑ"
+   ]
+  },
+  {
+   "id": "fut-044",
+   "script": "futhark",
+   "text": "ᛊᚲᚨᛚᛞ",
+   "lang": "non",
+   "transliteration": "skald",
+   "translation_en": "skáld, poet",
+   "group": "Words",
+   "letters": [
+    "ᛊ",
+    "ᚲ",
+    "ᚨ",
+    "ᛚ",
+    "ᛞ"
+   ],
+   "value": 70,
+   "mod36": 34,
+   "node_degrees": 340,
+   "bearing_360": 70,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    16,
+    6,
+    4,
+    21,
+    23
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "sowilo",
+    "kenaz",
+    "ansuz",
+    "laguz",
+    "dagaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛈᛖᚱᚦᚱᛟ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-045",
+   "script": "futhark",
+   "text": "ᚷᚨᛚᛞᚱ",
+   "lang": "non",
+   "transliteration": "galdr",
+   "translation_en": "galdr, chant, spell",
+   "group": "Words",
+   "letters": [
+    "ᚷ",
+    "ᚨ",
+    "ᛚ",
+    "ᛞ",
+    "ᚱ"
+   ],
+   "value": 60,
+   "mod36": 24,
+   "node_degrees": 240,
+   "bearing_360": 60,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    7,
+    4,
+    21,
+    23,
+    5
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "gebo",
+    "ansuz",
+    "laguz",
+    "dagaz",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛁᛜᚹᚨᛉ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-046",
+   "script": "futhark",
+   "text": "ᛊᛟᛚ",
+   "lang": "non",
+   "transliteration": "sol",
+   "translation_en": "sól, sun",
+   "group": "Words",
+   "letters": [
+    "ᛊ",
+    "ᛟ",
+    "ᛚ"
+   ],
+   "value": 61,
+   "mod36": 25,
+   "node_degrees": 250,
+   "bearing_360": 61,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    16,
+    24,
+    21
+   ],
+   "hz_low": 611,
+   "hz_high": 864,
+   "rune_names": [
+    "sowilo",
+    "othala",
+    "laguz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-047",
+   "script": "futhark",
+   "text": "ᛗᚨᚾᛁ",
+   "lang": "non",
+   "transliteration": "mani",
+   "translation_en": "máni, moon",
+   "group": "Words",
+   "letters": [
+    "ᛗ",
+    "ᚨ",
+    "ᚾ",
+    "ᛁ"
+   ],
+   "value": 45,
+   "mod36": 9,
+   "node_degrees": 90,
+   "bearing_360": 45,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    20,
+    4,
+    10,
+    11
+   ],
+   "hz_low": 288,
+   "hz_high": 576,
+   "rune_names": [
+    "mannaz",
+    "ansuz",
+    "nauthiz",
+    "isa"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚾᚨᚢᚦᛁᛉ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:אדם"
+   ]
+  },
+  {
+   "id": "fut-048",
+   "script": "futhark",
+   "text": "ᛞᚨᚷᚱ",
+   "lang": "non",
+   "transliteration": "dagr",
+   "translation_en": "dagr, day",
+   "group": "Words",
+   "letters": [
+    "ᛞ",
+    "ᚨ",
+    "ᚷ",
+    "ᚱ"
+   ],
+   "value": 39,
+   "mod36": 3,
+   "node_degrees": 30,
+   "bearing_360": 39,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    23,
+    4,
+    7,
+    5
+   ],
+   "hz_low": 288,
+   "hz_high": 810,
+   "rune_names": [
+    "dagaz",
+    "ansuz",
+    "gebo",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-049",
+   "script": "futhark",
+   "text": "ᚾᚨᛏᛏ",
+   "lang": "non",
+   "transliteration": "natt",
+   "translation_en": "nótt, night",
+   "group": "Words",
+   "letters": [
+    "ᚾ",
+    "ᚨ",
+    "ᛏ",
+    "ᛏ"
+   ],
+   "value": 48,
+   "mod36": 12,
+   "node_degrees": 120,
+   "bearing_360": 48,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    10,
+    4,
+    17,
+    17
+   ],
+   "hz_low": 288,
+   "hz_high": 432,
+   "rune_names": [
+    "nauthiz",
+    "ansuz",
+    "tiwaz",
+    "tiwaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "hebrew:כוכב"
+   ]
+  },
+  {
+   "id": "fut-050",
+   "script": "futhark",
+   "text": "ᛖᛚᛞᚱ",
+   "lang": "non",
+   "transliteration": "eldr",
+   "translation_en": "eldr, fire",
+   "group": "Words",
+   "letters": [
+    "ᛖ",
+    "ᛚ",
+    "ᛞ",
+    "ᚱ"
+   ],
+   "value": 68,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 68,
+   "sector": 5,
+   "sector_count": 24,
+   "sector_letter": "ᚱ",
+   "tone_sequence": [
+    19,
+    21,
+    23,
+    5
+   ],
+   "hz_low": 324,
+   "hz_high": 810,
+   "rune_names": [
+    "ehwaz",
+    "laguz",
+    "dagaz",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚷᛖᛒᛟ",
+    "ᛟᛞᛁᚾ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:חיים"
+   ]
+  },
+  {
+   "id": "fut-051",
+   "script": "futhark",
+   "text": "ᛁᛊ",
+   "lang": "non",
+   "transliteration": "is",
+   "translation_en": "ís, ice",
+   "group": "Words",
+   "letters": [
+    "ᛁ",
+    "ᛊ"
+   ],
+   "value": 27,
+   "mod36": 27,
+   "node_degrees": 270,
+   "bearing_360": 27,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    11,
+    16
+   ],
+   "hz_low": 382,
+   "hz_high": 611,
+   "rune_names": [
+    "isa",
+    "sowilo"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚨᛚᚢ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-052",
+   "script": "futhark",
+   "text": "ᛗᚨᚾᚾ",
+   "lang": "non",
+   "transliteration": "mann",
+   "translation_en": "maðr / mannr, man",
+   "group": "Words",
+   "letters": [
+    "ᛗ",
+    "ᚨ",
+    "ᚾ",
+    "ᚾ"
+   ],
+   "value": 44,
+   "mod36": 8,
+   "node_degrees": 80,
+   "bearing_360": 44,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    20,
+    4,
+    10,
+    10
+   ],
+   "hz_low": 288,
+   "hz_high": 576,
+   "rune_names": [
+    "mannaz",
+    "ansuz",
+    "nauthiz",
+    "nauthiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "hebrew:דם"
+   ]
+  },
+  {
+   "id": "fut-053",
+   "script": "futhark",
+   "text": "ᚠᚨᛏᚾ",
+   "lang": "non",
+   "transliteration": "vatn",
+   "translation_en": "vatn, water",
+   "group": "Words",
+   "letters": [
+    "ᚠ",
+    "ᚨ",
+    "ᛏ",
+    "ᚾ"
+   ],
+   "value": 32,
+   "mod36": 32,
+   "node_degrees": 320,
+   "bearing_360": 32,
+   "sector": 3,
+   "sector_count": 24,
+   "sector_letter": "ᚦ",
+   "tone_sequence": [
+    1,
+    4,
+    17,
+    10
+   ],
+   "hz_low": 216,
+   "hz_high": 432,
+   "rune_names": [
+    "fehu",
+    "ansuz",
+    "tiwaz",
+    "nauthiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚦᛟᚱ"
+   ],
+   "peers_other_spheres": [
+    "hebrew:לב"
+   ]
+  },
+  {
+   "id": "fut-054",
+   "script": "futhark",
+   "text": "ᚨᚱ",
+   "lang": "non",
+   "transliteration": "ar",
+   "translation_en": "ár, year",
+   "group": "Words",
+   "letters": [
+    "ᚨ",
+    "ᚱ"
+   ],
+   "value": 9,
+   "mod36": 9,
+   "node_degrees": 90,
+   "bearing_360": 9,
+   "sector": 1,
+   "sector_count": 24,
+   "sector_letter": "ᚠ",
+   "tone_sequence": [
+    4,
+    5
+   ],
+   "hz_low": 288,
+   "hz_high": 324,
+   "rune_names": [
+    "ansuz",
+    "raidho"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-055",
+   "script": "futhark",
+   "text": "ᚷᛟᛞ",
+   "lang": "non",
+   "transliteration": "god",
+   "translation_en": "goð, god (plural of the gods)",
+   "group": "Words",
+   "letters": [
+    "ᚷ",
+    "ᛟ",
+    "ᛞ"
+   ],
+   "value": 54,
+   "mod36": 18,
+   "node_degrees": 180,
+   "bearing_360": 54,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    7,
+    24,
+    23
+   ],
+   "hz_low": 405,
+   "hz_high": 864,
+   "rune_names": [
+    "gebo",
+    "othala",
+    "dagaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᚲᛖᚾᚨᛉ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-056",
+   "script": "futhark",
+   "text": "ᚨᛚᚢ",
+   "lang": "non",
+   "transliteration": "alu",
+   "translation_en": "alu, a charm word on many stones",
+   "group": "Inscriptions",
+   "letters": [
+    "ᚨ",
+    "ᛚ",
+    "ᚢ"
+   ],
+   "value": 27,
+   "mod36": 27,
+   "node_degrees": 270,
+   "bearing_360": 27,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    4,
+    21,
+    2
+   ],
+   "hz_low": 243,
+   "hz_high": 648,
+   "rune_names": [
+    "ansuz",
+    "laguz",
+    "uruz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [
+    "ᛁᛊ"
+   ],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-057",
+   "script": "futhark",
+   "text": "ᛚᚨᚢᚲᚨᛉ",
+   "lang": "non",
+   "transliteration": "laukaz",
+   "translation_en": "laukaz, leek, a charm word",
+   "group": "Inscriptions",
+   "letters": [
+    "ᛚ",
+    "ᚨ",
+    "ᚢ",
+    "ᚲ",
+    "ᚨ",
+    "ᛉ"
+   ],
+   "value": 52,
+   "mod36": 16,
+   "node_degrees": 160,
+   "bearing_360": 52,
+   "sector": 4,
+   "sector_count": 24,
+   "sector_letter": "ᚨ",
+   "tone_sequence": [
+    21,
+    4,
+    2,
+    6,
+    4,
+    15
+   ],
+   "hz_low": 243,
+   "hz_high": 648,
+   "rune_names": [
+    "laguz",
+    "ansuz",
+    "uruz",
+    "kenaz",
+    "ansuz",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": [
+    "greek:ΑΙΜΑ",
+    "hebrew:בן"
+   ]
+  },
+  {
+   "id": "fut-058",
+   "script": "futhark",
+   "text": "ᛖᚲ",
+   "lang": "non",
+   "transliteration": "ek",
+   "translation_en": "ek, \"I\" on the stones",
+   "group": "Inscriptions",
+   "letters": [
+    "ᛖ",
+    "ᚲ"
+   ],
+   "value": 25,
+   "mod36": 25,
+   "node_degrees": 250,
+   "bearing_360": 25,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    19,
+    6
+   ],
+   "hz_low": 360,
+   "hz_high": 540,
+   "rune_names": [
+    "ehwaz",
+    "kenaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-059",
+   "script": "futhark",
+   "text": "ᚺᛚᛖᚹᚨᚷᚨᛊᛏᛁᛉ",
+   "lang": "non",
+   "transliteration": "hlewagastiz",
+   "translation_en": "Hlewagastiz, name on the Gallehus horn",
+   "group": "Inscriptions",
+   "letters": [
+    "ᚺ",
+    "ᛚ",
+    "ᛖ",
+    "ᚹ",
+    "ᚨ",
+    "ᚷ",
+    "ᚨ",
+    "ᛊ",
+    "ᛏ",
+    "ᛁ",
+    "ᛉ"
+   ],
+   "value": 131,
+   "mod36": 23,
+   "node_degrees": 230,
+   "bearing_360": 131,
+   "sector": 9,
+   "sector_count": 24,
+   "sector_letter": "ᚺ",
+   "tone_sequence": [
+    9,
+    21,
+    19,
+    8,
+    4,
+    7,
+    4,
+    16,
+    17,
+    11,
+    15
+   ],
+   "hz_low": 288,
+   "hz_high": 648,
+   "rune_names": [
+    "hagalaz",
+    "laguz",
+    "ehwaz",
+    "wunjo",
+    "ansuz",
+    "gebo",
+    "ansuz",
+    "sowilo",
+    "tiwaz",
+    "isa",
+    "algiz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-060",
+   "script": "futhark",
+   "text": "ᛏᚨᚹᛁᛞᛟ",
+   "lang": "non",
+   "transliteration": "tawido",
+   "translation_en": "tawido, \"I made\"",
+   "group": "Inscriptions",
+   "letters": [
+    "ᛏ",
+    "ᚨ",
+    "ᚹ",
+    "ᛁ",
+    "ᛞ",
+    "ᛟ"
+   ],
+   "value": 87,
+   "mod36": 15,
+   "node_degrees": 150,
+   "bearing_360": 87,
+   "sector": 6,
+   "sector_count": 24,
+   "sector_letter": "ᚲ",
+   "tone_sequence": [
+    17,
+    4,
+    8,
+    11,
+    23,
+    24
+   ],
+   "hz_low": 288,
+   "hz_high": 864,
+   "rune_names": [
+    "tiwaz",
+    "ansuz",
+    "wunjo",
+    "isa",
+    "dagaz",
+    "othala"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  },
+  {
+   "id": "fut-061",
+   "script": "futhark",
+   "text": "ᚠᚢᚦᚨᚱᚲ",
+   "lang": "non",
+   "transliteration": "futhark",
+   "translation_en": "futhark, the name of the row",
+   "group": "Inscriptions",
+   "letters": [
+    "ᚠ",
+    "ᚢ",
+    "ᚦ",
+    "ᚨ",
+    "ᚱ",
+    "ᚲ"
+   ],
+   "value": 21,
+   "mod36": 21,
+   "node_degrees": 210,
+   "bearing_360": 21,
+   "sector": 2,
+   "sector_count": 24,
+   "sector_letter": "ᚢ",
+   "tone_sequence": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "hz_low": 216,
+   "hz_high": 360,
+   "rune_names": [
+    "fehu",
+    "uruz",
+    "thurisaz",
+    "ansuz",
+    "raidho",
+    "kenaz"
+   ],
+   "lemma": null,
+   "references": [],
+   "peers_same_sphere": [],
+   "peers_other_spheres": []
+  }
+ ]
+}

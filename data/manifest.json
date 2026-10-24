@@ -1,0 +1,26 @@
+{
+ "rules": {
+  "greek": "Greek isopsephy, 27 letters: stigma 6, koppa 90, sampi 900. Accents ignored; final sigma counts as sigma.",
+  "hebrew": "Hebrew gematria (mispar hechrechi): finals count the plain value of their letter. value_sofit500 counts the finals as 500 to 900.",
+  "futhark": "HOUSE RULE: runes were not used as numbers. Each rune carries its place in the Kylver row, Fehu 1 to Othala 24 (Dagaz 23, Othala 24). Latin letters are read by sound.",
+  "armenian": "Armenian numerals: 36 letters valued 1 to 9000, plus the later letters Օ (10000) and Ֆ (20000), valued the same way on the site calculator. The ligature և counts as ԵՒ (5 + 400)."
+ },
+ "counts": {
+  "greek": 98,
+  "hebrew": 95,
+  "futhark": 61,
+  "armenian": 38
+ },
+ "checks": {
+  "greek_27_sum": 4995,
+  "hebrew_22_sum": 1495,
+  "hebrew_27_with_finals_500_900": 4995,
+  "futhark_24_sum": 300,
+  "futhark_aett_sums": [
+   36,
+   100,
+   164
+  ],
+  "armenian_36_sum": 49995
+ }
+}
