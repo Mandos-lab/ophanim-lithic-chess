@@ -381,7 +381,7 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
 .ctl input[type=range]{flex:1;min-width:200px;accent-color:#e8c375}
 .cvw{border:1px solid var(--line);background:#05090e;border-radius:6px;margin-top:10px}
 .cvw canvas{width:100%;display:block;touch-action:none;cursor:grab}
-#gl-cv{aspect-ratio:1.25}#jt-cv{aspect-ratio:1.4}
+#gl-cv{aspect-ratio:1.25;width:min(100%,calc(58vh*1.25));margin:0 auto}#jt-cv{aspect-ratio:1.4;width:min(100%,calc(58vh*1.4));margin:0 auto}
 .readout{border:1px solid var(--line);background:var(--panel);padding:12px 14px;font-size:17px;margin-top:12px;max-width:none}
 #jt-ladder{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
 #jt-ladder button{font:13px var(--mono);color:var(--cyan);background:none;border:1px solid rgba(70,227,240,.4);border-radius:99px;padding:6px 12px;cursor:pointer}
@@ -397,7 +397,7 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
 </header>
 <nav class="dots" id="dots"></nav>
 <main>
-<section data-narrate id="hero" data-label="Πρόλογος">
+<section data-narrate id="hero" data-audio="audio/engine-talk-el.mp3" data-label="Πρόλογος">
   <div class="wrap" style="text-align:center">
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Η Μηχανή</div>
     <h1>Η Μηχανή των Ophanim<br><em>Μια πυξίδα από γράμματα</em></h1>
