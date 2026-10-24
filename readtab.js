@@ -22,7 +22,7 @@ document.querySelectorAll('#read .rt-form').forEach(function(f){
   fetch('https://en.wiktionary.org/api/rest_v1/page/definition/'+encodeURIComponent(a[i])).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){
    var h='',n=0;Object.keys(j).forEach(function(k){(j[k]||[]).forEach(function(e){if(n>=4)return;var d=(e.definitions||[]).slice(0,3).map(function(x){return txt(x.definition||'');}).filter(Boolean);if(!d.length)return;n++;
     h+='<p style="margin:8px 0 2px"><b>'+esc(e.language||k)+'</b> <span style="color:var(--ink-3)">'+esc(e.partOfSpeech||'')+'</span></p><ol style="margin:0 0 0 20px">'+d.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol>';});});
-   if(!n)throw 0;out.innerHTML='<p style="margin:0;color:var(--ink-3)">Wiktionary: '+esc(decodeURIComponent(encodeURIComponent(a[i])))+'</p>'+h;}).catch(function(){tryT(a,i+1);});}
+   if(!n)throw 0;out.innerHTML='<p style="margin:0;color:var(--ink-3)">From <a href="https://en.wiktionary.org/wiki/'+encodeURIComponent(a[i])+'" target="_blank" rel="noopener noreferrer">Wiktionary: '+esc(a[i])+'</a>, text under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></p>'+h;}).catch(function(){tryT(a,i+1);});}
  mk(el?'Ορισμός εδώ':'Show definition here',function(){if(!inp.value.trim())return;out.innerHTML='<i>…</i>';tryT(titles(),0);});
  inp.addEventListener('input',function(){out.innerHTML='';});
  if(document.getElementById('spdb'))mk(el?'Στη σφαίρα':'Put it on the sphere',function(){var w=inp.value.trim();if(window.SPHERE&&w)SPHERE.load(w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
