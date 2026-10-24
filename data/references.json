@@ -44,8 +44,28 @@
    "triangular": 73,
    "notes": [
     "2701 = 37 x 73, and also the 73rd triangular number (1 + 2 + ... + 73). The page reads that as a triangle, delta 73 (delta is the Greek triangle).",
-    "Hebrew letter values here are the standard ones with final letters counted as plain."
+    "Hebrew letter values here are the standard ones with final letters counted as plain.",
+    "The last two words, ואת הארץ (\"and the earth\"), add up to 407 + 296 = 703, which is the 37th triangular number (37 x 38 / 2) and also 19 x 37.",
+    "Geometry, as recomputed: a triangle of 2701 points (73 rows) splits into three corner triangles of 666 points (36 rows each, 666 = the 36th triangular number) around a central triangle of 703 points (the 37th). 3 x 666 + 703 = 2701. The centre is an inverted triangle, not a hexagon. 703 is also a hexagonal number (the 19th), but that is a separate fact and not the shape of this remainder.",
+    "Reference text: Hebrew (Masoretic); KJV: \"In the beginning God created the heaven and the earth.\""
    ],
+   "triangle_split": {
+    "rows": 73,
+    "corners": 3,
+    "corner_rows": 36,
+    "corner_points": 666,
+    "centre_points": 703,
+    "checked_by_counting": true
+   },
+   "spatial": {
+    "bearing": 181,
+    "sectors": {
+     "22": 12,
+     "24": 13,
+     "27": 14,
+     "36": 19
+    }
+   },
    "status": "computed here, all numbers recomputed by this script"
   },
   {
@@ -142,6 +162,64 @@
     "153 is the 17th triangular number. The Greek has 17 consonants, which is a coincidence of number, not a link of meaning."
    ],
    "status": "computed here; verse wording read from Bible Hub, to be confirmed against a printed edition"
+  },
+  {
+   "id": "rev-11-1",
+   "ref": "Revelation 11:1",
+   "lang": "grc",
+   "edition": "Greek New Testament, Nestle 1904 as printed on Bible Hub: Καὶ ἐδόθη μοι κάλαμος ὅμοιος ῥάβδῳ, λέγων · Ἔγειρε καὶ μέτρησον τὸν ναὸν …",
+   "words": [
+    {
+     "w": "κάλαμος",
+     "v": 362
+    },
+    {
+     "w": "ὅμοιος",
+     "v": 460
+    },
+    {
+     "w": "ῥάβδῳ",
+     "v": 907
+    }
+   ],
+   "total": 1729,
+   "factors": [
+    7,
+    13,
+    19
+   ],
+   "sum_of_cubes": [
+    "1^3 + 12^3",
+    "9^3 + 10^3"
+   ],
+   "cadmus": {
+    "kadmos": 335,
+    "kalamos": 362,
+    "difference": 27,
+    "reading": "delta (4) is replaced by lambda + alpha (31), a net +27 = 3^3"
+   },
+   "spatial": {
+    "bearing": 289,
+    "sectors": {
+     "22": 18,
+     "24": 20,
+     "27": 22,
+     "36": 29
+    }
+   },
+   "excluded": [
+    {
+     "claim": "σῶμα τοῦ Ἰησοῦ = 1729",
+     "actual": 2499,
+     "status": "does not hold, kept as an exclusion"
+    }
+   ],
+   "notes": [
+    "The three words are consecutive: \"a reed like a rod\". 1729 is the smallest number that is the sum of two positive cubes in two different ways (Ramanujan and Hardy), 1 + 1728 and 729 + 1000.",
+    "The iota subscript in ῥάβδῳ is not counted here (the house calculator ignores it), which gives 907 and a total of 1729. Counting it as an iota (10) gives 917 and a total of 1739. The word-by-word line in the submitted draft listed a +10 but added to 907; as written, the addends make 917. The total holds only without the iota subscript.",
+    "The King James text reads \"and the angel stood, saying\". Those words (καὶ ὁ ἄγγελος εἰστήκει) are in the Scrivener 1894 Textus Receptus line, but not in the Nestle 1904 line used here, so the English and the Greek are different texts at that point."
+   ],
+   "status": "computed here; Greek wording read from Bible Hub (Nestle 1904), to be confirmed against a printed edition"
   }
  ]
 }
