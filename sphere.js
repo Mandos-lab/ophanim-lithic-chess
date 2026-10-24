@@ -9,10 +9,10 @@ var AR=CFG.letters.slice(),N=AR.length,TRK=CFG.tr||{};
 var VAL=CFG.values.slice(),BASE=VAL.slice();
 var VALMAP={},IDX={};
 function setVals(){AR.forEach(function(c,i){VALMAP[c]=VAL[i];IDX[c]=i;});}setVals();
-var RATIO=[1,9/8,5/4,4/3,3/2,5/3,15/8,2,9/4];
-function freq(c){var i=IDX[c],band=Math.floor(i/9),row=i%9;return 216*Math.pow(2,band/2)*RATIO[row];}
+var COLS=CFG.cols||9,LAT=CFG.lat||[-48,0,48],RATIO=(CFG.ratio||[1,9/8,5/4,4/3,3/2,5/3,15/8,2,9/4]).slice(0,COLS);
+function freq(c){var i=IDX[c],band=Math.floor(i/COLS),row=i%COLS;return 216*Math.pow(2,band/2)*RATIO[row];}
 function parse(s){return CFG.parse(s,VALMAP);}
-function nodePos(c){var i=IDX[c],band=Math.floor(i/9),row=i%9,lat=[-48,0,48][band]*Math.PI/180,lon=row*40*Math.PI/180;return[Math.cos(lat)*Math.sin(lon),-Math.sin(lat),Math.cos(lat)*Math.cos(lon)];}
+function nodePos(c){var i=IDX[c],band=Math.floor(i/COLS),row=i%COLS,lat=LAT[band]*Math.PI/180,lon=row*(360/COLS)*Math.PI/180;return[Math.cos(lat)*Math.sin(lon),-Math.sin(lat),Math.cos(lat)*Math.cos(lon)];}
 var host=document.getElementById('hycalc');if(!host)return;
 var words=window.SPHERE_WORDS||[];
 host.innerHTML=
@@ -32,7 +32,7 @@ host.innerHTML=
 '</div>';
 var $=function(id){return document.getElementById(id);};
 var inp=$('hyin'),kb=$('hykb'),out=$('hyout'),sum=$('hysum'),ang=$('hyang'),facts=$('hyfacts'),pre=$('hypre'),note=$('hynote');
-AR.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='hyk';b.setAttribute('lang',CFG.lang);b.innerHTML='<b>'+c+'</b><small>'+VALMAP[c]+'</small>';b.title='Armenian '+c+' = '+VALMAP[c]+' · '+Math.round(freq(c))+' Hz';b.onclick=function(){add(c);};kb.appendChild(b);});
+AR.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='hyk';b.setAttribute('lang',CFG.lang);b.innerHTML='<b>'+c+'</b><small>'+VALMAP[c]+'</small>';b.title=(CFG.names&&CFG.names[c]?CFG.names[c]+' ':'')+c+' = '+VALMAP[c]+' · '+Math.round(freq(c))+' Hz';b.onclick=function(){add(c);};kb.appendChild(b);});
 [['␣',' '],['⌫',null],['Clear','']].forEach(function(p){var b=document.createElement('button');b.type='button';b.className='hyk wide';b.textContent=p[0];b.onclick=function(){if(p[1]===null)inp.value=Array.from(inp.value).slice(0,-1).join('');else if(p[1]==='')inp.value='';else inp.value+=p[1];recalc();};kb.appendChild(b);});
 words.forEach(function(w){var b=document.createElement('button');b.type='button';b.className='hyw';b.setAttribute('lang',CFG.lang);b.textContent=w[0];b.title=w[1]+' · '+w[2];b.onclick=function(){inp.value=w[0];recalc();play();};pre.appendChild(b);});
 function sumOf(arr){return arr.reduce(function(s,c){return s+(VALMAP[c]||0);},0);}
@@ -50,6 +50,8 @@ function recalc(){
   if(total>1){var f=factor(total);ch.push(f.length===1?total+' is prime':total+' = '+f.join(' × '));}
   if(total&&total%27===0)ch.push('27 × '+(total/27));
   if(total&&total%9===0)ch.push('9 × '+(total/9));
+  if(total&&N!==27&&N!==36&&total%N===0)ch.push(N+' × '+(total/N));
+  if(CFG.extra)CFG.extra(total).forEach(function(x){ch.push(x);});
   if(total>360)ch.push(total+' = 360 × '+Math.floor(total/360)+' + '+(total%360));
   var cs=cur.filter(function(c){return c!==' ';});
   if(cs.length)ch.push('highest pitch '+Math.round(Math.max.apply(null,cs.map(freq)))+' Hz · '+'lowest '+Math.round(Math.min.apply(null,cs.map(freq)))+' Hz');
@@ -81,9 +83,9 @@ var voices=[];function loadVoices(){try{voices=speechSynthesis.getVoices()||[];}
 if(window.speechSynthesis){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
 function say(){
   stopAll();if(!window.speechSynthesis||!cur.length){note.textContent='Speech is not available in this browser.';return;}
-  loadVoices();var hy=voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
+  loadVoices();var hy=CFG.speakLatin?null:voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
   var u;if(hy){u=new SpeechSynthesisUtterance(cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
-  else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent='This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.';}
+  else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent=CFG.sayNote||('This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.');}
   u.rate=.8;u.onstart=function(){pulse=1;};try{speechSynthesis.speak(u);}catch(e){}
 }
 $('hyplay').onclick=play;$('hysay').onclick=say;$('hystop').onclick=stopAll;

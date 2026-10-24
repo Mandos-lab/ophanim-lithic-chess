@@ -16,14 +16,15 @@ function draw(){
   [].forEach.call(gb.children,function(b){b.className=b.dataset.g===grp?'on':'';});
   nn.innerHTML=r.length+' of '+W.length+' words. Tap a row to put it on the sphere. &ldquo;Look up&rdquo; sends the word to the dictionary box above the table.';
 }
-bd.addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr)return;if(e.target.classList.contains('dbdic')){var inp=document.querySelector('#read .rt-form input'),rd=document.getElementById('read');if(inp){inp.value=tr.dataset.w;if(rd)rd.scrollIntoView({behavior:'smooth'});}return;}SPHERE.load(tr.dataset.w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
+bd.addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr)return;if(e.target.classList.contains('dbdic')){var inp=document.querySelector('#read .rt-form input'),rd=document.getElementById('read');if(inp){inp.value=CFG.dictWord?CFG.dictWord(tr.dataset.w):tr.dataset.w;if(rd)rd.scrollIntoView({behavior:'smooth'});}return;}SPHERE.load(tr.dataset.w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
 host.querySelector('thead').addEventListener('click',function(e){var k=e.target.dataset&&e.target.dataset.k;if(!k)return;if(sortKey===k)dir=-dir;else{sortKey=k;dir=1;}draw();});
 qi.addEventListener('input',function(){q=qi.value.trim().toLowerCase();draw();});
 window.addEventListener('sphere-mode',draw);
 if(window.SPHERE)draw();else window.addEventListener('sphere-ready',draw);
 
-function layout(){var h=document.getElementById('splayout');if(!h||!window.SPHERE)return;var L=SPHERE.letters,B=['Units','Tens','Hundreds'],o='<table class="dbt lay"><thead><tr><th>Band</th>'+[1,2,3,4,5,6,7,8,9].map(function(i){return '<th>'+i+'</th>';}).join('')+'</tr></thead><tbody>';
- for(var b=0;b<3;b++){o+='<tr><th>'+B[b]+'</th>';for(var r=0;r<9;r++){var c=L[b*9+r];o+='<td><span class="ll" lang="'+CFG.lang+'">'+c+'</span><small>'+SPHERE.val(c)+'</small><small>'+Math.round(SPHERE.freq(c))+' Hz</small></td>';}o+='</tr>';}
+function layout(){var h=document.getElementById('splayout');if(!h||!window.SPHERE)return;var L=SPHERE.letters,C=CFG.cols||9,B=CFG.bands||['Units','Tens','Hundreds'],o='<table class="dbt lay"><thead><tr><th>Band</th>';
+ for(var i=1;i<=C;i++)o+='<th>'+i+'</th>';o+='<th>Sum</th></tr></thead><tbody>';
+ for(var b=0;b<B.length;b++){o+='<tr><th>'+B[b]+'</th>';var sm=0;for(var r=0;r<C;r++){var c=L[b*C+r];sm+=SPHERE.val(c);o+='<td><span class="ll" lang="'+CFG.lang+'">'+c+'</span><small>'+SPHERE.val(c)+'</small><small>'+Math.round(SPHERE.freq(c))+' Hz</small></td>';}o+='<td><b>'+sm+'</b></td></tr>';}
  h.innerHTML=o+'</tbody></table>';}
 window.addEventListener('sphere-mode',layout);
 if(window.SPHERE)layout();else window.addEventListener('sphere-ready',layout);

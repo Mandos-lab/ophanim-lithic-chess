@@ -4,7 +4,7 @@ var st=document.createElement('style');st.textContent='#read .rt-box{border:1px 
 document.querySelectorAll('#read .rt-form').forEach(function(f){
  var el=document.documentElement.lang==='el',inp=f.querySelector('input'),sel=f.querySelector('select');
  function mk(t,fn){var b=document.createElement('button');b.type='button';b.textContent=t;b.addEventListener('click',fn);f.appendChild(b);}
- if(document.getElementById('calc'))mk(el?'Λέξη από τον υπολογιστή':'Take the calculator\u2019s word',function(){var h=document.getElementById('hyin');if(h)inp.value=h.value.trim();});
+ if(document.getElementById('calc'))mk(el?'Λέξη από τον υπολογιστή':'Take the calculator\u2019s word',function(){var h=document.getElementById('hyin');if(h){var v=h.value.trim(),C=window.SPHERE_CFG;inp.value=C&&C.dictWord?C.dictWord(v):v;}});
  if(document.getElementById('spdb'))mk(el?'Στη σφαίρα':'Put it on the sphere',function(){var w=inp.value.trim();if(window.SPHERE&&w)SPHERE.load(w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
 
  f.addEventListener('submit',function(e){e.preventDefault();var w=f.querySelector('input').value.trim().toLowerCase();if(!w)return;var tpl=f.querySelector('select').value;window.open(tpl.replace('{w}',encodeURIComponent(w)),'_blank','noopener');});
