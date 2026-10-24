@@ -52,6 +52,16 @@ function make(cv){
   else if(rh){ // convergence: two vectors meeting in the rhombus
     lines.push([[-.55,0,D],[0,0,D]]);lines.push([[0,0,D],[.55,0,D]]);nodes.push([0,0,0]);
   }
+  /* letters travelling inside the rhombus: a diphthong's two letters converge; the double rhombus lets syllables fall from top to bottom */
+  var pair=null,SYL=['ΡΑ','ΠΑ','ΖΑ','ΔΑ','ΒΑ','ΦΑ','ΘΑ','ΝΑ','ΛΑ','ΣΑ','ΚΑ','ΜΑ','ΨΑ','ΓΑ','ΤΑ','ΧΑ','ΞΑ'],dbl=cv.hasAttribute('data-double');
+  if(rh&&!dbl){var m=(cv.getAttribute('aria-label')||'').split(': ')[1];if(m&&m.length===2)pair=m;}
+  function lab(t,p,a,col,sc){if(a<=.01)return;var P=proj(p),S=Math.min(W,H)*.5,fs=Math.max(11,S*.17*sc*(3.2/(3.2+P[2])));g.font='600 '+fs+'px Cinzel,Georgia,serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle='rgba('+col+','+Math.min(1,a)+')';g.fillText(t,P[0],P[1]);}
+  function ease(x){return 1-Math.pow(1-x,3);}
+  function letters(){var T=(still?3.2:performance.now()/1000);
+    if(dbl){var per=.75,fall=2.9,n=SYL.length,base=Math.floor(T/per);for(var k=0;k<5;k++){var idx=base-k,ph=(T-idx*per)/fall;if(idx<0||ph<0||ph>1)continue;var y=.85-1.7*ph,col=y>0?TINT.gold:TINT.cyan,a=Math.min(1,ph*8,(1-ph)*8);lab(SYL[idx%n],[0,y,0],a,col,1);}return;}
+    if(!pair)return;var c=(T%6.5)/6.5,e=ease(Math.min(1,c/.4)),fade=c>.88?Math.max(0,1-(c-.88)/.12):1,al=Math.min(1,c*10)*fade;
+    if(c<.4){lab(pair[0],[-.95+.95*e,0,0],al,tint,1.1);lab(pair[1],[0,.85-.85*e,0],al,'255,255,255',1.1);}
+    if(c>=.4){lab(pair,[0,0,0],fade,'255,255,255',1.25);var P=proj([0,0,0]),R=Math.min(W,H)*(.06+.03*(.5+.5*Math.sin((c-.4)*14)));g.strokeStyle='rgba('+tint+','+.5*fade+')';g.lineWidth=1.2;g.beginPath();g.arc(P[0],P[1],R,0,7);g.stroke();}}
   function size(){var d=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth||200;H=cv.clientHeight||200;cv.width=Math.round(W*d);cv.height=Math.round(H*d);g.setTransform(d,0,0,d,0,0);}
   function proj(p){var c=Math.cos(ay),s=Math.sin(ay),x=p[0]*c+p[2]*s,z=-p[0]*s+p[2]*c,c2=Math.cos(ax),s2=Math.sin(ax),y=-p[1]*c2-z*s2,z2=-p[1]*-s2*-1+z*c2;z2=p[1]*s2+z*c2;var f=3.2/(3.2+z2),S=Math.min(W,H)*.5;return[W/2+x*f*S,H/2+y*f*S,z2];}
   function draw(){
@@ -61,6 +71,7 @@ function make(cv){
     g.lineCap='round';g.lineJoin='round';
     lines.forEach(function(l){var A=proj(l[0]),B=proj(l[1]),z=(A[2]+B[2])/2,al=Math.max(.14,Math.min(1,.7-z*.45));g.beginPath();g.moveTo(A[0],A[1]);g.lineTo(B[0],B[1]);g.strokeStyle='rgba('+tint+','+al+')';g.lineWidth=l[0][2]===l[1][2]?1.7:.8;g.stroke();});
     nodes.forEach(function(n){var P=proj(n),al=Math.max(.25,Math.min(1,.85-P[2]*.4));g.beginPath();g.arc(P[0],P[1],2.3,0,7);g.fillStyle='rgba(70,227,240,'+al+')';g.fill();});
+    letters();
     g.globalCompositeOperation='source-over';
   }
   function tick(){if(!vis)return;if(!drag&&!still)ay+=.009;draw();requestAnimationFrame(tick);}
