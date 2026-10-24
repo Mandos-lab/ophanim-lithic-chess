@@ -475,7 +475,38 @@ table.dec td:first-child{font-size:22px;color:var(--gold);white-space:nowrap}
   <div class="wrap">
     <div class="reveal"><div class="kicker">VI &middot; Συλλαβές</div><h2>Ο Διπλός <em>Ρόμβος</em></h2>
     <p class="dim" style="max-width:66ch">Ένα σύμφωνο με το Άλφα κάνει την πρώτη συλλαβή. Ο Κώδικας τοποθετεί τις συλλαβές αυτές σε δύο ρόμβους, τον ένα μέσα στον άλλον: ο άνω για τις ουράνιες ενέργειες και ο κάτω για τον υλικό κόσμο. Ο ρόμβος σημαίνει «ό,τι μπορεί να κινηθεί», και το ζεύγος δείχνει την ενέργεια να κατέρχεται από το αόρατο στην ύλη.</p></div>
-    <div class="cols" style="margin-top:18px"><div>
+    <div class="reveal dd-wrap"><figure class="dd" aria-label="Οι συλλαβές κατέρχονται στον διπλό ρόμβο"><svg id="ddsvg" viewBox="0 0 250 480" role="img"></svg><figcaption id="ddcap" class="dd-cap" aria-live="polite">Πατήστε μια συλλαβή.</figcaption><button type="button" id="ddre" class="dd-btn">Ξανά, από την κορυφή</button></figure></div>
+<style>
+.dd-wrap{margin:22px auto 0;max-width:360px}.dd{margin:0;text-align:center}.dd svg{width:100%;height:auto;display:block;overflow:visible}
+.dd .cell{cursor:pointer;outline:none}.dd .cell polygon{fill:rgba(10,24,32,.7);stroke-width:1.4;transition:fill .4s}.dd .up polygon{stroke:var(--gold)}.dd .dn polygon{stroke:var(--cyan)}
+.dd .cell text{font:600 17px var(--title);text-anchor:middle;dominant-baseline:central;opacity:0;transform:translateY(-34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}
+.dd .up text{fill:var(--gold)}.dd .dn text{fill:var(--cyan)}
+.dd.go .cell text{opacity:1;transform:none}.dd.go .cell polygon{fill:rgba(232,195,117,.07)}.dd.go .dn polygon{fill:rgba(70,227,240,.07)}
+.dd .cell:hover polygon,.dd .cell:focus polygon,.dd .cell.sel polygon{fill:rgba(232,195,117,.28)}.dd .dn.cell:hover polygon,.dd .dn.cell:focus polygon,.dd .dn.cell.sel polygon{fill:rgba(70,227,240,.28)}
+.dd .star{fill:#fff;opacity:0;transition:opacity 1s ease 2.4s}.dd.go .star{opacity:.95}
+.dd-cap{min-height:3.2em;margin-top:8px;font-size:16px;color:var(--ink-2)}.dd-cap b{font-family:var(--title);color:var(--gold);font-weight:600}
+.dd-btn{font:13px var(--mono);letter-spacing:.06em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:9px 14px;cursor:pointer;margin-top:4px}
+@media (prefers-reduced-motion:reduce){.dd .cell text{opacity:1;transform:none}.dd .star{opacity:.95}}
+</style>
+<script>
+(function(){var svg=document.getElementById('ddsvg');if(!svg)return;
+var h=38,X0=125,Y0=24,N='http://www.w3.org/2000/svg';
+var M={'ΡΑ':'πρωταρχική ροή φωτός','ΠΑ':'πατήρ δημιουργός, πῦρ','ΖΑ':'ζωή και θερμότης','ΔΑ':'πρωταρχική δύναμις','ΒΑ':'πρωταρχική ενέργεια','ΦΑ':'πρωταρχικό φως','ΘΑ':'το θεατόν','ΝΑ':'νους και νόμος','ΛΑ':'λάμψις των άστρων (πάνω), υγρά και ρευστά (κάτω)','ΣΑ':'εσωτερική όρασις','ΚΑ':'τα κάτω','ΜΑ':'μητέρα φύσις','ΨΑ':'ψυχή, το εσωτερικό πῦρ','ΓΑ':'το γήινο','ΤΑ':'το στερεοποιημένο','ΧΑ':'υλικό, χοϊκό','ΞΑ':'το σώμα, ή το σπίτι'};
+var R=[[['ΡΑ',0]],[['ΠΑ',-1],['ΖΑ',1]],[['ΔΑ',-2],['ΒΑ',0],['ΦΑ',2]],[['ΘΑ',-1],['ΝΑ',1]],[['ΛΑ',0]],[['ΛΑ',0]],[['ΣΑ',-1],['ΚΑ',1]],[['ΜΑ',-2],['ΨΑ',0],['ΓΑ',2]],[['ΤΑ',-1],['ΧΑ',1]],[['ΞΑ',0]]];
+var k=0,cells=[];
+R.forEach(function(row,r){var y=Y0+(r<5?r:r+1)*h;row.forEach(function(c){var x=X0+c[1]*h,g=document.createElementNS(N,'g'),up=r<5;g.setAttribute('class','cell '+(up?'up':'dn'));g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',c[0]+': '+M[c[0]]);
+ var p=document.createElementNS(N,'polygon');p.setAttribute('points',[[x,y-h],[x+h,y],[x,y+h],[x-h,y]].map(function(q){return q.join(',')}).join(' '));
+ var t=document.createElementNS(N,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.textContent=c[0];t.style.transitionDelay=(k*0.28)+'s';k++;
+ g.appendChild(p);g.appendChild(t);svg.appendChild(g);cells.push(g);
+ function pick(){cells.forEach(function(o){o.classList.remove('sel')});g.classList.add('sel');document.getElementById('ddcap').innerHTML='<b lang="el">'+c[0]+'</b> &middot; '+M[c[0]]+' <br><span style="color:var(--ink-3);font-size:14px">'+(up?'άνω ρόμβος, ουράνιες συλλαβές':'κάτω ρόμβος, επίγειες συλλαβές')+'</span>';}
+ g.addEventListener('click',pick);g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});});});
+var st=document.createElementNS(N,'circle');st.setAttribute('class','star');st.setAttribute('cx',X0);st.setAttribute('cy',Y0+5*h);st.setAttribute('r',5);svg.appendChild(st);
+var fig=svg.parentNode;function play(){fig.classList.remove('go');void fig.offsetWidth;fig.classList.add('go');}
+document.getElementById('ddre').addEventListener('click',play);
+if('IntersectionObserver' in window){var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){play();o.disconnect();}},{threshold:.4});o.observe(fig);}else play();
+})();
+</script>
+<div class="cols" style="margin-top:18px"><div>
       <div class="layers reveal"><div class="codex">
         <p><b>Άνω ρόμβος, οι ουράνιες συλλαβές.</b></p>
         <table class="dec"><tr><th>Συλλαβή</th><th>Σημασία</th></tr><tr><td lang="el">ΡΑ</td><td>πρωταρχική ροή φωτός</td></tr><tr><td lang="el">ΒΑ</td><td>πρωταρχική ενέργεια</td></tr><tr><td lang="el">ΔΑ</td><td>πρωταρχική δύναμις</td></tr><tr><td lang="el">ΖΑ</td><td>ζωή και θερμότης</td></tr><tr><td lang="el">ΘΑ</td><td>το θεατόν</td></tr><tr><td lang="el">ΝΑ</td><td>νους και νόμος</td></tr><tr><td lang="el">ΠΑ</td><td>πατήρ δημιουργός, πῦρ</td></tr><tr><td lang="el">ΦΑ</td><td>πρωταρχικό φως</td></tr><tr><td lang="el">ΛΑ</td><td>λάμψις των άστρων</td></tr></table>
