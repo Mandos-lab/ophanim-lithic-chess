@@ -14,7 +14,7 @@ function draw(){
   if(sortKey)r.sort(function(a,b){var x=a[kf],y=b[kf];return(x<y?-1:x>y?1:0)*dir||(a.v-b.v);});
   bd.innerHTML=r.map(function(x){return '<tr data-w="'+x.w+'"><td class="dbw" lang="'+CFG.lang+'" dir="'+CFG.dir+'">'+x.w+'</td><td>'+x.s+'</td><td>'+x.e+'</td><td class="dbv">'+x.v+'</td><td>'+x.b+'&deg;</td><td><span lang="'+CFG.lang+'">'+x.l+'</span> '+x.c+'</td><td>'+x.lo+' to '+x.hi+' Hz</td><td><button type="button" class="dbgo" aria-label="Open in the sphere">&#9654;</button> <button type="button" class="dbgo dbdic" aria-label="Look up in a dictionary">Look up</button></td></tr>';}).join('');
   [].forEach.call(gb.children,function(b){b.className=b.dataset.g===grp?'on':'';});
-  nn.innerHTML=r.length+' of '+W.length+' words. Tap a row to put it on the sphere. &ldquo;Look up&rdquo; sends the word to the dictionary box in the next section.';
+  nn.innerHTML=r.length+' of '+W.length+' words. Tap a row to put it on the sphere. &ldquo;Look up&rdquo; sends the word to the dictionary box above the table.';
 }
 bd.addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr)return;if(e.target.classList.contains('dbdic')){var inp=document.querySelector('#read .rt-form input'),rd=document.getElementById('read');if(inp){inp.value=tr.dataset.w;if(rd)rd.scrollIntoView({behavior:'smooth'});}return;}SPHERE.load(tr.dataset.w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
 host.querySelector('thead').addEventListener('click',function(e){var k=e.target.dataset&&e.target.dataset.k;if(!k)return;if(sortKey===k)dir=-dir;else{sortKey=k;dir=1;}draw();});
