@@ -336,29 +336,20 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
 .shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
 .shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
 .shbtns.big{margin-top:28px}
-
-.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr);gap:44px;align-items:start}
-.cols .layers{grid-template-columns:1fr}
-.fx{position:sticky;top:100px}
-.fx canvas{width:100%;aspect-ratio:1;display:block;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.07),rgba(4,8,12,.6));cursor:grab;touch-action:pan-y}
-.fx canvas[data-holo=spine],.fx canvas[data-holo=lateral],.fx canvas[data-holo=necklace],.fx canvas[data-holo=reed],.fx canvas[data-holo=wave],.fx canvas[data-holo=helix]{aspect-ratio:3/4}
-.fx .cap{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;text-align:center}
-@media(max-width:900px){.cols{grid-template-columns:1fr;gap:26px}.fx{position:static;max-width:320px;margin:0 auto}}
-.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
-.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
 </style>
+<style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
 </head>
 <body>
 <div class="progress" id="prog"></div>
 <header class="bar">
   <a href="#" id="backGames">&#9666; Παιχνίδια</a>
   <div class="t">Ophanim Codex &middot; <b>Ο Κάλαμος και ο Κώδικας</b></div>
-  <a href="reed-codex.html">English &#9656;</a>
+  <a href="reed-codex.html">English &#9656;</a><a href="library.html">Βιβλιοθήκη &#9656;</a>
 </header>
 <nav class="dots" id="dots"></nav>
 
 <main>
-<section id="hero" data-label="Πρόλογος">
+<section data-narrate id="hero" data-label="Πρόλογος">
   <div class="wrap" style="text-align:center">
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Synkresis V3.0 &middot; Φωνητική Αρχαιολογία</div>
     <h1>Ο Κάλαμος και ο Κώδικας<br><em>και το Ζωντανό Ιερό</em></h1>
@@ -368,6 +359,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">Η Καταγραφή</b>&nbsp;&middot; τι λένε οι πηγές και η ανατομία</span>
     </div>
     <p class="dim" style="margin:22px auto 0;font-size:17px;max-width:60ch">Σε κάθε κεφάλαιο η πραγματεία μένει ακέραιη με χρυσό χρώμα. Δίπλα της, με κυανό, βρίσκεται ένας έλεγχος με βάση τα αρχαία κείμενα, την ανατομία και τη γλωσσολογία, μαζί με την αριθμητική. Όπου διαφέρουν, φαίνεται ακριβώς πώς.</p>
+    <figure class="fig reveal"><img src="img/reed-el-01.jpg" alt="Διαφάνεια: ο Κώδικας του Καλάμου, μια χρυσή και κυανή έλικα με σπονδυλική στήλη και ελληνικά γράμματα" loading="lazy"><figcaption>Η διαφάνεια τίτλου από την ελληνική παρουσίαση.</figcaption></figure>
     <div class="scrollcue" style="margin-top:40px">ΚΥΛΙΣΤΕ &#9662;</div>
   </div>
 </section>
@@ -393,8 +385,8 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
   </div>
 </section>
 
-<section id="reed" data-label="Ο Κάλαμος">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="reed" data-label="Ο Κάλαμος">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">Ι &middot; Το Κούφιο Στέλεχος</div>
       <h2>Κάλαμος <em>και Καρπός</em></h2>
@@ -412,11 +404,12 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       </div>
     </div>
     <div class="hud compact reveal" data-gk="Κάλαμος" data-tr="Kalamos" data-mn="«Καλάμι»"></div>
-  </div><aside class="fx reveal"><canvas data-holo="reed" aria-label="Ο κούφιος μίσχος · καλάμι, κόμβοι και κοιλότητα"></canvas><div class="cap">Ο κούφιος μίσχος · καλάμι, κόμβοι και κοιλότητα</div></aside></div></div>
+    <figure class="fig reveal"><img src="img/reed-el-03.jpg" alt="Διαφάνεια: ο μύθος του Καλάμου, ένα διάφανο πλάσμα από καλάμια μέσα στο νερό, με τον κούφιο σωλήνα και τον παλλόμενο ρυθμό" loading="lazy"><figcaption>Διαφάνεια: ο κούφιος σωλήνας και ο παλλόμενος ρυθμός.</figcaption></figure>
+  </div>
 </section>
 
 <section id="wave" data-label="Το Κύμα">
-  <div class="wrap"><div class="cols"><div class="colL">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">ΙΙ &middot; Το Κύμα στον Σωλήνα</div>
       <h2>Το Καλάμι Φτιάχνει <em>τον Δικό του Άνεμο</em></h2>
@@ -433,15 +426,16 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Διαφέρει.</b> (1) Η αναπνοή ηρεμίας, 12 με 20 αναπνοές το λεπτό, είναι 0,2 έως 0,33 Hz και όχι 0,1 έως 0,2 Hz όπως γράφει η παρουσίαση. (2) Απ' όσο γνωρίζω, μελέτες μαγνητικής τομογραφίας σε πραγματικό χρόνο δείχνουν ότι η <i>εισπνοή</i> κινεί το ΕΝΥ προς το κεφάλι, αντίθετα από τα αρχεία, που λένε προς τα κάτω. Ελέγξτε το. (3) Ο κεντρικός σωλήνας είναι σε μεγάλο βαθμό κλειστός σε πολλούς ενήλικες, οπότε το παλλόμενο κύμα ταξιδεύει στον περιβάλλοντα υποαραχνοειδή χώρο· το ένα αρχείο σας το λέει σωστά και το άλλο όχι. (4) Η μέγιστη ταχύτητα 78 mm/s αναφέρεται στα αρχεία σας· δεν μπόρεσα να την επαληθεύσω, και οι ταχύτητες διαφέρουν ανά άτομο και επίπεδο.</p>
       </div>
     </div>
+    <figure class="fig reveal"><img src="img/reed-el-07.jpg" alt="Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός δίπλα δίπλα, με το ΕΝΥ να πάλλεται πάνω και κάτω" loading="lazy"><figcaption>Διαφάνεια: ο βοτανικός κάλαμος και ο νωτιαίος μυελός.</figcaption></figure>
     <figure class="reveal" style="margin:26px auto 0;max-width:380px">
       <video controls preload="none" playsinline poster="img/spine-poster.jpg" src="audio/spinal-fluid-wave.mp4" style="display:block;width:100%;height:auto;max-height:82vh;border:1px solid var(--line-g);background:#000">Ο περιηγητής σας δεν μπορεί να παίξει αυτό το βίντεο.</video>
       <figcaption class="dim" style="margin-top:10px;font-size:15px">Πώς κατεβαίνει το κύμα του νωτιαίου υγρού: κινούμενο σχέδιο 83 δευτερολέπτων, με αγγλικούς υπότιτλους. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</figcaption>
     </figure>
-  </div><aside class="fx reveal"><canvas data-holo="wave" aria-label="Το κύμα του υγρού κατά μήκος του σωλήνα"></canvas><div class="cap">Το κύμα του υγρού κατά μήκος του σωλήνα</div></aside></div></div>
+  </div>
 </section>
 
-<section id="obex" data-label="Το Obex">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="obex" data-label="Το Obex">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">III &middot; Η Πένα στην Πόρτα</div>
       <h2>Calamus Scriptorius, <em>ο Καλαμος της Γραφής</em></h2>
@@ -460,11 +454,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       </div>
     </div>
     <figure class="fig reveal" style="max-width:480px;margin-left:auto;margin-right:auto"><img src="img/obex-gray709.jpg" alt="Χάραξη του οπίσθιου εγκεφάλου από πίσω, με επιγραφές Quadrigeminal lamina, Cerebellum, Rhomboid fossa, Taenia, Rhombic lip, Medulla oblongata και Obex" loading="lazy"><figcaption>Ο οπίσθιος εγκέφαλος από πίσω, με το obex στην κάτω κορυφή του ρομβοειδούς βόθρου. Henry Vandyke Carter, <i>Gray&rsquo;s Anatomy</i> (1918), Πίνακας 709, κοινό κτήμα. Δείχνει έμβρυο περίπου τριών μηνών, άρα το σχήμα της μύτης φαίνεται καθαρότερα στον ενήλικο εγκέφαλο.</figcaption></figure>
-  </div><aside class="fx reveal"><canvas data-holo="obex" aria-label="Οπίσθιος εγκέφαλος · ρομβοειδές έδαφος και όβεξ"></canvas><div class="cap">Οπίσθιος εγκέφαλος · ρομβοειδές έδαφος και όβεξ</div></aside></div></div>
+  </div>
 </section>
 
-<section id="unsealed" data-label="Ο Κώδικας">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="unsealed" data-label="Ο Κώδικας">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">IV &middot; Ο Κώδικας Ξεσφραγίζεται</div>
       <h2>Από τον <em>Κάδμο</em> στον <em>Κάλαμο</em></h2>
@@ -484,6 +478,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Αξίζει δοκιμή.</b> Το κλασικό αλφάβητο έχει 24 γράμματα· το 27 μετρά και τα τρία αρχαϊκά αριθμητικά γράμματα. Μία ταιριαστή διαφορά δεν ξεχωρίζει τον σχεδιασμό από την τύχη, οπότε ένας δίκαιος έλεγχος είναι να μετρηθεί πόσα άλλα ζεύγη λέξεων του ελληνικού λεξιλογίου διαφέρουν κατά 27.</p>
       </div>
     </div>
+    <figure class="fig reveal"><img src="img/reed-el-12.jpg" alt="Διαφάνεια: ΚΑΛΑΜΟΣ ίσον το υγρό του ΚΑΔΜΟΥ, δίπλα σε μια εικόνα σπονδυλικής στήλης σε στυλ μαγνητικής τομογραφίας" loading="lazy"><figcaption>Η διαφάνεια τιτλοφορείται «PC-MRI 21ου αιώνα»· η εικόνα όμως είναι απεικόνιση σε στυλ μαγνητικής τομογραφίας και όχι πραγματική εξέταση.</figcaption></figure>
     <div class="reveal" style="margin-top:46px">
       <div class="kicker">Η γραμμή 1729</div>
       <h3 style="font-family:var(--title);font-weight:500;font-size:28px;color:var(--ink)">Αποκάλυψη 11:1, <em style="color:var(--gold)">καλάμι όμοιο με ράβδο</em></h3>
@@ -497,11 +492,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Το δεύτερο μισό ισχύει επίσης, χωρίς το άρθρο.</b> σῶμα 1041 + Ἰησοῦ 688 = <b>1729</b>, με απλή μιλησιακή ισοψηφία και χωρίς ειδικό κανόνα. Αν προστεθεί το άρθρο, <i>τὸ σῶμα τοῦ Ἰησοῦ</i> όπως το γράφει συνήθως η Καινή Διαθήκη, το άθροισμα αλλάζει (το σῶμα τοῦ Ἰησοῦ είναι 2499). Άρα η ισότητα είναι ακριβής για την γυμνή φράση <i>σῶμα Ἰησοῦ</i>. Η πραγματεία πρέπει να δηλώνει αυτή τη μορφή, γιατί ένας αναγνώστης που δοκιμάζει τη συνήθη διατύπωση δεν θα βρει 1729.</p>
       </div>
     </div>
-  </div><aside class="fx reveal"><canvas data-holo="helix" aria-label="Ο νωτιαίος μυελός και τα δύο φίδια"></canvas><div class="cap">Ο νωτιαίος μυελός και τα δύο φίδια</div></aside></div></div>
+  </div>
 </section>
 
-<section id="necklace" data-label="Το Περιδέραιο">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="necklace" data-label="Το Περιδέραιο">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">V &middot; Η Αλυσίδα από Οστά</div>
       <h2>Ο Κάδμος, η Αρμονία <em>και το Περιδέραιο</em></h2>
@@ -525,11 +520,13 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
       <div class="hud compact" data-gk="Αρμονία" data-tr="Harmonia" data-mn="«Αρμονία»"></div>
       <div class="hud compact" data-gk="Σπονδυλος" data-tr="Spondylos" data-mn="«Σπόνδυλος»"></div>
     </div>
-  </div><aside class="fx reveal"><canvas data-holo="necklace" aria-label="Το χρυσό περιδέραιο κατά μήκος της σπονδυλικής στήλης"></canvas><div class="cap">Το χρυσό περιδέραιο κατά μήκος της σπονδυλικής στήλης</div></aside></div></div>
+    <figure class="fig reveal"><img src="img/reed-el-04.jpg" alt="Διαφάνεια: ο Κάδμος σπέρνει τον κώδικα, με τα γράμματα να ριζώνουν στη γη" loading="lazy"><figcaption>Η διαφάνεια λέει «27 φοινικικά γράμματα»· το φοινικικό αλφάβητο είχε 22 γράμματα, και το 27 είναι το ελληνικό σύνολο με τα αρχαϊκά.</figcaption></figure>
+    <figure class="fig reveal"><img src="img/reed-el-05.jpg" alt="Διαφάνεια: η Αρμονία και το περιδέραιο του Ηφαίστου, δύο φίδια πλεγμένα σε σχήμα καρδιάς" loading="lazy"><figcaption>Διαφάνεια: η Αρμονία και το περιδέραιο.</figcaption></figure>
+  </div>
 </section>
 
-<section id="suph" data-label="Yam Suph">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="suph" data-label="Yam Suph">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">VI &middot; Η Θάλασσα των Καλάμων</div>
       <h2>Yam Suph <em>και η Ερυθρά Θάλασσα</em></h2>
@@ -554,11 +551,12 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <tr><td>4ος με 5ος αιώνας μ.Χ.</td><td>Λατινικά (Vulgata)</td><td><i>Mare Rubrum</i></td><td>«Ερυθρά Θάλασσα»</td></tr>
         <tr><td>1611</td><td>Αγγλικά (King James)</td><td>Red Sea</td><td>παγιώθηκε στα αγγλικά</td></tr>
       </tbody></table></div>
-  </div><aside class="fx reveal"><canvas data-holo="marsh" aria-label="Θάλασσα των καλαμιών · ο ανοιγμένος δρόμος"></canvas><div class="cap">Θάλασσα των καλαμιών · ο ανοιγμένος δρόμος</div></aside></div></div>
+    <figure class="fig reveal"><img src="img/reed-el-02.jpg" alt="Διαφάνεια: το σφάλμα της μετάφρασης, με τη διαγραμμένη Ερυθρά Θάλασσα σε χάρτη και τη βοτανική αλήθεια του Yam Suph με φωτεινά καλάμια" loading="lazy"><figcaption>Διαφάνεια: το σφάλμα της μετάφρασης και η βοτανική αλήθεια.</figcaption></figure>
+  </div>
 </section>
 
-<section id="pineal" data-label="Γάλα και Μέλι">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="pineal" data-label="Γάλα και Μέλι">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">VII &middot; Η Βιολογική Έξοδος</div>
       <h2>Ο Προμήκης Κόμβος <em>και η Γη του Γάλακτος και του Μελιού</em></h2>
@@ -576,11 +574,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Διαφέρει.</b> (1) Το ΕΝΥ παράγεται κυρίως από το χοριοειδές πλέγμα στις κοιλίες και όχι από την υπόφυση. (2) Η πινολίνη βρίσκεται στην επίφυση και το DMT έχει μετρηθεί σε επιφυσιακό ιστό αρουραίου, αλλά δεν γνωρίζω καμία απόδειξη ότι ο διαλογισμός κάνει την επίφυση να απελευθερώνει DMT στο ΕΝΥ ενός ανθρώπου. Αυτός είναι ο λιγότερο τεκμηριωμένος ισχυρισμός του κεφαλαίου. (3) Το κλείσιμο των ματιών δεν γυρίζει την επίφυση σε πλήρη νυχτερινή έκκριση. (4) Το αρχείο που λέει ότι ο υποαραχνοειδής χώρος «διατηρεί» τον νευρικό σωλήνα είναι μπερδεμένο: το κατάλοιπο του σωλήνα είναι ο κεντρικός σωλήνας.</p>
       </div>
     </div>
-  </div><aside class="fx reveal"><canvas data-holo="pinecone" aria-label="Το κουκουνάρι της επίφυσης"></canvas><div class="cap">Το κουκουνάρι της επίφυσης</div></aside></div></div>
+  </div>
 </section>
 
-<section id="spine" data-label="Η Σπονδυλική Στήλη">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="spine" data-label="Η Σπονδυλική Στήλη">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">VIII &middot; Τα Γράμματα Κατεβαίνουν</div>
       <h2>Το Αλφάβητο <em>στη Σπονδυλική Στήλη</em></h2>
@@ -600,11 +598,19 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Πού διαφέρει.</b> Τα φωνήεντα σχηματίζονται στον λάρυγγα και το στόμα και όχι κατά μήκος της σπονδυλικής στήλης, άρα ο χάρτης είναι βοήθημα μνήμης. Το τελικό σίγμα είναι απλώς η μορφή του γράμματος στο τέλος της λέξης και έχει την ίδια τιμή με το σ, 200. Ο ίδιος ο μυελός σταματά στο L1 με L2, πολύ πάνω από τους κάτω σπονδύλους.</p>
       </div>
     </div>
-    </div><aside class="fx reveal"><canvas data-holo="spine" aria-label="Ανθρώπινη σπονδυλική στήλη · κυανό 7 αυχένας · χρυσό 12 θώρακας · σκουριά 5 οσφύς"></canvas><div class="cap">Ανθρώπινη σπονδυλική στήλη · κυανό 7 αυχένας · χρυσό 12 θώρακας · σκουριά 5 οσφύς</div></aside></div></div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-09.jpg" alt="Διαφάνεια: τα επτά φωνήεντα του φωτός, με έναν χρυσό αυχένα και πίνακα αντιστοιχίας" loading="lazy"><figcaption>Διαφάνεια: τα 7 φωνήεντα και οι αυχενικοί σπόνδυλοι.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-10.jpg" alt="Διαφάνεια: τα δεκαεπτά σύμφωνα της γης, με θωρακικούς και οσφυϊκούς σπονδύλους" loading="lazy"><figcaption>Διαφάνεια: τα 17 σύμφωνα, 12 θωρακικοί + 5 οσφυϊκοί.</figcaption></figure>
+    </div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-11.jpg" alt="Διαφάνεια: οι μεταλλάξεις, δίφθογγοι και ανατομικές διευρύνσεις, από κυλινδρικό σε ορθογώνιο σχήμα" loading="lazy"><figcaption>Διαφάνεια: οι μεταλλάξεις, δίφθογγοι και διευρύνσεις.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-13.jpg" alt="Διαφάνεια: η τελική μεταμόρφωση, το ερπετό στο τέλος, με την κόκκυγα, δύο φίδια και το τελικό σίγμα" loading="lazy"><figcaption>Διαφάνεια: η τελική μεταμόρφωση.</figcaption></figure>
+    </div>
+  </div>
 </section>
 
-<section id="lateral" data-label="Το Πλάγιο Κύμα">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="lateral" data-label="Το Πλάγιο Κύμα">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">IX &middot; Κυτταρική Ενεργητική</div>
       <h2>Το Οριζόντιο <em>Συνημίτονο</em></h2>
@@ -621,11 +627,11 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <p><b>Διαφέρει.</b> Η μεταφορά μιτοχονδρίων είναι ενεργό ερευνητικό πεδίο και οι περισσότερες ενδείξεις προέρχονται από καλλιέργειες και ζωικά μοντέλα, όχι από υγιείς ανθρώπους, άρα το «επιβεβαιωμένο» είναι ισχυρότερο από τις ενδείξεις. Η «πύλη γλυκοπρωτεΐνης με c = 1», το συνημίτονο του διανύσματος ενέργειας και η αντιστοίχιση στους άξονες Ημιτόνου και Συνημιτόνου είναι το δικό του μοντέλο του Κώδικα και όχι αποδεδειγμένη βιολογία.</p>
       </div>
     </div>
-  </div><aside class="fx reveal"><canvas data-holo="lateral" aria-label="Το πλάγιο κύμα"></canvas><div class="cap">Το πλάγιο κύμα</div></aside></div></div>
+  </div>
 </section>
 
-<section id="fractal" data-label="Το Φράκταλ">
-  <div class="wrap"><div class="cols"><div class="colL">
+<section data-narrate id="fractal" data-label="Το Φράκταλ">
+  <div class="wrap">
     <div class="reveal">
       <div class="kicker">X &middot; Η Ίδια Ιστορία σε Κάθε Κλίμακα</div>
       <h2>Η Φράκταλ <em>Ιστορία του Καλαμιού</em></h2>
@@ -640,12 +646,15 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
         <tr><td>Θάλασσα</td><td>Yam Suph</td><td>Το καλάμι χωρίζεται και διασχίζεται.</td></tr>
         <tr><td>Κόκκυγα</td><td>Συνενωμένο οστό</td><td>Το καλάμι γίνεται πέτρα.</td></tr>
       </tbody></table></div>
-    </div><aside class="fx reveal"><canvas data-holo="fractal" aria-label="Το φράκταλ · ένας μίσχος που διακλαδίζεται"></canvas><div class="cap">Το φράκταλ · ένας μίσχος που διακλαδίζεται</div></aside></div></div>
+    <div class="grid2 reveal" style="gap:20px;align-items:start;margin-top:20px">
+      <figure class="fig reveal"><img src="img/reed-el-14.jpg" alt="Διαφάνεια: ο Φράκταλ Κώδικας, πίνακας από τη γεωγραφία ως την ανατομία" loading="lazy"><figcaption>Διαφάνεια: ο ίδιος πίνακας, όπως σχεδιάστηκε στην παρουσίαση.</figcaption></figure>
+      <figure class="fig reveal"><img src="img/reed-el-06.jpg" alt="Διαφάνεια: η Μεγάλη Αποκάλυψη, ο μύθος είναι βιολογία, από το καλάμι ως τον εγκέφαλο" loading="lazy"><figcaption>Διαφάνεια: ο μύθος ως βιολογία.</figcaption></figure>
+    </div>
+    <figure class="fig reveal"><img src="img/reed-el-15.jpg" alt="Διαφάνεια: ΝΟΗΜΑ και ΛΗΞΙΣ, με τη σπονδυλική στήλη στο κέντρο" loading="lazy"><figcaption>Διαφάνεια: το νόημα και η λήξη.</figcaption></figure>
+  </div>
 </section>
 
-<section id="slides" data-label="Διαφάνειες"><div class="wrap"><details class="auditbox reveal"><summary>Η παρουσίαση (14 διαφάνειες)</summary><div class="gal"><figure><a href="img/reed-ec-01.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-01.jpg" alt="Διαφάνεια 1" loading="lazy"></a></figure><figure><a href="img/reed-ec-02.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-02.jpg" alt="Διαφάνεια 2" loading="lazy"></a></figure><figure><a href="img/reed-ec-03.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-03.jpg" alt="Διαφάνεια 3" loading="lazy"></a></figure><figure><a href="img/reed-ec-04.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-04.jpg" alt="Διαφάνεια 4" loading="lazy"></a></figure><figure><a href="img/reed-ec-05.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-05.jpg" alt="Διαφάνεια 5" loading="lazy"></a></figure><figure><a href="img/reed-ec-06.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-06.jpg" alt="Διαφάνεια 6" loading="lazy"></a></figure><figure><a href="img/reed-ec-07.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-07.jpg" alt="Διαφάνεια 7" loading="lazy"></a></figure><figure><a href="img/reed-ec-09.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-09.jpg" alt="Διαφάνεια 8" loading="lazy"></a></figure><figure><a href="img/reed-ec-10.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-10.jpg" alt="Διαφάνεια 9" loading="lazy"></a></figure><figure><a href="img/reed-ec-11.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-11.jpg" alt="Διαφάνεια 10" loading="lazy"></a></figure><figure><a href="img/reed-ec-12.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-12.jpg" alt="Διαφάνεια 11" loading="lazy"></a></figure><figure><a href="img/reed-ec-13.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-13.jpg" alt="Διαφάνεια 12" loading="lazy"></a></figure><figure><a href="img/reed-ec-14.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-14.jpg" alt="Διαφάνεια 13" loading="lazy"></a></figure><figure><a href="img/reed-ec-15.jpg" target="_blank" rel="noopener"><img src="img/reed-ec-15.jpg" alt="Διαφάνεια 14" loading="lazy"></a></figure></div></details></div></section>
-
-<section id="notes" data-label="Σημειώσεις">
+<section data-narrate id="notes" data-label="Σημειώσεις">
   <div class="wrap">
     <div class="reveal">
       <div class="kicker">Πηγές και έλεγχοι</div>
@@ -754,8 +763,8 @@ const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent
 items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
-<script src="holo3d.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
+<script src="audio-el.js"></script>
 </body>
 </html>

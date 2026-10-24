@@ -238,8 +238,10 @@ table.tl th,table.tl td{text-align:left!important}
 table.tl td{vertical-align:top;font-size:.9rem}
 .langsw{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em}
 </style>
+<style id="navfix">.pbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 16px;font:12px "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(rgba(5,10,16,.92) 40%,rgba(5,10,16,0))}.pbar a{color:#a9b4b8;text-decoration:none;border:1px solid rgba(70,227,240,.3);padding:6px 12px;border-radius:2px;background:rgba(5,10,16,.6)}.pbar a:hover{color:#46e3f0;border-color:#46e3f0}.pbar .t{flex:1;text-align:center;color:#6f7d83;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pbar .t b{color:#e8c375}@media(max-width:620px){.pbar{gap:6px;padding:8px 10px}.pbar a{padding:6px 8px;white-space:nowrap}.pbar .t{display:none}.pbar a:first-child{margin-right:auto}}</style>
 </head>
 <body>
+<header class="pbar"><a href="games.html">&#9666; Games</a><div class="t">Ophanim Codex &middot; <b>The Calendar Audit</b></div><a href="calendar-codex-el.html">Ελληνικά &#9656;</a><a href="library.html">Library &#9656;</a></header>
 <div id="progress"></div>
 
 <section id="hero">
@@ -265,7 +267,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   <p class="src rv" style="margin-top:.8rem">The deck at a glance: the figures from its title slide.</p>
 </section>
 
-<section id="circle" class="wrap" style="padding:10vh 24px">
+<section data-narrate id="circle" class="wrap" style="padding:10vh 24px">
   <div class="kicker rv">I &middot; The year drawn as a circle</div>
   <h2 class="rv">Why 360</h2>
   <div class="split" style="padding:4vh 0 0">
@@ -284,7 +286,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="sky" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="sky" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">II &middot; The year the sky keeps</div>
   <h2 class="rv">365.2422 Days</h2>
   <p class="rv" style="max-width:70ch">The tropical year, from one spring equinox to the next, lasts about 365.2422 days: 365 days, 5 hours, 48 minutes and 45 seconds. A calendar year that is a different length slides against the seasons. Choose a calendar and a span of years and see how far.</p>
@@ -303,7 +305,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="five" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="five" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">III &middot; Five days outside the count</div>
   <h2 class="rv">The Epagomenal Days</h2>
   <div class="split" style="padding:3vh 0 0">
@@ -328,7 +330,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="claim" class="wrap" style="padding:8vh 24px 10vh">
+<section data-narrate id="claim" class="wrap" style="padding:8vh 24px 10vh">
   <div class="kicker rv">IV &middot; The 13 &times; 28 claim</div>
   <h2 class="rv">Thirteen Moons</h2>
   <p class="rv" style="max-width:70ch">The claim goes like this: thirteen months of 28 days (364 days, plus one) is the natural Moon calendar, and it was taken from us. Three things in it can be checked.</p>
@@ -345,7 +347,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="moon" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="moon" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">V &middot; How the Moon&rsquo;s calendars really work</div>
   <h2 class="rv">Twelve Months and a Leap</h2>
   <div class="split" style="padding:3vh 0 0">
@@ -358,7 +360,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="matrix" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="matrix" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">VI &middot; Side by side</div>
   <h2 class="rv">The Matrix</h2>
   <p class="rv" style="max-width:70ch">Each calendar compared with the tropical year of 365.2422 days. The last column is how far calendar and seasons part company in ten years.</p>
@@ -388,7 +390,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   <p class="src rv" style="margin-top:.8rem">The verdicts in the last row are the deck&rsquo;s own words. What can be checked is the first table; for the 13 &times; 28 calendar the check is that it follows the year, not the Moon.</p>
 </section>
 
-<section id="reading" class="wrap" style="padding:6vh 24px 12vh">
+<section data-narrate id="reading" class="wrap" style="padding:6vh 24px 12vh">
   <div class="kicker rv">VII &middot; A reading</div>
   <h2 class="rv">The Handshake</h2>
   <p class="src rv">Everything above is astronomy and history. This section is interpretation, in the framework of Mandos16, and is not established science.</p>
@@ -468,5 +470,6 @@ addEventListener('resize',frame);frame();
 <script src="holo3d.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
+<script src="audio.js"></script>
 </body>
 </html>

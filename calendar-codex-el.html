@@ -238,8 +238,10 @@ table.tl th,table.tl td{text-align:left!important}
 table.tl td{vertical-align:top;font-size:.9rem}
 .langsw{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em}
 </style>
+<style id="navfix">.pbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 16px;font:12px "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(rgba(5,10,16,.92) 40%,rgba(5,10,16,0))}.pbar a{color:#a9b4b8;text-decoration:none;border:1px solid rgba(70,227,240,.3);padding:6px 12px;border-radius:2px;background:rgba(5,10,16,.6)}.pbar a:hover{color:#46e3f0;border-color:#46e3f0}.pbar .t{flex:1;text-align:center;color:#6f7d83;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pbar .t b{color:#e8c375}@media(max-width:620px){.pbar{gap:6px;padding:8px 10px}.pbar a{padding:6px 8px;white-space:nowrap}.pbar .t{display:none}.pbar a:first-child{margin-right:auto}}</style>
 </head>
 <body>
+<header class="pbar"><a href="games.html">&#9666; Παιχνίδια</a><div class="t">Ophanim Codex &middot; <b>Ημερολόγιο</b></div><a href="calendar-codex.html">English &#9656;</a><a href="library.html">Βιβλιοθήκη &#9656;</a></header>
 <div id="progress"></div>
 
 <section id="hero">
@@ -265,7 +267,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   <p class="src rv" style="margin-top:.8rem">Η παρουσίαση με μια ματιά: τα στοιχεία της πρώτης διαφάνειας.</p>
 </section>
 
-<section id="circle" class="wrap" style="padding:10vh 24px">
+<section data-narrate id="circle" class="wrap" style="padding:10vh 24px">
   <div class="kicker rv">I &middot; Το έτος ως κύκλος</div>
   <h2 class="rv">Γιατί 360</h2>
   <div class="split" style="padding:4vh 0 0">
@@ -284,7 +286,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="sky" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="sky" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">II &middot; Το έτος που κρατά ο ουρανός</div>
   <h2 class="rv">365,2422 ημέρες</h2>
   <p class="rv" style="max-width:70ch">Το τροπικό έτος, από μία εαρινή ισημερία ως την επόμενη, διαρκεί περίπου 365,2422 ημέρες: 365 ημέρες, 5 ώρες, 48 λεπτά και 45 δευτερόλεπτα. Ένα ημερολογιακό έτος με άλλο μήκος γλιστρά σε σχέση με τις εποχές. Διαλέξτε ημερολόγιο και πλήθος ετών και δείτε πόσο.</p>
@@ -302,7 +304,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="five" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="five" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">III &middot; Πέντε ημέρες έξω από τη μέτρηση</div>
   <h2 class="rv">Οι Επαγόμενες Ημέρες</h2>
   <div class="split" style="padding:3vh 0 0">
@@ -327,7 +329,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="claim" class="wrap" style="padding:8vh 24px 10vh">
+<section data-narrate id="claim" class="wrap" style="padding:8vh 24px 10vh">
   <div class="kicker rv">IV &middot; Ο ισχυρισμός 13 &times; 28</div>
   <h2 class="rv">Δεκατρία Φεγγάρια</h2>
   <p class="rv" style="max-width:70ch">Ο ισχυρισμός λέει: δεκατρείς μήνες των 28 ημερών (364 ημέρες, συν μία) είναι το φυσικό σεληνιακό ημερολόγιο, και μας το πήραν. Τρία πράγματα σε αυτόν μπορούν να ελεγχθούν.</p>
@@ -344,7 +346,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="moon" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="moon" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">V &middot; Πώς δουλεύουν πραγματικά τα ημερολόγια της Σελήνης</div>
   <h2 class="rv">Δώδεκα μήνες και ένας δίσεκτος</h2>
   <div class="split" style="padding:3vh 0 0">
@@ -357,7 +359,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   </div>
 </section>
 
-<section id="matrix" class="wrap" style="padding:6vh 24px 10vh">
+<section data-narrate id="matrix" class="wrap" style="padding:6vh 24px 10vh">
   <div class="kicker rv">VI &middot; Δίπλα δίπλα</div>
   <h2 class="rv">Ο Πίνακας</h2>
   <p class="rv" style="max-width:70ch">Κάθε ημερολόγιο συγκρινόμενο με το τροπικό έτος των 365,2422 ημερών. Η τελευταία στήλη δείχνει πόσο χωρίζουν ημερολόγιο και εποχές σε δέκα χρόνια.</p>
@@ -386,7 +388,7 @@ table.tl td{vertical-align:top;font-size:.9rem}
   <p class="src rv" style="margin-top:.8rem">Οι κρίσεις της τελευταίας γραμμής είναι λόγια της ίδιας της παρουσίασης. Ελέγξιμος είναι ο πρώτος πίνακας· για το ημερολόγιο 13 &times; 28 ο έλεγχος είναι ότι ακολουθεί το έτος, όχι τη Σελήνη.</p>
 </section>
 
-<section id="reading" class="wrap" style="padding:6vh 24px 12vh">
+<section data-narrate id="reading" class="wrap" style="padding:6vh 24px 12vh">
   <div class="kicker rv">VII &middot; Μια ανάγνωση</div>
   <h2 class="rv">Η Χειραψία</h2>
   <p class="src rv">Όλα τα παραπάνω είναι αστρονομία και ιστορία. Αυτή η ενότητα είναι ερμηνεία, μέσα στο πλαίσιο του Mandos16, και δεν είναι τεκμηριωμένη επιστήμη.</p>
@@ -467,5 +469,6 @@ addEventListener('resize',frame);frame();
 <script src="holo3d.js"></script>
 <script src="refs.js"></script>
 <script src="miniplayer.js"></script>
+<script src="audio-el.js"></script>
 </body>
 </html>

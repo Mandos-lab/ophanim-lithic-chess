@@ -394,16 +394,17 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
 #calc canvas{width:100%;aspect-ratio:1/1;display:block;touch-action:pan-y;cursor:grab;background:radial-gradient(circle,rgba(70,227,240,.05),transparent 70%)}
 #calc .hycap{text-align:center;font-size:13px;opacity:.7}
 </style>
+<style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
 </head><body>
 <div class="progress" id="prog"></div>
 <header class="bar">
   <a href="#" id="backGames">&#9666; Παιχνίδια</a>
   <div class="t">Ophanim Codex &middot; <b>Ο Κώδικας της Μητέρας</b></div>
-  <a href="carl-tate-codex.html" >English &#9656;</a>
+  <a href="carl-tate-codex.html" >English &#9656;</a><a href="library.html">Βιβλιοθήκη &#9656;</a>
 </header>
 <nav class="dots" id="dots"></nav>
 <main>
-<section id="hero" data-label="Πρόλογος">
+<section data-narrate id="hero" data-label="Πρόλογος">
   <div class="wrap" style="text-align:center">
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Φωνητική Αρχαιολογία &middot; Το Αρμενικό Κλειδί</div>
     <h1>Ο Κώδικας της Μητέρας<br><em>Karakin Sevan Tatev</em></h1>
@@ -436,7 +437,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     </div>
   </div>
 </section>
-<section id="mirror" data-label="Ο Πρώτος Καθρέφτης">
+<section data-narrate id="mirror" data-label="Ο Πρώτος Καθρέφτης">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο I &middot; Το Βιολογικό Αλφάβητο</div><h2>Ο Πρώτος <em>Καθρέφτης</em></h2><p>Επί εξήντα χρόνια, λέει το χειρόγραφο, η γλώσσα θεωρείται αυθαίρετη ετικέτα. Η αντίθετη θέση του: ο ήχος είναι εκτελέσιμος βιολογικός κώδικας, και η ομιλία τρέχει πάνω σε μύες, νεύρα και αναπνοή. Δεν είμαστε ομιλητές λέξεων· είμαστε τόποι που περπατούν και δονούνται.</p></div>
@@ -446,7 +447,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="mirror" aria-label="Σήμα &middot; αντανάκλαση"></canvas><div class="cap">Σήμα &middot; αντανάκλαση</div></aside>
   </div></div>
 </section>
-<section id="palace" data-label="36 Κίονες">
+<section data-narrate id="palace" data-label="36 Κίονες">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο I &middot; Ο Κώδικας της Μητέρας</div><h2>Το Παλάτι των <em>36 Κιόνων</em></h2><p>Το 405 μ.Χ. ο Μεσρόπ Μαστότς διατύπωσε το αρμενικό αλφάβητο. Ο Karakin το διαβάζει ως ναό τριάντα έξι κιόνων: κάθε γράμμα ένα ανατομικό σχέδιο της φωνητικής οδού, μια πράξη του σώματος σε πρώτο πρόσωπο.</p></div>
@@ -456,7 +457,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="palace" aria-label="36 κίονες &middot; 4 &times; 9"></canvas><div class="cap">36 κίονες &middot; 4 &times; 9</div></aside>
   </div></div>
 </section>
-<section id="matrix" data-label="Πίνακας 9×4">
+<section data-narrate id="matrix" data-label="Πίνακας 9×4">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Ο Πίνακας του Μαστότς</div><h2>Ο Πίνακας <em>9&times;4</em></h2><p>Τα αρμενικά γράμματα είναι και αριθμοί: εννέα μονάδες, εννέα δεκάδες, εννέα εκατοντάδες, εννέα χιλιάδες. Τριάντα έξι γράμματα, τέσσερις στήλες των εννέα, το δεκαδικό σύστημα χτισμένο μέσα στο αλφάβητο.</p></div>
@@ -466,7 +467,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="grid" aria-label="Τέσσερις στήλες των εννέα"></canvas><div class="cap">Τέσσερις στήλες των εννέα</div></aside>
   </div></div>
 </section>
-<section id="geometry" data-label="Γεωμετρία">
+<section data-narrate id="geometry" data-label="Γεωμετρία">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Ο Τετραγωνισμός του Κύκλου</div><h2>Η Γέφυρα <em>3-4-5</em></h2><p>Ο κύκλος είναι ο ουρανός, ο ήλιος και το άπειρο. Το τετράγωνο είναι η γη, η ύλη και ο κύκλος. Ο Karakin κλείνει το χάσμα με ένα ορθογώνιο τρίγωνο.</p></div>
@@ -476,7 +477,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="tri345" aria-label="3 &middot; 4 &middot; 5"></canvas><div class="cap">3 &middot; 4 &middot; 5</div></aside>
   </div></div>
 </section>
-<section id="wild" data-label="Το Ιερό Άγριο">
+<section data-narrate id="wild" data-label="Το Ιερό Άγριο">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο II &middot; Η Κοπή του Ιερού Άγριου</div><h2>Το Δέντρο Huluppu <em>και η Πτώση</em></h2><p>Στη σουμερική ιστορία της Inanna, του Γκιλγκαμές και του δέντρου Huluppu, ο Karakin αφαιρεί την αλληγορία και διαβάζει κυριολεκτική ιστορία.</p></div>
@@ -499,7 +500,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="aragats" aria-label="Οι τέσσερις κίονες του ουρανού"></canvas><div class="cap">Οι τέσσερις κίονες του ουρανού</div></aside>
   </div></div>
 </section>
-<section id="cipher" data-label="Κίονες Τ">
+<section data-narrate id="cipher" data-label="Κίονες Τ">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο IV &middot; Η Αρχετυπική Κρυπτογραφία</div><h2>Οι Κίονες Τ <em>και ένα Όνομα σε Δοκιμή</em></h2><p>Η μέθοδος του Karakin τρέχει σε οποιοδήποτε όνομα. Το χειρόγραφο την τρέχει σε ένα σύγχρονο όνομα, απαλλαγμένο από κομματικό θόρυβο, ως δοκιμή.</p></div>
@@ -509,7 +510,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="tpillar" aria-label="Δώδεκα και δύο κίονες Τ"></canvas><div class="cap">Δώδεκα και δύο κίονες Τ</div></aside>
   </div></div>
 </section>
-<section id="names" data-label="Τρία Ονόματα">
+<section data-narrate id="names" data-label="Τρία Ονόματα">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο V &middot; Η Αλχημεία του Λάθους</div><h2>Η Hune Πέτρα, <em>Karakin, Sevan, Tatev</em></h2><p>Ένα τυχερό λάθος πληκτρολόγησης, τρία ονόματα και ένα σχέδιο πυραύλου: το χειρόγραφο μετατρέπει μια πέτρα σε φτερό.</p></div>
@@ -519,7 +520,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="djed" aria-label="Κίονας &middot; φτερά"></canvas><div class="cap">Κίονας &middot; φτερά</div></aside>
   </div></div>
 </section>
-<section id="light" data-label="Φως">
+<section data-narrate id="light" data-label="Φως">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο VI &middot; Η Πήξη του Φωτός</div><h2>Από τη Nanna στη Nammu, <em>&Lambda;&Lambda;&Lambda;&Lambda;</em></h2><p>Εδώ ο αρμενικός κώδικας συναντά τα ελληνικά γράμματα. Ο νους γίνεται ύλη όταν το ανοιχτό ρινικό σφραγίζει τα χείλη του.</p></div>
@@ -529,7 +530,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="lambda" aria-label="Τέσσερα λάμδα"></canvas><div class="cap">Τέσσερα λάμδα</div></aside>
   </div></div>
 </section>
-<section id="ur" data-label="Παιχνίδι της Ουρ">
+<section data-narrate id="ur" data-label="Παιχνίδι της Ουρ">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο VII &middot; Το Μυητικό Μικρο-Ταμπλό</div><h2>Είκοσι Τετράγωνα <em>της Ουρ</em></h2><p>Ανασκαμμένο από τους Βασιλικούς Τάφους της Ουρ, το παιχνίδι των είκοσι τετραγώνων είναι για τον Karakin όχι διασκέδαση αλλά μυητικός χάρτης: η ψυχή που διασχίζει την ενσάρκωση.</p></div>
@@ -539,7 +540,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="ur" aria-label="Είκοσι τετράγωνα &middot; πέντε ροζέτες"></canvas><div class="cap">Είκοσι τετράγωνα &middot; πέντε ροζέτες</div></aside>
   </div></div>
 </section>
-<section id="return" data-label="Επιστροφή">
+<section data-narrate id="return" data-label="Επιστροφή">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Βιβλίο VIII &middot; Η Επιστροφή στη Μητέρα</div><h2>Ama-gi <em>και ο Βασιλιάς Χωρίς Ρούχα</em></h2><p>Το τελευταίο βιβλίο απαντά σε ένα ερώτημα: πώς ζει ένας κυρίαρχος άνθρωπος ανάμεσα σε μηχανές; Η απάντηση είναι μια ζωή.</p></div>
@@ -549,7 +550,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="gates" aria-label="Επτά πύλες"></canvas><div class="cap">Επτά πύλες</div></aside>
   </div></div>
 </section>
-<section id="gold" data-label="Από Θειούχο σε Χρυσό">
+<section data-narrate id="gold" data-label="Από Θειούχο σε Χρυσό">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Ο Άξονας Αρμενικά&ndash;Ελληνικά</div><h2>Από το Θειούχο <em>στον Χρυσό</em></h2><p>Ένα δωδεκάβημα πρωτότυπο ακολουθεί τους αρμενικούς ήχους πάνω στους ελληνικούς ως αλχημεία: από το σκοτεινό μετάλλευμα στον χρυσό.</p></div>
@@ -559,7 +560,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="heptagon" aria-label="1 &middot; 7"></canvas><div class="cap">1 &middot; 7</div></aside>
   </div></div>
 </section>
-<section id="keys" data-label="Δύο Κλειδιά">
+<section data-narrate id="keys" data-label="Δύο Κλειδιά">
   <div class="wrap"><div class="cols">
     <div class="txt">
       <div class="reveal"><div class="kicker">Δύο Κλειδιά</div><h2>Αρμενικά <em>&amp; Ελληνικά</em></h2><p>Ο Κώδικας της Μητέρας του Karakin διαβάζει τον ήχο ως σώμα και μύθο. Δίπλα του στέκεται η ελληνική ανάγνωση των γραμμάτων ως μαθηματικά και φως.</p></div>
@@ -569,7 +570,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="torus" aria-label="Δοχείο &middot; τόρος"></canvas><div class="cap">Δοχείο &middot; τόρος</div></aside>
   </div></div>
 </section>
-<section id="calc" data-label="Υπολογιστής">
+<section data-narrate id="calc" data-label="Υπολογιστής">
   <div class="wrap">
     <p class="kick">Φωνητικός Υπολογιστής 360</p>
     <h2>Αρμενική <em>λέξη &amp; σφαίρα</em></h2>
@@ -579,7 +580,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
   </div>
 </section>
 
-<section id="read" data-label="Πηγή">
+<section data-narrate id="read" data-label="Πηγή">
   <div class="wrap">
     <div class="reveal"><div class="kicker">Διάβασε την πηγή</div><h2>Η Αρμενική Βίβλος, <em>και ένα λεξικό</em></h2>
     <p class="dim" style="max-width:66ch">Η Αρμενική Βίβλος είναι από τις αρχαιότερες μεταφράσεις και τα γράμματά της είναι αυτά της σελίδας. Υπάρχουν τρεις εκδόσεις: η Κλασική Αρμενική Βίβλος του 1895 με αγγλικό κείμενο δίπλα, και η Ανατολική και η Δυτική Αρμενική.</p></div>
@@ -591,7 +592,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <p class="dim reveal" style="max-width:66ch;font-size:14px;margin-top:14px"><b>Σημείωση.</b> Οι σύνδεσμοι ανοίγουν άλλους ιστότοπους σε νέα καρτέλα. Ο ιστότοπος αυτός δεν φιλοξενεί ούτε αντιγράφει τα κείμενα, και κάθε ιστότοπος έχει τους δικούς του όρους. Οι εκδόσεις διαφέρουν, γι’ αυτό έλεγξε ποια διαβάζεις πριν συγκρίνεις μια λέξη ή ένα άθροισμα.</p>
   </div>
 </section>
-<section id="tribute" data-label="Αφιέρωμα">
+<section data-narrate id="tribute" data-label="Αφιέρωμα">
   <div class="wrap" style="text-align:center">
     <div class="reveal">
       <div class="kicker" style="justify-content:center">Αφιέρωση</div>
@@ -604,7 +605,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     </div>
   </div>
 </section>
-<section id="notes" data-label="Σημειώσεις">
+<section data-narrate id="notes" data-label="Σημειώσεις">
   <div class="wrap">
     <div class="reveal"><div class="kicker">Πηγές και έλεγχοι</div><h2>Πώς Φτιάχτηκε Αυτή η Σελίδα</h2></div>
     <div class="record reveal">
@@ -665,5 +666,6 @@ const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.
 <script src="refs.js"></script>
 <script src="readtab.js"></script>
 <script src="miniplayer.js"></script>
+<script src="audio-el.js"></script>
 </body>
 </html>
