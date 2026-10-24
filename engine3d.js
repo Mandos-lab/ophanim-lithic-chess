@@ -133,6 +133,11 @@ var STAGES=[
 ];
 /* VE13 edges: centre to each of the 12 outer points */
 STAGES[4].E=edgesAt(CO12,Math.SQRT2).concat(CO12.map(function(_,i){return [i,12]}));
+/* 36: the vector equilibrium with all its vectors (24 outer edges + 12 spokes) */
+STAGES.push({k:'e',n:36,name:'The 36 vectors',note:'The 13-point vector equilibrium with every vector drawn: 24 outer edges (cyan) and 12 spokes from the centre (violet). 24 + 12 = 36.',cnt:'13 points, 36 vectors',P:VE13,E:STAGES[4].E});
+/* 37: the shell left when a 3x3x3 block sits in a 4x4x4 grid (64 - 27) */
+(function(){var a=[];for(var x=0;x<4;x++)for(var y=0;y<4;y++)for(var z=0;z<4;z++)if(!(x<3&&y<3&&z<3))a.push([x-1.5,y-1.5,z-1.5]);
+ STAGES.push({k:'s',n:37,name:'The 37 shell',note:'The 37 cells of a 4 x 4 x 4 grid that lie outside a 3 x 3 x 3 block in one corner: 64 - 27 = 37.',P:a,E:edgesAt(a,1)})})();
 STAGES.forEach(function(s){s.P=norm(s.P)});
 /* true jitterbug: cuboctahedron -> icosahedron -> octahedron, one slider */
 function jverts(u){
@@ -161,7 +166,7 @@ function initJit(){
     for(var j=0;j<n;j++){var best=0,bd=1e9;for(var k=0;k<from.length;k++){var d=Math.hypot(to[j][0]-from[k][0],to[j][1]-from[k][1],to[j][2]-from[k][2]);if(d<bd){bd=d;best=k}}src.push(from[best])}
     morph={from:src,to:to,t:0,idx:i};stage=i;
     document.querySelectorAll('#jt-ladder button').forEach(function(b,j){b.classList.toggle('on',j===i)});
-    $('jt-note').innerHTML='<b>'+STAGES[i].name+' ('+STAGES[i].n+' points)</b>. '+STAGES[i].note.replace(/^\d+ points?[.:]\s*/,'').replace(/^./,function(c){return c.toUpperCase()})}
+    $('jt-note').innerHTML='<b>'+STAGES[i].name+' ('+(STAGES[i].cnt||(STAGES[i].n+' points'))+')</b>. '+STAGES[i].note.replace(/^\d+ points?[.:]\s*/,'').replace(/^./,function(c){return c.toUpperCase()})}
   var lad=$('jt-ladder');lad.innerHTML=STAGES.map(function(s,i){return '<button type="button">'+s.n+'</button>'}).join('');
   lad.querySelectorAll('button').forEach(function(b,i){b.onclick=function(){setMode('lad');setStage(i)}});
   STAGES.forEach(function(s,i){lad.children[i].title=s.name});
@@ -189,9 +194,9 @@ function initJit(){
       var S=STAGES[stage],pts;
       if(morph){morph.t=Math.min(1,morph.t+0.025);var e=morph.t<.5?2*morph.t*morph.t:1-Math.pow(-2*morph.t+2,2)/2;pts=morph.to.map(function(p,i){return lerp(morph.from[i],p,e)});cur=pts;if(morph.t>=1)morph=null}else{pts=S.P;cur=pts}
       var a=morph?morph.t:1;
-      S.E.forEach(function(e){seg(pts[e[0]],pts[e[1]],a,'#46e3f0')});
+      S.E.forEach(function(e,ix){seg(pts[e[0]],pts[e[1]],a,(S.k==='e'&&ix>=24)?'#b09cec':'#46e3f0')});
       pts.forEach(function(p,i){pt(p,(S.k==='r'&&i>=26)?'#b09cec':'#e8c375',S.n>20?2.6:3.6)});
-      $('jt-cnt').textContent=S.n+' points';
+      $('jt-cnt').textContent=S.cnt||(S.n+' points');
     }
   }
   setMode('jit');$('jt-note').textContent=jtxt(0);frame();

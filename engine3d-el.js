@@ -106,7 +106,7 @@ function initGlobe(){
   var keys=['kaaba','gold','l135','centre','eps','mount','hopton','stone','aveb'];
   [$('gl-a'),$('gl-b')].forEach(function(s,j){s.innerHTML=keys.map(function(k){return '<option value="'+k+'">'+PTS[k].n+'</option>'}).join('');s.value=j?'gold':'kaaba';s.addEventListener('change',dist)});
   function dist(){var a=PTS[$('gl-a').value],b=PTS[$('gl-b').value],s=hav(a,b),e=vinc(a,b);
-    $('gl-dist').innerHTML='<b>'+a.n+'</b> &rarr; <b>'+b.n+'</b>:<br>σφαίρα <b>'+fmt(s)+' km</b> &middot; ελλειψοειδές WGS84 <b>'+fmt(e)+' km</b> &middot; διαφορά '+fmt(Math.abs(s-e))+' km'}
+    $('gl-dist').innerHTML='<b>'+a.n+'</b> προς <b>'+b.n+'</b>:<br>σφαίρα <b>'+fmt(s)+' km</b> &middot; ελλειψοειδές WGS84 <b>'+fmt(e)+' km</b> &middot; διαφορά '+fmt(Math.abs(s-e))+' km'}
   setEps(0.1667);
 }
 
@@ -134,6 +134,11 @@ var STAGES=[
 ];
 /* VE13 edges: centre to each of the 12 outer points */
 STAGES[4].E=edgesAt(CO12,Math.SQRT2).concat(CO12.map(function(_,i){return [i,12]}));
+/* 36: the vector equilibrium with all its vectors (24 outer edges + 12 spokes) */
+STAGES.push({k:'e',n:36,name:'Τα 36 διανύσματα',note:'Η ισορροπία διανυσμάτων των 13 σημείων με κάθε διάνυσμα σχεδιασμένο: 24 εξωτερικές ακμές (γαλάζιες) και 12 ακτίνες από το κέντρο (βιολετί). 24 + 12 = 36.',cnt:'13 σημεία, 36 διανύσματα',P:VE13,E:STAGES[4].E});
+/* 37: the shell left when a 3x3x3 block sits in a 4x4x4 grid (64 - 27) */
+(function(){var a=[];for(var x=0;x<4;x++)for(var y=0;y<4;y++)for(var z=0;z<4;z++)if(!(x<3&&y<3&&z<3))a.push([x-1.5,y-1.5,z-1.5]);
+ STAGES.push({k:'s',n:37,name:'Το κέλυφος των 37',note:'Τα 37 κελιά ενός πλέγματος 4 × 4 × 4 που βρίσκονται έξω από ένα μπλοκ 3 × 3 × 3 σε μια γωνία: 64 - 27 = 37.',P:a,E:edgesAt(a,1)})})();
 STAGES.forEach(function(s){s.P=norm(s.P)});
 /* true jitterbug: cuboctahedron -> icosahedron -> octahedron, one slider */
 function jverts(u){
@@ -162,7 +167,7 @@ function initJit(){
     for(var j=0;j<n;j++){var best=0,bd=1e9;for(var k=0;k<from.length;k++){var d=Math.hypot(to[j][0]-from[k][0],to[j][1]-from[k][1],to[j][2]-from[k][2]);if(d<bd){bd=d;best=k}}src.push(from[best])}
     morph={from:src,to:to,t:0,idx:i};stage=i;
     document.querySelectorAll('#jt-ladder button').forEach(function(b,j){b.classList.toggle('on',j===i)});
-    $('jt-note').innerHTML='<b>'+STAGES[i].name+' ('+STAGES[i].n+' σημεία)</b>. '+STAGES[i].note}
+    $('jt-note').innerHTML='<b>'+STAGES[i].name+' ('+(STAGES[i].cnt||(STAGES[i].n+' σημεία'))+')</b>. '+STAGES[i].note}
   var lad=$('jt-ladder');lad.innerHTML=STAGES.map(function(s,i){return '<button type="button">'+s.n+'</button>'}).join('');
   lad.querySelectorAll('button').forEach(function(b,i){b.onclick=function(){setMode('lad');setStage(i)}});
   STAGES.forEach(function(s,i){lad.children[i].title=s.name});
@@ -190,9 +195,9 @@ function initJit(){
       var S=STAGES[stage],pts;
       if(morph){morph.t=Math.min(1,morph.t+0.025);var e=morph.t<.5?2*morph.t*morph.t:1-Math.pow(-2*morph.t+2,2)/2;pts=morph.to.map(function(p,i){return lerp(morph.from[i],p,e)});cur=pts;if(morph.t>=1)morph=null}else{pts=S.P;cur=pts}
       var a=morph?morph.t:1;
-      S.E.forEach(function(e){seg(pts[e[0]],pts[e[1]],a,'#46e3f0')});
+      S.E.forEach(function(e,ix){seg(pts[e[0]],pts[e[1]],a,(S.k==='e'&&ix>=24)?'#b09cec':'#46e3f0')});
       pts.forEach(function(p,i){pt(p,(S.k==='r'&&i>=26)?'#b09cec':'#e8c375',S.n>20?2.6:3.6)});
-      $('jt-cnt').textContent=S.n+' σημεία';
+      $('jt-cnt').textContent=S.cnt||(S.n+' σημεία');
     }
   }
   setMode('jit');$('jt-note').textContent=jtxt(0);frame();
