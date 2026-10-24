@@ -20,9 +20,14 @@ function parse(s,M){
   return o;}
 function translit(arr){var s='';for(var i=0;i<arr.length;i++){var c=arr[i];s+=(c===' '?' ':(TR[c]||''));}return s;}
 function dictWord(w){return Array.from(String(w||'')).map(function(c){return TR[c]!==undefined?TR[c]:c;}).join('').trim();}
+/* Old Norse headings as they appear in dictionaries (accents kept). Used by the "Old Norse spelling" dictionary choice. */
+var NORSE={'bifrost':'Bifrǫst','mjolnir':'Mjǫllnir','odin':'Óðinn','thor':'Þórr','freyr':'Freyr','freyja':'Freyja','frigg':'Frigg','baldr':'Baldr','loki':'Loki','tyr':'Týr','heimdall':'Heimdallr','yggdrasil':'Yggdrasill','midgard':'Miðgarðr','asgard':'Ásgarðr','valhalla':'Valhǫll','ragnarok':'Ragnarǫk','run':'rún','urd':'Urðr','skald':'skáld','galdr':'galdr','sol':'sól','mani':'máni','dagr':'dagr','natt':'nótt','eldr':'eldr','is':'ís','mann':'maðr','vatn':'vatn','ar':'ár','god':'goð','edda':'Edda'};
+function norse(w){var l=dictWord(w).toLowerCase();return NORSE[l]||l;}
+/* the plain spelling with a capital where the Old Norse heading has one (Wiktionary is case-sensitive: Bifrost, not bifrost) */
+function cap(w){var l=dictWord(w).toLowerCase(),n=NORSE[l]||l;return (n.charAt(0)!==n.charAt(0).toLowerCase()&&l)?l.charAt(0).toUpperCase()+l.slice(1):l;}
 function extra(t){var o=[];if(!t)return o;var n=t%36||36;o.push('engine node '+n+' ('+n*10+'°)');if(t===300)o.push('the whole row, 1 to 24');return o;}
 window.SPHERE_CFG={letters:L,values:V,names:NAME,lang:'non',dir:'ltr',sample:'thor',label:'Type Latin letters (read by sound) or tap runes',kbd:'Rune keyboard',
- voice:/^$/,voiceName:'Old Norse',speakLatin:true,sayNote:'No voice exists for Elder Futhark, so the word is spoken from its Latin spelling by your device’s own voice.',dictWord:dictWord,
+ voice:/^$/,voiceName:'Old Norse',speakLatin:true,sayNote:'No voice exists for Elder Futhark, so the word is spoken from its Latin spelling by your device’s own voice.',dictWord:dictWord,norse:norse,cap:cap,
  cols:8,lat:[30,0,-30],ratio:[1,9/8,5/4,4/3,3/2,5/3,15/8,2],bands:['Freyr’s ætt','Hagal’s ætt','Tiwaz’s ætt'],extra:extra,
  font:'14px "Noto Sans Runic","Segoe UI Historic","Segoe UI Symbol",serif',parse:parse,translit:translit};
 window.SPHERE_TR=translit;

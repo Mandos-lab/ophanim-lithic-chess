@@ -3,10 +3,15 @@
 var st=document.createElement('style');st.textContent='#read .rt-box{border:1px solid var(--line);background:var(--panel);padding:16px 18px;margin-top:18px}#read .rt-box h3{font-family:var(--title);font-weight:500;font-size:24px;margin:0 0 6px}#read .rt-box p{max-width:70ch;font-size:16px}#read .rt-form{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}#read .rt-form input[type=text]{flex:1;min-width:200px;font:inherit;font-size:20px;padding:9px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(232,195,117,.4);color:inherit;border-radius:8px}#read .rt-form select,#read .rt-form button{font:13px var(--mono);letter-spacing:.06em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:10px 14px;cursor:pointer}#read .rt-form select option{background:#071118}#read .links{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}#read .links a{white-space:normal}';document.head.appendChild(st);
 document.querySelectorAll('#read .rt-form').forEach(function(f){
  var el=document.documentElement.lang==='el',inp=f.querySelector('input'),sel=f.querySelector('select');
+ var mean=document.createElement('p');mean.className='rt-mean dim';mean.style.cssText='margin-top:10px;font-size:16px';f.parentNode.insertBefore(mean,f.nextSibling);
+ function showMean(){var C=window.SPHERE_CFG,v=inp.value.trim(),W=window.SPHERE_WORDS||[];if(C&&C.dictWord)v=C.dictWord(v);v=v.toLowerCase();var m=null;
+  for(var i=0;i<W.length;i++){if(String(W[i][0]).toLowerCase()===v||(W[i][1]&&String(W[i][1]).toLowerCase()===v)){m=W[i];break;}}
+  mean.innerHTML=m?('<b>'+(el?'Στη λίστα λέξεων':'In the word list')+':</b> '+(m[2]||'')+' <span style="color:var(--ink-3)">('+m[3]+')</span>'):'';}
+ inp.addEventListener('input',showMean);f.addEventListener('rt-fill',showMean);
  function mk(t,fn){var b=document.createElement('button');b.type='button';b.textContent=t;b.addEventListener('click',fn);f.appendChild(b);}
- if(document.getElementById('calc'))mk(el?'Λέξη από τον υπολογιστή':'Take the calculator\u2019s word',function(){var h=document.getElementById('hyin');if(h){var v=h.value.trim(),C=window.SPHERE_CFG;inp.value=C&&C.dictWord?C.dictWord(v):v;}});
+ if(document.getElementById('calc'))mk(el?'Λέξη από τον υπολογιστή':'Take the calculator\u2019s word',function(){var h=document.getElementById('hyin');if(h){var v=h.value.trim(),C=window.SPHERE_CFG;inp.value=C&&C.dictWord?C.dictWord(v):v;showMean();}});
  if(document.getElementById('spdb'))mk(el?'Στη σφαίρα':'Put it on the sphere',function(){var w=inp.value.trim();if(window.SPHERE&&w)SPHERE.load(w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
 
- f.addEventListener('submit',function(e){e.preventDefault();var w=f.querySelector('input').value.trim().toLowerCase();if(!w)return;var tpl=f.querySelector('select').value;window.open(tpl.replace('{w}',encodeURIComponent(w)),'_blank','noopener');});
+ f.addEventListener('submit',function(e){e.preventDefault();var w=f.querySelector('input').value.trim().toLowerCase();if(!w)return;var tpl=f.querySelector('select').value;var C=window.SPHERE_CFG;if(C&&C.dictWord)w=C.dictWord(w).toLowerCase();if(C&&C.cap)w=C.cap(w);var n=(C&&C.norse)?C.norse(w):w;window.open(tpl.replace('{l}',encodeURIComponent(w.toLowerCase())).replace('{w}',encodeURIComponent(w)).replace('{n}',encodeURIComponent(n)),'_blank','noopener');});
 });
 })();
