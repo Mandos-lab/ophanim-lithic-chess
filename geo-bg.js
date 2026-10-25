@@ -30,6 +30,7 @@
   function draw(ts){
     requestAnimationFrame(draw);if(W<230)return;
     tgt=target();cur+=(tgt-cur)*.07;
+    var ft=document.querySelector('footer');if(ft){var fy=ft.getBoundingClientRect().top;cv.style.opacity=(.75*Math.max(0,Math.min(1,(fy-H*.3)/(H*.45)))).toFixed(3);}
     var q=Math.min(SH.length-1,Math.max(0,cur)),i0=Math.floor(q),i1=Math.min(SH.length-1,i0+1),t=ease(q-i0);
     var A=S[i0],B=S[i1],R=Math.min(W/2-26,H*.32,250),cx=W/2,cy=H/2,ang=(still?0:ts*0.00006)+cur*.55;
     ctx.clearRect(0,0,W,H);

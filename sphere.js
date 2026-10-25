@@ -9,10 +9,11 @@ var AR=CFG.letters.slice(),N=AR.length,TRK=CFG.tr||{};
 var VAL=CFG.values.slice(),BASE=VAL.slice();
 var VALMAP={},IDX={};
 function setVals(){AR.forEach(function(c,i){VALMAP[c]=VAL[i];IDX[c]=i;});}setVals();
+var U=function(k,d){return(CFG.ui&&CFG.ui[k]!==undefined)?CFG.ui[k]:d;};
 var COLS=CFG.cols||9,LAT=CFG.lat||[-48,0,48],RATIO=(CFG.ratio||[1,9/8,5/4,4/3,3/2,5/3,15/8,2,9/4]).slice(0,COLS);
 function freq(c){var i=IDX[c],band=Math.floor(i/COLS),row=i%COLS;return 216*Math.pow(2,band/2)*RATIO[row];}
 function parse(s){return CFG.parse(s,VALMAP);}
-function nodePos(c){var i=IDX[c],band=Math.floor(i/COLS),row=i%COLS,lat=LAT[band]*Math.PI/180,lon=row*(360/COLS)*Math.PI/180;return[Math.cos(lat)*Math.sin(lon),-Math.sin(lat),Math.cos(lat)*Math.cos(lon)];}
+function nodePos(c){var i=IDX[c];if(i>=COLS*LAT.length)return[0,-1,0];var band=Math.floor(i/COLS),row=i%COLS,lat=LAT[band]*Math.PI/180,lon=row*(360/COLS)*Math.PI/180;return[Math.cos(lat)*Math.sin(lon),-Math.sin(lat),Math.cos(lat)*Math.cos(lon)];}
 var host=document.getElementById('hycalc');if(!host)return;
 var words=window.SPHERE_WORDS||[];
 host.innerHTML=
@@ -20,32 +21,37 @@ host.innerHTML=
  '<div class="hyl">'+
   '<label class="hylab" for="hyin">'+CFG.label+'</label>'+
   '<input id="hyin" type="text" lang="'+CFG.lang+'" dir="'+CFG.dir+'" autocomplete="off" spellcheck="false" value="'+CFG.sample+'">'+
+  (CFG.depths?'<div class="hydeps" id="hydeps" role="group" aria-label="'+U('depthAria','Reading depth')+'"></div>':'')+
   '<div class="hykb" id="hykb" role="group" aria-label="'+CFG.kbd+'"></div>'+
-  (CFG.sofit?'<label class="hysof"><input type="checkbox" id="hysof"> Final letters count 500 to 900 (default: same as the plain letter)</label>':'')+'<div class="hyrow"><button type="button" id="hyplay">'+'Play the frequencies'+'</button><button type="button" id="hysay">'+'Speak the word'+'</button><button type="button" id="hystop">'+'Stop'+'</button></div>'+
+  (CFG.sofit?'<label class="hysof"><input type="checkbox" id="hysof"> Final letters count 500 to 900 (default: same as the plain letter)</label>':'')+'<div class="hyrow"><button type="button" id="hyplay">'+U('play','Play the frequencies')+'</button><button type="button" id="hysay">'+U('say','Speak the word')+'</button><button type="button" id="hystop">'+U('stop','Stop')+'</button></div>'+
   '<div class="hyout" id="hyout"></div>'+
   '<div class="hytot"><span class="hysum" id="hysum">0</span><span class="hyang" id="hyang"></span></div>'+
   '<div class="hyfacts" id="hyfacts"></div>'+
-  '<div class="hylab" style="margin-top:18px">'+'Word list'+'</div><div class="hypre" id="hypre"></div>'+
+  '<div class="hylab" style="margin-top:18px">'+U('wlist','Word list')+'</div><div class="hypre" id="hypre"></div>'+
   '<p class="hynote" id="hynote"></p>'+
  '</div>'+
- '<div class="hyr"><canvas id="hycv" aria-label="'+'Hologram sphere with the 360 degree compass'+'"></canvas><div class="hycap">'+'Drag to turn &middot; tap a node to add its letter'+'</div></div>'+
+ '<div class="hyr"><canvas id="hycv" aria-label="'+U('aria','Hologram sphere with the 360 degree compass')+'"></canvas><div class="hycap">'+U('cap','Drag to turn &middot; tap a node to add its letter')+'</div></div>'+
 '</div>';
 var $=function(id){return document.getElementById(id);};
 var inp=$('hyin'),kb=$('hykb'),out=$('hyout'),sum=$('hysum'),ang=$('hyang'),facts=$('hyfacts'),pre=$('hypre'),note=$('hynote');
 AR.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='hyk';b.setAttribute('lang',CFG.lang);b.innerHTML='<b>'+c+'</b><small>'+VALMAP[c]+'</small>';b.title=(CFG.names&&CFG.names[c]?CFG.names[c]+' ':'')+c+' = '+VALMAP[c]+' · '+Math.round(freq(c))+' Hz';b.onclick=function(){add(c);};kb.appendChild(b);});
 [['␣',' '],['⌫',null],['Clear','']].forEach(function(p){var b=document.createElement('button');b.type='button';b.className='hyk wide';b.textContent=p[0];b.onclick=function(){if(p[1]===null)inp.value=Array.from(inp.value).slice(0,-1).join('');else if(p[1]==='')inp.value='';else inp.value+=p[1];recalc();};kb.appendChild(b);});
 words.forEach(function(w){var b=document.createElement('button');b.type='button';b.className='hyw';b.setAttribute('lang',CFG.lang);b.textContent=w[0];b.title=w[1]+' · '+w[2];b.onclick=function(){inp.value=w[0];recalc();play();};pre.appendChild(b);});
-function sumOf(arr){return arr.reduce(function(s,c){return s+(VALMAP[c]||0);},0);}
+var DEP=CFG.depths?CFG.depths[0]:null;
+function lv(c){return DEP?(DEP.per(c,VALMAP)||0):(VALMAP[c]||0);}
+function sumOf(arr){var t=arr.reduce(function(s,c){return s+lv(c);},0);return DEP&&DEP.post?DEP.post(t):t;}
+var dpb=document.getElementById('hydeps');
+if(CFG.depths&&dpb){CFG.depths.forEach(function(d){var b=document.createElement('button');b.type='button';b.className='hyd'+(d===DEP?' on':'');b.innerHTML='<b lang="'+CFG.lang+'">'+d.ar+'</b><small>'+d.en+'</small>';b.title=d.tip||'';b.onclick=function(){DEP=d;[].forEach.call(dpb.children,function(x){x.className='hyd'+(x===b?' on':'');});recalc();window.dispatchEvent(new CustomEvent('sphere-mode'));};dpb.appendChild(b);});}
 function factor(n){var f=[],m=n;for(var p=2;p*p<=m;p++)while(m%p===0){f.push(p);m/=p;}if(m>1)f.push(m);return f;}
 var cur=[],lit=-1,total=0,bearing=0;
 function recalc(){
   cur=parse(inp.value);total=sumOf(cur);
-  var tiles=cur.map(function(c){return c===' '?'<span class="gap"></span>':'<span class="tile lit"><i lang="'+CFG.lang+'">'+c+'</i><s>'+VALMAP[c]+'</s></span>';}).join('');
+  var tiles=cur.map(function(c){return c===' '?'<span class="gap"></span>':'<span class="tile lit"><i lang="'+CFG.lang+'">'+c+'</i><s>'+lv(c)+'</s></span>';}).join('');
   out.innerHTML='<div class="tiles">'+tiles+'</div>';
   sum.textContent=total;
   bearing=total%360;if(total>0&&bearing===0)bearing=360;
   var sector=Math.min(N,Math.floor((bearing%360)/(360/N))+1),L=AR[sector-1];
-  ang.innerHTML=total?('bearing '+'<b>'+bearing+'°</b> &middot; '+'sector '+sector+' &middot; <b lang="'+CFG.lang+'">'+L+'</b>'):'';
+  ang.innerHTML=total?(U('bearing','bearing')+' <b>'+bearing+'°</b> &middot; '+U('sector','sector')+' '+sector+' &middot; <b lang="'+CFG.lang+'">'+L+'</b>'):'';
   var ch=[];
   if(total>1){var f=factor(total);ch.push(f.length===1?total+' is prime':total+' = '+f.join(' × '));}
   if(total&&total%27===0)ch.push('27 × '+(total/27));
@@ -54,7 +60,7 @@ function recalc(){
   if(CFG.extra)CFG.extra(total).forEach(function(x){ch.push(x);});
   if(total>360)ch.push(total+' = 360 × '+Math.floor(total/360)+' + '+(total%360));
   var cs=cur.filter(function(c){return c!==' ';});
-  if(cs.length)ch.push('highest pitch '+Math.round(Math.max.apply(null,cs.map(freq)))+' Hz · '+'lowest '+Math.round(Math.min.apply(null,cs.map(freq)))+' Hz');
+  if(cs.length)ch.push(U('hi','highest pitch')+' '+Math.round(Math.max.apply(null,cs.map(freq)))+' Hz · '+U('lo','lowest')+' '+Math.round(Math.min.apply(null,cs.map(freq)))+' Hz');
   var norm=cur.join('');
   words.forEach(function(w){var a=parse(w[0]);if(total&&sumOf(a)===total&&a.join('')!==norm)ch.push('<b lang="'+CFG.lang+'">≡ '+w[0]+'</b> · '+w[1]+' · '+w[2]);});
   facts.innerHTML=ch.map(function(c){return '<span class="chip'+(c.indexOf('<b')===0?' hit':'')+'">'+c+'</span>';}).join('');
@@ -151,7 +157,7 @@ cv.addEventListener('pointercancel',function(){drag=null;});
 var sof=document.getElementById('hysof');
 function setMode(){if(CFG.sofit){VAL=BASE.slice();if(sof&&sof.checked){CFG.sofit.forEach(function(p){VAL[IDX[p[0]]]=p[1];});}setVals();}}
 if(sof)sof.addEventListener('change',function(){setMode();recalc();window.dispatchEvent(new CustomEvent('sphere-mode'));});
-function info(w){var a=parse(w),t=a.reduce(function(x,c){return x+(VALMAP[c]||0);},0),b=t%360;if(t>0&&b===0)b=360;var sc=Math.min(N,Math.floor((b%360)/(360/N))+1),cs=a.filter(function(c){return c!==' ';});
+function info(w){var a=parse(w),t=sumOf(a),b=t%360;if(t>0&&b===0)b=360;var sc=Math.min(N,Math.floor((b%360)/(360/N))+1),cs=a.filter(function(c){return c!==' ';});
   return{total:t,bearing:b,sector:sc,letter:AR[sc-1],count:cs.length,hzLow:cs.length?Math.round(Math.min.apply(null,cs.map(freq))):0,hzHigh:cs.length?Math.round(Math.max.apply(null,cs.map(freq))):0,letters:a};}
 window.SPHERE={info:info,load:function(w){inp.value=w;recalc();play();},play:play,say:say,letters:AR,val:function(c){return VALMAP[c];},freq:freq};
 setMode();recalc();size();draw();window.dispatchEvent(new CustomEvent('sphere-ready'));

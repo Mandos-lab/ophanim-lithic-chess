@@ -376,6 +376,7 @@ table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
 #calc .hyr{position:sticky;top:76px}
 #calc canvas{width:100%;aspect-ratio:1/1;display:block;touch-action:pan-y;cursor:grab;background:radial-gradient(circle,rgba(70,227,240,.05),transparent 70%)}
 #calc .hycap{text-align:center;font-size:13px;opacity:.7}
+@media(max-width:900px){#calc .hyc{grid-template-columns:1fr}#calc .hyr{position:static}}
 .hysof{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink-2);margin:6px 0 2px;cursor:pointer}
 #calc[data-dir=rtl] .tiles,#calc[data-dir=rtl] .hykb{direction:rtl}
 #calc #hyin[dir=rtl]{text-align:right}
@@ -466,7 +467,7 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
         <li><b>Final letters.</b> By default a final letter counts the same as its plain form, as in the usual gematria tables (<i lang="he">מים</i> = 90). The switch above the buttons makes the five finals count 500, 600, 700, 800 and 900 instead, which fills the third band exactly. Which one the sphere should use is for the audit.</li><li><b>Vowels.</b> Vowel points are ignored, and so are all spaces. A plain <i lang="he">כ מ נ פ צ</i> at the end of a word is read as its final form.</li><li><b>Speech.</b> The page speaks a word with the device&rsquo;s Hebrew voice if there is one. Without it, it says the Latin spelling from the list, or the letter names for a word that is not in the list.</li>
       </ul>
     </div>
-    <div class="links"><a href="greek-sphere.html">The Greek Sphere</a><a href="armenian-sphere.html">The Armenian Sphere</a><a href="futhark-sphere.html">The Futhark Sphere</a><a href="ellin-logos-codex.html">Ellin Logos</a><a href="library.html">Library</a></div>
+    <div class="links"><a href="greek-sphere.html">The Greek Sphere</a><a href="armenian-sphere.html">The Armenian Sphere</a><a href="futhark-sphere.html">The Futhark Sphere</a><a href="arabic-sphere.html">The Arabic Sphere</a><a href="ellin-logos-codex.html">Ellin Logos</a><a href="library.html">Library</a></div>
   </div>
 </section>
 </main>
