@@ -211,7 +211,7 @@ header{padding:8px 16px;padding-right:62px}
     <input id="cmpInput" dir="auto" placeholder="Greek, Runic, Hebrew or Latin letters…" autocomplete="off">
     <canvas id="cmpCanvas" width="1800" height="900" aria-label="Multi-lingual cosmic compass"></canvas>
     <div class="cmpgrid" id="cmpOut"></div>
-    <div class="mut why" id="whyDiff"><b>Why can the Hebrew number here differ from the one under the Hebrew wheel?</b> Both read the Greek by sound. The wheel reads the whole word and joins two-letter sounds (ΟΥ is one sound, &ldquo;u&rdquo;, so one ו). The compass reads letter by letter (Ο + Υ, two vowels, so two ו). For &ldquo;Ο Θεός του Ισραήλ&rdquo; that is one extra ו = 6: <b>1190</b> under the wheel, <b>1196</b> here. Neither is hidden or wrong; they are two reading methods.</div>
+    <div class="mut why" id="whyDiff"><b>Same reading as the wheels.</b> Greek is read by sound, a whole word at a time, so two-letter sounds count as one: ΟΥ, ΜΠ, ΝΤ, ΓΚ, ΤΣ, ΕΙ, ΟΙ, ΑΙ. The Hebrew number here therefore matches the one under the Hebrew wheel. For now ΑΥ and ΕΥ are still read as two vowels (a + u, e + u), which is open for review.</div>
     <div class="kbd" id="kbR" aria-label="Runic keyboard"></div>
     <div class="hud" id="ophHud" aria-label="Ophanim framework parameters">
       <span><b>1/135</b> Acoustic Coupling Constant</span>
@@ -1325,7 +1325,7 @@ function cmpRender(){
     if(hasR)r=t.replace(/[^\u16A0-\u16FF]/g,'');
     if(hasG)g=t.replace(/[^\u0370-\u03FF\u1F00-\u1FFF\s]/g,'');
     if(hasH)h=t.replace(/[^\u0590-\u05FF\s]/g,'');
-    const lat=toLat(t);
+    const lat=(hasG&&!hasH&&!hasR)?g2l(g):toLat(t); /* same whole-word sound reading as the wheel (phon) */
     if(!hasG)g=toGreek(lat).toUpperCase();
     if(!hasH)h=toHebrew(lat);
     if(!hasR)r=toRunes(lat);
