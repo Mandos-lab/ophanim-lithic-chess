@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Ophanim Engine · Ophanim Codex</title>
+<meta name="description" content="A compass made of letters: every letter is a number, every number a direction on a 36-point circle. Plain-language guide with checked arithmetic. Philosophy From A Stone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+
+.sharefoot{padding:46px 0 60px;border-top:1px solid var(--line)}
+.sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
+.shbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--gold);background:none;border:1px solid var(--line-g);padding:10px 14px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:1px solid var(--line-g);background:#05090d;margin-top:14px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.short{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.short video{width:min(320px,100%);height:auto;border:1px solid var(--line-g);background:#05090d;color-scheme:dark}
+.short .txt{flex:1 1 260px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+.gal figcaption,figure.fig figcaption{font:12px var(--mono);letter-spacing:.05em;color:var(--ink-3);margin-top:6px}
+table.mx{border-collapse:collapse;width:100%;max-width:640px;margin:18px 0 6px;font-family:var(--mono);font-size:13px}
+table.mx th{color:var(--gold);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid var(--line-g)}
+table.mx td{text-align:center;padding:5px 3px;border:1px solid var(--line)}
+table.mx td b{display:block;font:500 22px var(--serif);color:var(--ink)}
+table.mx td s{text-decoration:none;color:var(--cyan);font-size:11px}
+table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
+.tw{overflow-x:auto}
+.photo{max-width:420px;margin:26px auto 0}.photo img{display:block;width:100%;height:auto;border:1px solid var(--line-g)}
+.photo figcaption{text-align:center;font:13px var(--mono);letter-spacing:.08em;color:var(--ink-2);margin-top:8px}
+
+
+.figw{margin:22px 0 6px}
+.figw img{width:100%;height:auto;display:block;border:1px solid var(--line);background:#05090e}
+.figw figcaption{font-size:15px;color:var(--ink-2);margin-top:8px;max-width:none}
+.figw img[src*="wheel-36"]{max-width:min(520px,72vh);margin-left:auto;margin-right:auto}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(118,222,170);border-color:rgba(118,222,170,.55)}
+.tag.fw{color:rgb(176,156,236);border-color:rgba(176,156,236,.55)}
+.tag.no{color:rgb(226,134,100);border-color:rgba(226,134,100,.55)}
+table.eng{width:100%;border-collapse:collapse;margin-top:16px;font-size:17px}
+table.eng th{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+table.eng td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.eng td.n{color:var(--gold);font-size:20px;white-space:nowrap}
+table.eng td.v{color:var(--cyan);font-weight:600;white-space:nowrap}
+table.eng tr.hot td{background:rgba(176,156,236,.12)}
+.scr{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:6px}
+.scr table.eng{margin:0}.scr th{position:sticky;top:0;background:#071118}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
+.three div{border:1px solid var(--line);background:var(--panel);padding:12px 14px}
+.three b{display:block;font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:400;margin-bottom:4px}
+.three span{font-size:28px;color:var(--gold)}
+
+.ctl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:14px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:15px;color:var(--ink-2);cursor:pointer}
+.ctl button,.ctl select{font:13px var(--mono);letter-spacing:.06em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button.on{background:rgba(232,195,117,.14);border-color:rgb(232,195,117)}
+.ctl input[type=range]{flex:1;min-width:200px;accent-color:#e8c375}
+.cvw{border:1px solid var(--line);background:#05090e;border-radius:6px;margin-top:10px}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab}
+#gl-cv{aspect-ratio:1.25;width:min(100%,calc(58vh*1.25));margin:0 auto}#jt-cv{aspect-ratio:1.4;width:min(100%,calc(58vh*1.4));margin:0 auto}
+.readout{border:1px solid var(--line);background:var(--panel);padding:12px 14px;font-size:17px;margin-top:12px;max-width:none}
+#jt-ladder{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+#jt-ladder button{font:13px var(--mono);color:var(--cyan);background:none;border:1px solid rgba(70,227,240,.4);border-radius:99px;padding:6px 12px;cursor:pointer}
+#jt-ladder button.on{background:rgba(70,227,240,.14);border-color:rgb(70,227,240)}
+@media(max-width:700px){table.eng{font-size:14px}table.eng th,table.eng td{padding:6px 4px}}
+</style>
+</head><body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">&#9666; Games</a>
+  <div class="t">Ophanim Codex &middot; <b>The Engine</b></div>
+  <a href="library.html">Library &#9656;</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<main>
+<section data-narrate id="hero" data-audio="audio/engine-talk-en.mp3" data-label="Prologue">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; The Engine</div>
+    <h1>The Ophanim Engine<br><em>A Compass Made of Letters</em></h1>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:54ch">Every letter is a number. Every number is a direction on a circle. Add up a word and it points somewhere.</p>
+    <p class="dim" style="max-width:62ch;margin:0 auto;font-size:18px">This page explains the idea from the start, in plain words, with the detail underneath for anyone who wants it. Look for the small tags: <span class="tag ok">checked</span> means we ran the arithmetic and it holds, <span class="tag fw">framework</span> means it is our way of reading the numbers, and <span class="tag no">did not hold</span> means we found it does not add up as written.</p>
+    <div class="scrollcue" style="margin-top:40px">SCROLL &#9662;</div>
+  </div>
+</section>
+<section data-narrate id="wheel" data-label="The wheel">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">I &middot; The Wheel</div><h2>A circle of <em>36 points</em></h2>
+    <p class="dim" style="max-width:66ch">Take a circle and mark 36 points around it, 10 degrees apart. Node 36 sits at the top (0 degrees) and the numbers climb clockwise, so node 9 is at 90 degrees (east), node 18 at 180 (south) and node 27 at 270 (west).</p>
+    <p class="dim" style="max-width:66ch">To place a word, add up its letters, divide by 36 and keep the remainder. That remainder is the node. The eight green dashed lines are the eight rays of the engine, every 45 degrees. Four of them land on nodes (36, 9, 18, 27) and four fall between nodes.</p></div>
+    <figure class="figw reveal"><img src="img/wheel-36.png" alt="The 36-node wheel with eight rays and node 34 marked at 340 degrees" loading="lazy"><figcaption><span class="tag ok">checked</span>430 = 36 x 11 + 34, so 430 lands on node 34, at 340 degrees. (One of the white papers says 330 degrees in its text, but its own table puts node 34 at 340.)</figcaption></figure>
+    <div class="reveal" style="margin-top:28px"><h3 style="font-family:var(--title);font-weight:500;font-size:26px">Worked example: the word DECISION (ΝΤΕΣΙΖΙΟΝ)</h3>
+    <p class="dim" style="max-width:66ch">Letters are read as sounds, using the Greek letter for each sound. C is kappa (20) when it sounds K and sigma (200) when it sounds S. In DECISION it sounds S; the D sounds &ldquo;nt&rdquo; (nu + tau) and the S of &ldquo;-sion&rdquo; sounds &ldquo;z&rdquo;. The word sounds ΝΤΕΣΙΖΙΟΝ and adds up to 702. 702 divided by 36 leaves 18, which is 180 degrees: due south.</p>
+    <table class="eng"><thead><tr><th>Letter</th><th>Greek</th><th>Value</th><th>Mod 36</th><th>Bearing</th></tr></thead><tbody><tr><td class="n">D</td><td>Ν nu</td><td class="v">50</td><td class="v">14</td><td>140&deg;</td></tr><tr><td class="n">D</td><td>Τ tau</td><td class="v">300</td><td class="v">12</td><td>120&deg;</td></tr><tr><td class="n">E</td><td>Ε epsilon</td><td class="v">5</td><td class="v">5</td><td>50&deg;</td></tr><tr><td class="n">C</td><td>Σ sigma</td><td class="v">200</td><td class="v">20</td><td>200&deg;</td></tr><tr><td class="n">I</td><td>Ι iota</td><td class="v">10</td><td class="v">10</td><td>100&deg;</td></tr><tr><td class="n">S</td><td>Ζ zeta</td><td class="v">7</td><td class="v">7</td><td>70&deg;</td></tr><tr><td class="n">I</td><td>Ι iota</td><td class="v">10</td><td class="v">10</td><td>100&deg;</td></tr><tr class=hot><td class="n">O</td><td>Ο omicron</td><td class="v">70</td><td class="v">34</td><td>340&deg;</td></tr><tr><td class="n">N</td><td>Ν nu</td><td class="v">50</td><td class="v">14</td><td>140&deg;</td></tr></tbody></table>
+    <p class="dim" style="font-size:15px"><span class="tag ok">checked</span> Sum = 702 (50+300+5+200+10+7+10+70+50). 702 = 36 &times; 19 + 18, so node 18. The highlighted row, O = 70, has 70 mod 36 = 34, so it lands on node 34. The white papers also list an &ldquo;inner&rdquo; column for each letter; two versions disagree, so it is left out here until it is settled.</p></div>
+    <details class="auditbox reveal" style="margin-top:26px"><summary>The full 36-node table (Greek, Hebrew, Armenian, Futhark)</summary>
+    <p class="dim" style="font-size:15px;margin-top:10px">Nodes 1 to 36 in the order of each alphabet. Greek and Hebrew run to 27 signs (with the five final letters of Hebrew), then continue on the thousands. Armenian has exactly 36 letters. The 24 runes of the Elder Futhark repeat to fill the ring. <span class="tag fw">framework</span> This table lines the alphabets up by position. That is a different idea from &ldquo;value mod 36&rdquo; above, so node 34 in the table (the 34th sign) and node 34 for 430 (the remainder) are two separate things that happen to meet.</p>
+    <div class="scr"><table class="eng"><thead><tr><th>Node</th><th>Angle</th><th>Greek</th><th>Hebrew</th><th>Armenian</th><th>Rune</th></tr></thead><tbody><tr><td class="v">1</td><td>10&deg;</td><td>Alpha (1)</td><td>Aleph (1)</td><td>Ayp (1)</td><td>Fehu</td></tr><tr><td class="v">2</td><td>20&deg;</td><td>Beta (2)</td><td>Beth (2)</td><td>Ben (2)</td><td>Uruz</td></tr><tr><td class="v">3</td><td>30&deg;</td><td>Gamma (3)</td><td>Gimel (3)</td><td>Gim (3)</td><td>Thurisaz</td></tr><tr><td class="v">4</td><td>40&deg;</td><td>Delta (4)</td><td>Daleth (4)</td><td>Da (4)</td><td>Ansuz</td></tr><tr><td class="v">5</td><td>50&deg;</td><td>Epsilon (5)</td><td>He (5)</td><td>Ech (5)</td><td>Raidho</td></tr><tr><td class="v">6</td><td>60&deg;</td><td>Stigma (6)</td><td>Vau (6)</td><td>Za (6)</td><td>Kenaz</td></tr><tr><td class="v">7</td><td>70&deg;</td><td>Zeta (7)</td><td>Zayin (7)</td><td>Eh (7)</td><td>Gebo</td></tr><tr><td class="v">8</td><td>80&deg;</td><td>Eta (8)</td><td>Cheth (8)</td><td>Et (8)</td><td>Wunjo</td></tr><tr><td class="v">9</td><td>90&deg;</td><td>Theta (9)</td><td>Teth (9)</td><td>To (9)</td><td>Hagalaz</td></tr><tr><td class="v">10</td><td>100&deg;</td><td>Iota (10)</td><td>Yod (10)</td><td>Zhe (10)</td><td>Nauthiz</td></tr><tr><td class="v">11</td><td>110&deg;</td><td>Kappa (20)</td><td>Kaph (20)</td><td>Ini (20)</td><td>Isa</td></tr><tr><td class="v">12</td><td>120&deg;</td><td>Lambda (30)</td><td>Lamed (30)</td><td>Liwn (30)</td><td>Jera</td></tr><tr><td class="v">13</td><td>130&deg;</td><td>Mu (40)</td><td>Mem (40)</td><td>Xid (40)</td><td>Eihwaz</td></tr><tr><td class="v">14</td><td>140&deg;</td><td>Nu (50)</td><td>Nun (50)</td><td>C’a (50)</td><td>Perthro</td></tr><tr><td class="v">15</td><td>150&deg;</td><td>Xi (60)</td><td>Samekh (60)</td><td>Ken (60)</td><td>Algiz</td></tr><tr><td class="v">16</td><td>160&deg;</td><td>Omicron (70)</td><td>Ayin (70)</td><td>Ho (70)</td><td>Sowilo</td></tr><tr><td class="v">17</td><td>170&deg;</td><td>Pi (80)</td><td>Pe (80)</td><td>Ja (80)</td><td>Tiwaz</td></tr><tr><td class="v">18</td><td>180&deg;</td><td>Koppa (90)</td><td>Tzaddi (90)</td><td>Ghad (90)</td><td>Berkano</td></tr><tr><td class="v">19</td><td>190&deg;</td><td>Rho (100)</td><td>Qoph (100)</td><td>Che (100)</td><td>Ehwaz</td></tr><tr><td class="v">20</td><td>200&deg;</td><td>Sigma (200)</td><td>Resh (200)</td><td>Men (200)</td><td>Mannaz</td></tr><tr><td class="v">21</td><td>210&deg;</td><td>Tau (300)</td><td>Shin (300)</td><td>Yi (300)</td><td>Laguz</td></tr><tr><td class="v">22</td><td>220&deg;</td><td>Upsilon (400)</td><td>Tav (400)</td><td>Now (400)</td><td>Ingwaz</td></tr><tr><td class="v">23</td><td>230&deg;</td><td>Phi (500)</td><td>Kaph final (500)</td><td>Sha (500)</td><td>Dagaz</td></tr><tr><td class="v">24</td><td>240&deg;</td><td>Chi (600)</td><td>Mem final (600)</td><td>Vo (600)</td><td>Othala</td></tr><tr><td class="v">25</td><td>250&deg;</td><td>Psi (700)</td><td>Nun final (700)</td><td>Ch’a (700)</td><td>Fehu 2</td></tr><tr><td class="v">26</td><td>260&deg;</td><td>Omega (800)</td><td>Pe final (800)</td><td>Pe (800)</td><td>Uruz 2</td></tr><tr><td class="v">27</td><td>270&deg;</td><td>Sampi (900)</td><td>Tzaddi final (900)</td><td>Jheh (900)</td><td>Thurisaz 2</td></tr><tr><td class="v">28</td><td>280&deg;</td><td>Alpha′ (1000)</td><td>Aleph′ (1000)</td><td>Ra (1000)</td><td>Ansuz 2</td></tr><tr><td class="v">29</td><td>290&deg;</td><td>Beta′ (2000)</td><td>Beth′ (2000)</td><td>Se (2000)</td><td>Raidho 2</td></tr><tr><td class="v">30</td><td>300&deg;</td><td>Gamma′ (3000)</td><td>Gimel′ (3000)</td><td>Vew (3000)</td><td>Kenaz 2</td></tr><tr><td class="v">31</td><td>310&deg;</td><td>Delta′ (4000)</td><td>Daleth′ (4000)</td><td>Tiew (4000)</td><td>Gebo 2</td></tr><tr><td class="v">32</td><td>320&deg;</td><td>Epsilon′ (5000)</td><td>He′ (5000)</td><td>Re (5000)</td><td>Wunjo 2</td></tr><tr><td class="v">33</td><td>330&deg;</td><td>Stigma′ (6000)</td><td>Vau′ (6000)</td><td>C’o (6000)</td><td>Hagalaz 2</td></tr><tr class="hot"><td class="v">34</td><td>340&deg;</td><td>Zeta′ (7000)</td><td>Zayin′ (7000)</td><td>Yiwn (7000)</td><td>Naudiz 2</td></tr><tr><td class="v">35</td><td>350&deg;</td><td>Eta′ (8000)</td><td>Cheth′ (8000)</td><td>P’wr (8000)</td><td>Isa 2</td></tr><tr><td class="v">36</td><td>360&deg;</td><td>Sampi′ (9000)</td><td>Teth′ (9000)</td><td>K’ew (9000)</td><td>Jera 2</td></tr></tbody></table></div></details>
+  </div>
+</section>
+<section data-narrate id="cage" data-label="The cage">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">II &middot; The Cage and the Star</div><h2>26 points, <em>then 8 more</em></h2>
+    <p class="dim" style="max-width:66ch">Picture a 3 x 3 x 3 block of 27 points, like a Rubik&rsquo;s cube. Remove the one at the very centre and 26 are left: the outside of the cube. The engine calls this the <b>cage</b>. 26 is also the atomic number of iron.</p>
+    <p class="dim" style="max-width:66ch">The 8 corner points are then stretched outward along their diagonals. 26 cage points plus 8 corner rays make <b>34</b>, the number of the node where 430 lands.</p>
+    <div class="three"><div><b>Cage</b><span>26</span></div><div><b>Corner rays</b><span>+ 8</span></div><div><b>Radiator</b><span>= 34</span></div></div>
+    <p class="dim" style="max-width:66ch;margin-top:16px"><span class="tag ok">checked</span> The distance from the centre of the block to a corner is &radic;3 = 1.732, and 1.732 &minus; 1 = 0.732, the &ldquo;persistence span&rdquo; in the white paper.</p>
+    <p class="dim" style="max-width:66ch"><span class="tag fw">framework</span> The claim that the eight corners are eight persistent loops (a Betti-1 count of 8, from topological data analysis) is the paper&rsquo;s own statement. We have not computed it here. The scatter-plot pictures of it that we were shown were simulated, so none is shown on this page.</p></div>
+  </div>
+</section>
+<section data-narrate id="law" data-label="430">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">III &middot; The Number 430</div><h2>Law, number, <em>mathematics</em></h2>
+    <p class="dim" style="max-width:66ch">Three Greek words come to exactly the same total, and so do two Hebrew ones. This is the centre of the engine.</p>
+    <table class="eng"><thead><tr><th>Word</th><th>Value</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td class="n" lang="el">ΝΟΜΟΣ</td><td class="v">430</td><td>law</td></tr>
+    <tr><td class="n" lang="el">ΑΡΙΘΜΟΣ</td><td class="v">430</td><td>number</td></tr>
+    <tr><td class="n" lang="el">ΜΑΘΗΜΑΤΙΚΑ</td><td class="v">430</td><td>mathematics</td></tr>
+    <tr><td class="n" lang="he">נפש</td><td class="v">430</td><td>nefesh, soul (50 + 80 + 300)</td></tr>
+    <tr><td class="n" lang="he">שקל</td><td class="v">430</td><td>shekel (300 + 100 + 30)</td></tr></tbody></table>
+    <p class="dim" style="max-width:66ch;margin-top:12px"><span class="tag ok">checked</span> All five add up to 430. And 430 mod 36 = 34, so the whole group lands on node 34.</p>
+    <p class="dim" style="max-width:66ch"><span class="tag fw">framework</span> The engine adds two more numbers: 390 + 40 = 430, where 390 is (26 cage points + 13 centre points) x 10, and 40 is the letter mem. The arithmetic is right: 39 x 10 = 390.</p>
+    <h3 style="font-family:var(--title);font-weight:500;font-size:26px;margin-top:26px">The 1/135 setting</h3>
+    <p class="dim" style="max-width:66ch">The compass uses 1/135 as its setting. The reason given in the white paper is that Hebrew has 27 letter-states, 22 letters plus 5 final forms, and the 5 finals multiply: <b>27 x 5 = 135</b>. <span class="tag ok">checked</span> The product is right. <span class="tag fw">framework</span> Choosing 135 rather than 137 (the fine-structure constant is about 1/137.036 in physics) is a deliberate design choice of the engine.</p></div>
+  </div>
+</section>
+<section data-narrate id="kaaba" data-label="The Kaaba">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">IV &middot; The Kaaba and the Golden Ratio</div><h2>Two offsets, <em>kept apart</em></h2>
+    <p class="dim" style="max-width:66ch">The golden ratio, 1.618, can be used to divide the distance from the South Pole to the North Pole. The point 0.618 of the way up lies at 21.2461 degrees north, from the formula &minus;90 + 180/&phi;. The Kaaba is at 21.4225 degrees north, a gap of 0.1764 degrees.</p>
+    <p class="dim" style="max-width:66ch">On a perfectly round Earth that gap is <b>19.6 km</b>, which the engine rounds to 20 km. On the real, slightly flattened Earth (WGS84) it depends on how the golden-ratio point is found: measured from the same latitude, 21.2461&deg;, the gap is <b>19.5 km</b>; but if you divide the real pole-to-pole arc by the golden ratio, the point moves to 21.344&deg; and the gap shrinks to about <b>8.7 km</b>. The engine&rsquo;s compass centre sits at 1.5 degrees south, and the setting 1/135 of the pole-to-pole arc is 1.3333 degrees, giving a separate gap of about 18.5 km. The engine&rsquo;s own chosen offset of 0.2 degrees (22 km) is a third number, set by the author.</p></div>
+    <figure class="figw reveal"><img src="img/kaaba-kenya.png" alt="Latitude ruler with the Kaaba, the golden-ratio latitude, the equator and the compass centre, and two boxes with the offset calculations" loading="lazy"><figcaption><span class="tag ok">checked</span> every number in the picture. <span class="tag fw">framework</span> what the offsets mean.</figcaption></figure>
+  </div>
+</section>
+<section data-narrate id="corridor" data-label="St Michael">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">V &middot; The St Michael Line</div><h2>How far is <em>far</em>?</h2>
+    <p class="dim" style="max-width:66ch">The St Michael line runs from St Michael&rsquo;s Mount in Cornwall to Hopton-on-Sea in Norfolk and passes near Burrow Mump, Glastonbury Tor and Avebury. Stonehenge sits to the south of it.</p>
+    <p class="dim" style="max-width:66ch">How far each site is from the line depends on how you measure. Measured as the north-south gap to a straight line on a flat map, the sites are +10.09 (Burrow Mump), +10.71 (Glastonbury Tor), &minus;18.03 (Stonehenge) and +10.77 km (Avebury). Measured as the true distance to the shortest path over the Earth, they are about +1, +1.3, &minus;24.4 and +1 km.</p></div>
+    <figure class="figw reveal"><img src="img/st-michael-line.png" alt="Map of the St Michael line with the four sites, and a bar chart comparing two ways of measuring the offsets" loading="lazy"><figcaption><span class="tag ok">checked</span> both sets of numbers, from the same coordinates. They answer different questions, so a figure should always say which method it uses.</figcaption></figure>
+  </div>
+</section>
+<section data-narrate id="cadmus" data-label="Kalamos">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">VI &middot; The Reed and Cadmus</div><h2>A closed delta, <em>opened</em></h2>
+    <p class="dim" style="max-width:66ch">&ldquo;Cadmus&rdquo; (ΚΑΔΜΟΣ) adds up to 335, and &ldquo;reed&rdquo; (ΚΑΛΑΜΟΣ) to 362. The difference, 27, is what you get when the delta (4) is opened into lambda plus alpha (30 + 1 = 31). Revelation 11:1 says &ldquo;a reed like a rod&rdquo;, and those three Greek words add up to 1729: κάλαμος 362 + ὅμοιος 460 + ῥάβδῳ 907.</p></div>
+    <figure class="figw reveal"><img src="img/kalamos-cadmus.png" alt="Cadmus and Kalamos letter values and the Revelation 11:1 total of 1729" loading="lazy"><figcaption><span class="tag ok">checked</span> 335, 362, 460, 907 and the total 1729. <span class="tag no">did not hold</span> &ldquo;σῶμα τοῦ Ἰησοῦ&rdquo; by plain letter values is 2499, not 1729.</figcaption></figure>
+  </div>
+</section>
+<section data-narrate id="globe" data-label="The globe">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">VII &middot; The Globe and Its Offsets</div><h2>Turn the Earth, <em>move the offset</em></h2>
+    <p class="dim" style="max-width:66ch">Drag the globe to turn it. Switch layers on and off. The gold dashed ring is the offset: it sits &epsilon; degrees south of the 1/135 latitude (1.3333&deg; S). Slide &epsilon; or use a preset to move it, and the distances below are worked out live, once for a perfectly round Earth and once for the real, slightly flattened Earth (WGS84).</p>
+    <p class="dim" style="max-width:66ch;font-size:15px">The compass centre and the offset points are placed on the Kaaba&rsquo;s meridian (39.83&deg; E) because their longitude is not yet fixed. The coastlines are rough outlines to help you find your way, not a map.</p></div>
+    <div class="cvw reveal"><canvas id="gl-cv"></canvas></div>
+    <div class="ctl reveal">
+      <label><input type="checkbox" id="gl-auto"> Turn slowly</label>
+      <label><input type="checkbox" id="gl-land"> Outlines</label>
+      <label><input type="checkbox" id="gl-grid"> Grid</label>
+      <label><input type="checkbox" id="gl-eq"> Equator</label>
+      <label><input type="checkbox" id="gl-gold"> Golden-ratio latitude</label>
+      <label><input type="checkbox" id="gl-kaaba"> Kaaba</label>
+      <label><input type="checkbox" id="gl-c135"> 1/135 and centre</label>
+      <label><input type="checkbox" id="gl-eps"> Offset ring</label>
+      <label><input type="checkbox" id="gl-stm"> St Michael line</label>
+      <label><input type="checkbox" id="gl-tour"> Tour stations (approx.)</label>
+    </div>
+    <div class="ctl reveal"><span style="font-size:15px;color:var(--ink-2)">Offset &epsilon;</span><input type="range" id="gl-epsr" min="0" max="1" step="0.0001" value="0.1667" aria-label="Offset in degrees"><button type="button" id="gl-p1">0.1667&deg; (centre 1.5&deg; S)</button><button type="button" id="gl-p2">0.2&deg; (chosen)</button><button type="button" id="gl-p3">0.1764&deg; (Kaaba gap)</button></div>
+    <p class="readout reveal" id="gl-epsout"></p>
+    <div class="ctl reveal"><span style="font-size:15px;color:var(--ink-2)">Measure from</span><select id="gl-a" aria-label="From"></select><span style="font-size:15px;color:var(--ink-2)">to</span><select id="gl-b" aria-label="To"></select></div>
+    <p class="readout reveal" id="gl-dist"></p>
+    <p class="dim reveal" style="max-width:66ch;font-size:15px;margin-top:10px"><span class="tag ok">checked</span> The distances use the haversine formula for the sphere and Vincenty&rsquo;s method for the WGS84 ellipsoid. The tour stations are approximate positions read from names, not surveyed points.</p>
+  </div>
+</section>
+<section data-narrate id="jitter" data-label="Jitterbug">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">VIII &middot; The Jitterbug and the Ladder</div><h2>Shapes that <em>grow and turn</em></h2>
+    <p class="dim" style="max-width:66ch">Buckminster Fuller found that a cuboctahedron, 12 points around a centre, can fold and twist into an icosahedron and then an octahedron, as if it were breathing. Press Play, or drag the slider to move it yourself.</p>
+    <p class="dim" style="max-width:66ch">The second view is a ladder of shapes by number of points: tetrahedron 4, octahedron 6, cube 8, icosahedron 12, the 13-point vector equilibrium, the 26-point cage, the 27-point block and the 34-point radiator. Then 36: the vector equilibrium again, this time with all 36 of its vectors drawn (24 outer edges and 12 spokes from the centre). And 37: the shell of cells left when a 3 x 3 x 3 block sits in a 4 x 4 x 4 grid, 64 &minus; 27 = 37. Pick a rung and the points move to the next shape.</p></div>
+    <div class="ctl reveal"><button type="button" id="jt-m1" class="on">Jitterbug</button><button type="button" id="jt-m2">Ladder of shapes</button><span id="jt-cnt" style="font:13px var(--mono);color:var(--ink-2);margin-left:auto"></span></div>
+    <div class="cvw reveal"><canvas id="jt-cv"></canvas></div>
+    <div class="ctl reveal" id="jt-jctl"><button type="button" id="jt-play">Play</button><input type="range" id="jt-u" min="0" max="2" step="0.001" value="0" aria-label="Jitterbug position"></div>
+    <div id="jt-lad-wrap" style="display:none" class="reveal"><div id="jt-ladder"></div></div>
+    <p class="readout reveal" id="jt-note"></p>
+    <p class="dim reveal" style="max-width:66ch;font-size:15px;margin-top:10px"><span class="tag ok">checked</span> The jitterbug motion uses the true family of points (0, &plusmn;a, &plusmn;b) with the ratio b/a running from 1 (cuboctahedron) to the golden ratio 1.618 (icosahedron) and on to infinity (octahedron). <span class="tag ok">checked</span> The ladder&rsquo;s 36 and 37: the cuboctahedron has 24 edges plus 12 spokes to its centre, 36 vectors; 4&sup3; &minus; 3&sup3; = 64 &minus; 27 = 37; and 37 x 64 = 2368. <span class="tag fw">framework</span> That these are <i>the</i> 36 and 37 of the engine is its reading. The first idea for 36, &ldquo;12 edges x 3 planes&rdquo;, was not used: a cuboctahedron has 24 outer edges, not 12.</p>
+  </div>
+</section>
+<section data-narrate id="salt" data-label="Salt">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">IX &middot; Salt</div><h2>The cube <em>that conducts</em></h2>
+    <p class="dim" style="max-width:66ch">Table salt, sodium chloride (NaCl), forms cubic crystals. Inside, each sodium ion is surrounded by six chloride ions at right angles, and each chloride by six sodium: an octahedron around every ion, inside a cube. That is chemistry, and it fits the geometry of this page well: the cube and the octahedron are the two shapes it keeps using.</p>
+    <p class="dim" style="max-width:66ch">Salt dissolved in water carries electricity, which is why the saline drip in a hospital is about 0.9% NaCl. Your nerves and heart depend on sodium and potassium ions crossing cell membranes. Pure distilled water carries almost no current.</p>
+    <p class="dim" style="max-width:66ch">Mark 9:49 reads &ldquo;every sacrifice will be seasoned with salt&rdquo;. <span class="tag ok">checked</span> The Greek of that phrase adds up to 1748, the same as εἰδωλόθυτον (food offered to idols). Zamzam, the well water of Mecca, contains sodium chloride along with other minerals; the white papers do not mention it.</p></div>
+  </div>
+</section>
+<section data-narrate id="words" data-label="Words">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">X &middot; Words That Add Up</div><h2>The sums <em>we checked</em></h2>
+    <p class="dim" style="max-width:66ch">Every line below was recomputed with the 27-letter Greek system (stigma 6, koppa 90, sampi 900).</p>
+    <div class="scr"><table class="eng"><thead><tr><th>Word</th><th>Value</th><th>Note</th></tr></thead><tbody><tr><td class="n" lang="el">ΓΡΑΜΜΑ</td><td class="v">185</td><td>&ldquo;letter&rdquo;. 4,995 / 185 = 27, the number of letters in the grid</td></tr><tr><td class="n" lang="el">ΑΡΙΘΜΟΣ</td><td class="v">430</td><td>number</td></tr><tr><td class="n" lang="el">ΝΟΜΟΣ</td><td class="v">430</td><td>law</td></tr><tr><td class="n" lang="el">ΜΑΘΗΜΑΤΙΚΑ</td><td class="v">430</td><td>mathematics</td></tr><tr><td class="n" lang="el">τὸ δίκτυον</td><td class="v">1224</td><td>the net (John 21)</td></tr><tr><td class="n" lang="el">ἰχθύες</td><td class="v">1224</td><td>fishes. 1224 = 153 x 8</td></tr><tr><td class="n" lang="el">Ἰησοῦς</td><td class="v">888</td><td></td></tr><tr><td class="n" lang="el">Ἀλήθεια</td><td class="v">64</td><td>truth. 37 x 64 = 2368</td></tr><tr><td class="n" lang="el">Ἰησοῦς Χριστός</td><td class="v">2368</td><td>= 37 x 64</td></tr><tr><td class="n" lang="el">τὸ Ἅγιον Πνεῦμα</td><td class="v">1080</td><td>the Holy Spirit</td></tr><tr><td class="n" lang="el">ἡ δόξα τοῦ θεοῦ Ἰσραήλ</td><td class="v">1746</td><td>1080 + 666 = 1746</td></tr><tr><td class="n" lang="el">ἐποίησεν πηλόν</td><td class="v">666</td><td>he made clay (John 9:6)</td></tr><tr><td class="n" lang="el">πλευράν</td><td class="v">666</td><td>rib</td></tr><tr><td class="n" lang="el">Γάιος Καῖσαρ</td><td class="v">616</td><td>Caligula, the 616 variant</td></tr><tr><td class="n" lang="el">καὶ πᾶσα θυσία ἁλὶ ἁλισθήσεται</td><td class="v">1748</td><td>Mark 9:49, every sacrifice salted</td></tr><tr><td class="n" lang="el">εἰδωλόθυτον</td><td class="v">1748</td><td>food offered to idols</td></tr><tr><td class="n" lang="el">οὐδὲ ὁ Υἱός</td><td class="v">1229</td><td>nor the Son</td></tr><tr><td class="n" lang="el">πληρῶσαι</td><td class="v">1229</td><td>to fill up</td></tr><tr><td class="n" lang="el">περιστερά</td><td class="v">801</td><td>dove. Also Α + Ω = 1 + 800</td></tr><tr><td class="n" lang="el">ὁ Κτίσας</td><td class="v">801</td><td>the Creator</td></tr><tr><td class="n" lang="el">ὁ Θεὸς Ἑρμῆς</td><td class="v">707</td><td>the god Hermes. &radic;5000 = 70.71</td></tr><tr><td class="n" lang="el">Χριστός</td><td class="v">1480</td><td></td></tr><tr><td class="n" lang="el">ἄρτοι</td><td class="v">481</td><td>loaves</td></tr><tr><td class="n" lang="el">κάλαμος</td><td class="v">362</td><td>reed</td></tr></tbody></table></div>
+    <p class="dim" style="max-width:66ch;margin-top:12px"><span class="tag ok">checked</span> Also: the 27 letters add up to 4,995, and 4,995 / 185 (ΓΡΑΜΜΑ) = 27. The words for 666 written out (ἑξακόσιοι ἑξήκοντα ἕξ) and Αὐτοκράτωρ Καῖσαρ both come to 199 when letters are counted in order (α = 1 to ω = 24), a different method from the one above.</p></div>
+  </div>
+</section>
+<section data-narrate id="audit" data-label="For audit">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">XI &middot; Open for Audit</div><h2>What <em>did not hold</em></h2></div>
+    <div class="record reveal audit">
+      <p>We recomputed every number we could. These did not hold as written, so they are kept off the page as facts:</p>
+      <ul style="margin:10px 0 0 22px">
+        <li><span class="tag no">did not hold</span> <b>ΑΓΝΩΣΤΟΣ = 135.</b> It adds up to 1624. The 135 in the engine comes from 27 x 5, which does hold.</li>
+        <li><span class="tag no">did not hold</span> <b>Helios = 666.</b> Ἥλιος adds up to 318. The two numbers in &ldquo;1080 + 666 = 1746&rdquo; are still right: 1080 is the Holy Spirit and 666 is &ldquo;he made clay&rdquo; and &ldquo;rib&rdquo;.</li>
+        <li><span class="tag no">did not hold</span> <b>τὸ πνεῦμα τοῦ κόσμου = 1746.</b> It adds up to 2516. The other 1746, ἡ δόξα τοῦ θεοῦ Ἰσραήλ, does hold.</li>
+        <li><span class="tag no">did not hold</span> <b>Ἰδιώτης = 1331 (11 cubed).</b> It adds up to 1332.</li>
+        <li><span class="tag no">did not hold</span> <b>λαός μοι οἶκος Ἰσραήλ = 1530.</b> As spelled here it adds up to 1140.</li>
+        <li><span class="tag no">did not hold</span> <b>Node 34 at 330 degrees.</b> Node 34 is at 340 degrees. Node 33 is at 330.</li>
+        <li><span class="tag no">did not hold</span> <b>The 20 km offset &ldquo;on the WGS84 ellipsoid&rdquo;.</b> 19.6 km is the round-Earth figure. On the ellipsoid it is 19.5 km from the same latitude, or about 8.7 km if the golden-ratio point is found along the real flattened meridian. The paper does not say which it means.</li>
+      </ul>
+      <p style="margin-top:14px"><span class="tag fw">framework</span> Everything about what the numbers mean (the cage as a perceptual box, the offsets as pressure valves, the &minus;2.6 valve, the connections to Hoffman and Penrose) is the author&rsquo;s reading, not established science. The white papers also say they are a &ldquo;topological field theory&rdquo;; they are not a published or tested theory, and this page does not present them as one.</p>
+    </div>
+    <div class="links"><a href="greek-sphere.html">Greek Sphere</a><a href="hebrew-sphere.html">Hebrew Sphere</a><a href="ellin-logos-codex.html">Ellin Logos</a><a href="ophanim-engine-codex-el.html" lang="el">Ελληνικά</a><a href="library.html">Library</a></div>
+  </div>
+</section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Share this page</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="kicker" style="justify-content:center;margin-top:26px">Follow</div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a></div>
+    <div class="shbtns big"><a href="library.html">Library</a><a href="games.html">All games</a><a href="greek-sphere.html">Greek Sphere</a></div>
+    <p class="dim noref" style="font-size:13px;margin-top:26px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin-top:14px"><a href="privacy.html">Privacy and cookies</a></p>
+  </div>
+</footer>
+<script>
+const LINKS={games:"games.html"};
+document.getElementById('backGames').href=LINKS.games;
+
+/* ===== isopsephy engine ===== */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+function buildHuds(root=document){root.querySelectorAll('.hud:not([data-built])').forEach(el=>{el.dataset.built=1;const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;io.observe(el);});}
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+buildHuds();
+
+/* ===== nav ===== */
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+
+
+/* ===== share buttons ===== */
+(function(){const box=document.getElementById('shbtns');if(!box)return;const u=()=>location.href.split('#')[0],t=document.title;
+const L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)],['Facebook',()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())],['WhatsApp',()=>'https://wa.me/?text='+encodeURIComponent(t+' '+u())],[L.mail,()=>'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())]];
+items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
+const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+</script>
+<script src="audio.js"></script>
+<script src="engine3d.js"></script>
+<script src="miniplayer.js"></script>
+<script>window.GEO_SHAPES=[["circle"], ["star", 36, 11], ["star", 27, 5], ["star", 24, 5], ["liss", 3, 2], ["circle"]];</script>
+<script src="geo-bg.js"></script>
+<script src="account.js"></script>
+</body>
+</html>
