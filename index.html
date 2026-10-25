@@ -122,6 +122,7 @@ header{padding:8px 16px;padding-right:62px}
 .toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 14px;border-top:1px solid var(--line);background:#050810}
 .toolbar .clk{margin-right:0}
 @media(max-width:1100px){main>.col:nth-child(2){order:-1}}
+.rbox.under{margin:8px 0}.why{margin-top:6px;border-left:2px solid var(--amber);padding-left:8px;line-height:1.5}.why b{color:var(--amber)}
 @media(max-width:1000px){.brand h1 span{display:none}.intro .q{display:block;margin:2px 0 0;white-space:normal}}
 </style>
 </head>
@@ -154,6 +155,7 @@ header{padding:8px 16px;padding-right:62px}
       <button data-w="g" data-a="node">Step Node</button><button data-w="g" data-a="add" class="amber">Add Letter ⏎</button>
       <span class="mut" id="curG">cursor: —</span>
     </div>
+    <div class="rbox under"><div class="t">GREEK ISOPSEPHY</div><div class="term" id="gTerm" dir="auto">—</div><div class="v" id="gVal">0</div><div class="mut" id="gMeta"></div><div class="chips" id="gChips"></div></div>
     <div class="field"><label>Keyboard Input Tab — Greek (type Greek or Latin; arrows/Enter work when the wheel is focused)</label>
       <input id="inG" placeholder="ΤΡΑΜΠ" autocomplete="off"></div>
     <div class="kbd" id="kbG"></div>
@@ -200,10 +202,6 @@ header{padding:8px 16px;padding-right:62px}
   <div class="card">
     <h2>Audit Terminal <span><a id="perseusLink" href="https://www.perseus.tufts.edu/hopper/" target="_blank" rel="noopener noreferrer" title="Look this Greek word up in the Perseus lexicon"><button type="button">Perseus ↗</button></a> <a id="perseusAI" href="https://perseus.tube/" target="_blank" rel="noopener noreferrer" title="Perseus AI — word is copied so you can paste it"><button type="button">Perseus AI ↗</button></a> <a id="runesLink" href="https://rundata.info/" target="_blank" rel="noopener noreferrer" title="Rundata — search Scandinavian runic inscriptions in the browser (Uppsala database)"><button type="button">Runes ↗</button></a> <a id="logeionLink" href="https://logeion.uchicago.edu/" target="_blank" rel="noopener noreferrer" title="Look this Greek word up on Logeion (LSJ and others)"><button type="button">Logeion ↗</button></a> <a id="sefariaLink" href="https://www.sefaria.org/" target="_blank" rel="noopener noreferrer" title="Look this Hebrew word up on Sefaria"><button type="button">Sefaria ↗</button></a> <small>Latin text is auto-transliterated (approximate)</small></span></h2>
     <input id="bigInput" placeholder="Enter a term…  (Latin, Greek or Hebrew)" autocomplete="off">
-    <div class="res">
-      <div class="rbox"><div class="t">GREEK ISOPSEPHY</div><div class="term" id="gTerm" dir="auto">—</div><div class="v" id="gVal">0</div><div class="mut" id="gMeta"></div><div class="chips" id="gChips"></div></div>
-      <div class="rbox"><div class="t">HEBREW GEMATRIA (RAGIL)</div><div class="term" id="hTerm" dir="auto">—</div><div class="v" id="hVal">0</div><div class="mut" id="hMeta"></div><div class="chips" id="hChips"></div></div>
-    </div>
     <div class="banner" id="banner"></div>
     <div class="mut" id="notes" style="margin-top:6px"></div>
   </div>
@@ -213,6 +211,7 @@ header{padding:8px 16px;padding-right:62px}
     <input id="cmpInput" dir="auto" placeholder="Greek, Runic, Hebrew or Latin letters…" autocomplete="off">
     <canvas id="cmpCanvas" width="1800" height="900" aria-label="Multi-lingual cosmic compass"></canvas>
     <div class="cmpgrid" id="cmpOut"></div>
+    <div class="mut why" id="whyDiff"><b>Why can the Hebrew number here differ from the one under the Hebrew wheel?</b> Both read the Greek by sound. The wheel reads the whole word and joins two-letter sounds (ΟΥ is one sound, &ldquo;u&rdquo;, so one ו). The compass reads letter by letter (Ο + Υ, two vowels, so two ו). For &ldquo;Ο Θεός του Ισραήλ&rdquo; that is one extra ו = 6: <b>1190</b> under the wheel, <b>1196</b> here. Neither is hidden or wrong; they are two reading methods.</div>
     <div class="kbd" id="kbR" aria-label="Runic keyboard"></div>
     <div class="hud" id="ophHud" aria-label="Ophanim framework parameters">
       <span><b>1/135</b> Acoustic Coupling Constant</span>
@@ -272,6 +271,7 @@ header{padding:8px 16px;padding-right:62px}
       <button data-w="h" data-a="node">Step Node</button><button data-w="h" data-a="add" class="amber">Add Letter ⏎</button>
       <span class="mut" id="curH">cursor: —</span>
     </div>
+    <div class="rbox under"><div class="t">HEBREW GEMATRIA (RAGIL)</div><div class="term" id="hTerm" dir="auto">—</div><div class="v" id="hVal">0</div><div class="mut" id="hMeta"></div><div class="chips" id="hChips"></div></div>
     <div class="field"><label>Keyboard Input Tab — Hebrew (type Hebrew or Latin)</label>
       <input id="inH" dir="auto" placeholder="נתניהו" autocomplete="off"></div>
     <div class="kbd" id="kbH" dir="rtl"></div>
