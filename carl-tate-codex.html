@@ -574,9 +574,8 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
   <div class="wrap">
     <p class="kick">360 Phonetic Calculator</p>
     <h2>Armenian <em>word &amp; sphere</em></h2>
-    <p class="dim" style="max-width:66ch">Type an Armenian word and it is counted with Armenian&rsquo;s own letter values, the numeral system Mesrop&rsquo;s alphabet carries (<i lang="hy">Ա</i> = 1 up to <i lang="hy">Ք</i> = 9000). The Greek values stay for Greek words only. The total is also read as a bearing on the 360&deg; compass: each 10&deg; is one of the 36 letters. Inside the hologram, a jitterbugging core (cuboctahedron folding into icosahedron) sends one ray from the centre to each letter on the surface, and a gold path joins them in the order of the word.</p>
-    <div id="hycalc"></div>
-    <p class="dim" style="max-width:66ch;font-size:15px;margin-top:18px">Sound: each letter is a tone on a 432 Hz scale, the nine rows as the steps of a scale and the four columns as octaves-and-a-half. Speech uses your device&rsquo;s own voice; if it has no Armenian voice the word is read from its Latin spelling. The word list is a starter set, to be replaced by the full list.</p>
+    <p class="dim" style="max-width:66ch">The Armenian sphere now has its own page, like the Greek, Hebrew and Futhark spheres. Type an Armenian word, count it with the alphabet&rsquo;s own letter values, see where it points on the 360&deg; compass and hear it.</p>
+    <p style="margin-top:18px"><a class="btn" href="armenian-sphere.html">Open the Armenian Sphere &#9656;</a></p>
   </div>
 </section>
 
@@ -661,8 +660,6 @@ items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.hr
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
 <script src="carl3d.js"></script>
-<script src="hy-words.js"></script>
-<script src="hy-calc.js"></script>
 <script src="refs.js"></script>
 <script src="readtab.js"></script>
 <script src="miniplayer.js"></script>

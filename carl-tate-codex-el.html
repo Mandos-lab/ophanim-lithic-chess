@@ -570,13 +570,12 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
     <aside class="fx reveal"><canvas data-shape="torus" aria-label="Δοχείο &middot; τόρος"></canvas><div class="cap">Δοχείο &middot; τόρος</div></aside>
   </div></div>
 </section>
-<section data-narrate id="calc" data-label="Υπολογιστής">
+<section data-narrate id="calc" data-label="Αριθμομηχανή">
   <div class="wrap">
-    <p class="kick">Φωνητικός Υπολογιστής 360</p>
-    <h2>Αρμενική <em>λέξη &amp; σφαίρα</em></h2>
-    <p class="dim" style="max-width:66ch">Πληκτρολογήστε μια αρμενική λέξη και μετριέται με τις δικές της αξίες γραμμάτων, το αριθμητικό σύστημα που φέρει το αλφάβητο του Μεσρόπ (<i lang="hy">Ա</i> = 1 ώς <i lang="hy">Ք</i> = 9000). Οι ελληνικές αξίες μένουν μόνο για ελληνικές λέξεις. Το σύνολο διαβάζεται και ως διεύθυνση στην πυξίδα των 360&deg;: κάθε 10&deg; είναι ένα από τα 36 γράμματα. Μέσα στο ολόγραμμα, ένας πυρήνας jitterbug (κυβοκτάεδρο που διπλώνει σε εικοσάεδρο) στέλνει μια ακτίνα από το κέντρο σε κάθε γράμμα της επιφάνειας, και μια χρυσή διαδρομή τα ενώνει με τη σειρά της λέξης.</p>
-    <div id="hycalc"></div>
-    <p class="dim" style="max-width:66ch;font-size:15px;margin-top:18px">Ήχος: κάθε γράμμα είναι μια νότα σε κλίμακα 432 Hz, οι εννέα γραμμές ως βαθμίδες κλίμακας και οι τέσσερις στήλες ως μισές οκτάβες. Η ομιλία χρησιμοποιεί τη φωνή της συσκευής σας· αν δεν έχει αρμενική φωνή, η λέξη διαβάζεται από τη λατινική γραφή της. Η λίστα λέξεων είναι αρχική, για να αντικατασταθεί από την πλήρη.</p>
+    <p class="kick">Φωνητική Αριθμομηχανή 360</p>
+    <h2>Αρμενική <em>λέξη και σφαίρα</em></h2>
+    <p class="dim" style="max-width:66ch">Η αρμενική σφαίρα έχει τώρα τη δική της σελίδα, όπως η ελληνική, η εβραϊκή και η σφαίρα Futhark. Πληκτρολογήστε μια αρμενική λέξη και μετρήστε την με τις δικές της αριθμητικές αξίες, δείτε την κατεύθυνσή της στην πυξίδα των 360° και ακούστε τη. Η σελίδα της σφαίρας είναι προς το παρόν στα αγγλικά.</p>
+    <p style="margin-top:18px"><a class="btn" href="armenian-sphere.html">Άνοιγμα της αρμενικής σφαίρας &#9656;</a></p>
   </div>
 </section>
 
@@ -661,8 +660,6 @@ items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.hr
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
 <script src="carl3d.js"></script>
-<script src="hy-words.js"></script>
-<script src="hy-calc.js"></script>
 <script src="refs.js"></script>
 <script src="readtab.js"></script>
 <script src="miniplayer.js"></script>
