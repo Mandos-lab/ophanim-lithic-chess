@@ -75,4 +75,5 @@ document.querySelectorAll('#chips button').forEach(b=>b.onclick=()=>{kind=b.data
 $('copy').onclick=async()=>{const t='['+kind+'] '+($('pg').value?('Page: '+$('pg').value+'\n'):'')+$('msg').value;
  try{await navigator.clipboard.writeText(t);$('ok').textContent='Copied · Αντιγράφηκε'}catch(e){$('msg').select();$('ok').textContent='Press Ctrl+C · Πατήστε Ctrl+C'}};
 </script>
+<script src="account.js"></script>
 </body></html>

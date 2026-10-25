@@ -82,7 +82,8 @@
     '.narr button,.narr select{font:500 12px var(--f-mono,monospace);color:#ff4d5e;background:var(--panel2,#0e1521);border:1px solid #ff4d5e;border-radius:3px;padding:6px 10px;cursor:pointer}' +
     '.narr label{color:#ff4d5e}.narr button:hover{background:rgba(255,77,94,.14);color:#ff7d8a}.narr audio{height:34px;max-width:100%}' +
     '.narr .nn{flex-basis:100%;font-weight:400;font-size:11px}' +
-    '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}';
+    '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}' +
+    '@media(max-width:900px){section[data-narrate]{flex-direction:column;align-items:stretch}section[data-narrate]>.narr{align-self:stretch;margin:0 0 10px}}';
   var speaking = null;
   function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = 'Read aloud'; }); }
   function pickVoice() {
