@@ -424,23 +424,43 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
     <p class="dim" style="max-width:66ch;font-size:15px;margin-top:18px">Sound: each letter is a tone on a 432 Hz scale. Speech uses your device&rsquo;s own voice; if it has no Armenian voice the word is read from its Latin spelling. The word list is a starter set, to be replaced by the full list.</p>
   </div>
 </section>
+<section id="read" data-label="Read">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">II &middot; Read the Source</div><h2>The Armenian New Testament, <em>and a dictionary</em></h2>
+    <p class="dim" style="max-width:66ch">The Bible was the first great text put into the Armenian alphabet, translated in the early 400s. The classical text most often used is the Zohrab edition (Venice, 1805). The links below open scans of it. The alphabet and its numerals have their own articles too.</p></div>
+    <div class="rt-box reveal"><h3>New Testament (Armenian)</h3><div class="links"><a href="https://sourcelibrary.org/book/astuatsashunch-armenian-bible-new-testament-zohrab-ed" target="_blank" rel="noopener noreferrer">Zohrab New Testament, scans with a search box (Source Library)</a><a href="http://rbedrosian.com/Downloads/Zohrab_NT.pdf" target="_blank" rel="noopener noreferrer">Zohrab New Testament, PDF (Bedrosian)</a><a href="https://en.wikipedia.org/wiki/Armenian_alphabet" target="_blank" rel="noopener noreferrer">The Armenian alphabet</a><a href="https://en.wikipedia.org/wiki/Armenian_numerals" target="_blank" rel="noopener noreferrer">Armenian numerals</a></div>
+    <p class="dim" style="font-size:14px;margin-top:12px;max-width:70ch"><b>Why there is no search box here yet.</b> The Greek page can search the Greek New Testament because a free, reusable text of it exists. For the Armenian New Testament the free copies found are page scans, and a searchable text whose licence allows reuse here was not found. The scans above can be searched on their own sites. If you have a text you are allowed to share, send it and this page will get the same search box as the Greek page.</p></div>
+    <div class="rt-box reveal"><h3>Dictionary</h3><p class="dim">Type a word, choose a dictionary, and it opens in a new tab with the word already searched. If a dictionary does not take the word from the link, paste it into the search box there. &ldquo;Show definition here&rdquo; reads the Wiktionary entry without leaving the page.</p><form class="rt-form"><input type="text" value="Աստված" lang="hy" dir="ltr" aria-label="Word" spellcheck="false" autocomplete="off"><select aria-label="Dictionary"><option value="https://en.wiktionary.org/w/index.php?search={w}&ns0=1&fulltext=1">Wiktionary search</option><option value="https://en.wiktionary.org/wiki/{w}">Wiktionary (direct page)</option><option value="https://hy.wiktionary.org/w/index.php?search={w}&ns0=1&fulltext=1">Armenian Wiktionary search</option></select><button type="submit">Look up</button></form></div>
+    <div class="rt-box reveal"><h3>How to use these tools</h3><ol class="dim" style="margin:8px 0 0 22px;max-width:70ch;font-size:16px;line-height:1.6"><li style="margin-bottom:6px">Type or tap Armenian letters in the sphere above. The same word can go in the dictionary box with <b>Take the calculator&rsquo;s word</b>.</li><li style="margin-bottom:6px">Press <b>Show definition here</b> for the meaning, and <b>Speak the word</b> to hear it. <b>Repeat (slowly)</b> says it again, slower. If your device has no Armenian voice, the word is read from its Latin spelling.</li><li style="margin-bottom:6px">To find the word in the New Testament, open the Source Library scan and use its search box. The text there was read from old print by a program, so it can miss words; try the stem of the word.</li><li style="margin-bottom:6px">Compare with the Greek: the Greek page searches the Greek New Testament, so the same verse can be read in both languages.</li></ol></div>
+    <p class="dim reveal" style="max-width:66ch;font-size:14px;margin-top:14px"><b>Notice.</b> These links open other websites in a new tab. This site does not host or copy these texts, and each site has its own terms. Editions differ from one another, so check which one you are reading before comparing a word or a total.</p>
+  </div>
+</section>
+<section id="words" data-label="Word list">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">III &middot; The Word Database</div><h2>Words, meanings, <em>values and pitches</em></h2>
+    <p class="dim" style="max-width:66ch">The word list is a starter set, grouped by theme: numbers, family, nature, spirit, and names and places. Values, bearings and pitches are computed on the page, so you can add your own rows to <code>hy-cfg.js</code> and they will appear here. The Latin spellings need your check.</p>
+    <div class="reveal" id="spdb"></div>
+  </div>
+</section>
 <section id="plan" data-label="The plan">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">II &middot; How the Sphere Is Laid Out</div><h2>Four bands, <em>nine longitudes</em></h2>
-    <p class="dim" style="max-width:66ch">The 36 letters sit in four rows of nine, the same grid as the Mother&rsquo;s Code scroll. Each row is a latitude band: the ones (1 to 9), the tens (10 to 90), the hundreds (100 to 900) and the thousands (1000 to 9000). Each column is a longitude, 40 degrees apart. The pitch of a letter is 216 Hz times a step of the harmonic ratios (1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2, 9/4) across the nine columns, and each row after the first raises it by a half octave.</p>
+    <div class="reveal"><div class="kicker">IV &middot; How the Sphere Is Laid Out</div><h2>Four bands, <em>nine longitudes</em></h2>
+    <p class="dim" style="max-width:66ch">Row by row: the letter, its value and its pitch. The 36 letters sit in four rows of nine, the same grid as the Mother&rsquo;s Code scroll. Each row is a latitude band: the ones (1 to 9), the tens (10 to 90), the hundreds (100 to 900) and the thousands (1000 to 9000). Each column is a longitude, 40 degrees apart. The pitch is 216 Hz times a step of the harmonic ratios (1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2, 9/4) across the nine columns, and each row after the first raises it by a half octave.</p>
+    <div class="reveal" id="splayout" style="margin-top:16px"></div>
     <div class="layers reveal" style="margin-top:22px"><div class="record"><p><b>Check.</b> The 36 values add up to 49,995. By row: 45, 450, 4,500 and 45,000. The two later letters add 10,000 + 20,000 = 30,000, so with them the whole alphabet is 79,995.</p></div></div>
   </div>
 </section>
 <section id="audit" data-label="For audit">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">III &middot; Open for Audit</div><h2>What is still a <em>draft</em></h2></div>
+    <div class="reveal"><div class="kicker">V &middot; Open for Audit</div><h2>What is still a <em>draft</em></h2></div>
     <div class="record reveal audit">
       <p>This sphere was first built inside the Karaken page and now stands on its own, like the Greek, Hebrew and Futhark spheres. It is a working draft. These are the choices made so far, so each one can be changed:</p>
       <ul style="margin:10px 0 0 22px">
         <li><b>The bearing.</b> Total mod 360, with 360 shown instead of 0. The sector is the bearing divided by 10, one sector for each of the 36 letters.</li>
-        <li><b>The poles.</b> <i lang="hy">Օ</i> and <i lang="hy">Ֆ</i> are shown at the south and north poles and are worth 10,000 and 20,000 by a house rule.</li>
+        <li><b>The poles.</b> <i lang="hy">Օ</i> and <i lang="hy">Ֆ</i> are shown at the south and north poles and are worth 10,000 and 20,000 by a house rule. They are not in the word table&rsquo;s layout, which shows the 36.</li>
         <li><b>The word list</b> is a starter set. The sounds are made in your browser; nothing is sampled and nothing leaves the page.</li>
         <li><b>The Latin spellings</b> used for speech when there is no Armenian voice are approximate.</li>
+        <li><b>The New Testament.</b> Scans only, for the reason given above.</li>
       </ul>
     </div>
     <div class="links"><a href="greek-sphere.html">The Greek Sphere</a><a href="hebrew-sphere.html">The Hebrew Sphere</a><a href="futhark-sphere.html">The Futhark Sphere</a><a href="carl-tate-codex.html">The Mother&rsquo;s Code</a><a href="library.html">Library</a></div>
@@ -491,6 +511,9 @@ const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.
 </script>
 <script src="hy-words.js"></script>
 <script src="hy-calc.js"></script>
+<script src="hy-cfg.js"></script>
+<script src="sphere-db.js"></script>
+<script src="readtab.js"></script>
 <script src="miniplayer.js"></script>
 </body>
 </html>

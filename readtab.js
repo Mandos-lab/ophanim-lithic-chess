@@ -25,6 +25,23 @@ document.querySelectorAll('#read .rt-form').forEach(function(f){
    if(!n)throw 0;out.innerHTML='<p style="margin:0;color:var(--ink-3)">From <a href="https://en.wiktionary.org/wiki/'+encodeURIComponent(a[i])+'" target="_blank" rel="noopener noreferrer">Wiktionary: '+esc(a[i])+'</a>, text under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></p>'+h;}).catch(function(){tryT(a,i+1);});}
  mk(el?'Ορισμός εδώ':'Show definition here',function(){if(!inp.value.trim())return;out.innerHTML='<i>…</i>';tryT(titles(),0);});
  inp.addEventListener('input',function(){out.innerHTML='';});
+
+ /* speak the word here, beside the dictionary (the sphere's own speak button is out of sight at this point) */
+ var sayN=document.createElement('p');sayN.className='rt-say dim';sayN.style.cssText='margin-top:8px;font-size:14px';f.parentNode.insertBefore(sayN,mean);
+ var vs=[];function lv(){try{vs=speechSynthesis.getVoices()||[];}catch(e){vs=[];}}
+ if(window.speechSynthesis){lv();try{speechSynthesis.onvoiceschanged=lv;}catch(e){}}
+ function speakW(rate){var C=window.SPHERE_CFG||{},w=inp.value.trim();if(!w)return;
+  if(!window.speechSynthesis){sayN.textContent=el?'Η ομιλία δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.':'Speech is not available in this browser.';return;}
+  lv();try{speechSynthesis.cancel();}catch(e){}
+  var v=(!C.speakLatin&&C.voice)?vs.filter(function(x){return C.voice.test(x.lang);})[0]:null,text=w,lang='en-US';
+  if(v){lang=v.lang;sayN.textContent='';}
+  else{
+   if(C.translit&&C.parse&&/[^\u0000-ɏ\s'\-]/.test(w)){try{var M={};(C.letters||[]).forEach(function(l){M[l]=1;});var t=C.translit(C.parse(w,M));if(t)text=t;}catch(e){}}
+   sayN.textContent=C.sayNote||(C.voiceName?(el?'Αυτή η συσκευή δεν έχει φωνή για αυτή τη γλώσσα· η λέξη λέγεται από τη λατινική γραφή της.':'This device has no '+C.voiceName+' voice, so the word is spoken from its Latin spelling.'):'');}
+  var u=new SpeechSynthesisUtterance(text);u.lang=lang;if(v)u.voice=v;u.rate=rate;try{speechSynthesis.speak(u);}catch(e){}}
+ mk(el?'Πες τη λέξη':'Speak the word',function(){speakW(.85);});
+ mk(el?'Επανάληψη (αργά)':'Repeat (slowly)',function(){speakW(.55);});
+ mk(el?'Σίγαση':'Stop',function(){try{speechSynthesis.cancel();}catch(e){}});
  if(document.getElementById('spdb'))mk(el?'Στη σφαίρα':'Put it on the sphere',function(){var w=inp.value.trim();if(window.SPHERE&&w)SPHERE.load(w);var c=document.getElementById('calc');if(c)c.scrollIntoView({behavior:'smooth'});});
 
  f.addEventListener('submit',function(e){e.preventDefault();var w=f.querySelector('input').value.trim().toLowerCase();if(!w)return;var tpl=f.querySelector('select').value;var C=window.SPHERE_CFG;if(C&&C.dictWord)w=C.dictWord(w).toLowerCase();if(C&&C.cap)w=C.cap(w);var n=(C&&C.norse)?C.norse(w):w,pgf=(C&&C.pg)?C.pg(w):w;window.open(tpl.replace('{p}',encodeURIComponent(pgf)).replace('{l}',encodeURIComponent(w.toLowerCase())).replace('{w}',encodeURIComponent(w)).replace('{n}',encodeURIComponent(n)),'_blank','noopener');});

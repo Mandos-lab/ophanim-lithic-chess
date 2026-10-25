@@ -157,4 +157,9 @@ cv.addEventListener('pointerup',function(e){var was=drag;drag=null;if(!was||move
   if(best)add(best);});
 cv.addEventListener('pointercancel',function(){drag=null;});
 recalc();size();draw();
+/* shared interface, so the word list, layout table and dictionary box (sphere-db.js, readtab.js) work here as on the other sphere pages */
+function info(w){var a=parse(w),t=sumOf(a),b=t%360;if(t>0&&b===0)b=360;var sc=Math.min(36,Math.floor((b%360)/10)+1),cs=a.filter(function(c){return c!==' ';});
+  return{total:t,bearing:b,sector:sc,letter:AR[sc-1],count:cs.length,hzLow:cs.length?Math.round(Math.min.apply(null,cs.map(freq))):0,hzHigh:cs.length?Math.round(Math.max.apply(null,cs.map(freq))):0,letters:a};}
+window.SPHERE={info:info,load:function(w){inp.value=w;recalc();play();},play:play,say:say,letters:AR,val:function(c){return VALMAP[c];},freq:freq,parse:parse,translit:translit};
+window.dispatchEvent(new CustomEvent('sphere-ready'));
 })();
