@@ -112,31 +112,36 @@ footer b{color:var(--text);font-weight:400}
 .arm{border:1px dashed #2a3a50;border-radius:6px;padding:8px;margin-top:8px;background:#080c14}
 @media(max-width:1100px){main{grid-template-columns:1fr}}
 header{position:relative}
+
+/* header compaction */
+#ticker{border-bottom:0;border-top:1px solid var(--line)}
+.intro{padding:7px 16px;border-bottom:1px solid var(--line);background:#070b12;color:var(--text);font-size:12.5px;line-height:1.5}
+.intro b{color:var(--cyan)}.intro .q{color:var(--dim);margin-left:8px;white-space:nowrap}
+header{padding:8px 16px;padding-right:62px}
+#siteTabs button.empty{display:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 14px;border-top:1px solid var(--line);background:#050810}
+.toolbar .clk{margin-right:0}
+@media(max-width:1100px){main>.col:nth-child(2){order:-1}}
+@media(max-width:1000px){.brand h1 span{display:none}.intro .q{display:block;margin:2px 0 0;white-space:normal}}
 </style>
 </head>
 <body>
 
-<!-- TICKER -->
-<div id="ticker"><div id="tickerTrack">Loading market data…</div></div>
 
 <header>
   <div class="brand">
     <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>OPHANIM FIELD CONSOLE <span style="color:var(--dim);font-weight:400">// Dual 360° Vector &amp; Alphanumeric Gematria Engine</span></h1>
     <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone</div>
-    <div class="quote">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</div>
   </div>
   <nav>
-    <span class="clk" id="clkUtc">UTC --:--:--</span><span class="clk" id="clkLoc">LOCAL --:--:--</span>
     <span id="siteTabs"></span>
-    <span id="zoomBox"><button id="zOut" title="Smaller text">A−</button><button id="zIn" title="Larger text">A+</button></span>
     <a href="library.html"><button title="PDFs and audio">📚 Library</button></a>
     <a href="el.html"><button lang="el" title="Greek version of the site">Ελληνικά</button></a>
     <a href="feedback.html"><button title="Send feedback">💬 Feedback</button></a>
-    <button id="btnDrone" title="SomaFM Drone Zone — mute / unmute">🔇 Drone</button><input id="droneVol" type="range" min="0" max="100" value="6" title="Drone volume" aria-label="Drone volume" style="width:74px;vertical-align:middle;margin:0 6px 0 -2px;accent-color:#ffb700">
-    <button id="btnCms">⚙ CMS Desk</button>
-  </nav>
+    </nav>
     <svg id="btcEmb" viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="Bitcoin" style="position:absolute;right:16px;top:14px"><circle cx="20" cy="20" r="18.5" fill="#f7931a"/><g transform="rotate(14 20 20)"><path d="M16.2 8v3.6M21.6 8v3.6M16.2 28.4V32M21.6 28.4V32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><text x="19.2" y="27" text-anchor="middle" font-size="21" font-weight="800" fill="#fff" font-family="Arial,Helvetica,sans-serif">B</text></g></svg>
 </header>
+<div class="intro"><b>Type a word.</b> The console turns its letters into numbers, finds the same number in Greek and in Hebrew, and shows where it points on the wheels. <span class="q">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</span></div>
 
 <main>
 <!-- LEFT -->
@@ -206,16 +211,20 @@ header{position:relative}
   <div class="card">
     <h2>Multilingual Compass <small>360° · 36 nodes × 10° · Greek · Runic · Hebrew</small></h2>
     <input id="cmpInput" dir="auto" placeholder="Greek, Runic, Hebrew or Latin letters…" autocomplete="off">
-    <div class="kbd" id="kbR" aria-label="Runic keyboard"></div>
     <canvas id="cmpCanvas" width="1800" height="900" aria-label="Multi-lingual cosmic compass"></canvas>
     <div class="cmpgrid" id="cmpOut"></div>
+    <div class="kbd" id="kbR" aria-label="Runic keyboard"></div>
     <div class="hud" id="ophHud" aria-label="Ophanim framework parameters">
       <span><b>1/135</b> Acoustic Coupling Constant</span>
       <span><b>Betti-1</b> Persistence Metrics</span>
       <span><b>1331 = 11&sup3;</b> Cubic Volume Threshold</span>
     </div>
     <div class="mut" style="margin-top:6px">Left wheel: node = value mod 36. Right wheel (Sampi hub Ϡ 900, seal 99): vector = value × 7 mod 36, projected from the hub through every ring. Latin input drives all three scripts at once; native letters drive only their own script. Rune values are positional (1–24). The dim outer ring is Armenian: shown, but unplugged from the compass maths.</div>
-    <div class="arm">
+  </div>
+
+  <div class="card">
+    <h2>Armenian Grabar <small>standalone lookup</small></h2>
+    <div class="arm" style="margin-top:0">
       <div class="mut" style="color:var(--amber);margin-bottom:5px">ARMENIAN GRABAR — standalone lookup (not part of the compass)</div>
       <input id="armInput" placeholder="Type Armenian letters…" autocomplete="off">
       <div class="kbd" id="kbA" aria-label="Armenian keyboard"></div>
@@ -295,6 +304,14 @@ header{position:relative}
   </div>
 </section>
 </main>
+
+<div id="tools" class="toolbar"><span class="clk" id="clkUtc">UTC --:--:--</span><span class="clk" id="clkLoc">LOCAL --:--:--</span>
+    <span id="zoomBox"><button id="zOut" title="Smaller text">A−</button><button id="zIn" title="Larger text">A+</button></span>
+    <button id="btnDrone" title="SomaFM Drone Zone — mute / unmute">🔇 Drone</button><input id="droneVol" type="range" min="0" max="100" value="6" title="Drone volume" aria-label="Drone volume" style="width:74px;vertical-align:middle;margin:0 6px 0 -2px;accent-color:#ffb700">
+    <button id="btnCms">⚙ CMS Desk</button>
+  </div>
+<!-- TICKER (moved to the bottom) -->
+<div id="ticker"><div id="tickerTrack">Loading market data…</div></div>
 
 <footer>
   <span><span class="led" id="stNet"></span><b id="stMarket">market: loading</b></span>
