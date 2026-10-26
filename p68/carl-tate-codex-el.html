@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ο Κώδικας της Μητέρας · Karakin Tate · Ophanim Codex</title>
+<meta name="description" content="Ο Κώδικας της Μητέρας: το χειρόγραφο του Karakin Sevan Tatev για το αρμενικό αλφάβητο ως φωνητικό παλάτι 36 κιόνων, βιβλίο προς βιβλίο. Philosophy From A Stone, Φωνητική Αρχαιολογία.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+
+.sharefoot{padding:46px 0 60px;border-top:1px solid var(--line)}
+.sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
+.shbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--gold);background:none;border:1px solid var(--line-g);padding:10px 14px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:1px solid var(--line-g);background:#05090d;margin-top:14px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.short{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.short video{width:min(320px,100%);height:auto;border:1px solid var(--line-g);background:#05090d;color-scheme:dark}
+.short .txt{flex:1 1 260px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+.gal figcaption,figure.fig figcaption{font:12px var(--mono);letter-spacing:.05em;color:var(--ink-3);margin-top:6px}
+table.mx{border-collapse:collapse;width:100%;max-width:640px;margin:18px 0 6px;font-family:var(--mono);font-size:13px}
+table.mx th{color:var(--gold);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid var(--line-g)}
+table.mx td{text-align:center;padding:5px 3px;border:1px solid var(--line)}
+table.mx td b{display:block;font:500 22px var(--serif);color:var(--ink)}
+table.mx td s{text-decoration:none;color:var(--cyan);font-size:11px}
+table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
+.tw{overflow-x:auto}
+.photo{max-width:420px;margin:26px auto 0}.photo img{display:block;width:100%;height:auto;border:1px solid var(--line-g)}
+.photo figcaption{text-align:center;font:13px var(--mono);letter-spacing:.08em;color:var(--ink-2);margin-top:8px}
+
+
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr);gap:44px;align-items:start}
+.cols .layers{grid-template-columns:1fr}
+.fx{position:sticky;top:100px}
+.fx canvas{width:100%;aspect-ratio:1;display:block;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.07),rgba(4,8,12,.6));cursor:grab;touch-action:pan-y}
+.fx .cap{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;text-align:center}
+@media(max-width:900px){.cols{grid-template-columns:1fr;gap:26px}.fx{position:static;max-width:300px;margin:0 auto}}
+.supp{border-left:2px solid var(--ink-3);padding:4px 0 4px 14px;margin:14px 0;color:var(--ink-2)}
+.supp b{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;display:block;margin-bottom:4px}
+.joke{border:1px dashed var(--line-g);padding:14px 18px;margin:30px auto 0;max-width:58ch;text-align:left;color:var(--ink-2);font-size:18px}
+.joke b{color:var(--gold);font-weight:400}
+.links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.links a{border:1px solid var(--line);padding:8px 14px;text-decoration:none;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
+blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--line-g);padding-left:16px;margin:14px 0}
+
+#calc .hyc{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start;margin-top:22px}
+@media(max-width:900px){#calc .hyc{grid-template-columns:1fr}}
+#calc .hylab{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim,#9aa7ab);display:block;margin-bottom:6px}
+#calc #hyin{width:100%;box-sizing:border-box;font-size:26px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(232,195,117,.4);color:inherit;border-radius:8px}
+#calc .hykb{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:5px;margin:12px 0}
+#calc .hyk,#calc .hyw,#calc .hyrow button{background:rgba(232,195,117,.07);border:1px solid rgba(232,195,117,.3);color:inherit;border-radius:6px;cursor:pointer;font:inherit}
+#calc .hyk{padding:4px 0;display:flex;flex-direction:column;align-items:center;min-height:46px}
+#calc .hyk b{font-size:19px;font-weight:400}#calc .hyk small{font-size:10px;opacity:.6}
+#calc .hyk.wide{grid-column:span 2;justify-content:center;font-size:14px}
+#calc .hyk:hover,#calc .hyw:hover,#calc .hyrow button:hover{background:rgba(232,195,117,.18)}
+#calc .hyrow{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}#calc .hyrow button{padding:9px 14px;font-size:15px}
+#calc .tiles{display:flex;flex-wrap:wrap;gap:6px}#calc .gap{width:14px}
+#calc .tile{display:inline-flex;flex-direction:column;align-items:center;min-width:42px;padding:6px 8px;border:1px solid rgba(70,227,240,.4);border-radius:6px;background:rgba(70,227,240,.06)}
+#calc .tile i{font-style:normal;font-size:24px}#calc .tile s{text-decoration:none;font-size:13px;color:rgb(70,227,240)}
+#calc .hytot{margin:14px 0 6px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+#calc .hysum{font-size:46px;color:rgb(232,195,117);line-height:1}#calc .hyang{font-size:16px}
+#calc .chip{display:inline-block;margin:3px 6px 3px 0;padding:3px 10px;border:1px solid rgba(70,227,240,.3);border-radius:99px;font-size:14px}
+#calc .chip.hit{border-color:rgba(232,195,117,.6)}
+#calc .hypre{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;max-height:150px;overflow:auto}
+#calc .hyw{padding:5px 10px;font-size:16px}
+#calc .hynote{font-size:14px;color:rgb(232,195,117);min-height:1em}
+#calc .hyr{position:sticky;top:76px}
+#calc canvas{width:100%;aspect-ratio:1/1;display:block;touch-action:pan-y;cursor:grab;background:radial-gradient(circle,rgba(70,227,240,.05),transparent 70%)}
+#calc .hycap{text-align:center;font-size:13px;opacity:.7}
+</style>
+<style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
+<style id="hdrfix">@media(max-width:700px){header.bar,header.pbar{flex-wrap:wrap;gap:6px;padding:8px 10px;justify-content:flex-start}header.bar a,header.pbar a{padding:4px 8px;font-size:11px;letter-spacing:.04em}header.bar .t,header.pbar .t{display:none}}</style><link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">&#9666; Παιχνίδια</a>
+  <div class="t">Ophanim Codex &middot; <b>Ο Κώδικας της Μητέρας</b></div>
+  <a href="carl-tate-codex.html" >English &#9656;</a><a href="library.html">Βιβλιοθήκη &#9656;</a><a href="el.html">Ελληνικά &#9656;</a><a href="el.html#spheres">Σφαίρες &#9656;</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<main>
+<section data-narrate id="hero" data-label="Πρόλογος">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Φωνητική Αρχαιολογία &middot; Το Αρμενικό Κλειδί</div>
+    <h1>Ο Κώδικας της Μητέρας<br><em>Karakin Sevan Tatev</em></h1>
+    <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:52ch">Μια φιλία είκοσι πέντε ετών και μια ζωή αφιερωμένη στην ανάγνωση του ήχου: η ομιλία ως σώμα, ως πρόσωπο μητέρας, ως παλάτι τριάντα έξι κιόνων.</p>
+    <div class="legend" style="justify-content:center">
+      <span><i style="border:1px solid var(--gold);background:rgba(232,195,117,.12)"></i><b style="color:var(--gold);font-weight:400">Ο Κώδικας</b>&nbsp;&middot; η θέση του Karakin, όπως γράφτηκε</span>
+      <span><i style="border:1px solid var(--cyan);background:rgba(70,227,240,.1)"></i><b style="color:var(--cyan);font-weight:400">Η Καταγραφή</b>&nbsp;&middot; οι αριθμοί, το σώμα και οι τόποι</span>
+    </div>
+    <p style="margin:22px 0 0;font-size:17px"><a href="carl-tate-codex.html">English version &#9656;</a></p>
+    <p class="dim" style="margin:16px auto 0;font-size:17px;max-width:60ch">Το χειρόγραφο δίνεται ολόκληρο, βιβλίο προς βιβλίο. Δίπλα σε κάθε μέρος, με κυανό, είναι οι απλοί έλεγχοι: αξίες γραμμάτων, αθροίσματα, ανατομία, μετρήσεις.</p>
+    <div class="scrollcue" style="margin-top:40px">ΚΥΛΙΣΤΕ &#9662;</div>
+  </div>
+</section>
+<section id="watch" data-label="Δείτε">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Δείτε</div>
+      <h2>Δύο Βίντεο <em>&amp; ένα Σύντομο</em></h2>
+      <p class="dim" style="font-size:17px">Τα βίντεο φορτώνουν από το YouTube μόνο αφού επιτρέψετε περιεχόμενο τρίτων στις ρυθμίσεις cookies.</p>
+      <div class="vid"><iframe src="https://www.youtube.com/embed/3mdZOxPW09M" title="Βίντεο πρώτο" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <div class="vid"><iframe src="https://www.youtube.com/embed/4e-sY3RAdAg" title="Βίντεο δεύτερο" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    </div>
+    <div class="reveal" style="margin-top:46px">
+      <div class="kicker">Σύντομο &middot; 1 λεπτό 21 δευτερόλεπτα (στα αγγλικά)</div>
+      <h2>Τέσσερις Κίονες <em>και Επτά Πύλες</em></h2>
+      <div class="short">
+        <video controls preload="none" playsinline poster="img/carl-short-poster.jpg" data-title="Τέσσερις Κίονες και Επτά Πύλες"><source src="audio/carl-four-pillars-seven-gates.mp4" type="video/mp4"></video>
+        <div class="txt"><p>Τέσσερις κίονες στηρίζουν τη γη. Επτά πύλες γδύνουν τον άνθρωπο ώς το απαραίτητο. Το σύντομο βάζει τις δύο εικόνες δίπλα δίπλα. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section data-narrate id="mirror" data-label="Ο Πρώτος Καθρέφτης">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο I &middot; Το Βιολογικό Αλφάβητο</div><h2>Ο Πρώτος <em>Καθρέφτης</em></h2><p>Επί εξήντα χρόνια, λέει το χειρόγραφο, η γλώσσα θεωρείται αυθαίρετη ετικέτα. Η αντίθετη θέση του: ο ήχος είναι εκτελέσιμος βιολογικός κώδικας, και η ομιλία τρέχει πάνω σε μύες, νεύρα και αναπνοή. Δεν είμαστε ομιλητές λέξεων· είμαστε τόποι που περπατούν και δονούνται.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Η θέση.</b> Πριν από τις λέξεις υπάρχει ο Πρώτος Καθρέφτης. Το μωρό βγάζει έναν ήχο με ακούσια ένταση στο πρόσωπο. Η μητέρα διαβάζει το πρόσωπο και απαντά. Όταν η γνάθος πέφτει με ανοιχτό λαιμό, ακούει Α, «είμαι εδώ». Όταν τα χείλη κλείνουν και το βουητό γεμίζει κρανίο και στήθος, ακούει Μ, τον ήχο της μήτρας της Nammu, «είμαι μέσα». Στην αντανάκλασή της το παιδί μαθαίνει: ο ήχος μου κινεί τον κόσμο, άρα υπάρχω.</p><p>Τρεις σουμερικές θεές σημαδεύουν τα στάδια: η Namu, η κλειστή θάλασσα της μήτρας (Μ). Η Inana, το κινητικό εγώ και η πείνα. Η Gestinana, που δέχεται τον κύκλο στο σκοτάδι και χορταίνει, από το αρμενικό <i>gish</i>, «χορτασμένος».</p></div><div class="record"><p>Μητέρα και βρέφος καθρεφτίζουν πράγματι πρόσωπα και φωνές, και αυτό μελετάται στην πρώιμη ανάπτυξη. Το Facial Action Coding System του Paul Ekman υπάρχει: η Action Unit 26 είναι «πτώση της γνάθου», η ίδια πτώση του Α παραπάνω.</p><p>Η Nammu είναι η σουμερική αρχέγονη θάλασσα· Inanna και Ereshkigal είναι οι συνήθεις γραφές των άλλων δύο ονομάτων.</p></div></div>
+      <div class="reveal" style="margin-top:26px"><div class="kicker">Δείτε &middot; 8 δευτερόλεπτα</div>
+      <div class="short">
+        <video controls preload="none" playsinline poster="img/carl-mirror-poster.jpg" data-title="Ο Πρώτος Καθρέφτης"><source src="audio/carl-first-mirror.mp4" type="video/mp4"></video>
+        <div class="txt"><p>Μια μητέρα κρατά το μωρό της στην αγκαλιά και του χαμογελά. Πίσω της, μια φωνή τραγουδά τους δύο ήχους της θέσης: το ανοιχτό <b>α</b> και μετά το κλειστό <b>μα</b>, σαν μικρή μελωδία. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p><p class="dim" style="font-size:14px">Εικονογράφηση, όχι ηχογράφηση πραγματικής οικογένειας: το βίντεο φτιάχτηκε με τεχνητή νοημοσύνη (Veo της Google, μέσω Gemini).</p></div>
+      </div></div>
+
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="mirror" aria-label="Σήμα &middot; αντανάκλαση"></canvas><div class="cap">Σήμα &middot; αντανάκλαση</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="palace" data-label="36 Κίονες">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο I &middot; Ο Κώδικας της Μητέρας</div><h2>Το Παλάτι των <em>36 Κιόνων</em></h2><p>Το 405 μ.Χ. ο Μεσρόπ Μαστότς διατύπωσε το αρμενικό αλφάβητο. Ο Karakin το διαβάζει ως ναό τριάντα έξι κιόνων: κάθε γράμμα ένα ανατομικό σχέδιο της φωνητικής οδού, μια πράξη του σώματος σε πρώτο πρόσωπο.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Οι κίονες.</b> Α: πλήρης πτώση της γνάθου, ανοιχτός λαιμός, καθαρή πηγή. Μ: κλειστά χείλη, θωρακικό βουητό, η μήτρα. G: χτύπημα της γλωττίδας στη ρίζα της γλώσσας, βαρύτητα και λαβή. T και D: γλώσσα στα δόντια, φανερός νόμος· το D είναι το πόδι που χτυπά για ώθηση. R: ο κυλιόμενος τρίλιος, η ηλιακή μηχανή, <i>Arev</i>, Ρα. L: η γλώσσα γλείφει τον ουρανό, υγρό φως ανάμεσα στο ανοιχτό Α και το στέρεο G. V: χείλος στα δόντια, άνοδος, φτερό. JJ: σφιγμένοι γομφίοι, η τριβή της κυριαρχίας, το «θέλω» που συναντά το «πρέπει». TS: κλειστοί κοπτήρες, ένα διαπεραστικό τζετ, η δημιουργική σπίθα, η vesica piscis. E: το φωνήεν της πολικότητας, το χαρούμενο χαμόγελο απέναντι στην κραυγή.</p><p><b>Μηχανές λέξεων.</b> <i>MEG</i>, ένα: M (δυνατότητα, μήτρα) + E (ύπαρξη) + G (έδαφος): όλο το ταξίδι από το κενό στην εκδήλωση σε μία συλλαβή. <i>G-SH-D</i>: ρίζα, σιγή, όριο· ο τύπος της ικανοποίησης. <i>AR-MEN</i>: η ενεργή ηλιακή ακτίνα και ο δομικός νους, παιδιά του ηλιακού νου. <i>MANUK</i>, βρέφος: <i>man</i>, νους, και <i>uk</i>, δοχείο· το παιδί είναι το μικρό δοχείο του θείου νου.</p></div><div class="record"><p>Το αρμενικό αλφάβητο ξεκίνησε με 36 γράμματα, παραδοσιακά το 405 ή 406 μ.Χ. Δύο ακόμη, το Օ και το Ֆ, προστέθηκαν στον Μεσαίωνα, γι᾽ αυτό οι σημερινές καταμετρήσεις λένε 38.</p><p>Το <i lang="hy">Մեկ</i> (<i>mek</i>) είναι «ένα». Το <i lang="hy">Մայր</i> (<i>mayr</i>) είναι «μητέρα» και το <i lang="hy">մանուկ</i> (<i>manuk</i>) «βρέφος». Οι αναγνώσεις των ήχων παραπάνω είναι το αυτί του Karakin πάνω τους.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="palace" aria-label="36 κίονες &middot; 4 &times; 9"></canvas><div class="cap">36 κίονες &middot; 4 &times; 9</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="matrix" data-label="Πίνακας 9×4">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Ο Πίνακας του Μαστότς</div><h2>Ο Πίνακας <em>9&times;4</em></h2><p>Τα αρμενικά γράμματα είναι και αριθμοί: εννέα μονάδες, εννέα δεκάδες, εννέα εκατοντάδες, εννέα χιλιάδες. Τριάντα έξι γράμματα, τέσσερις στήλες των εννέα, το δεκαδικό σύστημα χτισμένο μέσα στο αλφάβητο.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Η θέση.</b> Η πρώτη στήλη είναι η Γη: μονάδες, ένα πυκνό δοχείο, η θεία σπίθα που μπαίνει στην ύλη. Η δεύτερη είναι το Νερό: δεκάδες, ο ρευστός κύκλος της αναπνοής, που τελειώνει στο 90, το βαρύ υγρό κατώφλι. Η τρίτη είναι η Φωτιά: εκατοντάδες, το σφυρηλατείο που καίει τον ήχο σε σκέψη. Η τέταρτη είναι ο Αέρας: χιλιάδες, η ανοιχτή ατμόσφαιρα, ώς το 9000.</p><p>Στο ακριβές κέντρο, πέμπτη γραμμή της πρώτης στήλης, βρίσκεται το γράμμα του 5. Ο Karakin το ακούει ως αυτόνομη δήλωση ύπαρξης, «είμαι». Την αρμενική λέξη για τον Θεό, <i lang="hy">Աստված</i>, τη διαβάζει ως λέξη που απλώνεται σε και τις τέσσερις στήλες.</p><div class="reveal"><div class="tw"><table class="mx"><thead><tr><th>Μονάδες</th><th>Δεκάδες</th><th>Εκατοντάδες</th><th>Χιλιάδες</th></tr></thead><tbody><tr><td><b lang="hy">Ա</b><s>1</s></td><td><b lang="hy">Ժ</b><s>10</s></td><td><b lang="hy">Ճ</b><s>100</s></td><td><b lang="hy">Ռ</b><s>1000</s></td></tr><tr><td><b lang="hy">Բ</b><s>2</s></td><td><b lang="hy">Ի</b><s>20</s></td><td><b lang="hy">Մ</b><s>200</s></td><td><b lang="hy">Ս</b><s>2000</s></td></tr><tr><td><b lang="hy">Գ</b><s>3</s></td><td><b lang="hy">Լ</b><s>30</s></td><td><b lang="hy">Յ</b><s>300</s></td><td><b lang="hy">Վ</b><s>3000</s></td></tr><tr><td><b lang="hy">Դ</b><s>4</s></td><td><b lang="hy">Խ</b><s>40</s></td><td><b lang="hy">Ն</b><s>400</s></td><td><b lang="hy">Տ</b><s>4000</s></td></tr><tr><td class="mid"><b lang="hy">Ե</b><s>5</s></td><td><b lang="hy">Ծ</b><s>50</s></td><td><b lang="hy">Շ</b><s>500</s></td><td><b lang="hy">Ր</b><s>5000</s></td></tr><tr><td><b lang="hy">Զ</b><s>6</s></td><td><b lang="hy">Կ</b><s>60</s></td><td><b lang="hy">Ո</b><s>600</s></td><td><b lang="hy">Ց</b><s>6000</s></td></tr><tr><td><b lang="hy">Է</b><s>7</s></td><td><b lang="hy">Հ</b><s>70</s></td><td><b lang="hy">Չ</b><s>700</s></td><td><b lang="hy">Ւ</b><s>7000</s></td></tr><tr><td><b lang="hy">Ը</b><s>8</s></td><td><b lang="hy">Ձ</b><s>80</s></td><td><b lang="hy">Պ</b><s>800</s></td><td><b lang="hy">Փ</b><s>8000</s></td></tr><tr><td><b lang="hy">Թ</b><s>9</s></td><td><b lang="hy">Ղ</b><s>90</s></td><td><b lang="hy">Ջ</b><s>900</s></td><td><b lang="hy">Ք</b><s>9000</s></td></tr></tbody></table></div></div></div><div class="record"><p>Ο πίνακας είναι σωστός: 9 γραμμές επί 4 στήλες, τιμές 1&ndash;9, 10&ndash;90, 100&ndash;900, 1000&ndash;9000. Η πέμπτη γραμμή είναι η αληθινή μέση, και το τονισμένο κελί είναι το <i lang="hy">Ե</i> = 5.</p><p><b>Δύο διορθώσεις.</b> Η αρμενική λέξη για το «είναι» είναι <i lang="hy">է</i>, το γράμμα του <b>7</b>, όχι του 5. Και το αφιέρωμα δίνει για τον Θεό 13.052. Η σύγχρονη γραφή αθροίζει <b>9.052</b> και η κλασική <i lang="hy">Աստուած</i> <b>13.652</b>, άρα το 13.052 μοιάζει με λάθος για 13.652. Μόνο η κλασική γραφή έχει γράμμα εκατοντάδων (<i lang="hy">Ո</i> = 600), άρα μόνο αυτή αγγίζει και τις τέσσερις στήλες.</p></div></div>
+      <div class="hud compact reveal" data-built="1"><div class="row"><span class="gk" lang="hy">ԱՍՏՎԱԾ</span><span class="tr">Astvats</span><span class="mn">σύγχρονη γραφή</span></div><div class="tiles"><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ս</i><s>2000</s></span><span class="tile"><i lang="hy">Տ</i><s>4000</s></span><span class="tile"><i lang="hy">Վ</i><s>3000</s></span><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ծ</i><s>50</s></span><span class="sum">0</span></div></div><div class="hud compact reveal" data-built="1"><div class="row"><span class="gk" lang="hy">ԱՍՏՈՒԱԾ</span><span class="tr">Astuats</span><span class="mn">κλασική γραφή</span></div><div class="tiles"><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ս</i><s>2000</s></span><span class="tile"><i lang="hy">Տ</i><s>4000</s></span><span class="tile"><i lang="hy">Ո</i><s>600</s></span><span class="tile"><i lang="hy">Ւ</i><s>7000</s></span><span class="tile"><i lang="hy">Ա</i><s>1</s></span><span class="tile"><i lang="hy">Ծ</i><s>50</s></span><span class="sum">0</span></div></div>
+    </div>
+    <aside class="fx reveal"><canvas data-shape="grid" aria-label="Τέσσερις στήλες των εννέα"></canvas><div class="cap">Τέσσερις στήλες των εννέα</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="geometry" data-label="Γεωμετρία">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Ο Τετραγωνισμός του Κύκλου</div><h2>Η Γέφυρα <em>3-4-5</em></h2><p>Ο κύκλος είναι ο ουρανός, ο ήλιος και το άπειρο. Το τετράγωνο είναι η γη, η ύλη και ο κύκλος. Ο Karakin κλείνει το χάσμα με ένα ορθογώνιο τρίγωνο.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Η θέση.</b> Το τρία είναι η όρθια ράβδος προς τον ουρανό. Το τέσσερα είναι η πλατιά γη. Το πέντε, η διαγώνιος, είναι ο ζωντανός συνδετήρας που υφαίνει το κάθετο πνεύμα και την οριζόντια ύλη σε ένα ύφασμα. Τον συνδετήρα τον ακούει στη ρίζα <i>KBR</i>: το <i>Kabir</i>, ο μέγας συνδετήρας, γίνεται <i>Kapor</i>, εξιλέωση, με τη χειλική μετάθεση του B σε P.</p><p>Στην «αναστροφή της καρακάξας» το τρία γίνεται ολόκληρο το τριγωνικό δοχείο, εστία και μήτρα. Το τέσσερα είναι το τετράγωνο κρεβάτι μέσα του, και το πέντε το παιδί, η ασημένια κλωστή που δένει την οικογένεια. Η Κιβωτός του Νώε και η πόλη Ερεμπουνί, αργότερα Ερεβάν, διαβάζονται ως κλιμακωμένες εστίες πάνω σε αυτό το τρίγωνο.</p></div><div class="record"><p>3&sup2; + 4&sup2; = 9 + 16 = 25 = 5&sup2;. Η Κιβωτός στη Γένεση 6:15 είναι 300 &times; 50 &times; 30 πήχεις. Το Ερεμπουνί ιδρύθηκε το 782 π.Χ. από τον Αργκιστί Α΄, χρονολογία που φέρει η επιγραφή ίδρυσής του.</p><p>Η κλασική τετρακτύς έχει τέσσερις σειρές και δέκα σημεία. Οι διαφάνειες του πρωτοτύπου σχεδιάζουν πέντε σειρές και δεκαπέντε σημεία, τον επόμενο τριγωνικό αριθμό.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="tri345" aria-label="3 &middot; 4 &middot; 5"></canvas><div class="cap">3 &middot; 4 &middot; 5</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="wild" data-label="Το Ιερό Άγριο">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο II &middot; Η Κοπή του Ιερού Άγριου</div><h2>Το Δέντρο Huluppu <em>και η Πτώση</em></h2><p>Στη σουμερική ιστορία της Inanna, του Γκιλγκαμές και του δέντρου Huluppu, ο Karakin αφαιρεί την αλληγορία και διαβάζει κυριολεκτική ιστορία.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Το δέντρο.</b> Το Huluppu δεν είναι φανταστικό φυτό. Είναι το άγριο φιστίκι, <i>Pistacia vera</i>, ιθαγενές στα υψίπεδα γύρω από το Χαλέπι. Στα αρμενικά το Χαλέπι διατηρείται ως <i>Halip</i> ή <i>Hagu</i>, και η ρίζα <i>ale</i> σημαίνει λιώνω, διαλύομαι ή παρασύρομαι. Η Inanna που σώζει το παρασυρόμενο δέντρο από τον Ευφράτη καταγράφει τη μεταφορά προς τον νότο της καλλιέργειας των υψιπέδων και της ιερής γνώσης κατά μήκος του ποταμού ώς την Ουρούκ.</p><p><b>Η τριάδα του άγριου.</b> Το φίδι στη ρίζα: το βαθύ βιομαγνητικό ρεύμα της γης. Η Λίλιθ στον κορμό: αυτόνομη θηλυκή κυριαρχία. Το πουλί Anzu στην κορυφή: <i>AN</i>, ουρανός, και <i>ZU</i>, ρευστότητα, ροή, χυμός. Ο Anzu είναι ουράνια ρευστότητα, ο κοσμικός έρωτας που ρέει από τα ύψη.</p><p><b>Ο ήρωας της εξόρυξης.</b> Ο Γκιλγκαμές κόβει το δέντρο, διώχνει το πουλί και σκοτώνει το φίδι, για να φτιάξει θρόνο (θεσμική, κάθετη εξουσία) και νυφικό κρεβάτι (το κλουβί της οικιακής ιδιοκτησίας). Χτίζει το δοχείο και αρνείται τον ιερό γάμο. Η ζωτική ροή του <i>ZU</i> φράζει. Το ρήγμα απολιθώνεται στο ελληνικό γράμμα &Phi;: ο κύκλος της κυκλικής, μητρικής φύσης που τον κόβει η άκαμπτη κάθετη γραμμή της εξουσίας. Ο Δίας παίρνει το όνομα του εγγύς-ανατολικού χυμού <i>Zu</i> κάτω από έναν αυτοκρατορικό ουράνιο θρόνο.</p><p><b>Ο σκελετός MSH.</b> Η γραμμή της εξόρυξης διατηρείται στα σύμφωνα <i>MSH</i>: Γκιλγκαμές και Moshe, Μωυσής, και οι δύο βγάζουν τάξη από χαοτικό νερό (εβραϊκά <i>masha</i>, «τραβώ έξω»). Η γραμμική επιβολή έσπασε τον παλαιότερο οριζόντιο ρυθμό, τον άξονα ισημερίας M-N: το M, το κλειστό βουητό, η φθινοπωρινή κάθοδος στη σκοτεινή γη· το N, η ανοιχτή ρινική απελευθέρωση, η εαρινή επιστροφή του ηλιακού φωτός. Ο κύκλος αυτός ήταν το <i>RTA</i>, κοσμική τάξη, αλήθεια και ρυθμική ισορροπία.</p></div><div class="record"><p>Το επεισόδιο του Huluppu ανήκει στο σουμερικό ποίημα για τον Γκιλγκαμές, τον Ενκιντού και τον Κάτω Κόσμο, όπου η Inanna φυτεύει το δέντρο στον κήπο της στην Ουρούκ. Το εβραϊκό <i>mashah</i>, «τραβώ έξω», είναι η ρίζα πίσω από το όνομα Moshe (Έξοδος 2:10).</p><p>Το κεφαλαίο M σχεδιάζεται ως δύο κορυφές, &Lambda;&Lambda;, το σχήμα που ξαναχρησιμοποιείται στο Βιβλίο VI. Το γράμμα &Phi; είναι κύκλος που τον διασχίζει κάθετη γραμμή· το σχέδιο το δείχνει.</p></div></div>
+      <p class="supp"><b>Συνδεδεμένο</b>Η Inanna, τα επτά διατάγματά της και η κάθοδός της από τις επτά πύλες συνεχίζονται στη <a href="royal-game-of-ur-codex.html">σελίδα του Βασιλικού Παιχνιδιού της Ουρ</a>, με τα τέσσερα μέρη της, και στο <a href="#ur">Βιβλίο VII</a> παρακάτω.</p>
+    </div>
+    <aside class="fx reveal"><canvas data-shape="tree" aria-label="Φίδι &middot; κορμός &middot; πουλί"></canvas><div class="cap">Φίδι &middot; κορμός &middot; πουλί</div></aside>
+  </div></div>
+</section>
+<section id="mountain" data-label="Αραγκάτς">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο III &middot; Η Κυριολεκτική Γεωγραφία</div><h2>Αραγκάτς <em>και Hara Berezaiti</em></h2><p>Η ιερή γεωγραφία είναι κυριολεκτική γεωλογία. Ο Karakin διασχίζει την αρμενική ενδοχώρα ως εργαστήριο φωτιάς και νερού.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Το μαζίφ.</b> Το όρος Αραγκάτς είναι ένα τεράστιο απομονωμένο ηφαιστειακό μαζίφ, σχεδόν 5.000 τετραγωνικά χιλιόμετρα, το ένα πέμπτο της Αρμενίας, που ανεβαίνει στα 4.090 μ. Η καλντέρα της κορυφής κατέρρευσε σε καταστροφικές προϊστορικές εκρήξεις και άφησε τέσσερις κορυφές σχεδόν στοιχισμένες με βορρά, νότο, ανατολή και δύση. Από την πεδιάδα μοιάζει με στέμμα ή ουράνια σκηνή: <i>Alagöz</i>, «το ποικιλόχρωμο μάτι» στα τουρκικά και τα αζερικά, η κοσμική γιούρτα που κρατά το στερέωμα.</p><p><b>Το καζάνι.</b> Μέχρι και το 3000 π.Χ., λέει ο Karakin, το Αραγκάτς εκτόξευσε υπερθερμασμένη στήλη τέφρας και αερίων 25 χλμ. στη στρατόσφαιρα, έναν μαύρο κορμό που στήριζε τον ουρανό. Το όνομά του στον Khorenatsi, <i>Awtovn Araatsoy</i>, το ακούει ως <i>awtovn</i>, ατμόσφαιρα, <i>Ara</i>, η ακτινοβόλος ηλιακή θεότητα, και <i>gatsoy</i>, καζάνι: η ατμόσφαιρα του καζανιού του θεού-ήλιου. Το Αραγκάτς είναι σουρωτήρι, <i>gats</i>, που στραγγίζει βραστό μάγμα. Ο δρακοντοκτόνος Vahagn, V-AH-AGN, είναι η φωτιά (<i>agn</i>) που τινάζεται μέσα από το βουνό στον ουρανό.</p><p><b>Τέσσερις κίονες.</b> Τον 15ο αιώνα π.Χ., γράφει, οι γραφείς του Θουτμώση Γ΄ χάραξαν στο Καρνάκ ότι στη γη των Manin ο ουρανός στηρίζεται σε τέσσερις κίονες: οι τέσσερις κορυφές του Αραγκάτς, όπως τις είδε ένας στρατός από τον επίπεδο Νείλο.</p><p><b>Το λίκνο.</b> Οι πρωτο-ινδοϊρανοί κατοικούσαν γύρω από αυτό το μαζίφ. Η Αβέστα τοποθετεί την πατρίδα τους, <i>Airyanem Vaejah</i>, στο πρώτο βουνό, <i>Hara Berezaiti</i>, «Υψηλή Σκοπιά», με δεκάμηνους χειμώνες. Ο ποταμός Rangha είναι ο Αράξης και η θάλασσα Vourukasha η λίμνη Σεβάν. Ο βεδικός θεός της φωτιάς Άγκνι λέγεται «γεννημένος από βράχο»: μάγμα από βασάλτη.</p><p><b>Οι δρακόλιθοι.</b> Οι Vishapakar περιβάλλουν τους ψηλούς βοσκότοπους του Αραγκάτς στη λίμνη Kari, στο Karmir Sar και στο Tirinkatar, 2.800 ώς 3.200 μ.: σκαλισμένες βασαλτικές στήλες με ταύρους, πελαργούς και ψάρια, χρονολογημένες 4200&ndash;4000 π.Χ., στημένες εκεί που η φωτιά του κάτω κόσμου συναντά το νερό των παγετώνων.</p></div><div class="record"><p>Οι τέσσερις κορυφές είναι 4.090 μ. η βόρεια, 3.995 μ. η δυτική, 3.908 μ. η ανατολική και 3.888 μ. η νότια. Το μαζίφ καλύπτει περίπου το ένα πέμπτο της Αρμενίας. Το σχέδιο δεξιά χρησιμοποιεί αυτά τα τέσσερα ύψη.</p><p>Οι δρακόλιθοι έχουν ύψος από 1,1 ώς 5,5 μ., και μια μελέτη του 2025 τους χρονολογεί γύρω στο 4200&ndash;4000 π.Χ. Το <i>Alagöz</i> είναι τουρκικό για «ποικιλόχρωμο μάτι». Η λίμνη Σεβάν βρίσκεται σε υψόμετρο περίπου 1.900 μ.</p></div></div>
+      <div class="reveal" style="margin-top:6px"><div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin:0 0 8px">
+        <div class="kicker">Ακούστε &middot; 32 λεπτά &middot; στα αγγλικά</div><h3 style="font-family:var(--title);font-weight:500;font-size:22px;color:var(--gold);margin:6px 0 10px">Aragats and the Four Pillars of Heaven</h3>
+        <audio controls preload="none" src="audio/carl-aragats-four-pillars.mp3" data-title="Aragats and the Four Pillars of Heaven" style="width:100%;color-scheme:dark">Ο περιηγητής σας δεν παίζει ήχο.</audio>
+        <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">Ηχογραφημένη ομιλία στα αγγλικά. Φορτώνει μόνο όταν πατήσετε αναπαραγωγή.</p></div></div>
+    </div>
+    <aside class="fx reveal"><canvas data-shape="aragats" aria-label="Οι τέσσερις κίονες του ουρανού"></canvas><div class="cap">Οι τέσσερις κίονες του ουρανού</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="cipher" data-label="Κίονες Τ">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο IV &middot; Η Αρχετυπική Κρυπτογραφία</div><h2>Οι Κίονες Τ <em>και ένα Όνομα σε Δοκιμή</em></h2><p>Η μέθοδος του Karakin τρέχει σε οποιοδήποτε όνομα. Το χειρόγραφο την τρέχει σε ένα σύγχρονο όνομα, απαλλαγμένο από κομματικό θόρυβο, ως δοκιμή.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Η δοκιμή.</b> Τα γράμματα T-R-U-M-P, διαβασμένα ως ήχοι: T, Ταυ, γη, φανερός νόμος, η σκληρή πέτρα του θερινού ηλιοστασίου. R, ακτινοβολία, η ηλιακή μηχανή, ο κυλιόμενος κύκλος της φωτιάς (Ρα, Ρέα). U ή A, η κάθετη πνοή, η στήλη του αέρα, η ζωή που ζωοποιεί την πέτρα. M, η μήτρα, το ρινικό βουητό, η μνήμη της μήτρας. P, η εκρηκτική πύλη, το κατώφλι και η γέφυρα. Μαζί: νόμος της γης, ζωντανεμένος από πνοή, κρατημένος στην ύλη, που ξεσπά μέσα από μια πόρτα. Το χειρόγραφο ταιριάζει αυτόν τον σκελετό σε έναν σουμερικό λειτουργικό τίτλο, σπάστης ορίων, ανοίκτης εποχής, και στις μορφές του Ένκι, του Anzu, του Μωυσή και του Σπινόζα. Το αν μια τέτοια μορφή είναι μεσσίας ή απατεώνας εξαρτάται από ποια πλευρά του κατωφλιού στέκεται κανείς.</p><p><b>Γκεμπεκλί Τεπέ.</b> Γύρω στο 9600 π.Χ., στο Γκεμπεκλί Τεπέ και στο Καραχάν Τεπέ, η ανθρωπότητα έφτασε στη στιγμή της Goldilocks. Μετά το λιώσιμο των παγετώνων, οι κοινωνίες σταθεροποίησαν τον κοσμικό ρυθμό, <i>RTA</i>, σκαλίζοντας τον ήχο T σε ασβεστολιθικούς μεγαλίθους. Ο κίονας Τ είναι το γράμμα Ταυ: η πρώτη φορά που μια αόρατη συχνότητα κρατήθηκε σε πέτρα. Γύρω στο 6100 π.Χ. στο Τελ Χαλάφ κοντά στο Χαλέπι, εμφανίζονται αφηρημένα γεωμετρικά σύμβολα σε κεραμική: η αυγή του συμβολικού κώδικα.</p></div><div class="record"><p>Οι κίονες στο Γκεμπεκλί Τεπέ είναι σχήματος Τ και χρονολογούνται γύρω στο 9600 π.Χ. Το Τελ Χαλάφ χρονολογείται περίπου 6100&ndash;5100 π.Χ. Μέτρηση με το χέρι της λέξης της δοκιμής: πέντε γράμματα, πέντε αναγνώσεις.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="tpillar" aria-label="Δώδεκα και δύο κίονες Τ"></canvas><div class="cap">Δώδεκα και δύο κίονες Τ</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="names" data-label="Τρία Ονόματα">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο V &middot; Η Αλχημεία του Λάθους</div><h2>Η Hune Πέτρα, <em>Karakin, Sevan, Tatev</em></h2><p>Ένα τυχερό λάθος πληκτρολόγησης, τρία ονόματα και ένα σχέδιο πυραύλου: το χειρόγραφο μετατρέπει μια πέτρα σε φτερό.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Hewn και hune.</b> Ο Karakin πληκτρολόγησε «hune stone» αντί για «hewn stone». Η hewn πέτρα είναι κομμένη, τετραγωνισμένη και άκαμπτη. Η <i>hune</i> πέτρα κρατά τον ήχο των <i>human</i> και <i>one</i>: διαμορφωμένη, αλλά ακόμη να βουίζει με τη μνήμη του όλου. Το να γίνεις huned σε κύκλο είναι το τετράγωνο που θυμάται τη μήτρα.</p><p><b>Τρία ονόματα.</b> <i>Karakin</i>: <i>kar</i>, πέτρα, και <i>kin</i>, γυναίκα: πέτρα γεννημένη από γυναίκα, το σώμα ως άγκυρα. <i>Sevan</i>: η ψηλή μαύρη λίμνη, ο σκοτεινός καθρέφτης του ουρανού, η κόρη της γης που κοιτά ψηλά. <i>Tatev</i>: ο τοποθετημένος σταυρός, το μοναστήρι στον γκρεμό πάνω από το φαράγγι του Vorotan.</p><p><b>Η ακολουθία εκτόξευσης.</b> <i>DA</i>: το δόσιμο, το πόδι που χτυπά στον βράχο για μόχλευση. <i>TE</i>: ο όρθιος κίονας, ο αιγυπτιακός κίονας Djed, η ράχη του Όσιρι. <i>VE</i>: το φτερό, <i>tev</i>, και η άνοδος, <i>ver</i>. DA-TE-V: δίνοντας φτερά στην πέτρα.</p><p><b>Εννιά και δέκα.</b> Στα αρμενικά το <i>in</i>, εννιά, είναι το κύμα στην κορυφή, το ψηλότερο σημείο ενός κύκλου. Το <i>das</i>, δέκα, επιστρέφει στο δοχείο 1-0. Στη ζωροαστρική θεολογία ο Μάζντα προέρχεται από το <i>Mazud</i>, αρχέγονη ρευστότητα· για να φτάσεις στον Μάζντα αποβάλλεται το χαοτικό φωνήεν U και κρυσταλλώνεται στο σταθερό DA του νόμου. Το σείστρο της Χάθωρ είναι κοσμικό διαπασών: η μάθηση είναι <i>ανάμνηση</i>, να θυμάσαι έναν ήχο που ήδη ήξερες.</p></div><div class="record"><p>Το <i>kar</i> είναι «πέτρα», το <i>kin</i> «γυναίκα» και το <i>sev</i> «μαύρο». Το μοναστήρι του Τατέβ στέκεται πάνω από το φαράγγι του Vorotan στη Syunik. Το αρμενικό εννιά είναι <i lang="hy">ինը</i> (<i>inə</i>) και το δέκα <i lang="hy">տասը</i> (<i>tasə</i>). Ο κίονας Djed είναι το αιγυπτιακό σημάδι της σταθερότητας, δεμένο με τον Όσιρι, και το σείστρο είναι το κροταλιστήρι της Χάθωρ.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="djed" aria-label="Κίονας &middot; φτερά"></canvas><div class="cap">Κίονας &middot; φτερά</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="light" data-label="Φως">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο VI &middot; Η Πήξη του Φωτός</div><h2>Από τη Nanna στη Nammu, <em>&Lambda;&Lambda;&Lambda;&Lambda;</em></h2><p>Εδώ ο αρμενικός κώδικας συναντά τα ελληνικά γράμματα. Ο νους γίνεται ύλη όταν το ανοιχτό ρινικό σφραγίζει τα χείλη του.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Από τη Nanna στη Nammu.</b> Στον ελληνο-φοινικικό Έλλην Λόγο, το N είναι <i>Νους</i>: κοσμική νοημοσύνη, νόμος, άυλος νους. Η <i>N-A-N-N-A-R</i>, ο σουμερικός θεός-σελήνη της Ουρ, είναι ανεκδήλωτος ηλιακός νους που ρέει στο διάστημα (N νους, A πρωταρχική δύναμη, R ροή). Όταν η Nanna κατεβαίνει στο ορατό, το ανοιχτό N σφραγίζεται στο μητρικό M: <i>NAMMU</i>. Το M, Μυ, έχει την τιμή 40, τον αριθμό της κύησης και της ορατής φύσης.</p><p><b>MM = &Lambda;&Lambda;&Lambda;&Lambda;.</b> Το Λάμδα είναι ηλιακός φωτισμός. Ένα κεφαλαίο M είναι δύο ανεστραμμένα λάμδα, άρα το διπλό M της Nammu είναι τέσσερα: τετραπλή συμπύκνωση καθαρής ηλιακής λάμψης. Η ύλη δεν είναι το αντίθετο του φωτός· είναι φως που επιβραδύνθηκε ώσπου σφράγισε τα χείλη του και πήρε μορφή.</p><p><b>Ο κύκλος του gossan, &Phi;&Upsilon; &Psi;&Eta;.</b> Το ίδιο πέρασμα είναι γραμμένο στην αρμενική ηφαιστειακή μεταλλογένεση. Βαθιά μαγματικά ρευστά αποθέτουν σκούρα θειούχα χαλκού-σιδήρου. Όπου τα υδροθερμικά νερά διασχίζουν φραγμό οξυγόνου, τα θειούχα οξειδώνονται σε μπλε ένυδρο θειικό χαλκό, ξεπλένουν τον σίδηρο και αφήνουν οξειδωμένο κάλυμμα gossan, κάτω από το οποίο συγκεντρώνεται αυτοφυής χρυσός. Έτσι η ύλη (<i>MEG</i>), μέσα από το χτύπημα του λαιμού, φτάνει στην υπογραφή &Phi;&Upsilon; &Psi;&Eta;, <i>Ψυχή</i>, όπου ο φωτισμός (&Phi;) και η εσωτερική φωτιά (&Psi;) αποκτούν αθανασία.</p></div><div class="record"><p>Στις ελληνικές τιμές γραμμάτων, το Μυ είναι 40. Το κεφαλαίο M σχεδιάζεται ως δύο κορυφές. Ο χαλκανθίτης είναι ο μπλε ένυδρος θειικός χαλκός. Το gossan είναι το οξειδωμένο κάλυμμα σιδήρου πάνω από κοίτασμα θειούχων, και κάτω από αυτό μπορεί να συγκεντρωθεί χρυσός. Τα δύο ζεύγη αθροίζουν όπως φαίνεται παρακάτω: &Phi;&Upsilon; = 900 και &Psi;&Eta; = 708, μαζί 1608.</p></div></div>
+      <div class="hud compact reveal" data-gk="ΦΥ ΨΗ" data-tr="" data-mn=""></div>
+    </div>
+    <aside class="fx reveal"><canvas data-shape="lambda" aria-label="Τέσσερα λάμδα"></canvas><div class="cap">Τέσσερα λάμδα</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="ur" data-label="Παιχνίδι της Ουρ">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο VII &middot; Το Μυητικό Μικρο-Ταμπλό</div><h2>Είκοσι Τετράγωνα <em>της Ουρ</em></h2><p>Ανασκαμμένο από τους Βασιλικούς Τάφους της Ουρ, το παιχνίδι των είκοσι τετραγώνων είναι για τον Karakin όχι διασκέδαση αλλά μυητικός χάρτης: η ψυχή που διασχίζει την ενσάρκωση.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Το ταμπλό.</b> <i>U-R</i>: U, το αρχέγονο ρευστό, ο βυθός· R, η ηλιακή μηχανή. Η μηχανή του αρχέγονου δοχείου. Επτά πιόνια αντιστοιχούν στα επτά διατάγματα, τα <i>me</i>, που ζώστηκε η Inanna πριν μπει στον κάτω κόσμο. Τέσσερα πυραμιδοειδή ζάρια φέρνουν τους τέσσερις κίονες του φυσικού νόμου σε κάθε ρίξιμο. Η κεντρική πίστα είναι η αρένα της τριβής, όπου τα πιόνια αιχμαλωτίζουν το ένα το άλλο, το γδύσιμο του εγώ στις επτά πύλες. Οι πέντε ροζέτες, το οκταπέταλο λουλούδι της Inanna, δίνουν ασφάλεια και ξαναρίξιμο, και αντιστοιχούν σε πέντε φωνήεντα:</p><p>Ροζέτα 1, Α, <i>Αρχική Δύναμις</i>: ασφαλής εμφάνιση. Ροζέτα 2, Ε, <i>Εκπορευομένη</i>, προς τα έξω επέκταση: η πύλη της τριβής. Ροζέτα 3, Ι, <i>Συνεχής Κάθοδος</i>, η αδιάσπαστη ακτίνα: ο άξονας του κόσμου μέσα στη σύγκρουση. Ροζέτα 4, Ο, <i>Χώρος Περιορισμένος</i>, περίκλεισμα: το χωνευτήρι. Ροζέτα 5, Υ, <i>Μεγάλη Σύσσωρευση</i>: το χωνί, η τελευταία ώθηση που εκτοξεύει το πιόνι έξω από το ταμπλό.</p></div><div class="record"><p>Κάθε πλευρά έχει επτά πιόνια, τα ζάρια είναι τετράεδρα, και το ταμπλό έχει είκοσι τετράγωνα και πέντε ροζέτες. Τα ελληνικά έχουν επτά φωνήεντα, όχι πέντε: τα πέντε εδώ (Α Ε Ι Ο Υ) αφήνουν έξω το Η και το Ω. Το πλήρες παιχνίδι έχει τη δική του σελίδα, <a href="royal-game-of-ur-codex.html">ο κώδικας της Ουρ</a>.</p></div></div>
+      <p class="supp"><b>Υποστήριξη, από τον κώδικα Ophanim &middot; όχι θέση του Karakin</b>Η σανίδα των είκοσι τετραγώνων σε αυτόν τον ιστότοπο είναι δική σύνθεση του συγγραφέα. Ότι συναντά τον Βασιλιά της θέσης του Karakin είναι σύμπτωση, που σημειώνεται εδώ και δεν διεκδικείται. Η Inanna, τα επτά διατάγματα και η κάθοδος λέγονται στη <a href="royal-game-of-ur-codex.html">σελίδα της Ουρ</a>, και το δέντρο Huluppu είναι στο <a href="#wild">Βιβλίο II</a> παραπάνω.</p>
+    </div>
+    <aside class="fx reveal"><canvas data-shape="ur" aria-label="Είκοσι τετράγωνα &middot; πέντε ροζέτες"></canvas><div class="cap">Είκοσι τετράγωνα &middot; πέντε ροζέτες</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="return" data-label="Επιστροφή">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Βιβλίο VIII &middot; Η Επιστροφή στη Μητέρα</div><h2>Ama-gi <em>και ο Βασιλιάς Χωρίς Ρούχα</em></h2><p>Το τελευταίο βιβλίο απαντά σε ένα ερώτημα: πώς ζει ένας κυρίαρχος άνθρωπος ανάμεσα σε μηχανές; Η απάντηση είναι μια ζωή.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Ama-gi.</b> Ο Karakin στεκόταν ανάμεσα σε δύο πόλους. Στον αριστερό ώμο ο Χωριάτης Ανόητος: ένας παιδικός σύντροφος από την Κύπρο που μιλούσε στα πουλιά, ανέγγιχτος από φιλοδοξία, που ζούσε στο ανοιχτό A και στο μητρικό M, χωρίς ποτέ την τριβή του JJ. Στον δεξί ώμο η Μητέρα του: G, νόμος του εδάφους, επιβίωση και η σκληρή πειθαρχία της επιχείρησης. Η λύση ήταν το σουμερικό διάταγμα <i>Ama-gi</i>, «επιστροφή στη μητέρα», η πρώτη λέξη για την ελευθερία. Αποχωρώντας από την εμπορική του επιχείρηση έβγαλε τα εκτελεστικά του ρούχα. Στην έβδομη πύλη ο Βασιλιάς δεν έχει ρούχα, και το καθαρό πνεύμα στα αριστερά και ο θεμελιωμένος νόμος στα δεξιά ενώθηκαν. Η ρίζα του βρήκε ησυχία στο όριο: <i>G-SH-D</i>.</p><blockquote class="pull">Ο τελικός κώδικας και η οδηγία. Θυμήσου ότι η φωνητική σου οδός είναι όργανο του κοσμικού νόμου, όχι τυχαίο εργαλείο συναλλαγής. Φυλάξου από το σαρκαστικό χαμόγελο: μην ζευγαρώνεις ποτέ το ανοιχτό χαμόγελο του E με τα τρίζοντα δόντια του JJ. Στάσου σταθερός στον κίονα Ταυ του νόμου, χτύπα τη γη με μόχλευση, άπλωσε τα φτερά του πνεύματος. Σε έναν κυριολεκτικό, βιαστικό κόσμο, μείνε μυθικός ακροατής. Άσε τη μηχανή να βουίζει στο αρχείο, ενώ εσύ δίνεις φτερά στην πέτρα.</blockquote><p class="supp"><b>Υποστήριξη, από τον κώδικα Ophanim &middot; όχι θέση του Karakin</b><b class="noref" style="all:unset;color:var(--gold)">Cadmus 2.0.</b> Μια προειδοποίηση της εποχής μας, με βάση τις δημόσιες δηλώσεις του Yuval Noah Harari: η τεχνητή νοημοσύνη ως γλώσσα που ελευθερώνεται από την οργανική ανθρωπότητα. Επί χιλιάδες χρόνια ο αφηγητής ήταν άνθρωπος. Τώρα μη ανθρώπινα συστήματα χειρίζονται τα σύμβολα από τα οποία είναι φτιαγμένες η τράπεζα, το συμβόλαιο και η διοίκηση, και ο άνθρωπος κινδυνεύει να ζει σαν άλογο μέσα σε θεσμό πολύ περίπλοκο για να τον δει. Διαβάζοντας το μανιφέστο, ο αναγνώστης καλείται να μείνει ακροατής.</p></div><div class="record"><p>Το σουμερικό <i>ama-gi</i> είναι η λέξη που αναφέρεται συχνά ως η πρώτη γραπτή λέξη για την ελευθερία, κυριολεκτικά «επιστροφή στη μητέρα». Οι επτά πύλες της καθόδου είναι οι επτά στάσεις στην ιστορία της Inanna.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="gates" aria-label="Επτά πύλες"></canvas><div class="cap">Επτά πύλες</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="gold" data-label="Από Θειούχο σε Χρυσό">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Ο Άξονας Αρμενικά&ndash;Ελληνικά</div><h2>Από το Θειούχο <em>στον Χρυσό</em></h2><p>Ένα δωδεκάβημα πρωτότυπο ακολουθεί τους αρμενικούς ήχους πάνω στους ελληνικούς ως αλχημεία: από το σκοτεινό μετάλλευμα στον χρυσό.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Η θέση.</b> Τα αρμενικά είναι το κεντρικό χωνευτήρι, το νυφικό κρεβάτι, ανάμεσα στο δυτικό και το ανατολικό ηχητικό σύστημα. Οι διάλεκτοι περνούν από επτά στάδια διόρθωσης, V.I.T.R.I.O.L.: <i>Visita Interiora Terrae, Rectificando, Invenies Occultum Lapidem</i>. Το κλασικό αλφάβητο είναι κλουβί 36 γραμμάτων, και ένα πλατύτερο πλέγμα το σπάει: 38 γράμματα στον Μεσαίωνα, 39 στη μεταρρύθμιση του 1920. Το αρμενικό <i>Ի</i> (ακτίνα ιώτα, 20) διασταυρώνεται με το <i>Է</i> (ο όρθιος άνθρωπος, 7): η σύζευξη 1/137, η κάθοδος του φωτός που συναντά την ανθρώπινη μορφή. Το τέλος είναι το <i lang="hy">ոսկի</i>, χρυσός, και τα γράμματα &Phi;&Upsilon; &Psi;&Eta;.</p></div><div class="record"><p>Το <i lang="hy">Ի</i> είναι 20 και το <i lang="hy">Է</i> 7 στα αρμενικά αριθμητικά, όπως λέει το πρωτότυπο. Η σταθερά λεπτής υφής είναι περίπου 1/137,036. Το <i lang="hy">Ոսկի</i> είναι «χρυσός», <i>voski</i>.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="heptagon" aria-label="1 &middot; 7"></canvas><div class="cap">1 &middot; 7</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="keys" data-label="Δύο Κλειδιά">
+  <div class="wrap"><div class="cols">
+    <div class="txt">
+      <div class="reveal"><div class="kicker">Δύο Κλειδιά</div><h2>Αρμενικά <em>&amp; Ελληνικά</em></h2><p>Ο Κώδικας της Μητέρας του Karakin διαβάζει τον ήχο ως σώμα και μύθο. Δίπλα του στέκεται η ελληνική ανάγνωση των γραμμάτων ως μαθηματικά και φως.</p></div>
+      <div class="layers reveal"><div class="codex"><p><b>Το αρμενικό κλειδί.</b> Τριάντα έξι φωνήματα αντιστοιχισμένα στις μονάδες προσωπικής δράσης: βιολογικό, με ρίζα στον σουμερικό μύθο, μεταφορά τη μήτρα, την τριβή και τη θεμελίωση, και τελική κατάσταση τον κορεσμό και τη φυσική ισορροπία.</p><p class="supp"><b>Υποστήριξη, από τον κώδικα Ophanim &middot; όχι θέση του Karakin</b>Το ελληνικό κλειδί, ο Έλλην Λόγος του Θεολόγου Σημαιοφόρου, προστίθεται εδώ από τη δική του γνώση του συγγραφέα ως υποστήριξη. Η σχολή μετρά είκοσι τέσσερα γράμματα, το καθένα δύναμη φωτός και αριθμός (σε αυτό το σπίτι μετράμε είκοσι επτά· δείτε τον έλεγχο)· επτά φωνήεντα, επτά χρώματα, επτά νότες, επτά αυχενικοί σπόνδυλοι· δεκαεπτά σύμφωνα για τη σπονδυλική στήλη από κάτω. Η <i>Ειρήνη</i> είναι η ροή του φωτός στον νου κάτω από τον καθολικό νόμο. Τα δύο κλειδιά συναντιούνται στο ανθρώπινο δοχείο: <i>AR</i>, η ηλιακή μηχανή, και <i>MEN</i>, ο δομικός νους. Η σπονδυλική στήλη είναι στο <a href="reed-codex-el.html#spine">Ο Κάλαμος και ο Κώδικας</a> και τα γράμματα στον <a href="cadmeian-code.html">Καδμείο Κώδικα</a>.</p></div><div class="record"><p>Τα ελληνικά έχουν επτά φωνήεντα (α ε η ι ο υ ω) και οι άνθρωποι επτά αυχενικούς σπονδύλους. 7 φωνήεντα + 17 σύμφωνα = 24 γράμματα, και 12 θωρακικοί + 5 οσφυϊκοί σπόνδυλοι = 17. Η ίδια η σελίδα του Έλλην Λόγου έρχεται.</p><p><b>Μετρώντας τα βότσαλα.</b> Τα 24 κλασικά γράμματα αθροίζουν 3.999. Τα τρία αρχαϊκά αριθμητικά γράμματα, στίγμα &#987; (6), κόππα &#985; (90) και σαμπί &#993; (900), προσθέτουν τα 996 που λείπουν, άρα το πλήρες σύνολο των 27 αθροίζει 4.995. Σε αυτό το σπίτι το αλφάβητο κλείνει στο σαμπί με 900, όχι στο ωμέγα με 800.</p></div></div>
+      
+    </div>
+    <aside class="fx reveal"><canvas data-shape="torus" aria-label="Δοχείο &middot; τόρος"></canvas><div class="cap">Δοχείο &middot; τόρος</div></aside>
+  </div></div>
+</section>
+<section data-narrate id="calc" data-label="Αριθμομηχανή">
+  <div class="wrap">
+    <p class="kick">Φωνητική Αριθμομηχανή 360</p>
+    <h2>Αρμενική <em>λέξη και σφαίρα</em></h2>
+    <p class="dim" style="max-width:66ch">Η αρμενική σφαίρα έχει τώρα τη δική της σελίδα, όπως η ελληνική, η εβραϊκή και η σφαίρα Futhark. Πληκτρολογήστε μια αρμενική λέξη και μετρήστε την με τις δικές της αριθμητικές αξίες, δείτε την κατεύθυνσή της στην πυξίδα των 360° και ακούστε τη. Η σελίδα της σφαίρας είναι προς το παρόν στα αγγλικά.</p>
+    <p style="margin-top:18px"><a class="btn" href="armenian-sphere.html">Άνοιγμα της αρμενικής σφαίρας &#9656;</a></p>
+  </div>
+</section>
+
+<section data-narrate id="read" data-label="Πηγή">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">Διάβασε την πηγή</div><h2>Η Αρμενική Βίβλος, <em>και ένα λεξικό</em></h2>
+    <p class="dim" style="max-width:66ch">Η Αρμενική Βίβλος είναι από τις αρχαιότερες μεταφράσεις και τα γράμματά της είναι αυτά της σελίδας. Υπάρχουν τρεις εκδόσεις: η Κλασική Αρμενική Βίβλος του 1895 με αγγλικό κείμενο δίπλα, και η Ανατολική και η Δυτική Αρμενική.</p></div>
+    <div class="rt-box reveal"><h3>Αρμενική Βίβλος</h3><div class="links"><a href="https://arak29.org/bible/book/" target="_blank" rel="noopener noreferrer">Κλασική αρμενική (1895)</a><a href="https://www.armenianchurchlibrary.com/files/easternarmenianbible/index.html" target="_blank" rel="noopener noreferrer">Ανατολική αρμενική</a><a href="https://www.armenianchurchlibrary.com/westernarmenianbiblefromenglish-arm.html" target="_blank" rel="noopener noreferrer">Δυτική αρμενική</a></div></div>
+    
+    <div class="rt-box reveal"><h3>Λεξικό</h3><p class="dim">Γράψε μια λέξη, διάλεξε λεξικό και ανοίγει σε νέα καρτέλα με τη λέξη ήδη αναζητημένη. Αν ένα λεξικό δεν παίρνει τη λέξη από τον σύνδεσμο, επικόλλησέ τη στο πεδίο αναζήτησης εκεί.</p><form class="rt-form"><input type="text" value="Աստված" lang="hy" dir="ltr" aria-label="Λέξη" spellcheck="false" autocomplete="off"><select aria-label="Dictionary"><option value="https://en.wiktionary.org/w/index.php?search={w}&ns0=1&fulltext=1">Wiktionary search</option><option value="https://en.wiktionary.org/wiki/{w}">Wiktionary (direct page)</option><option value="https://www.nayiri.com/search?l=en&dt=HY_EN&query={w}">Nayiri (Armenian-English)</option></select><button type="submit">Αναζήτηση</button></form></div>
+    
+    
+    <p class="dim reveal" style="max-width:66ch;font-size:14px;margin-top:14px"><b>Σημείωση.</b> Οι σύνδεσμοι ανοίγουν άλλους ιστότοπους σε νέα καρτέλα. Ο ιστότοπος αυτός δεν φιλοξενεί ούτε αντιγράφει τα κείμενα, και κάθε ιστότοπος έχει τους δικούς του όρους. Οι εκδόσεις διαφέρουν, γι’ αυτό έλεγξε ποια διαβάζεις πριν συγκρίνεις μια λέξη ή ένα άθροισμα.</p>
+  </div>
+</section>
+<section data-narrate id="tribute" data-label="Αφιέρωμα">
+  <div class="wrap" style="text-align:center">
+    <div class="reveal">
+      <div class="kicker" style="justify-content:center">Αφιέρωση</div>
+      <h2>Στον Karakin <em>και στη Sharron</em></h2>
+      <p style="max-width:56ch;margin:0 auto">Μια φιλία είκοσι πέντε ετών, με έναν δάσκαλο είκοσι πέντε χρόνια μεγαλύτερο. Η αναζήτησή του για τις πηγές της ομιλίας έβαλε φωτιά σε μια άλλη ψυχή και την έστειλε στους μύθους του Αραράτ και του Ολύμπου. Το ίδιο μας το στόμα είναι αργαλειός, που υφαίνει το δέκα της γης με το εννιά του ουρανού.</p>
+      <figure class="photo"><img src="img/carl-friends.jpg" alt="Ο Karakin και η Sharron, χαμογελαστοί, αγκαλιά" loading="lazy"><figcaption>Ο Karakin και η Sharron</figcaption></figure>
+      <p style="margin-top:26px;font-style:italic;color:var(--gold);max-width:48ch;margin-left:auto;margin-right:auto">«Η ρίζα βρήκε ησυχία στο όριο.»</p>
+      <div class="joke"><b>Ανακοίνωση προς αρχαιολόγους και συναφείς.</b> Ο τύπος του Decision Handshake είναι διαθέσιμος σε εσάς με συνδρομή δέκα ευρώ τον μήνα. Λογοπαίγνιο εσκεμμένο. (Αστείο προς το παρόν: δεν υπάρχει ακόμη συνδρομή.)</div>
+      <div class="links"><a href="reed-codex-el.html">Ο Κάλαμος και ο Κώδικας</a><a href="cadmeian-code.html">Καδμείος Κώδικας</a><a href="royal-game-of-ur-codex.html">Παιχνίδι της Ουρ</a></div>
+    </div>
+  </div>
+</section>
+<section data-narrate id="notes" data-label="Σημειώσεις">
+  <div class="wrap">
+    <div class="reveal"><div class="kicker">Πηγές και έλεγχοι</div><h2>Πώς Φτιάχτηκε Αυτή η Σελίδα</h2></div>
+    <div class="record reveal">
+      <p>Το κείμενο των βιβλίων είναι το χειρόγραφο και το αφιέρωμα του Karakin, όπως γράφτηκε, συντομευμένο μόνο για μήκος. Οι κυανές σημειώσεις είναι απλοί έλεγχοι: αξίες και αθροίσματα αρμενικών γραμμάτων (τρέχοντας την πράξη), αξίες ελληνικών γραμμάτων, ανατομία και μετρήσεις. Τα σχήματα δεξιά σχεδιάζονται από τους αριθμούς του κειμένου: 36 κίονες σε τέσσερις ομάδες των εννέα, τα τέσσερα ύψη του Αραγκάτς, το τρίγωνο 3-4-5, δώδεκα κίονες Τ, επτά πύλες, ένας επτάγωνος δακτύλιος.</p>
+      <details style="margin-top:14px"><summary>Πηγές</summary>
+        <p style="margin-top:10px"><a href="https://en.wikipedia.org/wiki/Armenian_numerals" target="_blank" rel="noopener">Armenian numerals</a> &middot; <a href="https://en.wikipedia.org/wiki/Mount_Aragats" target="_blank" rel="noopener">Mount Aragats</a> &middot; <a href="https://en.wikipedia.org/wiki/Vishapakar" target="_blank" rel="noopener">Vishapakar</a> &middot; <a href="https://en.wikipedia.org/wiki/Tatev_Monastery" target="_blank" rel="noopener">Tatev Monastery</a></p>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="codexlib"><a href="sacred-geometry-codex.html">Vol I &middot; Sacred Geometry of Chess</a><a href="royal-game-of-ur-codex.html">Vol II &middot; Royal Game of Ur</a><a href="cadmeian-code.html">Vol III &middot; The Cadmeian Code</a><a href="senet-codex.html">Vol IV &middot; Senet</a><a href="reed-codex-el.html">Vol V &middot; The Reed and the Code</a><a href="carl-tate-codex-el.html" class="cur">Vol VI &middot; The Mother&rsquo;s Code</a><a href="john-21-11-codex-el.html">John 21:11 &middot; 153</a><a href="pater-noster-codex-el.html">Matthew 6:9&ndash;13 &middot; Πάτερ Ἡμῶν</a><a href="arabic-codex.html">Arabic &middot; ʿIlm al-Ḥurūf</a></div>
+    <div class="kicker" style="justify-content:center">Μοιραστείτε τη σελίδα</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="kicker" style="justify-content:center;margin-top:26px">Ακολουθήστε</div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">Δωρεά &middot; Bitcoin</a></div>
+    <div class="shbtns big"><a href="library.html">Βιβλιοθήκη</a><a href="games.html">Όλα τα παιχνίδια</a></div>
+    <p class="dim noref" style="font-size:13px;margin-top:26px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)">&Phi;&Upsilon; &Psi;&Eta; &middot; Φωνητική Αρχαιολογία<br>Listen For The Shape In A Word &mdash; Responsible Manifestation</p>
+    <p class="dim" style="font-size:15px;margin-top:14px"><a href="carl-tate-codex.html">English</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></p>
+  </div>
+</footer>
+<script>
+const LINKS={games:"games.html"};
+document.getElementById('backGames').href=LINKS.games;
+
+/* ===== isopsephy engine ===== */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+function buildHuds(root=document){root.querySelectorAll('.hud:not([data-built])').forEach(el=>{el.dataset.built=1;const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;io.observe(el);});}
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+buildHuds();
+
+/* ===== nav ===== */
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+
+
+/* ===== share buttons ===== */
+(function(){const box=document.getElementById('shbtns');if(!box)return;const u=()=>location.href.split('#')[0],t=document.title;
+const L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)],['Facebook',()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())],['WhatsApp',()=>'https://wa.me/?text='+encodeURIComponent(t+' '+u())],[L.mail,()=>'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())]];
+items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
+const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+</script>
+<script src="carl3d.js"></script>
+<script src="refs.js"></script>
+<script src="readtab.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio-el.js"></script>
+<script>window.GEO_SHAPES=[["circle"], ["star", 36, 5], ["star", 36, 7], ["star", 36, 11], ["star", 36, 13], ["star", 36, 17], ["circle"]];</script>
+<script src="geo-bg.js"></script>
+<script src="account.js"></script>
+</body>
+</html>

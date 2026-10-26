@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ophanim Field Console: Dual 360° Vector &amp; Alphanumeric Gematria Engine</title>
+<style>
+:root{
+  --bg:#06080d; --panel:#0b0f17; --panel2:#0f1522; --line:#1a2638; --cyan:#00f0ff; --amber:#ffb700;
+  --emerald:#19e08a; --red:#ff4d5e; --text:#cfe3ee; --dim:#6f8499;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13px}
+body{min-height:100vh;display:flex;flex-direction:column;
+  background:radial-gradient(1200px 600px at 50% -10%,#0d1a2b 0%,var(--bg) 60%)}
+a{color:var(--cyan)}
+button,input,select,textarea{font-family:inherit;font-size:12px;color:var(--text)}
+button{background:#0c1a28;border:1px solid #17445a;border-radius:4px;padding:5px 9px;cursor:pointer;transition:.15s}
+button:hover{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,240,255,.35);color:#fff}
+button.amber{border-color:#6b4d00;color:var(--amber)} button.amber:hover{border-color:var(--amber);box-shadow:0 0 8px rgba(255,183,0,.35)}
+input,select,textarea{background:#070b12;border:1px solid var(--line);border-radius:4px;padding:6px 8px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 6px rgba(0,240,255,.3)}
+h1,h2,h3{margin:0;font-weight:600}
+.led{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald);margin-right:6px;vertical-align:middle}
+.led.off{background:#444;box-shadow:none}.led.warn{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+
+/* ticker */
+#ticker{background:#04060a;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;height:28px;line-height:28px;position:relative}
+#tickerTrack{display:inline-block;padding-left:100%;animation:scroll 55s linear infinite}
+#ticker:hover #tickerTrack{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-100%)}}
+.tk{margin-right:34px}.tk b{color:var(--cyan)}.up{color:var(--emerald)}.dn{color:var(--red)}.sim{color:var(--dim);font-size:10px}
+
+/* header */
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
+.brand h1{font-size:17px;color:var(--cyan);letter-spacing:.5px;text-shadow:0 0 12px rgba(0,240,255,.4)}
+.quote{color:#fff;font-weight:700;font-size:12px;margin-top:4px}
+.emb{vertical-align:middle;margin-right:8px}
+.brand .sub{color:var(--amber);font-size:11px;margin-top:3px}
+.brand .sub span{color:var(--dim)}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+
+/* layout */
+main{flex:1;display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.5fr) minmax(300px,1fr);gap:10px;padding:10px}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;position:relative}
+.card>h2{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.card>h2 small{color:var(--dim);letter-spacing:0;text-transform:none;font-weight:400}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row>input{flex:1;min-width:120px}
+.mut{color:var(--dim);font-size:11px}
+svg.wheel{width:100%;height:auto;max-height:380px;display:block;background:radial-gradient(circle,#0a1624 0%,#070b12 70%);border-radius:6px;border:1px solid var(--line);outline:none}
+svg.wheel:focus{border-color:var(--cyan)}
+.kbd{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.kbd button{padding:3px 6px;min-width:24px;font-size:13px}
+.frame{width:100%;aspect-ratio:16/9;border:1px solid var(--line);border-radius:6px;background:#000;margin-top:8px}
+.frame.tall{aspect-ratio:3/4}
+audio,video{width:100%;margin-top:8px;border-radius:6px}
+
+/* results */
+#bigInput{font-size:16px;padding:10px}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.rbox{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px}
+.rbox .t{font-size:10px;color:var(--dim);letter-spacing:1px}
+.rbox .v{font-size:30px;color:var(--amber);text-shadow:0 0 14px rgba(255,183,0,.35);line-height:1.1}
+.rbox .term{font-size:15px;color:#fff;margin:2px 0;word-break:break-word}
+.chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
+.chip{background:#08111b;border:1px solid #17304a;border-radius:3px;padding:1px 5px;font-size:11px}
+.chip i{color:var(--amber);font-style:normal;margin-left:3px}
+.bench{display:flex;flex-wrap:wrap;gap:5px}
+.bench button{font-size:11px}
+.par{border:1px solid var(--line);border-radius:6px;padding:7px 9px;margin-bottom:6px;background:var(--panel2)}
+.par.hit{border-color:var(--amber);box-shadow:0 0 14px rgba(255,183,0,.35);animation:pulse 1.2s infinite alternate}
+@keyframes pulse{to{box-shadow:0 0 4px rgba(255,183,0,.15)}}
+.par .h{display:flex;justify-content:space-between;color:var(--amber)}
+.ok{color:var(--emerald)}.bad{color:var(--red)}
+.list{max-height:230px;overflow:auto}
+.news{display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--line)}
+.news span{flex:1}.news small{color:var(--dim)}
+.gauge{height:16px;border-radius:8px;background:linear-gradient(90deg,var(--emerald),var(--amber),var(--red));position:relative;margin:8px 0}
+.gauge .pin{position:absolute;top:-4px;width:4px;height:24px;background:#fff;box-shadow:0 0 8px #fff;border-radius:2px;transition:left .8s}
+.bigpct{font-size:30px;color:var(--amber)}
+.tabs{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
+.tabs button.on{border-color:var(--cyan);color:var(--cyan)}
+
+/* modals */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:50;padding:14px}
+.modal.open{display:flex}
+.mbox{background:var(--panel);border:1px solid var(--cyan);border-radius:10px;padding:16px;width:min(560px,100%);max-height:90vh;overflow:auto;box-shadow:0 0 30px rgba(0,240,255,.2)}
+.mbox h2{color:var(--cyan);margin-bottom:10px}
+.field{margin:8px 0}.field label{display:block;color:var(--dim);font-size:11px;margin-bottom:3px}
+.wallet{display:flex;gap:6px;align-items:center;margin:6px 0}
+.wallet b{width:44px;color:var(--amber)}
+.wallet code{flex:1;word-break:break-all;background:#070b12;border:1px solid var(--line);padding:5px;border-radius:4px;min-height:28px}
+.msg{min-height:16px;margin-top:6px}
+details.xp>summary{cursor:pointer;color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;font-size:11px}
+footer{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:6px 14px;border-top:1px solid var(--line);background:#04060a;color:var(--dim);font-size:11px}
+footer b{color:var(--text);font-weight:400}
+.banner img{max-width:100%;border-radius:6px;border:1px solid var(--line);margin-top:6px}
+.hud{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:#04070c;font-size:11px;color:#6f8499}.hud b{color:#00f0ff;margin-right:4px}
+.qt{margin-top:6px;max-height:260px;overflow:auto;padding-right:4px;border:1px solid var(--line);border-radius:6px;padding:4px 6px}.qt .g{font-size:10px;color:var(--amber);margin:8px 0 3px}.qt button{margin:2px 3px 2px 0;font-size:12px}.qt button small{color:var(--amber);margin-left:4px}.qt button.diff{border-color:#ff5577}
+.clk{font-size:11px;color:var(--cyan);border:1px solid var(--line);border-radius:4px;padding:4px 7px;margin-right:4px;background:#070b12;white-space:nowrap}
+#siteTabs button{margin-right:4px}#siteTabs button.empty{opacity:.55;border-style:dashed}
+#siteBox{width:min(1100px,96vw);height:88vh;display:flex;flex-direction:column}#siteBox iframe{flex:1;width:100%;border:1px solid var(--line);border-radius:6px;background:#fff;margin-top:8px}
+.qrow{display:flex;align-items:center;gap:8px;margin:2px 0}.qrow .mut{font-size:11px}
+#sndCanvas{width:100%;height:90px;display:block;margin-top:8px;background:#04070c;border:1px solid var(--line);border-radius:6px}
+#phon{margin-top:6px;font-size:12px;color:#9fd7ff;min-height:16px}
+#cmpCanvas{width:100%;height:auto;aspect-ratio:2/1;display:block;margin:8px auto 0;background:#04070c;border:1px solid var(--line);border-radius:6px}
+.cmpgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.arm{border:1px dashed #2a3a50;border-radius:6px;padding:8px;margin-top:8px;background:#080c14}
+@media(max-width:1100px){main{grid-template-columns:1fr}}
+header{position:relative}
+
+/* header compaction */
+#ticker{border-bottom:0;border-top:1px solid var(--line)}
+.intro{padding:7px 16px;border-bottom:1px solid var(--line);background:#070b12;color:var(--text);font-size:12.5px;line-height:1.5}
+.intro b{color:var(--cyan)}.intro .q{color:var(--dim);margin-left:8px;white-space:nowrap}
+header{padding:8px 16px;padding-right:62px}
+#siteTabs button.empty{display:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 14px;border-top:1px solid var(--line);background:#050810}
+.toolbar .clk{margin-right:0}
+@media(max-width:1100px){main>.col:nth-child(2){order:-1}}
+.rbox.under{margin:8px 0}.why{margin-top:6px;border-left:2px solid var(--amber);padding-left:8px;line-height:1.5}.why b{color:var(--amber)}
+@media(max-width:1000px){.brand h1 span{display:none}.intro .q{display:block;margin:2px 0 0;white-space:normal}}
+</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head>
+<body>
+
+
+<header>
+  <div class="brand">
+    <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>OPHANIM FIELD CONSOLE <span style="color:var(--dim);font-weight:400">// Dual 360° Vector &amp; Alphanumeric Gematria Engine</span></h1>
+    <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone</div>
+  </div>
+  <nav>
+    <span id="siteTabs"></span>
+    <a href="library.html"><button title="PDFs and audio">📚 Library</button></a>
+    <a href="el.html"><button lang="el" title="Greek version of the site">Ελληνικά</button></a>
+    <a href="feedback.html"><button title="Send feedback">💬 Feedback</button></a>
+    </nav>
+    <svg id="btcEmb" viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="Bitcoin" style="position:absolute;right:16px;top:14px"><circle cx="20" cy="20" r="18.5" fill="#f7931a"/><g transform="rotate(14 20 20)"><path d="M16.2 8v3.6M21.6 8v3.6M16.2 28.4V32M21.6 28.4V32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><text x="19.2" y="27" text-anchor="middle" font-size="21" font-weight="800" fill="#fff" font-family="Arial,Helvetica,sans-serif">B</text></g></svg>
+</header>
+<div class="intro"><b>Type a word.</b> The console turns its letters into numbers, finds the same number in Greek and in Hebrew, and shows where it points on the wheels. <span class="q">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</span></div>
+
+<main>
+<!-- LEFT -->
+<section class="col">
+  <div class="card">
+    <h2>Greek Milesian · 27 signs <small>13.33° / node</small></h2>
+    <svg id="svgG" class="wheel" viewBox="0 0 440 440" tabindex="0" aria-label="Greek 27-node wheel"></svg>
+    <div class="row" style="margin-top:6px">
+      <button data-w="g" data-a="-10">−10°</button><button data-w="g" data-a="10">+10°</button>
+      <button data-w="g" data-a="node">Step Node</button><button data-w="g" data-a="add" class="amber">Add Letter ⏎</button>
+      <span class="mut" id="curG">cursor: —</span>
+    </div>
+    <div class="rbox under"><div class="t">GREEK ISOPSEPHY</div><div class="term" id="gTerm" dir="auto">—</div><div class="v" id="gVal">0</div><div class="mut" id="gMeta"></div><div class="chips" id="gChips"></div></div>
+    <div class="field"><label>Keyboard Input Tab — Greek (type Greek or Latin; arrows/Enter work when the wheel is focused)</label>
+      <input id="inG" placeholder="ΤΡΑΜΠ" autocomplete="off"></div>
+    <div class="kbd" id="kbG"></div>
+  </div>
+
+  <div class="card">
+    <h2>Harmonic Synthesizer <small>Web Audio · 432 Hz baseline</small></h2>
+    <div class="row">
+      <button id="playSeq" class="amber">▶ Play Harmonic Sequence</button>
+      <button id="stopSeq">■ Stop</button>
+      <label class="row"><input type="checkbox" id="loopTog" style="width:auto"> Repeatable Loop / Tone Tab</label>
+      <select id="srcSel" style="width:auto"><option value="g">Greek values</option><option value="h">Hebrew values</option><option value="r">Runic values</option><option value="a">Armenian values</option></select>
+      <label class="row">Base Hz <input id="baseHz" type="number" value="432" style="width:70px"></label>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button id="btnSpeak" class="amber">🗣 Speak word</button>
+      <button id="btnTrans" class="amber" title="Translate to the other language, light the other wheel and speak it">⇄ Translate &amp; speak</button>
+      <button id="btnSpeakStop">■</button>
+      <select id="voiceSel" style="width:auto" title="Which voice reads the word">
+        <option value="el">Greek voice</option><option value="he">Hebrew voice</option><option value="hy">Armenian voice</option>
+        <option value="nb">Norwegian voice (Old Norse approx.)</option><option value="en">English voice</option>
+      </select>
+      <label class="row"><input type="checkbox" id="speakOnTap" style="width:auto"> speak on tap</label>
+      <a id="gtLink" href="https://translate.google.com/" target="_blank" rel="noopener"><button title="Opens Google Translate, which can read it aloud in any language">Hear online ↗</button></a>
+    </div>
+    <div class="mut" id="voiceList" style="margin-top:4px"></div>
+    <div class="mut" id="voiceNote">Voices come from your device. The word is written in the chosen voice’s own script (Greek → Greek letters, Hebrew → Hebrew letters) or in Latin letters for the others, so each voice reads it with its own accent.</div>
+    <canvas id="sndCanvas" width="1200" height="180" aria-label="Sound sequence rendering"></canvas>
+    <div id="phon"></div>
+    <div class="mut">Each letter value is folded into one octave above the base: f = base · 2^((value mod 12)/12) · octave shift.</div>
+  </div>
+
+
+  <div class="card">
+    <h2>Video Dock <small>YouTube · Vimeo · MP4</small></h2>
+    <div class="row"><input id="vidUrl" placeholder="https://www.youtube.com/watch?v=…"><button id="vidGo">Load</button></div>
+    <div id="vidHost"></div>
+    <div class="mut" id="vidNote">Some sites block embedding; those links will show blank.</div>
+  </div>
+</section>
+
+<!-- CENTER -->
+<section class="col">
+  <div class="card">
+    <h2>Audit Terminal <span><a id="perseusLink" href="https://www.perseus.tufts.edu/hopper/" target="_blank" rel="noopener noreferrer" title="Look this Greek word up in the Perseus lexicon"><button type="button">Perseus ↗</button></a> <a id="perseusAI" href="https://perseus.tube/" target="_blank" rel="noopener noreferrer" title="Perseus AI — word is copied so you can paste it"><button type="button">Perseus AI ↗</button></a> <a id="runesLink" href="https://rundata.info/" target="_blank" rel="noopener noreferrer" title="Rundata — search Scandinavian runic inscriptions in the browser (Uppsala database)"><button type="button">Runes ↗</button></a> <a id="logeionLink" href="https://logeion.uchicago.edu/" target="_blank" rel="noopener noreferrer" title="Look this Greek word up on Logeion (LSJ and others)"><button type="button">Logeion ↗</button></a> <a id="sefariaLink" href="https://www.sefaria.org/" target="_blank" rel="noopener noreferrer" title="Look this Hebrew word up on Sefaria"><button type="button">Sefaria ↗</button></a> <small>Latin text is auto-transliterated (approximate)</small></span></h2>
+    <input id="bigInput" placeholder="Enter a term…  (Latin, Greek or Hebrew)" autocomplete="off">
+    <div class="banner" id="banner"></div>
+    <div class="mut" id="notes" style="margin-top:6px"></div>
+  </div>
+
+  <div class="card">
+    <h2>Multilingual Compass <small>360° · 36 nodes × 10° · Greek · Runic · Hebrew</small></h2>
+    <input id="cmpInput" dir="auto" placeholder="Greek, Runic, Hebrew or Latin letters…" autocomplete="off">
+    <canvas id="cmpCanvas" width="1800" height="900" aria-label="Multi-lingual cosmic compass"></canvas>
+    <div class="cmpgrid" id="cmpOut"></div>
+    <div class="mut why" id="whyDiff"><b>Same reading as the wheels.</b> Greek is read by sound, a whole word at a time, so two-letter sounds count as one: ΟΥ, ΜΠ, ΝΤ, ΓΚ, ΤΣ, ΕΙ, ΟΙ, ΑΙ. The Hebrew number here therefore matches the one under the Hebrew wheel. For now ΑΥ and ΕΥ are still read as two vowels (a + u, e + u), which is open for review.</div>
+    <div class="kbd" id="kbR" aria-label="Runic keyboard"></div>
+    <div class="hud" id="ophHud" aria-label="Ophanim framework parameters">
+      <span><b>1/135</b> Acoustic Coupling Constant</span>
+      <span><b>Betti-1</b> Persistence Metrics</span>
+      <span><b>1331 = 11&sup3;</b> Cubic Volume Threshold</span>
+    </div>
+    <div class="mut" style="margin-top:6px">Left wheel: node = value mod 36. Right wheel (Sampi hub Ϡ 900, seal 99): vector = value × 7 mod 36, projected from the hub through every ring. Latin input drives all three scripts at once; native letters drive only their own script. Rune values are positional (1–24). The dim outer ring is Armenian: shown, but unplugged from the compass maths.</div>
+  </div>
+
+  <div class="card" id="spheres">
+    <h2>Ophanim Spheres <small>the same letters, turned into a globe</small></h2>
+    <div class="row tabs">
+      <a href="greek-sphere.html"><button>Greek Sphere</button></a>
+      <a href="hebrew-sphere.html"><button>Hebrew Sphere</button></a>
+      <a href="futhark-sphere.html"><button>Futhark Sphere</button></a>
+      <a href="armenian-sphere.html"><button>Armenian Sphere</button></a>
+    </div>
+    <div class="mut why" id="spDisc"><b>For further study.</b> The wheels and spheres are a reading tool: letters become numbers, numbers become directions. They are not proof of anything on their own. To check a word, use the <a href="library.html">Library</a> (talks and PDFs). The Greek, Hebrew and Futhark sphere pages have a dictionary. The Greek page also searches the Septuagint (the Greek Torah), and the Greek and Hebrew pages can find a word from English through Strong&rsquo;s. The Armenian sphere counts with the Armenian letters&rsquo; own numeral values; the Mother&rsquo;s Code scroll tells the story behind them.</div>
+  </div>
+
+  <div class="card">
+    <h2>Armenian Grabar <small>standalone lookup</small></h2>
+    <div class="arm" style="margin-top:0">
+      <div class="mut" style="color:var(--amber);margin-bottom:5px">ARMENIAN GRABAR — standalone lookup (not part of the compass)</div>
+      <input id="armInput" placeholder="Type Armenian letters…" autocomplete="off">
+      <div class="kbd" id="kbA" aria-label="Armenian keyboard"></div>
+      <div class="chips" id="armOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quick-Tap Specimen Database <small>tap = calculate · light nodes · play tones · animate twin wheels</small></h2>
+    <div class="qt" id="qt"></div>
+    <div class="mut" id="qtNote" style="margin-top:6px"></div>
+  </div>
+
+  <div class="card">
+    <h2>News RSS Auditor <small id="newsStat"></small></h2>
+    <div class="tabs" id="feedTabs"></div>
+    <div class="row"><input id="feedUrl" placeholder="custom RSS URL"><button id="feedGo">Fetch</button></div>
+    <div class="list" id="newsList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Keyword Friction Heuristic <small>WWIII gauge · not a forecast</small></h2>
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <div style="position:relative;width:130px;height:130px">
+        <svg viewBox="0 0 120 120" width="130" height="130" aria-label="Friction ring gauge">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#10202f" stroke-width="10"/>
+          <circle id="riskRing" cx="60" cy="60" r="50" fill="none" stroke="#19e08a" stroke-width="10" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="314.159" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .9s,stroke .9s"/>
+        </svg>
+        <div class="bigpct" id="riskPct" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px">--%</div>
+      </div>
+      <div style="text-align:right"><div class="mut">ESCALATION CLOCK (symbolic)</div><div id="clock" style="font-size:20px;color:var(--cyan)">--:--:--</div></div>
+    </div>
+    <div class="mut" id="riskWhy" style="margin-top:6px">Waiting for headlines…</div>
+    <div class="mut" style="margin-top:4px">Method: 20% neutral base + 3 × (net phrase weight ÷ headline count), clamped 0–100%. Phrase tiers ±15 / ±10 / ±5 / +3. No place names are scored. Keyword counting does not understand context or negation.</div>
+  </div>
+</section>
+
+<!-- RIGHT -->
+<section class="col">
+  <div class="card">
+    <h2>Hebrew Ragil · 22 letters <small>16.36° / node</small></h2>
+    <svg id="svgH" class="wheel" viewBox="0 0 440 440" tabindex="0" aria-label="Hebrew 22-node wheel"></svg>
+    <div class="row" style="margin-top:6px">
+      <button data-w="h" data-a="-10">−10°</button><button data-w="h" data-a="10">+10°</button>
+      <button data-w="h" data-a="node">Step Node</button><button data-w="h" data-a="add" class="amber">Add Letter ⏎</button>
+      <span class="mut" id="curH">cursor: —</span>
+    </div>
+    <div class="rbox under"><div class="t">HEBREW GEMATRIA (RAGIL)</div><div class="term" id="hTerm" dir="auto">—</div><div class="v" id="hVal">0</div><div class="mut" id="hMeta"></div><div class="chips" id="hChips"></div></div>
+    <div class="field"><label>Keyboard Input Tab — Hebrew (type Hebrew or Latin)</label>
+      <input id="inH" dir="auto" placeholder="נתניהו" autocomplete="off"></div>
+    <div class="kbd" id="kbH" dir="rtl"></div>
+  </div>
+
+  <div class="card">
+    <h2>Cross-Script Parity Detector <small id="parStat"></small></h2>
+    <div id="parity"></div>
+    <div class="mut" style="margin:6px 0 3px">Live matches across all terms evaluated so far (Greek ↔ Hebrew):</div>
+    <div class="list" id="parLive" style="max-height:140px"></div>
+  </div>
+
+
+  <div class="card">
+    <h2>PDF Viewer Dock</h2>
+    <div class="row"><input id="pdfUrl" placeholder="https://…/document.pdf"><button id="pdfGo">Load</button></div>
+    <iframe class="frame tall" id="pdfFrame" title="PDF viewer"></iframe>
+  </div>
+
+  <div class="card">
+    <details class="xp" id="xBox">
+      <summary>@Mandos16 on X — interaction window</summary>
+      <div class="row" style="margin:8px 0">
+        <a href="https://x.com/Mandos16" target="_blank" rel="noopener"><button>Open Profile</button></a>
+        <a href="https://x.com/intent/follow?screen_name=Mandos16" target="_blank" rel="noopener"><button>Follow</button></a>
+        <a href="https://x.com/intent/tweet?text=%40Mandos16%20" target="_blank" rel="noopener"><button class="amber">Message @Mandos16</button></a>
+      </div>
+      <div id="xHost" class="mut">Expand to load the timeline (needs access to platform.twitter.com).</div>
+    </details>
+  </div>
+</section>
+</main>
+
+<div id="tools" class="toolbar"><span class="clk" id="clkUtc">UTC --:--:--</span><span class="clk" id="clkLoc">LOCAL --:--:--</span>
+    <span id="zoomBox"><button id="zOut" title="Smaller text">A−</button><button id="zIn" title="Larger text">A+</button></span>
+    <button id="btnDrone" title="SomaFM Drone Zone — mute / unmute">🔇 Drone</button><input id="droneVol" type="range" min="0" max="100" value="6" title="Drone volume" aria-label="Drone volume" style="width:74px;vertical-align:middle;margin:0 6px 0 -2px;accent-color:#ffb700">
+    <button id="btnCms">⚙ CMS Desk</button>
+  </div>
+<!-- TICKER (moved to the bottom) -->
+<div id="ticker"><div id="tickerTrack">Loading market data…</div></div>
+
+<footer>
+  <span><span class="led" id="stNet"></span><b id="stMarket">market: loading</b></span>
+  <span>TERM: <b id="stTerm">—</b></span>
+  <span>G: <b id="stG">0</b> · H: <b id="stH">0</b></span>
+  <span>AUDIO: <b id="stAud">silent</b></span>
+  <span id="stClock"></span>
+  <span>Follow: <a href="https://x.com/Mandos16" target="_blank" rel="noopener">X @Mandos16</a> · <a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener">YouTube</a></span>
+  <span><button id="btnTip" class="amber">♦ Tip / Donate</button></span>
+  <span><a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer" style="color:#f7931a">₿ Bitcoin.org</a></span>
+  <span>ΦΎ ΨΉ — Philosophy From A Stone · @Mandos16</span>
+</footer>
+
+<!-- SISTER SITE VIEWER -->
+<div class="modal" id="siteModal"><div class="mbox" id="siteBox">
+  <div class="row" style="justify-content:space-between"><b id="siteTitle" style="color:var(--cyan)"></b>
+    <span><a id="siteOpen" href="#" target="_blank" rel="noopener"><button class="amber">Open in new tab ↗</button></a> <button id="siteClose">Close</button></span></div>
+  <div class="mut">If the page stays blank, the site blocks embedding — use “Open in new tab”.</div>
+  <iframe id="siteFrame" title="Sister site" referrerpolicy="no-referrer"></iframe>
+</div></div>
+
+<!-- TIP JAR -->
+<div class="modal" id="tipModal"><div class="mbox">
+  <h2>♦ Crypto Tip Jar</h2>
+  <div class="mut">New to Bitcoin? <a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer" style="color:#f7931a">bitcoin.org</a></div>
+  <div class="mut">Send only on the matching network. Always verify the address with the creator before sending.</div>
+  <div id="walletList"></div>
+  <div class="row" style="margin-top:10px"><button id="tipClose">Close</button></div>
+</div></div>
+
+<!-- CMS -->
+<div class="modal" id="cmsModal"><div class="mbox">
+  <h2>⚙ CMS Control Desk</h2>
+  <div id="cmsLogin">
+    <div class="field"><label>Admin email</label><input id="cmsEmail" value="polycarpoumandos@gmail.com" autocomplete="username"></div>
+    <div class="field"><label id="cmsPwLabel">Password</label><input id="cmsPw" type="password" autocomplete="current-password"></div>
+    <div class="row"><button id="cmsLoginBtn" class="amber">Unlock</button><button id="cmsClose1">Cancel</button></div>
+    <div class="msg" id="cmsMsg"></div>
+    <div class="mut">Note: this lock runs entirely in your browser (hash stored in localStorage). It gates the editing UI but is not server-grade security — anyone with access to this file/browser can bypass it.</div>
+  </div>
+  <div id="cmsDesk" style="display:none">
+    <h3 style="color:var(--amber);margin:6px 0">Tip Jar Wallets</h3>
+    <div class="field"><label>BTC</label><input id="wBTC"></div>
+    <div class="field"><label>ETH</label><input id="wETH"></div>
+    <div class="field"><label>SOL</label><input id="wSOL"></div>
+    <div class="field"><label>ADA</label><input id="wADA"></div>
+    <div class="row"><label class="row"><input type="checkbox" id="tipVisible" style="width:auto" checked> Show tip jar to visitors</label></div>
+    <h3 style="color:var(--amber);margin:12px 0 6px">Media &amp; Notes</h3>
+    <div class="field"><label>Default video URL</label><input id="cVid"></div>
+    <div class="field"><label>Default PDF URL</label><input id="cPdf"></div>
+    <div class="field"><label>Banner image link</label><input id="cImg"></div>
+    <div class="field"><label>Research notes / caption</label><textarea id="cNotes" rows="3"></textarea></div>
+    <div class="field"><label>Headline tags (comma separated)</label><input id="cTags"></div>
+    <h3 style="color:var(--amber);margin:12px 0 6px">Sister Sites &amp; RSS</h3>
+    <div class="field"><label>Top-bar site tabs (max 5) — one per line: Name | https://url</label><textarea id="cSites" rows="5" style="white-space:pre"></textarea></div>
+    <div class="field"><label>RSS feeds — one per line: Name | https://feed-url</label><textarea id="cFeeds" rows="4" style="white-space:pre"></textarea></div>
+    <div class="row"><button id="cmsSave" class="amber">Save</button><button id="cmsReset">Reset sites &amp; feeds</button><button id="cmsLogout">Lock</button><button id="cmsClose2">Close</button></div>
+    <div class="msg ok" id="cmsSaved"></div>
+  </div>
+</div></div>
+
+<script>
+"use strict";
+/* ============ helpers ============ */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ============ alphabets ============ */
+const GREEK=[['α',1],['β',2],['γ',3],['δ',4],['ε',5],['ϛ',6],['ζ',7],['η',8],['θ',9],['ι',10],['κ',20],['λ',30],['μ',40],['ν',50],['ξ',60],['ο',70],['π',80],['ϙ',90],['ρ',100],['σ',200],['τ',300],['υ',400],['φ',500],['χ',600],['ψ',700],['ω',800],['ϡ',900]];
+const HEBREW=[['א',1],['ב',2],['ג',3],['ד',4],['ה',5],['ו',6],['ז',7],['ח',8],['ט',9],['י',10],['כ',20],['ל',30],['מ',40],['נ',50],['ס',60],['ע',70],['פ',80],['צ',90],['ק',100],['ר',200],['ש',300],['ת',400]];
+const HFINAL={'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ'};
+const SCR={
+  g:{name:'Greek',letters:GREEK,step:360/27,
+     norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/ς/g,'σ').replace(/ϲ/g,'σ').replace(/ς/g,'σ')},
+     test:/[\u0370-\u03FF\u1F00-\u1FFF]/},
+  h:{name:'Hebrew',letters:HEBREW,step:360/22,
+     norm(s){return s.replace(/[\u0591-\u05C7]/g,'').replace(/[ךםןףץ]/g,c=>HFINAL[c])},
+     test:/[\u0590-\u05FF]/}
+};
+for(const k in SCR){SCR[k].idx={};SCR[k].letters.forEach((l,i)=>SCR[k].idx[l[0]]=i)}
+SCR.g.idx['ς']=SCR.g.idx['σ'];
+
+function evalTerm(k,raw){
+  const S=SCR[k],t=S.norm(raw||''),seq=[];let sum=0;
+  for(const ch of t){const i=S.idx[ch];if(i!==undefined){seq.push(i);sum+=S.letters[i][1]}}
+  let red=sum;while(red>9&&red!==11&&red!==22&&red!==33)red=String(red).split('').reduce((a,b)=>a+ +b,0);
+  return{sum,seq,count:seq.length,red};
+}
+
+/* ============ transliteration (approximate) ============ */
+function toGreek(s){
+  s=s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  s=s.replace(/th/g,'θ').replace(/ph/g,'φ').replace(/ch/g,'χ').replace(/ps/g,'ψ').replace(/sh/g,'σ').replace(/ou/g,'ου');
+  const m={a:'α',b:'β',c:'κ',d:'δ',e:'ε',f:'φ',g:'γ',h:'η',i:'ι',j:'ι',k:'κ',l:'λ',m:'μ',n:'ν',o:'ο',p:'π',q:'κ',r:'ρ',s:'σ',t:'τ',u:'υ',v:'β',w:'ω',x:'ξ',y:'υ',z:'ζ'};
+  return s.replace(/[a-z]/g,c=>m[c]);
+}
+function toHebrew(s){
+  s=s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  s=s.replace(/sh/g,'ש').replace(/ch/g,'ח').replace(/kh/g,'כ').replace(/th/g,'ת').replace(/tz|ts/g,'צ').replace(/ph/g,'פ');
+  const m={a:'א',e:'א',i:'י',o:'ו',u:'ו',b:'ב',c:'כ',d:'ד',f:'פ',g:'ג',h:'ה',j:'ג',k:'כ',l:'ל',m:'מ',n:'נ',p:'פ',q:'ק',r:'ר',s:'ס',t:'ת',v:'ו',w:'ו',x:'קס',y:'י',z:'ז'};
+  return s.replace(/[a-z]/g,c=>m[c]);
+}
+
+
+/* ============ phonetic engine: every word speaks in both scripts ============ */
+function g2l(s){
+  s=s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/ς/g,'σ');
+  s=s.replace(/ου/g,'u').replace(/μπ/g,'b').replace(/ντ/g,'d').replace(/γκ/g,'g').replace(/τσ/g,'ts').replace(/[ει]ι|οι/g,'i').replace(/αι/g,'e');
+  const m={α:'a',β:'v',γ:'g',δ:'d',ε:'e',ϛ:'v',ζ:'z',η:'i',θ:'th',ι:'i',κ:'k',λ:'l',μ:'m',ν:'n',ξ:'ks',ο:'o',π:'p',ϙ:'q',ρ:'r',σ:'s',τ:'t',υ:'u',φ:'f',χ:'ch',ψ:'ps',ω:'o',ϡ:'ts'};
+  return s.replace(/[Ͱ-Ͽ]/g,c=>m[c]!==undefined?m[c]:'');
+}
+function h2l(s){
+  s=s.replace(/[֑-ׇ]/g,'').replace(/[ךםןףץ]/g,c=>HFINAL[c]);
+  const m={א:'a',ב:'b',ג:'g',ד:'d',ה:'h',ו:'u',ז:'z',ח:'ch',ט:'t',י:'i',כ:'k',ל:'l',מ:'m',נ:'n',ס:'s',ע:'a',פ:'p',צ:'ts',ק:'q',ר:'r',ש:'sh',ת:'t'};
+  return s.replace(/[֐-׿]/g,c=>m[c]!==undefined?m[c]:'');
+}
+const RUNE_L={'ᚠ':'f','ᚢ':'u','ᚦ':'th','ᚨ':'a','ᚱ':'r','ᚲ':'k','ᚷ':'g','ᚹ':'w','ᚺ':'h','ᚾ':'n','ᛁ':'i','ᛃ':'y','ᛇ':'e','ᛈ':'p','ᛉ':'z','ᛋ':'s','ᛏ':'t','ᛒ':'b','ᛖ':'e','ᛗ':'m','ᛚ':'l','ᛝ':'ng','ᛞ':'d','ᛟ':'o'};
+const ARM_LAT=['a','b','g','d','e','z','e','e','t','zh','i','l','kh','ts','k','h','dz','gh','ch','m','y','n','sh','o','ch','p','j','r','s','v','t','r','ts','u','p','k'];
+function toLat(v){
+  let o='';
+  for(const c of v){
+    if(RUNE_L[c]!==undefined)o+=RUNE_L[c];
+    else if(/[԰-֏]/.test(c)){const i='ԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔ'.indexOf(c.toUpperCase());o+=i>=0?ARM_LAT[i]:''}
+    else if(SCR.g.test.test(c))o+=g2l(c);
+    else if(SCR.h.test.test(c))o+=h2l(c);
+    else o+=c;
+  }
+  return o;
+}
+function phon(v){
+  const hasR=/[ᚠ-᛿]/.test(v),hasA=/[԰-֏]/.test(v);
+  if(hasR||hasA){const lat=toLat(v);return{g:toGreek(lat).toUpperCase(),h:toHebrew(lat),lat}}
+  const hasG=SCR.g.test.test(v),hasH=SCR.h.test.test(v);
+  if(hasG&&!hasH){const g=v.replace(/[^Ͱ-Ͽἀ-῿\s]/g,''),lat=g2l(g);return{g,h:toHebrew(lat),lat}}
+  if(hasH&&!hasG){const h=v.replace(/[^֐-׿\s]/g,''),lat=h2l(h);return{g:toGreek(lat).toUpperCase(),h,lat}}
+  return{g:toGreek(v).toUpperCase(),h:toHebrew(v),lat:v};
+}
+
+/* ============ benchmarks (explicit spellings) ============ */
+const BENCH=[
+ ['Donald Trump','ΝΤΟΝΑΛΝΤ ΤΡΑΜΠ','דונלד טראמפ'],
+ ['Netanyahu','ΝΕΤΑΝΙΑΧΟΥ','נתניהו']
+];
+const CLASSIC=[
+ {id:521,label:'521 Parity',items:[['g','ΤΡΑΜΠ','Greek Trump'],['h','נְתַנְיָהוּ','Hebrew Netanyahu']]},
+ {id:424,label:'424 Messianic Parity',items:[['h','דונלד טראמפ','Hebrew Donald Trump'],['h','משיח בן דוד','Mashiach ben David']]},
+ {id:430,label:'430 Law Equilibrium',items:[['g','ΝΟΜΟΣ','Nomos'],['g','ΑΡΙΘΜΟΣ','Arithmos'],['g','ΜΑΘΗΜΑΤΙΚΑ','Mathematika']]},
+ {id:1224,label:'1224 Vesica Net Matrix',items:[['g','ΤΟ ΔΙΚΤΥΟΝ','To Diktuon'],['g','ΙΧΘΥΕΣ','Ichthues, plural (ΙΧΘΥΣ singular = 1219)']]}
+];
+
+/* ============ wheels ============ */
+const wheels={};
+function makeWheel(k,svg){
+  const S=SCR[k],n=S.letters.length;
+  const w={k,svg,n,step:S.step,angle:0,seq:[],play:-1};
+  wheels[k]=w;
+  svg.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowUp'){moveW(k,S.step);e.preventDefault()}
+    else if(e.key==='ArrowLeft'||e.key==='ArrowDown'){moveW(k,-S.step);e.preventDefault()}
+    else if(e.key==='Enter'||e.key===' '){addLetter(k);e.preventDefault()}
+  });
+  drawWheel(w);
+}
+function cursorNode(w){return((Math.round(w.angle/w.step)%w.n)+w.n)%w.n}
+function moveW(k,d){const w=wheels[k];w.angle=((w.angle+d)%360+360)%360;drawWheel(w)}
+function addLetter(k){
+  const w=wheels[k],L=SCR[k].letters[cursorNode(w)][0];
+  const inp=$(k==='g'?'inG':'inH');inp.value+=L;inp.dispatchEvent(new Event('input'));
+}
+function drawWheel(w){
+  const S=SCR[w.k],cx=220,cy=220,R=150,LR=186;
+  const pos=(i,r)=>{const a=(i*w.step-90)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+  let h=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#17304a"/><circle cx="${cx}" cy="${cy}" r="${R-40}" fill="none" stroke="#10202f" stroke-dasharray="3 5"/><circle cx="${cx}" cy="${cy}" r="3" fill="#00f0ff"/><circle cx="${cx}" cy="${cy}" r="${R+12}" fill="none" stroke="#00f0ff" stroke-opacity=".35" stroke-dasharray="6 90"><animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="360 ${cx} ${cy}" dur="${w.play>=0?4:24}s" repeatCount="indefinite"/></circle>`;
+  for(let i=0;i<w.n;i++){const[x,y]=pos(i,R);h+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#0e2234" stroke-width="1"/>`}
+  const visited=new Set(w.seq);
+  if(w.seq.length>1){
+    let d='';w.seq.forEach((i,j)=>{const[x,y]=pos(i,R);d+=(j?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)});
+    h+=`<path d="${d}" fill="none" stroke="#00f0ff" stroke-width="1.6" stroke-opacity=".75" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #00f0ff)"/>`;
+  }
+  const cn=cursorNode(w);
+  for(let i=0;i<w.n;i++){
+    const[x,y]=pos(i,R),[lx,ly]=pos(i,LR),v=visited.has(i),c=i===cn;
+    h+=`<circle cx="${x}" cy="${y}" r="${c?8:v?6:4}" fill="${c?'#ffb700':v?'#00f0ff':'#0a1624'}" stroke="${c?'#fff':v?'#00f0ff':'#2b4a66'}"/>`;
+    h+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" font-size="${c?20:15}" fill="${c?'#ffb700':v?'#00f0ff':'#8fb0c8'}">${S.letters[i][0]}</text>`;
+  }
+  /* vector rays centre -> every visited node */
+  w.seq.forEach(i=>{const[x,y]=pos(i,R);h+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#00f0ff" stroke-opacity=".28" stroke-width="1"/>`});
+  if(w.play>=0&&w.seq[w.play]!==undefined){const[px,py]=pos(w.seq[w.play],R);
+    h+=`<circle cx="${px}" cy="${py}" r="14" fill="none" stroke="#ff0055" stroke-width="2"><animate attributeName="r" from="8" to="22" dur=".4s" repeatCount="indefinite"/><animate attributeName="opacity" from="1" to="0" dur=".4s" repeatCount="indefinite"/></circle>`}
+  const[ax,ay]=pos(cn,R);
+  h+=`<line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#ffb700" stroke-width="2" style="filter:drop-shadow(0 0 5px #ffb700)"/>`;
+  h+=`<text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="12" fill="#6f8499">${w.angle.toFixed(1)}°</text>`;
+  w.svg.innerHTML=h;
+  $(w.k==='g'?'curG':'curH').textContent=`cursor: ${S.letters[cn][0]} = ${S.letters[cn][1]} · node ${cn+1}/${w.n} · ${(cn*w.step).toFixed(2)}°`;
+}
+function bindWheelButtons(){
+  document.querySelectorAll('button[data-w]').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.w,a=b.dataset.a;
+    if(a==='node')moveW(k,wheels[k].step);else if(a==='add')addLetter(k);else moveW(k,+a);
+    wheels[k].svg.focus();
+  }));
+}
+function buildKbd(k){
+  const host=$(k==='g'?'kbG':'kbH');
+  SCR[k].letters.forEach(l=>{const b=document.createElement('button');b.textContent=l[0];b.title=String(l[1]);
+    b.onclick=()=>{const i=$(k==='g'?'inG':'inH');i.value+=l[0];i.dispatchEvent(new Event('input'));wheels[k].angle=SCR[k].idx[l[0]]*SCR[k].step;drawWheel(wheels[k])};host.appendChild(b)});
+  const bs=document.createElement('button');bs.textContent='⌫';bs.onclick=()=>{const i=$(k==='g'?'inG':'inH');i.value=i.value.slice(0,-1);i.dispatchEvent(new Event('input'))};host.appendChild(bs);
+  const sp=document.createElement('button');sp.textContent='␣';sp.onclick=()=>{const i=$(k==='g'?'inG':'inH');i.value+=' ';i.dispatchEvent(new Event('input'))};host.appendChild(sp);
+}
+
+/* ============ analysis ============ */
+const registry=new Map(); // key -> {s,t,v,label}
+let cur={g:'',h:'',label:''};
+function register(s,t,label){
+  const r=evalTerm(s,t);if(!r.count)return;
+  registry.set(s+':'+SCR[s].norm(t),{s,t,v:r.sum,label:label||t});
+}
+function setTerms(g,h,label,fromSide){
+  cur.g=g;cur.h=h;cur.label=label||'';
+  render(fromSide);
+}
+function render(fromSide){
+  ['g','h'].forEach(k=>{
+    const t=cur[k],r=evalTerm(k,t),w=wheels[k];
+    w.seq=r.seq;
+    if(r.seq.length){w.angle=r.seq[r.seq.length-1]*w.step}
+    drawWheel(w);
+    $(k+'Term').textContent=t||'—';
+    $(k+'Val').textContent=r.sum;
+    $(k+'Meta').textContent=r.count?`${r.count} letters · digital root ${r.red}`:'';
+    $(k+'Chips').innerHTML=r.seq.map(i=>`<span class="chip">${SCR[k].letters[i][0]}<i>${SCR[k].letters[i][1]}</i></span>`).join('');
+    if(r.count)register(k,t,cur.label||t);
+    if(fromSide!==k){const inp=$(k==='g'?'inG':'inH');if(document.activeElement!==inp)inp.value=t}
+  });
+  const g=evalTerm('g',cur.g).sum,h=evalTerm('h',cur.h).sum;
+  $('stTerm').textContent=cur.label||cur.g||cur.h||'—';$('stG').textContent=g;$('stH').textContent=h;
+  renderParity(g,h);
+  {const a=$('perseusLink'),w=(cur.g||'').trim().split(/\s+/)[0].toLowerCase().replace(/σ$/,'ς');a.href=w?'https://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup='+encodeURIComponent(w)+'&lang=greek':'https://www.perseus.tufts.edu/hopper/';a.title=w?'Perseus lexicon: '+w:'Perseus';const L=$('logeionLink');L.href=w?'https://logeion.uchicago.edu/'+encodeURIComponent(w):'https://logeion.uchicago.edu/';L.title=w?'Logeion: '+w:'Logeion'}
+  {const a=$('perseusAI');a.onclick=()=>{try{navigator.clipboard.writeText((cur.g||'').toLowerCase())}catch(e){}}}
+  {const a=$('sefariaLink'),w=(cur.h||'').trim().split(/\s+/)[0];a.href=w?'https://www.sefaria.org/search?q='+encodeURIComponent(w):'https://www.sefaria.org/';a.title=w?'Sefaria: '+w:'Sefaria'}
+  if(typeof renderPhonetic==='function'&&!playing){renderPhonetic();}
+}
+function renderParity(g,h){
+  const vals=new Set([g,h]);
+  let verified=0;
+  $('parity').innerHTML=CLASSIC.map(c=>{
+    const vs=c.items.map(it=>({it,v:evalTerm(it[0],it[1]).sum}));
+    const ok=vs.every(x=>x.v===c.id);if(ok)verified++;
+    const hit=vals.has(c.id);
+    return `<div class="par ${hit?'hit':''}"><div class="h"><span>${c.label}${hit?' — ACTIVE MATCH':''}</span><span class="${ok?'ok':'bad'}">${ok?'✓ verified':'✗ mismatch'}</span></div>`+
+      vs.map(x=>`<div class="mut"><span dir="auto" style="color:#fff">${esc(x.it[1])}</span> (${x.it[2]}) = <b style="color:var(--amber)">${x.v}</b></div>`).join('')+`</div>`;
+  }).join('');
+  $('parStat').textContent=`${verified}/${CLASSIC.length} classical parities verified`;
+  // live registry cross-script matches
+  const byV={};registry.forEach(e=>{(byV[e.v]=byV[e.v]||[]).push(e)});
+  const hits=Object.entries(byV).filter(([v,a])=>a.some(e=>e.s==='g')&&a.some(e=>e.s==='h')).sort((a,b)=>b[0]-a[0]);
+  $('parLive').innerHTML=hits.length?hits.slice(0,25).map(([v,a])=>{
+    const gs=[...new Set(a.filter(e=>e.s==='g').map(e=>e.t))],hs=[...new Set(a.filter(e=>e.s==='h').map(e=>e.t))];
+    return `<div class="par ${vals.has(+v)?'hit':''}"><div class="h"><span>${v}</span></div><div class="mut">Greek: ${gs.map(esc).join(' · ')}<br>Hebrew: <span dir="auto">${hs.map(esc).join(' · ')}</span></div></div>`}).join(''):'<div class="mut">No cross-script matches yet.</div>';
+}
+
+function onMain(){const v=$('bigInput').value.trim(),p=phon(v);setTerms(p.g,p.h,v,'x')}
+
+/* ============ audio synth + phonetic engine + animation ============ */
+const GNAME=['alpha','beta','gamma','delta','epsilon','stigma','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','koppa','rho','sigma','tau','upsilon','phi','chi','psi','omega','sampi'];
+const GSND=['a','b','g','d','e','w','dz','ay','th','i','k','l','m','n','ks','o','p','q','r','s','t','u','f','kh','ps','oh','ts'];
+const HNAME=['aleph','bet','gimel','dalet','he','vav','zayin','het','tet','yod','kaf','lamed','mem','nun','samekh','ayin','pe','tsade','qof','resh','shin','tav'];
+const HSND=['ʾ','b','g','d','h','v','z','kh','t','y','k','l','m','n','s','ʿ','p','ts','q','r','sh','t'];
+let actx=null,seqTimer=null,playing=false,ptimers=[],pl={k:'g',notes:[],t0:0,dur:.38,idx:-1};
+function ctx(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
+function freqFor(v){const base=+$('baseHz').value||432;return base*Math.pow(2,(v%12)/12)*Math.pow(2,Math.floor(v/100)%3)}
+function seqInfo(){
+  const k=$('srcSel').value;
+  if(k==='r'){const ch=[...lastR].filter(c=>RUNE_VAL[c]);return{k,seq:ch.map((c,i)=>i),notes:ch.map(c=>RUNE_VAL[c]),labels:ch,names:ch.map(c=>RNAME[RUNES.indexOf(c)]),snd:ch.map(c=>RUNE_L[c])}}
+  if(k==='a'){const ch=[...$('armInput').value.toUpperCase()].filter(c=>ARM_MAP[c]!==undefined);return{k,seq:ch.map((c,i)=>i),notes:ch.map(c=>ARM_MAP[c]),labels:ch,names:ch.map(c=>ANAME[ARM_L.indexOf(c)]),snd:ch.map(c=>ARM_LAT[ARM_L.indexOf(c)])}}
+  const r=evalTerm(k,cur[k]),N=k==='g'?GNAME:HNAME,P=k==='g'?GSND:HSND;
+  return{k,seq:r.seq,notes:r.seq.map(i=>SCR[k].letters[i][1]),labels:r.seq.map(i=>SCR[k].letters[i][0]),names:r.seq.map(i=>N[i]),snd:r.seq.map(i=>P[i])};
+}
+const RNAME=['fehu','uruz','thurisaz','ansuz','raidho','kenaz','gebo','wunjo','hagalaz','nauthiz','isa','jera','eihwaz','perthro','algiz','sowilo','tiwaz','berkano','ehwaz','mannaz','laguz','ingwaz','dagaz','othala'];
+const ANAME=['ayb','ben','gim','da','ech','za','e','et','to','zhe','ini','liwn','xe','ca','ken','ho','ja','ghad','cheh','men','yi','nu','sha','vo','cha','pe','je','ra','se','vew','tiwn','re','co','yiwn','piwr','ke'];
+function renderPhonetic(){
+  const q=seqInfo();
+  $('phon').innerHTML=q.seq.length?q.names.map((n,j)=>`<span id="ph${j}" style="margin-right:8px">${n} <small style="color:#6f8499">/${q.snd[j]}/</small></span>`).join(''):'';
+}
+function drawSnd(){
+  const cv=$('sndCanvas'),c=cv.getContext('2d'),W=cv.width,H=cv.height;
+  c.clearRect(0,0,W,H);c.fillStyle='#04070c';c.fillRect(0,0,W,H);
+  const n=pl.notes.length;
+  if(!n){c.fillStyle='#6f8499';c.font='20px sans-serif';c.fillText('Pick a specimen or press Play — each letter becomes a tone bar',20,95);return}
+  const bw=Math.min(70,(W-40)/n),fs=pl.notes.map(freqFor),lo=Math.min(...fs)*.9,hi=Math.max(...fs)*1.05;
+  let el=playing?actx.currentTime-pl.t0:-1,cur=playing?Math.floor(el/pl.dur):-1;
+  fs.forEach((f,i)=>{
+    const h=20+(f-lo)/(hi-lo||1)*(H-50),x=20+i*bw,on=i===cur;
+    c.fillStyle=on?'#ffb700':(i<cur?'#00f0ff':'#17435e');
+    c.shadowColor=on?'#ffb700':'transparent';c.shadowBlur=on?14:0;
+    c.fillRect(x,H-h-8,bw-6,h);c.shadowBlur=0;
+    c.fillStyle='#cfe';c.font='15px sans-serif';c.textAlign='center';
+    c.fillText(pl.labels[i],x+bw/2-3,H-12);
+    c.fillStyle='#6f8499';c.font='11px sans-serif';c.fillText(Math.round(f)+'Hz',x+bw/2-3,H-h-14);
+  });
+  if(playing&&el>=0){const px=20+(el/pl.dur)*bw;c.fillStyle='#ff0055';c.fillRect(px,0,2,H)}
+  c.textAlign='left';
+}
+let cmpPlay=null,cmpLast=null,cmpJ={th:0,ph:0},cmpT=0;
+function cmpFrame(now){if(cmpLast&&now-cmpT>40){cmpT=now;cmpPaint()}}
+function animLoop(now){drawSnd();cmpFrame(now||performance.now());if(playing)requestAnimationFrame(animLoop)}
+function hilite(j){
+  pl.idx=j;cmpPlay={k:pl.k,v:pl.notes[j],label:pl.labels[j],name:(pl.names||[])[j]||'',snd:(pl.snd||[])[j]||'',j};const w=wheels[pl.k];
+  if(w){w.angle=pl.seq[j]*w.step;w.play=j;drawWheel(w)}
+  document.querySelectorAll('#phon span').forEach((e,x)=>e.style.color=x===j?'#ffb700':'');
+}
+function playOnce(){
+  const q=seqInfo(),{k,seq,notes}=q;if(!notes.length)return 0;
+  const a=ctx(),t0=a.currentTime+.05,dur=.38;
+  pl={k,seq,notes,labels:q.labels,names:q.names,snd:q.snd,t0,dur,idx:-1};
+  notes.forEach((v,i)=>{
+    const o=a.createOscillator(),g=a.createGain(),f=freqFor(v);
+    o.type='sine';o.frequency.value=f;
+    const t=t0+i*dur;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.22,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+dur*.95);
+    o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur);
+    ptimers.push(setTimeout(()=>{if(playing){$('stAud').textContent=`${f.toFixed(1)} Hz (letter ${v})`;hilite(i)}},Math.max(0,(t-a.currentTime)*1000)));
+  });
+  requestAnimationFrame(animLoop);
+  return notes.length*dur*1000+200;
+}
+function startSeq(){
+  stopSeq();playing=true;renderPhonetic();
+  const run=()=>{const ms=playOnce();if(!ms){stopSeq();return}
+    seqTimer=setTimeout(()=>{if($('loopTog').checked&&playing)run();else stopSeq()},ms)};
+  run();
+}
+function stopSeq(){
+  playing=false;cmpPlay=null;clearTimeout(seqTimer);ptimers.forEach(clearTimeout);ptimers=[];if(typeof cmpLast!=='undefined'&&cmpLast)setTimeout(()=>{cmpBase=null;cmpPaint()},0);
+  for(const k in wheels){wheels[k].play=-1;drawWheel(wheels[k])}
+  document.querySelectorAll('#phon span').forEach(e=>e.style.color='');
+  $('stAud').textContent='silent';drawSnd();
+}
+
+/* ============ speech: any word in any voice ============ */
+const VLANG={el:['el'],he:['he','iw'],hy:['hy'],nb:['nb','no','nn'],en:['en-GB','en']};
+function pickVoice(code){
+  const vs=speechSynthesis.getVoices();
+  for(const pre of VLANG[code]){const v=vs.find(x=>x.lang&&x.lang.toLowerCase().replace('_','-').startsWith(pre.toLowerCase()));if(v)return v}
+  return null;
+}
+function speechText(code){
+  const v=$('bigInput').value.trim();
+  let lat=phon(v).lat||'';
+  if(!lat)lat=g2l(cur.g||'')||h2l(cur.h||'');
+  if(code==='el')return cur.g||toGreek(lat).toUpperCase();
+  if(code==='he')return cur.h||toHebrew(lat);
+  if(code==='hy'){const a=$('armInput').value.trim();return /[԰-֏]/.test(a)?a:lat}
+  return lat;
+}
+const GT={el:'el',he:'iw',hy:'hy',nb:'no',en:'en'};
+function updateGt(){
+  const code=$('voiceSel').value,t=speechText(code);
+  $('gtLink').href=`https://translate.google.com/?sl=${GT[code]}&tl=${GT[code]}&text=${encodeURIComponent(t)}&op=translate`;
+}
+function voiceReport(){
+  if(!('speechSynthesis' in window)){$('voiceList').textContent='Speech not supported in this browser.';return}
+  const n=speechSynthesis.getVoices().length,names={el:'Greek',he:'Hebrew',hy:'Armenian',nb:'Norwegian',en:'English'};
+  $('voiceList').textContent=n?('Voices on this device: '+Object.keys(names).map(c=>names[c]+(pickVoice(c)?' ✓':' ✗')).join(' · ')+` (${n} total)`+(pickVoice('el')?'':' — tip: Microsoft Edge adds free Greek, Hebrew, Armenian and Norwegian voices.')):'No voices reported yet — they can take a second to load, or this device has none.';
+}
+function speakNow(){
+  if(!('speechSynthesis' in window)){$('voiceNote').textContent='This browser has no speech support.';return}
+  speechSynthesis.cancel();try{speechSynthesis.resume()}catch(e){}
+  const code=$('voiceSel').value;let txt=speechText(code);
+  if(!txt.trim()){$('voiceNote').textContent='Nothing to speak yet — pick or type a word first.';return}
+  updateGt();
+  let voice=pickVoice(code),lang=voice?voice.lang:null,note;
+  if(voice){note=`Speaking “${txt}” with ${voice.name} (${voice.lang}).`}
+  else{
+    // no voice for this language on the device: read the Latin spelling with an English voice instead of staying silent
+    const lat=speechText('en');voice=pickVoice('en');lang='en-GB';txt=lat;
+    note=`No ${code.toUpperCase()} voice on this device, so I read the Latin spelling “${lat}” in English instead. Use “Hear online ↗” for the real accent.`;
+  }
+  const u=new SpeechSynthesisUtterance(txt);u.rate=.8;u.lang=lang;
+  if(voice){try{u.voice=voice}catch(e){}}
+  $('voiceNote').textContent=note;
+  speechSynthesis.speak(u);
+  if(speechSynthesis.paused)speechSynthesis.resume();
+}
+if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=voiceReport;speechSynthesis.getVoices()}
+
+/* ============ translate to the opposite language (Greek <-> Hebrew) and speak it ============ */
+const GL_GH={'Ο ΘΕΟΣ ΤΟΥ ΙΣΡΑΗΛ':'אלהי ישראל','ΘΕΟΣ ΙΣΡΑΗΛ':'אלהי ישראל','ΘΕΟΣ':'אלהים','Ο ΘΕΟΣ':'האלהים','ΙΣΡΑΗΛ':'ישראל','ΚΥΡΙΟΣ':'אדון','ΛΟΓΟΣ':'דבר','ΦΩΣ':'אור','ΑΓΑΠΗ':'אהבה','ΕΙΡΗΝΗ':'שלום','ΖΩΗ':'חיים','ΑΛΗΘΕΙΑ':'אמת','ΣΟΦΙΑ':'חכמה','ΝΟΜΟΣ':'תורה','ΠΝΕΥΜΑ':'רוח','ΧΡΙΣΤΟΣ':'משיח','ΙΣΧΥΣ':'עוז','ΔΟΞΑ':'כבוד','ΟΥΡΑΝΟΣ':'שמים','ΓΗ':'ארץ'};
+const GL_HG={};Object.keys(GL_GH).forEach(k=>{if(!GL_HG[GL_GH[k]])GL_HG[GL_GH[k]]=k});
+const gNorm=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/ς/g,'Σ').replace(/\s+/g,' ').trim();
+const hNorm=t=>t.replace(/[֑-ׇ]/g,'').replace(/ך/g,'כ').replace(/ם/g,'מ').replace(/ן/g,'נ').replace(/ף/g,'פ').replace(/ץ/g,'צ').replace(/\s+/g,' ').trim();
+async function translateOpp(){
+  const raw=$('bigInput').value.trim(),note=$('voiceNote');
+  if(!raw){note.textContent='Type or pick a word first.';return}
+  const isH=/[֐-׿]/.test(raw)&&!/[Ͱ-Ͽἀ-῿]/.test(raw);
+  const src=isH?'h':'g',srcTxt=isH?raw:(/[Ͱ-Ͽἀ-῿]/.test(raw)?raw:phon(raw).g);
+  note.textContent='Translating…';
+  let out='',how='';
+  if(src==='g'){const k=gNorm(srcTxt);if(GL_GH[k]){out=GL_GH[k];how='built-in glossary'}}
+  else{const k=hNorm(srcTxt);for(const h in GL_HG){if(hNorm(h)===k){out=GL_HG[h];how='built-in glossary';break}}}
+  if(!out){
+    try{
+      const ac=new AbortController(),to=setTimeout(()=>ac.abort(),5000);
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(srcTxt)+'&langpair='+(src==='g'?'el|he':'he|el'),{signal:ac.signal});clearTimeout(to);
+      const j=await r.json();out=(j&&j.responseData&&j.responseData.translatedText)||'';how='online translation (MyMemory) — check it, machine translation can be rough';
+    }catch(e){out=''}
+  }
+  if(src==='g'){out=out.replace(/[^א-ת\s]/g,'').replace(/\s+/g,' ').trim()}
+  else{out=gNorm(out).replace(/[^Α-Ω\s]/g,'').trim()}
+  if(!out){note.textContent='No translation found (offline, or not a word the glossary knows). The wheels keep the phonetic version.';return}
+  if(src==='g'){setTerms(cur.g||gNorm(srcTxt),out,raw,'x')}else{setTerms(out,hNorm(srcTxt),raw,'x')}
+  note.textContent=`${src==='g'?'Hebrew':'Greek'} translation: “${out}” — ${how}.`;
+  /* speak the translation in its own language */
+  if(!('speechSynthesis' in window))return;
+  const code=src==='g'?'he':'el',txt=out,voice=pickVoice(code);
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(voice?txt:(src==='g'?h2l(txt):g2l(txt)));u.rate=.8;
+  if(voice){u.lang=voice.lang;try{u.voice=voice}catch(e){}}else{u.lang='en-GB';note.textContent+=' (No '+(src==='g'?'Hebrew':'Greek')+' voice on this device — read in Latin letters; use Edge or “Hear online ↗”.)'}
+  speechSynthesis.speak(u);
+}
+
+
+/* ============ quick-tap specimens ============ */
+const QT=[
+ ['Modern parity',[['b','Donald Trump',0],['b','Netanyahu',1]]],
+ ['Divine titles',[['g','ΙΗΣΟΥΣ',888],['g','ΧΡΙΣΤΟΣ',1480],['g','ΙΗΣΟΥΣ ΧΡΙΣΤΟΣ',2368],['g','ΚΥΡΙΟΣ',800],['g','ΘΕΟΣ',284],['g','ΑΒΡΑΞΑΣ',365]]],
+ ['153 net cluster',[['g','ΤΟ ΔΙΚΤΥΟΝ',1224],['g','ΙΧΘΥΕΣ',1224],['g','ΣΥΓΚΛΗΡΟΝΟΜΟΙ',1071],['g','ΙΧΘΥΣ',1219]]],
+ ['430 Nomos law',[['g','ΝΟΜΟΣ',430],['g','ΑΡΙΘΜΟΣ',430],['g','ΜΑΘΗΜΑΤΙΚΑ',430],['g','ΚΑΘΟΛΙΚΟΣ',430]]],
+ ['1746 fusion',[['g','ΕΞΟΥΣΙΑ ΚΥΡΙΟΥ',1746],['g','ΧΑΡΑΓΜΑ ΚΥΡΙΟΥ',1746]]],
+ ['37 factor series',[['g','Ο ΡΑΒΒΙ',185],['g','ΒΑΣΙΛΕΙΑ',259],['g','Η ΕΛΠΙΣ',333],['g','Ο ΘΕΟΣ ΤΟΥ ΙΣΡΑΗΛ',1473],['g','Ο ΜΙΚΡΟΣ ΚΟΣΜΟΣ',1110],['g','Η ΣΩΤΗΡΙΑ ΙΣΡΑΗΛ',1776]]],
+ ['Gnostic & cross',[['g','ΑΜΗΝ',99],['g','ΜΑΘΗΜΑ',99],['g','ΣΤΑΥΡΟΣ',1271],['g','ΗΛΙΟΣ',318],['g','ΙΕΟΥ',485]]],
+ ['Elder Futhark runes',[['r','ᚦᛟᚱ',0,'Thor — the thunder god'],['r','ᚢᛚᚠᚱ',0,'Ulfr — “wolf”'],['r','ᛟᛞᛁᚾ',0,'Odin — the chief god (Wōdanaz)'],['r','ᚨᛚᚢ',0,'alu — “ale”; a protective charm word on old inscriptions'],['r','ᛏᛁᚹᚨᛉ',0,'Tiwaz — the sky god Týr; the “T” rune'],['r','ᚠᛖᚺᚢ',0,'fehu — “cattle”, wealth'],['r','ᚨᚾᛋᚢᛉ',0,'ansuz — “a god”, the divine voice'],['r','ᛗᚨᚾᚾᚨᛉ',0,'mannaz — “human being”'],['r','ᚷᛖᛒᛟ',0,'gebo — “gift”'],['r','ᚹᚢᚾᛃᛟ',0,'wunjo — “joy”'],['r','ᛁᛋᚨ',0,'isa — “ice”'],['r','ᛞᚨᚷᚨᛉ',0,'dagaz — “day”, dawn'],['r','ᛟᚦᚨᛚᚨ',0,'othala — inherited land, heritage']]],
+ ['Armenian Grabar',[['a','ԱՐԱՐԱՏ',0,'Ararat — the sacred mountain'],['a','ԼՈՅՍ',0,'loys — “light”']]],
+ ['Hebrew gematria',[['h','יהוה',26],['h','אלהים',86],['h','אמת',441],['h','שלום',376],['h','משיח בן דוד',424]]]
+];
+function tapSpecimen(k,t,bi){
+  let lat;
+  if(k==='r'||k==='a'){
+    $('bigInput').value=t;const p=phon(t);setTerms(p.g,p.h,t,'x');
+    if(k==='r'){$('cmpInput').value=t}else{$('cmpInput').value=p.lat;$('armInput').value=t;armRender()}
+    $('srcSel').value=k;cmpRender();renderPhonetic();startSeq();if($('speakOnTap').checked)speakNow();return;
+  }
+  if(k==='b'){const b=BENCH[bi];$('bigInput').value=b[0];setTerms(b[1],b[2],b[0],'x');lat=b[0];$('srcSel').value='g'}
+  else{$('bigInput').value=t;const p=phon(t);setTerms(p.g,p.h,t,'x');lat=p.lat;$('srcSel').value=k}
+  $('cmpInput').value=lat;cmpRender();
+  renderPhonetic();startSeq();if($('speakOnTap').checked)speakNow();
+}
+function buildExtraKbd(){
+  const mk=(host,letters,inp,cb)=>{
+    letters.forEach(l=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{inp.value+=l;inp.dispatchEvent(new Event('input'))};host.appendChild(b)});
+    const bs=document.createElement('button');bs.textContent='⌫';bs.onclick=()=>{inp.value=inp.value.slice(0,-1);inp.dispatchEvent(new Event('input'))};host.appendChild(bs);
+    const sp=document.createElement('button');sp.textContent='␣';sp.onclick=()=>{inp.value+=' ';inp.dispatchEvent(new Event('input'))};host.appendChild(sp);
+  };
+  mk($('kbR'),RUNES,$('cmpInput'));
+  mk($('kbA'),ARM_L,$('armInput'));
+}
+function buildQT(){
+  const bad=[];
+  $('qt').innerHTML=QT.map(([g,items])=>`<div class="g">${g}</div>`+items.map(([k,t,x,d])=>{
+    if(k==='b'){const b=BENCH[x];return `<button data-k="b" data-i="${x}">${esc(b[0])}<small>Gr ${evalTerm('g',b[1]).sum} · He ${evalTerm('h',b[2]).sum}</small></button>`}
+    if(k==='r'){const rv=[...t].reduce((a,c)=>a+(RUNE_VAL[c]||0),0);return `<div class="qrow"><button data-k="r" data-t="${esc(t)}" dir="auto">${esc(t)}<small>${rv}</small></button><span class="mut">${esc(d||'')}</span></div>`}
+    if(k==='a'){const av=[...t].reduce((a,c)=>a+(ARM_MAP[c]||0),0);return `<div class="qrow"><button data-k="a" data-t="${esc(t)}" dir="auto">${esc(t)}<small>${av}</small></button><span class="mut">${esc(d||'')}</span></div>`}
+    const v=evalTerm(k,t).sum,ok=v===x;if(!ok)bad.push(`${t}: you listed ${x}, it adds to ${v}`);
+    return `<button data-k="${k}" data-t="${esc(t)}" class="${ok?'':'diff'}" dir="auto">${esc(t)}<small>${v}${ok?'':' ≠'+x}</small></button>`}).join('')).join('');
+  $('qt').querySelectorAll('button').forEach(b=>b.onclick=()=>tapSpecimen(b.dataset.k,b.dataset.t,+b.dataset.i));
+  $('qtNote').textContent=(bad.length?'Red = differs from the value you listed (shown number is the real letter sum): '+bad.join(' · ')+'. ':'')+'Every word is spoken in both scripts: Greek ⇄ Hebrew is converted by sound, so both wheels always respond. Phonetic conversion is approximate (consonant skeleton + vowel carriers).';
+}
+
+/* ============ ticker ============ */
+let ftse=8350+Math.random()*60,mkt={};
+function renderTicker(live){
+  const f=(n,d=2)=>Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});
+  const cg=(sym,id)=>{const m=mkt[id];if(!m)return`<span class="tk"><b>${sym}</b> <span class="sim">n/a</span></span>`;
+    const c=m.usd_24h_change||0;return`<span class="tk"><b>${sym}</b> $${f(m.usd,m.usd<10?4:2)} <span class="${c>=0?'up':'dn'}">${c>=0?'▲':'▼'} ${Math.abs(c).toFixed(2)}%</span></span>`};
+  const html=`<span class="tk"><b>FTSE 100</b> ${f(ftse)} <span class="sim">(simulated)</span></span>`+cg('BTC','bitcoin')+cg('ETH','ethereum')+cg('SOL','solana')+cg('ADA','cardano')+(live?'':'<span class="tk sim">crypto: offline fallback</span>');
+  $('tickerTrack').innerHTML=html+html;
+}
+const FALLBACK={bitcoin:{usd:67250,usd_24h_change:0.8},ethereum:{usd:3410,usd_24h_change:-0.4},solana:{usd:158.2,usd_24h_change:1.9},cardano:{usd:0.452,usd_24h_change:0.3}};
+async function pullMarket(){
+  try{
+    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano&vs_currencies=usd&include_24hr_change=true');
+    if(!r.ok)throw 0;mkt=await r.json();ftse*=1+(Math.random()-.5)*.002;
+    renderTicker(true);$('stNet').className='led';$('stMarket').textContent='market: CoinGecko live';
+  }catch(e){
+    if(!Object.keys(mkt).length)mkt=JSON.parse(JSON.stringify(FALLBACK));
+    for(const k in mkt){mkt[k].usd*=1+(Math.random()-.5)*.002}
+    ftse*=1+(Math.random()-.5)*.002;
+    renderTicker(false);$('stNet').className='led warn';$('stMarket').textContent='market: simulated fallback';
+  }
+}
+
+/* ============ news + risk ============ */
+const DEF_FEEDS={
+  'BBC World':'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'Reuters':'https://news.google.com/rss/search?q=site:reuters.com+world&hl=en-US&gl=US&ceid=US:en',
+  'AP News':'https://news.google.com/rss/search?q=site:apnews.com+world&hl=en-US&gl=US&ceid=US:en'
+};
+const SAMPLE=['Leaders call for talks as ceasefire negotiations continue','Missile strike reported near border; troops on alert','New sanctions announced amid summit preparations','Markets steady as peace deal draws closer','Drone attack escalates regional tensions'];
+let FEEDS=store.get('ophanim.feeds',DEF_FEEDS);
+let headlines=[],activeFeed=Object.keys(FEEDS)[0];
+function buildTabs(){
+  $('feedTabs').innerHTML=Object.keys(FEEDS).map(n=>`<button data-f="${n}" class="${n===activeFeed?'on':''}">${n}</button>`).join('');
+  $('feedTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{activeFeed=b.dataset.f;$('feedUrl').value=FEEDS[activeFeed];buildTabs();loadFeed(FEEDS[activeFeed])});
+}
+async function loadFeed(url){
+  $('newsStat').textContent='fetching…';
+  try{
+    const r=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(url));
+    const j=await r.json();if(j.status!=='ok'||!j.items.length)throw 0;
+    headlines=j.items.slice(0,15).map(i=>({t:i.title,l:i.link,d:(i.pubDate||'').slice(0,16)}));
+    $('newsStat').textContent='live via rss2json';
+  }catch(e){headlines=SAMPLE.map(t=>({t,l:'#',d:'sample'}));$('newsStat').textContent='offline — sample headlines'}
+  renderNews();calcRisk();
+}
+function renderNews(){
+  $('newsList').innerHTML=headlines.map((h,i)=>`<div class="news"><span>${esc(h.t)}<br><small>${esc(h.d)}</small></span><button data-i="${i}">Audit Headline</button></div>`).join('');
+  $('newsList').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('bigInput').value=headlines[b.dataset.i].t;onMain()});
+}
+/* Keyword Friction Heuristic — [regex, weight, label]. Order matters: cooling phrases and
+   multi-word phrases come first; each match is masked so it is never double-counted. No place names. */
+const FRICTION=[
+  ['peace treaty',-15,'peace treaty'],
+  ['ceasefire signed|signed (?:a )?cease-?fire',-15,'ceasefire signed'],
+  ['disarmament',-15,'disarmament'],
+  ['de-?escalat(?:e|es|ed|ing|ion)',-15,'de-escalation'],
+  ['diplomatic talks',-10,'diplomatic talks'],
+  ['hostage release|releases? (?:of )?hostages?|hostages? released?',-10,'hostage release'],
+  ['peace deal',-10,'peace deal'],
+  ['cease-?fires?',-10,'ceasefire'],
+  ['truce',-10,'truce'],
+  ['accords?',-10,'accord'],
+  ['bilateral meeting',-5,'bilateral meeting'],
+  ['humanitarian corridor',-5,'humanitarian corridor'],
+  ['summit',-5,'summit'],
+  ['envoys?',-5,'envoy'],
+  ['declaration of war|declares? war|declared war',15,'declaration of war'],
+  ['hypersonic',15,'hypersonic'],
+  ['nuclear',15,'nuclear'],
+  ['icbm',15,'ICBM'],
+  ['invasion|invades?|invaded',15,'invasion'],
+  ['air ?strikes?|strikes?',10,'strike'],
+  ['missiles?',10,'missile'],
+  ['airdrops?',10,'airdrop'],
+  ['artillery',10,'artillery'],
+  ['blockades?|blockaded',10,'blockade'],
+  ['shelling|shelled',10,'shelling'],
+  ['bombings?|bombed',10,'bombing'],
+  ['sanctions?',3,'sanctions'],
+  ['expulsions?|expelled',3,'expulsion'],
+  ['stand-?offs?',3,'standoff'],
+  ['alerts?',3,'alert'],
+  ['escalat(?:e|es|ed|ing|ion)',3,'escalation']
+];
+const RISK_BASE=20,RISK_SCALE=3,RING_C=2*Math.PI*50;
+let riskSecs=86400;
+function scoreHeadline(t){
+  let s=t.toLowerCase(),net=0;const hits={};
+  for(const [src,w,label] of FRICTION){
+    s=s.replace(new RegExp('\\b(?:'+src+')\\b','g'),()=>{net+=w;hits[label]=(hits[label]||0)+1;return ' '});
+  }
+  return{net,hits};
+}
+function calcRisk(){
+  const n=Math.max(headlines.length,1);let total=0;const hits={};
+  headlines.forEach(h=>{const r=scoreHeadline(h.t);total+=r.net;for(const k in r.hits)hits[k]=(hits[k]||0)+r.hits[k]});
+  const S=total/n,pct=Math.max(0,Math.min(100,RISK_BASE+S*RISK_SCALE));
+  $('riskPct').textContent=pct.toFixed(1)+'%';
+  const ring=$('riskRing');
+  ring.style.strokeDashoffset=(RING_C*(1-pct/100)).toFixed(2);
+  ring.style.stroke=pct<35?'#19e08a':pct<65?'#ffb700':'#ff4d5e';
+  const list=Object.entries(hits).map(([k,c])=>{const w=FRICTION.find(f=>f[2]===k)[1];return`${k} (${w>0?'+':''}${w})×${c}`});
+  $('riskWhy').textContent=`N=${headlines.length} · net Δ per headline ${S>=0?'+':''}${S.toFixed(2)}`+(list.length?' · terms: '+list.slice(0,8).join(', '):' · no tracked phrases');
+  riskSecs=Math.round(86400*Math.pow(1-pct/100,2)*2+60);
+}
+function tickClock(){
+  if(riskSecs>0)riskSecs--;
+  const s=riskSecs,p=n=>String(n).padStart(2,'0');
+  $('clock').textContent=`T-${p(Math.floor(s/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`;
+  $('stClock').textContent=new Date().toLocaleTimeString();
+}
+
+/* ============ media docks ============ */
+function embedVideo(url,host){
+  url=(url||'').trim();host.innerHTML='';if(!url)return;
+  let m;
+  if((m=url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/))){host.innerHTML=`<iframe class="frame" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" src="https://www.youtube.com/embed/${m[1]}"></iframe>`}
+  else if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/))){host.innerHTML=`<iframe class="frame" allowfullscreen src="https://player.vimeo.com/video/${m[1]}"></iframe>`}
+  else{const v=document.createElement('video');v.controls=true;v.src=url;host.appendChild(v)}
+}
+function setPdf(u){$('pdfFrame').src=u?u:'about:blank'}
+
+/* ============ drone (single audio) + sister sites + clocks ============ */
+const DRONE_URL='https://ice1.somafm.com/dronezone-128-mp3';
+let droneEl=null;
+function droneVolGet(){const v=+store.get('ophanim.droneVol',6);return Math.min(1,Math.max(0,v/100))}
+function droneToggle(){
+  const btn=$('btnDrone');
+  if(droneEl&&!droneEl.paused){droneEl.pause();droneEl.removeAttribute('src');droneEl.load();btn.textContent='🔇 Drone';btn.classList.remove('amber');return}
+  if(!droneEl){droneEl=new Audio();droneEl.preload='none'}
+  droneEl.src=DRONE_URL;droneEl.volume=droneVolGet();
+  droneEl.play().then(()=>{btn.textContent='🔊 Drone';btn.classList.add('amber')}).catch(()=>{btn.textContent='⚠ Drone blocked'});
+}
+const DEF_SITES=[['Games','games.html'],["Ezekiel's Reed//deck",'ezekiels-reed.html'],['About','about.html'],['Site 4',''],['Site 5','']];
+function sitesGet(){const v=store.get('ophanim.sites',DEF_SITES);return DEF_SITES.map((d,i)=>{const x=v[i];if(!x)return d;if(/^Site \d$/.test(x[0])&&!x[1])return d;if(/ophanim-lithic-chess\.vercel\.app/.test(x[1]||''))return d;if(/^(chess|backgammon)\.html$/.test(x[1]||'')||(x[1]==='ezekiels-reed.html'&&i!==1))return d;return x})}
+
+/* ---- wormhole transition: plays a short tunnel, then calls go() ---- */
+function wormhole(go){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){go();return}
+  const c=document.createElement('canvas');
+  c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:9999;background:#000;opacity:0;transition:opacity .25s;pointer-events:all';
+  document.body.appendChild(c);const W=c.width=innerWidth,H=c.height=innerHeight,x=c.getContext('2d');
+  requestAnimationFrame(()=>c.style.opacity=1);
+  const t0=performance.now(),D=1300,N=90,R=[];for(let i=0;i<N;i++)R.push({a:Math.random()*6.283,z:Math.random()});
+  (function f(now){
+    const t=Math.min(1,(now-t0)/D),cx=W/2,cy=H/2,M=Math.hypot(W,H)/2;
+    x.fillStyle='rgba(0,0,8,.28)';x.fillRect(0,0,W,H);
+    // rings rushing outward
+    for(let k=0;k<14;k++){const p=((k/14)+t*2.2)%1,r=Math.pow(p,2.4)*M*1.2;
+      x.strokeStyle=`hsla(${185+p*120},100%,${50+p*20}%,${(1-p)*.8})`;x.lineWidth=1+p*5;
+      x.beginPath();x.ellipse(cx+Math.sin(t*9+k)*6*(1-p),cy+Math.cos(t*7+k)*6*(1-p),r,r*.92,t*2,0,6.283);x.stroke()}
+    // star streaks
+    x.lineCap='round';
+    for(const s of R){const z0=(s.z+t*1.6)%1,z1=(z0+.06+t*.12),r0=Math.pow(z0,2)*M,r1=Math.pow(Math.min(1,z1),2)*M,a=s.a+t*1.5;
+      x.strokeStyle=`rgba(255,${215+z0*40|0},${120+z0*135|0},${.3+z0*.7})`;x.lineWidth=.5+z0*2.5;
+      x.beginPath();x.moveTo(cx+Math.cos(a)*r0,cy+Math.sin(a)*r0);x.lineTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);x.stroke()}
+    // bright core flash at the end
+    if(t>.7){x.fillStyle=`rgba(255,255,255,${(t-.7)/.3})`;x.fillRect(0,0,W,H)}
+    if(t<1)requestAnimationFrame(f);
+    else{go();setTimeout(()=>{c.style.transition='opacity .5s';c.style.opacity=0;setTimeout(()=>c.remove(),550)},250)}
+  })(t0);
+}
+function renderSites(){
+  const ss=sitesGet();
+  $('siteTabs').innerHTML=ss.map((x,i)=>`<button data-i="${i}" class="${x[1]?'':'empty'}">${esc(x[0])}</button>`).join('');
+  $('siteTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const x=sitesGet()[b.dataset.i];
+    if(!x[1]){alert('Empty slot — add Name | https://url in CMS Desk → Sister Sites.');return}
+    wormhole(()=>{$('siteTitle').textContent=x[0];$('siteOpen').href=x[1];$('siteFrame').src=x[1];$('siteModal').classList.add('open')})});
+}
+function tickTop(){
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  $('clkUtc').textContent=`UTC ${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;
+  $('clkLoc').textContent=`LOCAL ${d.toLocaleTimeString([],{hour12:false})}`;
+}
+
+/* ============ X timeline ============ */
+let xLoaded=false;
+function loadX(){
+  if(window.OphanimConsent&&!OphanimConsent.media()){
+    $('xHost').innerHTML='The X timeline loads from x.com, so it stays off until you allow third-party content. Use <b>Cookie settings</b> (bottom-left), then reopen this panel. You can also use the buttons above.';
+    return;
+  }
+  if(xLoaded)return;xLoaded=true;
+  $('xHost').innerHTML='<a class="twitter-timeline" data-theme="dark" data-height="420" href="https://twitter.com/Mandos16?ref_src=twsrc%5Etfw">Posts by @Mandos16</a>';
+  const s=document.createElement('script');s.async=true;s.src='https://platform.twitter.com/widgets.js';
+  s.onerror=()=>{$('xHost').innerHTML='Timeline could not load (blocked or offline). Use the buttons above.'};
+  document.body.appendChild(s);
+}
+
+/* ============ CMS ============ */
+const DEF_WALLETS={BTC:'',ETH:'',SOL:'',ADA:''};
+let isAdmin=false;
+const ADMIN_EMAIL='polycarpoumandos@gmail.com';
+async function sha(s){
+  try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ophanim|'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+  catch(e){let h=5381;for(const c of 'ophanim|'+s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return'f'+h}
+}
+function renderWallets(){
+  const w=store.get('ophanim.wallets',DEF_WALLETS);
+  $('walletList').innerHTML=Object.keys(DEF_WALLETS).map(k=>`<div class="wallet"><b>${k}</b><code>${w[k]?esc(w[k]):'<span class="mut">not set</span>'}</code><button data-c="${k}" ${w[k]?'':'disabled'}>Copy</button></div>`).join('');
+  $('walletList').querySelectorAll('button[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(w[b.dataset.c]).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200)})});
+}
+function applyCms(){
+  const c=store.get('ophanim.cms',{});
+  if(c.vid){$('vidUrl').value=c.vid;embedVideo(c.vid,$('vidHost'))}
+  if(c.pdf){$('pdfUrl').value=c.pdf;setPdf(c.pdf)}
+  $('banner').innerHTML=c.img?`<img src="${esc(c.img)}" alt="banner">`:'';
+  $('notes').textContent=(c.notes||'')+(c.tags?`  [tags: ${c.tags}]`:'');
+  $('btnTip').style.display=store.get('ophanim.tipVisible',true)?'':'none';
+}
+function openCms(){
+  $('cmsModal').classList.add('open');
+  const has=!!store.get('ophanim.pw',null);
+  $('cmsPwLabel').textContent=has?'Password':'Create admin password (min 8 chars) — first-time setup';
+  $('cmsLogin').style.display=isAdmin?'none':'';$('cmsDesk').style.display=isAdmin?'':'none';
+  if(isAdmin)fillCms();
+}
+function fillCms(){
+  const w=store.get('ophanim.wallets',DEF_WALLETS),c=store.get('ophanim.cms',{});
+  ['BTC','ETH','SOL','ADA'].forEach(k=>$('w'+k).value=w[k]||'');
+  $('cSites').value=sitesGet().map(s=>s[0]+' | '+s[1]).join('\n');
+  $('cFeeds').value=Object.entries(store.get('ophanim.feeds',DEF_FEEDS)).map(s=>s[0]+' | '+s[1]).join('\n');
+  $('cVid').value=c.vid||'';$('cPdf').value=c.pdf||'';$('cImg').value=c.img||'';$('cNotes').value=c.notes||'';$('cTags').value=c.tags||'';
+  $('tipVisible').checked=store.get('ophanim.tipVisible',true);
+}
+async function cmsLogin(){
+  const email=$('cmsEmail').value.trim().toLowerCase(),pw=$('cmsPw').value,msg=$('cmsMsg');
+  if(email!==ADMIN_EMAIL){msg.className='msg bad';msg.textContent='Unknown admin email.';return}
+  const saved=store.get('ophanim.pw',null);
+  if(!saved){
+    if(pw.length<8){msg.className='msg bad';msg.textContent='Choose a password of at least 8 characters.';return}
+    store.set('ophanim.pw',await sha(pw));
+  }else if(saved!==await sha(pw)){msg.className='msg bad';msg.textContent='Incorrect password.';return}
+  isAdmin=true;$('cmsPw').value='';msg.textContent='';openCms();
+}
+function parseList(txt){
+  const o=[];txt.split('\n').forEach(l=>{const i=l.indexOf('|');if(i<0)return;const n=l.slice(0,i).trim(),u=l.slice(i+1).trim();if(n&&/^https?:\/\//i.test(u))o.push([n,u])});return o;
+}
+function applyLive(){
+  FEEDS=store.get('ophanim.feeds',DEF_FEEDS);
+  if(!FEEDS[activeFeed])activeFeed=Object.keys(FEEDS)[0];
+  renderSites();buildTabs();$('feedUrl').value=FEEDS[activeFeed];loadFeed(FEEDS[activeFeed]);
+}
+function cmsSave(){
+  store.set('ophanim.wallets',{BTC:$('wBTC').value.trim(),ETH:$('wETH').value.trim(),SOL:$('wSOL').value.trim(),ADA:$('wADA').value.trim()});
+  store.set('ophanim.cms',{vid:$('cVid').value.trim(),pdf:$('cPdf').value.trim(),img:$('cImg').value.trim(),notes:$('cNotes').value.trim(),tags:$('cTags').value.trim()});
+  store.set('ophanim.tipVisible',$('tipVisible').checked);
+  const fd=parseList($('cFeeds').value);
+  store.set('ophanim.sites',$('cSites').value.split('\n').slice(0,5).map((l,i)=>{const j=l.indexOf('|');const n=(j<0?l:l.slice(0,j)).trim(),u=j<0?'':l.slice(j+1).trim();return[n||DEF_SITES[i][0],/^(https:\/\/|[\w-]+\.html$)/i.test(u)?u:'']}));
+  store.set('ophanim.feeds',fd.length?Object.fromEntries(fd):DEF_FEEDS);
+  applyLive();
+  renderWallets();applyCms();$('cmsSaved').textContent='Saved to this browser.';setTimeout(()=>$('cmsSaved').textContent='',2000);
+}
+
+/* ============ init ============ */
+function init(){
+  makeWheel('g',$('svgG'));makeWheel('h',$('svgH'));
+  bindWheelButtons();buildKbd('g');buildKbd('h');
+  // register all benchmarks for live parity scanning
+  BENCH.forEach(b=>{register('g',b[1],b[0]);register('h',b[2],b[0])});
+
+  $('bigInput').addEventListener('input',onMain);
+  $('inG').addEventListener('input',()=>{const v=$('inG').value,p=phon(v);setTerms(p.g,p.h,v,'g')});
+  $('inH').addEventListener('input',()=>{const v=$('inH').value,p=phon(v);setTerms(p.g,p.h,v,'h')});
+
+  $('btnSpeak').onclick=speakNow;$('btnTrans').onclick=translateOpp;$('voiceSel').addEventListener('change',updateGt);$('gtLink').addEventListener('click',updateGt);voiceReport();$('btnSpeakStop').onclick=()=>{try{speechSynthesis.cancel()}catch(e){}};$('playSeq').onclick=startSeq;$('stopSeq').onclick=stopSeq;
+  $('loopTog').onchange=()=>{if(!$('loopTog').checked&&playing){/* current pass finishes, then stops */}};
+
+  $('vidGo').onclick=()=>embedVideo($('vidUrl').value,$('vidHost'));
+  $('pdfGo').onclick=()=>setPdf($('pdfUrl').value.trim());
+  renderSites();$('btnDrone').onclick=droneToggle;{const dv=$('droneVol');dv.value=store.get('ophanim.droneVol',6);dv.oninput=()=>{store.set('ophanim.droneVol',+dv.value);if(droneEl)droneEl.volume=dv.value/100}}$('siteClose').onclick=()=>{$('siteModal').classList.remove('open');$('siteFrame').src='about:blank'};
+  tickTop();setInterval(tickTop,1000);
+  const ZS=[1,1.15,1.3,1.5];let zi=0;try{zi=Math.min(3,Math.max(0,+localStorage.getItem('ophanim.zoom')||0))}catch(e){}
+  const zApply=()=>{document.documentElement.style.zoom=ZS[zi];try{localStorage.setItem('ophanim.zoom',zi)}catch(e){}};
+  $('zIn').onclick=()=>{zi=Math.min(3,zi+1);zApply()};$('zOut').onclick=()=>{zi=Math.max(0,zi-1);zApply()};zApply();
+  $('xBox').addEventListener('toggle',()=>{if($('xBox').open)loadX()});
+
+  $('btnTip').onclick=()=>{renderWallets();$('tipModal').classList.add('open')};
+  $('tipClose').onclick=()=>$('tipModal').classList.remove('open');
+  $('btnCms').onclick=openCms;
+  $('cmsLoginBtn').onclick=cmsLogin;$('cmsPw').addEventListener('keydown',e=>{if(e.key==='Enter')cmsLogin()});
+  $('cmsSave').onclick=cmsSave;
+  $('cmsReset').onclick=()=>{store.remove&&store.remove('ophanim.sites');store.set('ophanim.sites',DEF_SITES);store.set('ophanim.feeds',DEF_FEEDS);applyLive();fillCms();$('cmsSaved').textContent='Radio & feeds reset to defaults.'};
+  $('cmsLogout').onclick=()=>{isAdmin=false;openCms()};
+  $('cmsClose1').onclick=$('cmsClose2').onclick=()=>$('cmsModal').classList.remove('open');
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');if(m.id==='siteModal')$('siteFrame').src='about:blank'}}));
+
+  buildTabs();$('feedUrl').value=FEEDS[activeFeed];
+  $('feedGo').onclick=()=>loadFeed($('feedUrl').value.trim());
+
+  applyCms();
+  // default demo term
+  {const v='Ο Θεός του Ισραήλ',p=phon(v);$('bigInput').value=v;setTerms('Ο ΘΕΟΣ ΤΟΥ ΙΣΡΑΗΛ',p.h,v,'x');}
+  renderTicker(false);pullMarket();setInterval(pullMarket,60000);
+  loadFeed(FEEDS[activeFeed]);setInterval(()=>loadFeed($('feedUrl').value.trim()||FEEDS[activeFeed]),300000);
+  tickClock();setInterval(tickClock,1000);
+}
+/* ============ Multilingual Compass: Greek · Runic · Hebrew on the wheel; Armenian standalone ============ */
+const RUNES=['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛋ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛝ','ᛞ','ᛟ'];
+const RUNE_VAL={};RUNES.forEach((r,i)=>RUNE_VAL[r]=i+1);
+const ARM_L='ԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔ'.split('');
+const ARM_V=[];[1,10,100,1000].forEach(m=>{for(let d=1;d<=9;d++)ARM_V.push(d*m)});
+const ARM_MAP={};ARM_L.forEach((c,i)=>ARM_MAP[c]=ARM_V[i]);
+const CMP_GREEK=GREEK.map(l=>l[0].toUpperCase());
+const CMP_HEB=HEBREW.map(l=>l[0]).concat(['ך','ם','ן','ף','ץ']);
+const CMP_FONT="'Segoe UI Symbol','Noto Sans Runic','Noto Sans Armenian','Noto Sans Hebrew','Noto Serif','Arial Unicode MS','DejaVu Sans',serif";
+const CMP_COL={g:'#00f0ff',h:'#7dffb0',r:'#b6c2d6'};
+
+function toRunes(s){
+  s=s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  s=s.replace(/th/g,'ᚦ').replace(/ng/g,'ᛝ');
+  const m={a:'ᚨ',b:'ᛒ',c:'ᚲ',d:'ᛞ',e:'ᛖ',f:'ᚠ',g:'ᚷ',h:'ᚺ',i:'ᛁ',j:'ᛃ',k:'ᚲ',l:'ᛚ',m:'ᛗ',n:'ᚾ',o:'ᛟ',p:'ᛈ',q:'ᚲ',r:'ᚱ',s:'ᛋ',t:'ᛏ',u:'ᚢ',v:'ᚹ',w:'ᚹ',x:'ᚲᛋ',y:'ᛃ',z:'ᛉ'};
+  return s.replace(/[a-z]/g,c=>m[c]);
+}
+
+function cmpLeft(ctx,cx,cy,setsO,totalsO){
+  ctx.save();ctx.translate(cx,cy);
+  const R=225,Rin=190,Rn=180;
+  const rad=d=>(d-90)*Math.PI/180;
+  const P=(r,n)=>{const a=rad((n-1)*10);return{x:r*Math.cos(a),y:r*Math.sin(a)}};
+  const active={};[].concat(setsO.g,setsO.h,setsO.r).forEach(n=>active[n]=(active[n]||0)+1);
+  Object.keys(active).forEach(key=>{
+    const n=+key,a1=rad((n-1)*10-5),a2=rad((n-1)*10+5);
+    ctx.beginPath();ctx.arc(0,0,R,a1,a2);ctx.arc(0,0,Rin,a2,a1,true);ctx.closePath();
+    ctx.fillStyle='rgba(255,0,85,.30)';ctx.fill();
+  });
+  ctx.beginPath();ctx.arc(0,0,R,0,2*Math.PI);ctx.strokeStyle='#00f0ff';ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.arc(0,0,Rin,0,2*Math.PI);ctx.strokeStyle='rgba(0,240,255,.6)';ctx.lineWidth=1;ctx.stroke();
+  [120,60].forEach(r=>{ctx.beginPath();ctx.arc(0,0,r,0,2*Math.PI);ctx.strokeStyle='#1a2638';ctx.lineWidth=.8;ctx.stroke()});
+  ctx.font='bold 11px '+CMP_FONT;
+  for(let n=1;n<=36;n++){
+    const a=rad((n-1)*10-5);
+    ctx.beginPath();ctx.moveTo(Rin*Math.cos(a),Rin*Math.sin(a));ctx.lineTo(R*Math.cos(a),R*Math.sin(a));
+    ctx.strokeStyle='rgba(0,240,255,.35)';ctx.lineWidth=.8;ctx.stroke();
+    const t=P(207.5,n);ctx.fillStyle=active[n]?'#ffffff':'#8fb0c8';ctx.fillText(String(n),t.x,t.y);
+  }
+  /* star polygon {36/7}: the geometry behind "value x 7 mod 36" */
+  ctx.beginPath();
+  for(let n=1;n<=36;n++){const a=P(Rn,n),b=P(Rn,((n-1+7)%36)+1);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y)}
+  ctx.strokeStyle='rgba(25,224,138,.38)';ctx.lineWidth=.8;ctx.stroke();
+  ctx.beginPath();
+  for(let n=1;n<=34;n+=3){const a=P(Rn,n),b=P(Rn,((n-1+15)%36)+1);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y)}
+  ctx.strokeStyle='rgba(0,240,255,.30)';ctx.lineWidth=.8;ctx.stroke();
+  ['g','h','r'].forEach(key=>{
+    const s=setsO[key];if(s.length<2)return;
+    ctx.beginPath();s.forEach((n,i)=>{const p=P(Rn,n);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)});
+    ctx.strokeStyle=CMP_COL[key];ctx.globalAlpha=.55;ctx.lineWidth=1.2;ctx.stroke();ctx.globalAlpha=1;
+  });
+  Object.keys(active).forEach(key=>{
+    const n=+key,e=P(Rn,n);
+    ctx.save();ctx.shadowColor='#ff0055';ctx.shadowBlur=8;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e.x,e.y);
+    ctx.strokeStyle='#ff0055';ctx.lineWidth=1.2+Math.min(active[n],4)*.35;ctx.stroke();ctx.restore();
+  });
+  ['g','h','r'].forEach(key=>{
+    if(!totalsO[key])return;
+    const e=P(R,totalsO[key]);
+    ctx.save();ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e.x,e.y);
+    ctx.strokeStyle=CMP_COL[key];ctx.lineWidth=1.3;ctx.stroke();ctx.restore();
+  });
+  for(let n=1;n<=36;n++){
+    const p=P(Rn,n),on=!!active[n];
+    ctx.beginPath();ctx.arc(p.x,p.y,on?5:2.2,0,2*Math.PI);ctx.fillStyle=on?'#ff0055':'#3a4658';ctx.fill();
+  }
+  ctx.font='10px '+CMP_FONT;ctx.fillStyle='#6f8499';
+  for(let d=0;d<360;d+=30){const a=rad(d);ctx.fillText(d+'\u00b0',238*Math.cos(a),238*Math.sin(a))}
+  ctx.beginPath();ctx.arc(0,0,9,0,2*Math.PI);ctx.strokeStyle='rgba(255,0,85,.6)';ctx.lineWidth=1;ctx.stroke();
+  ctx.beginPath();ctx.arc(0,0,4.5,0,2*Math.PI);ctx.fillStyle='#ff0055';ctx.fill();
+  ctx.restore();
+}
+
+function cmpRight(ctx,cx,cy,sets,totals){
+  ctx.save();ctx.translate(cx,cy);ctx.scale(1.25,1.25);
+  const rad=d=>(d-90)*Math.PI/180;
+  const P=(r,n)=>{const a=rad((n-1)*10);return{x:r*Math.cos(a),y:r*Math.sin(a)}};
+  const all=[].concat(sets.g,sets.h,sets.r),active={};
+  all.forEach(n=>active[n]=(active[n]||0)+1);
+  const any=all.length>0;
+  /* gear ring: 36 teeth, one per node */
+  for(let n=1;n<=36;n++){
+    const a=(n-1)*10,h1=3.4,h2=2.3;
+    const p1=rad(a-h1),p2=rad(a-h2),p3=rad(a+h2),p4=rad(a+h1);
+    ctx.beginPath();
+    ctx.moveTo(178*Math.cos(p1),178*Math.sin(p1));ctx.lineTo(188*Math.cos(p2),188*Math.sin(p2));
+    ctx.lineTo(188*Math.cos(p3),188*Math.sin(p3));ctx.lineTo(178*Math.cos(p4),178*Math.sin(p4));ctx.closePath();
+    ctx.fillStyle='#1c2634';ctx.fill();ctx.strokeStyle='#3a4658';ctx.lineWidth=.8;ctx.stroke();
+  }
+  ctx.beginPath();ctx.arc(0,0,178,0,2*Math.PI);ctx.strokeStyle='#3a4658';ctx.lineWidth=2;ctx.stroke();
+  /* rotational lock latch */
+  ctx.save();ctx.rotate(rad(45));ctx.fillStyle='#ffb700';ctx.fillRect(182,-5,13,10);ctx.restore();
+  [176,160,137,111,86,60].forEach((r,i)=>{ctx.beginPath();ctx.arc(0,0,r,0,2*Math.PI);ctx.strokeStyle=i?'#1a2638':'#00f0ff';ctx.lineWidth=i?.8:1.2;ctx.stroke()});
+  for(let n=1;n<=36;n++){
+    const major=((n-1)*10)%30===0,a=P(60,n),b=P(176,n);
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=major?'rgba(255,183,0,.35)':'rgba(111,132,153,.22)';ctx.lineWidth=major?.9:.5;ctx.stroke();
+    const t=P(168,n);ctx.font='bold 7px '+CMP_FONT;ctx.fillStyle=active[n]?'#fff':'#6f8499';ctx.fillText(String(n),t.x,t.y);
+  }
+  ['g','h','r'].forEach(key=>{
+    const s=sets[key];if(s.length<2)return;
+    ctx.beginPath();s.forEach((n,i)=>{const p=P(160,n);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)});
+    ctx.strokeStyle=CMP_COL[key];ctx.globalAlpha=.35;ctx.lineWidth=1;ctx.stroke();ctx.globalAlpha=1;
+  });
+  Object.keys(active).forEach(key=>{
+    const n=+key,s=P(38,n),e=P(160,n);
+    ctx.save();ctx.shadowColor='#ff0055';ctx.shadowBlur=8;
+    ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(e.x,e.y);
+    ctx.strokeStyle='#ff0055';ctx.lineWidth=1.2+Math.min(active[n],4)*.35;ctx.stroke();ctx.restore();
+  });
+  ['g','h','r'].forEach(key=>{
+    if(!totals[key])return;
+    const s=P(38,totals[key]),e=P(176,totals[key]);
+    ctx.save();ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(e.x,e.y);
+    ctx.strokeStyle=CMP_COL[key];ctx.lineWidth=1.3;ctx.stroke();ctx.restore();
+    ctx.beginPath();ctx.arc(e.x,e.y,3,0,2*Math.PI);ctx.fillStyle=CMP_COL[key];ctx.fill();
+  });
+  const rings=[
+    {r:148.5,arr:ARM_L,col:'#33415a',px:12,hl:0,live:false},
+    {r:124,arr:CMP_GREEK,col:CMP_COL.g,px:12,hl:8,live:true},
+    {r:98.5,arr:RUNES,col:CMP_COL.r,px:11,hl:7.5,live:true},
+    {r:73,arr:CMP_HEB,col:CMP_COL.h,px:11,hl:6.8,live:true}
+  ];
+  rings.forEach(ring=>{
+    for(let n=1;n<=36;n++){
+      const g=ring.arr[n-1],p=P(ring.r,n);
+      if(g===undefined){ctx.beginPath();ctx.arc(p.x,p.y,.8,0,2*Math.PI);ctx.fillStyle='#1a2638';ctx.fill();continue}
+      const on=ring.live&&!!active[n];
+      if(on){ctx.beginPath();ctx.arc(p.x,p.y,ring.hl,0,2*Math.PI);ctx.fillStyle='rgba(255,0,85,.28)';ctx.fill();ctx.strokeStyle='#ff0055';ctx.lineWidth=.8;ctx.stroke()}
+      ctx.font=(on?'bold ':'')+ring.px+'px '+CMP_FONT;ctx.fillStyle=on?'#fff':ring.col;ctx.fillText(g,p.x,p.y+.5);
+    }
+  });
+  ctx.save();if(any){ctx.shadowColor='#00f0ff';ctx.shadowBlur=12}
+  ctx.beginPath();ctx.arc(0,0,36,0,2*Math.PI);ctx.fillStyle='#06080d';ctx.fill();ctx.strokeStyle='#ffb700';ctx.lineWidth=2;ctx.stroke();ctx.restore();
+  ctx.beginPath();ctx.arc(0,0,30,0,2*Math.PI);ctx.strokeStyle='rgba(255,183,0,.5)';ctx.lineWidth=.8;ctx.stroke();
+  ctx.font='bold 26px '+CMP_FONT;ctx.fillStyle='#ffb700';ctx.fillText('\u03e0',0,-5);
+  ctx.font='bold 9px '+CMP_FONT;ctx.fillStyle=any?'#00f0ff':'#8a9ab0';ctx.fillText('900',0,14);
+  ctx.beginPath();ctx.arc(0,36,9,0,2*Math.PI);ctx.fillStyle='#ffb700';ctx.fill();ctx.strokeStyle='#06080d';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='bold 9px '+CMP_FONT;ctx.fillStyle='#06080d';ctx.fillText('99',0,36.5);
+  ctx.restore();
+}
+
+function cmpChain(ctx,x1,x2,y){
+  ctx.save();
+  ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.strokeStyle='rgba(140,151,168,.45)';ctx.lineWidth=1;ctx.stroke();
+  const n=3,step=(x2-x1)/n;
+  for(let i=0;i<n;i++){
+    const c=x1+step*(i+.5);
+    ctx.beginPath();
+    if(i%2===0)ctx.ellipse(c,y,step*.62,9,0,0,2*Math.PI);else ctx.ellipse(c,y,step*.34,6,0,0,2*Math.PI);
+    ctx.strokeStyle='#aab4c4';ctx.lineWidth=2.2;ctx.stroke();
+  }
+  ctx.restore();
+}
+
+
+/* ---- harmonic playback on the compass: lit node on both wheels + a clean jitterbug figure in the middle ----
+   Vertices (0,±1,±t) and cyclic: t=1 is the cuboctahedron, t=φ (1.618) the icosahedron; the figure breathes between them with the note. */
+const PHI=(1+Math.sqrt(5))/2;
+function jbVerts(t){const o=[];for(const a of[1,-1])for(const b of[1,-1]){o.push([0,a,b*t],[b*t,0,a],[a,b*t,0])}return o}
+const JB_E=(()=>{const v=jbVerts(PHI),e=[];for(let i=0;i<12;i++)for(let j=i+1;j<12;j++){const d=Math.hypot(v[i][0]-v[j][0],v[i][1]-v[j][1],v[i][2]-v[j][2]);if(Math.abs(d-2)<1e-6){const w=jbVerts(1),d1=Math.hypot(w[i][0]-w[j][0],w[i][1]-w[j][1],w[i][2]-w[j][2]);e.push([i,j,Math.abs(d1-2)<1e-6])}}return e})();
+function cmpOverlay(ctx){
+  const p=cmpPlay,now=performance.now()/1000,v=p.v,nl=(v%36)||36,nr=(v*7%36)||36,col=CMP_COL[p.k]||'#ffb700';
+  const ang=n=>((n-1)*10-90)*Math.PI/180;
+  const L={x:270+180*Math.cos(ang(nl)),y:320+180*Math.sin(ang(nl))};
+  const Rr={x:930+200*Math.cos(ang(nr)),y:320+200*Math.sin(ang(nr))};
+  const J={x:600,y:128};
+  const pulse=1+.2*Math.sin(now*10);
+  ctx.save();ctx.shadowColor='#ffb700';
+  if(p.k!=='a'){
+    [[270,320,L],[930,320,Rr]].forEach(([cx,cy,e])=>{
+      ctx.shadowBlur=10;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(e.x,e.y);ctx.strokeStyle='#ffb700';ctx.lineWidth=2.2;ctx.stroke();
+      ctx.beginPath();ctx.arc(e.x,e.y,10*pulse,0,6.283);ctx.fillStyle='rgba(255,183,0,.35)';ctx.fill();ctx.strokeStyle='#ffd866';ctx.lineWidth=2;ctx.stroke();
+    });
+    ctx.shadowBlur=0;ctx.setLineDash([5,5]);ctx.lineDashOffset=-now*30;
+    [L,Rr].forEach(e=>{ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.quadraticCurveTo((e.x+J.x)/2,J.y-30,J.x,J.y);ctx.strokeStyle='rgba(255,183,0,.55)';ctx.lineWidth=1.2;ctx.stroke()});
+    ctx.setLineDash([]);
+  }
+  /* smooth breathing between cuboctahedron and icosahedron, steered by the pitch class of the note */
+  const target=(v%12)/11;cmpJ.th+=(target-cmpJ.th)*.08;
+  const t=1+(PHI-1)*cmpJ.th,f=1/Math.sqrt(1+t*t),S=64,rotY=now*.55,rotX=.5;
+  const P=jbVerts(t).map(q=>{let[x,y,z]=q.map(a=>a*f);let c=Math.cos(rotY),s2=Math.sin(rotY);[x,z]=[x*c+z*s2,-x*s2+z*c];c=Math.cos(rotX);s2=Math.sin(rotX);[y,z]=[y*c-z*s2,y*s2+z*c];return{x:J.x+x*S,y:J.y+y*S,z}});
+  ctx.shadowBlur=6;ctx.shadowColor=col;ctx.lineCap='round';
+  JB_E.map(([a,b,strut])=>({a:P[a],b:P[b],strut,z:(P[a].z+P[b].z)/2})).sort((m,n)=>m.z-n.z).forEach(e=>{
+    const depth=.45+.55*(e.z+1)/2,fade=e.strut?cmpJ.th:1;if(fade<.03)return;
+    ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);
+    ctx.strokeStyle=e.strut?'#ffb700':col;ctx.globalAlpha=depth*fade;ctx.lineWidth=e.strut?1.1:1.6;ctx.stroke();
+  });
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  P.forEach(q=>{ctx.beginPath();ctx.arc(q.x,q.y,2.3,0,6.283);ctx.fillStyle='#fff';ctx.globalAlpha=.5+.5*(q.z+1)/2;ctx.fill()});
+  ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='bold 14px '+CMP_FONT;ctx.fillStyle='#ffd866';
+  ctx.fillText(((p.label||'')+'  '+(p.name||'')).toUpperCase(),J.x,J.y+78);
+  ctx.font='11px '+CMP_FONT;ctx.fillStyle='#9fd';ctx.fillText((p.snd?'/'+p.snd+'/  ':'')+'value '+v+'  ·  node '+nl+' → ×7 node '+nr,J.x,J.y+94);
+  ctx.restore();
+}
+let cmpBase=null;
+function cmpPaint(){
+  const cv=$('cmpCanvas');if(!cv||!cmpLast)return;
+  if(!cmpPlay||!cmpBase){cmpDraw(...cmpLast);
+    if(!cmpBase){cmpBase=document.createElement('canvas')}
+    cmpBase.width=cv.width;cmpBase.height=cv.height;cmpBase.getContext('2d').drawImage(cv,0,0);
+    if(!cmpPlay)return}
+  const c=cv.getContext('2d'),k=cv.width/1200;
+  c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,cv.width,cv.height);c.drawImage(cmpBase,0,0);
+  c.setTransform(k,0,0,k,0,0);cmpOverlay(c);c.setTransform(1,0,0,1,0,0);
+}
+
+function cmpDraw(sets,totals,setsO,totalsO){
+  const cv=$('cmpCanvas');if(!cv)return;
+  const ctx=cv.getContext('2d'),k=cv.width/1200;
+  ctx.setTransform(k,0,0,k,0,0);ctx.clearRect(0,0,1200,600);
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowBlur=0;
+  ctx.font='bold 18px '+CMP_FONT;ctx.fillStyle='#ffb700';ctx.fillText('THE MULTI-LINGUAL COSMIC COMPASS',600,20);
+  ctx.font='11px '+CMP_FONT;ctx.fillStyle='#6f8499';ctx.fillText('SCHEMATIC V4.2 \u00b7 36 NODES \u00d7 10\u00b0 \u00b7 GREEK \u00b7 RUNIC \u00b7 HEBREW',600,40);
+  ctx.font='bold 13px '+CMP_FONT;ctx.fillStyle='#00f0ff';
+  ctx.fillText('HARDWARE GEOMETRY ENGINE',270,62);ctx.fillText('MULTI-ALPHABET MATRIX (SYNKRESIS)',930,62);
+  cmpLeft(ctx,270,320,setsO,totalsO);
+  cmpRight(ctx,930,320,sets,totals);
+  /* center coupling bridge */
+  ctx.font='bold 34px '+CMP_FONT;ctx.fillStyle='#ffb700';
+  ctx.fillText('99',548,320);ctx.fillText('99',652,320);
+  cmpChain(ctx,571,629,320);
+  ctx.font='10px '+CMP_FONT;ctx.fillStyle='#00f0ff';
+  ctx.fillText('COUPLING BRIDGE',600,262);ctx.fillText('DOUBLE THRESHOLD',600,376);ctx.fillText('RESONANCE (99)',600,390);
+  /* rotational lock indicator */
+  ctx.textAlign='right';ctx.font='bold 10px '+CMP_FONT;ctx.fillStyle='#6f8499';ctx.fillText('ROTATIONAL LOCK [ENGAGED]',1190,24);
+  ctx.textAlign='center';
+  ctx.beginPath();ctx.arc(1034,24,4,0,2*Math.PI);ctx.fillStyle='#19e08a';ctx.fill();
+  ctx.font='10px '+CMP_FONT;ctx.fillStyle='#6f8499';
+  ctx.fillText('node = value mod 36 \u00b7 cells light up per letter',270,584);
+  ctx.fillText('vector = value \u00d7 7 mod 36 \u00b7 Armenian ring: display only, unplugged',930,584);
+}
+
+let lastR='';
+function cmpRender(){
+  const t=$('cmpInput').value.trim();
+  const hasR=/[\u16A0-\u16FF]/.test(t),hasG=SCR.g.test.test(t),hasH=SCR.h.test.test(t);
+  let g='',h='',r='';
+  if(hasR||hasG||hasH){
+    if(hasR)r=t.replace(/[^\u16A0-\u16FF]/g,'');
+    if(hasG)g=t.replace(/[^\u0370-\u03FF\u1F00-\u1FFF\s]/g,'');
+    if(hasH)h=t.replace(/[^\u0590-\u05FF\s]/g,'');
+    const lat=(hasG&&!hasH&&!hasR)?g2l(g):toLat(t); /* same whole-word sound reading as the wheel (phon) */
+    if(!hasG)g=toGreek(lat).toUpperCase();
+    if(!hasH)h=toHebrew(lat);
+    if(!hasR)r=toRunes(lat);
+  }else if(t){g=toGreek(t).toUpperCase();h=toHebrew(t);r=toRunes(t)}
+  lastR=r;
+  const G=evalTerm('g',g),H=evalTerm('h',h);
+  const gv=G.seq.map(i=>SCR.g.letters[i][1]),hv=H.seq.map(i=>SCR.h.letters[i][1]);
+  const rv=[...r].filter(c=>RUNE_VAL[c]).map(c=>RUNE_VAL[c]);
+  const ni=v=>(v*7%36)||36,no=v=>(v%36)||36,sum=a=>a.reduce((x,y)=>x+y,0);
+  const sets={g:gv.map(ni),h:hv.map(ni),r:rv.map(ni)};
+  const setsO={g:gv.map(no),h:hv.map(no),r:rv.map(no)};
+  const S={g:sum(gv),h:sum(hv),r:sum(rv)};
+  const totals={g:S.g?ni(S.g):null,h:S.h?ni(S.h):null,r:S.r?ni(S.r):null};
+  const totalsO={g:S.g?no(S.g):null,h:S.h?no(S.h):null,r:S.r?no(S.r):null};
+  cmpLast=[sets,totals,setsO,totalsO];cmpBase=null;cmpPaint();
+  const box=(label,col,s,o,v)=>`<div class="rbox"><div class="t" style="color:${col}">${label}</div><div class="v" style="font-size:20px">${s||0}</div><div class="mut">${s?'\u03a3 mod 36 \u2192 node '+o+' \u00b7 \u00d77 \u2192 node '+v:'\u2014'}</div></div>`;
+  $('cmpOut').innerHTML=box('GREEK',CMP_COL.g,S.g,totalsO.g,totals.g)+box('RUNIC',CMP_COL.r,S.r,totalsO.r,totals.r)+box('HEBREW',CMP_COL.h,S.h,totalsO.h,totals.h);
+}
+
+function armRender(){
+  const t=$('armInput').value.toUpperCase();let s=0;const chips=[];
+  for(const c of t){if(ARM_MAP[c]!==undefined){s+=ARM_MAP[c];chips.push(`<span class="chip">${c}<i>${ARM_MAP[c]}</i></span>`)}}
+  $('armOut').innerHTML=chips.length?chips.join('')+`<span class="chip" style="border-color:var(--amber)">Σ<i>${s}</i></span>`:'<span class="mut">no Armenian letters yet</span>';
+}
+
+$('cmpInput').addEventListener('input',cmpRender);
+$('armInput').addEventListener('input',armRender);
+cmpRender();armRender();buildExtraKbd();
+
+init();buildQT();renderPhonetic();drawSnd();$('cmpInput').value='Ο Θεός του Ισραήλ';cmpRender();$('armInput').value='ԱՐԱՐԱՏ';armRender();$('srcSel').addEventListener('change',()=>{renderPhonetic();drawSnd()});
+</script>
+<script src="account.js"></script>
+</body>
+</html>

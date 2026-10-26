@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head>
+<script src="consent.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy and Cookies - Philosophy From A Stone</title>
+<style>
+:root{--bg:#07090d;--panel:#0b0f16;--line:#2a3647;--fg:#e6edf6;--muted:#9aa7b8;--cyan:#5fd4ff;--yellow:#ffd24a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:760px;margin:0 auto;padding:28px 16px 80px}
+a{color:var(--cyan)}
+h1{font-size:1.7rem;margin:.4em 0 .2em}
+h2{font-size:1.15rem;margin:1.8em 0 .4em;color:var(--yellow)}
+p,li{color:#c9d3e0}
+.top a{font:500 12px ui-monospace,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel);color:var(--fg)}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--yellow);padding:10px 14px;border-radius:4px;color:var(--muted);font-size:14px}
+button.btn{font:600 13px system-ui,sans-serif;border-radius:4px;padding:9px 14px;cursor:pointer;border:1px solid var(--cyan);background:var(--cyan);color:#04121a}
+.tablewrap{overflow-x:auto}
+</style><link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body>
+<main>
+<p class="top"><a href="./">&larr; Ophanim Field Console</a></p>
+<h1>Privacy and cookies</h1>
+<p>Last updated: 18 October 2026. This is the site "Philosophy From A Stone", run by Mandos Polycarpou (@Mandos16).</p>
+
+<div class="note">Draft for the site owner: before launch, add your contact email and postal address in the "Who runs this site" section below, and have it checked for your own situation. This page describes how the site works today, with no member accounts yet.</div>
+
+<h2>Who runs this site</h2>
+<p>Mandos Polycarpou. Contact: <strong>[add contact email here]</strong>. You can also reach me through <a href="https://x.com/Mandos16" rel="noopener noreferrer">@Mandos16 on X</a>.</p>
+
+<h2>What the site stores in your browser</h2>
+<p>Everything below stays on your own device. None of it is sent to me.</p>
+<div class="tablewrap"><table>
+<tr><th>Name</th><th>What it is for</th><th>How long</th></tr>
+<tr><td><code>ophanim_consent</code> (cookie and local copy)</td><td>Remembers your answer to the cookie question.</td><td>12 months</td></tr>
+<tr><td><code>ophanim.*</code>, <code>ezra.*</code> (local storage)</td><td>Your own settings and saved items on the Field Console, the Reed deck, the Library and the games, such as feeds, notes, tabs, radio slots, the sound setting, the background-motion setting, and, if you create one, your local profile (a display name you choose, your language and saved game progress). The profile has no password and is never sent to a server.</td><td>Until you clear your browser data</td></tr>
+</table></div>
+<p>These are needed for the pages to work the way you set them up, so they do not need your consent.</p>
+
+<h2>Content from other websites</h2>
+<p>Some pages can show content that comes straight from another company. When it loads, that company receives your IP address and your browser details and may set its own cookies. These stay <strong>off until you choose "Allow third-party content"</strong> in the cookie box.</p>
+<ul>
+<li><strong>YouTube and Vimeo</strong> videos (radio slots, the media panel, the Library).</li>
+<li><strong>X (Twitter)</strong> timeline on the Field Console.</li>
+<li>Any other site you open inside the Field Console or Library frames.</li>
+</ul>
+<p>You can change your choice at any time with the <strong>Cookie settings</strong> button at the bottom-left of every page, or here:</p>
+<p><button class="btn" type="button" onclick="OphanimConsent.open()">Open cookie settings</button></p>
+
+<h2>Other connections your browser makes</h2>
+<p>These are needed to show the page itself, so they are not switched off by the cookie box. They do not set cookies, but the provider sees your IP address.</p>
+<ul>
+<li><strong>Google Fonts</strong> loads the typefaces on the game and codex pages.</li>
+<li><strong>CoinGecko</strong> supplies the crypto price ticker, and a small function on this site fetches stock-index prices from Stooq.</li>
+<li><strong>Vercel</strong> hosts the site and keeps ordinary server logs (IP address, page, time) for security and running the service.</li>
+</ul>
+
+<h2>Sound and read-aloud</h2>
+<p>The game sounds and the optional drone are made inside your browser. No sound files are downloaded from other websites. The "Read aloud" button uses your device&rsquo;s own speech voices, and the page prefers voices that run on your device. Some browsers also offer online voices; if your browser chooses one of those, the text being read may be sent to the browser&rsquo;s maker. Recordings of articles, where they exist, are played from this site.</p>
+
+<h2>Your rights</h2>
+<p>If you are in the EU or UK you have the right to ask what data is held about you, to have it corrected or deleted, to object to its use, and to complain to your local data protection authority (in Cyprus, the Commissioner for Personal Data Protection). Because the site holds no personal accounts today, there is currently nothing stored about you on my side beyond the hosting logs above.</p>
+
+<h2>Changes</h2>
+<p>When member accounts, messages, sponsors or referrals are added, this page will be updated first and you will be asked again where the law requires it.</p>
+</main>
+<script src="account.js"></script>
+</body></html>

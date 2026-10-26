@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Royal Game of Ur · Ophanim Codex</title>
+<meta name="description" content="The Royal Game of Ur: archaeology, the 20-square matrix and isopsephic mechanics. Play the 4,600-year-old game. By @Mandos16.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Ur additions ---------- */
+:root{--lapis:#3a6fd8;--shell:#efe6d2;--carn:#c4553a}
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03;transition:fill .35s,stroke .35s}
+.urboard .sq.hl{fill:rgba(70,227,240,.22);stroke:var(--cyan)}
+.urboard .sq.hlg{fill:rgba(232,195,117,.25);stroke:var(--gold)}
+.urboard .sq.dim{fill:#071015}
+.urboard .ros{pointer-events:none}
+.urboard .lab{font-family:var(--mono);font-size:.2px;fill:var(--ink-2);pointer-events:none}
+.zones{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.zinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);min-height:3.2em;border-left:2px solid var(--cyan);padding:6px 14px;background:rgba(70,227,240,.04)}
+.zinfo b{color:var(--gold)}
+.museum{border:1px solid var(--line-g);background:var(--panel);padding:22px 24px;margin:20px 0;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.museum h3{font-size:18px;letter-spacing:.06em;margin-bottom:12px}
+.museum dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:18px}
+.museum dt{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding-top:4px}
+.museum dd{color:var(--ink)}
+.fix{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--bg);background:var(--gold);padding:1px 6px;margin-left:6px;vertical-align:2px;cursor:help}
+.tablet{background:linear-gradient(145deg,#2b2620,#191612);border:1px solid #4a4032;border-radius:14px 14px 22px 22px;padding:26px;box-shadow:inset 0 0 40px rgba(0,0,0,.6),0 0 40px rgba(232,195,117,.08);position:relative}
+.tablet .cune{font-size:22px;color:#8d7c63;letter-spacing:.3em;line-height:1.6;word-break:break-all;opacity:.75;font-family:serif}
+.tablet .omen{margin-top:16px;display:grid;gap:8px}
+.tablet .omen div{font-style:italic;color:var(--shell);font-size:20px;border-left:2px solid var(--gold-d);padding-left:12px}
+.birds{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.birds span{font-family:var(--mono);font-size:12px;border:1px solid var(--line-g);color:var(--gold);padding:4px 10px}
+.compare2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.compare2>div{border:1px solid var(--line);padding:14px 16px;background:var(--panel)}
+.compare2 h4{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;font-weight:400}
+.compare2 .g h4{color:var(--gold)}
+.compare2 p{font-size:17px;margin:0}
+@media(max-width:600px){.compare2{grid-template-columns:1fr}}
+/* dice */
+.dice{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.tetra{width:54px;height:50px;transition:transform .5s}
+.dist{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end;height:170px;margin-top:20px;max-width:420px}
+.dist .col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.dist .bar{width:100%;background:linear-gradient(var(--cyan),rgba(70,227,240,.2));transition:height .4s;position:relative}
+.dist .bar.you{position:absolute;bottom:0;left:30%;width:40%;background:var(--gold);opacity:.85}
+.dist .col b{color:var(--ink);font-size:14px}
+/* game */
+.game{border:1px solid var(--line-g);background:var(--panel);padding:20px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.trays{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase;margin:6px 4px}
+.trays .t{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pc{width:16px;height:16px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.5)}
+.pc.a{background:radial-gradient(circle at 35% 35%,#fff,#cfd6da)}
+.pc.b{background:radial-gradient(circle at 35% 35%,#6f9cff,#1f3d8a)}
+.pc.go{opacity:.25}
+.pc.click{cursor:pointer;box-shadow:0 0 0 2px var(--gold),0 0 12px var(--gold)}
+.gbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+#gstatus{font-family:var(--mono);font-size:13px;color:var(--ink);flex:1;min-width:200px}
+#gstatus b{color:var(--gold)}
+.urboard .piece{cursor:default;transition:transform .3s}
+.urboard .piece.click{cursor:pointer}
+.urboard .ring{fill:none;stroke:var(--gold);stroke-width:.06;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.score{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+.audit s{color:var(--carn);text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+details.auditbox{border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+</style>
+<style>@media(max-width:900px){.game iframe{height:2300px!important}}</style>
+<style>.gp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}.gp-cards .c{border:1px solid var(--line-g);background:var(--panel);padding:16px}.gp-cards .c h3{margin:0 0 6px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.gp-cards .c p{margin:0;color:var(--dim);font-size:16px;line-height:1.6}.gp-sec p{max-width:74ch}</style>
+<style id="audcap">div:has(>audio[controls]){max-width:620px!important}audio[controls]{max-width:100%}</style>
+<style id="markfab">.fab{width:58px;height:58px;border:0;background:none;transform:none;padding:0;border-radius:6px}.fab img{width:100%;height:100%;display:block;transition:.2s}.fab:hover img{filter:drop-shadow(0 0 8px rgba(70,227,240,.6))}</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<header class="bar">
+  <a href="#" id="backGames">◂ Games</a>
+  <div class="t">Ophanim Codex · <b>The Royal Game of Ur</b></div>
+  <a href="#play">Play ▸</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<button class="fab" id="fab" title="Open the Greek Translator" aria-label="Open the Greek Translator"><img src="mark.svg" alt=""></button>
+
+<main>
+<!-- HERO -->
+<section id="hero" data-label="Prologue">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Ophanim Codex · Volume II · ΦΥ ΨΗ Metrological Research Series</div>
+    <h1>The Royal Game <em>of Ur</em></h1>
+    <p class="sub" style="font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 34px;max-width:44ch">Archaeology, the 20-square matrix and isopsephic mechanics of the oldest playable board game.</p>
+    <div id="play" style="max-width:1180px;margin:34px auto 0;text-align:left"><p class="dim" style="text-align:center;margin:0 0 14px">Play it here: drag the board to turn it, roll the four pyramid dice, tap a glowing piece.</p>
+    <div class="game reveal" style="padding:0;overflow:hidden">
+      <iframe src="ur.html?embed=1" title="Ophanim Lithic Royal Game of Ur, 3D" loading="lazy" style="display:block;width:100%;height:1250px;border:0;background:#07090d"></iframe>
+      <div style="padding:10px 16px;text-align:right"><a href="ur.html" style="font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none">Open full screen &#9656;</a></div>
+    </div></div>
+    <div class="scrollcue" style="margin-top:36px">SCROLL ▾</div>
+  </div>
+</section>
+
+<section id="ur-talk" class="gp-sec" data-label="Listen">
+  <div class="wrap">
+    <div class="kicker">Listen &middot; 26 minutes</div>
+    <h2>Why Reality Needs Hidden Flaws</h2>
+    <div style="border:1px solid var(--line-g);background:var(--panel);padding:16px 18px;margin-top:14px">
+      <audio controls preload="none" src="audio/ur-hidden-flaws-talk.mp3" style="width:100%;color-scheme:dark">Your browser cannot play audio.</audio>
+      <p style="margin:10px 0 0;font:12px var(--mono);letter-spacing:.06em;color:var(--ink-2)">A recorded talk. It loads only when you press play.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ur-history" class="gp-sec" data-label="History" data-narrate data-audio="audio/ur-history.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">History</div>
+      <h2>History of the Royal Game of Ur</h2>
+
+    
+    <p>The Royal Game of Ur takes its name from the ancient Sumerian city of Ur, in what is now southern Iraq. Sir Leonard Woolley found five boards in the Royal Cemetery there in the 1920s. The finest, inlaid with shell, red limestone and lapis lazuli, is in the British Museum, and these boards date from about 2600&ndash;2400&nbsp;BCE. That puts the game among the oldest board games with a surviving board, close in age to Senet.</p>
+    <p>The same twenty-square board turns up far beyond Ur: in Iran, Egypt (where it is carved on the back of several Senet boxes, including some from Tutankhamun&rsquo;s tomb), Crete, and in later versions as far as India. A form of it was still played in Kerala within living memory. People played it for roughly three thousand years.</p>
+    <p>The rules came from a cuneiform clay tablet in the British Museum, written in Babylon in 177&nbsp;BCE by the scribe Itti-Marduk-bal&#257;&#7789;u. Irving Finkel, a curator there, translated it in the early 1980s and reconstructed the game (published in 2007). The tablet is some two thousand years younger than the boards. It copies an earlier description by another scribe, Iddin-B&#275;l, and it ties certain squares to omens, such as good fortune. Finkel&rsquo;s version combines the tablet&rsquo;s rules with the equipment found in the Ur graves: seven pieces a side and pyramid dice. Some details remain uncertain. This page uses a Finkel-style version.</p>
+  
+<p>The game outlived Mesopotamia. A form of it called <i>Asha</i> was played by the Jewish community of Kochi (Cochin) in southern India until the 1950s, when many of them left for Israel, and it is the last known living form of the game. It kept twenty squares but gave each player twelve pieces, and the squares were laid out a little differently. The exact Asha layout is not documented, so the &ldquo;Asha-style&rdquo; option keeps the Ur board and rules and only changes the piece count to twelve.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ur-how-to-play" class="gp-sec" data-label="How to play" data-narrate data-audio="audio/ur-how-to-play.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">How to play</div>
+      <h2>How to play</h2>
+
+    
+    <div class="gp-cards">
+      <div class="c"><h3>The board</h3><p>Twenty squares: a block of 3&times;4 and a block of 2&times;3 joined by a narrow bridge. Each player has fourteen squares to walk along: four private squares, eight in the shared middle lane, and two private squares at the end.</p></div>
+      <div class="c"><h3>Pieces and dice</h3><p>Seven pieces each, all starting off the board. Four pyramid dice, each with two of its four tips marked. Count the marked tips pointing up. The chances are 0: 6.25%, 1: 25%, 2: 37.5%, 3: 25%, 4: 6.25%.</p></div>
+      <div class="c"><h3>Moving</h3><p>Move one piece forward by the number rolled, or enter a new piece from off the board. You may not land on your own piece. With no legal move, or a roll of zero, your turn passes.</p></div>
+      <div class="c"><h3>Capturing</h3><p>In the middle lane, landing on an enemy piece sends it back off the board, to start again. Pieces on the private squares are never at risk, because only you can enter them.</p></div>
+      <div class="c"><h3>Rosettes</h3><p>There are five rosettes. Landing on one gives you another roll. The central rosette (square 8) is also a safe square: a piece there cannot be captured, and an enemy cannot land on it.</p></div>
+      <div class="c"><h3>Bearing off</h3><p>A piece leaves the board only by an exact count from the last square. The first player to bring all seven pieces home wins.</p></div>
+    </div>
+  
+    </div>
+  </div>
+</section>
+
+<section id="ur-strategy" class="gp-sec" data-label="Strategy" data-narrate data-audio="audio/ur-strategy.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Strategy</div>
+      <h2>Strategy</h2>
+
+    
+    <div class="gp-cards">
+      <div class="c"><h3>Hold the central rosette</h3><p>A piece on the middle rosette is untouchable and blocks the lane for your opponent. Many players try to take it early and keep it.</p></div>
+      <div class="c"><h3>Mind the gap behind you</h3><p>A piece in the middle lane is in danger from enemy pieces one to four squares behind it, most of all two behind (37.5%). A move that puts a piece out of reach is often worth more than a longer one.</p></div>
+      <div class="c"><h3>Chase rosettes</h3><p>Landing on a rosette gives a free roll, and some squares are reachable only by a 4, so a 2 or 3 into a rosette is a gift.</p></div>
+      <div class="c"><h3>Keep pieces in reserve</h3><p>Pieces waiting off the board are completely safe, and you can enter them whenever the roll fits. Do not rush all seven into the shared lane at once.</p></div>
+    </div>
+  
+    </div>
+  </div>
+</section>
+
+
+<!-- I ARCHAEOLOGY -->
+<section id="discovery" data-label="Discovery" data-narrate data-audio="audio/ur-codex-discovery.mp3">
+  <div class="wrap grid2">
+    <div class="reveal">
+      <div class="kicker">I · Archaeology &amp; Discovery</div>
+      <h2>A <em>4,600-year-old</em> grid</h2>
+      <p>Sir Leonard Woolley excavated Ur between 1922 and 1934. In its Royal Cemetery he found five boards of the <b>Game of Twenty Squares</b>. Ur lies in modern Dhi Qar Governorate, Iraq. The boards date to c. 2600–2400 BCE (Early Dynastic III), making this one of the oldest grid games in human history.</p>
+      <p class="dim">Ur was the great Sumerian centre of the moon god <b>Nanna</b> (Akkadian <b>Sîn</b>). He governed the lunar month of 29 or 30 days. The same lunar number appears in Senet's 3 × 10 = 30 squares and in Tavli's 30 checkers moving over 24 points.</p>
+      <div class="hud compact" data-gk="Οὐρ" data-tr="Our" data-mn="“Ur” (Sumerian Urim)"></div>
+      <div class="hud compact" data-gk="Σελήνη" data-tr="Selēnē" data-mn="“Moon”"></div>
+    </div>
+    <div class="reveal">
+      <div class="museum">
+        <h3>The British Museum board</h3>
+        <dl>
+          <dt>Museum no.</dt><dd>BM 120834 <span class="fix" title="The source PDF gave BM 120800">CORRECTED</span></dd>
+          <dt>Registration</dt><dd>1928,1009.378 · excavation no. U.9000</dd>
+          <dt>Find spot</dt><dd>Royal Cemetery, Ur <span class="fix" title="The source PDF said tomb PG 580; the museum's record names no tomb">CHECKED</span></dd>
+          <dt>Date</dt><dd>2600–2400 BCE · Early Dynastic III</dd>
+          <dt>Materials</dt><dd>Wood box inlaid with shell plaques, red limestone and lapis lazuli</dd>
+          <dt>Size</dt><dd>30.1 × 11 × 2.4 cm</dd>
+          <dt>Construction</dt><dd>A hollow box, not a solid board. The pieces and dice were kept inside it.</dd>
+        </dl>
+      </div>
+      <div class="timeline">
+        <div><b>c. 2600 BCE</b>Boards buried in the Royal Cemetery</div>
+        <div><b>1922–34</b>Woolley's excavations at Ur</div>
+        <div><b>1928</b>Board registered at the British Museum</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- II GEOMETRY -->
+<section id="geometry" data-label="The Matrix" data-narrate data-audio="audio/ur-codex-geometry.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">II · Board Geometry</div>
+      <h2>The <em>20-Square</em> Asymmetric Matrix</h2>
+      <p>Chess spreads 64 squares symmetrically (8 × 8 = 4³). Senet lays out 30 in a 3 × 10 array. Ur is deliberately lopsided: 20 squares in three zones, with one shared runway where the two armies collide.</p>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="reveal"><svg class="urboard" id="zoneBoard"></svg>
+        <div class="zones" id="zoneBtns"></div>
+        <div class="zinfo" id="zoneInfo">Tap a zone to light it up.</div>
+      </div>
+      <div class="reveal">
+        <table class="cmp" style="min-width:0">
+          <thead><tr><th>Zone</th><th>Size</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Large block</td><td class="l">4 × 3 · 12</td><td>Starting area: <b>4 private squares per player</b> plus 4 shared <span class="fix" title="The source PDF said 6 private squares per player here">CORRECTED</span></td></tr>
+            <tr><td>Bridge</td><td class="l">1 × 2 · 2</td><td>The narrow neck between the blocks, all shared</td></tr>
+            <tr><td>Exit block</td><td class="l">2 × 3 · 6</td><td>Final area: <b>2 private exit squares per player</b> plus 2 shared <span class="fix" title="The source PDF said 3 private exit squares per player">CORRECTED</span></td></tr>
+            <tr><td>Shared runway</td><td class="l">8 squares</td><td>The middle-row spine where the paths overlap. Landing on an opponent captures it.</td></tr>
+          </tbody>
+        </table>
+        <p class="dim" style="margin-top:16px;font-size:18px">Each player's route is 4 private + 8 shared + 2 private = <b style="color:var(--gold)">14 squares</b>, with 6 safe squares per side and 8 combat squares.</p>
+        <div class="insight"><b>The 5 Rosettes</b>Five squares carry an 8-petalled rosette. In Irving Finkel's reconstruction, landing on any rosette gives an extra throw, and the central rosette on the shared runway is a sanctuary where a piece can't be captured. The other four sit on private squares, where the opponent can't reach anyway.</div>
+        <div class="hud compact" data-gk="Ῥόδον" data-tr="Rhodon" data-mn="“Rose” (rosette)"></div>
+        <div class="hud compact" data-gk="Πέντε" data-tr="Pente" data-mn="“Five” (rosettes)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- III TABLET -->
+<section id="tablet" data-label="The Tablet" data-narrate data-audio="audio/ur-codex-tablet.mp3">
+  <div class="wrap grid2">
+    <div class="reveal">
+      <div class="kicker">III · The Cuneiform Rulebook</div>
+      <h2>Itti-Marduk-balāṭu's <em>tablet</em></h2>
+      <p>In Babylon, in 177–176 BCE, the scribe <b>Itti-Marduk-balāṭu</b> copied the rules onto a clay tablet. His colophon says it was “written, checked and collated” against an older tablet belonging to <b>Iddin-Bēl</b>. Found in Babylon in 1880, it went to the British Museum. Curator <b>Irving Finkel</b> deciphered it in the early 1980s and published it in full in 2007.</p>
+      <p class="dim">A second, older rules tablet, probably from Uruk, called the game “Pack of Dogs”. It was destroyed in the First World War, and only a photograph survives.</p>
+      <div class="compare2">
+        <div><h4>On the tablet (Babylon, 177 BCE)</h4><p><b>5 pieces</b> a side, named after birds. Moves were thrown with <b>two knucklebones</b>: an ox astragal and a sheep astragal.</p></div>
+        <div class="g"><h4>In the Ur graves (c. 2600 BCE)</h4><p><b>7 pieces</b> a side, white shell against black, with <b>tetrahedral dice</b> that have two of four tips marked and throw 0–4.</p></div>
+      </div>
+      <div class="birds"><span>Swallow</span><span>Storm-bird</span><span>Raven</span><span>Rooster</span><span>Eagle</span></div>
+      <div class="hud compact" data-gk="Ἑπτά" data-tr="Hepta" data-mn="“Seven” (7 pieces)"></div>
+    </div>
+    <div class="reveal">
+      <div class="tablet">
+        <div class="cune">𒀭𒌓𒂊𒈨𒁲𒆠𒄿𒅆𒁀𒊭𒋾𒌋𒁺𒄑𒆷𒁲𒂗𒅅𒀀𒊏𒌨𒈾𒁉𒉌𒋛𒄷𒈬𒅎𒌉𒀭𒂊</div>
+        <div class="omen">
+          <div>“You will find a friend.”</div>
+          <div>“You will be powerful like a lion.”</div>
+        </div>
+        <p class="dim" style="margin:14px 0 0;font-size:16px">The divinatory overlay: some squares carried omens of friendship, strength or good fortune for whoever landed on them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IV DICE -->
+<section id="dice" data-label="Dice" data-narrate data-audio="audio/ur-codex-dice.mp3">
+  <div class="wrap grid2">
+    <div class="reveal">
+      <div class="kicker">IV · The Tetrahedral Throw</div>
+      <h2>Four pyramids, <em>sixteen</em> fates</h2>
+      <p>Each pyramid die has two of its four tips marked, so every die is a coin: 0 or 1. Throw four and count the marked tips that land upward. Of the 16 equally likely outcomes, six give a <b style="color:var(--gold)">2</b>. Only one gives a 4, and only one gives a 0.</p>
+      <div class="dice" id="diceDemo"></div>
+      <div class="btns"><button class="btn gold" id="throw1">Throw</button><button class="btn" id="throw100">Throw ×100</button></div>
+      <p class="score" id="throwLog" style="margin-top:10px">Cyan: the exact odds. Gold: your throws.</p>
+    </div>
+    <div class="reveal"><div class="dist" id="dist"></div>
+      <div class="hud compact" data-gk="Δόμοι" data-tr="Domoi" data-mn="“Houses / Squares”"></div>
+    </div>
+  </div>
+</section>
+
+<!-- V PLAY -->
+
+<!-- VI ISOPSEPHY -->
+<section id="engine" data-label="Isopsephy" data-narrate data-audio="audio/ur-codex-engine.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VI · ΦΥ ΨΗ Isopsephic Breakdown</div>
+      <h2>The <em>20 Houses</em> in numbers</h2>
+      <p class="dim">The four-step engine applied to Ur: Greek script, Latin phonetics, English meaning, letter-by-letter value. Every total here is calculated live.</p>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="reveal">
+        <div class="hud" data-gk="Εἴκοσι" data-tr="Eikosi" data-mn="“Twenty” (20 squares)"></div>
+        <div class="hud" data-gk="Δόμοι" data-tr="Domoi" data-mn="“Houses / Squares”"></div>
+      </div>
+      <div class="reveal">
+        <div class="hud" data-gk="Οἱ Εἴκοσι Δόμοι" data-tr="Hoi Eikosi Domoi" data-mn="“The Twenty Houses”"></div>
+        <div class="insight"><b>Audit note</b>The source gave 509 for “Οἱ 20 Δόμοι”. That adds only Εἴκοσι (315) + Δόμοι (194) and leaves out the article Οἱ (Ο 70 + Ι 10 = 80). The full phrase is <span style="color:var(--gold);font-weight:600">589</span>. Without the article, Εἴκοσι Δόμοι = 509.</div>
+        <div class="hud compact" data-gk="Εἴκοσι Δόμοι" data-tr="Eikosi Domoi" data-mn="“Twenty Houses” (no article)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSLATOR -->
+<section id="translator" data-label="Translator">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">The Translator</div>
+      <h2>Count the <em>pebbles</em> yourself</h2>
+      <p class="dim">Type any Greek word or tap the letters. Accents are ignored, and ς counts as Σ.</p>
+    </div>
+    <div class="box reveal">
+      <input id="gin" placeholder="Οὐρ" autocomplete="off" spellcheck="false" aria-label="Greek word">
+      <div class="kb" id="kb"></div>
+      <div id="gout"></div>
+      <div id="gtotal">0</div>
+      <div class="facts" id="gfacts"></div>
+      <div class="presets" id="presets"></div>
+    </div>
+  </div>
+</section>
+
+<!-- VII COMPARISON -->
+<section id="compare" data-label="Grid Matrix" data-narrate data-audio="audio/ur-codex-compare.mp3">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">VII · Comparative Grid Matrix</div>
+      <h2>Ur · Senet · Tavli · <em>Chess</em></h2>
+    </div>
+    <div class="tablewrap reveal">
+    <table class="cmp">
+      <thead><tr><th>Game</th><th>Origin</th><th class="l">Grid</th><th>Pieces</th><th class="p">Paradigm</th></tr></thead>
+      <tbody>
+        <tr><td>Royal Game of Ur</td><td>Sumer · c. 2600 BCE</td><td class="l">20 squares<small>4×3 + 1×2 + 2×3</small></td><td>7 vs 7</td><td class="p">Linear conflict along an 8-square shared runway; rosette havens</td></tr>
+        <tr><td>Senet</td><td>Egypt · c. 3100 BCE</td><td class="l">30 squares<small>3 × 10</small></td><td>5–7 vs 5–7</td><td class="p">The 30-day lunar passage; the soul crossing the Duat (special houses 15, 26–30)</td></tr>
+        <tr><td>Τάβλι · Tavli / Nard</td><td>Persia · Hellas</td><td class="l">24 points<small>4 quadrants of 6</small></td><td>15 vs 15</td><td class="p">Intellect (Φρόνησις 1138) against rolling Fate (Τύχη 1308)</td></tr>
+        <tr><td>Chess · Ζατρίκιον</td><td>India · Persia · c. 600 CE</td><td class="l">64 squares<small>8 × 8 = 4³</small></td><td>16 vs 16</td><td class="p">Spatial Metacube (64 − 27 = 37) under baseline Law (Νόμος 430)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <details class="auditbox reveal">
+      <summary>Audit log · what was corrected from the source PDF</summary>
+      <table class="audit">
+        <thead><tr><th>Item</th><th>Source said</th><th>Corrected</th></tr></thead>
+        <tbody>
+          <tr><td>Museum number</td><td><s>BM 120800</s></td><td class="ok">BM 120834 (reg. 1928,1009.378, U.9000)</td></tr>
+          <tr><td>Tomb</td><td><s>PG 580</s></td><td class="ok">The museum's record names only the Royal Cemetery, so no tomb number is given here</td></tr>
+          <tr><td>Storage</td><td><s>hidden drawer</s></td><td class="ok">The whole board is a hollow box, and the pieces and dice were kept inside it</td></tr>
+          <tr><td>Private squares, large block</td><td><s>6 per player</s></td><td class="ok">4 per player</td></tr>
+          <tr><td>Private squares, exit block</td><td><s>3 per player</s></td><td class="ok">2 per player</td></tr>
+          <tr><td>Rosette safety</td><td><s>every rosette is a safe haven</s></td><td class="ok">The central rosette is the safe one; the other four are on private squares anyway</td></tr>
+          <tr><td>Tablet source</td><td><s>copying a 3rd-century BCE text</s></td><td class="ok">Copied from a tablet owned by Iddin-Bēl, whose date isn't known</td></tr>
+          <tr><td>Tablet equipment</td><td><s>7 pieces, tetrahedral dice</s></td><td class="ok">5 bird-named pieces and 2 knucklebones. The 7 pieces and pyramid dice come from the Ur graves.</td></tr>
+          <tr><td>Decipherment</td><td>“in the 1980s”</td><td class="ok">Early 1980s, published in 2007</td></tr>
+          <tr><td>Οἱ 20 Δόμοι</td><td><s>509</s></td><td class="ok">589 with Οἱ, or 509 for Εἴκοσι Δόμοι</td></tr>
+          <tr><td>Chess volume</td><td><s>8×8 = 43</s></td><td class="ok">8×8 = 4³</td></tr>
+          <tr><td>Lunar month</td><td>“30-day synodic month”</td><td class="ok">The synodic month is about 29.5 days, so Babylonian months ran 29 or 30 days</td></tr>
+          <tr><td>Moon god</td><td>Nannar / Sin</td><td class="ok">Nanna / Sîn (“Nannar” is an older reading)</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </div>
+</section>
+
+<!-- FINALE -->
+<section id="finale" data-label="Afterlife" data-narrate data-audio="audio/ur-codex-finale.mp3">
+  <div class="wrap" style="text-align:center">
+    <div class="reveal">
+      <div class="beam" style="width:2px;height:150px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)"></div>
+      <div class="kicker" style="justify-content:center">VIII · The Long Afterlife</div>
+      <h2>The game that <em>never died</em></h2>
+      <p style="margin:0 auto 18px">Ur's twenty squares outlived Sumer, Babylon and the Seleucids. The Jewish community of Kochi in India was still playing a version called <i>Aasha</i>, with twenty squares and twelve pieces each, when its families began emigrating to Israel in the 1950s.</p>
+      <div class="big-quote">Twenty houses, five roses, <em>one shared road.</em></div>
+      <div class="btns" style="justify-content:center"><a class="btn gold" href="#play">Play again</a><a class="btn" id="backGames2" href="#">Back to Games</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div style="margin-bottom:10px">ΦΥ ΨΗ (ΦΥΣΗΣ &amp; ΨΗΦΑΚΙ) — Metrological Research Series · @Mandos16</div>
+  <div>Listen For The Shape In A Word — Responsible Manifestation</div>
+<div style="margin-top:10px"><a href="ur.html">Play the 3D game &#9656;</a> &nbsp;&middot;&nbsp; <a href="games.html">All games</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy and cookies</a></div></footer>
+
+<script>
+/* ===== EDIT to match your site's file names ===== */
+const LINKS = { games: "games.html" };
+document.getElementById('backGames').href=document.getElementById('backGames2').href=LINKS.games;
+
+/* ================= ISOPSEPHY ENGINE ================= */
+const VAL={Α:1,Β:2,Γ:3,Δ:4,Ε:5,Ϛ:6,Ϝ:6,Ζ:7,Η:8,Θ:9,Ι:10,Κ:20,Λ:30,Μ:40,Ν:50,Ξ:60,Ο:70,Π:80,Ϙ:90,Ϟ:90,Ρ:100,Σ:200,Τ:300,Υ:400,Φ:500,Χ:600,Ψ:700,Ω:800,Ϡ:900};
+function letters(w){return [...w.normalize('NFD').replace(/[̀-ͯ]/g,'')].map(c=>{if(c===' ')return{gap:true};const u=c==='ς'?'Σ':c.toUpperCase();return VAL[u]?{c:u,v:VAL[u]}:null;}).filter(Boolean);}
+const gval=w=>letters(w).reduce((s,l)=>s+(l.v||0),0);
+const tilesHTML=w=>letters(w).map(l=>l.gap?'<span class="gap"></span>':`<span class="tile"><i>${l.c}</i><s>${l.v}</s></span>`).join('');
+document.querySelectorAll('.hud').forEach(el=>{const w=el.dataset.gk;el.innerHTML=`<div class="row"><span class="gk">${w}</span><span class="tr">${el.dataset.tr}</span><span class="mn">${el.dataset.mn}</span></div><div class="tiles">${tilesHTML(w)}<span class="sum">0</span></div>`;});
+function playHud(el){if(el._p)return;el._p=1;let a=0;const s=el.querySelector('.sum');[...el.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>{t.classList.add('lit');a+=+t.querySelector('s').textContent;s.textContent=a;},120+i*110));}
+
+/* ================= REVEAL / NAV ================= */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');e.target.querySelectorAll('.hud').forEach(playHud);if(e.target.classList.contains('hud'))playHud(e.target);}),{threshold:.2});
+document.querySelectorAll('.reveal,.hud').forEach(e=>io.observe(e));
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+document.getElementById('fab').onclick=()=>{document.getElementById('translator').scrollIntoView();setTimeout(()=>document.getElementById('gin').focus({preventScroll:true}),600)};
+
+/* ================= BOARD DRAWING ================= */
+// 3 rows x 8 cols. Row 0 = white (player A), row 1 = shared spine, row 2 = lapis (player B).
+const EXISTS=(r,c)=>r===1||c<4||c>5;
+const ROS=new Set(['0,0','2,0','1,3','0,6','2,6']);
+function rosette(cx,cy,R){let s=`<g class="ros" transform="translate(${cx} ${cy})">`;for(let i=0;i<8;i++){s+=`<ellipse rx="${R*.18}" ry="${R*.48}" cy="${-R*.45}" transform="rotate(${i*45})" fill="#e8c375" opacity=".85"/>`;}return s+`<circle r="${R*.2}" fill="#c4553a"/><circle r="${R*.88}" fill="none" stroke="#e8c375" stroke-width=".03"/></g>`;}
+function eyes(cx,cy,R){let s='';[[-.25,-.25],[.25,-.25],[-.25,.25],[.25,.25],[0,0]].forEach(([x,y])=>{s+=`<circle cx="${cx+x*R}" cy="${cy+y*R}" r="${R*.11}" fill="none" stroke="rgba(70,227,240,.35)" stroke-width=".025"/><circle cx="${cx+x*R}" cy="${cy+y*R}" r="${R*.04}" fill="rgba(70,227,240,.5)"/>`;});return s;}
+function drawBoard(svg,{labels=false}={}){
+  svg.setAttribute('viewBox','-.15 -.15 8.3 3.3');
+  let s='';
+  for(let r=0;r<3;r++)for(let c=0;c<8;c++){if(!EXISTS(r,c))continue;
+    s+=`<rect class="sq" data-rc="${r},${c}" x="${c+.04}" y="${r+.04}" width=".92" height=".92" rx=".06"/>`;
+    s+= ROS.has(r+','+c)? rosette(c+.5,r+.5,.4) : eyes(c+.5,r+.5,.7);
+  }
+  s+='<g class="layer"></g>';
+  svg.innerHTML=s;
+}
+const sqEl=(svg,r,c)=>svg.querySelector(`[data-rc="${r},${c}"]`);
+['heroBoard','zoneBoard','gameBoard'].filter(id=>document.getElementById(id)).forEach(id=>drawBoard(document.getElementById(id)));
+
+// route: position 1..14 for player row pr (0 or 2)
+const routeRC=(pr,p)=>p<=4?[pr,4-p]:p<=12?[1,p-5]:[pr,20-p]; // 13->(pr,7), 14->(pr,6)
+
+/* hero: light the two routes in sequence */
+(function(){const svg=document.getElementById('heroBoard');if(!svg)return;let k=0;
+  setInterval(()=>{svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl','hlg'));
+    const p=(k%16)+1;if(p<=14){const [r,c]=routeRC(0,p);sqEl(svg,r,c).classList.add('hl');const [r2,c2]=routeRC(2,p);sqEl(svg,r2,c2).classList.add('hlg');}k++;},380);})();
+
+/* zones */
+(function(){const svg=document.getElementById('zoneBoard'),info=document.getElementById('zoneInfo'),btns=document.getElementById('zoneBtns');
+  const all=[];for(let r=0;r<3;r++)for(let c=0;c<8;c++)if(EXISTS(r,c))all.push([r,c]);
+  const Z={
+   'Large block':[all.filter(([r,c])=>c<4),'<b>4 × 3 = 12 squares.</b> Each player has a private row of 4, and the middle 4 are shared.'],
+   'Bridge':[all.filter(([r,c])=>c===4||c===5),'<b>1 × 2 = 2 squares.</b> The narrow neck, part of the shared runway.'],
+   'Exit block':[all.filter(([r,c])=>c>5),'<b>2 × 3 = 6 squares.</b> Two private exit squares per player and 2 shared.'],
+   'Shared runway':[all.filter(([r])=>r===1),'<b>8 squares.</b> The spine where both paths overlap. Captures happen here, except on the central rosette.'],
+   'Private squares':[all.filter(([r])=>r!==1),'<b>6 per player</b> (4 + 2). The opponent can never reach them.'],
+   'Rosettes':[all.filter(([r,c])=>ROS.has(r+','+c)),'<b>5 rosettes.</b> An extra throw on each; the central one is a sanctuary.'],
+   'Route':[null,'<b>14 squares per player:</b> 4 private, 8 shared and 2 private, then off the board.']
+  };
+  let rt;
+  Object.keys(Z).forEach((k,i)=>{const b=document.createElement('button');b.className='btn'+(i===6?' gold':'');b.textContent=k;b.onclick=()=>{
+    clearInterval(rt);[...btns.children].forEach(x=>x.classList.toggle('on',x===b));svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl','hlg','dim'));
+    info.innerHTML=Z[k][1];
+    if(Z[k][0]){svg.querySelectorAll('.sq').forEach(e=>e.classList.add('dim'));Z[k][0].forEach(([r,c])=>{const e=sqEl(svg,r,c);e.classList.remove('dim');e.classList.add(k==='Rosettes'?'hlg':'hl');});}
+    else{let p=1;rt=setInterval(()=>{if(p>14){p=1;svg.querySelectorAll('.sq').forEach(e=>e.classList.remove('hl','hlg'));}const [r,c]=routeRC(0,p);sqEl(svg,r,c).classList.add(p>4&&p<13?'hlg':'hl');p++;},260);}
+  };btns.appendChild(b);});
+})();
+
+/* ================= DICE ================= */
+function tetraSVG(up){return `<svg class="tetra" viewBox="0 0 54 50"><polygon points="27,3 51,46 3,46" fill="#141f26" stroke="${up?'#e8c375':'#46e3f0'}" stroke-width="1.5"/><line x1="27" y1="3" x2="27" y2="46" stroke="rgba(70,227,240,.35)"/><circle cx="27" cy="6" r="4" fill="${up?'#efe6d2':'#0b1216'}" stroke="${up?'#e8c375':'#2c4652'}"/></svg>`;}
+function throwDice(){return [0,1,2,3].map(()=>Math.random()<.5?1:0);}
+function showDice(el,d){el.innerHTML=d.map(tetraSVG).join('')+`<span class="sum" style="font-size:34px">${d.reduce((a,b)=>a+b,0)}</span>`;[...el.querySelectorAll('.tetra')].forEach(t=>{t.style.transform=`rotate(${(Math.random()-.5)*40}deg)`;});}
+(function(){const dd=document.getElementById('diceDemo'),dist=document.getElementById('dist'),log=document.getElementById('throwLog');
+  const P=[1,4,6,4,1],cnt=[0,0,0,0,0];let n=0;
+  dist.innerHTML=P.map((p,i)=>`<div class="col"><span>${p}/16</span><div class="bar" style="height:${p/6*100}%"><div class="bar you" id="y${i}" style="height:0"></div></div><b>${i}</b></div>`).join('');
+  function rec(k){for(let j=0;j<k;j++){const d=throwDice();cnt[d.reduce((a,b)=>a+b,0)]++;n++;if(j===k-1)showDice(dd,d);}
+    cnt.forEach((c,i)=>document.getElementById('y'+i).style.height=Math.min(100,(c/n)/(P[i]/16)*100)+'%');
+    log.textContent=`${n} throws · `+cnt.map((c,i)=>`${i}: ${(c/n*100).toFixed(0)}%`).join(' · ');}
+  showDice(dd,[1,0,1,0]);
+  document.getElementById('throw1').onclick=()=>rec(1);document.getElementById('throw100').onclick=()=>rec(100);
+})();
+
+/* ================= THE GAME (Finkel rules) ================= */
+(function(){
+  if(!document.getElementById('gameBoard'))return;
+  const svg=document.getElementById('gameBoard'),layer=svg.querySelector('.layer');
+  const st=document.getElementById('gstatus'),rollB=document.getElementById('gRoll'),gd=document.getElementById('gameDice'),score=document.getElementById('gScore');
+  const ROW={A:0,B:2},OPP={A:'B',B:'A'},SAFE=8,ROSP=new Set([4,8,14]);
+  let S,wins={A:0,B:0};
+  function reset(){S={A:Array(7).fill(0),B:Array(7).fill(0),turn:'A',roll:null,over:false};showDice(gd,[0,0,0,0]);status('Your throw.');render();}
+  function status(t){st.innerHTML=t;}
+  function moves(pl,roll){if(!roll)return [];const me=S[pl],op=S[OPP[pl]],out=[],seen=new Set();
+    me.forEach((p,i)=>{if(p===15)return;const t=p+roll;if(t>15)return;if(p===0&&seen.has(0))return;if(p===0)seen.add(0);
+      if(t<15&&me.includes(t))return;
+      if(t>=5&&t<=12&&op.includes(t)&&t===SAFE)return;
+      out.push({i,from:p,to:t,cap:t>=5&&t<=12&&op.includes(t)});});
+    return out;}
+  function apply(pl,m){S[pl][m.i]=m.to;if(m.cap){const op=S[OPP[pl]];op[op.indexOf(m.to)]=0;}
+    if(S[pl].every(p=>p===15)){S.over=true;wins[pl]++;render();status(pl==='A'?'<b>You win!</b> All seven pieces are home.':'<b>The Stone wins.</b> Try again?');rollB.disabled=true;return 'over';}
+    return ROSP.has(m.to)?'again':'next';}
+  function render(){
+    let s='';const M=S.turn==='A'&&S.roll!=null?moves('A',S.roll):[];
+    ['A','B'].forEach(pl=>{S[pl].forEach((p,i)=>{if(p<1||p>14)return;const [r,c]=routeRC(ROW[pl],p);
+      const mv=pl==='A'&&M.find(m=>m.i===i);
+      s+=`<g class="piece${mv?' click':''}" data-i="${i}" transform="translate(${c+.5} ${r+.5})"><circle r=".3" fill="${pl==='A'?'url(#gA)':'url(#gB)'}" stroke="rgba(255,255,255,.6)" stroke-width=".03"/>${pl==='A'?'<g fill="#1a2a33">'+[[-.1,-.1],[.1,-.1],[-.1,.1],[.1,.1],[0,0]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".035"/>`).join('')+'</g>':'<g fill="#cfe0ff">'+[[-.1,-.1],[.1,-.1],[-.1,.1],[.1,.1],[0,0]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".035"/>`).join('')+'</g>'}${mv?'<circle class="ring" r=".4"/>':''}</g>`;});});
+    // targets
+    M.forEach(m=>{if(m.to<15){const [r,c]=routeRC(0,m.to);s+=`<rect x="${c+.08}" y="${r+.08}" width=".84" height=".84" rx=".06" fill="none" stroke="#e8c375" stroke-dasharray=".08 .06" stroke-width=".03" opacity=".7"/>`;}});
+    layer.innerHTML=`<defs><radialGradient id="gA" cx=".35" cy=".35"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c9d1d6"/></radialGradient><radialGradient id="gB" cx=".35" cy=".35"><stop offset="0" stop-color="#6f9cff"/><stop offset="1" stop-color="#1f3d8a"/></radialGradient></defs>`+s;
+    layer.querySelectorAll('.piece.click').forEach(g=>g.onclick=()=>choose(M.find(m=>m.i===+g.dataset.i)));
+    const tray=(pl,el,cond,cls)=>{const box=document.getElementById(el);box.innerHTML='';S[pl].forEach((p,i)=>{if(!cond(p))return;const d=document.createElement('span');d.className='pc '+cls;
+      if(pl==='A'&&p===0){const mv=M.find(m=>m.i===i);if(mv&&!box.querySelector('.click')){d.classList.add('click');d.onclick=()=>choose(mv);}}
+      box.appendChild(d);});};
+    tray('A','trayA',p=>p===0,'a');tray('A','homeA',p=>p===15,'a');tray('B','trayB',p=>p===0,'b');tray('B','homeB',p=>p===15,'b');
+    score.textContent=`Games won: you ${wins.A} · Stone ${wins.B}`;
+  }
+  function choose(m){if(!m||S.over)return;const r=apply('A',m);S.roll=null;
+    if(r==='over')return;
+    if(r==='again'){status('Rosette! <b>Throw again.</b>');render();rollB.disabled=false;return;}
+    S.turn='B';render();setTimeout(aiTurn,650);}
+  rollB.onclick=()=>{if(S.over||S.turn!=='A'||S.roll!=null)return;const d=throwDice(),v=d.reduce((a,b)=>a+b,0);showDice(gd,d);S.roll=v;
+    const M=moves('A',v);
+    if(!M.length){status(v===0?'You threw <b>0</b>. No move.':`You threw <b>${v}</b>, but no move is possible.`);S.roll=null;S.turn='B';render();rollB.disabled=true;setTimeout(aiTurn,1100);return;}
+    status(`You threw <b>${v}</b>. Tap a glowing piece.`);rollB.disabled=true;render(); };
+  function score1(m){let s=m.to;if(m.to===15)s+=30;if(m.cap)s+=40;if(ROSP.has(m.to))s+=25;if(m.to===SAFE)s+=10;
+    // danger: an enemy piece behind within 1..4 on the shared runway
+    if(m.to>=5&&m.to<=12&&m.to!==SAFE&&S.A.some(p=>p<m.to&&m.to-p<=4&&(p>=5||m.to-p<=4)))s-=15;
+    if(m.from>=5&&m.from<=12&&m.from!==SAFE&&S.A.some(p=>p<m.from&&m.from-p<=4))s+=8;return s+Math.random()*3;}
+  function aiTurn(){if(S.over)return;S.turn='B';const d=throwDice(),v=d.reduce((a,b)=>a+b,0);showDice(gd,d);
+    const M=moves('B',v);
+    if(!M.length){status(`The Stone threw <b>${v}</b> and cannot move. <b>Your throw.</b>`);S.turn='A';rollB.disabled=false;render();return;}
+    const m=M.sort((a,b)=>score1(b)-score1(a))[0];
+    setTimeout(()=>{const r=apply('B',m);if(r==='over')return;render();
+      const what=m.cap?' and <b>captured</b> your piece!':m.to===15?' and bore a piece off.':'.';
+      if(r==='again'){status(`The Stone threw ${v}, landed on a rosette${what} It throws again…`);setTimeout(aiTurn,1100);return;}
+      status(`The Stone threw <b>${v}</b>${what} <b>Your throw.</b>`);S.turn='A';rollB.disabled=false;render();},500);}
+  document.getElementById('gNew').onclick=()=>{rollB.disabled=false;reset();};
+  reset();
+})();
+
+/* ================= TRANSLATOR ================= */
+const LEX=[['Οὐρ','Ur'],['Εἴκοσι','Twenty'],['Ῥόδον','Rose'],['Ἑπτά','Seven'],['Δόμοι','Houses'],['Οἱ Εἴκοσι Δόμοι','The 20 Houses'],['Πέντε','Five'],['Σελήνη','Moon'],['Τύχη','Fate'],['Φρόνησις','Prudence'],['Νόμος','Law'],['Ἀλήθεια','Truth'],['Ζατρίκιον','Chess'],['ΦΥ ΨΗ','Physēs & Psēphaki']];
+const gin=document.getElementById('gin'),gout=document.getElementById('gout'),gtot=document.getElementById('gtotal'),gfacts=document.getElementById('gfacts'),kb=document.getElementById('kb');
+'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'.split('').forEach(c=>{const b=document.createElement('button');b.innerHTML=`${c}<small>${VAL[c]}</small>`;b.onclick=()=>{gin.value+=c;calc();};kb.appendChild(b);});
+[['SPACE',' '],['⌫',null],['CLEAR','']].forEach(([t,v])=>{const b=document.createElement('button');b.className='wide';b.textContent=t;b.onclick=()=>{gin.value=v===null?[...gin.value].slice(0,-1).join(''):(v===''?'':gin.value+v);calc();};kb.appendChild(b);});
+LEX.forEach(([w])=>{const b=document.createElement('button');b.textContent=w;b.onclick=()=>{gin.value=w;calc();};document.getElementById('presets').appendChild(b);});
+function factor(n){const f=[];let m=n;for(let p=2;p*p<=m;p++)while(m%p===0){f.push(p);m/=p;}if(m>1)f.push(m);return f;}
+function calc(){const w=gin.value,v=gval(w);gout.innerHTML=`<div class="tiles">${tilesHTML(w)}</div>`;[...gout.querySelectorAll('.tile')].forEach((t,i)=>setTimeout(()=>t.classList.add('lit'),i*35));gtot.textContent=v;
+  const ch=[];if(v>1){const f=factor(v);ch.push(f.length===1?`${v} is prime`:`${v} = ${f.join(' × ')}`);}if(v&&v%20===0)ch.push(`20 × ${v/20}`);if(v&&v%37===0)ch.push(`37 × ${v/37}`);
+  const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
+  LEX.forEach(([lw,m])=>{if(gval(lw)===v&&v&&norm(lw)!==norm(w))ch.push(`<b>≡ ${lw}</b> · ${m}`);});
+  gfacts.innerHTML=ch.map(c=>`<span class="chip${c.startsWith('<b>')?' hit':''}">${c}</span>`).join('');}
+gin.addEventListener('input',calc);gin.value='Οὐρ';calc();
+</script>
+<script src="audio.js"></script>
+<script src="miniplayer.js"></script>
+<script src="account.js"></script>
+</body>
+</html>

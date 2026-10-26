@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en"><head>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script>
+<style>
+.embed .mstrip,.embed .fticker,.embed nav.nav,.embed header.top,.embed .sec2,.embed footer.sw-foot,.embed .viewrow a{display:none!important}
+.embed .wrap{padding-top:6px}
+</style>
+<script src="solids.js"></script>
+<script src="audio.js"></script>
+<script src="miniplayer.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Ophanim Lithic Senet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: same forensic obsidian stage as Ophanim Lithic Chess. Board left, instruments right,
+   Cube Lab and history below. One committed dark look: cyan stones vs amber stones, emerald = legal. */
+:root{
+  --bg:#06080d; --panel:#0a0f17; --panel2:#0e1521; --line:#1a2638; --fg:#d6e4ec; --muted:#7f95a6;
+  --cyan:#00f0ff; --amber:#ffb700; --emerald:#18e39c; --danger:#ff4d6a; --hint:#b388ff; --yellow:#ffd400;
+  --pt-a:#1c3b52; --pt-b:#0e2231;
+  --f-display:'Syne','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 36px}
+*{box-sizing:border-box}
+button,select,input{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1200px;margin-inline:auto}
+
+.nav{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.navtab{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:var(--panel);display:inline-block;cursor:pointer}
+.navtab.on{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+a.navtab:hover,button.navtab:hover{border-color:var(--cyan);color:var(--fg)}
+.navtab.on:hover{color:#021014}
+
+.top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.titlerow{display:flex;align-items:center;gap:12px}
+.emblem{flex:none}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.7rem);line-height:1.05;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font:400 12px var(--f-mono);letter-spacing:.04em}
+.sub b{color:var(--cyan);font-weight:500}
+.sub a{color:var(--fg);text-decoration:underline dotted;text-underline-offset:3px}
+.sub a:hover{color:var(--cyan);text-decoration-style:solid}
+.tagline{margin:10px 0 0;font-size:15px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+.boardcol,.side{min-width:0;display:flex;flex-direction:column;gap:12px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:7px 14px;font:500 12px var(--f-mono);letter-spacing:.06em;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--cyan);color:#021014}
+.seg button[disabled]{opacity:.35;cursor:not-allowed}
+
+.btn{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:8px 12px;border-radius:3px;cursor:pointer;display:inline-block;line-height:1.3}
+.btn:hover{border-color:var(--cyan)}
+.btn.accent{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+.btn.accent:hover{background:#6ff6ff}
+.btn.warn{color:#1a1000;background:var(--amber);border-color:var(--amber)}
+.btn.warn:hover{background:#ffd266}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.stage{position:relative;width:100%;aspect-ratio:7/5;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#0d1622 0%,#06080d 72%)}
+#gl,#flat{position:absolute;inset:0}
+#gl canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#gl canvas:active{cursor:grabbing}
+#flat svg{width:100%;height:100%;display:block}
+#flat [data-k]{cursor:pointer}
+.banner{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(94%,460px);background:var(--panel);border:1px solid var(--amber);padding:12px 14px;border-radius:4px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;z-index:3}
+.banner strong{font-family:var(--f-display);font-size:1.05rem}
+.banner .bt{min-width:0;flex:1 1 200px}
+.banner .bt small{display:block;color:var(--muted);font:400 11px/1.4 var(--f-mono);margin-top:2px}
+.banner .bb{display:flex;gap:8px}
+.think{position:absolute;left:12px;top:12px;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);background:rgba(6,8,13,.8);border:1px solid var(--line);padding:4px 8px;border-radius:3px;z-index:3}
+
+.statusbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.turn{display:flex;align-items:center;gap:10px;font:500 14px var(--f-mono);min-width:0}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--cyan);box-shadow:0 0 10px currentColor;color:var(--cyan)}
+.dot.amb{background:var(--amber);color:var(--amber)}
+.diceRow{display:flex;gap:8px;align-items:center;min-height:38px}
+.die{width:34px;height:34px;border-radius:6px;border:1.5px solid var(--cyan);background:#0b1a22;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:4px;gap:1px}
+.die.amb{border-color:var(--amber);background:#241a07}
+.die i{border-radius:50%;background:transparent;display:block}
+.die i.on{background:var(--cyan);margin:1px}
+.die.amb i.on{background:var(--amber)}
+.die.used{opacity:.28}
+.pipline{margin:0;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.cubebadge{font:500 12px var(--f-mono);border:1px solid var(--line);padding:4px 8px;border-radius:3px;background:var(--panel2)}
+.cubebadge b{color:var(--yellow)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;min-width:0}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.row:first-of-type{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+select,input[type="number"]{background:var(--panel2);color:var(--fg);border:1px solid var(--line);padding:8px;font-size:13px;border-radius:3px;min-width:0;width:100%}
+input[type="range"]{width:100%;accent-color:var(--cyan);padding:0}
+.stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.stat div{border:1px solid var(--line);padding:8px;background:var(--bg);text-align:center}
+.stat b{display:block;font:500 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.stat span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stat .c b{color:var(--cyan)}.stat .a b{color:var(--amber)}
+.hint-txt{margin:0;font:400 12px/1.55 var(--f-mono);color:var(--muted);min-height:54px}
+.hint-txt b{color:var(--fg);font-weight:500}
+.verdict{color:var(--emerald)}.verdict.no{color:var(--amber)}
+.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}
+.check input{accent-color:var(--cyan)}
+.log{list-style:none;margin:0;padding:0;max-height:170px;overflow:auto;font:400 12px/1.5 var(--f-mono);color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.log li b{color:var(--fg);font-weight:500}
+.note{margin:10px 0 0;color:var(--muted);font:400 11px/1.5 var(--f-mono)}
+
+.section{max-width:1200px;margin:34px auto 0}
+.section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
+.cubesel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.cubesel button{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:6px 10px;font:500 12px var(--f-mono);cursor:pointer;min-width:44px}
+.cubesel button[aria-pressed="true"]{background:var(--yellow);color:#1a1000;border-color:var(--yellow)}
+.verdictBox{margin:12px 0 0;padding:12px;border:1px solid var(--line);border-radius:3px;font:500 14px var(--f-mono);letter-spacing:.03em}
+.verdictBox.g{border-color:var(--emerald);color:var(--emerald)}
+.verdictBox.r{border-color:var(--danger);color:var(--danger)}
+.verdictBox.y{border-color:var(--amber);color:var(--amber)}
+.verdictBox.n{color:var(--fg)}
+.verdictBox small{display:block;margin-top:4px;font:400 11px/1.5 var(--f-mono);color:var(--muted);letter-spacing:0}
+.out{margin:12px 0 0;padding:10px;border:1px solid var(--line);background:var(--bg);font:400 12px/1.6 var(--f-mono);color:var(--muted)}
+.out b{color:var(--fg);font-weight:500}
+.rngrow{display:flex;align-items:center;gap:10px;margin-top:8px}
+.rngrow label{flex:0 0 auto;width:170px;font:500 10px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rngrow output{flex:0 0 44px;text-align:right;font:500 12px var(--f-mono);font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.lcard{background:var(--panel);border:1px solid var(--line);padding:12px 14px;border-radius:4px}
+.lcard h3{margin:0 0 4px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.lcard .era{margin:0 0 6px;font:500 11px var(--f-mono);color:var(--amber)}
+.lcard p{margin:0;color:var(--muted);font-size:13px}
+.lcard.soon{border-style:dashed}
+.lcard.soon h3{color:var(--amber)}
+.scroll{overflow-x:auto}
+table.t{border-collapse:collapse;width:100%;font-size:13px}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.t th{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px var(--f-mono);letter-spacing:.04em}
+footer a{color:var(--cyan)}
+
+.sw-section{max-width:1200px;margin:34px auto 0}
+.sw-section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.sw-section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sw-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.sw-card.best{border-color:var(--yellow)}
+.sw-card h3{margin:0;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.sw-card.best h3{color:var(--yellow)}
+.sw-card .sw-amt{color:var(--fg);margin:0;font:800 1.9rem var(--f-display);font-variant-numeric:tabular-nums}
+.sw-amt span{font:500 12px var(--f-mono);color:var(--muted);margin-left:4px}
+.sw-card p{margin:0;color:var(--muted);font-size:13px}
+.sw-soon{font:500 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-top:auto}
+footer.sw-foot{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px/1.6 var(--f-mono);letter-spacing:.04em;display:flex;flex-direction:column;gap:10px}
+.sw-foot a{color:var(--cyan)}
+.sw-links,.sw-share{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.sw-share .sw-b{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none}
+.sw-share .sw-b:hover{border-color:var(--cyan);color:var(--cyan)}
+.sw-share input{flex:1 1 220px;min-width:0;background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:6px 8px;font:400 11px var(--f-mono)}
+.sw-btn{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid transparent;padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none;color:#000;display:inline-block;line-height:1.3}
+.sw-foot a.sw-btn,.sw-share a.sw-btn{color:#000}
+.sw-btn.btc{background:#f7931a;border-color:#f7931a}
+.sw-btn.tg{background:#2aabee;border-color:#2aabee}
+.sw-btn.wa{background:#25d366;border-color:#25d366}
+.sw-btn:hover{filter:brightness(1.12)}
+.sw-note{flex-basis:100%;color:var(--muted);font:400 11px var(--f-mono);min-height:1em}
+
+.mstrip{display:flex;align-items:center;gap:14px;background:#04060a;border-bottom:1px solid var(--line);font:500 .72rem var(--f-mono);height:28px;overflow:hidden;margin:0 0 12px}
+.mclock{flex:none;display:flex;gap:12px;padding:0 12px;color:var(--fg);white-space:nowrap;height:100%;align-items:center}
+.mclock b{color:var(--cyan);font-weight:500}
+.mtick{flex:1;min-width:0;overflow:hidden;height:100%;display:flex;align-items:center}
+.mtrack{display:flex;gap:26px;white-space:nowrap;animation:mscroll 90s linear infinite;padding-left:20px}
+.mtick:hover .mtrack{animation-play-state:paused}
+.mi{color:var(--muted)}.mi em{font-style:normal;color:var(--fg);margin:0 5px}.up{color:var(--emerald)}.dn{color:var(--danger)}
+.fticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#04060a;height:30px;margin:30px auto 0;max-width:1200px;display:flex;align-items:center;font:500 .72rem var(--f-mono)}
+.fticker .ftl{flex:none;padding:0 12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;border-right:1px solid var(--line);height:100%;display:flex;align-items:center}
+@keyframes mscroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mtrack{animation:none}.mtick{overflow-x:auto}}
+@media (max-width:640px){.mclock .loc{display:none}}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.rngrow label{width:110px}.stage{aspect-ratio:4/3}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* ---- Senet-specific ---- */
+#bgfx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+body{background:transparent}
+html{background:var(--bg)}
+.mstrip,.wrap,footer.sw-foot,.fticker{position:relative;z-index:1}
+.mstrip{background:rgba(4,6,10,.82)}
+.stage{aspect-ratio:2/1.05;background:radial-gradient(120% 90% at 50% 0%,rgba(13,22,34,.78) 0%,rgba(6,8,13,.78) 72%)}
+#scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1300px;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+#scene:active{cursor:grabbing}
+#scene.flat{perspective:none;cursor:default}
+#board{--sq:60px;--tx:54deg;--rz:0deg;display:grid;grid-template-columns:repeat(10,var(--sq));grid-template-rows:repeat(3,var(--sq));gap:3px;transform-style:preserve-3d;transform:rotateX(var(--tx)) rotateZ(var(--rz));transition:transform .45s ease}
+#board.dragging{transition:none}
+#scene.flat #board{transform:none}
+.sq{position:relative;transform-style:preserve-3d;background:var(--pt-a);border:1px solid #243952;border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:default;font-family:var(--f-mono)}
+.sq.alt{background:var(--pt-b)}
+.sq .n{position:absolute;left:4px;top:2px;font:500 calc(var(--sq)*.17) var(--f-mono);color:#5b738a}
+.sq .g{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#d9c27a;opacity:.55;font-size:calc(var(--sq)*.46);line-height:1;pointer-events:none;gap:2px}
+.sq .g small{font:500 calc(var(--sq)*.15) var(--f-mono);letter-spacing:.04em;text-transform:uppercase;opacity:.9}
+.sq.sp{border-color:#6b5a2a;box-shadow:inset 0 0 0 1px rgba(217,194,122,.18)}
+.sq.water{background:linear-gradient(#0e3550,#0b2538)}
+.sq.dest{outline:2px solid var(--emerald);outline-offset:-2px;background:#0d3a33;cursor:pointer}
+.sq.last{box-shadow:inset 0 0 0 2px rgba(255,212,0,.5)}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(24,227,156,.35)}}
+@media (prefers-reduced-motion:reduce){.pc.can{animation:none}#board{transition:none}.stick.flip{animation:none}}
+.rails{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.sticks{display:flex;gap:8px;align-items:center}
+.stick{width:16px;height:64px;border-radius:7px;border:1px solid #3a2a12;background:#2a1d0c;transition:background .2s;position:relative}
+.stick.lit{background:linear-gradient(#f7e8bd,#e2c883);border-color:#a8873c}
+.stick.flip{animation:flip .55s ease}
+@keyframes flip{0%{transform:rotateX(0) translateY(0)}50%{transform:rotateX(540deg) translateY(-18px)}100%{transform:rotateX(1080deg) translateY(0)}}
+.tval{font:800 2rem var(--f-display);min-width:2.2ch;text-align:center;font-variant-numeric:tabular-nums}
+.tdesc{font:400 12px var(--f-mono);color:var(--muted)}
+.viewrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sec2{max-width:1200px;margin:34px auto 0}
+.sec2 h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.sec2 p,.sec2 li{color:#b9c8d4;max-width:74ch}
+.sec2 .cards .card h3{margin:0 0 6px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.tw{overflow-x:auto}
+.src{font:400 12px/1.6 var(--f-mono);color:var(--muted);max-width:80ch}
+@media (max-width:520px){.sticks{gap:5px}.stick{width:13px;height:52px}}
+
+.pc{position:relative;width:76%;height:76%;border-radius:50%;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;z-index:2}
+.pc .disc{position:absolute;inset:0;border-radius:50%;display:none}
+.pc.c .disc{background:radial-gradient(circle at 35% 30%,#8ffaff,#00c8d8 62%,#0092a0)}
+.pc.a .disc{background:radial-gradient(circle at 35% 30%,#ffe08a,#ffb700 62%,#c78500)}
+.pc .halo{position:absolute;inset:-14%;border-radius:50%;pointer-events:none}
+.pc.c .halo{background:radial-gradient(circle,rgba(70,227,240,.38),rgba(70,227,240,0) 66%)}
+.pc.a .halo{background:radial-gradient(circle,rgba(232,195,117,.4),rgba(232,195,117,0) 66%)}
+#scene.flat .pc .disc{display:block}
+#scene.flat .pc .sol,#scene.flat .pc .halo{display:none}
+.pc.can{box-shadow:0 0 0 3px var(--emerald);cursor:pointer;animation:pulse 1.2s ease-in-out infinite}
+</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<div class="mstrip" role="region" aria-label="Clocks and cryptocurrency prices">
+  <div class="mclock"><span>UTC <b id="clUtc">--:--:--</b></span><span class="loc">Local <b id="clLoc">--:--:--</b> <span id="clTz"></span></span></div>
+  <div class="mtick" title="Cryptocurrency prices refresh about once a minute and may be delayed. Not financial advice."><div class="mtrack" id="mTrack"><span class="mi">Loading prices…</span></div></div>
+</div>
+<div class="wrap">
+  <nav class="nav" aria-label="Site">
+    <div class="navtabs">
+      <a class="navtab" href="./">Ophanim Field Console</a>
+      <a class="navtab" href="games.html">Games</a>
+      <span class="navtab on" aria-current="page">Senet</span>
+      <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+      <a class="navtab" href="about.html">About</a>
+      <span class="navtab" style="opacity:.55;border-style:dashed;cursor:not-allowed" title="Empty slot">Soon</span>
+    </div>
+  </nav>
+
+  <header class="top">
+    <div class="brand">
+      <div class="titlerow">
+        <svg class="emblem" viewBox="0 0 40 40" width="38" height="38" role="img" aria-label="Ophanim emblem: nested diamonds with a yellow centre"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="11" y="11" width="18" height="18" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="17" y="17" width="6" height="6" fill="#ffd400"/></g></svg>
+        <h1>Ophanim Lithic Senet</h1>
+      </div>
+      <p class="sub"><b lang="el">&Phi;&Upsilon; &Psi;&#x3A9;&#x389;</b> &mdash; Philosophy From A Stone &middot; The Egyptian game of passing, c. 3000 BCE</p>
+      <p class="tagline"><strong>&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</strong></p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="boardcol" aria-label="Board">
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" id="v3d" aria-pressed="true">3D</button>
+          <button type="button" id="v2d" aria-pressed="false">2D</button>
+        </div>
+        <div class="viewrow">
+          <button class="btn small" type="button" id="btnResetView">Reset view</button>
+          <a class="btn small" href="senet-codex.html" style="text-decoration:none">Read the codex</a>
+          <button class="btn small" type="button" id="btnSound" aria-pressed="false">Sound: off</button>
+          <button class="btn small" type="button" id="btnDrone" aria-pressed="false">Drone: off</button>
+          <label class="check" style="margin:0"><input type="checkbox" id="chkBg"> Background motion</label>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <div id="scene" aria-label="Senet board, 30 squares in three rows">
+          <div id="board"></div>
+        </div>
+      </div>
+      <div class="rails">
+        <div class="sticks" id="sticks" aria-label="Throwing sticks"><div class="stick"></div><div class="stick"></div><div class="stick"></div><div class="stick"></div></div>
+        <div style="display:flex;align-items:center;gap:12px"><div class="tval" id="tval">–</div><div class="tdesc" id="tdesc">Throw the sticks to begin</div></div>
+        <button class="btn accent" type="button" id="btnThrow">Throw sticks</button>
+      </div>
+      <div class="statusbar">
+        <div class="turn"><span class="dot" id="dot"></span><span id="statusTxt">Starting</span></div>
+      </div>
+      <p class="note" style="margin:0">Drag the board to turn it. Cyan and amber both travel along the same snake-like path, 1 to 30, row by row. Tap a glowing piece to move it.</p>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <p class="lbl">Match</p>
+        <div class="stat">
+          <div class="c"><b id="offC">0</b><span>Cyan borne off</span></div>
+          <div class="a"><b id="offA">0</b><span>Amber borne off</span></div>
+        </div>
+        <div class="grid2" style="margin-top:12px">
+          <label class="field"><span>Opponent</span>
+            <select id="selOpp">
+              <option value="vizier">Vizier · stronger</option>
+              <option value="scribe">Scribe · easier</option>
+              <option value="2p">Two players, one screen</option>
+              <option value="watch">Watch the Vizier play itself</option>
+            </select>
+          </label>
+          <div class="field"><span>Session score</span><div id="scoreTxt" style="font:500 14px var(--f-mono);padding:8px 0">0 – 0</div></div>
+        </div>
+        <div class="row"><button class="btn" type="button" id="btnNew">New game</button></div>
+        <div class="row"><button class="btn small" type="button" id="btnWallet">Connect wallet</button></div>
+        <p class="note" id="walletTxt">Optional. Match wagers are not available: they would need online player-versus-player play and an audited escrow, and neither exists yet.</p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Quick rules</p>
+        <p class="hint-txt" style="min-height:0">Throw four sticks: the number of lit faces is your move (none lit counts 5). Each piece has one possible move, so tap the glowing piece. Land on a lone enemy piece to swap places. A pair of pieces side by side is guarded, and three in a row cannot be passed. Every piece must stop on square 26, then leave with the exact throw. A 1, 4 or 5 gives another throw. First to bear off all five wins.</p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Game log</p>
+        <ul class="log" id="logList"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <section class="sec2" aria-label="History of Senet" data-narrate data-audio="audio/senet-history.mp3">
+    <h2>History of Senet</h2>
+    <p>Senet (written <i>zenet</i> in transliteration and often glossed as &ldquo;passing&rdquo;) is one of the oldest board games we know of. Boards and playing pieces appear in Egyptian burials from around 3000&nbsp;BCE, and a Senet game is painted in the tomb of Hesy-Ra at Saqqara from about 2620&nbsp;BCE. Mehen, the coiled snake board, is of similar age, so which game is &ldquo;the oldest&rdquo; is debated.</p>
+    <p>The game lasted for roughly three thousand years. Tutankhamun was buried with four Senet boxes, and a wall painting in the tomb of Queen Nefertari (about 1250&nbsp;BCE) shows her playing it. Over time the game took on religious meaning: players pictured the pieces as the soul journeying through the underworld, and later boards give the last squares the names of divine places. A complete ancient set had five pieces per side, though some boards and modern reconstructions use more (up to ten). By the New Kingdom the pieces were often cones, spools or dog-headed figures. Egyptian funerary texts mention playing Senet in the afterlife: Chapter 17 of the Book of the Dead shows the dead person playing against an unseen opponent, and an earlier Coffin Text links the game to the passage between the living and the dead. Many Egyptologists think the game began as a pastime and gained its religious meaning over the centuries, but this is an inference from the evidence, not a recorded fact.</p>
+    <p>The ancient rules were never written down. What survives are the boards, the pieces, a few pictures and some hints in texts, so every modern version is a reconstruction. The best known come from R.&nbsp;C. Bell, Timothy Kendall and Peter Piccione, and they disagree on details. This page follows a Kendall-style version with a few simplifications of my own, listed below.</p>
+  </section>
+
+  <section class="sec2" aria-label="How to play" data-narrate data-audio="audio/senet-how-to-play.mp3">
+    <h2>How to play</h2>
+    <div class="cards">
+      <div class="card"><h3>Setup</h3><p>Thirty squares in three rows of ten. Read them as one winding path: row one left to right (1&ndash;10), row two right to left (11&ndash;20), row three left to right (21&ndash;30). Each side has five pieces, set on squares 1&ndash;10 alternating cyan, amber, cyan, amber. Cyan starts.</p></div>
+      <div class="card"><h3>The throw</h3><p>Four sticks, each with a light and a dark face. Count the light faces up: that is your move, from 1 to 4. If none are light you move 5. The chances are 1: 25%, 2: 37.5%, 3: 25%, 4: 6.25%, 5: 6.25%.</p></div>
+      <div class="card"><h3>Moving</h3><p>Move one piece forward by exactly the number thrown. You may not land on your own piece. If you have no legal move, your turn passes. A throw of 1, 4 or 5 earns another throw, a 2 or 3 does not.</p></div>
+      <div class="card"><h3>Swapping</h3><p>Landing on a single enemy piece swaps the two pieces. You cannot swap with a piece that has a friend directly beside it (a guarded pair), nor with any piece on a sanctuary square (15, 26, 28, 29, 30).</p></div>
+      <div class="card"><h3>Walls</h3><p>Three pieces in a row form a wall. An opponent cannot pass over it, so those pieces can hold a whole side back, until the wall has to move.</p></div>
+      <div class="card"><h3>The last squares</h3><p>Every piece must stop on square 26 first. From there it leaves with the exact throw (see the table). Squares 28, 29 and 30 need exactly 3, 2 and 1 to bear off, and a piece on 28 or 29 stays put until it gets that throw. First to bear off all five pieces wins.</p></div>
+    </div>
+  </section>
+
+  <section class="sec2" aria-label="Special squares">
+    <h2>The special squares</h2>
+    <div class="tw"><table class="t">
+      <tr><th>Square</th><th>Name</th><th>Effect in this version</th><th>&Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading</th></tr>
+      <tr><td>15 &#9765;</td><td>House of Rebirth</td><td>Sanctuary. Pieces that fall in the Water come back here, or to the nearest empty square before it.</td><td>The re-entry point, where a lost piece begins again.</td></tr>
+      <tr><td>26 &#10022;</td><td>House of Beauty</td><td>Every piece must land here exactly. Sanctuary. Bears off with a 5, or steps on with 1&ndash;4.</td><td>The 26 outer cells of the 3&times;3&times;3 cube.</td></tr>
+      <tr><td>27 &asymp;</td><td>House of Water</td><td>Landing here sends the piece back to Rebirth.</td><td>The water trap: a reset, not an end.</td></tr>
+      <tr><td>28 III</td><td>House of Three Truths</td><td>Sanctuary. A piece here waits for the exact throw: it bears off with exactly 3 and cannot move on.</td><td>The triad judging the traveller.</td></tr>
+      <tr><td>29 II</td><td>House of Re-Atum</td><td>Sanctuary. A piece here waits for the exact throw: it bears off with exactly 2 and cannot move on.</td><td>The last trial before the final threshold.</td></tr>
+      <tr><td>30 I</td><td>House of Horus</td><td>Sanctuary. Bears off with exactly 1.</td><td>The exit from the board.</td></tr>
+    </table></div>
+    <p class="src" style="margin-top:8px">The last column is interpretation, explained in the &ldquo;&Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading&rdquo; section below. The names and the exact-throw rule are from the Kendall-style reconstruction.</p>
+  </section>
+
+  <section class="sec2" aria-label="Strategy" data-narrate data-audio="audio/senet-strategy.mp3">
+    <h2>Strategy</h2>
+    <div class="cards">
+      <div class="card"><h3>Keep pairs</h3><p>Two pieces side by side cannot be swapped. Moving one breaks the guard, so move pieces that are already alone first.</p></div>
+      <div class="card"><h3>Build a wall</h3><p>Three in a row stops everything behind it. It is strongest when the enemy has several pieces stuck there.</p></div>
+      <div class="card"><h3>Plan for 26</h3><p>Exact throws decide the end. A 2 is the commonest throw, so a piece two squares before 26 is well placed. The Water is one square past 26: a 1 from there costs you the piece&rsquo;s whole journey.</p></div>
+      <div class="card"><h3>Use the extra throws</h3><p>1, 4 and 5 give another turn, and they are the throws that move you on or bear off. Keep options open so the extra throw is useful.</p></div>
+    </div>
+  </section>
+
+  <section class="sec2" id="reading" aria-label="The &Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading" data-narrate data-audio="audio/senet-reading.mp3">
+    <h2>The &Phi;&Upsilon; &Psi;&#x3A9;&#x389; reading</h2>
+    <p class="src">Everything in this section is interpretation: numbers, geometry and Greek letter-values read onto the board as part of the &Phi;&Upsilon; &Psi;&#x3A9;&#x389; framework. It is not Egyptology, and the ancient Egyptians did not use these correspondences. Enjoy it as a way of thinking about the board, not as history.</p>
+    <div class="cards" style="margin-top:12px">
+      <div class="card"><h3>Why 30?</h3><p>The board has 30 squares. The lunar cycle is about 29.5 days, and the Egyptian civil calendar rounded its months to 30 days. In Milesian Greek isopsephy, 30 is the letter Lambda (&Lambda;).</p></div>
+      <div class="card"><h3>Three rows</h3><p>Three rows can be read as three axes (X, Y, Z), or as three realms: heaven, earth and the underworld. The boards themselves do not say so.</p></div>
+      <div class="card"><h3>Ten columns</h3><p>Ten squares in a row echo the Pythagorean Tetractys: 1 + 2 + 3 + 4 = 10, the number of completion.</p></div>
+      <div class="card"><h3>Square 26</h3><p>A 3&times;3&times;3 cube has 26 outer cells (every cell except the centre), and iron has atomic number 26. The House of Beauty is square 26, and in this game every piece must stop there.</p></div>
+      <div class="card"><h3>Tavli</h3><p>Tavli (backgammon) also has a 30: fifteen checkers per side on a 24-point track. That is a numerical echo. No historical line from Senet to Tavli, or to chess, is known.</p></div>
+    </div>
+
+    <h3 style="font-family:var(--f-display);font-size:1.15rem;margin:22px 0 6px">Greek letter-values (isopsephy)</h3>
+    <p class="src">Each Greek letter has a number (Alpha 1 &hellip; Omega 800), and a word&rsquo;s value is the sum of its letters. The table follows the four-step pattern: Greek script, Latin sound, English meaning, letter-by-letter sum.</p>
+    <div class="tw"><table class="t">
+      <tr><th>Greek script</th><th>Latin phonetics</th><th>English</th><th>Letter-by-letter sum</th></tr>
+      <tr><td lang="el">Σήνετ</td><td>Sēnet</td><td>Senet, the Greek spelling of the Egyptian name (&ldquo;passing&rdquo;)</td><td>Σ (200) + Η (8) + Ν (50) + Ε (5) + Τ (300) = <b>563</b></td></tr>
+      <tr><td lang="el">Ψῆφος</td><td>Psēphos</td><td>pebble, voting stone, calculating stone</td><td>Ψ (700) + Η (8) + Φ (500) + Ο (70) + Σ (200) = <b>1478</b></td></tr>
+      <tr><td lang="el">Ψηφάκι</td><td>Psēphaki</td><td>small pebble (the &Phi;&Upsilon; &Psi;&#x3A9;&#x389; root)</td><td>Ψ (700) + Η (8) + Φ (500) + Α (1) + Κ (20) + Ι (10) = <b>1239</b></td></tr>
+      <tr><td lang="el">Νόμος</td><td>Nomos</td><td>law, custom</td><td>Ν (50) + Ο (70) + Μ (40) + Ο (70) + Σ (200) = <b>430</b></td></tr>
+      <tr><td lang="el">Αλήθεια</td><td>Alētheia</td><td>truth</td><td>Α (1) + Λ (30) + Η (8) + Θ (9) + Ε (5) + Ι (10) + Α (1) = <b>64</b><br><span style="color:var(--muted)">64 = 4&sup3;</span></td></tr>
+      <tr><td lang="el">Το Δίκτυον</td><td>To diktyon</td><td>the net</td><td>Τ (300) + Ο (70) + Δ (4) + Ι (10) + Κ (20) + Τ (300) + Υ (400) + Ο (70) + Ν (50) = <b>1224</b><br><span style="color:var(--muted)">1224 = 153 &times; 8. Without the article, &Delta;&#x3AF;&kappa;&tau;&upsilon;&omicron;&nu; alone is 854.</span></td></tr>
+    </table></div>
+
+    <div class="card" style="margin-top:14px;max-width:720px">
+      <p class="lbl">Try a Greek word</p>
+      <label class="field"><span>Type or paste Greek letters</span><input id="isoIn" type="text" lang="el" autocomplete="off" spellcheck="false" placeholder="e.g. &#x3A6;&#x3CD;&#x3C3;&#x3B7;" style="background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:8px 10px;font:500 16px var(--f-mono)"></label>
+      <p class="hint-txt" id="isoOut" style="margin-top:10px;min-height:2.4em" aria-live="polite">Accents and capitals do not matter; a final &sigma; counts as &Sigma; (200).</p>
+    </div>
+  </section>
+
+  <section class="sec2" aria-label="About these rules">
+    <h2>About these rules</h2>
+    <p class="src">Senet has no surviving rulebook. This version follows a Kendall-style reconstruction. Choices of my own: the sanctuary squares are 15, 26, 28, 29 and 30 (some reconstructions let a piece on 30 be swapped); a piece landing in the Water returns to square 15 or the nearest empty square before it; the guard (pair) and wall (three in a row) rules are as described above; and the two computer opponents use simple rules of thumb, not deep search. The 3D view is built with plain CSS, so it needs no outside library.</p>
+  </section>
+
+
+  <footer class="sw-foot">
+    <div>Ophanim Lithic Senet (&Phi;&Upsilon; &Psi;&#x3A9;&#x389; &mdash; Philosophy From A Stone) &middot; Creator @Mandos16 &middot; 3D built with plain CSS &middot; <a href="games.html">All games</a> &middot; <a href="privacy.html">Privacy and cookies</a></div>
+    <div class="sw-links">
+      <a class="sw-btn btc" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a>
+      <a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on X</a>
+      <a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on YouTube</a>
+    </div>
+    <div class="sw-share" aria-label="Share this page">
+      <span>Share</span>
+      <a class="sw-b" id="shFb" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <button class="sw-b" id="shIg" type="button" title="Instagram has no web share link: this copies the page link and opens Instagram">Instagram</button>
+      <a class="sw-b" id="shX" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">X</a>
+      <a class="sw-b" id="shPin" href="https://pinterest.com/pin/create/button/" target="_blank" rel="noopener noreferrer">Pinterest</a>
+      <a class="sw-b" id="shMail" href="mailto:">Email</a>
+      <a class="sw-btn tg" id="shTg" href="https://t.me/share/url" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a class="sw-btn wa" id="shWa" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <button class="sw-b" id="shCopy" type="button">Copy link</button>
+      <input id="shUrl" type="text" readonly aria-label="Page link">
+      <span class="sw-note" id="shNote" aria-live="polite"></span>
+    </div>
+  </footer>
+</div>
+<script>
+/* Senet engine: rules reconstruction after Kendall / Bell / Piccione. Pure logic, no DOM.
+   Squares are numbered 1..30 along the serpentine path. Players: 1 = cyan, 2 = amber. */
+var Senet = (function () {
+  'use strict';
+  var REBIRTH = 15, BEAUTY = 26, WATER = 27, TRUTHS = 28, REATOUM = 29, HORUS = 30, OFF = 31;
+  var EXTRA = { 1: true, 4: true, 5: true };           // throws that give another turn
+  var SAFE = {}; SAFE[REBIRTH] = SAFE[BEAUTY] = SAFE[TRUTHS] = SAFE[REATOUM] = SAFE[HORUS] = true;
+
+  function newGame() {
+    var b = [0]; for (var i = 1; i <= 30; i++) b.push(i <= 10 ? (i % 2 ? 1 : 2) : 0);
+    return { b: b, off: [0, 0, 0], turn: 1, winner: 0 };
+  }
+  function clone(s) { return { b: s.b.slice(), off: s.off.slice(), turn: s.turn, winner: s.winner }; }
+
+  /* Four two-sided throwing sticks. Lit sides up: 1,2,3,4 count as themselves, none lit counts 5. */
+  function throwSticks(rnd) {
+    rnd = rnd || Math.random; var sticks = [], n = 0;
+    for (var i = 0; i < 4; i++) { var lit = rnd() < 0.5; sticks.push(lit); if (lit) n++; }
+    return { sticks: sticks, value: n === 0 ? 5 : n };
+  }
+
+  function protectedAt(b, sq, owner) { return (sq > 1 && b[sq - 1] === owner) || (sq < 30 && b[sq + 1] === owner); }
+  function walled(b, from, to, owner) {       // three in a row of `owner` strictly inside the path
+    for (var t = from + 1; t + 2 < to; t++) if (b[t] === owner && b[t + 1] === owner && b[t + 2] === owner) return true;
+    return false;
+  }
+  function waterTarget(b) {                   // landing on the Water sends the piece back to Rebirth, or the first empty square before it
+    for (var t = REBIRTH; t >= 1; t--) if (!b[t]) return t;
+    return 1;
+  }
+
+  /* All legal moves for player p with throw v: [{from,to,kind,dest}] where `to` is the nominal square and `dest` where the piece ends. */
+  function moves(s, p, v) {
+    var b = s.b, opp = p === 1 ? 2 : 1, out = [];
+    for (var f = 1; f <= 30; f++) {
+      if (b[f] !== p) continue;
+      var d = f + v;
+      if (f < BEAUTY && d > BEAUTY) continue;            // every piece must stop on the House of Beauty
+      if ((f === TRUTHS || f === REATOUM) && d !== OFF) continue;   // on the last-but-two houses a piece waits for its exact throw
+      if (f >= BEAUTY) {
+        if (d > OFF) continue;                           // exact throw needed to leave
+        if (d === OFF) { out.push({ from: f, to: OFF, kind: 'off', dest: OFF }); continue; }
+      }
+      if (d > 30) continue;
+      if (b[d] === p) continue;                          // own piece
+      if (walled(b, f, d, opp)) continue;                // cannot pass three in a row
+      var kind = 'step';
+      if (b[d] === opp) {
+        if (SAFE[d] || protectedAt(b, d, opp)) continue; // sanctuary or guarded pair
+        kind = 'swap';
+      }
+      var dest = d;
+      if (d === WATER) { kind = 'water'; dest = waterTarget(b); }
+      out.push({ from: f, to: d, kind: kind, dest: dest });
+    }
+    return out;
+  }
+
+  function apply(s, m) {
+    var n = clone(s), p = s.turn, opp = p === 1 ? 2 : 1, o = { swapped: false, water: false, off: false };
+    n.b[m.from] = 0;
+    if (m.kind === 'off') { n.off[p]++; o.off = true; }
+    else if (m.kind === 'swap') { n.b[m.from] = opp; n.b[m.to] = p; o.swapped = true; }
+    else if (m.kind === 'water') { n.b[m.dest] = p; o.water = true; }
+    else n.b[m.to] = p;
+    if (n.off[p] === 5) n.winner = p;
+    return { state: n, info: o };
+  }
+
+  function evalMove(s, m, p, level) {
+    var sc = 0, b = s.b;
+    if (m.kind === 'off') return 1000;
+    sc += (m.dest - m.from) * 1.0;
+    if (m.to === BEAUTY) sc += 28;
+    if (m.kind === 'water') sc -= 60;
+    if (m.kind === 'swap') sc += 14 + (m.to - m.from);
+    if (m.to === REBIRTH) sc += 6;
+    var n = apply(clone(Object.assign(clone(s), { turn: p })), m).state.b;
+    if (m.dest < 26 && ((m.dest > 1 && n[m.dest - 1] === p) || (m.dest < 30 && n[m.dest + 1] === p))) sc += 7;   // paired, so guarded
+    if (m.from < 26 && ((m.from > 1 && b[m.from - 1] === p) || (m.from < 30 && b[m.from + 1] === p))) sc -= 3;  // leaving a pair
+    if (m.to >= TRUTHS) sc += 4;
+    var opp = p === 1 ? 2 : 1, ok = false;
+    if (m.dest < 26 && !SAFE[m.dest]) for (var k = 1; k <= 3; k++) if (m.dest - k >= 1 && b[m.dest - k] === opp) ok = true;
+    if (ok && !((m.dest > 1 && n[m.dest - 1] === p) || (m.dest < 30 && n[m.dest + 1] === p))) sc -= 4;            // exposed to a swap
+    return sc;
+  }
+  function choose(s, p, v, level, rnd) {
+    rnd = rnd || Math.random;
+    var ms = moves(s, p, v); if (!ms.length) return null;
+    if (level === 'scribe') { // apprentice: sometimes picks at random
+      if (rnd() < 0.45) return ms[Math.floor(rnd() * ms.length)];
+    }
+    var best = null, bs = -1e9;
+    ms.forEach(function (m) { var x = evalMove(s, m, p, level) + rnd() * 0.5; if (x > bs) { bs = x; best = m; } });
+    return best;
+  }
+
+  /* Board geometry: row 0 runs left to right (1..10), row 1 right to left (11..20), row 2 left to right (21..30). */
+  function cellOf(n) { var r = Math.floor((n - 1) / 10), i = (n - 1) % 10; return { r: r, c: r === 1 ? 9 - i : i }; }
+  function squareAt(r, c) { return r === 1 ? 10 + (10 - c) : r * 10 + c + 1; }
+
+  return { newGame: newGame, clone: clone, throwSticks: throwSticks, moves: moves, apply: apply, choose: choose,
+           cellOf: cellOf, squareAt: squareAt, EXTRA: EXTRA, SAFE: SAFE,
+           REBIRTH: REBIRTH, BEAUTY: BEAUTY, WATER: WATER, TRUTHS: TRUTHS, REATOUM: REATOUM, HORUS: HORUS, OFF: OFF };
+})();
+
+
+</script>
+<script>
+/* Senet page: board rendering (CSS 3D), turns, computer opponent, background motion. */
+(function () {
+  'use strict';
+  var S = Senet;
+  function $(id) { return document.getElementById(id); }
+  var NAMES = { 15: 'Rebirth', 26: 'Beauty', 27: 'Water', 28: 'Three Truths', 29: 'Re-Atoum', 30: 'Horus' };
+  var GLYPH = { 15: ['☥', 'Rebirth'], 26: ['✦', 'Beauty'], 27: ['≈', 'Water'], 28: ['III', '3 Truths'], 29: ['II', 'Re-Atoum'], 30: ['I', 'Horus'] };
+  var PN = { 1: 'Cyan', 2: 'Amber' };
+
+  function mkPiece(p, seed) {
+    var pc = document.createElement('div'); pc.className = 'pc ' + (p === 1 ? 'c' : 'a');
+    pc.innerHTML = '<span class="halo"></span><span class="disc"></span>';
+    if (window.Solids) pc.appendChild(Solids.make(p === 1 ? 'octa' : 'merkaba', p === 1 ? 'cyan' : 'gold', seed, p === 1 ? 16 : 21));
+    return pc;
+  }
+  function snd(n) { if (window.OphanimSound) OphanimSound.play(n); }
+  var G, phase, V, L, mode, timer, last = null, score = [0, 0, 0], view3d = true;
+  var board = $('board'), scene = $('scene'), squares = [];
+
+  /* ---------- build board ---------- */
+  function build() {
+    board.textContent = '';
+    squares = [null];
+    for (var r = 0; r < 3; r++) for (var c = 0; c < 10; c++) {
+      var n = S.squareAt(r, c), d = document.createElement('div');
+      d.className = 'sq' + ((r + c) % 2 ? ' alt' : '') + (GLYPH[n] ? ' sp' : '') + (n === 27 ? ' water' : '');
+      d.dataset.n = n;
+      d.innerHTML = '<span class="n">' + n + '</span>' + (GLYPH[n] ? '<span class="g">' + GLYPH[n][0] + '<small>' + GLYPH[n][1] + '</small></span>' : '');
+      d.addEventListener('click', onSquare);
+      board.appendChild(d);
+      squares[n] = d;
+    }
+  }
+  function size() {
+    var w = $('stage').clientWidth, h = $('stage').clientHeight;
+    var sq = view3d ? Math.min(w / 11.2, h / 3.4) : Math.min(w / 10.6, h / 3.3);
+    sq *= (typeof zoom === 'number' ? zoom : 1);
+    board.style.setProperty('--sq', Math.max(24, sq) + 'px'); board.style.setProperty('--k', Math.max(24, sq));
+  }
+  window.addEventListener('resize', size);
+
+  /* ---------- rendering ---------- */
+  function render() {
+    for (var n = 1; n <= 30; n++) {
+      var sq = squares[n]; sq.classList.remove('dest', 'last');
+      var old = sq.querySelector('.pc'); if (old) old.remove();
+      var p = G.b[n];
+      if (p) sq.appendChild(mkPiece(p, n));
+    }
+    if (last) squares[last].classList.add('last');
+    var human = phase === 'move' && isHuman(G.turn);
+    if (human) {
+      L.forEach(function (m) {
+        if (m.kind !== 'off') squares[m.dest].classList.add('dest');
+        var pc = squares[m.from].querySelector('.pc'); if (pc) pc.classList.add('can');
+      });
+    }
+    $('offC').textContent = G.off[1]; $('offA').textContent = G.off[2];
+    $('scoreTxt').textContent = score[1] + ' – ' + score[2];
+    var dot = $('dot'); dot.style.background = G.turn === 1 ? 'var(--cyan)' : 'var(--amber)'; dot.style.color = G.turn === 1 ? 'var(--cyan)' : 'var(--amber)';
+    var t = $('btnThrow'); t.disabled = !(phase === 'roll' && isHuman(G.turn));
+    $('statusTxt').textContent = statusText();
+  }
+  function who(p) {
+    if (mode === '2p') return PN[p];
+    if (mode === 'watch') return PN[p] + ' (Vizier)';
+    return p === 1 ? 'You (cyan)' : 'Amber (' + (mode === 'scribe' ? 'Scribe' : 'Vizier') + ')';
+  }
+  function statusText() {
+    if (phase === 'over') return who(G.winner) + ' win' + (mode === '2p' || mode === 'watch' || G.winner === 2 ? 's' : '') + '!';
+    var w = who(G.turn);
+    if (phase === 'roll') return w + (isHuman(G.turn) ? ': throw the sticks' : ' is throwing');
+    if (phase === 'move') return w + (isHuman(G.turn) ? ': tap a glowing piece' : ' is choosing');
+    return w;
+  }
+  function isHuman(p) { return mode === '2p' || ((mode === 'vizier' || mode === 'scribe') && p === 1); }
+  function level(p) { return mode === 'scribe' ? 'scribe' : 'vizier'; }
+
+  function log(html) {
+    var ul = $('logList'), li = document.createElement('li'); li.innerHTML = html; ul.insertBefore(li, ul.firstChild);
+    while (ul.children.length > 40) ul.removeChild(ul.lastChild);
+  }
+  function sq(n) { return NAMES[n] ? n + ' (' + NAMES[n] + ')' : '' + n; }
+
+  /* ---------- flow ---------- */
+  function clear() { if (timer) { clearTimeout(timer); timer = null; } }
+  function newGame() {
+    clear(); mode = $('selOpp').value; G = S.newGame(); phase = 'roll'; V = 0; L = []; last = null;
+    $('logList').textContent = ''; $('tval').textContent = '–'; $('tdesc').textContent = 'Throw the sticks to begin';
+    paintSticks([false, false, false, false], false);
+    log('New game. <b>Cyan</b> throws first.');
+    render(); next();
+  }
+  function next() {
+    if (phase !== 'roll') return;
+    if (!isHuman(G.turn)) timer = setTimeout(doThrow, mode === 'watch' ? 600 : 800);
+  }
+  function paintSticks(arr, flip) {
+    var els = $('sticks').children;
+    for (var i = 0; i < 4; i++) {
+      els[i].classList.toggle('lit', !!arr[i]);
+      if (flip) { els[i].classList.remove('flip'); void els[i].offsetWidth; els[i].classList.add('flip'); }
+    }
+  }
+  function doThrow() {
+    if (phase !== 'roll') return;
+    clear();
+    var t = S.throwSticks(), lit = t.sticks.filter(Boolean).length;
+    V = t.value; paintSticks(t.sticks, true); snd('clatter');
+    $('tval').textContent = V;
+    $('tdesc').textContent = lit === 0 ? 'None lit counts as 5' : lit + ' lit';
+    L = S.moves(G, G.turn, V);
+    log('<b>' + PN[G.turn] + '</b> throws <b>' + V + '</b>' + (lit === 0 ? ' (none lit)' : '') + '.');
+    if (!L.length) {
+      phase = 'wait'; render();
+      log('No legal move. Turn passes.');
+      timer = setTimeout(function () { G.turn = G.turn === 1 ? 2 : 1; phase = 'roll'; render(); next(); }, 1100);
+      return;
+    }
+    phase = 'move'; render();
+    if (!isHuman(G.turn)) timer = setTimeout(aiMove, 900);
+    else if (L.length === 1 && false) { /* single moves still need a tap, so the player stays in control */ }
+  }
+  function aiMove() {
+    var m = S.choose(G, G.turn, V, level(G.turn));
+    if (m) doMove(m);
+  }
+  function doMove(m) {
+    clear();
+    var p = G.turn, res = S.apply(G, m); G = res.state; G.turn = p;
+    last = m.kind === 'off' ? null : m.dest;
+    var msg = '<b>' + PN[p] + '</b> ';
+    if (m.kind === 'off') msg += 'bears off from ' + sq(m.from) + '.';
+    else if (m.kind === 'swap') msg += 'moves ' + m.from + ' → ' + m.to + ' and swaps with an enemy piece.';
+    else if (m.kind === 'water') msg += 'falls in the Water and returns to ' + sq(m.dest) + '.';
+    else msg += 'moves ' + m.from + ' → ' + sq(m.to) + '.';
+    log(msg);
+    snd(m.kind === 'off' ? 'off' : m.kind === 'swap' ? 'swap' : m.kind === 'water' ? 'water' : (m.to === S.BEAUTY ? 'chime' : 'tap'));
+    if (G.winner) {
+      phase = 'over'; score[G.winner]++; render(); snd('win');
+      log('<b>' + who(G.winner) + ' win the game.</b>');
+      return;
+    }
+    if (S.EXTRA[V]) { log(PN[p] + ' throws again.'); phase = 'roll'; }
+    else { G.turn = p === 1 ? 2 : 1; phase = 'roll'; }
+    render(); next();
+  }
+  function onSquare(e) {
+    if (dragMoved) return;
+    if (phase !== 'move' || !isHuman(G.turn)) return;
+    var n = +e.currentTarget.dataset.n, m = null;
+    L.forEach(function (x) { if (x.from === n || (x.kind !== 'off' && x.dest === n)) m = m || x; });
+    if (m) doMove(m);
+  }
+
+  /* ---------- view and drag ---------- */
+  var tx = 54, rz = 0, dragMoved = false;
+  function applyView() { board.style.setProperty('--tx', tx + 'deg'); board.style.setProperty('--rz', rz + 'deg'); }
+  function setView(is3d) {
+    view3d = is3d; scene.classList.toggle('flat', !is3d);
+    $('v3d').setAttribute('aria-pressed', is3d); $('v2d').setAttribute('aria-pressed', !is3d);
+    $('btnResetView').hidden = !is3d; size();
+  }
+  var drag = null;
+  scene.addEventListener('pointerdown', function (e) {
+    if (!view3d) return;
+    drag = { x: e.clientX, y: e.clientY, tx: tx, rz: rz }; dragMoved = false;
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!dragMoved && Math.abs(dx) + Math.abs(dy) < 6) return;
+    dragMoved = true; board.classList.add('dragging');
+    rz = Math.max(-50, Math.min(50, drag.rz + dx * 0.25));
+    tx = Math.max(15, Math.min(75, drag.tx - dy * 0.25));
+    applyView();
+  });
+  window.addEventListener('pointerup', function () {
+    if (!drag) return; drag = null; board.classList.remove('dragging');
+    setTimeout(function () { dragMoved = false; }, 0);
+  });
+  $('v3d').onclick = function () { setView(true); };
+  $('v2d').onclick = function () { setView(false); };
+  var zoom = 1;
+  function setZoom(z) { zoom = Math.max(0.6, Math.min(2.4, z)); size(); }
+  scene.addEventListener('wheel', function (e) { e.preventDefault(); setZoom(zoom * (e.deltaY < 0 ? 1.1 : 1 / 1.1)); }, { passive: false });
+  (function () {                                                    // zoom buttons for touch screens
+    var host = $('btnResetView').parentNode;
+    [['Zoom out', '\u2212', 1 / 1.2], ['Zoom in', '+', 1.2]].forEach(function (z) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.setAttribute('aria-label', z[0]); b.title = z[0] + ' (or use the mouse wheel)'; b.textContent = z[1];
+      b.onclick = function () { setZoom(zoom * z[2]); }; host.insertBefore(b, $('btnResetView'));
+    });
+  })();
+  $('btnResetView').onclick = function () { tx = 54; rz = 0; zoom = 1; applyView(); size(); };
+  $('btnThrow').onclick = doThrow;
+  $('btnNew').onclick = newGame;
+  $('selOpp').onchange = newGame;
+
+  /* ---------- background: shapes travelling along serpentine (boustrophedon) lanes at three depths ---------- */
+  var cv = $('bgfx'), cx = cv.getContext('2d'), W = 0, H = 0, DPR = 1, bgOn = false, raf = 0, t0 = 0;
+  var layers = [
+    { lanes: 15, n: 80, size: 1.6, speed: 9,  a: .35, kind: 'dot',  col: '255,255,255' },
+    { lanes: 8,  n: 26, size: 4.5, speed: 20, a: .28, kind: 'dia',  col: '0,240,255' },
+    { lanes: 8,  n: 18, size: 5,   speed: 17, a: .25, kind: 'dia',  col: '255,183,0' },
+    { lanes: 4,  n: 8,  size: 12,  speed: 38, a: .16, kind: 'ring', col: '0,240,255' },
+    { lanes: 4,  n: 6,  size: 14,  speed: 32, a: .14, kind: 'ring', col: '255,183,0' }
+  ];
+  function fit() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR; cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  function pos(L, u) { // serpentine: along a lane, drop to the next lane, return the other way
+    var m = 24, gap = (H - 2 * m) / (L.lanes - 1), seg = W + gap, total = L.lanes * W + (L.lanes - 1) * gap;
+    u = ((u % total) + total) % total;
+    var k = Math.min(L.lanes - 1, Math.floor(u / seg)), r = u - k * seg, y = m + k * gap, x;
+    if (r < W) x = k % 2 ? W - r : r;
+    else { x = k % 2 ? 0 : W; y += r - W; }
+    return [x, y, total];
+  }
+  function draw(ts) {
+    var t = (ts - t0) / 1000;
+    cx.clearRect(0, 0, W, H);
+    layers.forEach(function (L, li) {
+      var total = pos(L, 0)[2];
+      for (var i = 0; i < L.n; i++) {
+        var u = i * total / L.n + t * L.speed + li * 37;
+        var p = pos(L, u), x = p[0], y = p[1], s = L.size;
+        var tw = L.kind === 'dot' ? .55 + .45 * Math.sin(t * 1.3 + i * 1.7) : 1;
+        cx.globalAlpha = L.a * tw;
+        cx.strokeStyle = cx.fillStyle = 'rgb(' + L.col + ')';
+        if (L.kind === 'dot') { cx.beginPath(); cx.arc(x, y, s, 0, 6.2832); cx.fill(); }
+        else {
+          cx.save(); cx.translate(x, y); cx.rotate(Math.PI / 4 + (L.kind === 'ring' ? t * .15 + i : 0));
+          if (L.kind === 'dia') cx.fillRect(-s, -s, 2 * s, 2 * s);
+          else { cx.lineWidth = 1.2; cx.strokeRect(-s, -s, 2 * s, 2 * s); cx.strokeRect(-s * .55, -s * .55, s * 1.1, s * 1.1); }
+          cx.restore();
+        }
+      }
+    });
+    cx.globalAlpha = 1;
+    if (bgOn) raf = requestAnimationFrame(draw);
+  }
+  function bgSet(on, save) {
+    bgOn = on; $('chkBg').checked = on;
+    cancelAnimationFrame(raf);
+    if (on) { t0 = performance.now(); raf = requestAnimationFrame(draw); }
+    else { cx.clearRect(0, 0, W, H); draw(performance.now()); cx.globalAlpha = 1; cancelAnimationFrame(raf); }
+    if (save) { try { localStorage.setItem('ophanim.senet.bg', on ? '1' : '0'); } catch (e) {} }
+  }
+  window.addEventListener('resize', function () { fit(); if (!bgOn) { cx.clearRect(0, 0, W, H); draw(performance.now()); } });
+  $('chkBg').onchange = function () { bgSet(this.checked, true); };
+
+  /* ---------- start ---------- */
+  build(); fit(); setView(true); applyView();
+  var pref = null; try { pref = localStorage.getItem('ophanim.senet.bg'); } catch (e) {}
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  bgSet(pref === null ? !reduce : pref === '1', false);
+  newGame();
+  window.__senet = { get G() { return G; }, get phase() { return phase; }, doThrow: doThrow, get L() { return L; }, doMove: doMove };
+})();
+
+</script>
+<script>
+(function () {
+  var V = {'\u0391':1,'\u0392':2,'\u0393':3,'\u0394':4,'\u0395':5,'\u0396':7,'\u0397':8,'\u0398':9,'\u0399':10,'\u039A':20,'\u039B':30,'\u039C':40,'\u039D':50,'\u039E':60,'\u039F':70,'\u03A0':80,'\u03A1':100,'\u03A3':200,'\u03A4':300,'\u03A5':400,'\u03A6':500,'\u03A7':600,'\u03A8':700,'\u03A9':800};
+  var inp = document.getElementById('isoIn'), out = document.getElementById('isoOut');
+  if (!inp) return;
+  var hint = out.textContent;
+  inp.addEventListener('input', function () {
+    var s = inp.value.replace(/\u03C2/g, '\u03C3').toUpperCase();
+    try { s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) {}
+    var parts = [], sum = 0;
+    for (var i = 0; i < s.length; i++) { var c = s.charAt(i); if (V[c]) { parts.push(c + ' (' + V[c] + ')'); sum += V[c]; } }
+    out.textContent = parts.length ? parts.join(' + ') + ' = ' + sum : hint;
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var u = location.href, t = document.title + ' - Philosophy From A Stone';
+  function $(id) { return document.getElementById(id); }
+  var eu = encodeURIComponent(u), et = encodeURIComponent(t);
+  $('shFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + eu;
+  $('shX').href = 'https://twitter.com/intent/tweet?text=' + et + '&url=' + eu;
+  $('shPin').href = 'https://pinterest.com/pin/create/button/?url=' + eu + '&description=' + et;
+  $('shMail').href = 'mailto:?subject=' + et + '&body=' + et + '%0A%0A' + eu;
+  $('shTg').href = 'https://t.me/share/url?url=' + eu + '&text=' + et;
+  $('shWa').href = 'https://wa.me/?text=' + et + '%20' + eu;
+  $('shUrl').value = u;
+  var note = $('shNote');
+  function say(s) { note.textContent = s; setTimeout(function () { note.textContent = ''; }, 4000); }
+  function copy(done) {
+    var inp = $('shUrl');
+    function sel() { inp.focus(); inp.select(); say('Press Ctrl+C to copy the link.'); }
+    try { navigator.clipboard.writeText(u).then(function () { done(); }, sel); } catch (e) { sel(); }
+  }
+  $('shCopy').addEventListener('click', function () { copy(function () { say('Link copied.'); }); });
+  $('shIg').addEventListener('click', function () {
+    copy(function () { say('Link copied. Paste it into your Instagram post or story.'); });
+    window.open('https://www.instagram.com/', '_blank', 'noopener');
+  });
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function p2(n) { return n < 10 ? '0' + n : '' + n; }
+  function tick() {
+    var d = new Date();
+    $('clUtc').textContent = p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()) + ':' + p2(d.getUTCSeconds());
+    $('clLoc').textContent = p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+    try { $('clTz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+  }
+  tick(); setInterval(tick, 1000);
+  var cr = [];
+  function fmt(v) {
+    if (v == null || !isFinite(v)) return '—';
+    var a = Math.abs(v);
+    return v.toLocaleString('en-US', { maximumFractionDigits: a >= 100 ? 0 : a >= 1 ? 2 : 4, minimumFractionDigits: a >= 1 && a < 100 ? 2 : 0 });
+  }
+  function render() {
+    var tr = $('mTrack'); if (!tr || !cr.length) return;
+    tr.textContent = '';
+    for (var k = 0; k < 2; k++) cr.forEach(function (x) {
+      var s = document.createElement('span'); s.className = 'mi'; s.appendChild(document.createTextNode(x.name));
+      var e = document.createElement('em'); e.textContent = '$' + fmt(x.price); s.appendChild(e);
+      if (x.pct != null && isFinite(x.pct)) {
+        var c = document.createElement('span'); c.className = x.pct >= 0 ? 'up' : 'dn';
+        c.textContent = (x.pct >= 0 ? '▲ +' : '▼ ') + x.pct.toFixed(2) + '%'; s.appendChild(c);
+      }
+      tr.appendChild(s);
+    });
+  }
+  function load() {
+    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=11&page=1&price_change_percentage=24h')
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (j) { if (Array.isArray(j)) { cr = j.map(function (c) { return { name: (c.symbol || '').toUpperCase(), price: c.current_price, pct: c.price_change_percentage_24h }; }); render(); } })
+      .catch(function () {});
+  }
+  load(); setInterval(load, 60000);
+  setTimeout(function () { var tr = $('mTrack'); if (tr && !cr.length) tr.innerHTML = '<span class="mi">Live prices load once the page is hosted online</span>'; }, 6000);
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var prov = null;
+  function find() {
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return { p: window.phantom.solana, n: 'Phantom' };
+    if (window.solflare && window.solflare.isSolflare) return { p: window.solflare, n: 'Solflare' };
+    if (window.solana) return { p: window.solana, n: 'Solana wallet' };
+    return null;
+  }
+  $('btnWallet').addEventListener('click', function () {
+    var txt = $('walletTxt'), btn = $('btnWallet');
+    if (prov) { try { prov.p.disconnect(); } catch (e) {} prov = null; btn.textContent = 'Connect wallet'; txt.textContent = 'Wallet disconnected.'; return; }
+    var f = find();
+    if (!f) { txt.textContent = 'No Phantom or Solflare wallet was found in this browser.'; return; }
+    f.p.connect().then(function (r) {
+      var pk = (r && r.publicKey ? r.publicKey : f.p.publicKey).toString();
+      prov = f; btn.textContent = 'Disconnect';
+      txt.textContent = f.n + ' connected: ' + pk.slice(0, 4) + '…' + pk.slice(-4) + '. Only your public address is shown.';
+    }).catch(function () { txt.textContent = 'The wallet did not connect.'; });
+  });
+})();
+</script>
+<script src="account.js"></script>
+<script src="lounge.js"></script>
+</body></html>

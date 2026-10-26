@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Lord's Prayer · Matthew 6:9–13 · Ophanim Codex</title>
+<meta name="description" content="The Lord&#x27;s Prayer in Greek, line by line: letter-values, wheel bearings, two lines on the Nomos node, and a modern octave mapping. Each claim is checked beside the reading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   OPHANIM CODEX · The Sacred Geometry of Chess
+   Edit the links below to match your site's file names.
+   ============================================================ */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72);
+  --cyan:#46e3f0; --cyan-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#cdc6b3; --ink-2:#a9b4b8; --ink-3:#6f7d83;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.035) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.07),transparent 60%)}
+a{color:var(--cyan)}
+main,header,footer{position:relative;z-index:1}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:10px 20px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s}
+.bar a:hover{color:var(--cyan);border-color:var(--cyan)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:21;width:0}
+.dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border:1px solid var(--cyan-d);transform:rotate(45deg);display:block;transition:.25s;position:relative}
+.dots a.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+.dots a span{position:absolute;right:20px;top:-6px;transform:rotate(-45deg);transform-origin:right;white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--ink-2);opacity:0;pointer-events:none;transition:.2s;letter-spacing:.06em}
+.dots a:hover span{opacity:1}
+@media(max-width:900px){.dots{display:none}}
+
+/* ---------- layout ---------- */
+section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+.wrap{max-width:1180px;margin:0 auto;width:100%}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.grid2.flip>:first-child{order:2}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;gap:36px}.grid2.flip>:first-child{order:0}section{padding:90px 16px 70px;min-height:auto}}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--cyan)}
+h1,h2,h3{font-family:var(--title);font-weight:500;line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(40px,7vw,86px);color:var(--ink);text-shadow:0 0 40px rgba(232,195,117,.25)}
+h2{font-size:clamp(32px,4.4vw,54px);margin-bottom:22px;color:var(--ink)}
+h2 em,h1 em{font-style:normal;color:var(--gold)}
+h3{font-size:24px;color:var(--gold);margin-bottom:8px}
+p{margin-bottom:16px;color:var(--ink);max-width:62ch}
+p.lead{font-size:24px;color:var(--ink)}
+.dim{color:var(--ink-2)}
+.insight{border-left:2px solid var(--gold);padding:14px 20px;margin:22px 0;background:linear-gradient(90deg,rgba(232,195,117,.08),transparent);font-size:21px}
+.insight b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;font-weight:600}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.btn{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:10px 16px;cursor:pointer;border-radius:2px;transition:.2s}
+.btn:hover{background:rgba(70,227,240,.12)}
+.btn.gold{color:var(--gold);border-color:var(--gold)}
+.btn.gold:hover{background:rgba(232,195,117,.12)}
+.btn.gold.on{background:var(--gold);color:var(--bg)}
+.btn.on{background:var(--cyan);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- Translator HUD ---------- */
+.hud{position:relative;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);padding:18px 20px 16px;margin:22px 0;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hud::before{content:"Translator HUD";position:absolute;top:0;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan-d);padding-top:6px}
+.hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:12px}
+.hud .gk{font-size:30px;color:var(--gold);font-weight:500}
+.hud .tr{font-style:italic;color:var(--cyan);font-size:21px}
+.hud .mn{color:var(--ink-2);font-size:19px}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono)}
+.tile{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 5px 3px;border:1px solid var(--line);background:rgba(70,227,240,.04);opacity:.15;transform:translateY(6px);transition:opacity .35s,transform .35s,border-color .35s}
+.tile.lit{opacity:1;transform:none;border-color:var(--cyan-d)}
+.tile i{font-style:normal;font-family:var(--serif);font-size:19px;color:var(--ink);line-height:1.1}
+.tile s{text-decoration:none;font-size:10px;color:var(--cyan)}
+.tiles .gap{width:10px}
+.sum{margin-left:6px;font-size:28px;color:var(--gold);font-weight:600;font-family:var(--mono);text-shadow:0 0 16px rgba(232,195,117,.5)}
+.sum::before{content:"= ";color:var(--ink-3);font-weight:400}
+.hud .note{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.hud.compact .gk{font-size:24px}
+
+/* ---------- hero ---------- */
+#hero{text-align:center;position:relative;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
+#hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);color:var(--cyan);margin:18px auto 30px;max-width:40ch}
+#hero .sig{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-g);padding:10px 18px;background:rgba(4,8,12,.6)}
+#hero .sig b{font-family:var(--serif);font-size:24px;color:var(--gold);letter-spacing:.06em;text-transform:none;font-weight:500}
+.scrollcue{margin-top:50px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ink-3);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+/* ---------- engine steps ---------- */
+.steps{counter-reset:s;display:grid;gap:10px;margin:24px 0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:12px 16px;background:var(--panel);transition:.3s}
+.step:nth-child(odd){border-color:var(--line-g)}
+.step .n{font-family:var(--title);font-size:28px;color:var(--gold);text-align:center}
+.step b{font-family:var(--title);font-weight:500;color:var(--ink);font-size:19px;display:block}
+.step span{color:var(--ink-2);font-size:18px}
+.aletheia{font-size:clamp(70px,13vw,170px);font-family:var(--serif);color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 30px rgba(232,195,117,.45),0 0 90px rgba(70,227,240,.25);font-weight:500}
+.aletheia small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.4em;color:var(--cyan);margin-top:18px;text-shadow:none}
+
+/* ---------- calculator ---------- */
+#translator .box{border:1px solid var(--line-g);background:var(--panel);padding:26px;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+#gin{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--gold);font-family:var(--serif);font-size:34px;padding:10px 14px;outline:none}
+#gin:focus{border-color:var(--cyan)}
+.kb{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 4px}
+.kb button{background:rgba(70,227,240,.05);border:1px solid var(--line);color:var(--ink);font-family:var(--serif);font-size:20px;padding:6px 0 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kb button small{font-family:var(--mono);font-size:9px;color:var(--cyan-d)}
+.kb button:hover{border-color:var(--cyan);color:var(--cyan)}
+.kb .wide{grid-column:span 2;font-family:var(--mono);font-size:11px;letter-spacing:.1em;justify-content:center}
+@media(max-width:600px){.kb{grid-template-columns:repeat(8,1fr)}}
+#gout{min-height:70px;margin-top:16px}
+#gtotal{font-family:var(--mono);font-size:clamp(48px,8vw,84px);color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.4);line-height:1}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;color:var(--ink-2)}
+.chip.hit{border-color:var(--gold);color:var(--gold)}
+.chip button{all:unset;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.presets button{background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--serif);font-size:17px;padding:3px 10px;cursor:pointer}
+.presets button:hover{color:var(--gold);border-color:var(--gold)}
+
+/* ---------- wheat ---------- */
+.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border:1px solid var(--line-g);max-width:460px;width:100%;position:relative;background:#0a0f12}
+.board div{position:relative;border:1px solid rgba(70,227,240,.07);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,.6);transition:background .25s}
+.board div:nth-child(16n+1),.board div:nth-child(16n+3),.board div:nth-child(16n+5),.board div:nth-child(16n+7),.board div:nth-child(16n+10),.board div:nth-child(16n+12),.board div:nth-child(16n+14),.board div:nth-child(16n+16){background:#111a1f}
+.board div.g{color:#2a1c05}
+.wheat-img{width:100%;border:1px solid var(--line-g);display:block;mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 55%,transparent 100%)}
+.counter{font-family:var(--mono);margin-top:18px}
+.counter .big{font-size:clamp(20px,3vw,30px);color:var(--gold);word-break:break-all;line-height:1.2}
+.counter .lbl{font-size:11px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase}
+.formula{font-family:var(--mono);font-size:clamp(40px,6vw,64px);color:var(--cyan);line-height:1;margin:10px 0 4px;text-shadow:0 0 22px rgba(70,227,240,.5)}
+.formula sup{font-size:.5em}
+
+/* ---------- knight tour / svg ---------- */
+.svgbox{width:100%;max-width:480px;aspect-ratio:1;margin:auto}
+.svgbox svg{width:100%;height:100%;display:block}
+#tourPath{fill:none;stroke:var(--cyan);stroke-width:.06;stroke-linejoin:round;filter:drop-shadow(0 0 .08px var(--cyan))}
+
+/* ---------- counter-riddle ---------- */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:stretch}
+.duel .side{border:1px solid var(--line);padding:24px;background:var(--panel);text-align:center}
+.duel .side.g{border-color:var(--line-g)}
+.duel .side h3{font-size:28px}
+.duel .side.c h3{color:var(--cyan)}
+.duel .tags{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;margin:10px 0 6px;line-height:2}
+.duel .vs{align-self:center;font-family:var(--title);font-size:28px;color:var(--ink-3)}
+.duel svg{width:150px;height:150px;margin:6px auto;display:block}
+@media(max-width:900px){.duel{grid-template-columns:1fr}.duel .vs{text-align:center}}
+.spin{animation:spin 18s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- carpet ---------- */
+.carpet{width:100%;display:block;max-width:520px;margin:auto;filter:drop-shadow(0 0 40px rgba(232,195,117,.25));mask-image:linear-gradient(90deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.timeline{display:flex;gap:0;margin:22px 0;font-family:var(--mono);font-size:12px}
+.timeline div{flex:1;border-top:1px solid var(--gold-d);padding-top:10px;position:relative;color:var(--ink-2);padding-right:10px}
+.timeline div::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.timeline b{display:block;color:var(--gold);font-size:18px;font-weight:600}
+
+/* ---------- 3D stages ---------- */
+.stage{width:100%;aspect-ratio:1.15;position:relative;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.08),transparent 65%);cursor:grab}
+.stage canvas{width:100%!important;height:100%!important;display:block}
+.stage .cap{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;pointer-events:none}
+.stage .tag{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em;pointer-events:none}
+.foldinfo{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.foldinfo b{color:var(--gold)}
+
+/* ---------- equation ---------- */
+.eq{display:grid;grid-template-columns:auto auto auto auto auto;gap:6px 18px;align-items:end;justify-content:center;text-align:center;margin:30px 0}
+.eq .gnum{font-family:var(--serif);font-size:30px;color:var(--gold);letter-spacing:.08em}
+.eq .num{font-family:var(--mono);font-size:clamp(44px,7vw,80px);color:var(--cyan);line-height:1;text-shadow:0 0 22px rgba(70,227,240,.45)}
+.eq .num.g{color:var(--gold);text-shadow:0 0 30px rgba(232,195,117,.6)}
+.eq .op{font-family:var(--mono);font-size:40px;color:var(--ink-3);align-self:center}
+.eq .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+@media(max-width:600px){.eq{gap:4px 8px}.eq .op{font-size:26px}}
+
+/* ---------- piece chapters ---------- */
+.piece .num-badge{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan);border:1px solid var(--line);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:18px 0}
+.dl dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);padding-top:5px}
+.dl dd{color:var(--ink)}
+.dl dd em{color:var(--cyan);font-style:italic}
+
+/* ---------- 32 paths wheel ---------- */
+.wheel{width:100%;max-width:520px;margin:auto;display:block}
+
+/* ---------- comparison ---------- */
+.cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:18px;margin-top:20px}
+.cmp th{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cmp th.l{color:var(--cyan)}.cmp th.p{color:var(--gold)}
+.cmp td{padding:12px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.cmp td:first-child{font-family:var(--title);color:var(--ink);white-space:nowrap}
+.cmp td small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.cmp .l{color:var(--cyan)}.cmp .p{color:var(--gold)}
+.cmp tr:hover td{background:rgba(70,227,240,.04)}
+.tablewrap{overflow-x:auto}
+
+/* ---------- parity ---------- */
+.parity{position:relative;height:340px;perspective:900px;margin:10px 0 0}
+.plane{position:absolute;left:8%;right:8%;height:150px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(4,1fr);transform:rotateX(62deg)}
+.plane.top{top:0}.plane.bot{bottom:0}
+.plane.top div:nth-child(odd){background:rgba(235,240,245,.85);box-shadow:0 0 20px rgba(255,255,255,.4)}
+.plane.top div:nth-child(even){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+9),.plane.top div:nth-child(16n+11),.plane.top div:nth-child(16n+13),.plane.top div:nth-child(16n+15){background:rgba(70,227,240,.12)}
+.plane.top div:nth-child(16n+10),.plane.top div:nth-child(16n+12),.plane.top div:nth-child(16n+14),.plane.top div:nth-child(16n+16){background:rgba(235,240,245,.85)}
+.plane.bot div{background:#1a1f22;border:1px solid rgba(70,227,240,.25)}
+.plane.bot div:nth-child(3n){background:#262c30}
+#arcs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- finale ---------- */
+#finale{text-align:center}
+#finale .beam{width:2px;height:180px;margin:0 auto 30px;background:linear-gradient(transparent,var(--gold));box-shadow:0 0 30px 6px rgba(232,195,117,.4)}
+.big-quote{font-family:var(--title);font-size:clamp(28px,4.4vw,52px);line-height:1.25;color:var(--ink);max-width:22ch;margin:0 auto 26px}
+.big-quote em{font-style:normal;color:var(--gold)}
+.ring{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:var(--gold-d);margin:30px 0;word-break:break-all}
+footer{padding:40px 20px 60px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2);text-decoration:none;margin:0 10px}
+.fab{position:fixed;left:18px;bottom:18px;z-index:20;width:52px;height:52px;border:1px solid var(--gold);background:rgba(4,8,12,.85);color:var(--gold);font-family:var(--serif);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);transition:.2s}
+.fab span{transform:rotate(-45deg)}
+.fab:hover{box-shadow:0 0 20px rgba(232,195,117,.5)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ---------- Cadmeian additions ---------- */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0}
+@media(max-width:800px){.layers{grid-template-columns:1fr}}
+.codex,.record{padding:16px 18px;position:relative;font-size:18px}
+.codex{border:1px solid var(--line-g);background:linear-gradient(160deg,rgba(232,195,117,.07),rgba(10,24,32,.7))}
+.record{border:1px solid var(--line);background:linear-gradient(160deg,rgba(70,227,240,.06),rgba(10,24,32,.7))}
+.codex::before,.record::before{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.codex::before{content:"◆ The Codex · Phonetic Archaeology";color:var(--gold)}
+.record::before{content:"◇ The Record · what sources say";color:var(--cyan)}
+.codex p,.record p{font-size:18px;margin-bottom:10px}
+.codex p:last-child,.record p:last-child{margin-bottom:0}
+.record b{color:var(--cyan);font-weight:600}
+.codex b{color:var(--gold);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:20px 0 0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;display:inline-block}
+/* phonemes */
+.ph-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:600px){.ph-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.ph{border:1px solid var(--line);background:var(--panel);padding:12px 4px 8px;text-align:center;cursor:pointer;transition:.2s}
+.ph b{display:block;font-family:var(--title);font-size:30px;color:var(--ink);line-height:1;font-weight:500}
+.ph small{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.ph:hover,.ph.on{border-color:var(--gold)}
+.ph.on b{color:var(--gold);text-shadow:0 0 18px rgba(232,195,117,.5)}
+#phDetail h3{font-size:34px;margin:0 0 4px}
+#phDetail .ipa{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:12px}
+.formula-chip{display:inline-block;font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--line-g);padding:4px 10px;margin-top:6px}
+/* tree */
+.tree svg{width:100%;max-width:440px;display:block;margin:auto}
+.tree .zone{cursor:pointer;transition:opacity .3s}
+.tree .zone:hover{opacity:.85}
+.tree .zone.dim{opacity:.25}
+.forces{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+/* aragats */
+.peaks svg{width:100%;max-width:460px;display:block;margin:auto}
+/* M letter */
+.mbox{display:flex;justify-content:center;gap:30px;align-items:center;flex-wrap:wrap;margin:20px 0}
+.mbox svg{width:180px;height:160px}
+.mbox svg polyline{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,transform .8s}
+.mbox .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-align:center;text-transform:uppercase}
+/* numbers */
+.nums{width:100%;border-collapse:collapse;font-size:18px}
+.nums th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.nums td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08)}
+.nums .hy{font-family:"Noto Sans Armenian",var(--serif);font-size:22px;color:var(--gold)}
+.nums .n{font-family:var(--title);font-size:22px;color:var(--ink)}
+.nums .gr{color:var(--cyan)}
+.nums .pie{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.nums .cw{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.nums .cw s{color:var(--carn,#c4553a)}
+.nums tr.ros td{background:rgba(232,195,117,.06)}
+/* ur vowel board */
+.urboard{width:100%;display:block}
+.urboard .sq{fill:#0e1a21;stroke:rgba(70,227,240,.28);stroke-width:.03}
+.vowel{font-family:var(--title);font-size:.42px;fill:#04080c;font-weight:700;pointer-events:none}
+.vtbl td:first-child{font-family:var(--title);font-size:26px;color:var(--gold);width:50px;text-align:center}
+.audit{width:100%;border-collapse:collapse;font-size:17px;margin-top:16px}
+.audit th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+.audit td{padding:10px;border-bottom:1px solid rgba(70,227,240,.08);vertical-align:top}
+.audit td:first-child{color:var(--ink-2)}
+@media(max-width:600px){.audit thead{display:none}.audit tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.audit td{display:block;border:0;padding:3px 0}}
+.audit s{color:#c4553a;text-decoration-thickness:1px}
+.audit .ok{color:var(--cyan)}
+.audit .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.k.fix{color:#c4553a;border-color:#c4553a}.k.chk{color:var(--gold);border-color:var(--gold)}.k.ok{color:var(--cyan);border-color:var(--cyan)}
+details.auditbox{text-align:left;border:1px solid var(--line);background:var(--panel);padding:14px 18px;margin-top:24px}
+details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.codexlib{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.codexlib a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:8px 14px}
+.codexlib a:hover,.codexlib a.cur{color:var(--gold);border-color:var(--gold)}
+.goldflow{height:16px;border-radius:8px;background:linear-gradient(90deg,#1d1f22 0%,#3a3f44 20%,#2d6ea8 45%,#46a0d8 55%,#c9a24a 80%,#ffd977 100%);margin:16px 0 6px;box-shadow:0 0 20px rgba(232,195,117,.25)}
+.goldlbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+details{margin-top:12px;border-top:1px solid rgba(232,195,117,.2);padding-top:8px}summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}.hud+.hud{margin-top:0}
+.tw{overflow-x:auto}
+figure.fig{margin:26px 0 0}figure.fig img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.grid2 figure.fig{margin-top:0}
+.spinewrap{display:grid;grid-template-columns:minmax(220px,330px) 1fr;gap:28px;align-items:start;margin-top:18px}
+@media(max-width:760px){.spinewrap{grid-template-columns:1fr}}
+#spsvg{width:100%;height:auto;max-height:80vh}
+#spsvg .v{cursor:pointer}
+#spsvg .v rect{fill:rgba(232,195,117,.07);stroke:rgba(232,195,117,.45);stroke-width:1}
+#spsvg .v text{fill:#e8c375;font:20px Georgia,serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+#spsvg .v.on rect,#spsvg .v:hover rect{fill:rgba(70,227,240,.18);stroke:#46e3f0}
+#spsvg .cord{stroke:#46e3f0;stroke-width:3;opacity:.7;fill:none}
+#spsvg .lab{fill:#8a8f99;font:11px monospace;letter-spacing:.1em}
+#spsvg .st{cursor:pointer}#spsvg .st circle{fill:#0b0c10;stroke:#46e3f0;stroke-width:1.5}
+#spsvg .st.on circle,#spsvg .st:hover circle{fill:#46e3f0}
+#spsvg .st text{fill:#46e3f0;font:11px monospace;text-anchor:start;dominant-baseline:central}
+.sppanel{border:1px solid var(--line-g);background:var(--panel);padding:18px 20px;min-height:200px}
+.sppanel h3{font-family:var(--title);font-weight:500;font-size:26px;color:var(--gold);margin:0 0 8px}
+.sppanel .rec{border-left:2px solid var(--cyan);padding-left:12px;margin-top:12px;color:var(--ink-2)}
+.sppanel button{font:12px var(--mono);letter-spacing:.1em;margin:14px 8px 0 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+
+.sharefoot{padding:46px 0 60px;border-top:1px solid var(--line)}
+.sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
+.shbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--gold);background:none;border:1px solid var(--line-g);padding:10px 14px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
+.shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:1px solid var(--line-g);background:#05090d;margin-top:14px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.short{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.short video{width:min(320px,100%);height:auto;border:1px solid var(--line-g);background:#05090d;color-scheme:dark}
+.short .txt{flex:1 1 260px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.gal figure{margin:0}.gal img{display:block;width:100%;height:auto;border:1px solid var(--line-g);background:#0b0c10}
+.gal figcaption,figure.fig figcaption{font:12px var(--mono);letter-spacing:.05em;color:var(--ink-3);margin-top:6px}
+table.mx{border-collapse:collapse;width:100%;max-width:640px;margin:18px 0 6px;font-family:var(--mono);font-size:13px}
+table.mx th{color:var(--gold);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid var(--line-g)}
+table.mx td{text-align:center;padding:5px 3px;border:1px solid var(--line)}
+table.mx td b{display:block;font:500 22px var(--serif);color:var(--ink)}
+table.mx td s{text-decoration:none;color:var(--cyan);font-size:11px}
+table.mx td.mid{background:rgba(232,195,117,.12);border-color:var(--gold)}
+.tw{overflow-x:auto}
+.photo{max-width:420px;margin:26px auto 0}.photo img{display:block;width:100%;height:auto;border:1px solid var(--line-g)}
+.photo figcaption{text-align:center;font:13px var(--mono);letter-spacing:.08em;color:var(--ink-2);margin-top:8px}
+
+
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr);gap:44px;align-items:start}
+.cols .layers{grid-template-columns:1fr}
+.fx{position:sticky;top:100px}
+.fx canvas{width:100%;aspect-ratio:1;display:block;border:1px solid var(--line);background:radial-gradient(circle at 50% 45%,rgba(70,227,240,.07),rgba(4,8,12,.6));cursor:grab;touch-action:pan-y}
+.fx .cap{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;text-align:center}
+@media(max-width:900px){.cols{grid-template-columns:1fr;gap:26px}.fx{position:static;max-width:300px;margin:0 auto}}
+.supp{border-left:2px solid var(--ink-3);padding:4px 0 4px 14px;margin:14px 0;color:var(--ink-2)}
+.supp b{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:400;display:block;margin-bottom:4px}
+.joke{border:1px dashed var(--line-g);padding:14px 18px;margin:30px auto 0;max-width:58ch;text-align:left;color:var(--ink-2);font-size:18px}
+.joke b{color:var(--gold);font-weight:400}
+.links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.links a{border:1px solid var(--line);padding:8px 14px;text-decoration:none;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .sharefoot p{max-width:none;margin-left:auto;margin-right:auto;text-align:center}
+blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--line-g);padding-left:16px;margin:14px 0}
+
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:20px}
+.lc{border:1px solid var(--line);background:var(--panel);padding:12px 14px 16px}
+.lc canvas{width:100%;aspect-ratio:1.25;display:block;cursor:grab;touch-action:pan-y}
+.lc h3{font-family:var(--title);font-weight:500;font-size:24px;margin:2px 0 0}
+.lc h3 span{font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-left:8px}
+.lc .cn{font-size:17px;color:var(--ink-2);margin:2px 0 8px}
+.lc p{font-size:17px;margin:6px 0;max-width:none}
+.lc .ex{font:13px var(--mono);letter-spacing:.06em;color:var(--ink-3)}
+.lc.gold h3{color:rgb(232,195,117)}.lc.cyan h3{color:rgb(70,227,240)}.lc.green h3{color:rgb(118,222,170)}.lc.rust h3{color:rgb(226,134,100)}
+.lc.gold{border-top:2px solid rgba(232,195,117,.55)}.lc.cyan{border-top:2px solid rgba(70,227,240,.55)}.lc.green{border-top:2px solid rgba(118,222,170,.55)}.lc.violet h3{color:rgb(176,156,236)}.lc.violet{border-top:2px solid rgba(176,156,236,.55)}.lc.rust{border-top:2px solid rgba(226,134,100,.55)}
+.grp{margin-top:34px}.grp h3{font-family:var(--title);font-weight:500;font-size:26px;margin:0}.grp p.dim{margin:4px 0 0}
+.seven{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}
+.seven div{border:1px solid var(--line);padding:10px 12px;background:var(--panel)}
+.seven b{font-size:30px;font-weight:400;color:var(--gold);display:block}
+.seven span{font-size:15px;color:var(--ink-2)}
+table.dec{width:100%;border-collapse:collapse;margin-top:16px}
+table.dec td,table.dec th{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top;font-size:17px}
+table.dec th{font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+table.dec td:first-child{font-size:22px;color:var(--gold);white-space:nowrap}
+.auditbox summary{cursor:pointer}
+@media(max-width:700px){table.dec td,table.dec th{padding:8px 5px;font-size:15px;word-break:break-word}table.dec td:first-child{white-space:normal;font-size:17px}}
+</style>
+<style>
+.jeqs{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}.jeq{border:1px solid var(--line);background:var(--panel);padding:12px 14px}.jeqh{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}.jeqh .jw{font-size:28px;color:var(--gold)}.jeqh .jm{font-style:italic;color:var(--cyan)}
+.jtls{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px}.jtl{display:inline-flex;flex-direction:column;align-items:center;min-width:34px;padding:4px 6px;border:1px solid var(--line-g);background:rgba(232,195,117,.06)}.jtl i{font-style:normal;font-size:22px;color:var(--gold)}.jtl s{text-decoration:none;font:11px var(--mono);color:var(--cyan)}.jgap{width:14px}.jsm{font:13px var(--mono);color:var(--ink-2)}.jsm b{color:var(--gold);font-size:16px}
+.jbig{font-family:var(--title);font-size:clamp(20px,2.6vw,30px);color:var(--gold);text-align:center;margin:12px 0}
+.jq{max-width:62ch;margin:26px auto 0;font-size:clamp(20px,2.4vw,27px);font-style:italic;color:var(--ink)}.jq cite{display:block;font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:8px;font-style:normal}
+.figgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px}.fcard{border:1px solid var(--line);background:var(--panel);padding:14px 16px}.fcard h3{font-size:20px;color:var(--gold);margin-bottom:8px}.fcard svg{width:100%;height:auto;display:block}.fcard p{font-size:16px;margin-top:8px}
+.scene{border:1px solid var(--line)}.hull{fill:rgba(232,195,117,.10);stroke:#e8c375;stroke-width:2}.keel{stroke:rgba(232,195,117,.5);stroke-width:1.2}.net circle{fill:none;stroke:rgba(70,227,240,.55);stroke-width:1}.lens{fill:rgba(70,227,240,.05);stroke:#46e3f0;stroke-width:2}.beam{stroke:#e8c375;stroke-width:2;stroke-dasharray:6 5;animation:dash 2.2s linear infinite}@keyframes dash{to{stroke-dashoffset:-22}}.lb{font:11px 'JetBrains Mono',monospace;fill:#a9b4b8;letter-spacing:.1em}.lb.gold{fill:#e8c375}
+.nd{fill:rgba(70,227,240,.55);cursor:pointer;transition:fill .2s,r .2s}.nd.on{fill:#e8c375}.nd.cur{fill:#fff}
+.tri-info{font:14px var(--mono);color:var(--ink-2);margin-top:8px;min-height:2.6em}.fcard input[type=range]{width:100%;accent-color:#e8c375;margin-top:6px}
+.ring{fill:rgba(10,24,32,.5);stroke:rgba(70,227,240,.45);stroke-width:1.5}.tk{stroke:rgba(70,227,240,.5)}.wedge{fill:rgba(232,195,117,.3);stroke:#e8c375}.ray{stroke:#e8c375;stroke-width:2.4}
+.c1,.c2{fill:none;stroke:rgba(70,227,240,.55);stroke-width:1.5}.lens2{fill:rgba(232,195,117,.16);stroke:#e8c375;stroke-width:2}.dm{stroke:rgba(255,255,255,.55);stroke-dasharray:4 4}
+.abtn{font:13px var(--mono);letter-spacing:.06em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:10px 16px;cursor:pointer;margin-top:6px}
+table.fam{width:100%;border-collapse:collapse;margin:12px 0}table.fam th{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}table.fam td{padding:8px;border-bottom:1px solid var(--line);font-size:18px;vertical-align:top}table.fam td.fw{font-size:22px;color:var(--gold)}
+@media(max-width:700px){.layers{grid-template-columns:minmax(0,1fr)}section{min-height:0}table.fam td{font-size:15px;padding:6px 4px}table.fam td.fw{font-size:18px}table.fam th{font-size:10px;letter-spacing:.04em;padding:6px 4px}}.codex,.record{min-width:0;overflow-wrap:anywhere}.fam-w{overflow-x:auto}
+</style><style>.codex::before{content:"◆ The Codex · Phonetic Archaeology";}.record::before{content:"◇ The Record · what sources say";}</style>
+<style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
+<style>
+.fam tr.hi td{background:rgba(232,195,117,.12)}
+.fam td{padding:6px 8px;border-bottom:1px solid var(--line);font-size:16px;vertical-align:top}
+.fam-w{overflow-x:auto}
+#numbers .layers,#ladder .layers,#wheel .layers{grid-template-columns:minmax(0,1fr)}
+.fam th{white-space:nowrap;letter-spacing:.06em;font-size:10px}
+.fam td:first-child{white-space:nowrap}
+.fam td:nth-child(n+3){white-space:nowrap}
+.wh{width:100%;max-width:340px;display:block;margin:10px auto}
+.wh .wr{fill:none;stroke:var(--line);stroke-width:1}.wh .dim2{opacity:.5}
+.wh .tk{stroke:var(--ink-3);stroke-width:1}.wh .nl{fill:var(--ink-3);font:9px var(--mono);text-anchor:middle}
+.wh .dec{fill:rgba(232,195,117,.05);stroke:var(--gold);stroke-width:1;opacity:.7}
+.wh .dv{fill:var(--gold)}.wh .ax{stroke:var(--cyan);stroke-width:1.5;stroke-dasharray:6 5}
+.wh .nm{fill:none;stroke:var(--gold);stroke-width:2}
+.wh .fp{fill:none;stroke:var(--cyan);stroke-width:1.2;opacity:.55}
+.wh .wp{cursor:pointer}.wh .wc{fill:#0a1820;stroke:var(--cyan);stroke-width:1.5}.wh .wp.hl .wc{stroke:var(--gold);stroke-width:2.5}
+.wh .wn{fill:var(--ink);font:11px var(--mono);text-anchor:middle;pointer-events:none}
+.wh .wp.on .wc,.wh .wp:focus .wc,.wh .wp:hover .wc{fill:var(--cyan)}.wh .wp.on .wn,.wh .wp:hover .wn{fill:#04141a}
+.wh .key{fill:var(--gold)}.wh .org{fill:var(--cyan)}.wh .lb{fill:var(--ink-2);font:10px var(--mono)}.wh .lb.c{text-anchor:middle}
+#pinfo{font:13px var(--mono);color:var(--cyan);min-height:2.6em;text-align:center;margin:4px 0 0}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.abtn[aria-pressed=true],.abtn.on{background:rgba(232,195,117,.18)}
+.fam tr.lr{cursor:pointer}.fam tr.lr.on td{background:rgba(70,227,240,.14)}.fam tr.lr.pair td{background:rgba(232,195,117,.2)}
+.hintx{font:12px var(--mono);color:var(--ink-3);margin:0 0 6px}
+.wl{margin:10px 0 0 20px;font-size:16px}
+.wl li{margin-bottom:8px}
+.abtn{font:12px var(--mono);letter-spacing:.1em;margin:10px 0;background:none;color:var(--gold);border:1px solid var(--line-g);padding:8px 12px;cursor:pointer}
+@media(max-width:620px){.fam td,.fam th{padding:5px 4px;font-size:14px}}
+</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body>
+<div class="progress" id="prog"></div>
+<header class="bar"><a href="#" id="backGames">&#9666; Games</a><div class="t">Ophanim Codex &middot; <b>The Lord&rsquo;s Prayer</b></div><a href="pater-noster-codex-el.html">Ελληνικά &#9656;</a><a href="library.html">Library &#9656;</a>
+</header>
+<nav class="dots" id="dots"></nav>
+<main>
+<section data-narrate id="hero" data-label="Prologue"><div class="wrap" style="text-align:center"><div class="kicker" style="justify-content:center">Ophanim Codex · Phonetic Archaeology · Matthew 6:9–13</div><h1>Matthew 6:9&ndash;13<br><em>The Lord&rsquo;s Prayer as a Ladder</em></h1><p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 8px;max-width:56ch">Nine lines of the prayer, each added up in Greek letter-values, each given a bearing on the 36-node wheel. Two lines land on the node of the Law, and a closing key is 135 and 99. The octave on this page is our own modern mapping. This page sets the reading beside what the sources say.</p><blockquote class="jq" lang="el">Οὕτως οὖν προσεύχεσθε ὑμεῖς· Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς, ἁγιασθήτω τὸ ὄνομά σου. Ἐλθέτω ἡ βασιλεία σου. Γενηθήτω τὸ θέλημά σου, ὡς ἐν οὐρανῷ, καὶ ἐπὶ τῆς γῆς. Τὸν ἄρτον ἡμῶν τὸν ἐπιούσιον δὸς ἡμῖν σήμερον. Καὶ ἄφες ἡμῖν τὰ ὀφειλήματα ἡμῶν, ὡς καὶ ἡμεῖς ἀφίεμεν τοῖς ὀφειλέταις ἡμῶν. Καὶ μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν, ἀλλὰ ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ. Ὅτι σοῦ ἐστιν ἡ βασιλεία καὶ ἡ δύναμις καὶ ἡ δόξα εἰς τοὺς αἰῶνας. Ἀμήν.<cite>Matthew 6:9–13 (Byzantine text, Robinson–Pierpont 2018, public domain; verse 13 includes the doxology)</cite></blockquote><p style="margin-top:22px;font-size:17px"><a href="pater-noster-codex-el.html">Ελληνικά &#9656;</a></p><div class="scrollcue" style="margin-top:30px">SCROLL &#9662;</div></div></section>
+<section data-narrate id="shape" data-label="I"><div class="wrap"><div class="reveal"><div class="kicker">I · The Shape of the Text</div><h2>Three, then four, <em>then the doxology</em></h2></div><div class="layers reveal"><div class="codex"><p>Read the Greek and the prayer has three parts. After the invocation, petitions 1 to 3 each end in &ldquo;your&rdquo; (<i lang="el">σου</i>): your name, your kingdom, your will. Petitions 4 to 7 turn to &ldquo;us&rdquo; (<i lang="el">ἡμῶν, ἡμῖν, ἡμᾶς</i>): our bread, our debts, our testing, our rescue. The doxology then stands apart as the eighth step, the one that closes the circle of seven.</p></div><div class="record"><p><b>Check.</b> The split into 3 and 4 is in the text. Augustine already described it (<i>On the Sermon on the Mount</i> 2): seven petitions, the first three for what lasts, the last four for this life. Counting seven is a tradition; some count six and join the last two.</p><p>The doxology is in the Byzantine and Textus Receptus texts. It is not in the earliest manuscripts, and modern critical editions such as the SBLGNT leave it out. The wording also differs by edition: the Byzantine text reads <i lang="el">ἐπὶ τῆς γῆς</i> and <i lang="el">ἀφίεμεν</i>, the SBLGNT reads <i lang="el">ἐπὶ γῆς</i> and <i lang="el">ἀφήκαμεν</i>. Every total on this page follows the Byzantine text. Another edition gives other numbers.</p></div></div></div></section>
+<section data-narrate id="numbers" data-label="II"><div class="wrap"><div class="reveal"><div class="kicker">II · The Numbers</div><h2>Nine lines, <em>nine totals</em></h2></div><div class="layers reveal"><div class="codex"><p>Each line is added letter by letter in the house system (27 letters, alpha 1 to sampi 900; accents and breathings ignored; final sigma 200). The total gives a bearing (total mod 360) and a node (total mod 36, times 10&deg;). The sector is the bearing on a wheel of 27.</p><div class="fam-w"><table class="fam"><tr><th>Line</th><th>Greek</th><th>Sum</th><th>Bearing</th><th>Node</th><th>Sector /27</th></tr><tr><td>Invocation</td><td class="fw" lang="el" dir="ltr">Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς</td><td>2990</td><td>110&deg;</td><td>2</td><td>9</td></tr><tr><td>Petition 1</td><td class="fw" lang="el" dir="ltr">ἁγιασθήτω τὸ ὄνομά σου</td><td>2603</td><td>83&deg;</td><td>11</td><td>7</td></tr><tr class="hi"><td>Petition 2</td><td class="fw" lang="el" dir="ltr">Ἐλθέτω ἡ βασιλεία σου</td><td>2086</td><td>286&deg;</td><td>34</td><td>22</td></tr><tr><td>Petition 3</td><td class="fw" lang="el" dir="ltr">Γενηθήτω τὸ θέλημά σου ὡς ἐν οὐρανῷ καὶ ἐπὶ τῆς γῆς</td><td>5637</td><td>237&deg;</td><td>21</td><td>18</td></tr><tr><td>Petition 4</td><td class="fw" lang="el" dir="ltr">Τὸν ἄρτον ἡμῶν τὸν ἐπιούσιον δὸς ἡμῖν σήμερον</td><td>4009</td><td>49&deg;</td><td>13</td><td>4</td></tr><tr><td>Petition 5</td><td class="fw" lang="el" dir="ltr">Καὶ ἄφες ἡμῖν τὰ ὀφειλήματα ἡμῶν ὡς καὶ ἡμεῖς ἀφίεμεν τοῖς ὀφειλέταις ἡμῶν</td><td>7523</td><td>323&deg;</td><td>35</td><td>25</td></tr><tr><td>Petition 6</td><td class="fw" lang="el" dir="ltr">Καὶ μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν</td><td>1605</td><td>165&deg;</td><td>21</td><td>13</td></tr><tr><td>Petition 7</td><td class="fw" lang="el" dir="ltr">ἀλλὰ ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ</td><td>2721</td><td>201&deg;</td><td>21</td><td>16</td></tr><tr class="hi"><td>Doxology</td><td class="fw" lang="el" dir="ltr">Ὅτι σοῦ ἐστιν ἡ βασιλεία καὶ ἡ δύναμις καὶ ἡ δόξα εἰς τοὺς αἰῶνας Ἀμήν</td><td>5146</td><td>106&deg;</td><td>34</td><td>8</td></tr></table></div><details style="margin-top:10px"><summary>Word-by-word values</summary><ul class="wl"><li><b>Invocation</b> = 2990<br><span lang="el">Πάτερ</span> 486 &nbsp; <span lang="el">ἡμῶν</span> 898 &nbsp; <span lang="el">ὁ</span> 70 &nbsp; <span lang="el">ἐν</span> 55 &nbsp; <span lang="el">τοῖς</span> 580 &nbsp; <span lang="el">οὐρανοῖς</span> 901</li><li><b>Petition 1</b> = 2603<br><span lang="el">ἁγιασθήτω</span> 1332 &nbsp; <span lang="el">τὸ</span> 370 &nbsp; <span lang="el">ὄνομά</span> 231 &nbsp; <span lang="el">σου</span> 670</li><li><b>Petition 2</b> = 2086<br><span lang="el">Ἐλθέτω</span> 1149 &nbsp; <span lang="el">ἡ</span> 8 &nbsp; <span lang="el">βασιλεία</span> 259 &nbsp; <span lang="el">σου</span> 670</li><li><b>Petition 3</b> = 5637<br><span lang="el">Γενηθήτω</span> 1183 &nbsp; <span lang="el">τὸ</span> 370 &nbsp; <span lang="el">θέλημά</span> 93 &nbsp; <span lang="el">σου</span> 670 &nbsp; <span lang="el">ὡς</span> 1000 &nbsp; <span lang="el">ἐν</span> 55 &nbsp; <span lang="el">οὐρανῷ</span> 1421 &nbsp; <span lang="el">καὶ</span> 31 &nbsp; <span lang="el">ἐπὶ</span> 95 &nbsp; <span lang="el">τῆς</span> 508 &nbsp; <span lang="el">γῆς</span> 211</li><li><b>Petition 4</b> = 4009<br><span lang="el">Τὸν</span> 420 &nbsp; <span lang="el">ἄρτον</span> 521 &nbsp; <span lang="el">ἡμῶν</span> 898 &nbsp; <span lang="el">τὸν</span> 420 &nbsp; <span lang="el">ἐπιούσιον</span> 895 &nbsp; <span lang="el">δὸς</span> 274 &nbsp; <span lang="el">ἡμῖν</span> 108 &nbsp; <span lang="el">σήμερον</span> 473</li><li><b>Petition 5</b> = 7523<br><span lang="el">Καὶ</span> 31 &nbsp; <span lang="el">ἄφες</span> 706 &nbsp; <span lang="el">ἡμῖν</span> 108 &nbsp; <span lang="el">τὰ</span> 301 &nbsp; <span lang="el">ὀφειλήματα</span> 965 &nbsp; <span lang="el">ἡμῶν</span> 898 &nbsp; <span lang="el">ὡς</span> 1000 &nbsp; <span lang="el">καὶ</span> 31 &nbsp; <span lang="el">ἡμεῖς</span> 263 &nbsp; <span lang="el">ἀφίεμεν</span> 611 &nbsp; <span lang="el">τοῖς</span> 580 &nbsp; <span lang="el">ὀφειλέταις</span> 1131 &nbsp; <span lang="el">ἡμῶν</span> 898</li><li><b>Petition 6</b> = 1605<br><span lang="el">Καὶ</span> 31 &nbsp; <span lang="el">μὴ</span> 48 &nbsp; <span lang="el">εἰσενέγκῃς</span> 506 &nbsp; <span lang="el">ἡμᾶς</span> 249 &nbsp; <span lang="el">εἰς</span> 215 &nbsp; <span lang="el">πειρασμόν</span> 556</li><li><b>Petition 7</b> = 2721<br><span lang="el">ἀλλὰ</span> 62 &nbsp; <span lang="el">ῥῦσαι</span> 711 &nbsp; <span lang="el">ἡμᾶς</span> 249 &nbsp; <span lang="el">ἀπὸ</span> 151 &nbsp; <span lang="el">τοῦ</span> 770 &nbsp; <span lang="el">πονηροῦ</span> 778</li><li><b>Doxology</b> = 5146<br><span lang="el">Ὅτι</span> 380 &nbsp; <span lang="el">σοῦ</span> 670 &nbsp; <span lang="el">ἐστιν</span> 565 &nbsp; <span lang="el">ἡ</span> 8 &nbsp; <span lang="el">βασιλεία</span> 259 &nbsp; <span lang="el">καὶ</span> 31 &nbsp; <span lang="el">ἡ</span> 8 &nbsp; <span lang="el">δύναμις</span> 705 &nbsp; <span lang="el">καὶ</span> 31 &nbsp; <span lang="el">ἡ</span> 8 &nbsp; <span lang="el">δόξα</span> 135 &nbsp; <span lang="el">εἰς</span> 215 &nbsp; <span lang="el">τοὺς</span> 970 &nbsp; <span lang="el">αἰῶνας</span> 1062 &nbsp; <span lang="el">Ἀμήν</span> 99</li></ul></details></div><div class="record"><p><b>Check.</b> Every word was added by program and the totals re-added by hand for four lines. For example <i lang="el">βασιλεία</i> = 2+1+200+10+30+5+10+1 = 259. The word-by-word values are in the list below the table.</p><p>The totals are only as good as the text. See Section I: a different edition changes petitions 3 and 5, and the doxology is missing from some.</p></div></div></div></section>
+<section data-narrate id="node34" data-label="III"><div class="wrap"><div class="reveal"><div class="kicker">III · The Node of the Law</div><h2>Node 34 <em>twice</em></h2></div><div class="layers reveal"><div class="codex"><p>ΝΟΜΟΣ (law) adds to 430, and 430 mod 36 = 34: node 34, at 340&deg;. In the prayer, Petition 2 (<i lang="el">ἐλθέτω ἡ βασιλεία σου</i>, your kingdom come) = 2086 and the doxology = 5146 both fall on node 34. The Law-word is met where the kingdom is first named, and again where the prayer closes.</p></div><div class="record"><p><b>Check.</b> 430 = 36&times;11 + 34. 2086 = 36&times;57 + 34. 5146 = 36&times;142 + 34. All true. The two lines are 3060 apart, which is 8&frac12; turns, so their bearings (286&deg; and 106&deg;) are exactly opposite.</p><p>How surprising is it? With 36 nodes and 9 lines, the chance that two lines land on one named node is about 2.4%. But the node was picked after the totals were known, and the chance that <i>some</i> pair of the nine lines shares a node is about 66%. Treat this as an observation worth stating, not as proof.</p></div></div></div></section>
+<section data-narrate id="keys" data-label="IV"><div class="wrap"><div class="reveal"><div class="kicker">IV · The Two Keys</div><h2>135 <em>and 99</em></h2></div><div class="layers reveal"><div class="codex"><p>The word <i lang="el">δόξα</i> (glory) = 4+70+60+1 = 135, and it sits inside the doxology. The sum of all 27 letters is 4995 = 135 &times; 37. The prayer ends on <i lang="el">Ἀμήν</i> = 1+40+8+50 = 99, the same as <i lang="el">μάθημα</i> (teaching) = 99. In the Codex&rsquo;s terms, the prayer closes on a teaching and on stillness.</p></div><div class="record"><p><b>Check.</b> All the sums are right. The limits: 4995 = 3&sup3; &times; 5 &times; 37, so dividing by 135 gives 37 by construction, because 135 = 27 &times; 5 and 5 was chosen as the divisor. And 259 = 7 &times; 37 is no rarer than any other multiple of 37, which is about 1 Greek word in 37.</p><p><i lang="el">Ἀμήν</i> is a Hebrew word written in Greek letters. The letter-values apply to that Greek spelling.</p></div></div></div></section>
+<section data-narrate id="wheel" data-label="V"><div class="wrap"><div class="reveal"><div class="kicker">V · The Wheel</div><h2>The flight path <em>on 36 nodes</em></h2></div><div class="layers reveal"><div class="codex"><p>Each line is a point at its bearing, measured clockwise from north, joined in prayer order. The dashed line is the axis from Petition 2 (286&deg;) to the doxology (106&deg;). The ten gold ticks are every bearing with remainder 34 mod 36. The diamonds mark 135 and 99, and the centre is the origin. Tap a point to hear its tone.</p><svg class="wh" viewBox="0 0 420 420" role="img" aria-label="36-node wheel with the nine lines of the prayer"><circle cx="210" cy="210" r="170" class="wr"/><circle cx="210" cy="210" r="125" class="wr dim2"/><line x1="210.0" y1="46.0" x2="210.0" y2="34.0" class="tk"/><text x="210.0" y="24.0" class="nl">0</text><line x1="238.5" y1="48.5" x2="240.6" y2="36.7" class="tk"/><line x1="266.1" y1="55.9" x2="270.2" y2="44.6" class="tk"/><line x1="292.0" y1="68.0" x2="298.0" y2="57.6" class="tk"/><text x="304.5" y="49.3" class="nl">3</text><line x1="315.4" y1="84.4" x2="323.1" y2="75.2" class="tk"/><line x1="335.6" y1="104.6" x2="344.8" y2="96.9" class="tk"/><line x1="352.0" y1="128.0" x2="362.4" y2="122.0" class="tk"/><text x="373.7" y="118.5" class="nl">6</text><line x1="364.1" y1="153.9" x2="375.4" y2="149.8" class="tk"/><line x1="371.5" y1="181.5" x2="383.3" y2="179.4" class="tk"/><line x1="374.0" y1="210.0" x2="386.0" y2="210.0" class="tk"/><text x="399.0" y="213.0" class="nl">9</text><line x1="371.5" y1="238.5" x2="383.3" y2="240.6" class="tk"/><line x1="364.1" y1="266.1" x2="375.4" y2="270.2" class="tk"/><line x1="352.0" y1="292.0" x2="362.4" y2="298.0" class="tk"/><text x="373.7" y="307.5" class="nl">12</text><line x1="335.6" y1="315.4" x2="344.8" y2="323.1" class="tk"/><line x1="315.4" y1="335.6" x2="323.1" y2="344.8" class="tk"/><line x1="292.0" y1="352.0" x2="298.0" y2="362.4" class="tk"/><text x="304.5" y="376.7" class="nl">15</text><line x1="266.1" y1="364.1" x2="270.2" y2="375.4" class="tk"/><line x1="238.5" y1="371.5" x2="240.6" y2="383.3" class="tk"/><line x1="210.0" y1="374.0" x2="210.0" y2="386.0" class="tk"/><text x="210.0" y="402.0" class="nl">18</text><line x1="181.5" y1="371.5" x2="179.4" y2="383.3" class="tk"/><line x1="153.9" y1="364.1" x2="149.8" y2="375.4" class="tk"/><line x1="128.0" y1="352.0" x2="122.0" y2="362.4" class="tk"/><text x="115.5" y="376.7" class="nl">21</text><line x1="104.6" y1="335.6" x2="96.9" y2="344.8" class="tk"/><line x1="84.4" y1="315.4" x2="75.2" y2="323.1" class="tk"/><line x1="68.0" y1="292.0" x2="57.6" y2="298.0" class="tk"/><text x="46.3" y="307.5" class="nl">24</text><line x1="55.9" y1="266.1" x2="44.6" y2="270.2" class="tk"/><line x1="48.5" y1="238.5" x2="36.7" y2="240.6" class="tk"/><line x1="46.0" y1="210.0" x2="34.0" y2="210.0" class="tk"/><text x="21.0" y="213.0" class="nl">27</text><line x1="48.5" y1="181.5" x2="36.7" y2="179.4" class="tk"/><line x1="55.9" y1="153.9" x2="44.6" y2="149.8" class="tk"/><line x1="68.0" y1="128.0" x2="57.6" y2="122.0" class="tk"/><text x="46.3" y="118.5" class="nl">30</text><line x1="84.4" y1="104.6" x2="75.2" y2="96.9" class="tk"/><line x1="104.6" y1="84.4" x2="96.9" y2="75.2" class="tk"/><line x1="128.0" y1="68.0" x2="122.0" y2="57.6" class="tk"/><text x="115.5" y="49.3" class="nl">33</text><line x1="153.9" y1="55.9" x2="149.8" y2="44.6" class="tk"/><line x1="181.5" y1="48.5" x2="179.4" y2="36.7" class="tk"/><polygon points="305.1,69.1 369.7,151.9 373.4,256.9 314.7,344.0 215.9,379.9 114.9,350.9 50.3,268.1 46.6,163.1 105.3,76.0 204.1,40.1" class="dec"/><circle cx="305.1" cy="69.1" r="4" class="dv"/><circle cx="369.7" cy="151.9" r="4" class="dv"/><circle cx="373.4" cy="256.9" r="4" class="dv"/><circle cx="314.7" cy="344.0" r="4" class="dv"/><circle cx="215.9" cy="379.9" r="4" class="dv"/><circle cx="114.9" cy="350.9" r="4" class="dv"/><circle cx="50.3" cy="268.1" r="4" class="dv"/><circle cx="46.6" cy="163.1" r="4" class="dv"/><circle cx="105.3" cy="76.0" r="4" class="dv"/><circle cx="204.1" cy="40.1" r="4" class="dv"/><line x1="42.7" y1="162.0" x2="377.3" y2="258.0" class="ax"/><circle cx="369.7" cy="151.9" r="7" class="nm"/><text x="379.7" y="143.9" class="lb">ΝΟΜΟΣ 430</text><polyline points="349.1,260.6 356.9,192.0 67.7,169.2 85.9,290.6 321.7,112.9 120.9,91.8 248.3,353.0 157.0,348.2 352.3,250.8" class="fp"/><g class="wp" data-i="0" tabindex="0" role="button" aria-label="Invocation 2990"><circle cx="349.1" cy="260.6" r="13" class="wc"/><text x="349.1" y="264.6" class="wn">0</text></g><g class="wp" data-i="1" tabindex="0" role="button" aria-label="Petition 1 2603"><circle cx="356.9" cy="192.0" r="13" class="wc"/><text x="356.9" y="196.0" class="wn">1</text></g><g class="wp hl" data-i="2" tabindex="0" role="button" aria-label="Petition 2 2086"><circle cx="67.7" cy="169.2" r="13" class="wc"/><text x="67.7" y="173.2" class="wn">2</text></g><g class="wp" data-i="3" tabindex="0" role="button" aria-label="Petition 3 5637"><circle cx="85.9" cy="290.6" r="13" class="wc"/><text x="85.9" y="294.6" class="wn">3</text></g><g class="wp" data-i="4" tabindex="0" role="button" aria-label="Petition 4 4009"><circle cx="321.7" cy="112.9" r="13" class="wc"/><text x="321.7" y="116.9" class="wn">4</text></g><g class="wp" data-i="5" tabindex="0" role="button" aria-label="Petition 5 7523"><circle cx="120.9" cy="91.8" r="13" class="wc"/><text x="120.9" y="95.8" class="wn">5</text></g><g class="wp" data-i="6" tabindex="0" role="button" aria-label="Petition 6 1605"><circle cx="248.3" cy="353.0" r="13" class="wc"/><text x="248.3" y="357.0" class="wn">6</text></g><g class="wp" data-i="7" tabindex="0" role="button" aria-label="Petition 7 2721"><circle cx="157.0" cy="348.2" r="13" class="wc"/><text x="157.0" y="352.2" class="wn">7</text></g><g class="wp hl" data-i="8" tabindex="0" role="button" aria-label="Doxology 5146"><circle cx="352.3" cy="250.8" r="13" class="wc"/><text x="352.3" y="254.8" class="wn">8</text></g><rect x="274.7" y="274.7" width="12" height="12" transform="rotate(45 280.7 280.7)" class="key"/><text x="291.7" y="284.7" class="lb">135 δόξα</text><rect x="302.8" y="219.6" width="12" height="12" transform="rotate(45 308.8 225.6)" class="key"/><text x="319.8" y="229.6" class="lb">99 ἀμήν</text><circle cx="210" cy="210" r="5" class="org"/><text x="210" y="229" class="lb c">ϡ 900 · 0</text></svg><p id="pinfo" aria-live="polite">Tap a point on the wheel.</p></div><div class="record"><p><b>Check.</b> Bearings are the totals mod 360 from the table. Every bearing with remainder 34 mod 36 (34, 70, 106, 142 &hellip; 358) is spaced 36&deg; from the next, so the ten of them form a regular decagon. Three numbers sit on it: the Nomos 430 (70&deg;), Petition 2 (286&deg;) and the doxology (106&deg;). The two prayer lines are opposite vertices, so the axis between them is a true diameter.</p><p>One correction to a common picture. That axis does <i>not</i> run through the 340&deg; tick (node 34 &times; 10&deg;). What the three points share is the remainder 34, not one spot on the wheel. The decagon is the honest way to draw it.</p><p>The markers: 135 sits at 135&deg; and 99 at 99&deg;. They differ by 36, so both belong to node 27 (270&deg;). The centre is sampi (900 mod 36 = 0). These are positions of the numbers. The words <i lang="el">δόξα</i> and <i lang="el">ἀμήν</i> are inside the doxology, whose own bearing is 106&deg;.</p></div></div></div></section>
+<section data-narrate id="ladder" data-label="VI"><div class="wrap"><div class="reveal"><div class="kicker">VI · The Ladder</div><h2>Nine steps <em>from 432 Hz</em></h2></div><div class="layers reveal"><div class="codex"><p>Our mapping: the invocation is the fundamental, each petition takes the next step of a just-intonation ladder, and the doxology closes the octave at 2 : 1. Play the whole sequence, loop it with soft cross-fades, step line by line, or tap any row to sound that one tone.</p><div class="ctl"><button type="button" class="abtn" id="seq" data-play="Play sequence" data-stop="Stop">Play sequence</button><button type="button" class="abtn" id="loopb" aria-pressed="false">Loop</button><button type="button" class="abtn" id="prevb">&#9666; Prev</button><button type="button" class="abtn" id="nextb">Next &#9656;</button><button type="button" class="abtn" id="dyadb" data-on="Node 34 pair" data-off="Stop pair">Node 34 pair</button></div><p class="hintx">Tap a row to sound it.</p><div class="fam-w"><table class="fam" id="ladtab"><tr><th>Line</th><th>Ratio</th><th>From 432 Hz</th></tr><tr class="lr" data-i="0" tabindex="0"><td>Invocation</td><td>1 : 1</td><td>432 Hz</td></tr><tr class="lr" data-i="1" tabindex="0"><td>Petition 1</td><td>9 : 8</td><td>486 Hz</td></tr><tr class="lr" data-i="2" tabindex="0"><td>Petition 2</td><td>6 : 5</td><td>518.4 Hz</td></tr><tr class="lr" data-i="3" tabindex="0"><td>Petition 3</td><td>4 : 3</td><td>576 Hz</td></tr><tr class="lr" data-i="4" tabindex="0"><td>Petition 4</td><td>3 : 2</td><td>648 Hz</td></tr><tr class="lr" data-i="5" tabindex="0"><td>Petition 5</td><td>8 : 5</td><td>691.2 Hz</td></tr><tr class="lr" data-i="6" tabindex="0"><td>Petition 6</td><td>5 : 3</td><td>720 Hz</td></tr><tr class="lr" data-i="7" tabindex="0"><td>Petition 7</td><td>15 : 8</td><td>810 Hz</td></tr><tr class="lr" data-i="8" tabindex="0"><td>Doxology</td><td>2 : 1</td><td>864 Hz</td></tr></table></div></div><div class="record"><p><b>Check.</b> This is a modern acoustic mapping, made by us. It is not an ancient claim. The ratios are assigned in order and are not derived from the totals. They mix intervals from different scales: a minor third beside a major second, a minor sixth beside a major sixth. A different order would be as easy to defend.</p><p>432 Hz is a modern tuning choice. Ancient Greek music had no fixed absolute pitch. What <i>is</i> ancient is the idea behind the shape: Augustine pairs the seven petitions with the seven gifts of the Spirit, and the Epistle of Barnabas (15) and later writers call the eighth day the day of resurrection.</p><p>The Node 34 pair: Petition 2 is 6 : 5, which is 518.4 Hz, and the doxology is 2 : 1, which is 864 Hz. Together they make 864 / 518.4 = 5 : 3, a major sixth. It is a pleasant, consonant dyad, but it is not an octave. It is consonant because small-number ratios are, so the sound shows the mapping, not the node.</p></div></div></div></section>
+<section id="notice" data-label="Sources"><div class="wrap"><div class="reveal"><div class="kicker">Notice and Sources</div><p class="dim" style="max-width:70ch;font-size:17px">The left panels are the Codex reading, as supplied. The right panels are the checks made when the page was built: every number was recomputed by program, and every historical claim was compared with what could be found. Greek letter-values follow the house system (27 letters, alpha 1 to sampi 900). The harmonic ladder is our own modern mapping. Where the left and right panels differ, both stay on the page. The citations below are given from the standard references and were not opened while building; check them before relying on them.</p><details style="margin-top:14px"><summary>Sources</summary><ul style="margin:10px 0 0 22px;font-size:17px"><li>Matthew 6:9&ndash;13, Byzantine text, Robinson&ndash;Pierpont 2018 (public domain, ByzTxt)</li><li>SBLGNT, Matthew 6:9&ndash;13 (variant wording; text CC BY 4.0)</li><li>Augustine, <i>On the Sermon on the Mount</i>, book 2 (seven petitions; three and four)</li><li>Epistle of Barnabas 15 (the eighth day)</li></ul></details></div></div></section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="codexlib"><a href="sacred-geometry-codex.html">Τόμος I &middot; Η Ιερή Γεωμετρία του Σκακιού</a><a href="royal-game-of-ur-codex.html">Τόμος II &middot; Το Βασιλικό Παιχνίδι της Ουρ</a><a href="cadmeian-code.html">Τόμος III &middot; Ο Κάδμειος Κώδικας</a><a href="senet-codex.html">Τόμος IV &middot; Σενέτ</a><a href="reed-codex-el.html">Τόμος V &middot; Ο Κάλαμος και ο Κώδικας</a><a href="carl-tate-codex.html">Τόμος VI &middot; Ο Κώδικας της Μητέρας</a><a href="ellin-logos-codex-el.html" >Τόμος VII &middot; Έλλην Λόγος</a><a href="john-21-11-codex.html">John 21:11 &middot; 153</a><a href="pater-noster-codex.html" class="cur">Matthew 6:9&ndash;13 &middot; Πάτερ Ἡμῶν</a><a href="arabic-codex.html">Arabic &middot; ʿIlm al-Ḥurūf</a></div>
+    <div class="kicker" style="justify-content:center">Μοιραστείτε τη σελίδα</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="kicker" style="justify-content:center;margin-top:26px">Ακολουθήστε</div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">Δωρεά &middot; Bitcoin</a></div>
+    <div class="shbtns big"><a href="library.html">Βιβλιοθήκη</a><a href="games.html">Όλα τα παιχνίδια</a></div>
+    <p class="dim noref" style="font-size:13px;margin-top:26px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)">&Phi;&Upsilon; &Psi;&Eta; &middot; Φωνητική Αρχαιολογία<br>Listen For The Shape In A Word &mdash; Responsible Manifestation</p>
+    <p class="dim" style="font-size:15px;margin-top:14px"><a href="ellin-logos-codex.html">English</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Απόρρητο και cookies</a></p>
+  </div>
+</footer>
+<script>
+document.getElementById('backGames').href="games.html";
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+const sections=[...document.querySelectorAll('main section')],dots=document.getElementById('dots');
+sections.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;a.innerHTML=`<span>${s.dataset.label}</span>`;dots.appendChild(a);});
+const dotEls=[...dots.children],prog=document.getElementById('prog');
+function onScroll(){const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';let k=0;sections.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)k=i;});dotEls.forEach((d,i)=>d.classList.toggle('on',i===k));}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+/* ladder + wheel player */
+(function(){const F=[432.0, 486.0, 518.4, 576.0, 648.0, 691.2, 720.0, 810.0, 864.0],INFO=["Invocation · 2990 · 110° · node 2 · 1 : 1 · 432 Hz", "Petition 1 · 2603 · 83° · node 11 · 9 : 8 · 486 Hz", "Petition 2 · 2086 · 286° · node 34 · 6 : 5 · 518.4 Hz", "Petition 3 · 5637 · 237° · node 21 · 4 : 3 · 576 Hz", "Petition 4 · 4009 · 49° · node 13 · 3 : 2 · 648 Hz", "Petition 5 · 7523 · 323° · node 35 · 8 : 5 · 691.2 Hz", "Petition 6 · 1605 · 165° · node 21 · 5 : 3 · 720 Hz", "Petition 7 · 2721 · 201° · node 21 · 15 : 8 · 810 Hz", "Doxology · 5146 · 106° · node 34 · 2 : 1 · 864 Hz"];let ctx=null,live=[],tms=[],loop=false,idx=-1,seqOn=false,dyOn=false;
+const $=id=>document.getElementById(id),seq=$('seq'),loopb=$('loopb'),dy=$('dyadb'),info=$('pinfo');
+const marks=()=>[...document.querySelectorAll('.wp,.lr')];
+function C(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;ctx=ctx||new AC();if(ctx.resume)ctx.resume();return ctx;}
+function tone(fr,t,dur,g,fade){const o=ctx.createOscillator(),gn=ctx.createGain();o.type='sine';o.frequency.value=fr;gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+fade);gn.gain.setValueAtTime(g,t+Math.max(fade,dur-fade));gn.gain.linearRampToValueAtTime(0,t+dur);o.connect(gn);gn.connect(ctx.destination);o.start(t);o.stop(t+dur+.05);live.push({o:o,g:gn});}
+function hush(){tms.forEach(clearTimeout);tms=[];const n=ctx?ctx.currentTime:0;live.forEach(x=>{try{x.g.gain.cancelScheduledValues(n);x.g.gain.setValueAtTime(x.g.gain.value,n);x.g.gain.linearRampToValueAtTime(0,n+.2);x.o.stop(n+.25)}catch(e){}});live=[];}
+function show(list){marks().forEach(e=>{const i=+e.dataset.i;e.classList.toggle('on',list.indexOf(i)>-1&&!dyOn);e.classList.toggle('pair',dyOn&&list.indexOf(i)>-1);});if(info)info.textContent=list.map(i=>INFO[i]).join('  +  ');idx=list.length==1?list[0]:idx;}
+function stopSeq(){seqOn=false;seq.textContent=seq.dataset.play;seq.classList.remove('on');}
+function stopDy(){dyOn=false;dy.textContent=dy.dataset.on;dy.classList.remove('on');}
+function stopAll(){hush();stopSeq();stopDy();}
+function one(i){if(!C())return;stopAll();idx=i;tone(F[i],ctx.currentTime+.02,2.4,.22,.4);show([i]);}
+function run(){const S=2.0,t0=ctx.currentTime+.05;F.forEach((fr,i)=>{tone(fr,t0+i*S,S+.6,.2,.5);tms.push(setTimeout(()=>{if(seqOn)show([i]);},i*S*1000));});
+tms.push(setTimeout(()=>{if(!seqOn)return;if(loop){run();}else{stopSeq();}},F.length*S*1000));}
+seq.addEventListener('click',()=>{if(seqOn){stopAll();return;}if(!C())return;stopAll();seqOn=true;seq.textContent=seq.dataset.stop;seq.classList.add('on');run();});
+loopb.addEventListener('click',()=>{loop=!loop;loopb.setAttribute('aria-pressed',loop);loopb.classList.toggle('on',loop);});
+$('prevb').addEventListener('click',()=>one(idx<=0?F.length-1:idx-1));
+$('nextb').addEventListener('click',()=>one(idx>=F.length-1?0:idx+1));
+dy.addEventListener('click',()=>{if(dyOn){stopAll();return;}if(!C())return;stopAll();dyOn=true;dy.textContent=dy.dataset.off;dy.classList.add('on');const t=ctx.currentTime+.02;tone(F[2],t,9,.14,.8);tone(F[8],t,9,.14,.8);show([2,8]);tms.push(setTimeout(()=>{if(dyOn)stopDy();},9000));});
+document.querySelectorAll('.wp,.lr').forEach(e=>{const go=()=>one(+e.dataset.i);e.addEventListener('click',go);e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go();}});});
+})();
+/* ===== share buttons ===== */
+(function(){const box=document.getElementById('shbtns');if(!box)return;const u=()=>location.href.split('#')[0],t=document.title;
+const L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)],['Facebook',()=>'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())],['WhatsApp',()=>'https://wa.me/?text='+encodeURIComponent(t+' '+u())],[L.mail,()=>'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())]];
+items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
+const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+</script>
+<script src="refs.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script>window.GEO_SHAPES=[["circle"],["star",7,3],["star",9,2],["star",10,3],["star",27,5],["star",36,11],["liss",3,2],["circle"]];</script>
+<script src="geo-bg.js"></script>
+<script src="account.js"></script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en"><head>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script>
+<style>
+.embed .mstrip,.embed .fticker,.embed nav.nav,.embed header.top,.embed .sec2,.embed footer.sw-foot,.embed .viewrow a{display:none!important}
+.embed body{background:transparent}
+.embed .wrap{padding-top:6px}
+</style>
+<script src="solids.js"></script>
+<script src="audio.js"></script>
+<script src="miniplayer.js"></script>
+<script src="refs.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Ophanim Lithic Tafl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Runic&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: same forensic obsidian stage as Ophanim Lithic Chess. Board left, instruments right,
+   Cube Lab and history below. One committed dark look: cyan stones vs amber stones, emerald = legal. */
+:root{
+  --bg:#06080d; --panel:#0a0f17; --panel2:#0e1521; --line:#1a2638; --fg:#d6e4ec; --muted:#7f95a6;
+  --cyan:#00f0ff; --amber:#ffb700; --emerald:#18e39c; --danger:#ff4d6a; --hint:#b388ff; --yellow:#ffd400;
+  --pt-a:#1c3b52; --pt-b:#0e2231;
+  --f-display:'Syne','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 36px}
+*{box-sizing:border-box}
+button,select,input{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1200px;margin-inline:auto}
+
+.nav{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.navtab{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:var(--panel);display:inline-block;cursor:pointer}
+.navtab.on{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+a.navtab:hover,button.navtab:hover{border-color:var(--cyan);color:var(--fg)}
+.navtab.on:hover{color:#021014}
+
+.top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.titlerow{display:flex;align-items:center;gap:12px}
+.emblem{flex:none}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.7rem);line-height:1.05;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font:400 12px var(--f-mono);letter-spacing:.04em}
+.sub b{color:var(--cyan);font-weight:500}
+.sub a{color:var(--fg);text-decoration:underline dotted;text-underline-offset:3px}
+.sub a:hover{color:var(--cyan);text-decoration-style:solid}
+.tagline{margin:10px 0 0;font-size:15px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+.boardcol,.side{min-width:0;display:flex;flex-direction:column;gap:12px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:7px 14px;font:500 12px var(--f-mono);letter-spacing:.06em;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--cyan);color:#021014}
+.seg button[disabled]{opacity:.35;cursor:not-allowed}
+
+.btn{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:8px 12px;border-radius:3px;cursor:pointer;display:inline-block;line-height:1.3}
+.btn:hover{border-color:var(--cyan)}
+.btn.accent{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+.btn.accent:hover{background:#6ff6ff}
+.btn.warn{color:#1a1000;background:var(--amber);border-color:var(--amber)}
+.btn.warn:hover{background:#ffd266}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.stage{position:relative;width:100%;aspect-ratio:7/5;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#0d1622 0%,#06080d 72%)}
+#gl,#flat{position:absolute;inset:0}
+#gl canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#gl canvas:active{cursor:grabbing}
+#flat svg{width:100%;height:100%;display:block}
+#flat [data-k]{cursor:pointer}
+.banner{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(94%,460px);background:var(--panel);border:1px solid var(--amber);padding:12px 14px;border-radius:4px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;z-index:3}
+.banner strong{font-family:var(--f-display);font-size:1.05rem}
+.banner .bt{min-width:0;flex:1 1 200px}
+.banner .bt small{display:block;color:var(--muted);font:400 11px/1.4 var(--f-mono);margin-top:2px}
+.banner .bb{display:flex;gap:8px}
+.think{position:absolute;left:12px;top:12px;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);background:rgba(6,8,13,.8);border:1px solid var(--line);padding:4px 8px;border-radius:3px;z-index:3}
+
+.statusbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.turn{display:flex;align-items:center;gap:10px;font:500 14px var(--f-mono);min-width:0}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--cyan);box-shadow:0 0 10px currentColor;color:var(--cyan)}
+.dot.amb{background:var(--amber);color:var(--amber)}
+.diceRow{display:flex;gap:8px;align-items:center;min-height:38px}
+.die{width:34px;height:34px;border-radius:6px;border:1.5px solid var(--cyan);background:#0b1a22;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:4px;gap:1px}
+.die.amb{border-color:var(--amber);background:#241a07}
+.die i{border-radius:50%;background:transparent;display:block}
+.die i.on{background:var(--cyan);margin:1px}
+.die.amb i.on{background:var(--amber)}
+.die.used{opacity:.28}
+.pipline{margin:0;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.cubebadge{font:500 12px var(--f-mono);border:1px solid var(--line);padding:4px 8px;border-radius:3px;background:var(--panel2)}
+.cubebadge b{color:var(--yellow)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;min-width:0}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.row:first-of-type{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+select,input[type="number"]{background:var(--panel2);color:var(--fg);border:1px solid var(--line);padding:8px;font-size:13px;border-radius:3px;min-width:0;width:100%}
+input[type="range"]{width:100%;accent-color:var(--cyan);padding:0}
+.stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.stat div{border:1px solid var(--line);padding:8px;background:var(--bg);text-align:center}
+.stat b{display:block;font:500 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.stat span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stat .c b{color:var(--cyan)}.stat .a b{color:var(--amber)}
+.hint-txt{margin:0;font:400 12px/1.55 var(--f-mono);color:var(--muted);min-height:54px}
+.hint-txt b{color:var(--fg);font-weight:500}
+.verdict{color:var(--emerald)}.verdict.no{color:var(--amber)}
+.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}
+.check input{accent-color:var(--cyan)}
+.log{list-style:none;margin:0;padding:0;max-height:170px;overflow:auto;font:400 12px/1.5 var(--f-mono);color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.log li b{color:var(--fg);font-weight:500}
+.note{margin:10px 0 0;color:var(--muted);font:400 11px/1.5 var(--f-mono)}
+
+.section{max-width:1200px;margin:34px auto 0}
+.section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
+.cubesel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.cubesel button{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:6px 10px;font:500 12px var(--f-mono);cursor:pointer;min-width:44px}
+.cubesel button[aria-pressed="true"]{background:var(--yellow);color:#1a1000;border-color:var(--yellow)}
+.verdictBox{margin:12px 0 0;padding:12px;border:1px solid var(--line);border-radius:3px;font:500 14px var(--f-mono);letter-spacing:.03em}
+.verdictBox.g{border-color:var(--emerald);color:var(--emerald)}
+.verdictBox.r{border-color:var(--danger);color:var(--danger)}
+.verdictBox.y{border-color:var(--amber);color:var(--amber)}
+.verdictBox.n{color:var(--fg)}
+.verdictBox small{display:block;margin-top:4px;font:400 11px/1.5 var(--f-mono);color:var(--muted);letter-spacing:0}
+.out{margin:12px 0 0;padding:10px;border:1px solid var(--line);background:var(--bg);font:400 12px/1.6 var(--f-mono);color:var(--muted)}
+.out b{color:var(--fg);font-weight:500}
+.rngrow{display:flex;align-items:center;gap:10px;margin-top:8px}
+.rngrow label{flex:0 0 auto;width:170px;font:500 10px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rngrow output{flex:0 0 44px;text-align:right;font:500 12px var(--f-mono);font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.lcard{background:var(--panel);border:1px solid var(--line);padding:12px 14px;border-radius:4px}
+.lcard h3{margin:0 0 4px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.lcard .era{margin:0 0 6px;font:500 11px var(--f-mono);color:var(--amber)}
+.lcard p{margin:0;color:var(--muted);font-size:13px}
+.lcard.soon{border-style:dashed}
+.lcard.soon h3{color:var(--amber)}
+.scroll{overflow-x:auto}
+table.t{border-collapse:collapse;width:100%;font-size:13px}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.t th{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px var(--f-mono);letter-spacing:.04em}
+footer a{color:var(--cyan)}
+
+.sw-section{max-width:1200px;margin:34px auto 0}
+.sw-section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.sw-section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sw-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.sw-card.best{border-color:var(--yellow)}
+.sw-card h3{margin:0;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.sw-card.best h3{color:var(--yellow)}
+.sw-card .sw-amt{color:var(--fg);margin:0;font:800 1.9rem var(--f-display);font-variant-numeric:tabular-nums}
+.sw-amt span{font:500 12px var(--f-mono);color:var(--muted);margin-left:4px}
+.sw-card p{margin:0;color:var(--muted);font-size:13px}
+.sw-soon{font:500 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-top:auto}
+footer.sw-foot{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px/1.6 var(--f-mono);letter-spacing:.04em;display:flex;flex-direction:column;gap:10px}
+.sw-foot a{color:var(--cyan)}
+.sw-links,.sw-share{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.sw-share .sw-b{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none}
+.sw-share .sw-b:hover{border-color:var(--cyan);color:var(--cyan)}
+.sw-share input{flex:1 1 220px;min-width:0;background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:6px 8px;font:400 11px var(--f-mono)}
+.sw-btn{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid transparent;padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none;color:#000;display:inline-block;line-height:1.3}
+.sw-foot a.sw-btn,.sw-share a.sw-btn{color:#000}
+.sw-btn.btc{background:#f7931a;border-color:#f7931a}
+.sw-btn.tg{background:#2aabee;border-color:#2aabee}
+.sw-btn.wa{background:#25d366;border-color:#25d366}
+.sw-btn:hover{filter:brightness(1.12)}
+.sw-note{flex-basis:100%;color:var(--muted);font:400 11px var(--f-mono);min-height:1em}
+
+.mstrip{display:flex;align-items:center;gap:14px;background:#04060a;border-bottom:1px solid var(--line);font:500 .72rem var(--f-mono);height:28px;overflow:hidden;margin:0 0 12px}
+.mclock{flex:none;display:flex;gap:12px;padding:0 12px;color:var(--fg);white-space:nowrap;height:100%;align-items:center}
+.mclock b{color:var(--cyan);font-weight:500}
+.mtick{flex:1;min-width:0;overflow:hidden;height:100%;display:flex;align-items:center}
+.mtrack{display:flex;gap:26px;white-space:nowrap;animation:mscroll 90s linear infinite;padding-left:20px}
+.mtick:hover .mtrack{animation-play-state:paused}
+.mi{color:var(--muted)}.mi em{font-style:normal;color:var(--fg);margin:0 5px}.up{color:var(--emerald)}.dn{color:var(--danger)}
+.fticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#04060a;height:30px;margin:30px auto 0;max-width:1200px;display:flex;align-items:center;font:500 .72rem var(--f-mono)}
+.fticker .ftl{flex:none;padding:0 12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;border-right:1px solid var(--line);height:100%;display:flex;align-items:center}
+@keyframes mscroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mtrack{animation:none}.mtick{overflow-x:auto}}
+@media (max-width:640px){.mclock .loc{display:none}}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.rngrow label{width:110px}.stage{aspect-ratio:4/3}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* ---- Tafl-specific (built on the Petteia/Senet page shell) ---- */
+#bgfx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+body{background:transparent}
+html{background:var(--bg)}
+.mstrip,.wrap,footer.sw-foot,.fticker{position:relative;z-index:1}
+.mstrip{background:rgba(4,6,10,.82)}
+.stage{aspect-ratio:1.18/1;background:radial-gradient(120% 90% at 50% 0%,rgba(13,22,34,.78) 0%,rgba(6,8,13,.78) 72%)}
+#scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1300px;overflow:visible;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+#scene:active{cursor:grabbing}
+#scene.flat{perspective:none;cursor:default}
+#board{--sq:60px;--n:11;--tx:54deg;--rz:0deg;display:grid;grid-template-columns:repeat(var(--n),var(--sq));grid-template-rows:repeat(var(--n),var(--sq));gap:2px;transform-style:preserve-3d;transform:rotateX(var(--tx)) rotateZ(var(--rz));transition:transform .45s ease}
+#board.dragging{transition:none}
+#scene.flat #board{transform:none}
+.sq{position:relative;transform-style:preserve-3d;background:var(--pt-a);border:1px solid #243952;border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:default;font-family:var(--f-mono)}
+.sq.alt{background:var(--pt-b)}
+.sq .n{position:absolute;left:3px;top:2px;font:500 calc(var(--sq)*.17) var(--f-mono);color:#5b738a;pointer-events:none}
+.sq .n.fl{left:auto;right:4px;top:auto;bottom:2px}
+.sq .g{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--sq)*.55);line-height:1;pointer-events:none;color:#d9c27a;opacity:.7;font-family:"Noto Sans Runic","Segoe UI Historic","Segoe UI Symbol",sans-serif}
+.sq.corner{background:#2a2410;border-color:#6b5a2a}
+.sq.throne{background:#223046;border-color:#6b5a2a;box-shadow:inset 0 0 0 1px rgba(217,194,122,.25)}
+.sq.edgeesc{box-shadow:inset 0 0 0 1px rgba(24,227,156,.22)}
+.sq.dest{outline:2px solid var(--emerald);outline-offset:-2px;background:#0d3a33;cursor:pointer}
+.sq.dest.capt{outline-color:var(--danger,#ff4d6a);background:#3a1620}
+.sq.dest.win{outline:3px solid #fff;background:#134a3a}
+.sq.selected{outline:2px solid var(--yellow,#ffd24a);outline-offset:-2px}
+.sq.last{box-shadow:inset 0 0 0 2px rgba(255,212,0,.5)}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(24,227,156,.35)}}
+@media (prefers-reduced-motion:reduce){.pc.can{animation:none}#board{transition:none}}
+.viewrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sec2{max-width:1200px;margin:34px auto 0}
+.sec2 h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.sec2 p,.sec2 li{color:#b9c8d4;max-width:74ch}
+.sec2 .cards .card h3{margin:0 0 6px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.tw{overflow-x:auto}
+.src{font:400 12px/1.6 var(--f-mono);color:var(--muted);max-width:80ch}
+.rune{font-family:"Noto Sans Runic","Segoe UI Historic","Segoe UI Symbol",sans-serif}
+.rune.big{font-size:1.5rem;letter-spacing:.1em;color:#e8c375;white-space:nowrap}
+.dim{color:var(--muted);font-size:12px}
+.rune-t td.rn{text-align:center;padding:6px 4px}.rune-t td.rn .rune{font-size:1.6rem;color:#e8c375;display:block}.rune-t td.rn small{font:400 10px/1.3 var(--f-mono);color:var(--muted)}
+.rune-t td.rn small b{color:var(--fg);font-weight:500}
+
+/* pieces */
+.pc{position:relative;width:70%;height:70%;border-radius:50%;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;z-index:2}
+.pc .disc{position:absolute;inset:0;border-radius:50%;display:none;align-items:center;justify-content:center}
+.pc.c .disc{background:radial-gradient(circle at 35% 30%,#8ffaff,#00c8d8 62%,#0092a0)}
+.pc.a .disc{background:radial-gradient(circle at 35% 30%,#ffe08a,#ffb700 62%,#c78500)}
+.pc.k .disc{background:radial-gradient(circle at 35% 30%,#ffffff,#dfe9f5 62%,#9fb4cc);box-shadow:0 0 0 2px #e8c375}
+.pc.k .disc::after{content:"\265A";color:#7a5a12;font-size:calc(var(--sq)*.46);line-height:1}
+.pc .halo{position:absolute;inset:-14%;border-radius:50%;pointer-events:none}
+.pc.c .halo{background:radial-gradient(circle,rgba(70,227,240,.38),rgba(70,227,240,0) 66%)}
+.pc.a .halo{background:radial-gradient(circle,rgba(232,195,117,.4),rgba(232,195,117,0) 66%)}
+.pc.k .halo{inset:-30%;background:radial-gradient(circle,rgba(255,255,255,.5),rgba(232,195,117,.22) 48%,rgba(232,195,117,0) 70%)}
+.pc.k::before{content:"";position:absolute;inset:-6%;border-radius:50%;border:2px solid #e8c375;box-shadow:0 0 12px rgba(232,195,117,.7)}
+.pc.k{width:78%;height:78%}
+.pc .sol{transform:translateZ(calc(var(--k,60)*.3px)) scale(calc(var(--k,60)*.0052))}
+.pc.k .sol{transform:translateZ(calc(var(--k,60)*.36px)) scale(calc(var(--k,60)*.0068))}
+.pc.dead{filter:grayscale(1) brightness(.6)}
+.pc.dead::before{border-color:var(--danger,#ff4d6a);box-shadow:0 0 14px rgba(255,77,106,.8)}
+#scene.flat .pc .disc{display:flex}
+#scene.flat .pc .sol,#scene.flat .pc .halo{display:none}
+.pc.can{box-shadow:0 0 0 3px var(--emerald);cursor:pointer;animation:pulse 1.2s ease-in-out infinite}
+.pc.k.can::before{display:none}
+
+.stat .k2{color:var(--fg)}
+@media (max-width:520px){.sq .g{font-size:calc(var(--sq)*.5)}}
+</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<div class="mstrip" role="region" aria-label="Clocks and cryptocurrency prices">
+  <div class="mclock"><span>UTC <b id="clUtc">--:--:--</b></span><span class="loc">Local <b id="clLoc">--:--:--</b> <span id="clTz"></span></span></div>
+  <div class="mtick" title="Cryptocurrency prices refresh about once a minute and may be delayed. Not financial advice."><div class="mtrack" id="mTrack"><span class="mi">Loading prices…</span></div></div>
+</div>
+<div class="wrap">
+  <nav class="nav" aria-label="Site">
+    <div class="navtabs">
+      <a class="navtab" href="./">Ophanim Field Console</a>
+      <a class="navtab" href="games.html">Games</a>
+      <span class="navtab on" aria-current="page">Tafl (Hnefatafl)</span>
+      <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+      <a class="navtab" href="about.html">About</a>
+      <span class="navtab" style="opacity:.55;border-style:dashed;cursor:not-allowed" title="Empty slot">Soon</span>
+    </div>
+  </nav>
+
+  <header class="top">
+    <div class="brand">
+      <div class="titlerow">
+        <svg class="emblem" viewBox="0 0 40 40" width="38" height="38" role="img" aria-label="Ophanim emblem: nested diamonds with a yellow centre"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="11" y="11" width="18" height="18" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="17" y="17" width="6" height="6" fill="#ffd400"/></g></svg>
+        <h1>Ophanim Lithic Tafl</h1>
+      </div>
+      <p class="sub">Philosophy From A Stone &middot; The Norse game of the king&rsquo;s table, from about 400 CE</p>
+      <p class="tagline"><strong>&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</strong></p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="boardcol" aria-label="Board">
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" id="v3d" aria-pressed="true">3D</button>
+          <button type="button" id="v2d" aria-pressed="false">2D</button>
+        </div>
+        <div class="viewrow">
+          <button class="btn small" type="button" id="btnResetView">Reset view</button>
+          <button class="btn small" type="button" id="btnSound" aria-pressed="false">Sound: off</button>
+          <button class="btn small" type="button" id="btnDrone" aria-pressed="false">Drone: off</button>
+          <label class="check" style="margin:0"><input type="checkbox" id="chkBg"> Background motion</label>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <div id="scene" aria-label="Tafl board">
+          <div id="board"></div>
+        </div>
+      </div>
+      <div class="statusbar">
+        <div class="turn"><span class="dot" id="dot"></span><span id="statusTxt">Starting</span></div>
+      </div>
+      <p class="note" style="margin:0">Drag the board to turn it, and use the mouse wheel to zoom. Amber pyramids attack, cyan glass defends, and the white piece with the gold ring is the king. Tap a glowing piece, then a glowing square. A red square means the move captures, a white one means the king escapes. The square marked <span class="rune">&#x16DF;</span> is the throne, and the squares marked <span class="rune">&#x16CF;</span> are the corner refuges.</p>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <p class="lbl">Match</p>
+        <div class="stat">
+          <div class="c"><b id="offC">13</b><span>Defenders + king</span></div>
+          <div class="a"><b id="offA">24</b><span>Attackers</span></div>
+        </div>
+        <div class="grid2" style="margin-top:12px">
+          <label class="field"><span>Board and rules</span>
+            <select id="selRule">
+              <option value="11">Hnefatafl 11&times;11</option>
+              <option value="9">Tablut 9&times;9</option>
+              <option value="7">Brandubh 7&times;7</option>
+            </select>
+          </label>
+          <label class="field"><span>You play (vs computer)</span>
+            <select id="selSide">
+              <option value="def">Defenders</option>
+              <option value="att">Attackers</option>
+              <option value="2p">Two players</option>
+              <option value="watch">Watch the computer</option>
+            </select>
+          </label>
+          <label class="field"><span>Computer</span>
+            <select id="selLvl">
+              <option value="jarl">Jarl &middot; stronger</option>
+              <option value="thrall">Thrall &middot; easier</option>
+            </select>
+          </label>
+          <div class="field"><span>Session score (attackers &ndash; defenders)</span><div id="scoreTxt" style="font:500 14px var(--f-mono);padding:8px 0">0 &ndash; 0</div></div>
+        </div>
+        <div class="row"><button class="btn" type="button" id="btnNew">New game</button></div>
+        <div class="row"><button class="btn small" type="button" id="btnWallet">Connect wallet</button></div>
+        <p class="note" id="walletTxt">Optional. Match wagers are not available: they would need online player-versus-player play and an audited escrow, and neither exists yet.</p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Quick rules</p>
+        <p class="hint-txt" style="min-height:0">The king and his guard sit in the middle, and attackers twice as many ring the edges. Every piece moves like a rook. Sandwich an enemy piece in a straight line and it is removed. Defenders win if the king reaches a corner (on the 9&times;9 board, any edge square); attackers win if they capture the king. These are reconstructed rules: see &ldquo;About these rules&rdquo; below.</p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Game log</p>
+        <ul class="log" id="logList"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <section class="sec2" aria-label="History of Tafl" data-narrate data-audio="audio/tafl-history.mp3" data-note="Computer voice. It may mispronounce Old Norse words and rune names; a recording is better for those.">
+    <h2>History of Tafl</h2>
+    <p>Tafl (Old Norse <i>tafl</i>, &ldquo;table&rdquo; or &ldquo;board game&rdquo;) was the strategy game of the North for roughly eight hundred years, from about the 4th to the 12th century CE, long before chess reached Scandinavia. Its best-known form, <i>hnefatafl</i>, is named for the king piece, the <i>hnefi</i>, a word that also means &ldquo;fist&rdquo;. The game is lopsided on purpose: a king with a small guard must break out of a ring, and a force twice as large must hold the ring shut.</p>
+    <p>It turns up all over the Viking world. In the <i>Orkneyinga saga</i>, Earl R&ouml;gnvald Kali puts tafl first in a verse about his nine skills (<i>Tafl emk orr at efla</i>, roughly &ldquo;I am eager to play tafl&rdquo;), with runes and verse-making on the same list. In the <i>Hervarar saga</i>, Odin, disguised as Gestumblindi, asks King Heidrek a riddle about the pieces: who are the maidens that fight weaponless around their lord, the dark ones always defending him and the fair ones attacking? In the <i>V&ouml;lusp&aacute;</i> the gods play tafl in the meadow of I&eth;av&ouml;llr, and after Ragnar&ouml;k they find their golden pieces again in the grass.</p>
+    <p>Boards and pieces survive. A board from the Gokstad ship burial in Norway (around 900 CE) has a tafl grid on one side and a Nine Men&rsquo;s Morris board on the other. The Ballinderry board from Ireland (10th century) is a small yew board of 7&times;7 squares with a peg hole in each. Graves at Birka in Sweden hold sets of carved gaming pieces, and a blue-and-white glass piece found at Lindisfarne (8th to 9th century) was announced in 2020.</p>
+    <p>After about 1100 chess slowly pushed tafl aside, but the game lived on in the far north. In 1732 the Swedish naturalist Carl Linnaeus, travelling through Lapland, wrote down how the Sámi played <i>tablut</i>, a 9&times;9 relative with sixteen attackers (his &ldquo;Muscovites&rdquo;) against eight defenders and a king (his &ldquo;Swedes&rdquo;). A good part of what we know about how tafl was really played comes from his note and from a Welsh description of <i>tawlbwrdd</i> written in 1587.</p>
+  </section>
+
+  <section class="sec2" aria-label="How to play" data-narrate data-audio="audio/tafl-how-to-play.mp3" data-note="Computer voice. It may mispronounce Old Norse words and rune names; a recording is better for those.">
+    <h2>How to play</h2>
+    <div class="cards">
+      <div class="card"><h3>The sides</h3><p>Attackers (amber) start around the edges, defenders (cyan) and the king (white, gold ring) in the middle. Attackers outnumber defenders about two to one: 24 against 12 and a king on 11&times;11, 16 against 8 on 9&times;9, 8 against 4 on 7&times;7.</p></div>
+      <div class="card"><h3>Moving</h3><p>Attackers move first. Every piece, the king included, slides any distance along a row or column over empty squares, never diagonally and never jumping. Only the king may stop on the throne in the centre or on a corner. Other pieces may pass over the empty throne.</p></div>
+      <div class="card"><h3>Capturing</h3><p>When your move leaves an enemy piece in a straight line between the piece you moved and another of your pieces, it is removed. The empty throne, and the corners where they are refuges, count as enemies to everyone. The king helps to capture. You may step safely between two enemy pieces.</p></div>
+      <div class="card"><h3>The king</h3><p>On 11&times;11 the king is captured only when attackers hold all four sides, or three sides with the empty throne as the fourth. On the smaller boards he is weaker: two attackers in a line take him, unless he stands on or beside the throne. He can never be captured against the edge.</p></div>
+      <div class="card"><h3>Winning</h3><p>Defenders win when the king reaches a corner, or on 9&times;9 any edge square. Attackers win by capturing the king. A side with no legal move loses. The same position three times, or 400 moves, is a draw.</p></div>
+    </div>
+  </section>
+
+  <section class="sec2" aria-label="Strategy" data-narrate data-audio="audio/tafl-strategy.mp3" data-note="Computer voice. It may mispronounce Old Norse words and rune names; a recording is better for those.">
+    <h2>Strategy</h2>
+    <div class="cards">
+      <div class="card"><h3>Defenders: open two roads</h3><p>A king with one open road is stopped by one blocker. A king with two open roads wins, because a single move cannot block both. Look for squares where the king threatens two corners (or two edges) at once.</p></div>
+      <div class="card"><h3>Defenders: thin the ring</h3><p>Use your own pieces to capture attackers that wander from their friends. Every capture opens a gap, and the king only needs one.</p></div>
+      <div class="card"><h3>Attackers: seal the corners</h3><p>On the boards with corner refuges, attackers placed two squares along each edge from a corner and one on the diagonal make that corner very hard to enter. Do this before you chase the king.</p></div>
+      <div class="card"><h3>Attackers: stay in pairs</h3><p>A lone attacker on an open line is easy to sandwich, and one next to a corner can be captured against it. Keep your pieces linked, and close lines rather than chasing the king.</p></div>
+      <div class="card"><h3>Both: count the roads</h3><p>Before every move, count the lines the king could use next turn. The status bar warns you when the king threatens to escape.</p></div>
+    </div>
+  </section>
+
+  <section class="sec2" id="runes" aria-label="Elder Futhark reading" data-narrate data-audio="audio/tafl-runes.mp3" data-note="Computer voice. It may mispronounce Old Norse words and rune names; a recording is better for those.">
+    <h2>Elder Futhark reading</h2>
+    <p class="src">Everything in this section is interpretation: the 24 runes of the Elder Futhark, numbered by their position in the futhark order, added up over Tafl words. It is a reading in the Phonetic Archaeology manner, not an ancient number system. The history of the game is in the section above.</p>
+    <div class="tw"><table class="t rune-t"><tr><th>Ætt</th><th colspan="8">Runes, in futhark order (position number under each)</th><th>Sum</th></tr>
+<tr><td>Freyr&rsquo;s ætt</td><td class="rn"><span class="rune">ᚠ</span><small>Fehu<br><b>1</b></small></td><td class="rn"><span class="rune">ᚢ</span><small>Uruz<br><b>2</b></small></td><td class="rn"><span class="rune">ᚦ</span><small>Thurisaz<br><b>3</b></small></td><td class="rn"><span class="rune">ᚨ</span><small>Ansuz<br><b>4</b></small></td><td class="rn"><span class="rune">ᚱ</span><small>Raido<br><b>5</b></small></td><td class="rn"><span class="rune">ᚲ</span><small>Kenaz<br><b>6</b></small></td><td class="rn"><span class="rune">ᚷ</span><small>Gebo<br><b>7</b></small></td><td class="rn"><span class="rune">ᚹ</span><small>Wunjo<br><b>8</b></small></td><td><b>36</b></td></tr>
+<tr><td>Hagal&rsquo;s ætt</td><td class="rn"><span class="rune">ᚺ</span><small>Hagalaz<br><b>9</b></small></td><td class="rn"><span class="rune">ᚾ</span><small>Nauthiz<br><b>10</b></small></td><td class="rn"><span class="rune">ᛁ</span><small>Isa<br><b>11</b></small></td><td class="rn"><span class="rune">ᛃ</span><small>Jera<br><b>12</b></small></td><td class="rn"><span class="rune">ᛇ</span><small>Eihwaz<br><b>13</b></small></td><td class="rn"><span class="rune">ᛈ</span><small>Perthro<br><b>14</b></small></td><td class="rn"><span class="rune">ᛉ</span><small>Algiz<br><b>15</b></small></td><td class="rn"><span class="rune">ᛊ</span><small>Sowilo<br><b>16</b></small></td><td><b>100</b></td></tr>
+<tr><td>Tyr&rsquo;s ætt</td><td class="rn"><span class="rune">ᛏ</span><small>Tiwaz<br><b>17</b></small></td><td class="rn"><span class="rune">ᛒ</span><small>Berkano<br><b>18</b></small></td><td class="rn"><span class="rune">ᛖ</span><small>Ehwaz<br><b>19</b></small></td><td class="rn"><span class="rune">ᛗ</span><small>Mannaz<br><b>20</b></small></td><td class="rn"><span class="rune">ᛚ</span><small>Laguz<br><b>21</b></small></td><td class="rn"><span class="rune">ᛜ</span><small>Ingwaz<br><b>22</b></small></td><td class="rn"><span class="rune">ᛞ</span><small>Dagaz<br><b>23</b></small></td><td class="rn"><span class="rune">ᛟ</span><small>Othala<br><b>24</b></small></td><td><b>164</b></td></tr>
+</table></div>
+    <h3 style="font-family:var(--f-display);font-size:1.15rem;margin:22px 0 6px">Worked words</h3>
+    <div class="tw"><table class="t"><tr><th>Word</th><th>Runes</th><th>Letter-by-letter sum</th></tr>
+<tr><td>TAFL<br><span class="dim">the game, board</span></td><td class="rune big">ᛏᚨᚠᛚ</td><td>17 + 4 + 1 + 21 = <b>43</b></td></tr>
+<tr><td>HNEFI<br><span class="dim">the king piece</span></td><td class="rune big">ᚺᚾᛖᚠᛁ</td><td>9 + 10 + 19 + 1 + 11 = <b>50</b></td></tr>
+<tr><td>HNEFA, as in hnefa-tafl<br><span class="dim">the king, in the form used inside the compound</span></td><td class="rune big">ᚺᚾᛖᚠᚨ</td><td>9 + 10 + 19 + 1 + 4 = <b>43</b></td></tr>
+<tr><td>HNEFATAFL<br><span class="dim">the king&rsquo;s table, 43 + 43</span></td><td class="rune big">ᚺᚾᛖᚠᚨᛏᚨᚠᛚ</td><td>9 + 10 + 19 + 1 + 4 + 17 + 4 + 1 + 21 = <b>86</b></td></tr>
+<tr><td>KONUNG, n and g as two separate runes<br><span class="dim">king, ruler</span></td><td class="rune big">ᚲᛟᚾᚢᚾᚷ</td><td>6 + 24 + 10 + 2 + 10 + 7 = <b>59</b></td></tr>
+<tr><td>KONUNG, final ng as the single rune Ingwaz<br><span class="dim">the same word, spelled with five runes</span></td><td class="rune big">ᚲᛟᚾᚢᛜ</td><td>6 + 24 + 10 + 2 + 22 = <b>64</b></td></tr>
+<tr><td>TUFL, first letter as Thurisaz<br><span class="dim">a spelling variant, not the Old Norse word</span></td><td class="rune big">ᚦᚢᚠᛚ</td><td>3 + 2 + 1 + 21 = <b>27</b></td></tr>
+<tr><td>TUFL, first letter as Tiwaz<br><span class="dim">the same spelling with the rune used in TAFL</span></td><td class="rune big">ᛏᚢᚠᛚ</td><td>17 + 2 + 1 + 21 = <b>41</b></td></tr>
+</table></div>
+    <div class="card calc" style="margin-top:14px;max-width:720px">
+      <p class="lbl">Count a word in Elder Futhark</p>
+      <label class="field"><span>Type a word in plain Latin letters (use &thorn; or th for Thurisaz)</span><input id="runeIn" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. hnefatafl" style="background:var(--panel2,#0e1521);color:var(--fg,#d6e4ec);border:1px solid var(--line,#1a2638);border-radius:4px;padding:8px 10px;font:500 14px var(--f-mono,monospace)"></label>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-size:13px"><input id="runeNg" type="checkbox"> Write <i>ng</i> as the single rune Ingwaz (22)</label>
+      <p class="hint-txt" id="runeOut" style="margin-top:10px;min-height:2.4em" aria-live="polite">Positions run from Fehu 1 to Othala 24. c counts as k, v as w, y as i; letters the futhark lacks are skipped.</p>
+    </div>
+    <p class="src" style="margin-top:12px">The three ættir (the groups of eight) add up to 36, 100 and 164, and the whole futhark to 300. Two observations, offered as readings: HNEFA, the king, comes to 43, the same as TAFL, so the whole word hnefatafl is 43 + 43 = 86; and with Thurisaz as its first letter TUFL comes to 27, which is 3&times;3&times;3, though that works for this one spelling only.</p>
+    <p class="src">Notes. The order of the 24 runes is attested: the Kylver stone from Gotland (about 400 CE) carries the whole futhark in this order. The numbers 1 to 24 are simply positions in that order. No ancient source gives the runes numeric values, so everything on this page that adds them up is a reading in the Phonetic Archaeology manner, not scholarship. Elder Futhark was in use from about the 2nd to the 8th century; the Viking-age words <i>tafl</i>, <i>hnefi</i> and <i>konungr</i> were written in the 16-rune Younger Futhark, so spelling them in Elder Futhark is a modern exercise.</p>
+  </section>
+
+  <section class="sec2" aria-label="About these rules">
+    <h2>About these rules</h2>
+    <p class="src">Nobody has an original rulebook for Tafl, so every modern game is a reconstruction. This page uses the common modern reading, close to the Copenhagen rules: rook moves, capture by sandwiching, a restricted throne, hostile empty throne and corners, an armed king, and Attackers moving first. Hnefatafl 11&times;11 uses corner escape and a king taken on four sides. Brandubh 7&times;7 uses corner escape and a weaker king. Tablut 9&times;9 uses edge escape and a weaker king, the usual reading of Linnaeus&rsquo;s notes. Left out for simplicity: shieldwall captures, edge forts, and the win by surrounding every defender. The computer opponent looks two or three moves ahead; it is a fair opponent, not a champion.</p>
+  </section>
+
+
+  <footer class="sw-foot">
+    <div>Ophanim Lithic Tafl (Philosophy From A Stone) &middot; Creator @Mandos16 &middot; 3D built with plain CSS &middot; <a href="games.html">All games</a> &middot; <a href="privacy.html">Privacy and cookies</a></div>
+    <div class="sw-links">
+      <a class="sw-btn btc" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a>
+      <a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on X</a>
+      <a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on YouTube</a>
+    </div>
+    <div class="sw-share" aria-label="Share this page">
+      <span>Share</span>
+      <a class="sw-b" id="shFb" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <button class="sw-b" id="shIg" type="button" title="Instagram has no web share link: this copies the page link and opens Instagram">Instagram</button>
+      <a class="sw-b" id="shX" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">X</a>
+      <a class="sw-b" id="shPin" href="https://pinterest.com/pin/create/button/" target="_blank" rel="noopener noreferrer">Pinterest</a>
+      <a class="sw-b" id="shMail" href="mailto:">Email</a>
+      <a class="sw-btn tg" id="shTg" href="https://t.me/share/url" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a class="sw-btn wa" id="shWa" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <button class="sw-b" id="shCopy" type="button">Copy link</button>
+      <input id="shUrl" type="text" readonly aria-label="Page link">
+      <span class="sw-note" id="shNote" aria-live="polite"></span>
+    </div>
+  </footer>
+</div>
+<script>
+/* Tafl engine (Brandubh 7x7, Tablut 9x9, Hnefatafl 11x11). Pure logic, no DOM.
+   Rules follow the common modern ("Copenhagen") reading, trimmed to the essentials:
+   - Attackers (1) move first. Defenders (2) own the king (3).
+   - Every piece moves like a chess rook; nothing jumps. Only the king may stop on the throne or on a corner.
+     Any piece may pass over the empty throne.
+   - A piece is captured when the enemy moves a piece so that it is sandwiched in a straight line between two enemy pieces.
+     The empty throne and (in corner mode) the corners are hostile to everybody. The king takes part in captures.
+     Moving between two enemies is safe.
+   - Strong king (Hnefatafl 11x11): captured by attackers on all four sides, or on three sides with the empty throne as the fourth.
+     Weak king (Brandubh, Tablut): captured like any other piece (two attackers in a line) unless he stands on or beside the throne,
+     where the four-side rule applies. In both cases he cannot be captured against the board edge.
+   - Defenders win when the king reaches a corner (corner mode) or any edge square (edge mode).
+     Attackers win by capturing the king. A side with no legal move loses. */
+var Tafl = (function () {
+  'use strict';
+  var DIRS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  var TOP_ATT = { 7: [[0, 3], [1, 3]], 9: [[0, 3], [0, 4], [0, 5], [1, 4]], 11: [[0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [1, 5]] };
+  var SEED_DEF = { 7: [[2, 3]], 9: [[2, 4], [3, 4]], 11: [[3, 5], [4, 5], [4, 4]] };
+  var NAMES = { 7: 'Brandubh', 9: 'Tablut', 11: 'Hnefatafl' };
+  var CAP_PLIES = 400;
+
+  function rot(p, n) { return [p[1], n - 1 - p[0]]; }
+  function closure(seed, n) {
+    var seen = {}, out = [];
+    seed.forEach(function (p) { var q = p; for (var i = 0; i < 4; i++) { var k = q[0] + ',' + q[1]; if (!seen[k]) { seen[k] = 1; out.push(q); } q = rot(q, n); } });
+    return out;
+  }
+  function newGame(n, esc, weak) {
+    n = n || 11; esc = esc || 'corner'; weak = !!weak;
+    var b = []; for (var r = 0; r < n; r++) { b.push([]); for (var c = 0; c < n; c++) b[r].push(0); }
+    closure(TOP_ATT[n], n).forEach(function (p) { b[p[0]][p[1]] = 1; });
+    closure(SEED_DEF[n], n).forEach(function (p) { b[p[0]][p[1]] = 2; });
+    var m = (n - 1) / 2; b[m][m] = 3;
+    return { n: n, esc: esc, weak: weak, b: b, turn: 1, winner: 0, ply: 0, draw: false, why: '' };
+  }
+  function clone(s) { return { n: s.n, esc: s.esc, weak: s.weak, b: s.b.map(function (r) { return r.slice(); }), turn: s.turn, winner: s.winner, ply: s.ply, draw: s.draw, why: s.why }; }
+  function side(v) { return v === 1 ? 1 : 2; }
+  function inb(s, r, c) { return r >= 0 && r < s.n && c >= 0 && c < s.n; }
+  function isThrone(s, r, c) { var m = (s.n - 1) / 2; return r === m && c === m; }
+  function isCorner(s, r, c) { var e = s.n - 1; return (r === 0 || r === e) && (c === 0 || c === e); }
+  function restricted(s, r, c) { return isThrone(s, r, c) || (s.esc === 'corner' && isCorner(s, r, c)); }
+  function isEscape(s, r, c) { return s.esc === 'corner' ? isCorner(s, r, c) : (r === 0 || c === 0 || r === s.n - 1 || c === s.n - 1); }
+  function count(s, kind) { var k = 0; for (var r = 0; r < s.n; r++) for (var c = 0; c < s.n; c++) if (s.b[r][c] === kind) k++; return k; }
+  function kingPos(s) { for (var r = 0; r < s.n; r++) for (var c = 0; c < s.n; c++) if (s.b[r][c] === 3) return [r, c]; return null; }
+
+  function pieceMoves(s, r, c, out) {
+    var b = s.b, v = b[r][c], king = v === 3;
+    for (var d = 0; d < 4; d++) {
+      var rr = r + DIRS[d][0], cc = c + DIRS[d][1];
+      while (inb(s, rr, cc) && !b[rr][cc]) {
+        if (king || !restricted(s, rr, cc)) out.push({ from: [r, c], to: [rr, cc] });
+        rr += DIRS[d][0]; cc += DIRS[d][1];
+      }
+    }
+  }
+  function moves(s, p) {
+    var out = [], b = s.b;
+    for (var r = 0; r < s.n; r++) for (var c = 0; c < s.n; c++) { var v = b[r][c]; if (v && side(v) === p) pieceMoves(s, r, c, out); }
+    return out;
+  }
+  function hostile(s, r, c, victimSide) {   // is square (r,c) an enemy of a piece of victimSide?
+    var v = s.b[r][c];
+    if (v) return side(v) !== victimSide;
+    return restricted(s, r, c);
+  }
+  function captured(s, p, r, c) {            // enemy pieces sandwiched by player p's piece standing on (r,c); king excluded
+    var out = [];
+    for (var d = 0; d < 4; d++) {
+      var r1 = r + DIRS[d][0], c1 = c + DIRS[d][1], r2 = r1 + DIRS[d][0], c2 = c1 + DIRS[d][1];
+      if (!inb(s, r2, c2)) continue;
+      var v = s.b[r1][c1];
+      if (v && v !== 3 && side(v) !== p && hostile(s, r2, c2, side(v))) out.push([r1, c1]);
+    }
+    return out;
+  }
+  function hostileToKing(s, r, c) {          // an attacker, or an empty throne
+    var v = s.b[r][c]; if (v) return v === 1;
+    return isThrone(s, r, c) || (s.esc === 'corner' && isCorner(s, r, c));
+  }
+  function kingTaken(s) {
+    var k = kingPos(s); if (!k) return true;
+    var m = (s.n - 1) / 2, dist = Math.abs(k[0] - m) + Math.abs(k[1] - m), d, r, c;
+    if (!s.weak || dist <= 1) {                              // four sides, or three plus the empty throne
+      for (d = 0; d < 4; d++) {
+        r = k[0] + DIRS[d][0]; c = k[1] + DIRS[d][1];
+        if (!inb(s, r, c)) return false;                     // never captured against the edge
+        if (s.b[r][c] === 1) continue;
+        if (!s.b[r][c] && isThrone(s, r, c)) continue;       // the empty throne counts as an attacker
+        return false;
+      }
+      return true;
+    }
+    for (d = 0; d < 4; d += 2) {                             // (d = 0 vertical pair, d = 2 horizontal pair) weak king away from the throne: an ordinary sandwich
+      var r1 = k[0] + DIRS[d][0], c1 = k[1] + DIRS[d][1], r2 = k[0] - DIRS[d][0], c2 = k[1] - DIRS[d][1];
+      if (inb(s, r1, c1) && inb(s, r2, c2) && hostileToKing(s, r1, c1) && hostileToKing(s, r2, c2)) return true;
+    }
+    return false;
+  }
+  function preview(s, m) {                   // what would this move capture? (for the interface)
+    var p = s.turn, b = s.b, v = b[m.from[0]][m.from[1]];
+    b[m.from[0]][m.from[1]] = 0; b[m.to[0]][m.to[1]] = v;
+    var caps = captured(s, p, m.to[0], m.to[1]);
+    var kc = false;
+    if (p === 1) { var save = []; caps.forEach(function (x) { save.push([x, b[x[0]][x[1]]]); b[x[0]][x[1]] = 0; }); kc = kingTaken(s); save.forEach(function (y) { b[y[0][0]][y[0][1]] = y[1]; }); }
+    b[m.to[0]][m.to[1]] = 0; b[m.from[0]][m.from[1]] = v;
+    return { caps: caps, king: kc };
+  }
+  function apply(s, m, quick) {
+    var n = clone(s), p = s.turn, opp = p === 1 ? 2 : 1, v = n.b[m.from[0]][m.from[1]];
+    n.b[m.from[0]][m.from[1]] = 0; n.b[m.to[0]][m.to[1]] = v;
+    var caps = captured(n, p, m.to[0], m.to[1]);
+    caps.forEach(function (x) { n.b[x[0]][x[1]] = 0; });
+    n.ply++; n.turn = opp;
+    if (v === 3 && isEscape(n, m.to[0], m.to[1])) { n.winner = 2; n.why = 'escape'; }
+    else if (p === 1 && kingTaken(n)) { n.winner = 1; n.why = 'king'; }
+    else if (!quick) {
+      if (!moves(n, opp).length) { n.winner = p; n.why = 'blocked'; }
+      else if (n.ply >= CAP_PLIES) { n.draw = true; n.why = 'cap'; }
+    }
+    return { state: n, caps: caps };
+  }
+  function key(s) { var t = []; for (var r = 0; r < s.n; r++) t.push(s.b[r].join('')); return t.join('/') + s.turn; }
+
+  /* ---------- computer opponent ---------- */
+  function clearLine(s, r, c, dr, dc) {      // king could slide from (r,c) to the board edge?
+    r += dr; c += dc;
+    while (inb(s, r, c)) { if (s.b[r][c]) return false; r += dr; c += dc; }
+    return true;
+  }
+  function escapeRoutes(s, r, c) {           // number of winning one-move routes for a king standing at (r,c)
+    var e = s.n - 1, k = 0;
+    if (s.esc === 'corner') {
+      var b = s.b, i;
+      if (r === 0 || r === e) {
+        var ok = true; for (i = c - 1; i >= 0; i--) if (b[r][i] && !(i === 0 && false)) { ok = false; break; }
+        if (ok && c !== 0) k++;
+        ok = true; for (i = c + 1; i <= e; i++) if (b[r][i]) { ok = false; break; }
+        if (ok && c !== e) k++;
+      }
+      if (c === 0 || c === e) {
+        var ok2 = true; for (i = r - 1; i >= 0; i--) if (b[i][c]) { ok2 = false; break; }
+        if (ok2 && r !== 0) k++;
+        ok2 = true; for (i = r + 1; i <= e; i++) if (b[i][c]) { ok2 = false; break; }
+        if (ok2 && r !== e) k++;
+      }
+    } else {
+      for (var d = 0; d < 4; d++) if (clearLine(s, r, c, DIRS[d][0], DIRS[d][1])) k++;
+    }
+    return k;
+  }
+  function evaluate(s) {                     // positive favours the defenders
+    if (s.winner) return s.winner === 2 ? 1e6 - s.ply : -1e6 + s.ply;
+    var n = s.n, e = n - 1, a = 0, d = 0, kr = -1, kc = -1, b = s.b, r, c, v;
+    for (r = 0; r < n; r++) for (c = 0; c < n; c++) { v = b[r][c]; if (v === 1) a++; else if (v === 2) d++; else if (v === 3) { kr = r; kc = c; } }
+    if (kr < 0) return -1e6;
+    var routes = escapeRoutes(s, kr, kc), sc = 14 * d - 7 * a;
+    if (routes && s.turn === 2) return 9e5;
+    if (routes >= 2) return 5e5;
+    if (routes === 1) sc += 600;
+    // squares the king can reach, and how many of them give a winning route next move
+    var mob = 0, two = 0, i, t;
+    for (i = 0; i < 4; i++) {
+      var rr = kr + DIRS[i][0], cc = kc + DIRS[i][1];
+      while (inb(s, rr, cc) && !b[rr][cc]) { mob++; t = escapeRoutes(s, rr, cc); if (t) two += t; rr += DIRS[i][0]; cc += DIRS[i][1]; }
+    }
+    sc += 1.2 * mob + 28 * Math.min(two, 5);
+    var near = 0; for (i = 0; i < 4; i++) { var qr = kr + DIRS[i][0], qc = kc + DIRS[i][1]; if (inb(s, qr, qc) && b[qr][qc] === 1) near++; }
+    sc -= 16 * near;
+    if (s.esc === 'corner') {
+      var dm = Math.min(kr, e - kr) + Math.min(kc, e - kc); sc -= 1.5 * dm;
+      // attackers on the diagonal guard squares of a corner (two along the edges, one on the diagonal) seal it
+      var G = [[0, 2], [1, 1], [2, 0]], CS = [[0, 0], [0, e], [e, 0], [e, e]], GV = [0, 7, 22, 70];
+      CS.forEach(function (q) { var cnt = 0; G.forEach(function (x) { var gr = q[0] === 0 ? x[0] : e - x[0], gc = q[1] === 0 ? x[1] : e - x[1]; if (b[gr][gc] === 1) cnt++; }); sc -= GV[cnt]; });
+    } else {
+      sc -= 3 * Math.min(kr, e - kr, kc, e - kc);
+    }
+    return sc;
+  }
+  function search(s, depth, alpha, beta) {   // alpha-beta, returns value from the defenders' point of view
+    if (s.winner) return evaluate(s);
+    if (depth === 0) return evaluate(s);
+    var ms = moves(s, s.turn), i, best, val;
+    if (!ms.length) return s.turn === 2 ? -1e6 + s.ply : 1e6 - s.ply;
+    if (s.turn === 2) {
+      best = -Infinity;
+      for (i = 0; i < ms.length; i++) { val = search(apply(s, ms[i], true).state, depth - 1, alpha, beta); if (val > best) best = val; if (best > alpha) alpha = best; if (alpha >= beta) break; }
+    } else {
+      best = Infinity;
+      for (i = 0; i < ms.length; i++) { val = search(apply(s, ms[i], true).state, depth - 1, alpha, beta); if (val < best) best = val; if (best < beta) beta = best; if (alpha >= beta) break; }
+    }
+    return best;
+  }
+  function choose(s, level, rnd) {
+    rnd = rnd || Math.random;
+    var p = s.turn, ms = moves(s, p); if (!ms.length) return null;
+    if (level === 'thrall' && rnd() < 0.3) return ms[Math.floor(rnd() * ms.length)];
+    var depth = level === 'thrall' ? 1 : (ms.length > 70 ? 2 : 3);
+    var best = null, bv = p === 2 ? -Infinity : Infinity, i, val;
+    // king moves first for the defenders (better pruning); nothing else needs ordering at this depth
+    if (p === 2) ms.sort(function (x, y) { return (s.b[y.from[0]][y.from[1]] === 3) - (s.b[x.from[0]][x.from[1]] === 3); });
+    for (i = 0; i < ms.length; i++) {
+      var ns = apply(s, ms[i], true).state;
+      val = search(ns, depth - 1, -Infinity, Infinity) + (rnd() - 0.5) * 2;
+      if (p === 2 ? val > bv : val < bv) { bv = val; best = ms[i]; }
+    }
+    return best;
+  }
+  return { NAMES: NAMES, newGame: newGame, clone: clone, moves: moves, apply: apply, preview: preview, choose: choose, count: count, kingPos: kingPos, key: key, side: side, isThrone: isThrone, isCorner: isCorner, restricted: restricted, isEscape: isEscape, escapeRoutes: escapeRoutes, evaluate: evaluate, CAP_PLIES: CAP_PLIES };
+})();
+
+
+</script>
+<script>
+/* Tafl page: board rendering (CSS 3D), turns, computer opponent, background motion. */
+(function () {
+  'use strict';
+  var T = Tafl;
+  function $(id) { return document.getElementById(id); }
+  var PRESETS = { '11': { n: 11, esc: 'corner', weak: false }, '9': { n: 9, esc: 'edge', weak: true }, '7': { n: 7, esc: 'corner', weak: true } };
+  var SN = { 1: 'Attackers', 2: 'Defenders' };
+  function mkPiece(v, seed) {
+    var pc = document.createElement('div'); pc.className = 'pc ' + (v === 1 ? 'a' : v === 2 ? 'c' : 'k');
+    pc.innerHTML = '<span class="halo"></span><span class="disc"></span>';
+    if (window.Solids) pc.appendChild(Solids.make(v === 1 ? 'tetra' : v === 2 ? 'octa' : 'merkaba', v === 1 ? 'gold' : v === 2 ? 'cyan' : 'ice', seed, v === 3 ? 14 : (v === 1 ? 19 : 16)));
+    return pc;
+  }
+  function snd(n) { if (window.OphanimSound) OphanimSound.play(n); }
+  var G, N = 11, mode, level, timer, last = [], sel = null, L = [], score = [0, 0, 0], view3d = true, over = false, seen = {};
+  var board = $('board'), scene = $('scene'), cells = {};
+  var FILES = 'abcdefghijk';
+
+  function key(r, c) { return r + ',' + c; }
+  function sqName(r, c) { return FILES[c] + (N - r); }
+  function build() {
+    board.textContent = ''; cells = {}; board.style.setProperty('--n', N);
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+      var d = document.createElement('div'), cls = 'sq' + ((r + c) % 2 ? ' alt' : '');
+      if (T.isThrone(G, r, c)) cls += ' throne';
+      else if (G.esc === 'corner' && T.isCorner(G, r, c)) cls += ' corner';
+      else if (G.esc === 'edge' && T.isEscape(G, r, c)) cls += ' edgeesc';
+      d.className = cls; d.dataset.r = r; d.dataset.c = c;
+      if (T.isThrone(G, r, c)) d.innerHTML += '<span class="g" aria-hidden="true">ᛟ</span>';
+      if (G.esc === 'corner' && T.isCorner(G, r, c)) d.innerHTML += '<span class="g" aria-hidden="true">ᛏ</span>';
+      if (c === 0) d.innerHTML += '<span class="n rk">' + (N - r) + '</span>';
+      if (r === N - 1) d.innerHTML += '<span class="n fl">' + FILES[c] + '</span>';
+      d.addEventListener('click', onSquare);
+      board.appendChild(d); cells[key(r, c)] = d;
+    }
+    scene.setAttribute('aria-label', 'Tafl board, ' + N + ' by ' + N + ' squares');
+  }
+  function size() {
+    var w = $('stage').clientWidth, h = $('stage').clientHeight;
+    var sq = view3d ? Math.min(w / (N + 2.4), h / (N - 0.6)) : Math.min(w / (N + 0.8), h / (N + 0.8));
+    sq *= (typeof zoom === 'number' ? zoom : 1);
+    board.style.setProperty('--sq', Math.max(18, sq) + 'px'); board.style.setProperty('--k', Math.max(18, sq));
+  }
+  window.addEventListener('resize', size);
+
+  function isHuman(p) { return mode === '2p' || (mode === 'def' && p === 2) || (mode === 'att' && p === 1); }
+  function lvName() { return level === 'thrall' ? 'Thrall' : 'Jarl'; }
+  function who(p) {
+    if (mode === '2p') return SN[p];
+    if (mode === 'watch') return SN[p] + ' (Jarl)';
+    return isHuman(p) ? 'You (' + SN[p].toLowerCase() + ')' : SN[p] + ' (' + lvName() + ')';
+  }
+
+  function render() {
+    Object.keys(cells).forEach(function (k) { var e = cells[k]; e.classList.remove('dest', 'last', 'selected', 'capt', 'win'); var o = e.querySelector('.pc'); if (o) o.remove(); });
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+      var v = G.b[r][c]; if (!v) continue;
+      var pc = mkPiece(v, r * 11 + c + v); pc.dataset.r = r; pc.dataset.c = c;
+      if (v === 3 && G.winner === 1) pc.classList.add('dead');
+      cells[key(r, c)].appendChild(pc);
+    }
+    last.forEach(function (k) { if (cells[k]) cells[k].classList.add('last'); });
+    if (!over && isHuman(G.turn)) {
+      var seenF = {};
+      L.forEach(function (m) { var k = key(m.from[0], m.from[1]); if (seenF[k]) return; seenF[k] = 1; var e = cells[k].querySelector('.pc'); if (e) e.classList.add('can'); });
+      if (sel) {
+        cells[key(sel[0], sel[1])].classList.add('selected');
+        var isKing = G.b[sel[0]][sel[1]] === 3;
+        L.forEach(function (m) {
+          if (m.from[0] !== sel[0] || m.from[1] !== sel[1]) return;
+          var e = cells[key(m.to[0], m.to[1])]; e.classList.add('dest');
+          var pv = T.preview(G, m);
+          if (pv.caps.length || pv.king) e.classList.add('capt');
+          if (isKing && T.isEscape(G, m.to[0], m.to[1])) e.classList.add('win');
+        });
+      }
+    }
+    $('offC').textContent = T.count(G, 2) + T.count(G, 3); $('offA').textContent = T.count(G, 1);
+    $('scoreTxt').textContent = score[1] + ' – ' + score[2];
+    var dot = $('dot'), col = G.turn === 2 ? 'var(--cyan)' : 'var(--amber)'; dot.style.background = col; dot.style.color = col;
+    $('statusTxt').textContent = statusText();
+  }
+  function statusText() {
+    if (over) {
+      if (G.draw) return G.why === 'rep' ? 'A draw: the same position came up three times.' : 'A draw after ' + T.CAP_PLIES + ' moves.';
+      if (G.why === 'escape') return 'The king has escaped! ' + who(2) + ' win.';
+      if (G.why === 'king') return 'The king is captured! ' + who(1) + ' win.';
+      return who(G.turn) + ' cannot move. ' + who(G.winner) + ' win.';
+    }
+    var w = who(G.turn), s = w + (isHuman(G.turn) ? ': tap a glowing piece, then a square' : ' is thinking');
+    var k = T.kingPos(G);
+    if (G.turn === 1 && k && T.escapeRoutes(G, k[0], k[1]) > 0) s += '. The king threatens to escape!';
+    return s;
+  }
+  function log(h) { var ul = $('logList'), li = document.createElement('li'); li.innerHTML = h; ul.insertBefore(li, ul.firstChild); while (ul.children.length > 40) ul.removeChild(ul.lastChild); }
+  function clear() { if (timer) { clearTimeout(timer); timer = null; } }
+  function newGame() {
+    clear();
+    var pr = PRESETS[$('selRule').value], rebuild = !G || N !== pr.n || G.esc !== pr.esc;
+    mode = $('selSide').value; level = $('selLvl').value;
+    N = pr.n; G = T.newGame(pr.n, pr.esc, pr.weak); over = false; last = []; sel = null; seen = {}; seen[T.key(G)] = 1;
+    L = T.moves(G, G.turn);
+    if (rebuild) { build(); size(); }
+    $('logList').textContent = ''; log('New game. <b>Attackers</b> move first.');
+    render(); next();
+  }
+  function next() { if (!over && !isHuman(G.turn)) timer = setTimeout(aiMove, mode === 'watch' ? 650 : 750); }
+  function aiMove() { if (over) return; var m = T.choose(G, mode === 'watch' ? 'jarl' : level); if (m) doMove(m); }
+  function doMove(m) {
+    clear();
+    var p = G.turn, res = T.apply(G, m); G = res.state; sel = null;
+    last = [key(m.from[0], m.from[1]), key(m.to[0], m.to[1])];
+    var msg = '<b>' + SN[p] + '</b> ' + sqName(m.from[0], m.from[1]) + ' → ' + sqName(m.to[0], m.to[1]);
+    if (res.caps.length) { msg += ' and <b>captures ' + res.caps.length + '</b>'; snd('capture'); }
+    log(msg + '.');
+    var k = T.key(G); seen[k] = (seen[k] || 0) + 1;
+    if (!G.winner && !G.draw && seen[k] >= 3) { G.draw = true; G.why = 'rep'; }
+    if (G.winner || G.draw) {
+      over = true; if (G.winner) score[G.winner]++; render();
+      if (G.winner) { snd('win'); log('<b>' + who(G.winner) + ' win the game.</b>'); } else log('<b>Drawn game.</b>');
+      return;
+    }
+    L = T.moves(G, G.turn); render(); next();
+  }
+  function onSquare(e) {
+    if (dragMoved || over || !isHuman(G.turn)) return;
+    var r = +e.currentTarget.dataset.r, c = +e.currentTarget.dataset.c;
+    if (sel) {
+      var m = null; L.forEach(function (x) { if (x.from[0] === sel[0] && x.from[1] === sel[1] && x.to[0] === r && x.to[1] === c) m = x; });
+      if (m) { doMove(m); return; }
+    }
+    if (G.b[r][c] && T.side(G.b[r][c]) === G.turn && L.some(function (x) { return x.from[0] === r && x.from[1] === c; })) { sel = (sel && sel[0] === r && sel[1] === c) ? null : [r, c]; render(); }
+    else if (sel) { sel = null; render(); }
+  }
+  $('btnNew').onclick = newGame; ['selSide', 'selLvl', 'selRule'].forEach(function (id) { $(id).onchange = newGame; });
+
+  var tx = 54, rz = 0, dragMoved = false, drag = null;
+  function applyView() { board.style.setProperty('--tx', tx + 'deg'); board.style.setProperty('--rz', rz + 'deg'); }
+  function setView(is3d) {
+    view3d = is3d; scene.classList.toggle('flat', !is3d);
+    $('v3d').setAttribute('aria-pressed', is3d); $('v2d').setAttribute('aria-pressed', !is3d);
+    $('btnResetView').hidden = !is3d; size();
+  }
+  scene.addEventListener('pointerdown', function (e) { if (!view3d) return; drag = { x: e.clientX, y: e.clientY, tx: tx, rz: rz }; dragMoved = false; });
+  window.addEventListener('pointermove', function (e) {
+    if (!drag) return; var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!dragMoved && Math.abs(dx) + Math.abs(dy) < 6) return;
+    dragMoved = true; board.classList.add('dragging');
+    rz = Math.max(-50, Math.min(50, drag.rz + dx * 0.25)); tx = Math.max(15, Math.min(75, drag.tx - dy * 0.25)); applyView();
+  });
+  window.addEventListener('pointerup', function () { if (!drag) return; drag = null; board.classList.remove('dragging'); setTimeout(function () { dragMoved = false; }, 0); });
+  $('v3d').onclick = function () { setView(true); }; $('v2d').onclick = function () { setView(false); };
+  var zoom = 1;
+  function setZoom(z) { zoom = Math.max(0.6, Math.min(2.4, z)); size(); }
+  scene.addEventListener('wheel', function (e) { e.preventDefault(); setZoom(zoom * (e.deltaY < 0 ? 1.1 : 1 / 1.1)); }, { passive: false });
+  (function () {                                                    // zoom buttons for touch screens
+    var host = $('btnResetView').parentNode;
+    [['Zoom out', '−', 1 / 1.2], ['Zoom in', '+', 1.2]].forEach(function (z) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn small'; b.setAttribute('aria-label', z[0]); b.title = z[0] + ' (or use the mouse wheel)'; b.textContent = z[1];
+      b.onclick = function () { setZoom(zoom * z[2]); }; host.insertBefore(b, $('btnResetView'));
+    });
+  })();
+  $('btnResetView').onclick = function () { tx = 54; rz = 0; zoom = 1; applyView(); size(); };
+
+  /* ---------- background: shapes along serpentine lanes at three depths ---------- */
+  var cv = $('bgfx'), cx = cv.getContext('2d'), W = 0, H = 0, DPR = 1, bgOn = false, raf = 0, t0 = 0;
+  var layers = [
+    { lanes: 15, n: 80, size: 1.6, speed: 9,  a: .35, kind: 'dot',  col: '255,255,255' },
+    { lanes: 8,  n: 26, size: 4.5, speed: 20, a: .28, kind: 'dia',  col: '0,240,255' },
+    { lanes: 8,  n: 18, size: 5,   speed: 17, a: .25, kind: 'dia',  col: '255,183,0' },
+    { lanes: 4,  n: 8,  size: 12,  speed: 38, a: .16, kind: 'ring', col: '0,240,255' },
+    { lanes: 4,  n: 6,  size: 14,  speed: 32, a: .14, kind: 'ring', col: '255,183,0' }
+  ];
+  function fit() { DPR = Math.min(2, window.devicePixelRatio || 1); W = window.innerWidth; H = window.innerHeight; cv.width = W * DPR; cv.height = H * DPR; cx.setTransform(DPR, 0, 0, DPR, 0, 0); }
+  function pos(Ly, u) {
+    var m = 24, gap = (H - 2 * m) / (Ly.lanes - 1), seg = W + gap, total = Ly.lanes * W + (Ly.lanes - 1) * gap;
+    u = ((u % total) + total) % total;
+    var k = Math.min(Ly.lanes - 1, Math.floor(u / seg)), r = u - k * seg, y = m + k * gap, x;
+    if (r < W) x = k % 2 ? W - r : r; else { x = k % 2 ? 0 : W; y += r - W; }
+    return [x, y, total];
+  }
+  function draw(ts) {
+    var t = (ts - t0) / 1000; cx.clearRect(0, 0, W, H);
+    layers.forEach(function (Ly, li) {
+      var total = pos(Ly, 0)[2];
+      for (var i = 0; i < Ly.n; i++) {
+        var p = pos(Ly, i * total / Ly.n + t * Ly.speed + li * 37), x = p[0], y = p[1], s = Ly.size;
+        cx.globalAlpha = Ly.a * (Ly.kind === 'dot' ? .55 + .45 * Math.sin(t * 1.3 + i * 1.7) : 1);
+        cx.strokeStyle = cx.fillStyle = 'rgb(' + Ly.col + ')';
+        if (Ly.kind === 'dot') { cx.beginPath(); cx.arc(x, y, s, 0, 6.2832); cx.fill(); }
+        else { cx.save(); cx.translate(x, y); cx.rotate(Math.PI / 4 + (Ly.kind === 'ring' ? t * .15 + i : 0));
+          if (Ly.kind === 'dia') cx.fillRect(-s, -s, 2 * s, 2 * s); else { cx.lineWidth = 1.2; cx.strokeRect(-s, -s, 2 * s, 2 * s); cx.strokeRect(-s * .55, -s * .55, s * 1.1, s * 1.1); }
+          cx.restore(); }
+      }
+    });
+    cx.globalAlpha = 1; if (bgOn) raf = requestAnimationFrame(draw);
+  }
+  function bgSet(on, save) {
+    bgOn = on; $('chkBg').checked = on; cancelAnimationFrame(raf);
+    if (on) { t0 = performance.now(); raf = requestAnimationFrame(draw); } else { cx.clearRect(0, 0, W, H); draw(performance.now()); cx.globalAlpha = 1; cancelAnimationFrame(raf); }
+    if (save) { try { localStorage.setItem('ophanim.tafl.bg', on ? '1' : '0'); } catch (e) {} }
+  }
+  window.addEventListener('resize', function () { fit(); if (!bgOn) { cx.clearRect(0, 0, W, H); draw(performance.now()); } });
+  $('chkBg').onchange = function () { bgSet(this.checked, true); };
+
+  fit(); setView(true); applyView();
+  var pref = null; try { pref = localStorage.getItem('ophanim.tafl.bg'); } catch (e) {}
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  bgSet(pref === null ? !reduce : pref === '1', false);
+  newGame();
+  window.__tf = { get G() { return G; }, get L() { return L; }, doMove: doMove, get over() { return over; }, newGame: newGame };
+})();
+
+</script>
+<script>
+(function(){
+  var M={f:1,u:2,'\u00fe':3,a:4,r:5,k:6,g:7,w:8,h:9,n:10,i:11,j:12,'\u00ef':13,p:14,z:15,s:16,t:17,b:18,e:19,m:20,l:21,d:23,o:24};
+  var GL={1:'ᚠ',2:'ᚢ',3:'ᚦ',4:'ᚨ',5:'ᚱ',6:'ᚲ',7:'ᚷ',8:'ᚹ',9:'ᚺ',10:'ᚾ',11:'ᛁ',12:'ᛃ',13:'ᛇ',14:'ᛈ',15:'ᛉ',16:'ᛊ',17:'ᛏ',18:'ᛒ',19:'ᛖ',20:'ᛗ',21:'ᛚ',22:'ᛜ',23:'ᛞ',24:'ᛟ'}, AL={c:'k',v:'w',y:'i','\u00f0':'\u00fe','\u00e1':'a','\u00e0':'a','\u00e4':'a','\u00e9':'e','\u00e8':'e','\u00ed':'i','\u00f3':'o','\u00f6':'o','\u00f8':'o','\u00fa':'u','\u00fc':'u','\u00fd':'i'};
+  function conv(s,ng){
+    s=s.toLowerCase(); var out=[],skip=0,i=0;
+    while(i<s.length){
+      var ch=s.charAt(i),two=s.substr(i,2);
+      if(two==='th'){out.push(3);i+=2;continue;}
+      if(ng&&two==='ng'){out.push(22);i+=2;continue;}
+      if(ch==='x'){out.push(6,16);i++;continue;}
+      ch=AL[ch]||ch;
+      if(M[ch])out.push(M[ch]); else if(!/[\s\-'.\u2019]/.test(ch))skip++;
+      i++;
+    }
+    return {v:out,skip:skip};
+  }
+  var inp=document.getElementById('runeIn'),ng=document.getElementById('runeNg'),out=document.getElementById('runeOut');
+  if(!inp)return;
+  function go(){
+    var r=conv(inp.value,ng.checked);
+    if(!r.v.length){out.textContent=inp.value?'No runes found in that text.':'Positions run from Fehu 1 to Othala 24. c counts as k, v as w, y as i; letters the futhark lacks are skipped.';return;}
+    var sum=r.v.reduce(function(a,b){return a+b;},0);
+    out.innerHTML='<span class="rune" style="font-size:1.5em">'+r.v.map(function(n){return GL[n];}).join('')+'</span><br>'+r.v.join(' + ')+' = <b>'+sum+'</b>'+(r.skip?'<br><span style="color:var(--muted,#7f95a6)">'+r.skip+' character'+(r.skip>1?'s':'')+' skipped</span>':'');
+  }
+  inp.addEventListener('input',go); ng.addEventListener('change',go);
+  window.__runeConv=conv;
+})();
+</script>
+<script>
+(function () {
+  var u = location.href, t = document.title + ' - Philosophy From A Stone';
+  function $(id) { return document.getElementById(id); }
+  var eu = encodeURIComponent(u), et = encodeURIComponent(t);
+  $('shFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + eu;
+  $('shX').href = 'https://twitter.com/intent/tweet?text=' + et + '&url=' + eu;
+  $('shPin').href = 'https://pinterest.com/pin/create/button/?url=' + eu + '&description=' + et;
+  $('shMail').href = 'mailto:?subject=' + et + '&body=' + et + '%0A%0A' + eu;
+  $('shTg').href = 'https://t.me/share/url?url=' + eu + '&text=' + et;
+  $('shWa').href = 'https://wa.me/?text=' + et + '%20' + eu;
+  $('shUrl').value = u;
+  var note = $('shNote');
+  function say(s) { note.textContent = s; setTimeout(function () { note.textContent = ''; }, 4000); }
+  function copy(done) {
+    var inp = $('shUrl');
+    function sel() { inp.focus(); inp.select(); say('Press Ctrl+C to copy the link.'); }
+    try { navigator.clipboard.writeText(u).then(function () { done(); }, sel); } catch (e) { sel(); }
+  }
+  $('shCopy').addEventListener('click', function () { copy(function () { say('Link copied.'); }); });
+  $('shIg').addEventListener('click', function () {
+    copy(function () { say('Link copied. Paste it into your Instagram post or story.'); });
+    window.open('https://www.instagram.com/', '_blank', 'noopener');
+  });
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function p2(n) { return n < 10 ? '0' + n : '' + n; }
+  function tick() {
+    var d = new Date();
+    $('clUtc').textContent = p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()) + ':' + p2(d.getUTCSeconds());
+    $('clLoc').textContent = p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+    try { $('clTz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+  }
+  tick(); setInterval(tick, 1000);
+  var cr = [];
+  function fmt(v) {
+    if (v == null || !isFinite(v)) return '—';
+    var a = Math.abs(v);
+    return v.toLocaleString('en-US', { maximumFractionDigits: a >= 100 ? 0 : a >= 1 ? 2 : 4, minimumFractionDigits: a >= 1 && a < 100 ? 2 : 0 });
+  }
+  function render() {
+    var tr = $('mTrack'); if (!tr || !cr.length) return;
+    tr.textContent = '';
+    for (var k = 0; k < 2; k++) cr.forEach(function (x) {
+      var s = document.createElement('span'); s.className = 'mi'; s.appendChild(document.createTextNode(x.name));
+      var e = document.createElement('em'); e.textContent = '$' + fmt(x.price); s.appendChild(e);
+      if (x.pct != null && isFinite(x.pct)) {
+        var c = document.createElement('span'); c.className = x.pct >= 0 ? 'up' : 'dn';
+        c.textContent = (x.pct >= 0 ? '▲ +' : '▼ ') + x.pct.toFixed(2) + '%'; s.appendChild(c);
+      }
+      tr.appendChild(s);
+    });
+  }
+  function load() {
+    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=11&page=1&price_change_percentage=24h')
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (j) { if (Array.isArray(j)) { cr = j.map(function (c) { return { name: (c.symbol || '').toUpperCase(), price: c.current_price, pct: c.price_change_percentage_24h }; }); render(); } })
+      .catch(function () {});
+  }
+  load(); setInterval(load, 60000);
+  setTimeout(function () { var tr = $('mTrack'); if (tr && !cr.length) tr.innerHTML = '<span class="mi">Live prices load once the page is hosted online</span>'; }, 6000);
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var prov = null;
+  function find() {
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return { p: window.phantom.solana, n: 'Phantom' };
+    if (window.solflare && window.solflare.isSolflare) return { p: window.solflare, n: 'Solflare' };
+    if (window.solana) return { p: window.solana, n: 'Solana wallet' };
+    return null;
+  }
+  $('btnWallet').addEventListener('click', function () {
+    var txt = $('walletTxt'), btn = $('btnWallet');
+    if (prov) { try { prov.p.disconnect(); } catch (e) {} prov = null; btn.textContent = 'Connect wallet'; txt.textContent = 'Wallet disconnected.'; return; }
+    var f = find();
+    if (!f) { txt.textContent = 'No Phantom or Solflare wallet was found in this browser.'; return; }
+    f.p.connect().then(function (r) {
+      var pk = (r && r.publicKey ? r.publicKey : f.p.publicKey).toString();
+      prov = f; btn.textContent = 'Disconnect';
+      txt.textContent = f.n + ' connected: ' + pk.slice(0, 4) + '…' + pk.slice(-4) + '. Only your public address is shown.';
+    }).catch(function () { txt.textContent = 'The wallet did not connect.'; });
+  });
+})();
+</script>
+
+<script src="account.js"></script>
+<script src="lounge.js"></script>
+</body></html>

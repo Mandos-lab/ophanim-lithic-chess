@@ -1,0 +1,1799 @@
+<!doctype html><html lang="en"><head>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script><style>.embed .mstrip,.embed .fticker,.embed nav.nav,.embed header.top,.embed .section,.embed .sw-section,.embed footer.sw-foot{display:none!important}.embed .wrap{padding-top:6px}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style><title>Ophanim Lithic Backgammon</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+/* Layout: same forensic obsidian stage as Ophanim Lithic Chess. Board left, instruments right,
+   Cube Lab and history below. One committed dark look: cyan stones vs amber stones, emerald = legal. */
+:root{
+  --bg:#06080d; --panel:#0a0f17; --panel2:#0e1521; --line:#1a2638; --fg:#d6e4ec; --muted:#7f95a6;
+  --cyan:#00f0ff; --amber:#ffb700; --emerald:#18e39c; --danger:#ff4d6a; --hint:#b388ff; --yellow:#ffd400;
+  --pt-a:#1c3b52; --pt-b:#0e2231;
+  --f-display:'Syne','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 36px}
+*{box-sizing:border-box}
+button,select,input{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1200px;margin-inline:auto}
+
+.nav{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.navtab{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:var(--panel);display:inline-block;cursor:pointer}
+.navtab.on{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+a.navtab:hover,button.navtab:hover{border-color:var(--cyan);color:var(--fg)}
+.navtab.on:hover{color:#021014}
+
+.top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.titlerow{display:flex;align-items:center;gap:12px}
+.emblem{flex:none}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.7rem);line-height:1.05;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font:400 12px var(--f-mono);letter-spacing:.04em}
+.sub b{color:var(--cyan);font-weight:500}
+.sub a{color:var(--fg);text-decoration:underline dotted;text-underline-offset:3px}
+.sub a:hover{color:var(--cyan);text-decoration-style:solid}
+.tagline{margin:10px 0 0;font-size:15px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+.boardcol,.side{min-width:0;display:flex;flex-direction:column;gap:12px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:7px 14px;font:500 12px var(--f-mono);letter-spacing:.06em;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--cyan);color:#021014}
+.seg button[disabled]{opacity:.35;cursor:not-allowed}
+
+.btn{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:8px 12px;border-radius:3px;cursor:pointer;display:inline-block;line-height:1.3}
+.btn:hover{border-color:var(--cyan)}
+.btn.accent{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+.btn.accent:hover{background:#6ff6ff}
+.btn.warn{color:#1a1000;background:var(--amber);border-color:var(--amber)}
+.btn.warn:hover{background:#ffd266}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.stage{position:relative;width:100%;aspect-ratio:7/5;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#0d1622 0%,#06080d 72%)}
+#gl,#flat{position:absolute;inset:0}
+#gl canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#gl canvas:active{cursor:grabbing}
+#flat svg{width:100%;height:100%;display:block}
+#flat [data-k]{cursor:pointer}
+.banner{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(94%,460px);background:var(--panel);border:1px solid var(--amber);padding:12px 14px;border-radius:4px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;z-index:3}
+.banner strong{font-family:var(--f-display);font-size:1.05rem}
+.banner .bt{min-width:0;flex:1 1 200px}
+.banner .bt small{display:block;color:var(--muted);font:400 11px/1.4 var(--f-mono);margin-top:2px}
+.banner .bb{display:flex;gap:8px}
+.think{position:absolute;left:12px;top:12px;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);background:rgba(6,8,13,.8);border:1px solid var(--line);padding:4px 8px;border-radius:3px;z-index:3}
+
+.statusbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.turn{display:flex;align-items:center;gap:10px;font:500 14px var(--f-mono);min-width:0}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--cyan);box-shadow:0 0 10px currentColor;color:var(--cyan)}
+.dot.amb{background:var(--amber);color:var(--amber)}
+.diceRow{display:flex;gap:8px;align-items:center;min-height:38px}
+.die{width:34px;height:34px;border-radius:6px;border:1.5px solid var(--cyan);background:#0b1a22;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:4px;gap:1px}
+.die.amb{border-color:var(--amber);background:#241a07}
+.die i{border-radius:50%;background:transparent;display:block}
+.die i.on{background:var(--cyan);margin:1px}
+.die.amb i.on{background:var(--amber)}
+.die.used{opacity:.28}
+.pipline{margin:0;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.cubebadge{font:500 12px var(--f-mono);border:1px solid var(--line);padding:4px 8px;border-radius:3px;background:var(--panel2)}
+.cubebadge b{color:var(--yellow)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;min-width:0}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.row:first-of-type{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+select,input[type="number"]{background:var(--panel2);color:var(--fg);border:1px solid var(--line);padding:8px;font-size:13px;border-radius:3px;min-width:0;width:100%}
+input[type="range"]{width:100%;accent-color:var(--cyan);padding:0}
+.stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.stat div{border:1px solid var(--line);padding:8px;background:var(--bg);text-align:center}
+.stat b{display:block;font:500 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.stat span{font:500 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stat .c b{color:var(--cyan)}.stat .a b{color:var(--amber)}
+.hint-txt{margin:0;font:400 12px/1.55 var(--f-mono);color:var(--muted);min-height:54px}
+.hint-txt b{color:var(--fg);font-weight:500}
+.verdict{color:var(--emerald)}.verdict.no{color:var(--amber)}
+.check{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}
+.check input{accent-color:var(--cyan)}
+.log{list-style:none;margin:0;padding:0;max-height:170px;overflow:auto;font:400 12px/1.5 var(--f-mono);color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.log li b{color:var(--fg);font-weight:500}
+.note{margin:10px 0 0;color:var(--muted);font:400 11px/1.5 var(--f-mono)}
+
+.section{max-width:1200px;margin:34px auto 0}
+.section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
+.cubesel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+.cubesel button{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:6px 10px;font:500 12px var(--f-mono);cursor:pointer;min-width:44px}
+.cubesel button[aria-pressed="true"]{background:var(--yellow);color:#1a1000;border-color:var(--yellow)}
+.verdictBox{margin:12px 0 0;padding:12px;border:1px solid var(--line);border-radius:3px;font:500 14px var(--f-mono);letter-spacing:.03em}
+.verdictBox.g{border-color:var(--emerald);color:var(--emerald)}
+.verdictBox.r{border-color:var(--danger);color:var(--danger)}
+.verdictBox.y{border-color:var(--amber);color:var(--amber)}
+.verdictBox.n{color:var(--fg)}
+.verdictBox small{display:block;margin-top:4px;font:400 11px/1.5 var(--f-mono);color:var(--muted);letter-spacing:0}
+.out{margin:12px 0 0;padding:10px;border:1px solid var(--line);background:var(--bg);font:400 12px/1.6 var(--f-mono);color:var(--muted)}
+.out b{color:var(--fg);font-weight:500}
+.rngrow{display:flex;align-items:center;gap:10px;margin-top:8px}
+.rngrow label{flex:0 0 auto;width:170px;font:500 10px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rngrow output{flex:0 0 44px;text-align:right;font:500 12px var(--f-mono);font-variant-numeric:tabular-nums}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.lcard{background:var(--panel);border:1px solid var(--line);padding:12px 14px;border-radius:4px}
+.lcard h3{margin:0 0 4px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.lcard .era{margin:0 0 6px;font:500 11px var(--f-mono);color:var(--amber)}
+.lcard p{margin:0;color:var(--muted);font-size:13px}
+.lcard.soon{border-style:dashed}
+.lcard.soon h3{color:var(--amber)}
+.scroll{overflow-x:auto}
+table.t{border-collapse:collapse;width:100%;font-size:13px}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.t th{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--panel2)}
+footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px var(--f-mono);letter-spacing:.04em}
+footer a{color:var(--cyan)}
+
+.sw-section{max-width:1200px;margin:34px auto 0}
+.sw-section h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 4px}
+.sw-section>p{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sw-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.sw-card.best{border-color:var(--yellow)}
+.sw-card h3{margin:0;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.sw-card.best h3{color:var(--yellow)}
+.sw-card .sw-amt{color:var(--fg);margin:0;font:800 1.9rem var(--f-display);font-variant-numeric:tabular-nums}
+.sw-amt span{font:500 12px var(--f-mono);color:var(--muted);margin-left:4px}
+.sw-card p{margin:0;color:var(--muted);font-size:13px}
+.sw-soon{font:500 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-top:auto}
+footer.sw-foot{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 11px/1.6 var(--f-mono);letter-spacing:.04em;display:flex;flex-direction:column;gap:10px}
+.sw-foot a{color:var(--cyan)}
+.sw-links,.sw-share{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.sw-share .sw-b{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none}
+.sw-share .sw-b:hover{border-color:var(--cyan);color:var(--cyan)}
+.sw-share input{flex:1 1 220px;min-width:0;background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:6px 8px;font:400 11px var(--f-mono)}
+.sw-btn{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid transparent;padding:6px 10px;border-radius:3px;cursor:pointer;text-decoration:none;color:#000;display:inline-block;line-height:1.3}
+.sw-foot a.sw-btn,.sw-share a.sw-btn{color:#000}
+.sw-btn.btc{background:#f7931a;border-color:#f7931a}
+.sw-btn.tg{background:#2aabee;border-color:#2aabee}
+.sw-btn.wa{background:#25d366;border-color:#25d366}
+.sw-btn:hover{filter:brightness(1.12)}
+.sw-note{flex-basis:100%;color:var(--muted);font:400 11px var(--f-mono);min-height:1em}
+
+.mstrip{display:flex;align-items:center;gap:14px;background:#04060a;border-bottom:1px solid var(--line);font:500 .72rem var(--f-mono);height:28px;overflow:hidden;margin:0 0 12px}
+.mclock{flex:none;display:flex;gap:12px;padding:0 12px;color:var(--fg);white-space:nowrap;height:100%;align-items:center}
+.mclock b{color:var(--cyan);font-weight:500}
+.mtick{flex:1;min-width:0;overflow:hidden;height:100%;display:flex;align-items:center}
+.mtrack{display:flex;gap:26px;white-space:nowrap;animation:mscroll 90s linear infinite;padding-left:20px}
+.mtick:hover .mtrack{animation-play-state:paused}
+.mi{color:var(--muted)}.mi em{font-style:normal;color:var(--fg);margin:0 5px}.up{color:var(--emerald)}.dn{color:var(--danger)}
+.fticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#04060a;height:30px;margin:30px auto 0;max-width:1200px;display:flex;align-items:center;font:500 .72rem var(--f-mono)}
+.fticker .ftl{flex:none;padding:0 12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;border-right:1px solid var(--line);height:100%;display:flex;align-items:center}
+@keyframes mscroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mtrack{animation:none}.mtick{overflow-x:auto}}
+@media (max-width:640px){.mclock .loc{display:none}}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.rngrow label{width:110px}.stage{aspect-ratio:4/3}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="mstrip" role="region" aria-label="Clocks and cryptocurrency prices">
+  <div class="mclock"><span>UTC <b id="clUtc">--:--:--</b></span><span class="loc">Local <b id="clLoc">--:--:--</b> <span id="clTz"></span></span></div>
+  <div class="mtick" title="Cryptocurrency prices refresh about once a minute and may be delayed. Not financial advice."><div class="mtrack" id="mTrack"><span class="mi">Loading prices…</span></div></div>
+</div>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+</head><body><div class="wrap">
+  <nav class="nav" aria-label="Site">
+    <div class="navtabs">
+      <a class="navtab" href="./">Ophanim Field Console</a>
+      <a class="navtab" href="games.html">Games</a>
+      <span class="navtab on" aria-current="page">Lithic Backgammon</span>
+      <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+      <span class="navtab" style="opacity:.55;border-style:dashed;cursor:not-allowed" title="Empty slot">Soon</span>
+    </div>
+    <button class="navtab" id="soundBtn" type="button" aria-pressed="false">Sound on</button>
+  </nav>
+
+  <header class="top">
+    <div class="brand">
+      <div class="titlerow">
+        <svg class="emblem" viewBox="0 0 40 40" width="38" height="38" role="img" aria-label="Ophanim emblem: nested diamonds with a yellow centre"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="11" y="11" width="18" height="18" fill="none" stroke="#00f0ff" stroke-width="1.6"/><rect x="17" y="17" width="6" height="6" fill="#ffd400"/></g></svg>
+        <h1>Ophanim Lithic Backgammon</h1>
+      </div>
+      <p class="sub"><b lang="el">ΦΎ ΨΉ</b> — Philosophy From A Stone · Cyan stones against amber</p>
+      <p class="tagline"><strong>Listen for the shape in a Jitterbug</strong></p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="boardcol" aria-label="Board">
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" id="v3d" aria-pressed="true">3D</button>
+          <button type="button" id="v2d" aria-pressed="false">2D</button>
+        </div>
+        <span class="cubebadge" id="cubeBadge">Cube <b>64</b> · centred</span>
+      </div>
+      <div class="stage" id="stage">
+        <div id="gl"></div>
+        <div id="flat" hidden></div>
+        <div class="think" id="think" hidden>Socrates is thinking</div>
+        <div class="banner" id="banner" hidden>
+          <div class="bt"><strong id="bannerT"></strong><small id="bannerS"></small></div>
+          <div class="bb"><button class="btn accent" type="button" id="bTake">Take</button><button class="btn" type="button" id="bDrop">Drop</button></div>
+        </div>
+      </div>
+      <div class="statusbar">
+        <div class="turn"><span class="dot" id="dot"></span><span id="statusTxt">Starting</span></div>
+        <div class="diceRow" id="diceRow" aria-live="polite"></div>
+      </div>
+      <p class="pipline" id="pipLine" aria-live="polite"></p>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <p class="lbl">Match</p>
+        <div class="stat">
+          <div class="c"><b id="pipW">167</b><span>Cyan pips</span></div>
+          <div class="a"><b id="pipB">167</b><span>Amber pips</span></div>
+        </div>
+        <div class="row">
+          <button class="btn accent" type="button" id="btnRoll">Roll dice</button>
+          <button class="btn warn" type="button" id="btnDouble">Double</button>
+          <button class="btn" type="button" id="btnUndo">Undo move</button>
+          <button class="btn" type="button" id="btnHint">Press Hint for Suggestion</button>
+          <button class="btn accent" type="button" id="btnEnd">End turn</button>
+          <button class="btn" type="button" id="btnNew">New game</button>
+        </div>
+        <label class="field" style="margin-top:12px"><span>Game</span>
+          <select id="selVar">
+            <option value="bg">Backgammon with cube</option>
+            <option value="portes">Portes (no cube)</option>
+            <option value="plakoto">Plakoto (pin, no cube)</option>
+            <option value="fevga">Fevga (no hitting, no cube)</option>
+          </select>
+        </label>
+        <p class="note" id="varNote"></p>
+        <div class="grid2" style="margin-top:12px">
+          <label class="field"><span>Opponent</span>
+            <select id="selOpp">
+              <option value="master">Socrates · Master</option>
+              <option value="apprentice">Socrates · Apprentice</option>
+              <option value="2p">Two players, one screen</option>
+              <option value="watch">Watch Socrates play himself</option>
+            </select>
+          </label>
+          <div class="field"><span>Session score</span><div id="scoreTxt" style="font:500 14px var(--f-mono);padding:8px 0">0 – 0</div></div>
+        </div>
+        <label class="check"><input type="checkbox" id="chkCoach" checked> Show Socrates, the coach</label>
+        <div class="row"><button class="btn small" type="button" id="btnWallet">Connect wallet</button></div>
+        <p class="note" id="walletTxt">Optional. Match wagers are not available: they would need online player-versus-player play and an audited escrow, and neither exists yet.</p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Socrates, your coach</p>
+        <p class="hint-txt" id="coachTxt"></p>
+      </div>
+
+      <div class="card">
+        <p class="lbl">Game log</p>
+        <ul class="log" id="logList"></ul>
+        <p class="note">Point numbers on the board are fixed. Cyan always runs from 24 down to 1 and bears off past 1. Amber runs from 1 up to 24, except in Fevga (see the game rules above).</p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="section" id="cubelab" aria-label="Cube Lab">
+    <h2>Cube Lab</h2>
+    <p>The doubling cube turns backgammon into a decision game. Pick the cube, set the odds with the sliders, and Socrates shows whether to double, and whether the other side should take or pass.</p>
+    <div class="labgrid">
+      <div class="card">
+        <p class="lbl">Pip race: double, redouble, pass</p>
+        <div class="grid2">
+          <label class="field"><span>Your pips</span><input type="number" id="pipMe" value="70" min="1" max="400"></label>
+          <label class="field"><span>Opponent pips</span><input type="number" id="pipOpp" value="81" min="1" max="400"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="chkOwn"> I already own the cube (a redouble)</label>
+        <div class="out" id="pipOut"></div>
+      </div>
+      <div class="card" id="decisionCard">
+        <p class="lbl">Decision machine</p>
+        <div class="cubesel" role="group" aria-label="Doubling cube value before the double" id="cubeSel"></div>
+        <div class="rngrow"><label for="calcW">Win chance</label><input type="range" id="calcW" min="0" max="100" value="72"><output id="calcWo">72%</output></div>
+        <div class="rngrow"><label for="calcGW">Gammon wins (extra points)</label><input type="range" id="calcGW" min="0" max="100" value="12"><output id="calcGWo">12%</output></div>
+        <div class="rngrow"><label for="calcGL">Gammon losses (risk)</label><input type="range" id="calcGL" min="0" max="100" value="4"><output id="calcGLo">4%</output></div>
+        <label class="check"><input type="checkbox" id="chkPipWin"> Take the win chance from the pip race (pips in the race card)</label>
+        <label class="check"><input type="checkbox" id="chkLive" checked> The other side would own the cube after a take</label>
+        <label class="check"><input type="checkbox" id="chkGate"> Use my handshake gate: each gammon estimate must pass a reality check (c) and is weighted by confidence (u)</label>
+        <div id="gateBox" hidden>
+          <label class="check"><input type="checkbox" id="cohGW" checked> c: the gammon wins fit this position (contact is left)</label>
+          <div class="rngrow"><label for="utGW">u: confidence in the gammon wins</label><input type="range" id="utGW" min="0" max="100" value="100"><output id="utGWo">1.0</output></div>
+          <label class="check"><input type="checkbox" id="cohGL" checked> c: the gammon losses fit this position (contact is left)</label>
+          <div class="rngrow"><label for="utGL">u: confidence in the gammon losses</label><input type="range" id="utGL" min="0" max="100" value="100"><output id="utGLo">1.0</output></div>
+        </div>
+        <div class="row"><button class="btn small" type="button" id="btnLoadPips">Load pips from the board</button></div>
+        <div class="verdictBox" id="verdictBox" role="status" aria-live="polite"></div>
+        <div class="out" id="calcOut"></div>
+      </div>
+      <div class="card">
+        <p class="lbl">Quick reference</p>
+        <div class="scroll"><table class="t">
+          <tr><th>Rule</th><th>Number</th></tr>
+          <tr><td>Take point, no gammons</td><td>25% to win</td></tr>
+          <tr><td>Take point, you will own the cube</td><td>about 22%</td></tr>
+          <tr><td>Race: double</td><td>lead of 8% of your pips</td></tr>
+          <tr><td>Race: redouble</td><td>lead of 9%</td></tr>
+          <tr><td>Race: opponent passes</td><td>lead of 12%</td></tr>
+          <tr><td>Win chance window to double</td><td>roughly 70% to 80%</td></tr>
+        </table></div>
+        <p class="note">Race numbers apply only when no stones can hit each other. In a fight the coach gives a rough estimate and says so.</p>
+      </div>
+    </div>
+    <div class="cards" id="lessons" style="margin-top:12px"></div>
+  </section>
+
+  <section class="section" aria-label="Isopsephic metrology and cosmic history of Tavli" data-narrate data-audio="audio/backgammon-history.mp3">
+    <h2>📜 ISOPSEPHIC METROLOGY &amp; COSMIC HISTORY OF TAVLI</h2>
+    <p>The creator's reading of the board, from the Philosophy From A Stone framework. These are symbolic correspondences, not documented history of how the game was made. The counts and the Greek letter sums are real; the meanings are the reading.</p>
+    <div class="cards">
+      <div class="lcard"><h3>The 24 points (2Δ / 3Δ rays)</h3><p class="era">12 above + 12 below = 24 vectors</p><p>Read as the 24 hours of the solar day, the 24 runes of the Elder Futhark, and the 24 divisors of 360°: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120, 180 and 360. Each of those three counts is exactly 24.</p></div>
+      <div class="lcard"><h3>30 checkers (15 light, 15 dark)</h3><p class="era">The synodic lunar month</p><p>Fifteen stones of each colour make 30, read as a lunar month of 15 waxing and 15 waning days. The true synodic month is about 29.5 days, so 30 is its round number. Bearing off is the return: every stone runs the full circuit of the 24 points and leaves the board.</p></div>
+      <div class="lcard"><h3>12 dice faces</h3><p class="era">6 + 6 = 12 · Tyche and Nomos</p><p>Two dice carry 12 faces, read as the 12 zodiacal houses. The throw is Tyche (Fate), the rules are Nomos (Law). In Greek isopsephy Νόμος = 50+70+40+70+200 = 430, and Ἀριθμός (Arithmos, Number) = 1+100+10+9+40+70+200 = 430 as well.</p></div>
+      <div class="lcard"><h3>The central bar</h3><p class="era">Hush 0.00 · Sampi axis · (0,0,0)</p><p>The bar divides the inner and outer tables. In Portes and backgammon it is where a hit stone waits before it re-enters, so in this reading it is the zero-point valve: nothing is lost, everything returns through the centre. Sampi (Ϡ) is the old Greek numeral for 900.</p></div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Backgammon codex" data-narrate data-audio="audio/backgammon-codex.mp3">
+    <h2>Backgammon codex</h2>
+    <p>Backgammon is one of the oldest board games still played, a race of fifteen stones each, run on dice and judgement. A short tour of where it came from.</p>
+    <div class="cards" id="codex"></div>
+  </section>
+
+  <section class="sw-section" aria-label="Software licences">
+    <h2>Software licences</h2>
+    <p>Planned prices for the downloadable versions. There is no checkout yet.</p>
+    <div class="sw-grid">
+      <div class="sw-card"><h3>Tavli Standalone</h3><p class="sw-amt">$7.99<span>USD</span></p><p>Backgammon, Portes, Plakoto and Fevga, with Socrates, the doubling cube and the Cube Lab.</p><span class="sw-soon">Coming soon</span></div>
+      <div class="sw-card"><h3>Lithic Chess Standalone</h3><p class="sw-amt">$11.99<span>USD</span></p><p>Chess with the sacred-geometry stones, 3D and 2D, the computer opponent, replays of famous games and the learner tools.</p><span class="sw-soon">Coming soon</span></div>
+      <div class="sw-card best"><h3>Dual Lithic Bundle</h3><p class="sw-amt">$14.99<span>USD</span></p><p>Both games together. Saves $4.99 compared with buying them separately.</p><span class="sw-soon">Coming soon</span></div>
+    </div>
+  </section>
+  <footer class="sw-foot">
+    <div>Ophanim Lithic Backgammon (ΦΎ ΨΉ — Philosophy From A Stone) · Creator @Mandos16 · 3D by three.js · <a href="chess.html">Play Lithic Chess</a></div>
+    <div class="sw-links">
+      <a href="privacy.html">Privacy and cookies</a>
+      <a class="sw-btn btc" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a>
+      <a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on X</a>
+      <a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">@Mandos16 on YouTube</a>
+    </div>
+    <div class="sw-share" aria-label="Share this page">
+      <span>Share</span>
+      <a class="sw-b" id="shFb" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <button class="sw-b" id="shIg" type="button" title="Instagram has no web share link: this copies the page link and opens Instagram">Instagram</button>
+      <a class="sw-b" id="shX" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">X</a>
+      <a class="sw-b" id="shPin" href="https://pinterest.com/pin/create/button/" target="_blank" rel="noopener noreferrer">Pinterest</a>
+      <a class="sw-b" id="shMail" href="mailto:">Email</a>
+      <a class="sw-btn tg" id="shTg" href="https://t.me/share/url" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a class="sw-btn wa" id="shWa" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <button class="sw-b" id="shCopy" type="button">Copy link</button>
+      <input id="shUrl" type="text" readonly aria-label="Page link">
+      <span class="sw-note" id="shNote" aria-live="polite"></span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* Backgammon rules engine. White ('w') moves 24 -> 1 and bears off past 1.
+   Black ('b') moves 1 -> 24 and bears off past 24.
+   State: {p:[0..25] signed counts (+ white, - black), bar:{w,b}, off:{w,b}} */
+var BG = (function () {
+  'use strict';
+  var DIR = { w: -1, b: 1 };
+  function other(s) { return s === 'w' ? 'b' : 'w'; }
+
+  function initial() {
+    var p = [];
+    for (var i = 0; i < 26; i++) p.push(0);
+    p[24] = 2; p[13] = 5; p[8] = 3; p[6] = 5;      // white
+    p[1] = -2; p[12] = -5; p[17] = -3; p[19] = -5; // black
+    return { p: p, bar: { w: 0, b: 0 }, off: { w: 0, b: 0 } };
+  }
+  function clone(st) {
+    return { p: st.p.slice(), bar: { w: st.bar.w, b: st.bar.b }, off: { w: st.off.w, b: st.off.b } };
+  }
+  function key(st) {
+    return st.p.join(',') + '|' + st.bar.w + ',' + st.bar.b + '|' + st.off.w + ',' + st.off.b;
+  }
+  function own(st, s, i) { return s === 'w' ? Math.max(0, st.p[i]) : Math.max(0, -st.p[i]); }
+  function opp(st, s, i) { return s === 'w' ? Math.max(0, -st.p[i]) : Math.max(0, st.p[i]); }
+
+  function allHome(st, s) {
+    if (st.bar[s] > 0) return false;
+    var i;
+    if (s === 'w') { for (i = 7; i <= 24; i++) if (own(st, s, i) > 0) return false; }
+    else { for (i = 1; i <= 18; i++) if (own(st, s, i) > 0) return false; }
+    return true;
+  }
+
+  // distinct single moves for side s using any die in rem
+  function singleMoves(st, s, rem) {
+    var out = [], seen = {}, d, i;
+    for (var k = 0; k < rem.length; k++) {
+      d = rem[k];
+      if (seen[d]) continue;
+      seen[d] = 1;
+      if (st.bar[s] > 0) {
+        var to = s === 'w' ? 25 - d : d;
+        if (opp(st, s, to) < 2) out.push({ from: 'bar', to: to, die: d, hit: opp(st, s, to) === 1 });
+        continue;
+      }
+      var home = allHome(st, s);
+      for (i = 1; i <= 24; i++) {
+        if (own(st, s, i) === 0) continue;
+        var dest = i + DIR[s] * d;
+        if (dest >= 1 && dest <= 24) {
+          if (opp(st, s, dest) < 2) out.push({ from: i, to: dest, die: d, hit: opp(st, s, dest) === 1 });
+        } else if (home) {
+          var exact = (s === 'w' && dest === 0) || (s === 'b' && dest === 25);
+          if (exact) out.push({ from: i, to: 'off', die: d, hit: false });
+          else {
+            // bearing off with a larger die is legal only from the farthest point
+            var farther = false, j;
+            if (s === 'w') { for (j = i + 1; j <= 6; j++) if (own(st, s, j) > 0) { farther = true; break; } }
+            else { for (j = 19; j < i; j++) if (own(st, s, j) > 0) { farther = true; break; } }
+            if (!farther) out.push({ from: i, to: 'off', die: d, hit: false });
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  function apply(st, s, m) {
+    var n = clone(st), o = other(s), sg = s === 'w' ? 1 : -1;
+    if (m.from === 'bar') n.bar[s]--; else n.p[m.from] -= sg;
+    if (m.to === 'off') n.off[s]++;
+    else {
+      if (m.hit) { n.p[m.to] = 0; n.bar[o]++; }
+      n.p[m.to] += sg;
+    }
+    return n;
+  }
+  function remove(rem, d) {
+    var r = rem.slice(), i = r.indexOf(d);
+    if (i >= 0) r.splice(i, 1);
+    return r;
+  }
+
+  // Shared move search. rules: {singleMoves(st,s,rem), apply(st,s,m), key(st)}
+  function makeSearch(rules) {
+    var memo = {};
+    function maxDepth(st, s, rem) {
+      if (!rem.length) return 0;
+      var mk = rules.key(st) + '#' + s + rem.slice().sort().join('');
+      if (memo[mk] !== undefined) return memo[mk];
+      var ms = rules.singleMoves(st, s, rem), best = 0;
+      for (var i = 0; i < ms.length; i++) {
+        var v = 1 + maxDepth(rules.apply(st, s, ms[i]), s, remove(rem, ms[i].die));
+        if (v > best) best = v;
+        if (best === rem.length) break;
+      }
+      memo[mk] = best;
+      return best;
+    }
+    // legal first moves given "use as many dice as possible; if only one can be used, use the larger"
+    function legalFirst(st, s, rem) {
+      if (Object.keys(memo).length > 120000) memo = {};
+      var ms = rules.singleMoves(st, s, rem);
+      if (!ms.length) return [];
+      var total = maxDepth(st, s, rem);
+      var out = ms.filter(function (m) {
+        return 1 + maxDepth(rules.apply(st, s, m), s, remove(rem, m.die)) === total;
+      });
+      if (total === 1 && rem.length === 2 && rem[0] !== rem[1]) {
+        var big = Math.max(rem[0], rem[1]);
+        var bigs = out.filter(function (m) { return m.die === big; });
+        if (bigs.length) out = bigs;
+      }
+      return out;
+    }
+    // all complete turns for the dice still to play (4 entries for doubles); deduplicated by final position
+    function allTurns(st, s, rem0) {
+      var results = {}, seenNode = {};
+      function walk(cur, rem, seq) {
+        var nk = rules.key(cur) + '#' + rem.slice().sort().join('');
+        if (seenNode[nk]) return;
+        seenNode[nk] = 1;
+        var firsts = legalFirst(cur, s, rem);
+        if (!firsts.length) {
+          var fk = rules.key(cur);
+          if (!results[fk]) results[fk] = { seq: seq, st: cur };
+          return;
+        }
+        for (var i = 0; i < firsts.length; i++) {
+          walk(rules.apply(cur, s, firsts[i]), remove(rem, firsts[i].die), seq.concat([firsts[i]]));
+        }
+      }
+      walk(st, rem0, []);
+      return Object.keys(results).map(function (k) { return results[k]; });
+    }
+    return { maxDepth: maxDepth, legalFirst: legalFirst, allTurns: allTurns, clearMemo: function () { memo = {}; } };
+  }
+  var mainSearch = makeSearch({ singleMoves: singleMoves, apply: apply, key: key });
+
+  function pips(st, s) {
+    var t = st.bar[s] * 25, i;
+    for (i = 1; i <= 24; i++) {
+      var c = own(st, s, i);
+      if (c) t += c * (s === 'w' ? i : 25 - i);
+    }
+    return t;
+  }
+  function isRace(st) {
+    // no contact left: every white checker is already past every black checker
+    var maxW = st.bar.w > 0 ? 25 : 0, minB = st.bar.b > 0 ? 0 : 99, i;
+    for (i = 1; i <= 24; i++) {
+      if (st.p[i] > 0 && i > maxW) maxW = i;
+      if (st.p[i] < 0 && i < minB) minB = i;
+    }
+    return minB > maxW;
+  }
+  function winner(st) { return st.off.w === 15 ? 'w' : st.off.b === 15 ? 'b' : null; }
+
+  // 1 normal, 2 gammon, 3 backgammon
+  function winKind(st, w) {
+    var l = other(w);
+    if (st.off[l] > 0) return 1;
+    var i;
+    if (st.bar[l] > 0) return 3;
+    if (w === 'w') { for (i = 1; i <= 6; i++) if (own(st, l, i) > 0) return 3; }
+    else { for (i = 19; i <= 24; i++) if (own(st, l, i) > 0) return 3; }
+    return 2;
+  }
+
+  // ----- cube maths -----
+  function raceWinProb(pipsMe, pipsOpp) {
+    // me on roll. Calibrated so lead = 8% of pips is about 70% and 12% is about 78%.
+    var avg = (pipsMe + pipsOpp) / 2;
+    var r = (pipsOpp - pipsMe) / avg;
+    return 1 / (1 + Math.exp(-10.6 * r));
+  }
+  // 8-9-12 rule: double at 8% of your pips, redouble at 9%, opponent passes at 12% of leader's pips
+  function raceCube(pipsMe, pipsOpp, redouble) {
+    var lead = pipsOpp - pipsMe;
+    var dbl = (redouble ? 0.09 : 0.08) * pipsMe;
+    var pass = 0.12 * pipsMe;
+    return {
+      lead: lead, doubleAt: dbl, passAt: pass,
+      double: lead >= dbl, drop: lead >= pass,
+      tooGood: false
+    };
+  }
+  // EV of taking a double. w = total win %, gw = gammon wins (inside w), gl = gammon losses (inside 100-w)
+  function takeEV(cube, w, gw, gl) {
+    var W = w / 100, GW = gw / 100, GL = gl / 100, L = 1 - W;
+    return 2 * cube * (W - L + GW - GL);
+  }
+
+  return {
+    initial: initial, clone: clone, key: key, own: own, opp: opp, other: other,
+    singleMoves: singleMoves, apply: apply, remove: remove, legalFirst: mainSearch.legalFirst, allTurns: mainSearch.allTurns,
+    maxDepth: mainSearch.maxDepth, clearMemo: mainSearch.clearMemo, makeSearch: makeSearch, endTurn: function (st) { return st; }, variant: 'bg', pips: pips, isRace: isRace, winner: winner, winKind: winKind,
+    raceWinProb: raceWinProb, raceCube: raceCube, takeEV: takeEV, allHome: allHome
+  };
+})();
+if (typeof module !== 'undefined') module.exports = BG;
+
+/* Tavli variants: Plakoto (pin instead of hit) and Fevga (no hitting, both sides run the same way).
+   Every side runs in "path" coordinates q = 24 (start) down to 1, then bears off.
+   Board points are the fixed numbers 1..24 shown on the board.
+   State: {p signed majority counts, pin[i] = side whose single checker is pinned under the stack, bar, off, first, lock} */
+function makeTavli(variant, BGE) {
+  'use strict';
+  var F = variant === 'fevga';
+  function other(s) { return s === 'w' ? 'b' : 'w'; }
+  function sg(s) { return s === 'w' ? 1 : -1; }
+  function bpt(s, q) { return s === 'w' ? q : (F ? ((q + 11) % 24) + 1 : 25 - q); }
+  function qOf(s, b) {
+    if (s === 'w') return b;
+    if (!F) return 25 - b;
+    var q = (((b - 12) % 24) + 24) % 24;
+    return q === 0 ? 24 : q;
+  }
+  function initial() {
+    var p = [], pin = [], i;
+    for (i = 0; i < 26; i++) { p.push(0); pin.push(0); }
+    p[24] = 15; if (F) p[12] = -15; else p[1] = -15;
+    return { p: p, pin: pin, bar: { w: 0, b: 0 }, off: { w: 0, b: 0 }, first: { w: true, b: true }, lock: { w: 0, b: 0 } };
+  }
+  function clone(st) {
+    return { p: st.p.slice(), pin: st.pin.slice(), bar: { w: 0, b: 0 }, off: { w: st.off.w, b: st.off.b },
+      first: { w: st.first.w, b: st.first.b }, lock: { w: st.lock.w, b: st.lock.b } };
+  }
+  function key(st) {
+    return st.p.join(',') + '|' + st.pin.join(',') + '|' + st.off.w + ',' + st.off.b + (F ? '|' + st.lock.w + ',' + st.lock.b + (st.first.w ? 'a' : 'z') + (st.first.b ? 'a' : 'z') : '');
+  }
+  function free(st, s, b) { var v = st.p[b] * sg(s); return v > 0 ? v : 0; }
+  function cnt(st, s, b) { return free(st, s, b) + (st.pin[b] === s ? 1 : 0); }
+  function own(st, s, b) { return cnt(st, s, b); }
+  function opp(st, s, b) { return cnt(st, other(s), b); }
+  function allHome(st, s) {
+    for (var b = 1; b <= 24; b++) if (cnt(st, s, b) > 0 && qOf(s, b) > 6) return false;
+    return true;
+  }
+  function landing(st, s, b2) {
+    var o = other(s);
+    if (F) return { ok: cnt(st, o, b2) === 0, pin: false };
+    if (st.pin[b2]) return { ok: st.pin[b2] === o, pin: false };
+    var oc = free(st, o, b2);
+    if (oc === 0) return { ok: true, pin: false };
+    if (oc === 1) return { ok: true, pin: true };
+    return { ok: false, pin: false };
+  }
+  // Fevga: no run of six occupied points unless an opponent checker is already past it
+  function primeViolation(st, s) {
+    var o = other(s), occ = [], q, k, ok;
+    for (q = 1; q <= 24; q++) occ[q] = cnt(st, s, bpt(s, q)) > 0;
+    for (q = 1; q <= 19; q++) {
+      ok = true;
+      for (k = 0; k < 6; k++) if (!occ[q + k]) { ok = false; break; }
+      if (!ok) continue;
+      var minO = 99;
+      for (k = 0; k < 6; k++) { var qo = qOf(o, bpt(s, q + k)); if (qo < minO) minO = qo; }
+      var ahead = st.off[o] > 0;
+      for (var b = 1; b <= 24 && !ahead; b++) if (cnt(st, o, b) > 0 && qOf(o, b) < minO) ahead = true;
+      if (!ahead) return true;
+    }
+    return false;
+  }
+  function apply(st, s, m) {
+    var n = clone(st), o = other(s), g = sg(s);
+    if (m.from !== 'bar') {
+      n.p[m.from] -= g;
+      if (n.p[m.from] === 0 && n.pin[m.from]) { n.p[m.from] = sg(n.pin[m.from]); n.pin[m.from] = 0; }
+    }
+    if (m.to === 'off') n.off[s]++;
+    else if (m.hit) { n.p[m.to] = g; n.pin[m.to] = o; }
+    else n.p[m.to] += g;
+    if (F && n.first[s]) n.lock[s] = m.to === 'off' ? 0 : m.to;
+    return n;
+  }
+  function singleMoves(st, s, rem) {
+    var out = [], seen = {}, b, k, d;
+    for (k = 0; k < rem.length; k++) {
+      d = rem[k];
+      if (seen[d]) continue;
+      seen[d] = 1;
+      var home = allHome(st, s);
+      for (b = 1; b <= 24; b++) {
+        if (free(st, s, b) === 0) continue;
+        if (F && st.first[s] && st.lock[s] && st.lock[s] !== b) continue;
+        var q = qOf(s, b), q2 = q - d, mv = null;
+        if (q2 >= 1) {
+          var b2 = bpt(s, q2), L = landing(st, s, b2);
+          if (L.ok) mv = { from: b, to: b2, die: d, hit: L.pin };
+        } else if (home) {
+          if (q2 === 0) mv = { from: b, to: 'off', die: d, hit: false };
+          else {
+            var farther = false, bb;
+            for (bb = 1; bb <= 24; bb++) if (cnt(st, s, bb) > 0 && qOf(s, bb) > q) { farther = true; break; }
+            if (!farther) mv = { from: b, to: 'off', die: d, hit: false };
+          }
+        }
+        if (mv && F && primeViolation(apply(st, s, mv), s)) mv = null;
+        if (mv) out.push(mv);
+      }
+    }
+    return out;
+  }
+  function pips(st, s) {
+    var t = 0;
+    for (var b = 1; b <= 24; b++) { var c = cnt(st, s, b); if (c) t += c * qOf(s, b); }
+    return t;
+  }
+  function winner(st) { return st.off.w === 15 ? 'w' : st.off.b === 15 ? 'b' : null; }
+  function winKind(st, w) { return st.off[other(w)] > 0 ? 1 : 2; }
+  function endTurn(st, s) {
+    var n = clone(st);
+    if (F && n.first[s]) { n.first[s] = false; n.lock[s] = 0; }
+    return n;
+  }
+  // neither side can move with any die: nothing will ever change
+  function deadlocked(st) {
+    var all = [1, 2, 3, 4, 5, 6];
+    return singleMoves(st, 'w', all).length === 0 && singleMoves(st, 'b', all).length === 0;
+  }
+  var search = BGE.makeSearch({ singleMoves: singleMoves, apply: apply, key: key });
+  return {
+    variant: variant, initial: initial, clone: clone, key: key, own: own, opp: opp, other: other,
+    singleMoves: singleMoves, apply: apply, remove: BGE.remove,
+    legalFirst: search.legalFirst, allTurns: search.allTurns, maxDepth: search.maxDepth, clearMemo: search.clearMemo,
+    pips: pips, isRace: function () { return false; }, winner: winner, winKind: winKind, allHome: allHome,
+    endTurn: endTurn, deadlocked: deadlocked, qOf: qOf, bpt: bpt,
+    raceWinProb: BGE.raceWinProb, raceCube: BGE.raceCube, takeEV: BGE.takeEV
+  };
+}
+var TVP = makeTavli('plakoto', BG), TVF = makeTavli('fevga', BG);
+if (typeof module !== 'undefined') module.exports = { TVP: TVP, TVF: TVF, makeTavli: makeTavli };
+
+</script>
+<script>
+(function () {
+'use strict';
+function $(id) { return document.getElementById(id); }
+function rnd6() { return 1 + Math.floor(Math.random() * 6); }
+var EN = BG;
+var VARS = {
+  bg: { name: 'Backgammon with cube', cube: true, eng: BG, mars: false,
+    rules: 'Standard backgammon with the doubling cube. Hit a lone stone to send it to the bar.',
+    tip: '' },
+  portes: { name: 'Portes', cube: false, eng: BG, mars: false,
+    rules: 'Portes is standard backgammon without the cube. Hit a lone stone to send it to the bar. A gammon scores 2.',
+    tip: 'Portes is backgammon without the cube. Make points, hit blots and bring your stones home.' },
+  plakoto: { name: 'Plakoto', cube: false, eng: TVP, mars: true,
+    rules: 'Plakoto: all fifteen stones start on one point. Landing on a lone enemy stone pins it. A pinned stone cannot move until the pinning stone leaves, and you cannot bear off while one of yours is pinned. Mars (the loser has borne off nothing) scores 2. If neither side can move it is a draw.',
+    tip: 'Plakoto: land on a lone enemy stone to pin it. Keep a stone back so your own last stone is not pinned.' },
+  fevga: { name: 'Fevga', cube: false, eng: TVF, mars: true,
+    rules: 'Fevga: both sides run the same way, 24 down to 1 and on round to 13 to 18 (amber starts on 12). No hitting, and one enemy stone blocks a point. You may not make six points in a row unless an enemy stone is already past them. On your first turn only one stone may move. Mars scores 2.',
+    tip: 'Fevga: block the points your opponent needs, but never six in a row while all their stones are behind it.' }
+};
+
+/* ---------- storage + sound ---------- */
+var LS = {
+  get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+  set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+};
+var audio = null, muted = LS.get('olb_mute', '0') === '1';
+function ac() {
+  if (audio === null) { try { audio = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { audio = false; } }
+  return audio;
+}
+function beep(f, dur, type, vol, delay) {
+  if (muted) return;
+  var a = ac(); if (!a) return;
+  var t = a.currentTime + (delay || 0), o = a.createOscillator(), g = a.createGain();
+  o.type = type || 'sine'; o.frequency.value = f;
+  g.gain.setValueAtTime(vol || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + 0.02);
+}
+function sfx(k) {
+  if (k === 'move') beep(210, 0.07, 'square', 0.035);
+  else if (k === 'hit') { beep(120, 0.16, 'sawtooth', 0.05); beep(90, 0.2, 'square', 0.04, 0.05); }
+  else if (k === 'roll') { for (var i = 0; i < 6; i++) beep(300 + Math.random() * 300, 0.04, 'square', 0.022, i * 0.07); }
+  else if (k === 'win') { [432, 540, 648, 864].forEach(function (f, i) { beep(f, 0.25, 'sine', 0.05, i * 0.12); }); }
+  else if (k === 'cube') { beep(432, 0.12, 'triangle', 0.05); beep(648, 0.18, 'triangle', 0.05, 0.1); }
+  else beep(330, 0.04, 'sine', 0.03);
+}
+
+/* ---------- game state ---------- */
+var G = {
+  gid: 0, st: EN.initial(), variant: 'bg', turn: 'w', phase: 'pre', dice: [0, 0], rem: [], rollSeq: 0,
+  cube: { v: 1, owner: null }, undo: [], mode: 'master', sel: null, hint: null, last: null,
+  over: null, offer: null, timer: null, log: [], tween: null, _f: null, openRoll: false,
+  score: { w: 0, b: 0 }
+};
+try { var sc = JSON.parse(LS.get('olb_score', 'null')); if (sc && typeof sc.w === 'number') G.score = sc; } catch (e) {}
+
+function cubeOn() { return VARS[G.variant].cube; }
+function setEngine() { EN = VARS[G.variant].eng; }
+function other(s) { return s === 'w' ? 'b' : 'w'; }
+function isHuman(s) { return G.mode === '2p' || (G.mode !== 'watch' && s === 'w'); }
+function level() { return G.mode === 'apprentice' ? 'apprentice' : 'master'; }
+function nameOf(s) {
+  if (G.mode === '2p') return s === 'w' ? 'Cyan' : 'Amber';
+  if (G.mode === 'watch') return s === 'w' ? 'Cyan Socrates' : 'Amber Socrates';
+  return s === 'w' ? 'You' : 'Socrates';
+}
+function V(s, w) { return nameOf(s) + ' ' + (nameOf(s) === 'You' ? w : w + 's'); }
+function lname(s) { var n = nameOf(s); return n === 'You' ? 'you' : n; }
+function later(fn, ms) {
+  var gid = G.gid;
+  return setTimeout(function () { if (gid === G.gid) fn(); }, ms);
+}
+function say(msg) {
+  G.log.unshift(msg);
+  if (G.log.length > 40) G.log.pop();
+  renderLog();
+}
+function firsts() {
+  if (G.phase !== 'move') return [];
+  if (!G._f) G._f = EN.legalFirst(G.st, G.turn, G.rem);
+  return G._f;
+}
+function destsFor(sel) {
+  var out = {};
+  firsts().forEach(function (m) {
+    if (m.from === sel) { var k = m.to; if (!out[k] || m.die < out[k].die) out[k] = m; }
+  });
+  return out;
+}
+function canDouble(s) {
+  return cubeOn() && G.phase === 'pre' && !G.over && G.cube.v < 64 && (G.cube.owner === null || G.cube.owner === s);
+}
+function fmtMove(m) {
+  var f = m.from === 'bar' ? 'bar' : m.from, t = m.to === 'off' ? 'off' : m.to;
+  return f + '/' + t + (m.hit ? '*' : '');
+}
+function fmtSeq(seq) { return seq.map(fmtMove).join('  '); }
+
+/* ---------- evaluation (computer play, hints, rough win chance) ---------- */
+function shotProb(st, s, i) {
+  var o = other(s), od = o === 'w' ? -1 : 1, hits = 0, d1, d2, j, k, srcs = [];
+  for (j = 1; j <= 24; j++) if (EN.own(st, o, j) > 0) srcs.push(j);
+  for (d1 = 1; d1 <= 6; d1++) for (d2 = 1; d2 <= 6; d2++) {
+    if (st.bar[o] > 0) {
+      var e1 = o === 'w' ? 25 - d1 : d1, e2 = o === 'w' ? 25 - d2 : d2;
+      if (e1 === i || e2 === i) hits++;
+      continue;
+    }
+    var can = false;
+    for (var q = 0; q < srcs.length && !can; q++) {
+      j = srcs[q]; k = (i - j) * od;
+      if (k <= 0) continue;
+      if (k === d1 || k === d2) can = true;
+      else if (d1 !== d2 && k === d1 + d2) {
+        if (EN.opp(st, o, j + od * d1) < 2 || EN.opp(st, o, j + od * d2) < 2) can = true;
+      } else if (d1 === d2 && k % d1 === 0 && k / d1 <= 4) {
+        var ok = true;
+        for (var t = 1; t < k / d1; t++) if (EN.opp(st, o, j + od * d1 * t) >= 2) ok = false;
+        if (ok) can = true;
+      }
+    }
+    if (can) hits++;
+  }
+  return hits / 36;
+}
+function structure(st, s, blotW) {
+  // made points, runs, stacks and exposed blots for one side (higher is better)
+  var o = other(s), v = 0, run = 0, i, lo = s === 'w' ? 1 : 19, hi = s === 'w' ? 6 : 24;
+  for (i = 1; i <= 24; i++) {
+    var c = EN.own(st, s, i), trav = s === 'w' ? 25 - i : i;
+    if (c === 1) v -= blotW * shotProb(st, s, i) * (trav + 14);
+    else if (c >= 2) {
+      v += 2 + ((i >= lo && i <= hi) ? 2 : 0);
+      if (c > 4) v -= 0.6 * (c - 4);
+    }
+    if (c >= 2) run++; else { if (run > 1) v += run * run * 0.8; run = 0; }
+  }
+  if (run > 1) v += run * run * 0.8;
+  return v;
+}
+function runBonus(st, s) {
+  var run = 0, best = 0, bonus = 0, b;
+  for (b = 1; b <= 24; b++) {
+    if (EN.own(st, s, b) > 0) run++; else { if (run > 1) bonus += run * run * 0.7; run = 0; }
+  }
+  if (run > 1) bonus += run * run * 0.7;
+  return bonus;
+}
+function evalPos(st, s) {
+  // positive favours s, with the opponent to roll next
+  var o = other(s), score = EN.pips(st, o) - EN.pips(st, s);
+  if (G.variant === 'fevga') return score + runBonus(st, s) - runBonus(st, o);
+  if (G.variant === 'plakoto') {
+    var pinsOn = 0, pinsMe = 0, bb;
+    for (bb = 1; bb <= 24; bb++) { if (st.pin[bb] === o) pinsOn++; else if (st.pin[bb] === s) pinsMe++; }
+    score += 14 * (pinsOn - pinsMe);
+  }
+  if (EN.isRace(st)) return score;
+  score += 22 * st.bar[o] - 22 * st.bar[s];
+  return score + structure(st, s, 1.0) - structure(st, o, 0.3);
+}
+function winProb(side, onRoll) {
+  // chance that `side` wins, with `onRoll` about to roll
+  var o = other(onRoll), p;
+  if (EN.isRace(G.st)) p = EN.raceWinProb(EN.pips(G.st, onRoll), EN.pips(G.st, o));
+  else {
+    var avg = (EN.pips(G.st, onRoll) + EN.pips(G.st, o)) / 2;
+    p = 1 / (1 + Math.exp(-7.4 * evalPos(G.st, onRoll) / avg));
+  }
+  return side === onRoll ? p : 1 - p;
+}
+function pickBest(st, s, rem, lvl) {
+  var turns = EN.allTurns(st, s, rem);
+  if (!turns.length) return null;
+  var scored = turns.map(function (t) {
+    var v = evalPos(t.st, s) + 6 * t.seq.filter(function (m) { return m.hit; }).length;
+    if (lvl === 'apprentice') v += (Math.random() + Math.random() + Math.random() - 1.5) * 14;
+    return { t: t, v: v };
+  });
+  scored.sort(function (a, b) { return b.v - a.v; });
+  return scored[0].t;
+}
+function aiShouldDouble(s) {
+  var o = other(s);
+  if (EN.isRace(G.st)) {
+    var rc = EN.raceCube(EN.pips(G.st, s), EN.pips(G.st, o), G.cube.owner === s);
+    return rc.double && (level() === 'master' || rc.lead >= rc.doubleAt + 2);
+  }
+  return winProb(s, s) >= (level() === 'master' ? 0.72 : 0.8);
+}
+function aiShouldTake(resp) {
+  var d = other(resp);
+  if (EN.isRace(G.st)) return !EN.raceCube(EN.pips(G.st, d), EN.pips(G.st, resp), false).drop;
+  return winProb(resp, d) >= (level() === 'master' ? 0.22 : 0.2);
+}
+
+/* ---------- game flow ---------- */
+function newGame() {
+  G.gid++;
+  if (G.timer) { clearTimeout(G.timer); G.timer = null; }
+  setEngine();
+  G.st = EN.initial(); G.cube = { v: 1, owner: null }; G.undo = []; G.sel = null; G.hint = null;
+  G.last = null; G.over = null; G.offer = null; G.tween = null; G._f = null; G.log = [];
+  var a, b;
+  do { a = rnd6(); b = rnd6(); } while (a === b);
+  G.dice = [a, b]; G.rem = [a, b]; G.rollSeq++;
+  G.turn = a > b ? 'w' : 'b'; G.phase = 'move'; G.openRoll = true;
+  say('Opening roll: ' + nameOf('w') + ' rolled ' + a + ', ' + nameOf('b') + ' rolled ' + b + '. ' + nameOf(G.turn) + (nameOf(G.turn) === 'You' ? ' play' : ' plays') + ' both dice.');
+  sfx('roll');
+  afterRoll();
+}
+function afterRoll() {
+  EN.clearMemo(); G._f = null; G.hint = null;
+  var f = firsts();
+  if (!f.length) {
+    say(nameOf(G.turn) + (G.turn === 'w' && isHuman('w') ? ': no legal move, the turn passes.' : ': no legal move.'));
+    G.timer = later(endTurn, 1400);
+  } else if (!isHuman(G.turn)) {
+    G.timer = later(aiPlay, 700);
+  } else if (G.st.bar[G.turn] > 0) G.sel = 'bar';
+  render();
+}
+function rollDice() {
+  if (G.phase !== 'pre' || G.over) return;
+  var a = rnd6(), b = rnd6();
+  G.dice = [a, b]; G.rem = a === b ? [a, a, a, a] : [a, b]; G.rollSeq++;
+  G.phase = 'move'; G.undo = []; G.openRoll = false;
+  say(nameOf(G.turn) + ' rolled ' + a + '-' + b + (a === b ? ' (doubles)' : '') + '.');
+  sfx('roll');
+  afterRoll();
+}
+function doMove(m) {
+  var s = G.turn, st0 = G.st;
+  G.undo.push({ st: EN.clone(st0), rem: G.rem.slice(), last: G.last });
+  var cnt = m.from === 'bar' ? st0.bar[s] : stackOf(st0, m.from).length;
+  G.tween = { from: m.from, idx: cnt - 1, side: s, to: m.to };
+  G.st = EN.apply(st0, s, m); G.rem = EN.remove(G.rem, m.die);
+  G.last = m; G.sel = null; G.hint = null; G._f = null;
+  sfx(m.hit ? 'hit' : 'move');
+  var w = EN.winner(G.st);
+  if (w) { finish(w, 'wins the game'); return; }
+  var f = firsts();
+  if (G.st.bar[s] > 0 && f.length && isHuman(s)) G.sel = 'bar';
+  if (!f.length && isHuman(s)) G.timer = later(endTurn, 1500);
+  render();
+}
+function undoMove() {
+  if (G.phase !== 'move' || !G.undo.length) return;
+  if (G.timer) { clearTimeout(G.timer); G.timer = null; }
+  var u = G.undo.pop();
+  G.st = u.st; G.rem = u.rem; G.last = u.last; G.sel = null; G.hint = null; G._f = null; G.tween = null;
+  if (G.st.bar[G.turn] > 0) G.sel = 'bar';
+  render();
+}
+function endTurn() {
+  if (G.timer) { clearTimeout(G.timer); G.timer = null; }
+  if (G.phase !== 'move' || G.over) return;
+  G.undo = []; G.dice = [0, 0]; G.rem = []; G.sel = null; G.hint = null; G._f = null; G.tween = null;
+  G.st = EN.endTurn(G.st, G.turn);
+  if (EN.deadlocked && EN.deadlocked(G.st)) { finishDraw(); return; }
+  G.turn = other(G.turn); G.phase = 'pre';
+  if (!isHuman(G.turn)) G.timer = later(aiPre, 800);
+  render();
+}
+function aiPre() {
+  if (G.phase !== 'pre' || G.over) return;
+  var s = G.turn;
+  if (canDouble(s) && aiShouldDouble(s)) { offerDouble(s); return; }
+  rollDice();
+}
+function offerDouble(s) {
+  if (!canDouble(s)) return;
+  G.offer = { by: s }; G.phase = 'offer'; G.sel = null; G.hint = null;
+  say(V(s, 'double') + ' to ' + G.cube.v * 2 + '.');
+  sfx('cube');
+  var r = other(s);
+  if (!isHuman(r)) G.timer = later(function () { respond(aiShouldTake(r)); }, 1100);
+  render();
+}
+function respond(take) {
+  if (G.phase !== 'offer') return;
+  var by = G.offer.by, r = other(by);
+  if (G.timer) { clearTimeout(G.timer); G.timer = null; }
+  if (take) {
+    G.cube.v *= 2; G.cube.owner = r; G.offer = null; G.phase = 'pre';
+    say(V(r, 'take') + '. The cube is now ' + G.cube.v + ' and sits with ' + lname(r) + '.');
+    sfx('cube');
+    if (!isHuman(by)) G.timer = later(rollDice, 700);
+    render();
+  } else {
+    var pts = G.cube.v;
+    G.offer = null;
+    say(V(r, 'drop') + '.');
+    finish(by, 'wins ' + pts + (pts === 1 ? ' point' : ' points') + ' (the double was dropped)', pts);
+  }
+}
+function finish(w, text0, forcedPts) {
+  var kind = forcedPts ? 1 : EN.winKind(G.st, w), pts = forcedPts || G.cube.v * kind;
+  var kt = forcedPts ? '' : (kind === 3 ? ' with a backgammon' : kind === 2 ? ' with a ' + (VARS[G.variant].mars ? 'mars' : 'gammon') : '');
+  G.over = { winner: w, pts: pts, text: V(w, 'win') + ' ' + pts + (pts === 1 ? ' point' : ' points') + kt };
+  G.phase = 'over'; G.sel = null; G.hint = null; G._f = null;
+  if (G.mode !== 'watch') { G.score[w] += pts; LS.set('olb_score', JSON.stringify(G.score)); }
+  say(G.over.text + '.');
+  sfx('win');
+  render();
+}
+function finishDraw() {
+  G.over = { winner: null, pts: 0, text: 'Deadlock: neither side can move, so the game is a draw' };
+  G.phase = 'over'; G.sel = null; G.hint = null; G._f = null; G.dice = [0, 0]; G.rem = [];
+  say(G.over.text + '.');
+  render();
+}
+function aiPlay() {
+  if (G.phase !== 'move' || G.over) return;
+  $('think').hidden = false; $('think').textContent = 'Socrates is thinking';
+  later(function () {
+    var best = pickBest(G.st, G.turn, G.rem, level());
+    $('think').hidden = true;
+    if (!best || !best.seq.length) { endTurn(); return; }
+    var seq = best.seq, i = 0;
+    say(V(G.turn, 'play') + ' ' + fmtSeq(seq) + '.');
+    (function step() {
+      if (G.over || G.phase !== 'move') return;
+      if (i >= seq.length) { G.timer = later(endTurn, 650); return; }
+      doMove(seq[i++]);
+      if (!G.over) G.timer = later(step, 520);
+    })();
+  }, 120);
+}
+function clickKey(raw) {
+  if (G.phase !== 'move' || !isHuman(G.turn)) return;
+  var k = raw === 'bar' || raw === 'off' ? raw : parseInt(raw, 10);
+  if (G.sel !== null) {
+    var d = destsFor(G.sel);
+    if (d[k] !== undefined) { doMove(d[k]); return; }
+  }
+  var from = k === 'bar' ? 'bar' : (typeof k === 'number' ? k : null);
+  var has = from !== null && firsts().some(function (m) { return m.from === from; });
+  G.sel = has ? from : null;
+  if (!has && G.st.bar[G.turn] > 0 && firsts().length) G.sel = 'bar';
+  if (has) sfx('tick');
+  render();
+}
+function showHint() {
+  if (G.phase !== 'move' || !isHuman(G.turn)) return;
+  var b = pickBest(G.st, G.turn, G.rem, 'master');
+  if (!b || !b.seq.length) return;
+  var pm = EN.pips(G.st, G.turn), po = EN.pips(G.st, other(G.turn)), lead = po - pm, note;
+  if (lead >= 10) note = 'You lead by ' + lead + ' pips, so keep stones safe and race home.';
+  else if (lead >= 1) note = 'You lead by ' + lead + ' pips, a small edge. Stay flexible.';
+  else if (lead === 0) note = 'The race is level. Play for position.';
+  else if (lead > -10) note = 'You trail by ' + (-lead) + ' pips. Keep some contact and look for a hit.';
+  else note = 'You trail by ' + (-lead) + ' pips. You need a hit or a block to get back in.';
+  G.hint = { from: b.seq[0].from, to: b.seq[0].to, text: fmtSeq(b.seq), note: note };
+  render();
+}
+
+/* ---------- coach ---------- */
+function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+function coachHTML() {
+  if (!$('chkCoach').checked) return 'The coach is switched off.';
+  if (G.mode === 'watch') return 'Socrates is playing both sides. Pips: cyan ' + EN.pips(G.st, 'w') + ', amber ' + EN.pips(G.st, 'b') + '.';
+  if (G.over) return 'Game over. Start a new game when you are ready.';
+  var me = G.phase === 'offer' ? other(G.offer.by) : G.turn;
+  if (!isHuman(me)) return 'Socrates is thinking.';
+  var o = other(me), pm = EN.pips(G.st, me), po = EN.pips(G.st, o), race = EN.isRace(G.st);
+  if (!cubeOn()) {
+    if (G.phase === 'move' && G.hint) return 'Socrates suggests: <b>' + esc(G.hint.text) + '</b>. ' + esc(G.hint.note) + ' The first step is marked in violet.';
+    if (G.phase === 'move') return 'Click a stone, then a green point. Pips: you <b>' + pm + '</b>, opponent <b>' + po + '</b>. ' + VARS[G.variant].tip;
+    return VARS[G.variant].tip + ' Pips: you <b>' + pm + '</b>, opponent <b>' + po + '</b>.';
+  }
+  if (G.phase === 'offer') {
+    var by = G.offer.by, pd = EN.pips(G.st, by), pr = EN.pips(G.st, me);
+    if (race) {
+      var rc = EN.raceCube(pd, pr, false);
+      return 'Pure race. Their lead is <b>' + rc.lead + '</b> pips. You pass when the lead reaches 12% of their pips (<b>' + rc.passAt.toFixed(1) + '</b>). <span class="verdict' + (rc.drop ? ' no' : '') + '"><b>Socrates suggests: ' + (rc.drop ? 'drop.' : 'take.') + '</b></span>';
+    }
+    var p = winProb(me, by);
+    return 'Fight in progress, so this is a rough estimate: about <b>' + Math.round(p * 100) + '%</b> for you. You need 25% (about 22% when you will own the cube), and fewer if gammons threaten. <span class="verdict' + (p < 0.25 ? ' no' : '') + '"><b>Socrates suggests: ' + (p < 0.25 ? 'probably drop.' : 'probably take.') + '</b></span>';
+  }
+  if (G.phase === 'pre') {
+    var own = G.cube.owner, canD = canDouble(me);
+    if (race) {
+      var r2 = EN.raceCube(pm, po, own === me);
+      var head = 'Pure race. You <b>' + pm + '</b>, opponent <b>' + po + '</b>, lead <b>' + r2.lead + '</b>. ';
+      if (!canD) return head + 'Socrates owns the cube, so you cannot double.';
+      return head + (own === me ? 'Redouble' : 'Double') + ' from a lead of <b>' + r2.doubleAt.toFixed(1) + '</b> (' + (own === me ? '9' : '8') + '% of your pips). They pass from <b>' + r2.passAt.toFixed(1) + '</b>. <span class="verdict' + (r2.double ? '' : ' no') + '"><b>' + (r2.double ? (r2.drop ? 'Socrates suggests doubling: they should drop.' : 'Socrates suggests doubling: they should take.') : 'Socrates suggests no double yet. Just roll.') + '</b></span>';
+    }
+    var pw = winProb(me, me);
+    return 'Fight in progress, so this is a rough estimate: about <b>' + Math.round(pw * 100) + '%</b> for you. The doubling window is roughly 70% to 80%. ' + (canD ? '<span class="verdict' + (pw >= 0.7 ? '' : ' no') + '"><b>' + (pw >= 0.7 ? 'Socrates suggests doubling.' : 'Socrates suggests holding the cube. Keep rolling.') + '</b></span>' : 'The opponent owns the cube.');
+  }
+  if (G.phase === 'move') {
+    if (G.hint) return 'Socrates suggests: <b>' + esc(G.hint.text) + '</b>. ' + esc(G.hint.note) + ' The first step is marked in violet.';
+    return 'Click a stone, then a green point. Pips: you <b>' + pm + '</b>, opponent <b>' + po + '</b>. Press Hint for Suggestion and Socrates will advise.';
+  }
+  return '';
+}
+
+/* ---------- geometry shared by 2D and 3D ---------- */
+function pointGeom(p) {
+  var top = p >= 13, c = top ? p - 13 : 12 - p;
+  return { x: (c < 6 ? c : c + 1) - 6, top: top };
+}
+function stackOf(st, b) {
+  var n = Math.abs(st.p[b]), out = [], i;
+  if (!n) return out;
+  if (st.pin && st.pin[b]) out.push({ s: st.pin[b], pin: true });
+  var side = st.p[b] > 0 ? 'w' : 'b';
+  for (i = 0; i < n; i++) out.push({ s: side });
+  return out;
+}
+function slot(k, idx, side) {
+  var row, layer;
+  if (typeof k === 'number') {
+    var g = pointGeom(k); row = idx % 5; layer = Math.floor(idx / 5);
+    return { x: g.x, z: g.top ? -5.0 + 0.92 * row : 5.0 - 0.92 * row, layer: layer };
+  }
+  if (k === 'bar') {
+    row = idx % 4; layer = Math.floor(idx / 4);
+    return { x: 0, z: side === 'w' ? 1.1 + 0.95 * row : -1.1 - 0.95 * row, layer: layer };
+  }
+  var pile = Math.floor(idx / 5);
+  return { x: 7.6, z: side === 'w' ? 4.9 - pile * 1.2 : -4.9 + pile * 1.2, layer: idx % 5 };
+}
+function cubePos() { return { x: -7.6, z: G.cube.owner === 'w' ? 4.4 : G.cube.owner === 'b' ? -4.4 : 0 }; }
+var DICE_X = [2.4, 3.9];
+
+/* ---------- 2D board ---------- */
+var flat = $('flat');
+function pipsSVG(v, x, y, size, fill) {
+  var map = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] }, s = '', i;
+  for (i = 0; i < map[v].length; i++) {
+    var n = map[v][i], cx = x + size * (0.22 + 0.28 * (n % 3)), cy = y + size * (0.22 + 0.28 * Math.floor(n / 3));
+    s += '<circle cx="' + cx.toFixed(3) + '" cy="' + cy.toFixed(3) + '" r="' + (size * 0.075).toFixed(3) + '" fill="' + fill + '"/>';
+  }
+  return s;
+}
+function buildFlat() {
+  var s = '<svg viewBox="-8.4 -6.2 16.8 12.4" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Backgammon board, 2D">';
+  s += '<defs>' +
+    '<radialGradient id="gW" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#d9fbff"/><stop offset="0.55" stop-color="#7fdcff"/><stop offset="1" stop-color="#1b86b8"/></radialGradient>' +
+    '<radialGradient id="gB" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff0c4"/><stop offset="0.55" stop-color="#ffc83a"/><stop offset="1" stop-color="#b76a00"/></radialGradient></defs>';
+  s += '<rect x="-8.4" y="-6.2" width="16.8" height="12.4" fill="#0a0f17"/>';
+  s += '<rect x="-6.55" y="-5.55" width="13.1" height="11.1" fill="#0b121c" stroke="#1a2638" stroke-width="0.06"/>';
+  for (var p = 1; p <= 24; p++) {
+    var g = pointGeom(p), base = g.top ? -5.5 : 5.5, apex = g.top ? -0.9 : 0.9;
+    s += '<polygon points="' + (g.x - 0.5) + ',' + base + ' ' + (g.x + 0.5) + ',' + base + ' ' + g.x + ',' + apex + '" style="fill:' + (p % 2 ? 'var(--pt-a)' : 'var(--pt-b)') + '"/>';
+    s += '<text x="' + g.x + '" y="' + (g.top ? -5.8 : 5.98) + '" text-anchor="middle" font-size="0.34" font-family="IBM Plex Mono,monospace" style="fill:var(--muted)">' + p + '</text>';
+  }
+  s += '<rect x="-0.5" y="-5.5" width="1" height="11" fill="#0e1521" stroke="#1a2638" stroke-width="0.05"/>';
+  s += '<rect x="6.95" y="-5.5" width="1.3" height="5.35" fill="#070b12" stroke="#1a2638" stroke-width="0.05"/>';
+  s += '<rect x="6.95" y="0.15" width="1.3" height="5.35" fill="#070b12" stroke="#1a2638" stroke-width="0.05"/>';
+  s += '<g id="dyn"></g></svg>';
+  flat.innerHTML = s;
+}
+function chk2D(cx, cy, side, sel, pinned) {
+  var c = pinned ? '#ff4d6a' : sel ? '#ffffff' : (side === 'w' ? '#00f0ff' : '#ffb700');
+  return '<circle cx="' + cx.toFixed(3) + '" cy="' + cy.toFixed(3) + '" r="0.45" fill="url(#' + (side === 'w' ? 'gW' : 'gB') + ')" stroke="' + c + '" stroke-width="' + (sel || pinned ? 0.12 : 0.05) + '"' + (pinned ? ' stroke-dasharray="0.18 0.1" opacity="0.8"' : '') + '/>' +
+    '<circle cx="' + cx.toFixed(3) + '" cy="' + cy.toFixed(3) + '" r="0.26" fill="none" stroke="rgba(2,16,20,.55)" stroke-width="0.05"/>';
+}
+function flatDyn() {
+  var h = '', st = G.st, i, p, sel = G.sel, dest = (sel !== null && G.phase === 'move') ? destsFor(sel) : {};
+  function tri(pp, style) {
+    var g = pointGeom(pp), base = g.top ? -5.5 : 5.5, apex = g.top ? -0.9 : 0.9;
+    return '<polygon points="' + (g.x - 0.5) + ',' + base + ' ' + (g.x + 0.5) + ',' + base + ' ' + g.x + ',' + apex + '" ' + style + ' pointer-events="none"/>';
+  }
+  for (p = 1; p <= 24; p++) {
+    if (sel === p) h += tri(p, 'fill="rgba(0,240,255,.18)" stroke="#00f0ff" stroke-width="0.06"');
+    if (dest[p]) h += tri(p, 'fill="rgba(24,227,156,.34)" stroke="#18e39c" stroke-width="0.05"');
+    if (G.hint && (G.hint.to === p || G.hint.from === p)) h += tri(p, 'fill="rgba(179,136,255,.30)" stroke="#b388ff" stroke-width="0.07"');
+  }
+  if (sel === 'bar') h += '<rect x="-0.5" y="-5.5" width="1" height="11" fill="rgba(0,240,255,.14)" stroke="#00f0ff" stroke-width="0.06" pointer-events="none"/>';
+  if (G.hint && G.hint.from === 'bar') h += '<rect x="-0.5" y="-5.5" width="1" height="11" fill="rgba(179,136,255,.2)" stroke="#b388ff" stroke-width="0.06" pointer-events="none"/>';
+  if (dest.off) {
+    var oz = G.turn === 'w' ? 0.15 : -5.5;
+    h += '<rect x="6.95" y="' + oz + '" width="1.3" height="5.35" fill="rgba(24,227,156,.28)" stroke="#18e39c" stroke-width="0.05" pointer-events="none"/>';
+  }
+  if (G.hint && G.hint.to === 'off') {
+    var hz = G.turn === 'w' ? 0.15 : -5.5;
+    h += '<rect x="6.95" y="' + hz + '" width="1.3" height="5.35" fill="rgba(179,136,255,.25)" stroke="#b388ff" stroke-width="0.06" pointer-events="none"/>';
+  }
+  var cnt, idx, sl, side;
+  for (p = 1; p <= 24; p++) {
+    var stk = stackOf(st, p); cnt = stk.length; if (!cnt) continue;
+    for (idx = 0; idx < cnt; idx++) {
+      side = stk[idx].s; sl = slot(p, idx, side);
+      h += chk2D(sl.x + sl.layer * 0.12, sl.z - sl.layer * 0.12, side, sel === p && idx === cnt - 1, !!stk[idx].pin);
+    }
+    if (cnt > 5) {
+      sl = slot(p, 4, stk[cnt - 1].s);
+      h += '<text x="' + sl.x + '" y="' + (sl.z + 0.12) + '" text-anchor="middle" font-size="0.4" font-weight="700" font-family="IBM Plex Mono,monospace" fill="#021014" pointer-events="none">' + cnt + '</text>';
+    }
+  }
+  ['w', 'b'].forEach(function (sd) {
+    for (idx = 0; idx < st.bar[sd]; idx++) { sl = slot('bar', idx, sd); h += chk2D(sl.x + sl.layer * 0.1, sl.z - sl.layer * 0.1, sd, sel === 'bar' && sd === G.turn && idx === st.bar[sd] - 1); }
+    for (idx = 0; idx < st.off[sd]; idx++) {
+      var y0 = sd === 'w' ? 5.4 - (idx + 1) * 0.34 : -5.4 + idx * 0.34;
+      h += '<rect x="7.05" y="' + y0.toFixed(3) + '" width="1.1" height="0.28" rx="0.06" fill="' + (sd === 'w' ? '#7fdcff' : '#ffc83a') + '" stroke="' + (sd === 'w' ? '#00f0ff' : '#ffb700') + '" stroke-width="0.03" pointer-events="none"/>';
+    }
+  });
+  // cube
+  var cp = cubePos(), cv = G.cube.owner === null ? 64 : G.cube.v;
+  if (cubeOn()) h += '<rect x="' + (cp.x - 0.5) + '" y="' + (cp.z - 0.5) + '" width="1" height="1" rx="0.12" fill="#e8dcc0" stroke="#ffd400" stroke-width="0.06" pointer-events="none"/>' +
+    '<text x="' + cp.x + '" y="' + (cp.z + 0.16) + '" text-anchor="middle" font-size="' + (cv >= 10 ? 0.5 : 0.62) + '" font-weight="700" font-family="IBM Plex Mono,monospace" fill="#1a1000" pointer-events="none">' + cv + '</text>';
+  // dice
+  if (G.dice[0] > 0) {
+    var dv = diceView(), shown = G.dice[0] === G.dice[1] ? 2 : 2;
+    for (i = 0; i < shown; i++) {
+      var col = G.turn === 'w' ? '#00f0ff' : '#ffb700', used = G.dice[0] === G.dice[1] ? (G.rem.length <= (i === 0 ? 2 : 0)) : dv[i].used;
+      h += '<g opacity="' + (used ? 0.3 : 1) + '" pointer-events="none"><rect x="' + (DICE_X[i] - 0.5) + '" y="-0.5" width="1" height="1" rx="0.16" fill="' + (G.turn === 'w' ? '#0b1a22' : '#241a07') + '" stroke="' + col + '" stroke-width="0.07"/>' + pipsSVG(G.dice[i], DICE_X[i] - 0.5, -0.5, 1, col) + '</g>';
+    }
+  }
+  // hit areas
+  for (p = 1; p <= 24; p++) {
+    var gg = pointGeom(p);
+    h += '<rect data-k="' + p + '" x="' + (gg.x - 0.5) + '" y="' + (gg.top ? -5.6 : 0) + '" width="1" height="5.6" fill="rgba(0,0,0,0)"/>';
+  }
+  h += '<rect data-k="bar" x="-0.5" y="-5.6" width="1" height="11.2" fill="rgba(0,0,0,0)"/>';
+  h += '<rect data-k="off" x="6.95" y="-5.5" width="1.3" height="11" fill="rgba(0,0,0,0)"/>';
+  return h;
+}
+function drawFlat() { var d = $('dyn'); if (d) d.innerHTML = flatDyn(); }
+flat.addEventListener('click', function (e) {
+  var t = e.target;
+  while (t && t !== flat) {
+    if (t.getAttribute && t.getAttribute('data-k')) { clickKey(t.getAttribute('data-k')); return; }
+    t = t.parentNode;
+  }
+});
+
+/* ---------- 3D board ---------- */
+var T = { ok: false, view: '3d', needs: true };
+function init3D() {
+  if (typeof THREE === 'undefined') return;
+  var gl = $('gl'), W = 800, H = 570;
+  try {
+    T.r = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  } catch (e) { return; }
+  T.r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  T.r.setSize(W, H);
+  gl.appendChild(T.r.domElement);
+  T.scene = new THREE.Scene();
+  T.cam = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+  T.cs = { th: 0, ph: 0.62, r: 19.5 };
+  T.scene.add(new THREE.HemisphereLight(0xcfeaff, 0x101820, 0.85));
+  var dl = new THREE.DirectionalLight(0xffffff, 0.75); dl.position.set(-6, 14, 8); T.scene.add(dl);
+  var pl = new THREE.PointLight(0x00f0ff, 0.35, 40); pl.position.set(-8, 6, 0); T.scene.add(pl);
+  var pl2 = new THREE.PointLight(0xffb700, 0.3, 40); pl2.position.set(8, 6, 0); T.scene.add(pl2);
+
+  var bd = new THREE.Group(); T.scene.add(bd);
+  function box(w, h, d, col, x, y, z, em) {
+    var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color: col, roughness: 0.7, metalness: 0.15, emissive: em || 0x000000 }));
+    m.position.set(x, y, z); bd.add(m); return m;
+  }
+  box(17.2, 0.6, 12.4, 0x0a0f17, 0, -0.31, 0);
+  var felt = new THREE.Mesh(new THREE.PlaneGeometry(16.8, 12), new THREE.MeshStandardMaterial({ color: 0x0b121c, roughness: 0.9 }));
+  felt.rotation.x = -Math.PI / 2; bd.add(felt);
+  box(13.1, 0.03, 11.1, 0x0b121c, 0, 0.015, 0);
+  box(1, 0.09, 11, 0x131d2c, 0, 0.045, 0);
+  box(1.3, 0.05, 5.35, 0x05080d, 7.6, 0.025, 2.82);
+  box(1.3, 0.05, 5.35, 0x05080d, 7.6, 0.025, -2.82);
+  [-5.62, 5.62].forEach(function (z) { box(13.3, 0.12, 0.1, 0x1a2638, 0, 0.06, z, 0x041018); });
+  [-6.6, 6.6].forEach(function (x) { box(0.1, 0.12, 11.3, 0x1a2638, x, 0.06, 0, 0x041018); });
+
+  T.hl = {};
+  function triMesh(p) {
+    var g = pointGeom(p), base = g.top ? -5.5 : 5.5, apex = g.top ? -0.9 : 0.9;
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute([g.x - 0.5, 0, base, g.x + 0.5, 0, base, g.x, 0, apex], 3));
+    geo.computeVertexNormals();
+    return geo;
+  }
+  for (var p = 1; p <= 24; p++) {
+    var tg = triMesh(p);
+    var tm = new THREE.Mesh(tg, new THREE.MeshStandardMaterial({ color: p % 2 ? 0x1c3b52 : 0x0e2231, roughness: 0.8, side: THREE.DoubleSide }));
+    tm.position.y = 0.1; bd.add(tm);
+    var hm = new THREE.Mesh(tg, new THREE.MeshBasicMaterial({ color: 0x18e39c, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide }));
+    hm.position.y = 0.12; hm.userData.k = p; bd.add(hm); T.hl[p] = hm;
+    // number label
+    var cv = document.createElement('canvas'); cv.width = 64; cv.height = 64;
+    var cx = cv.getContext('2d'); cx.fillStyle = '#7f95a6'; cx.font = '500 34px monospace'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText(String(p), 32, 34);
+    var lm = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true }));
+    lm.rotation.x = -Math.PI / 2; lm.position.set(g_x(p), 0.02, pointGeom(p).top ? -5.9 : 5.9); bd.add(lm);
+  }
+  function g_x(p) { return pointGeom(p).x; }
+  function hitBox(k, w, d, x, z) {
+    var m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), new THREE.MeshBasicMaterial({ color: 0x18e39c, transparent: true, opacity: 0, depthWrite: false }));
+    m.position.set(x, 0.14, z); m.userData.k = k; bd.add(m); T.hl[k] = m; return m;
+  }
+  hitBox('bar', 1, 11, 0, 0);
+  T.offW = hitBox('offw', 1.3, 5.35, 7.6, 2.82); T.offB = hitBox('offb', 1.3, 5.35, 7.6, -2.82);
+  T.offW.userData.k = 'off'; T.offB.userData.k = 'off';
+
+  T.chkGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.17, 40);
+  T.ringGeo = new THREE.RingGeometry(0.2, 0.31, 6);
+  T.mat = {
+    w: new THREE.MeshStandardMaterial({ color: 0x8fdcff, emissive: 0x0a3a4a, roughness: 0.35, metalness: 0.3 }),
+    b: new THREE.MeshStandardMaterial({ color: 0xffc83a, emissive: 0x4a2a00, roughness: 0.35, metalness: 0.3 })
+  };
+  T.matPin = {
+    w: new THREE.MeshStandardMaterial({ color: 0x5a7f8f, emissive: 0x6a0016, roughness: 0.5, metalness: 0.2 }),
+    b: new THREE.MeshStandardMaterial({ color: 0x8f7230, emissive: 0x6a0016, roughness: 0.5, metalness: 0.2 })
+  };
+  T.ringMat = { w: new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide }), b: new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide }) };
+  T.chk = new THREE.Group(); T.scene.add(T.chk);
+
+  // dice
+  T.faceTex = {};
+  T.dice = [];
+  for (var di = 0; di < 2; di++) {
+    var dm = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), [3, 4, 1, 6, 2, 5].map(function () { return new THREE.MeshStandardMaterial({ color: 0xffffff }); }));
+    dm.visible = false; T.scene.add(dm); T.dice.push(dm);
+  }
+  T.cubeMesh = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 0.9), [0, 1, 2, 3, 4, 5].map(function () { return new THREE.MeshStandardMaterial({ color: 0xffffff }); }));
+  T.cubeMesh.rotation.y = 0.35; T.scene.add(T.cubeMesh);
+  T.cubeTexV = null;
+
+  // interaction
+  var el = T.r.domElement, down = null, ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+  el.addEventListener('pointerdown', function (e) { down = { x: e.clientX, y: e.clientY, th: T.cs.th, ph: T.cs.ph, moved: false }; try { el.setPointerCapture(e.pointerId); } catch (x) {} });
+  el.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - down.x, dy = e.clientY - down.y;
+    if (Math.abs(dx) + Math.abs(dy) > 6) down.moved = true;
+    if (down.moved) {
+      T.cs.th = Math.max(-1.1, Math.min(1.1, down.th - dx * 0.006));
+      T.cs.ph = Math.max(0.12, Math.min(1.3, down.ph - dy * 0.006));
+    }
+  });
+  el.addEventListener('pointerup', function (e) {
+    var d = down; down = null;
+    if (!d || d.moved) return;
+    var r = el.getBoundingClientRect();
+    mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1; mouse.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    ray.setFromCamera(mouse, T.cam);
+    var objs = T.chk.children.concat(Object.keys(T.hl).map(function (k) { return T.hl[k]; })), hits = ray.intersectObjects(objs, false);
+    for (var i = 0; i < hits.length; i++) {
+      var k = hits[i].object.userData.k;
+      if (k !== undefined) { clickKey(String(k)); return; }
+    }
+  });
+  el.addEventListener('wheel', function (e) { e.preventDefault(); T.cs.r = Math.max(10, Math.min(30, T.cs.r + e.deltaY * 0.01)); }, { passive: false });
+  T.ok = true;
+  resize3D();
+  (function loop(t) { requestAnimationFrame(loop); if (T.view === '3d') frame3D(t); })(0);
+}
+function resize3D() {
+  if (!T.ok) return;
+  var st = $('stage'), w = st.clientWidth || 800, h = st.clientHeight || 570;
+  T.r.setSize(w, h); T.cam.aspect = w / h; T.cam.updateProjectionMatrix();
+  // widen the field of view on narrow stages so the whole board stays in view
+  T.cam.fov = w / h < 1.45 ? 38 + (1.45 - w / h) * 22 : 38; T.cam.updateProjectionMatrix();
+}
+function faceTex(v, side) {
+  var key = side + v;
+  if (T.faceTex[key]) return T.faceTex[key];
+  var cv = document.createElement('canvas'); cv.width = cv.height = 128;
+  var cx = cv.getContext('2d'), bg = side === 'w' ? '#0d2530' : '#2a1d08', fg = side === 'w' ? '#00f0ff' : '#ffb700';
+  cx.fillStyle = bg; cx.fillRect(0, 0, 128, 128); cx.strokeStyle = fg; cx.lineWidth = 6; cx.strokeRect(5, 5, 118, 118);
+  var map = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
+  cx.fillStyle = fg;
+  map[v].forEach(function (n) { cx.beginPath(); cx.arc(30 + 34 * (n % 3), 30 + 34 * Math.floor(n / 3), 9, 0, 7); cx.fill(); });
+  return (T.faceTex[key] = new THREE.CanvasTexture(cv));
+}
+function cubeTex(v) {
+  var key = 'c' + v;
+  if (T.faceTex[key]) return T.faceTex[key];
+  var cv = document.createElement('canvas'); cv.width = cv.height = 128;
+  var cx = cv.getContext('2d'); cx.fillStyle = '#e8dcc0'; cx.fillRect(0, 0, 128, 128);
+  cx.strokeStyle = '#ffd400'; cx.lineWidth = 8; cx.strokeRect(4, 4, 120, 120);
+  cx.fillStyle = '#1a1000'; cx.font = '700 ' + (v >= 10 ? 64 : 80) + 'px monospace'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText(String(v), 64, 68);
+  return (T.faceTex[key] = new THREE.CanvasTexture(cv));
+}
+function faceQuat(v, yaw) {
+  var q = new THREE.Quaternion(), X = new THREE.Vector3(1, 0, 0), Z = new THREE.Vector3(0, 0, 1);
+  if (v === 6) q.setFromAxisAngle(X, Math.PI);
+  else if (v === 2) q.setFromAxisAngle(X, -Math.PI / 2);
+  else if (v === 5) q.setFromAxisAngle(X, Math.PI / 2);
+  else if (v === 3) q.setFromAxisAngle(Z, Math.PI / 2);
+  else if (v === 4) q.setFromAxisAngle(Z, -Math.PI / 2);
+  var qy = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), yaw);
+  return qy.multiply(q);
+}
+function mkChecker(side, pinned) {
+  var m = new THREE.Mesh(T.chkGeo, pinned ? T.matPin[side] : T.mat[side]);
+  var ring = new THREE.Mesh(T.ringGeo, T.ringMat[side]);
+  ring.rotation.x = -Math.PI / 2; ring.position.y = 0.088; m.add(ring);
+  return m;
+}
+function sync3D() {
+  if (!T.ok) return;
+  while (T.chk.children.length) T.chk.remove(T.chk.children[0]);
+  var st = G.st, p, idx, sl, mesh, cnt, side;
+  for (p = 1; p <= 24; p++) {
+    var stk = stackOf(st, p); cnt = stk.length; if (!cnt) continue;
+    for (idx = 0; idx < cnt; idx++) {
+      side = stk[idx].s; sl = slot(p, idx, side); mesh = mkChecker(side, !!stk[idx].pin);
+      mesh.position.set(sl.x, 0.19 + 0.18 * sl.layer + (G.sel === p && idx === cnt - 1 ? 0.38 : 0), sl.z);
+      mesh.userData = { k: p, idx: idx, side: side }; T.chk.add(mesh);
+    }
+  }
+  ['w', 'b'].forEach(function (sd) {
+    for (idx = 0; idx < st.bar[sd]; idx++) {
+      sl = slot('bar', idx, sd); mesh = mkChecker(sd);
+      mesh.position.set(sl.x, 0.19 + 0.18 * sl.layer + (G.sel === 'bar' && sd === G.turn && idx === st.bar[sd] - 1 ? 0.38 : 0), sl.z);
+      mesh.userData = { k: 'bar', idx: idx, side: sd }; T.chk.add(mesh);
+    }
+    for (idx = 0; idx < st.off[sd]; idx++) {
+      sl = slot('off', idx, sd); mesh = mkChecker(sd);
+      mesh.position.set(sl.x, 0.19 + 0.18 * sl.layer, sl.z);
+      mesh.userData = { k: 'off', idx: idx, side: sd }; T.chk.add(mesh);
+    }
+  });
+  // tween the checker that just moved
+  if (G.tween) {
+    var tw = G.tween, fromPos = tw.from === 'bar' ? slot('bar', tw.idx, tw.side) : slot(tw.from, tw.idx, tw.side), target = null;
+    if (tw.to === 'off') target = T.chk.children.filter(function (m) { return m.userData.k === 'off' && m.userData.side === tw.side && m.userData.idx === st.off[tw.side] - 1; })[0];
+    else {
+      var n = stackOf(st, tw.to).length;
+      target = T.chk.children.filter(function (m) { return m.userData.k === tw.to && m.userData.idx === n - 1; })[0];
+    }
+    if (target) {
+      T.tw = { mesh: target, from: new THREE.Vector3(fromPos.x, 0.19 + 0.18 * fromPos.layer, fromPos.z), to: target.position.clone(), t0: performance.now() };
+      target.position.copy(T.tw.from);
+    }
+    G.tween = null;
+  }
+  // cube
+  var cp = cubePos(), v = G.cube.owner === null ? 64 : G.cube.v;
+  T.cubeMesh.visible = cubeOn();
+  T.cubeMesh.position.set(cp.x, 0.47, cp.z);
+  if (T.cubeTexV !== v) {
+    var tx = cubeTex(v); T.cubeMesh.material.forEach(function (mt) { mt.map = tx; mt.needsUpdate = true; });
+    T.cubeTexV = v;
+  }
+  // dice
+  var show = G.dice[0] > 0;
+  T.dice.forEach(function (d, i) {
+    d.visible = show; if (!show) return;
+    var sd = G.turn, val = G.dice[i];
+    if (d.userData.rs !== G.rollSeq) {
+      d.userData.rs = G.rollSeq; d.userData.yaw = Math.random() * 6.28;
+      d.userData.anim = { t0: performance.now(), dur: 650, q0: new THREE.Quaternion(Math.random(), Math.random(), Math.random(), Math.random()).normalize() };
+    }
+    d.userData.val = val; d.userData.side = sd;
+    d.material.forEach(function (mt, fi) {
+      mt.map = faceTex([3, 4, 1, 6, 2, 5][fi], sd); mt.needsUpdate = true;
+      var used = G.dice[0] === G.dice[1] ? (i === 0 ? G.rem.length <= 2 : G.rem.length <= 0) : (G.rem.indexOf(val) < 0 && (G.rem.length < 2) && !(G.dice[0] === G.dice[1]));
+      mt.color.setHex(used ? 0x444444 : 0xffffff);
+    });
+    d.userData.restPos = new THREE.Vector3(DICE_X[i], 0.4, 0);
+  });
+}
+function setHigh3D() {
+  if (!T.ok) return;
+  var dest = (G.sel !== null && G.phase === 'move') ? destsFor(G.sel) : {}, k;
+  for (k in T.hl) if (T.hl.hasOwnProperty(k)) T.hl[k].material.opacity = 0;
+  function paint(key, col, op) { var m = T.hl[key]; if (m) { m.material.color.setHex(col); m.material.opacity = op; } }
+  if (G.sel !== null && G.phase === 'move') paint(String(G.sel), 0x00f0ff, 0.22);
+  Object.keys(dest).forEach(function (d) {
+    if (d === 'off') paint(G.turn === 'w' ? 'offw' : 'offb', 0x18e39c, 0.35); else paint(d, 0x18e39c, 0.38);
+  });
+  if (G.hint) {
+    [G.hint.from, G.hint.to].forEach(function (h) {
+      if (h === 'off') paint(G.turn === 'w' ? 'offw' : 'offb', 0xb388ff, 0.4); else paint(String(h), 0xb388ff, 0.4);
+    });
+  }
+}
+function frame3D(t) {
+  var c = T.cs, now = performance.now();
+  T.cam.position.set(c.r * Math.sin(c.ph) * Math.sin(c.th), c.r * Math.cos(c.ph), c.r * Math.sin(c.ph) * Math.cos(c.th));
+  T.cam.lookAt(0, 0, 0.3);
+  if (T.tw) {
+    var u = Math.min(1, (now - T.tw.t0) / 280), e = u * u * (3 - 2 * u);
+    T.tw.mesh.position.lerpVectors(T.tw.from, T.tw.to, e); T.tw.mesh.position.y += Math.sin(u * Math.PI) * 0.9;
+    if (u >= 1) T.tw = null;
+  }
+  T.dice.forEach(function (d) {
+    if (!d.visible) return;
+    var a = d.userData.anim, rest = d.userData.restPos, fq = faceQuat(d.userData.val, d.userData.yaw);
+    if (a) {
+      var u2 = Math.min(1, (now - a.t0) / a.dur), ease = 1 - Math.pow(1 - u2, 3);
+      d.quaternion.copy(a.q0).slerp(fq, ease);
+      d.position.set(rest.x + (1 - ease) * (d.userData.yaw - 3) * 0.4, rest.y + Math.abs(Math.sin(u2 * Math.PI * 2.5)) * (1 - u2) * 1.8, rest.z);
+      if (u2 >= 1) d.userData.anim = null;
+    } else { d.quaternion.copy(fq); d.position.copy(rest); }
+  });
+  T.r.render(T.scene, T.cam);
+}
+
+/* ---------- panel ---------- */
+function diceView() {
+  if (!G.dice[0]) return [];
+  var list = G.dice[0] === G.dice[1] && G.dice[0] > 0 ? [G.dice[0], G.dice[0], G.dice[0], G.dice[0]] : G.dice.slice(), rem = G.rem.slice(), out = [];
+  list.forEach(function (v) {
+    var i = rem.indexOf(v);
+    if (i >= 0) { rem.splice(i, 1); out.push({ v: v, used: false }); } else out.push({ v: v, used: true });
+  });
+  return out;
+}
+function dieHTML(v, used, side) {
+  var map = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] }, s = '<span class="die' + (side === 'b' ? ' amb' : '') + (used ? ' used' : '') + '" aria-label="die ' + v + '">';
+  for (var n = 0; n < 9; n++) s += '<i' + (map[v].indexOf(n) >= 0 ? ' class="on"' : '') + '></i>';
+  return s + '</span>';
+}
+function renderLog() {
+  $('logList').innerHTML = G.log.slice(0, 14).map(function (t, i) { return '<li>' + (i === 0 ? '<b>' + esc(t) + '</b>' : esc(t)) + '</li>'; }).join('');
+}
+function setBtn(id, on) { $(id).hidden = !on; }
+function render() {
+  var human = isHuman(G.turn), ph = G.phase, f = firsts();
+  // status line
+  var txt;
+  if (G.over) txt = G.over.text;
+  else if (ph === 'offer') txt = nameOf(G.offer.by) + ' offered the cube at ' + G.cube.v * 2 + '.';
+  else if (ph === 'pre') txt = (human ? (G.mode === '2p' ? nameOf(G.turn) + ': ' : 'Your turn: ') + 'roll the dice' + (canDouble(G.turn) ? ' or double.' : '.') : nameOf(G.turn) + ' to roll.');
+  else if (!f.length) txt = human ? 'No more moves. Press End turn or Undo.' : nameOf(G.turn) + ' has no more moves.';
+  else txt = human ? (G.mode === '2p' ? nameOf(G.turn) + ': ' : '') + 'click a stone, then a green point.' : nameOf(G.turn) + ' is playing.';
+  $('statusTxt').textContent = txt;
+  $('dot').className = 'dot' + (G.turn === 'b' ? ' amb' : '');
+  $('pipLine').textContent = 'Pips: ' + nameOf('w') + ' ' + EN.pips(G.st, 'w') + ' | ' + nameOf('b') + ' ' + EN.pips(G.st, 'b');
+  $('pipW').textContent = EN.pips(G.st, 'w'); $('pipB').textContent = EN.pips(G.st, 'b');
+  var dv = diceView();
+  $('diceRow').innerHTML = dv.map(function (d) { return dieHTML(d.v, d.used, G.turn); }).join('');
+  $('cubeBadge').hidden = !cubeOn();
+  $('varNote').textContent = VARS[G.variant].rules;
+  $('cubeBadge').innerHTML = 'Cube <b>' + G.cube.v + '</b> · ' + (G.cube.owner === null ? 'centred' : 'with ' + (G.cube.owner === 'w' ? 'cyan' : 'amber'));
+  setBtn('btnRoll', ph === 'pre' && human && !G.over);
+  setBtn('btnDouble', ph === 'pre' && human && canDouble(G.turn));
+  setBtn('btnUndo', ph === 'move' && human && G.undo.length > 0);
+  setBtn('btnHint', ph === 'move' && human && f.length > 0);
+  setBtn('btnEnd', ph === 'move' && human && !f.length && !G.over);
+  var resp = ph === 'offer' ? other(G.offer.by) : null;
+  var bn = $('banner');
+  bn.hidden = !(ph === 'offer' && isHuman(resp));
+  if (!bn.hidden) {
+    $('bannerT').textContent = nameOf(G.offer.by) + ' doubles to ' + G.cube.v * 2;
+    $('bannerS').textContent = 'Take and you own the cube. Drop and you lose ' + G.cube.v + (G.cube.v === 1 ? ' point.' : ' points.');
+  }
+  var sc = G.mode === '2p' ? 'Cyan ' + G.score.w + ' – Amber ' + G.score.b : G.mode === 'watch' ? 'not scored' : 'You ' + G.score.w + ' – Socrates ' + G.score.b;
+  $('scoreTxt').textContent = sc;
+  $('coachTxt').innerHTML = coachHTML();
+  if (ph !== 'move' || !human) { /* keep selection clear outside own move */ if (ph !== 'move') G.sel = null; }
+  if (T.ok) { sync3D(); setHigh3D(); }
+  drawFlat();
+}
+
+/* ---------- views ---------- */
+function setView(v) {
+  if (v === '3d' && !T.ok) v = '2d';
+  T.view = v;
+  $('gl').hidden = v !== '3d'; $('flat').hidden = v !== '2d';
+  $('v3d').setAttribute('aria-pressed', v === '3d'); $('v2d').setAttribute('aria-pressed', v === '2d');
+  if (v === '3d') resize3D();
+  LS.set('olb_view', v);
+}
+
+/* ---------- Cube Lab ---------- */
+function pipLab() {
+  var me = Math.max(1, +$('pipMe').value || 0), op = Math.max(1, +$('pipOpp').value || 0), own = $('chkOwn').checked;
+  var rc = EN.raceCube(me, op, own), p = EN.raceWinProb(me, op);
+  var html = 'Lead: <b>' + rc.lead + '</b> pips (' + (rc.lead / me * 100).toFixed(1) + '% of your pips)<br>' +
+    (own ? 'Redouble' : 'Double') + ' from <b>' + rc.doubleAt.toFixed(1) + '</b> (' + (own ? '9' : '8') + '%) · Opponent passes from <b>' + rc.passAt.toFixed(1) + '</b> (12%)<br>' +
+    'Rough win chance on roll: <b>' + Math.round(p * 100) + '%</b><br>';
+  var v;
+  if (!rc.double) v = 'Verdict: <b>No double yet.</b> Roll on.';
+  else if (rc.drop) v = 'Verdict: <b>' + (own ? 'Redouble' : 'Double') + ', and the opponent should drop.</b>';
+  else v = 'Verdict: <b>' + (own ? 'Redouble' : 'Double') + ', and the opponent should take.</b>';
+  $('pipOut').innerHTML = html + v;
+}
+var CUBE_STEPS = [1, 2, 4, 8, 16, 32, 64], cubeSelV = 1;
+function takeLab() {
+  var c = cubeSelV, W = +$('calcW').value, GW = +$('calcGW').value, GL = +$('calcGL').value;
+  var viaPips = $('chkPipWin').checked, live = $('chkLive').checked;
+  var me = Math.max(1, +$('pipMe').value || 0), op = Math.max(1, +$('pipOpp').value || 0), delta = op - me;
+  if (viaPips) { W = Math.round(100 * BG.raceWinProb(me, op)); $('calcW').value = W; }
+  $('calcW').disabled = viaPips;
+  if (GW > W) { GW = W; $('calcGW').value = GW; }
+  if (GL > 100 - W) { GL = 100 - W; $('calcGL').value = GL; }
+  $('calcWo').textContent = W + '%'; $('calcGWo').textContent = GW + '%'; $('calcGLo').textContent = GL + '%';
+  CUBE_STEPS.forEach(function (v, i) { $('cubeSel').children[i].setAttribute('aria-pressed', String(v === c)); });
+  // D(t) = O(PipDelta) + sum of H(c,u) x S_k, in points per game with the cube at 1
+  var O = 2 * W / 100 - 1, S1 = GW / 100, S2 = -GL / 100;
+  // standard: H = 1.  Mandos gate: H(c,u) = 0 if c < 1, else u
+  var gate = $('chkGate').checked; $('gateBox').hidden = !gate;
+  var uGW = +$('utGW').value / 100, uGL = +$('utGL').value / 100;
+  $('utGWo').textContent = uGW.toFixed(1); $('utGLo').textContent = uGL.toFixed(1);
+  var H1 = $('cohGW').checked ? uGW : 0, H2 = $('cohGL').checked ? uGL : 0;
+  var Dstd = Math.round((O + S1 + S2) * 1000) / 1000;
+  var Dgate = Math.round((O + H1 * S1 + H2 * S2) * 1000) / 1000;
+  var D = gate ? Dgate : Dstd, H = gate ? 'gate' : 1;
+  var passLine = live ? 0.56 : 0.5, dblLine = 0.4, tooGood = 1.0;
+  var cls, label, why;
+  if (c >= 64) { cls = 'n'; label = '⚪ NO DOUBLE / HOLD CUBE'; why = 'The cube is already at 64, so it cannot be doubled again.'; }
+  else if (D >= tooGood) { cls = 'y'; label = '⚡ TOO GOOD TO DOUBLE (RUN)'; why = 'Playing on for the gammon is worth more than the ' + c + (c === 1 ? ' point' : ' points') + ' a pass would give. Do not double; race for the gammon.'; }
+  else if (D > passLine) { cls = 'r'; label = '🔴 DOUBLE / PASS (DROP CUBE)'; why = 'Double. The other side is below their take point, so they should pass and you bank ' + c + (c === 1 ? ' point.' : ' points.'); }
+  else if (D >= dblLine) { cls = 'g'; label = '🟢 DOUBLE / TAKE'; why = 'Double. You are in the doubling window and the other side still has enough to take.'; }
+  else { cls = 'n'; label = '⚪ NO DOUBLE / HOLD CUBE'; why = 'Too early. Keep the cube and roll on.'; }
+  var vb = $('verdictBox'); vb.className = 'verdictBox ' + cls;
+  vb.innerHTML = esc(label) + '<small>Socrates: ' + esc(why) + '</small>';
+  var evTake = BG.takeEV(c, 100 - W, GL, GW), evDrop = -c;
+  function sg(x) { return (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(2); }
+  $('calcOut').innerHTML = 'D(t) = O(ΔPip) + Σ [ H(c,u) · S<sub>k</sub> ]<br>' +
+    'ΔPip = <b>' + (delta >= 0 ? '+' : '') + delta + '</b> · O = 2×' + W + '% − 1 = <b>' + sg(O) + '</b>' + (viaPips ? ' (from the pip race)' : ' (from the slider)') + '<br>' +
+    'S<sub>1</sub> = +' + (GW / 100).toFixed(2) + ' gammon wins · S<sub>2</sub> = −' + (GL / 100).toFixed(2) + ' gammon losses<br>' +
+    'Standard, H = 1: D = ' + sg(O) + ' ' + sg(S1) + ' ' + sg(S2) + ' = <b>' + sg(Dstd) + '</b>' + (gate ? '' : ' ← used for the verdict') + '<br>' +
+    'Your gate, H = c·u: H<sub>1</sub> = ' + H1.toFixed(1) + ', H<sub>2</sub> = ' + H2.toFixed(1) + ' → D = ' + sg(O) + ' + ' + H1.toFixed(1) + '×' + sg(S1) + ' + ' + H2.toFixed(1) + '×' + sg(S2) + ' = <b>' + sg(Dgate) + '</b>' + (gate ? ' ← used for the verdict' : '') + '<br>' +
+    'Lines: double from <b>' + dblLine.toFixed(2) + '</b> · they pass above <b>' + passLine.toFixed(2) + '</b> · too good from <b>' + tooGood.toFixed(2) + '</b><br>' +
+    'If doubled to ' + c * 2 + ', the other side: drop <b>' + sg(evDrop) + '</b> or take <b>' + sg(evTake) + '</b> (dead cube).';
+}
+var CUBE_LESSONS = [
+  { t: 'The take point is 25%', b: 'With the cube at 1, a double puts 2 points at stake. Drop and you lose 1 for sure. Take and you win 2 or lose 2, so the take is worth 4P − 2. That beats −1 when P is above 0.25.' },
+  { t: 'Owning the cube is worth something', b: 'After a take you hold the cube and only you can redouble. That option lets you take slightly worse positions, so the real take point is nearer 22% than 25%.' },
+  { t: 'The doubling window', b: 'Below roughly 70% you are usually too early. Between about 70% and 80% you double and the opponent can still take. Above about 80% they drop, and if a gammon is likely you may be too good to double.' },
+  { t: 'The 8-9-12 race rule', b: 'In a pure race, double when your lead is 8% of your pips, redouble at 9%, and the opponent passes at 12%. With 70 against 81 your lead is 11. That is above 5.6 (double) and above 8.4 (pass), so double and they drop.' },
+  { t: 'Gammons move the line', b: 'A gammon doubles the loss. At 27% to win with a 30% chance of being gammoned, taking at cube 2 is worth 2 × (0.27 − 0.73 − 0.30) = −1.52. Dropping costs 1. Drop, even though 27% looks like a take.' },
+  { t: 'More cube strategy is on its way', b: 'This panel is built to grow. New lessons from the creator will be added here.', soon: true }
+];
+var CODEX = [
+  { t: 'Royal Game of Ur', e: 'c. 2600 BCE · Mesopotamia', b: 'A race game for two, played with dice, found in royal graves in what is now Iraq. It is often cited as an ancestor of backgammon.' },
+  { t: 'Senet', e: 'c. 3100 BCE · Egypt', b: 'An Egyptian race game found in tombs, buried to keep the dead company. Different in layout, but luck and strategy shared the board.' },
+  { t: 'Nard', e: 'c. 3rd century CE · Persia', b: 'Nard (Nardashir) is the closest known relative of backgammon. It used a 24-point board and fifteen checkers per side.' },
+  { t: 'Tabula', e: 'Rome · Ludus Duodecim Scriptorum', b: 'The Romans simplified their Game of Twelve Lines into Tabula. Emperor Claudius is said to have had a board fitted in his carriage. A fresco in Pompeii shows two men arguing over a game.' },
+  { t: 'A name and a rulebook', e: '1645 and 1743 · England', b: 'The word backgammon first appears in print around 1645. In 1743 Edmond Hoyle published a treatise that fixed the rules, including the doubled score for a gammon.' },
+  { t: 'The doubling cube', e: '1920s · New York', b: 'Gambling clubs in Lower Manhattan added a cube that lets a player raise the stakes mid-game. The opponent must accept or give up the game. It changed the game into a contest of nerve and maths.' },
+  { t: 'Tavli and Tawla', e: 'Today · Greece, Turkey, Lebanon', b: 'Across the eastern Mediterranean and the Middle East the game is part of cafe life, often played at lightning speed over coffee.' },
+  { t: 'Machines at the board', e: '1979 and after', b: 'In 1979 the program BKG 9.8 beat the reigning world champion, the first time a computer beat a human world champion at a board game. Neural-network programs such as Extreme Gammon now play near perfectly.' }
+];
+function buildLab() {
+  $('lessons').innerHTML = CUBE_LESSONS.map(function (l) { return '<div class="lcard' + (l.soon ? ' soon' : '') + '"><h3>' + esc(l.t) + '</h3><p>' + esc(l.b) + '</p></div>'; }).join('');
+  $('codex').innerHTML = CODEX.map(function (c) { return '<div class="lcard"><h3>' + esc(c.t) + '</h3><p class="era">' + esc(c.e) + '</p><p>' + esc(c.b) + '</p></div>'; }).join('');
+  ['pipMe', 'pipOpp', 'chkOwn'].forEach(function (id) { $(id).addEventListener('input', pipLab); $(id).addEventListener('change', pipLab); });
+  var cs = $('cubeSel'); cs.innerHTML = '';
+  CUBE_STEPS.forEach(function (v) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = v + '×'; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () { cubeSelV = v; takeLab(); });
+    cs.appendChild(b);
+  });
+  ['calcW', 'calcGL', 'calcGW', 'chkPipWin', 'chkLive', 'chkGate', 'cohGW', 'cohGL', 'utGW', 'utGL', 'pipMe', 'pipOpp', 'chkOwn'].forEach(function (id) { $(id).addEventListener('input', takeLab); $(id).addEventListener('change', takeLab); });
+  $('btnLoadPips').addEventListener('click', function () { $('pipMe').value = EN.pips(G.st, 'w'); $('pipOpp').value = EN.pips(G.st, 'b'); pipLab(); takeLab(); });
+  pipLab(); takeLab();
+}
+
+/* ---------- boot ---------- */
+function boot() {
+  buildFlat(); buildLab(); init3D();
+  $('btnRoll').addEventListener('click', function () { rollDice(); });
+  $('btnDouble').addEventListener('click', function () { offerDouble(G.turn); });
+  $('btnUndo').addEventListener('click', undoMove);
+  $('btnHint').addEventListener('click', showHint);
+  $('btnEnd').addEventListener('click', endTurn);
+  $('btnNew').addEventListener('click', newGame);
+  $('bTake').addEventListener('click', function () { respond(true); });
+  $('bDrop').addEventListener('click', function () { respond(false); });
+  $('chkCoach').addEventListener('change', render);
+  $('v3d').addEventListener('click', function () { setView('3d'); });
+  $('v2d').addEventListener('click', function () { setView('2d'); });
+  $('selVar').addEventListener('change', function () { G.variant = $('selVar').value; LS.set('olb_var', G.variant); newGame(); });
+  $('selOpp').addEventListener('change', function () { G.mode = $('selOpp').value; LS.set('olb_mode', G.mode); newGame(); });
+  var sb = $('soundBtn');
+  function paintSound() { sb.textContent = muted ? 'Sound off' : 'Sound on'; sb.setAttribute('aria-pressed', String(!muted)); }
+  sb.addEventListener('click', function () { muted = !muted; LS.set('olb_mute', muted ? '1' : '0'); paintSound(); if (!muted) sfx('tick'); });
+  paintSound();
+  var vv = LS.get('olb_var', 'bg'); if (VARS[vv]) { G.variant = vv; $('selVar').value = vv; }
+  var m = LS.get('olb_mode', 'master'); if (['master', 'apprentice', '2p', 'watch'].indexOf(m) >= 0) { G.mode = m; $('selOpp').value = m; }
+  if (!T.ok) $('v3d').disabled = true;
+  setView(T.ok ? LS.get('olb_view', '3d') : '2d');
+  if (window.addEventListener) window.addEventListener('resize', resize3D);
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize3D).observe($('stage'));
+  newGame();
+}
+if (typeof window !== 'undefined') window.__olb = { G: G, newGame: newGame, rollDice: rollDice, clickKey: clickKey, respond: respond, offerDouble: offerDouble, endTurn: endTurn, doMove: doMove, firsts: firsts, undoMove: undoMove, showHint: showHint, canDouble: canDouble, VARS: VARS, setEngine: setEngine, flatDyn: flatDyn, coachHTML: coachHTML, render: render, pickBest: pickBest, evalPos: evalPos, winProb: winProb };
+boot();
+})();
+
+</script>
+<script>
+(function () {
+  var u = location.href, t = document.title + ' - Philosophy From A Stone';
+  function $(id) { return document.getElementById(id); }
+  var eu = encodeURIComponent(u), et = encodeURIComponent(t);
+  $('shFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + eu;
+  $('shX').href = 'https://twitter.com/intent/tweet?text=' + et + '&url=' + eu;
+  $('shPin').href = 'https://pinterest.com/pin/create/button/?url=' + eu + '&description=' + et;
+  $('shMail').href = 'mailto:?subject=' + et + '&body=' + et + '%0A%0A' + eu;
+  $('shTg').href = 'https://t.me/share/url?url=' + eu + '&text=' + et;
+  $('shWa').href = 'https://wa.me/?text=' + et + '%20' + eu;
+  $('shUrl').value = u;
+  var note = $('shNote');
+  function say(s) { note.textContent = s; setTimeout(function () { note.textContent = ''; }, 4000); }
+  function copy(done) {
+    var inp = $('shUrl');
+    function sel() { inp.focus(); inp.select(); say('Press Ctrl+C to copy the link.'); }
+    try { navigator.clipboard.writeText(u).then(function () { done(); }, sel); } catch (e) { sel(); }
+  }
+  $('shCopy').addEventListener('click', function () { copy(function () { say('Link copied.'); }); });
+  $('shIg').addEventListener('click', function () {
+    copy(function () { say('Link copied. Paste it into your Instagram post or story.'); });
+    window.open('https://www.instagram.com/', '_blank', 'noopener');
+  });
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function p2(n) { return n < 10 ? '0' + n : '' + n; }
+  function tick() {
+    var d = new Date();
+    $('clUtc').textContent = p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()) + ':' + p2(d.getUTCSeconds());
+    $('clLoc').textContent = p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+    try { $('clTz').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+  }
+  tick(); setInterval(tick, 1000);
+  var cr = [];
+  function fmt(v) {
+    if (v == null || !isFinite(v)) return '—';
+    var a = Math.abs(v);
+    return v.toLocaleString('en-US', { maximumFractionDigits: a >= 100 ? 0 : a >= 1 ? 2 : 4, minimumFractionDigits: a >= 1 && a < 100 ? 2 : 0 });
+  }
+  function render() {
+    var tr = $('mTrack'); if (!tr || !cr.length) return;
+    tr.textContent = '';
+    for (var k = 0; k < 2; k++) cr.forEach(function (x) {
+      var s = document.createElement('span'); s.className = 'mi'; s.appendChild(document.createTextNode(x.name));
+      var e = document.createElement('em'); e.textContent = '$' + fmt(x.price); s.appendChild(e);
+      if (x.pct != null && isFinite(x.pct)) {
+        var c = document.createElement('span'); c.className = x.pct >= 0 ? 'up' : 'dn';
+        c.textContent = (x.pct >= 0 ? '▲ +' : '▼ ') + x.pct.toFixed(2) + '%'; s.appendChild(c);
+      }
+      tr.appendChild(s);
+    });
+  }
+  function load() {
+    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=11&page=1&price_change_percentage=24h')
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (j) { if (Array.isArray(j)) { cr = j.map(function (c) { return { name: (c.symbol || '').toUpperCase(), price: c.current_price, pct: c.price_change_percentage_24h }; }); render(); } })
+      .catch(function () {});
+  }
+  load(); setInterval(load, 60000);
+  setTimeout(function () { var tr = $('mTrack'); if (tr && !cr.length) tr.innerHTML = '<span class="mi">Live prices load once the page is hosted online</span>'; }, 6000);
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var prov = null;
+  function find() {
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return { p: window.phantom.solana, n: 'Phantom' };
+    if (window.solflare && window.solflare.isSolflare) return { p: window.solflare, n: 'Solflare' };
+    if (window.solana) return { p: window.solana, n: 'Solana wallet' };
+    return null;
+  }
+  $('btnWallet').addEventListener('click', function () {
+    var txt = $('walletTxt'), btn = $('btnWallet');
+    if (prov) { try { prov.p.disconnect(); } catch (e) {} prov = null; btn.textContent = 'Connect wallet'; txt.textContent = 'Wallet disconnected.'; return; }
+    var f = find();
+    if (!f) { txt.textContent = 'No Phantom or Solflare wallet was found in this browser.'; return; }
+    f.p.connect().then(function (r) {
+      var pk = (r && r.publicKey ? r.publicKey : f.p.publicKey).toString();
+      prov = f; btn.textContent = 'Disconnect';
+      txt.textContent = f.n + ' connected: ' + pk.slice(0, 4) + '…' + pk.slice(-4) + '. Only your public address is shown.';
+    }).catch(function () { txt.textContent = 'The wallet did not connect.'; });
+  });
+})();
+</script>
+<script src="depthbg.js"></script>
+<script src="audio.js"></script>
+<script src="miniplayer.js"></script>
+<script src="account.js"></script>
+<script src="lounge.js"></script>
+</body></html>
