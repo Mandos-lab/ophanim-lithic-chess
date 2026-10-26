@@ -401,6 +401,8 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 </style>
 <style>@media(max-width:900px){.game iframe{height:2300px!important}}</style>
 <style>.gp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}.gp-cards .c{border:1px solid var(--line-g);background:var(--panel);padding:16px}.gp-cards .c h3{margin:0 0 6px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.gp-cards .c p{margin:0;color:var(--dim);font-size:16px;line-height:1.6}.gp-sec p{max-width:74ch}</style>
+<style id="markfab">.fab{width:58px;height:58px;border:0;background:none;transform:none;padding:0;border-radius:6px}.fab img{width:100%;height:100%;display:block;transition:.2s}.fab:hover img{filter:drop-shadow(0 0 8px rgba(70,227,240,.6))}</style>
+<link rel="icon" href="mark.svg" type="image/svg+xml">
 </head>
 <body>
 <div class="progress" id="prog"></div>
@@ -410,7 +412,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
   <a href="#play">Play ▸</a>
 </header>
 <nav class="dots" id="dots"></nav>
-<button class="fab" id="fab" title="Open the Greek Translator"><span>Ψ</span></button>
+<button class="fab" id="fab" title="Open the Greek Translator" aria-label="Open the Greek Translator"><img src="mark.svg" alt=""></button>
 
 <main>
 <!-- HERO -->
