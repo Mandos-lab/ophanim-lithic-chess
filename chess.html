@@ -338,6 +338,8 @@ footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid
           <button class="btn accent" id="btnNew" type="button">New game</button>
           <button class="btn" id="btnUndo" type="button">Undo</button>
         </div>
+        <div class="row"><button class="btn small" type="button" id="btnWallet">Connect wallet</button></div>
+        <p class="note" id="walletTxt">Optional. Match wagers are not available: they would need online player-versus-player play and an audited escrow, and neither exists yet.</p>
       </div>
 
       <div class="card" id="cardClassic" hidden>
@@ -1852,6 +1854,29 @@ updatePanel();
   $('shIg').addEventListener('click', function () {
     copy(function () { say('Link copied. Paste it into your Instagram post or story.'); });
     window.open('https://www.instagram.com/', '_blank', 'noopener');
+  });
+})();
+</script>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var prov = null;
+  function find() {
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return { p: window.phantom.solana, n: 'Phantom' };
+    if (window.solflare && window.solflare.isSolflare) return { p: window.solflare, n: 'Solflare' };
+    if (window.solana) return { p: window.solana, n: 'Solana wallet' };
+    return null;
+  }
+  $('btnWallet').addEventListener('click', function () {
+    var txt = $('walletTxt'), btn = $('btnWallet');
+    if (prov) { try { prov.p.disconnect(); } catch (e) {} prov = null; btn.textContent = 'Connect wallet'; txt.textContent = 'Wallet disconnected.'; return; }
+    var f = find();
+    if (!f) { txt.textContent = 'No Phantom or Solflare wallet was found in this browser.'; return; }
+    f.p.connect().then(function (r) {
+      var pk = (r && r.publicKey ? r.publicKey : f.p.publicKey).toString();
+      prov = f; btn.textContent = 'Disconnect';
+      txt.textContent = f.n + ' connected: ' + pk.slice(0, 4) + '…' + pk.slice(-4) + '. Only your public address is shown.';
+    }).catch(function () { txt.textContent = 'The wallet did not connect.'; });
   });
 })();
 </script>
