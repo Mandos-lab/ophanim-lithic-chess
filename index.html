@@ -113,6 +113,8 @@ footer b{color:var(--text);font-weight:400}
 .cmpgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
 .arm{border:1px dashed #2a3a50;border-radius:6px;padding:8px;margin-top:8px;background:#080c14}
 @media(max-width:1100px){main{grid-template-columns:1fr}}
+@media(min-width:1101px){main .col:nth-child(2)>.card:nth-child(1){order:1}main .col:nth-child(2)>.card:nth-child(2){order:2}main .col:nth-child(2)>.card:nth-child(7){order:3}main .col:nth-child(2)>.card:nth-child(3){order:4}main .col:nth-child(2)>.card:nth-child(4){order:5}main .col:nth-child(2)>.card:nth-child(5){order:6}main .col:nth-child(2)>.card:nth-child(6){order:7}}
+
 header{position:relative}
 
 /* header compaction */
@@ -145,7 +147,7 @@ header{padding:8px 16px;padding-right:62px}
     </nav>
     <svg id="btcEmb" viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="Bitcoin" style="position:absolute;right:16px;top:14px"><circle cx="20" cy="20" r="18.5" fill="#f7931a"/><g transform="rotate(14 20 20)"><path d="M16.2 8v3.6M21.6 8v3.6M16.2 28.4V32M21.6 28.4V32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><text x="19.2" y="27" text-anchor="middle" font-size="21" font-weight="800" fill="#fff" font-family="Arial,Helvetica,sans-serif">B</text></g></svg>
 </header>
-<div class="intro"><b>Type a word.</b> The console turns its letters into numbers, finds the same number in Greek and in Hebrew, and shows where it points on the wheels. <span class="q">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</span></div>
+<div class="intro"><b>Type a word.</b> The console turns its letters into numbers, finds the same number in Greek and in Hebrew, and shows where it points on the wheels. <span class="q">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</span> <span class="q" style="display:block;margin:2px 0 0;white-space:normal">Best experienced on a large screen: a monitor is much more pleasant. Phones work too.</span></div>
 
 <main>
 <!-- LEFT -->
