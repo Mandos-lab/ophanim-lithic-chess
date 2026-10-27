@@ -37,7 +37,7 @@
     loading = client().then(function (c) {
       return c.auth.getSession().then(function (s) {
         var u = s && s.data && s.data.session && s.data.session.user;
-        if (u) return readProfile(u);
+        if (u) { uid = u.id; return readProfile(u); }
         return null;
       });
     }).then(function () { failed = false; say(); }, function () { failed = true; loading = null; say(); });
@@ -55,6 +55,7 @@
         if (u) return u;
         return c.auth.signInAnonymously().then(function (r) { if (r.error) throw r.error; return r.data.user; });
       }).then(function (u) {
+        uid = u.id;
         return c.from('profiles').update({ handle: n }).eq('id', u.id).select('handle').then(function (r) {
           if (r.error) return { ok: false, error: r.error.code === '23505' ? 'taken' : 'fail' };
           if (!r.data || !r.data.length) return { ok: false, error: 'fail' };
@@ -64,5 +65,58 @@
       });
     }).catch(function () { return { ok: false, error: 'fail' }; });
   }
-  window.OphanimOnline = { init: init, handle: function () { return nick; }, ready: function () { return known; }, failed: function () { return failed; }, claim: claim };
+  /* ---------- Live rooms ---------- */
+  var RK = 'ophanim.room', uid = null;
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} return null; }
+  function sess() { return client().then(function (c) { return c.auth.getSession(); }).then(function (s) { var u = s && s.data && s.data.session && s.data.session.user; if (u) uid = u.id; return u || null; }); }
+  function ensureUser() {
+    return sess().then(function (u) {
+      if (u) return u;
+      return sb.auth.signInAnonymously().then(function (r) { if (r.error) throw r.error; uid = r.data.user.id; return r.data.user; });
+    });
+  }
+  function rpc(name, args) { return sb.rpc(name, args).then(function (r) { if (r.error) throw r.error; return r.data; }); }
+  function getRoom(id) { return client().then(function () { return sb.from('rooms').select('*').eq('id', id).single(); }).then(function (r) { if (r.error) throw r.error; return r.data; }); }
+  var room = {
+    create: function (game) { return ensureUser().then(function () { return rpc('create_room', { p_game: game }); }).then(function (r) { ls(RK, r.id); return r; }); },
+    join: function (code) { return ensureUser().then(function () { return rpc('join_room', { p_code: code }); }).then(function (r) { ls(RK, r.id); return r; }); },
+    get: getRoom,
+    me: function () { return uid; },
+    move: function (id, san, len, result) { return rpc('post_move', { p_room: id, p_san: san, p_len: len, p_result: result || null }); },
+    resign: function (id) { return rpc('resign_room', { p_room: id }); },
+    cancel: function (id) { return rpc('cancel_room', { p_room: id }).then(function () { ls(RK, null); }); },
+    forget: function () { ls(RK, null); },
+    /* Picks up a room this device was in (refresh, or coming back later). Never creates a visitor. */
+    resume: function () {
+      var id = ls(RK); if (!id) return Promise.resolve(null);
+      return sess().then(function (u) {
+        if (!u) return null;
+        return getRoom(id).then(function (r) { if (!r || r.status === 'finished') { ls(RK, null); return null; } return r; });
+      }).catch(function () { return null; });
+    },
+    names: function (ids) {
+      ids = ids.filter(Boolean);
+      if (!ids.length) return Promise.resolve({});
+      return client().then(function () { return sb.from('profiles').select('id,handle').in('id', ids); }).then(function (r) {
+        var m = {}; ((r && r.data) || []).forEach(function (p) { m[p.id] = p.handle; }); return m;
+      }).catch(function () { return {}; });
+    },
+    /* Live updates, with a slow check every 4 seconds as a safety net. Returns a stop function. */
+    watch: function (id, cb) {
+      var stopped = false, ch = null, timer = null, last = '';
+      function push(row) {
+        if (stopped || !row) return;
+        var k = row.updated_at + '|' + ((row.moves || []).length) + '|' + row.status;
+        if (k === last) return; last = k; cb(row);
+      }
+      client().then(function (c) {
+        if (stopped) return;
+        try { ch = c.channel('room-' + id).on('postgres_changes', { event: '*', schema: 'public', table: 'rooms', filter: 'id=eq.' + id }, function (p) { push(p.new); }).subscribe(); } catch (e) {}
+        getRoom(id).then(push, function () {});
+      });
+      timer = setInterval(function () { if (sb) getRoom(id).then(push, function () {}); }, 4000);
+      return function () { stopped = true; clearInterval(timer); try { if (ch && sb) sb.removeChannel(ch); } catch (e) {} };
+    }
+  };
+  window.OphanimOnline = { init: init, handle: function () { return nick; }, ready: function () { return known; }, failed: function () { return failed; }, claim: claim, room: room };
 })();

@@ -1780,6 +1780,159 @@ if(!ok){$('#v3d').disabled=true;$('#v3d').title='WebGL is not available here';}
 syncControls();
 setView(ok?'3d':'2d');
 updatePanel();
+/* Live rooms for chess. Wraps the page's own move code; the rules (chess.js) stay the same.
+   A room is a list of moves in the back room. Both players replay it, so both boards always agree. */
+(function () {
+  'use strict';
+  function boot() {
+  var O = window.OphanimOnline;
+  if (!O || !O.room || typeof commit !== 'function' || typeof handleSquare !== 'function') return;
+  var NET = null, stopWatch = null, strip = null;
+  var _hs = handleSquare, _commit = commit, _status = statusText, _sync = syncControls;
+
+  var st = document.createElement('style');
+  st.textContent = '.netbox .nrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.netbox .ninfo{font:500 14px var(--f-mono);line-height:1.6}.netbox .ninfo b{color:var(--amber)}.netbox .nmsg{margin:8px 0 0;font-size:13px;color:var(--muted)}';
+  document.head.appendChild(st);
+
+  function peerName() { return NET && NET.opp ? NET.opp : '…'; }
+  function paintStrip() {
+    if (!strip || !NET) return;
+    var info = strip.querySelector('.ninfo'); info.textContent = '';
+    var a = document.createElement('div'); a.appendChild(document.createTextNode('Room ')); var b1 = document.createElement('b'); b1.textContent = NET.code; a.appendChild(b1); info.appendChild(a);
+    var c = document.createElement('div'); c.textContent = 'You play ' + (NET.me === 'w' ? 'White (cyan)' : 'Black (amber)') + ' against '; var b2 = document.createElement('b'); b2.textContent = peerName(); c.appendChild(b2); info.appendChild(c);
+    strip.querySelector('#netResign').hidden = NET.over;
+  }
+  function msg(t) { if (strip) strip.querySelector('.nmsg').textContent = t || ''; }
+  function buildStrip() {
+    if (strip) return;
+    strip = document.createElement('div'); strip.className = 'card netbox'; strip.id = 'netStrip';
+    strip.innerHTML = '<p class="lbl">Online game</p><div class="ninfo"></div><div class="nrow"><button class="btn small" id="netResign" type="button">Resign</button><button class="btn small" id="netLeave" type="button">Leave room</button></div><p class="nmsg" aria-live="polite"></p>';
+    var anchor = $('#cardMatch'); anchor.parentNode.insertBefore(strip, anchor);
+    $('#netResign').addEventListener('click', function () {
+      if (!NET || NET.over) return;
+      if (!confirm('Resign this game?')) return;
+      O.room.resign(NET.id).then(apply, function () { msg('Could not reach the back room. Try again.'); });
+    });
+    $('#netLeave').addEventListener('click', function () {
+      if (!NET) return;
+      if (!NET.over && !confirm('Leaving counts as resigning. Leave this game?')) return;
+      var id = NET.id, over = NET.over;
+      (over ? Promise.resolve() : O.room.resign(id).catch(function () {})).then(leave);
+    });
+  }
+
+  /* only my own pieces, only on my turn */
+  handleSquare = function (sq) { if (NET && (NET.over || game.turn() !== NET.me)) return; _hs(sq); };
+
+  /* my move: play it here, then send it */
+  commit = function (from, to, promo, remote) {
+    if (!NET || remote === true) return _commit(from, to, promo);
+    if (NET.over || game.turn() !== NET.me) return false;
+    var ok = _commit(from, to, promo);
+    if (ok) {
+      var h = game.history(), san = h[h.length - 1], res = null;
+      if (game.in_checkmate()) res = (game.turn() === 'w') ? '0-1' : '1-0';
+      else if (game.game_over()) res = '1/2-1/2';
+      O.room.move(NET.id, san, h.length - 1, res).then(function (r) { if (r) NET.room = r; msg(''); }, function () {
+        msg('A move did not reach the back room. Checking…');
+        O.room.get(NET.id).then(apply, function () { msg('Connection lost. Retrying in the background.'); });
+      });
+    }
+    return ok;
+  };
+
+  statusText = function () {
+    var t = _status();
+    if (NET && !game.game_over() && !NET.over) t += (game.turn() === NET.me) ? ' · your move' : ' · waiting for ' + peerName();
+    return t;
+  };
+
+  syncControls = function () {
+    _sync();
+    if (NET) {
+      $('#level').disabled = true; $('#side').disabled = true; $('#mode').disabled = true; $('#btnNew').disabled = true;
+      $('#btnUndo').hidden = true; $('#learner').hidden = true; $('#tabClassic').disabled = true;
+    } else {
+      $('#mode').disabled = false; $('#btnNew').disabled = false; $('#tabClassic').disabled = false;
+    }
+  };
+
+  function rebuild(r) {
+    S.gid++; tweens.length = 0; S.busy = false; S.sel = null; S.legal = []; S.last = null; S.over = false;
+    game.reset();
+    var bad = false;
+    (r.moves || []).forEach(function (san) { if (!bad && !game.move(san)) bad = true; });
+    var hv = game.history({ verbose: true });
+    S.last = hv.length ? { from: hv[hv.length - 1].from, to: hv[hv.length - 1].to } : null;
+    S.over = game.game_over();
+    refreshBoard(); updatePanel();
+    return !bad;
+  }
+  function endBanner(r) {
+    NET.over = true; S.over = true;
+    var iWon = (r.result === '1-0' && NET.me === 'w') || (r.result === '0-1' && NET.me === 'b');
+    var title;
+    if (r.ended_by === 'resign') title = iWon ? 'Your opponent resigned' : 'You resigned';
+    else if (r.result === '1/2-1/2') title = statusText();
+    else title = (r.result === '1-0' ? 'White' : 'Black') + ' wins';
+    $('#bannerTitle').textContent = title;
+    $('#bannerSub').textContent = r.ended_by === 'resign' ? 'The game is over.' : (iWon ? 'You hold the core.' : (r.result === '1/2-1/2' ? 'The grid is balanced.' : 'Well played.'));
+    $('#banner').hidden = false;
+    updatePanel();
+  }
+  /* bring this board in line with the back room */
+  function apply(r) {
+    if (!NET || !r || r.id !== NET.id) return;
+    NET.room = r;
+    var have = game.history().length, want = (r.moves || []).length;
+    if (want > have) {
+      for (var i = have; i < want; i++) {
+        var ms = game.moves({ verbose: true }), m = null, k;
+        for (k = 0; k < ms.length; k++) { if (ms[k].san === r.moves[i]) { m = ms[k]; break; } }
+        if (!m) { if (!rebuild(r)) msg('The two boards disagree. Please leave and rejoin the room.'); break; }
+        _commit(m.from, m.to, m.promotion || 'q');
+      }
+    } else if (want < have) { rebuild(r); }
+    if (r.status === 'finished' && !NET.over) { if (game.game_over() && r.ended_by !== 'resign') { NET.over = true; } else endBanner(r); }
+    paintStrip(); updatePanel();
+  }
+
+  function start(r) {
+    if (stopWatch) { stopWatch(); stopWatch = null; }
+    if (S.screen === 'classic') setScreen('play');
+    var me = O.room.me();
+    NET = { id: r.id, code: r.code, me: (r.white === me ? 'w' : 'b'), over: false, opp: '', room: r };
+    S.mode = 'online'; S.human = NET.me; S.logged = false; resetHint();
+    var mode = $('#mode');
+    if (!mode.querySelector('option[value="online"]')) { var o = document.createElement('option'); o.value = 'online'; o.textContent = 'Online room'; mode.appendChild(o); }
+    mode.value = 'online';
+    $('#banner').hidden = true; $('#promo').hidden = true; $('#think').hidden = true;
+    S.flipped = (NET.me === 'b');
+    rebuild(r);
+    applyOrientation(); refreshBoard(); updatePanel();
+    buildStrip(); strip.hidden = false; syncControls(); paintStrip();
+    O.room.names([r.white, r.black]).then(function (map) { NET.opp = map[NET.me === 'w' ? r.black : r.white] || 'your opponent'; paintStrip(); updatePanel(); });
+    if (r.status === 'finished') endBanner(r);
+    stopWatch = O.room.watch(r.id, apply);
+    try { strip.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+  }
+  function leave() {
+    if (stopWatch) { stopWatch(); stopWatch = null; }
+    O.room.forget(); NET = null;
+    if (strip) strip.hidden = true;
+    var mode = $('#mode'), op = mode.querySelector('option[value="online"]'); if (op) op.remove();
+    mode.value = 'cpu'; S.mode = 'cpu'; S.human = $('#side').value || 'w';
+    syncControls(); newGame();
+  }
+  window.OphanimRoomHooks = { start: start };
+
+  /* a refresh, or coming back later: pick the game up where it was */
+  var had = false; try { had = !!localStorage.getItem('ophanim.room'); } catch (e) {}
+  if (had) O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing') start(r); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+
 })();
 </script>
 <script>

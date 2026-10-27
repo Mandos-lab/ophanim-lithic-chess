@@ -20,11 +20,13 @@
     en: { btn: 'Game Lounge', title: 'Game Lounge', room: 'Match room', lead: 'Choose how to play ', pp: 'Pass & Play', ppd: 'Two players, one screen. Take turns on this device.', solo: 'Play Solo', sod: 'Play against the engine.', strong: 'Stronger', easy: 'Easier',
       ch: 'Challenge a Friend', chd: 'Make a room code and a link to send.', make: 'Make a room', code: 'Room code', link: 'Share link', copyc: 'Copy code', copyl: 'Copy link', share: 'Share', copied: 'Copied',
       players: 'Players in this room', you: 'You', wait: 'Waiting for a friend to join', soon: 'Live rooms are not open yet. A code and link reserve nothing, and a friend who opens the link lands on this game with no live connection. Until online play is built, use Pass & Play on one screen, or play the engine.', invited: 'You were invited to room', started: 'New game started', close: 'Close',
-      me: 'Playing as', nonick: 'Guest. No nickname yet.', nick: 'Nickname', save: 'Save', change: 'Change', hint: 'Other players will see your nickname. 2 to 24 letters or numbers. Nobody else can use the same one.', bad: 'Use 2 to 24 letters, numbers, spaces, dots, dashes or underscores.', taken: 'That nickname is taken. Try another.', fail: 'Could not reach the back room. Try again in a moment.', saved: 'Nickname saved', wait2: 'Saving…' },
+      me: 'Playing as', nonick: 'Guest. No nickname yet.', nick: 'Nickname', save: 'Save', change: 'Change', hint: 'Other players will see your nickname. 2 to 24 letters or numbers. Nobody else can use the same one.', bad: 'Use 2 to 24 letters, numbers, spaces, dots, dashes or underscores.', taken: 'That nickname is taken. Try another.', fail: 'Could not reach the back room. Try again in a moment.', saved: 'Nickname saved', wait2: 'Saving…',
+      joinb: 'Join game', cancelr: 'Cancel room', liveinfo: 'Your room is open. Send the code or the link to a friend. The game starts as soon as they join.', nosuch: 'There is no room with that code.', full: 'That room already has two players.', toomany: 'You already have three open rooms. Cancel one first.', connfail: 'Could not reach the back room. Try again in a moment.', working: 'Working…' },
     el: { btn: 'Σαλόνι Παιχνιδιού', title: 'Σαλόνι Παιχνιδιού', room: 'Δωμάτιο αγώνα', lead: 'Επιλέξτε πώς θα παίξετε ', pp: 'Εναλλαγή στην ίδια οθόνη', ppd: 'Δύο παίκτες, μία οθόνη. Παίζετε εναλλάξ σε αυτή τη συσκευή.', solo: 'Μόνος', sod: 'Παίξτε εναντίον της μηχανής.', strong: 'Δυνατότερη', easy: 'Ευκολότερη',
       ch: 'Πρόκληση σε φίλο', chd: 'Φτιάξτε κωδικό δωματίου και σύνδεσμο για αποστολή.', make: 'Φτιάξτε δωμάτιο', code: 'Κωδικός δωματίου', link: 'Σύνδεσμος', copyc: 'Αντιγραφή κωδικού', copyl: 'Αντιγραφή συνδέσμου', share: 'Κοινοποίηση', copied: 'Αντιγράφηκε',
       players: 'Παίκτες στο δωμάτιο', you: 'Εσείς', wait: 'Αναμονή για φίλο', soon: 'Τα ζωντανά δωμάτια δεν έχουν ανοίξει ακόμη. Ο κωδικός και ο σύνδεσμος δεν δεσμεύουν τίποτα και ο φίλος που ανοίγει τον σύνδεσμο φτάνει σε αυτό το παιχνίδι χωρίς ζωντανή σύνδεση. Μέχρι να γίνει το διαδικτυακό παιχνίδι, χρησιμοποιήστε την εναλλαγή στην ίδια οθόνη ή παίξτε με τη μηχανή.', invited: 'Σας προσκάλεσαν στο δωμάτιο', started: 'Ξεκίνησε νέο παιχνίδι', close: 'Κλείσιμο',
-      me: 'Παίζετε ως', nonick: 'Επισκέπτης. Χωρίς ψευδώνυμο ακόμη.', nick: 'Ψευδώνυμο', save: 'Αποθήκευση', change: 'Αλλαγή', hint: 'Οι άλλοι παίκτες θα βλέπουν το ψευδώνυμό σας. 2 έως 24 γράμματα ή αριθμοί. Κανείς άλλος δεν μπορεί να έχει το ίδιο.', bad: 'Χρησιμοποιήστε 2 έως 24 γράμματα, αριθμούς, κενά, τελείες, παύλες ή κάτω παύλες.', taken: 'Αυτό το ψευδώνυμο το έχει άλλος. Δοκιμάστε άλλο.', fail: 'Δεν έγινε σύνδεση. Δοκιμάστε ξανά σε λίγο.', saved: 'Το ψευδώνυμο αποθηκεύτηκε', wait2: 'Αποθήκευση…' }
+      me: 'Παίζετε ως', nonick: 'Επισκέπτης. Χωρίς ψευδώνυμο ακόμη.', nick: 'Ψευδώνυμο', save: 'Αποθήκευση', change: 'Αλλαγή', hint: 'Οι άλλοι παίκτες θα βλέπουν το ψευδώνυμό σας. 2 έως 24 γράμματα ή αριθμοί. Κανείς άλλος δεν μπορεί να έχει το ίδιο.', bad: 'Χρησιμοποιήστε 2 έως 24 γράμματα, αριθμούς, κενά, τελείες, παύλες ή κάτω παύλες.', taken: 'Αυτό το ψευδώνυμο το έχει άλλος. Δοκιμάστε άλλο.', fail: 'Δεν έγινε σύνδεση. Δοκιμάστε ξανά σε λίγο.', saved: 'Το ψευδώνυμο αποθηκεύτηκε', wait2: 'Αποθήκευση…',
+      joinb: 'Συμμετοχή στο παιχνίδι', cancelr: 'Ακύρωση δωματίου', liveinfo: 'Το δωμάτιό σας είναι ανοιχτό. Στείλτε τον κωδικό ή τον σύνδεσμο σε έναν φίλο. Το παιχνίδι ξεκινά μόλις συνδεθεί.', nosuch: 'Δεν υπάρχει δωμάτιο με αυτόν τον κωδικό.', full: 'Αυτό το δωμάτιο έχει ήδη δύο παίκτες.', toomany: 'Έχετε ήδη τρία ανοιχτά δωμάτια. Ακυρώστε ένα πρώτα.', connfail: 'Δεν έγινε σύνδεση. Δοκιμάστε ξανά σε λίγο.', working: 'Μια στιγμή…' }
   };
   function tx() { return T[lang()]; }
   var css = '.gl-btn{position:fixed;right:12px;bottom:52px;z-index:2147481000;padding:7px 12px;font:600 11px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:#46e3f0;background:rgba(10,13,18,.92);border:1px solid rgba(70,227,240,.45);border-radius:999px;cursor:pointer}.gl-btn:hover,.gl-btn:focus-visible{background:rgba(70,227,240,.14);border-color:#46e3f0;outline:none}.gl-btn b{color:#e8c375;font-weight:600}' +
@@ -57,6 +59,53 @@
   function rand() { var s = '', i; try { var a = new Uint32Array(5); crypto.getRandomValues(a); for (i = 0; i < 5; i++) s += AL[a[i] % AL.length]; } catch (e) { for (i = 0; i < 5; i++) s += AL[Math.floor(Math.random() * AL.length)]; } return s; }
   function linkFor(c) { var u = new URL(location.href); u.search = ''; u.hash = ''; u.searchParams.set('room', c); return u.toString(); }
   function copy(text) { var d = tx().copied; try { navigator.clipboard.writeText(text).then(function () { toast(d); }, function () { prompt('', text); }); } catch (e) { prompt('', text); } }
+  /* ---- Live rooms (chess only for now; the other games keep the mock-up) ---- */
+  var live = null, liveMsg = '', liveBusy = false, stopLive = null;
+  function liveOK() { return file === 'chess' && window.OphanimOnline && window.OphanimOnline.room && window.OphanimRoomHooks; }
+  function errKey(e) { var m = String((e && e.message) || e || ''); if (/no such room/i.test(m)) return 'nosuch'; if (/full/i.test(m)) return 'full'; if (/too many/i.test(m)) return 'toomany'; return 'connfail'; }
+  function enterGame(row) { if (stopLive) { stopLive(); stopLive = null; } live = null; liveMsg = ''; liveBusy = false; close(); window.OphanimRoomHooks.start(row); }
+  function makeLive() {
+    liveBusy = true; liveMsg = tx().working; render();
+    window.OphanimOnline.room.create('chess').then(function (row) {
+      liveBusy = false; liveMsg = ''; live = row;
+      if (row.status === 'playing') { enterGame(row); return; }
+      stopLive = window.OphanimOnline.room.watch(row.id, function (r) { if (r.status === 'playing') enterGame(r); else if (r.status === 'finished') { live = null; if (stopLive) { stopLive(); stopLive = null; } render(); } });
+      render();
+    }, function (e) { liveBusy = false; liveMsg = tx()[errKey(e)]; render(); });
+  }
+  function joinLive(code) {
+    liveBusy = true; liveMsg = tx().working; render();
+    window.OphanimOnline.room.join(code).then(function (row) {
+      if (row.status === 'playing') enterGame(row); else { liveBusy = false; live = row; liveMsg = ''; render(); }
+    }, function (e) { liveBusy = false; liveMsg = tx()[errKey(e)]; render(); });
+  }
+  function cancelLive() {
+    var id = live && live.id; if (stopLive) { stopLive(); stopLive = null; } live = null; liveMsg = '';
+    if (id) window.OphanimOnline.room.cancel(id).then(render, render); else render();
+  }
+  function liveCard(c3, T0) {
+    var O = window.OphanimOnline;
+    if (live) {
+      c3.appendChild(el('p', null, T0.liveinfo));
+      c3.appendChild(el('div', 'gl-code', live.code));
+      var li = el('input', 'gl-in'); li.readOnly = true; li.value = linkFor(live.code); li.setAttribute('aria-label', T0.link); li.addEventListener('focus', function () { li.select(); }); c3.appendChild(li);
+      var cc = el('button', 'gl-go c', T0.copyc); cc.type = 'button'; cc.addEventListener('click', function () { copy(live.code); }); c3.appendChild(cc);
+      var cl = el('button', 'gl-go c', T0.copyl); cl.type = 'button'; cl.addEventListener('click', function () { copy(linkFor(live.code)); }); c3.appendChild(cl);
+      if (navigator.share) { var sh = el('button', 'gl-go c', T0.share); sh.type = 'button'; sh.addEventListener('click', function () { navigator.share({ title: G.name, text: G.name + ' · ' + live.code, url: linkFor(live.code) }).catch(function () {}); }); c3.appendChild(sh); }
+      c3.appendChild(el('h3', null, T0.players));
+      var ul = el('ul', 'gl-pl'); ul.appendChild(el('li', null, T0.you + ' · ' + (O.handle() || T0.nonick))); ul.appendChild(el('li', 'w', T0.wait + ' …')); c3.appendChild(ul);
+      var cn = el('button', 'gl-go', T0.cancelr); cn.type = 'button'; cn.addEventListener('click', cancelLive); c3.appendChild(cn);
+    } else {
+      if (invited) {
+        c3.appendChild(el('p', null, T0.invited + ' ' + invited + '.'));
+        var jb = el('button', 'gl-go c', T0.joinb); jb.type = 'button'; jb.disabled = liveBusy; jb.addEventListener('click', function () { joinLive(invited); }); c3.appendChild(jb);
+      } else {
+        c3.appendChild(el('p', null, T0.chd));
+        var mb = el('button', 'gl-go c', T0.make); mb.type = 'button'; mb.disabled = liveBusy; mb.addEventListener('click', makeLive); c3.appendChild(mb);
+      }
+    }
+    if (liveMsg) { var m = el('p', null, liveMsg); m.style.cssText = 'color:#ff9a8a;margin:6px 0 0;font-size:14px'; c3.appendChild(m); }
+  }
   var editing = false, nickMsg = '';
   function nickCard(T0) {
     var O = window.OphanimOnline, h = O.handle();
@@ -98,6 +147,7 @@
     var sw = el('div', 'gl-sw'); [[true, T0.strong], [false, T0.easy]].forEach(function (a) { var b = el('button', null, a[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(strong === a[0])); b.addEventListener('click', function () { strong = a[0]; [].forEach.call(sw.children, function (q) { q.setAttribute('aria-pressed', String(q === b)); }); }); sw.appendChild(b); });
     c2.appendChild(sw); var b2 = el('button', 'gl-go', T0.solo); b2.type = 'button'; b2.addEventListener('click', function () { play('solo'); }); c2.appendChild(b2); box.appendChild(c2);
     var c3 = el('div', 'gl-card'); c3.appendChild(el('h3', null, T0.ch));
+    if (liveOK()) { liveCard(c3, T0); box.appendChild(c3); return; }
     if (invited) c3.appendChild(el('p', null, T0.invited + ' ' + invited + '.'));
     c3.appendChild(el('p', null, T0.chd));
     var rc = code || invited;
