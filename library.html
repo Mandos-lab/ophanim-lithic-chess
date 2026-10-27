@@ -1,138 +1,74 @@
 <!doctype html>
 <html lang="en"><head>
 <script src="consent.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ophanim Library — PDFs &amp; Audio</title>
+<title>Library - Philosophy From A Stone</title>
 <style>
-:root{--bg:#070b12;--panel:#0b1420;--panel2:#0a111b;--line:#16283b;--text:#cfe3f3;--dim:#6f8499;--cyan:#00f0ff;--amber:#ffb700;--green:#19e08a;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root{--bg:#070b12;--panel:#0b1420;--line:#16283b;--text:#cfe3f3;--dim:#8aa0b5;--cyan:#00f0ff;--amber:#ffb700;--green:#19e08a;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:13px}
 body{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%,#0d1a2b 0%,var(--bg) 60%)}
 a{color:var(--cyan)}
-button,input,select,textarea{font-family:inherit;font-size:12px;color:var(--text)}
-button{background:#0c1a28;border:1px solid #17445a;border-radius:4px;padding:6px 10px;cursor:pointer}
-button:hover{border-color:var(--cyan)}button.on{border-color:var(--cyan);color:var(--cyan)}button.amber{border-color:#6b4b00;color:var(--amber)}
-input,select,textarea{background:#070b12;border:1px solid var(--line);border-radius:4px;padding:7px 9px;width:100%}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
+header{padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
 h1{margin:0;font-size:17px;color:var(--cyan);letter-spacing:.5px}
 .emb{vertical-align:middle;margin-right:8px}
-.quote{color:#fff;font-weight:700;font-size:12px;margin-top:4px}
 .sub{color:var(--amber);font-size:11px;margin-top:3px}
-main{max-width:1100px;margin:0 auto;padding:14px}
-.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-.bar input{flex:1;min-width:200px;width:auto}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
-.card h3{margin:0 0 4px;font-size:14px;color:#fff}
-.tag{display:inline-block;font-size:10px;border:1px solid var(--line);border-radius:3px;padding:1px 6px;margin-right:4px;color:var(--dim)}
-.tag.pdf{color:var(--amber);border-color:#6b4b00}.tag.audio{color:var(--green);border-color:#0f5a3a}.tag.stones{color:#fff;border-color:#2f7bff}
-.mut{color:var(--dim)}
-audio{width:100%;margin-top:8px}
-iframe{width:100%;height:60vh;border:1px solid var(--line);border-radius:6px;background:#fff;margin-top:8px}
-.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-#editBox{display:none;margin-top:14px}#editBox.open{display:block}
-textarea{min-height:200px;white-space:pre}
-.empty{border:1px dashed var(--line);border-radius:8px;padding:20px;text-align:center;color:var(--dim)}
+.quote{color:#fff;font-weight:700;font-size:12px;margin-top:4px}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;align-items:center}
+.navtab{font:600 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border:1px solid #7a2630;border-radius:4px;color:#ffb3bb;text-decoration:none;background:#1a0d12;display:inline-block}
+a.navtab:hover{border-color:#ff4d5e;color:#fff;background:#3a1219}
+.navtab.on{color:#fff;background:#c42b41;border-color:#ff4d5e}
+.navtab.on.green{background:#0f8a56;border-color:var(--green)}
+.zoom{margin-left:auto;display:flex;gap:4px}
+.zoom button{font:600 13px var(--mono);color:var(--text);background:#0c1a28;border:1px solid #17445a;border-radius:4px;padding:8px 12px;cursor:pointer}
+main{max-width:1100px;margin:0 auto;padding:16px 14px 50px}
+.lead{color:var(--dim);line-height:1.6;margin:0 0 14px;max-width:760px}
+.shelf{border:1px solid var(--line);border-left:3px solid var(--green);border-radius:8px;background:#08101a;margin-bottom:10px}
+.shelf.arch{border-left-color:#4a5a6a;opacity:.92}
+.shelf>summary{cursor:pointer;list-style:none;padding:14px 16px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline}
+.shelf>summary::-webkit-details-marker{display:none}
+.shelf>summary::before{content:"▸";color:var(--green);font-size:14px}
+.shelf[open]>summary::before{content:"▾"}
+.st{font-size:16px;font-weight:700;color:#fff}
+.ss{color:var(--dim);font-size:12px}
+.shelf .grid{padding:4px 14px 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));grid-auto-rows:1fr;gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:150px;text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--green)}
+.card h3{margin:0;font-size:15px;color:#fff;line-height:1.3}
+.card p{margin:0;color:var(--dim);line-height:1.5}
+.go{margin-top:auto;color:var(--green);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+audio{width:100%;margin-top:auto}
+footer{max-width:1100px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-size:11px}
 </style><link rel="icon" href="mark.svg" type="image/svg+xml">
 </head>
 <body>
 <header>
-  <div>
-    <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>OPHANIM LIBRARY <span style="color:var(--dim);font-weight:400">// PDFs &amp; Audio</span></h1>
-    <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone | <a href="https://x.com/Mandos16" target="_blank" rel="noopener">@Mandos16</a></div>
-    <div class="quote">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</div>
-  </div>
-  <div class="row" style="margin:0">
-    <a href="index.html"><button>← Field Console</button></a>
-    <a href="el.html"><button lang="el">Ελληνική Έκδοση</button></a>
-    <a href="feedback.html"><button>💬 Feedback</button></a>
-    <a href="calendar-codex.html"><button>Calendar scroll</button></a>
-    <a href="calendar-codex-el.html"><button lang="el">Ημερολόγιο 365</button></a>
-    <a href="reed-codex.html"><button>Reed scroll</button></a>
-    <a href="carl-tate-codex.html"><button>Karakin scroll</button></a>
-    <a href="ellin-logos-codex.html"><button>Ellin Logos</button></a>
-    <a href="ellin-logos-codex-el.html"><button lang="el">Έλλην Λόγος</button></a>
-    <a href="greek-sphere.html"><button>Greek Sphere</button></a>
-    <a href="hebrew-sphere.html"><button>Hebrew Sphere</button></a>
-    <a href="futhark-sphere.html"><button>Futhark Sphere</button></a>
-    <a href="armenian-sphere.html"><button>Armenian Sphere</button></a>
-    <a href="john-21-11-codex.html"><button>John 21:11 · The 153 Fish</button></a>
-    <a href="pater-noster-codex.html"><button>Matthew 6:9–13 · The Lord's Prayer</button></a>
-    <a href="arabic-sphere.html"><button>Arabic Sphere &middot; الكرة العربية</button></a>
-    <a href="arabic-codex.html"><button>Arabic · ʿIlm al-Ḥurūf &amp; the 28 Mansions</button></a>
-    <a href="blog.html"><button>Notebook · notes &amp; parities</button></a>
-    <a href="ophanim-engine-codex.html"><button>Ophanim Engine</button></a>
-    <a href="ophanim-engine-codex-el.html"><button>Ophanim Engine · Ελληνικά</button></a>
-    <button type="button" disabled aria-disabled="true" title="Coming soon" style="opacity:.75;cursor:default">Store · soon</button>
-    <button id="zOut">A−</button><button id="zIn">A+</button>
-    <button id="btnEdit" class="amber">✎ Edit list</button>
-  </div>
+  <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>Library</h1>
+  <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone | <a href="https://x.com/Mandos16" target="_blank" rel="noopener">@Mandos16</a></div>
+  <div class="quote">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</div>
+  <nav class="navtabs" aria-label="Site pages">
+    <a class="navtab" href="./">Ophanim Field Console</a>
+    <a class="navtab" href="games.html">Games</a>
+    <span class="navtab on green" aria-current="page">Library</span>
+    <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+    <a class="navtab" href="about.html">About</a>
+    <a class="navtab" href="el.html" lang="el">Ελληνικά</a>
+    <span class="zoom"><button id="zOut" aria-label="Smaller text">A−</button><button id="zIn" aria-label="Larger text">A+</button></span>
+  </nav>
 </header>
 <main>
-  <div class="bar">
-    <button data-f="all" class="on">All</button><button data-f="pdf">PDF</button><button data-f="audio">Audio</button>
-    <input id="q" placeholder="Search title or description…">
-    <span class="mut" id="count"></span>
-  </div>
-  <div class="grid" id="grid"></div>
-
-  <div class="card" id="editBox">
-    <b style="color:var(--amber)">Edit the library</b>
-    <p class="mut">One item per line: <code>type | Title | URL | Description | access</code><br>
-    type = <code>pdf</code> or <code>audio</code> · URL = https link, or a file next to this page such as <code>files/manifesto.pdf</code> · access = <code>public</code> or <code>stones</code> (optional).<br>
-    No limit in the code on how many items. Files must already be hosted online or sit in the same folder as this page.</p>
-    <textarea id="txt" spellcheck="false"></textarea>
-    <div class="row"><button id="save" class="amber">Save</button><button id="reset">Reset to default</button><button id="copy">Copy list</button><span class="mut" id="msg"></span></div>
-    <p class="mut">Note: the “stones” label is only a badge for now. Real access control (members-only files) arrives with the sign-in system; this page’s editing is stored in this browser only and is not secure.</p>
-  </div>
+  <p class="lead">Open a shelf to look inside. If this is your first visit, start with the first shelf.</p>
+<details class="shelf " open><summary><span class="st">Start here</span><span class="ss">Three doors for a first visit</span></summary><div class="grid"><a class="card" href="./"><h3>Ophanim Field Console</h3><p>The main console. Type a word and see its letters and numbers on the wheel.</p><span class="go">Open →</span></a><a class="card" href="games.html"><h3>Games</h3><p>Chess, backgammon, Senet and more, played on stone boards.</p><span class="go">Open →</span></a><a class="card" href="greek-sphere.html"><h3>Greek Sphere</h3><p>The Greek alphabet on a sphere. A gentle first look at the method.</p><span class="go">Open →</span></a></div></details>
+<details class="shelf "><summary><span class="st">Explore the Codex</span><span class="ss">Letter spheres, engines and interactive tools</span></summary><div class="grid"><a class="card" href="greek-sphere.html"><h3>Greek Sphere</h3><p>The Greek alphabet on a sphere.</p><span class="go">Open →</span></a><a class="card" href="hebrew-sphere.html"><h3>Hebrew Sphere</h3><p>The Hebrew alphabet on a sphere.</p><span class="go">Open →</span></a><a class="card" href="futhark-sphere.html"><h3>Futhark Sphere</h3><p>The Elder Futhark runes on a sphere.</p><span class="go">Open →</span></a><a class="card" href="armenian-sphere.html"><h3>Armenian Sphere</h3><p>The Armenian alphabet on a sphere.</p><span class="go">Open →</span></a><a class="card" href="arabic-sphere.html"><h3>Arabic Sphere · الكرة العربية</h3><p>The Arabic alphabet on a sphere.</p><span class="go">Open →</span></a><a class="card" href="ophanim-engine-codex.html"><h3>Ophanim Engine</h3><p>The engine behind the wheels, with its codex page.</p><span class="go">Open →</span></a></div></details>
+<details class="shelf "><summary><span class="st">Research and Notes</span><span class="ss">Codices, articles and developing investigations</span></summary><div class="grid"><a class="card" href="blog.html"><h3>The Notebook</h3><p>Notes and parities, with the checks beside them.</p><span class="go">Open →</span></a><a class="card" href="calendar-codex.html"><h3>Calendar scroll</h3><p>The Calendar Mechanics Matrix.</p><span class="go">Open →</span></a><a class="card" href="reed-codex.html"><h3>The Reed and the Code</h3><p>The Greek alphabet and the human spine.</p><span class="go">Open →</span></a><a class="card" href="carl-tate-codex.html"><h3>Karakin scroll · The Mother’s Code</h3><p>The Armenian key, set beside the Greek one.</p><span class="go">Open →</span></a><a class="card" href="ellin-logos-codex.html"><h3>Ellin Logos</h3><p>The Greek key, letter by letter.</p><span class="go">Open →</span></a><a class="card" href="john-21-11-codex.html"><h3>John 21:11 · The 153 Fish</h3><p>The unbroken net and the number 153.</p><span class="go">Open →</span></a><a class="card" href="arabic-codex.html"><h3>Arabic · 28 Letters, 28 Mansions</h3><p>ʿIlm al-Ḥurūf and the lunar mansions.</p><span class="go">Open →</span></a><a class="card" href="sacred-geometry-codex.html"><h3>The Sacred Geometry of Chess</h3><p>Codex volume on the chess pieces and their solids.</p><span class="go">Open →</span></a><a class="card" href="royal-game-of-ur-codex.html"><h3>The Royal Game of Ur</h3><p>Codex volume on the oldest board.</p><span class="go">Open →</span></a><a class="card" href="senet-codex.html"><h3>Senet</h3><p>Codex volume on the Egyptian game of passing.</p><span class="go">Open →</span></a><a class="card" href="tafl-codex.html"><h3>Tafl</h3><p>Codex volume on the Viking board game.</p><span class="go">Open →</span></a><a class="card" href="tavli-codex.html"><h3>Tavli</h3><p>Codex volume on backgammon.</p><span class="go">Open →</span></a><a class="card" href="petteia-codex.html"><h3>Petteia</h3><p>Codex volume on the ancient Greek board game.</p><span class="go">Open →</span></a></div></details>
+<details class="shelf "><summary><span class="st">Talks and Listening</span><span class="ss">Audio you can play right here</span></summary><div class="grid"><div class="card"><h3>SomaFM · Drone Zone (live stream)</h3><p>Ambient drone radio to read by.</p><audio controls preload="none" src="https://ice1.somafm.com/dronezone-128-mp3"></audio></div><div class="card"><h3>Physics Encoded in the Greek Alphabet</h3><p>A talk on Ellin Logos, about 21 minutes.</p><audio controls preload="none" src="audio/ellin-physics-alphabet-talk.mp3"></audio></div><div class="card"><h3>Aragats and the Four Pillars of Heaven</h3><p>A talk on the Karakin scroll, about 32 minutes.</p><audio controls preload="none" src="audio/carl-aragats-four-pillars.mp3"></audio></div><div class="card"><h3>The Greek Alphabet Maps the Human Spine</h3><p>A talk on The Reed and the Code, about 24 minutes.</p><audio controls preload="none" src="audio/reed-english-talk.mp3"></audio></div><div class="card"><h3>How Calendar Flaws Keep Reality Intact</h3><p>A talk on the Calendar page, about 20 minutes.</p><audio controls preload="none" src="audio/calendar-flaws-talk.mp3"></audio></div><div class="card"><h3>The Ophanim Engine: forensic audit of the compass</h3><p>A talk on the Engine page, about 41 minutes.</p><audio controls preload="none" src="audio/engine-talk-en.mp3"></audio></div></div></details>
+<details class="shelf "><summary><span class="st">Mandos’ stuff</span><span class="ss">My own pieces</span></summary><div class="grid"><a class="card" href="pater-noster-codex.html"><h3>Matthew 6:9–13 · The Lord’s Prayer</h3><p>The Lord’s Prayer read through its sounds.</p><span class="go">Open →</span></a><a class="card" href="cadmeian-code.html"><h3>The Cadmeian Code</h3><p>Cadmus, the reed (kalamos) and the first letters.</p><span class="go">Open →</span></a><a class="card" href="blog-cubic-vessel-noah-64.html"><h3>The Cubic Vessel</h3><p>Noah, the 64-metacube and the Mother Code of Ararat.</p><span class="go">Open →</span></a></div></details>
+<details class="shelf arch"><summary><span class="st">Archive</span><span class="ss">Kept, but on their way to a better home</span></summary><div class="grid"><div class="card"><h3>How a Typo Broke Viking Chess</h3><p>Game talk for Tafl, about 22 minutes.</p><audio controls preload="none" src="audio/tafl-typo-talk.mp3"></audio></div><div class="card"><h3>Why Reality Needs Hidden Flaws</h3><p>Game talk for the Royal Game of Ur, about 26 minutes.</p><audio controls preload="none" src="audio/ur-hidden-flaws-talk.mp3"></audio></div><div class="card"><h3>Why Imperfect Math Keeps Reality Alive</h3><p>Game talk for chess, about 20 minutes.</p><audio controls preload="none" src="audio/chess-imperfect-math-talk.mp3"></audio></div><div class="card"><h3>Ancient Board Games Were Cosmic Calculators (Petteia)</h3><p>Game talk for Petteia, about 23 minutes.</p><audio controls preload="none" src="audio/petteia-overview-en.mp3"></audio></div><div class="card"><h3>Ancient Board Games Were Cosmic Simulators (Tavli)</h3><p>Game talk for Tavli, about 23 minutes.</p><audio controls preload="none" src="audio/tavli-overview-en.mp3"></audio></div><div class="card"><h3 lang="he">שש בש כמחשב קוסמי עתיק</h3><p>Hebrew game talk for Tavli, about 19 minutes.</p><audio controls preload="none" src="audio/tavli-overview-he.mp3"></audio></div><div class="card"><h3 lang="el">Ο κώδικας του καλάμου στη σπονδυλική στήλη</h3><p>Greek talk, for the Greek edition.</p><audio controls preload="none" src="audio/reed-greek-talk.mp3"></audio></div><div class="card"><h3 lang="el">Τα αρχαία επιτραπέζια ως κοσμικοί υπολογιστές</h3><p>Greek talk, for the Greek edition.</p><audio controls preload="none" src="audio/petteia-overview-el.mp3"></audio></div><div class="card"><h3 lang="el">Η κρυφή γεωμετρία του κενού (Τάβλι)</h3><p>Greek talk, for the Greek edition.</p><audio controls preload="none" src="audio/tavli-overview-el.mp3"></audio></div><div class="card"><h3 lang="el">Η Μηχανή των Ophanim</h3><p>Greek talk, for the Greek edition.</p><audio controls preload="none" src="audio/engine-talk-el.mp3"></audio></div></div></details>
 </main>
+<footer><a href="privacy.html">Privacy and cookies</a> · <a href="feedback.html">Feedback</a></footer>
 <script>
-const $=id=>document.getElementById(id);
-const DEF=`audio | SomaFM — Drone Zone (live stream) | https://ice1.somafm.com/dronezone-128-mp3 | Ambient drone radio. | public
-audio | How a Typo Broke Viking Chess | audio/tafl-typo-talk.mp3 | A talk for the Tafl page, about 22 minutes. | public
-audio | Physics Encoded in the Greek Alphabet | audio/ellin-physics-alphabet-talk.mp3 | A talk for the Ellin Logos page, about 21 minutes. | public
-audio | Aragats and the Four Pillars of Heaven | audio/carl-aragats-four-pillars.mp3 | A talk for the Karakin Tate page (The Mother’s Code), about 32 minutes. | public
-audio | Why Reality Needs Hidden Flaws | audio/ur-hidden-flaws-talk.mp3 | A talk for the Royal Game of Ur page, about 26 minutes. | public
-audio | Why Imperfect Math Keeps Reality Alive | audio/chess-imperfect-math-talk.mp3 | A talk for the Sacred Geometry of Chess page. | public
-audio | The Greek Alphabet Maps the Human Spine | audio/reed-english-talk.mp3 | An English talk for The Reed and the Code page, about 24 minutes. | public
-audio | Ο κώδικας του καλάμου στη σπονδυλική στήλη | audio/reed-greek-talk.mp3 | A Greek talk for The Reed and the Code page, about 18 minutes. | public
-audio | How Calendar Flaws Keep Reality Intact | audio/calendar-flaws-talk.mp3 | A talk for the Calendar Mechanics Matrix page, about 20 minutes. | public
-audio | Ancient Board Games Were Cosmic Calculators (Petteia) | audio/petteia-overview-en.mp3 | An English audio overview for the Petteia and Polis pages, about 23 minutes. | public
-audio | Τα αρχαία επιτραπέζια ως κοσμικοί υπολογιστές | audio/petteia-overview-el.mp3 | A Greek audio overview for the Petteia and Polis pages, about 23 minutes. | public
-audio | Ancient Board Games Were Cosmic Simulators (Tavli) | audio/tavli-overview-en.mp3 | An English audio overview for the Tavli page, about 23 minutes. | public
-audio | Η κρυφή γεωμετρία του κενού (Τάβλι) | audio/tavli-overview-el.mp3 | A Greek audio overview for the Tavli page, about 22 minutes. | public
-audio | שש בש כמחשב קוסמי עתיק | audio/tavli-overview-he.mp3 | A Hebrew audio overview for the Tavli page, about 19 minutes. | public
-audio | The Ophanim Engine: forensic audit of the compass | audio/engine-talk-en.mp3 | An English talk for the Engine page, about 41 minutes. | public
-audio | Η Μηχανή των Ophanim (ελληνικά) | audio/engine-talk-el.mp3 | A Greek talk for the Greek Engine page, about 16 minutes. | public`;
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const safeUrl=u=>/^https:\/\//i.test(u)||/^(\.\/|\/)?[\w\-./%]+\.(pdf|mp3|m4a|aac|ogg|wav)$/i.test(u);
-const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-let filter='all';
-function parse(t){
-  return t.split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(a=>a.length>=3&&(a[0]==='pdf'||a[0]==='audio')&&a[1]&&safeUrl(a[2]))
-   .map(a=>({type:a[0],title:a[1],url:a[2],desc:a[3]||'',stones:(a[4]||'').toLowerCase()==='stones'}));
-}
-function render(){
-  const items=parse(store.get('ophanim.library',DEF)),q=$('q').value.toLowerCase();
-  const list=items.filter(i=>(filter==='all'||i.type===filter)&&(i.title+' '+i.desc).toLowerCase().includes(q));
-  $('count').textContent=list.length+' of '+items.length;
-  $('grid').innerHTML=list.length?list.map((i,n)=>`<div class="card"><span class="tag ${i.type}">${i.type.toUpperCase()}</span>${i.stones?'<span class="tag stones">🔒 STONES</span>':''}
-    <h3>${esc(i.title)}</h3><div class="mut">${esc(i.desc)}</div>
-    ${i.type==='audio'?`<audio controls preload="none" src="${esc(i.url)}"></audio>`:`<div class="row"><button data-v="${n}">View here</button><a href="${esc(i.url)}" target="_blank" rel="noopener"><button>Open ↗</button></a></div><div id="v${n}"></div>`}
-    </div>`).join(''):'<div class="empty" style="grid-column:1/-1">Nothing here yet. Press “✎ Edit list” and add a line.</div>';
-  document.querySelectorAll('button[data-v]').forEach(b=>b.onclick=()=>{
-    const h=$('v'+b.dataset.v),i=list[b.dataset.v];
-    h.innerHTML=h.innerHTML?'':`<iframe src="${esc(i.url)}" title="${esc(i.title)}"></iframe>`;
-  });
-}
-document.querySelectorAll('button[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll('button[data-f]').forEach(x=>x.classList.toggle('on',x===b));render()});
-$('q').oninput=render;
-$('btnEdit').onclick=()=>{$('editBox').classList.toggle('open');$('txt').value=store.get('ophanim.library',DEF)};
-$('save').onclick=()=>{store.set('ophanim.library',$('txt').value);render();$('msg').textContent='Saved ('+parse($('txt').value).length+' valid items).';};
-$('reset').onclick=()=>{store.set('ophanim.library',DEF);$('txt').value=DEF;render();$('msg').textContent='Reset.'};
-$('copy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($('txt').value).then(()=>$('msg').textContent='Copied.')};
 const ZS=[1,1.15,1.3,1.5];let zi=0;try{zi=Math.min(3,Math.max(0,+localStorage.getItem('ophanim.zoom')||0))}catch(e){}
 const zA=()=>{document.documentElement.style.zoom=ZS[zi];try{localStorage.setItem('ophanim.zoom',zi)}catch(e){}};
-$('zIn').onclick=()=>{zi=Math.min(3,zi+1);zA()};$('zOut').onclick=()=>{zi=Math.max(0,zi-1);zA()};zA();
-render();
+document.getElementById('zIn').onclick=()=>{zi=Math.min(3,zi+1);zA()};document.getElementById('zOut').onclick=()=>{zi=Math.max(0,zi-1);zA()};zA();
 </script><script src="account.js"></script>
 </body></html>
