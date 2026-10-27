@@ -682,8 +682,12 @@
   <div id="tip-modal"><div class="box">
     <b style="color:#00f0ff;font-size:14px">♦ Donate / Tip</b>
     <p style="color:#94a3b8">Thank you for supporting Ezekiel's Reed. Send only on the matching network, and double-check the address before sending.</p>
+    <div style="text-align:center;margin:8px 0 12px"><b style="color:#00f0ff">PayPal</b><br><img src="paypal-qr.png" width="200" height="200" alt="PayPal QR code. Scan it with your phone camera or the PayPal app." style="background:#fff;border-radius:10px;max-width:100%;height:auto;display:block;margin:6px auto 0"><p style="color:#94a3b8;margin:6px 0 0">Scan with your phone camera or the PayPal app.</p></div>
+    <div id="cryptoBox">
+    <b style="color:#00f0ff">Crypto</b>
     <div id="tip-list"></div>
     <p style="color:#94a3b8">New to Bitcoin? <a style="color:#f7931a" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a></p>
+    </div>
     <button id="tip-close" type="button">Close</button>
   </div></div>
 
@@ -1333,7 +1337,7 @@ function wormhole(go){
 
     /* ---- bottom bar: tip jar + share buttons ---- */
     // Fill in your wallet addresses here (or leave empty to show "not set").
-    const WALLETS = { BTC: '', ETH: '', SOL: '', ADA: '' };
+    const WALLETS = { BTC: 'bc1ql5kx73cygrfpjn94q05heg7ys6p84atgd7q4uu', ETH: '0x40189a8123d691DE6748b32bA43CBA82D6048F7a', SOL: 'ChVfKKjqPPYCTwsaAJn6tNijagHkc7oZd9PmXkaDcmcg', ADA: 'addr1q8futv6np2mxlgfuujavalmy6gqcp2n8grkuxvjnmzfueywncke4xz4kd7snee96emlkf5spsz4xws8dcve98kynejgsz8vy2g', LTC: 'LaKvp7ypq4m5iDHxUsJ2ptqDQ7tPKueeaE' };
     // After the site is live, put its address here, e.g. 'https://your-site.vercel.app/ezekiels-reed.html'. Empty = use the current page address.
     const SHARE_URL = '';
     (function () {
@@ -1365,7 +1369,8 @@ function wormhole(go){
       }));
       const modal = $id('tip-modal');
       function renderTip() {
-        $id('tip-list').innerHTML = Object.keys(WALLETS).map(k => `<div class="w"><b style="width:38px">${k}</b><code>${WALLETS[k] ? WALLETS[k].replace(/[<>&"]/g, '') : '<span style="color:#64748b">not set yet</span>'}</code><button data-c="${k}" ${WALLETS[k] ? '' : 'disabled'}>Copy</button></div>`).join('');
+        $id('cryptoBox').style.display = Object.keys(WALLETS).some(k => WALLETS[k]) ? '' : 'none';
+        $id('tip-list').innerHTML = Object.keys(WALLETS).filter(k => WALLETS[k]).map(k => `<div class="w"><b style="width:38px">${k}</b><code>${WALLETS[k] ? WALLETS[k].replace(/[<>&"]/g, '') : '<span style="color:#64748b">not set yet</span>'}</code><button data-c="${k}" ${WALLETS[k] ? '' : 'disabled'}>Copy</button></div>`).join('');
         $id('tip-list').querySelectorAll('button[data-c]').forEach(b => b.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(WALLETS[b.dataset.c]).then(() => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1500); }); });
       }
       $id('btn-tip').onclick = () => { renderTip(); modal.classList.add('open'); };

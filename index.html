@@ -345,10 +345,18 @@ header{padding:8px 16px;padding-right:62px}
 
 <!-- TIP JAR -->
 <div class="modal" id="tipModal"><div class="mbox">
-  <h2>♦ Crypto Tip Jar</h2>
+  <h2>♦ Tip Jar</h2>
+  <div style="text-align:center;margin:10px 0 14px">
+    <h3 style="color:var(--amber);margin:0 0 6px">PayPal</h3>
+    <img src="paypal-qr.png" width="220" height="220" alt="PayPal QR code. Scan it with your phone camera or the PayPal app." style="background:#fff;border-radius:10px;max-width:100%;height:auto">
+    <div class="mut" style="margin-top:6px">Scan with your phone camera or the PayPal app. Thank you for supporting the work.</div>
+  </div>
+  <div id="cryptoBox">
+  <h3 style="color:var(--amber);margin:4px 0 6px">Crypto</h3>
   <div class="mut">New to Bitcoin? <a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer" style="color:#f7931a">bitcoin.org</a></div>
   <div class="mut">Send only on the matching network. Always verify the address with the creator before sending.</div>
   <div id="walletList"></div>
+  </div>
   <div class="row" style="margin-top:10px"><button id="tipClose">Close</button></div>
 </div></div>
 
@@ -368,6 +376,7 @@ header{padding:8px 16px;padding-right:62px}
     <div class="field"><label>ETH</label><input id="wETH"></div>
     <div class="field"><label>SOL</label><input id="wSOL"></div>
     <div class="field"><label>ADA</label><input id="wADA"></div>
+    <div class="field"><label>LTC</label><input id="wLTC"></div>
     <div class="row"><label class="row"><input type="checkbox" id="tipVisible" style="width:auto" checked> Show tip jar to visitors</label></div>
     <h3 style="color:var(--amber);margin:12px 0 6px">Media &amp; Notes</h3>
     <div class="field"><label>Default video URL</label><input id="cVid"></div>
@@ -984,7 +993,7 @@ function loadX(){
 }
 
 /* ============ CMS ============ */
-const DEF_WALLETS={BTC:'',ETH:'',SOL:'',ADA:''};
+const DEF_WALLETS={BTC:'bc1ql5kx73cygrfpjn94q05heg7ys6p84atgd7q4uu',ETH:'0x40189a8123d691DE6748b32bA43CBA82D6048F7a',SOL:'ChVfKKjqPPYCTwsaAJn6tNijagHkc7oZd9PmXkaDcmcg',ADA:'addr1q8futv6np2mxlgfuujavalmy6gqcp2n8grkuxvjnmzfueywncke4xz4kd7snee96emlkf5spsz4xws8dcve98kynejgsz8vy2g',LTC:'LaKvp7ypq4m5iDHxUsJ2ptqDQ7tPKueeaE'};
 let isAdmin=false;
 const ADMIN_EMAIL='polycarpoumandos@gmail.com';
 async function sha(s){
@@ -992,8 +1001,9 @@ async function sha(s){
   catch(e){let h=5381;for(const c of 'ophanim|'+s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return'f'+h}
 }
 function renderWallets(){
-  const w=store.get('ophanim.wallets',DEF_WALLETS);
-  $('walletList').innerHTML=Object.keys(DEF_WALLETS).map(k=>`<div class="wallet"><b>${k}</b><code>${w[k]?esc(w[k]):'<span class="mut">not set</span>'}</code><button data-c="${k}" ${w[k]?'':'disabled'}>Copy</button></div>`).join('');
+  const sv=store.get('ophanim.wallets',{})||{},w={};Object.keys(DEF_WALLETS).forEach(k=>{w[k]=sv[k]||DEF_WALLETS[k]});
+  $('cryptoBox').style.display=Object.keys(DEF_WALLETS).some(k=>w[k])?'':'none';
+  $('walletList').innerHTML=Object.keys(DEF_WALLETS).filter(k=>w[k]).map(k=>`<div class="wallet"><b>${k}</b><code>${w[k]?esc(w[k]):'<span class="mut">not set</span>'}</code><button data-c="${k}" ${w[k]?'':'disabled'}>Copy</button></div>`).join('');
   $('walletList').querySelectorAll('button[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(w[b.dataset.c]).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200)})});
 }
 function applyCms(){
@@ -1013,7 +1023,7 @@ function openCms(){
 }
 function fillCms(){
   const w=store.get('ophanim.wallets',DEF_WALLETS),c=store.get('ophanim.cms',{});
-  ['BTC','ETH','SOL','ADA'].forEach(k=>$('w'+k).value=w[k]||'');
+  ['BTC','ETH','SOL','ADA','LTC'].forEach(k=>$('w'+k).value=w[k]||'');
   $('cSites').value=sitesGet().map(s=>s[0]+' | '+s[1]).join('\n');
   $('cFeeds').value=Object.entries(store.get('ophanim.feeds',DEF_FEEDS)).map(s=>s[0]+' | '+s[1]).join('\n');
   $('cVid').value=c.vid||'';$('cPdf').value=c.pdf||'';$('cImg').value=c.img||'';$('cNotes').value=c.notes||'';$('cTags').value=c.tags||'';
@@ -1038,7 +1048,7 @@ function applyLive(){
   renderSites();buildTabs();$('feedUrl').value=FEEDS[activeFeed];loadFeed(FEEDS[activeFeed]);
 }
 function cmsSave(){
-  store.set('ophanim.wallets',{BTC:$('wBTC').value.trim(),ETH:$('wETH').value.trim(),SOL:$('wSOL').value.trim(),ADA:$('wADA').value.trim()});
+  store.set('ophanim.wallets',{BTC:$('wBTC').value.trim(),ETH:$('wETH').value.trim(),SOL:$('wSOL').value.trim(),ADA:$('wADA').value.trim(),LTC:$('wLTC').value.trim()});
   store.set('ophanim.cms',{vid:$('cVid').value.trim(),pdf:$('cPdf').value.trim(),img:$('cImg').value.trim(),notes:$('cNotes').value.trim(),tags:$('cTags').value.trim()});
   store.set('ophanim.tipVisible',$('tipVisible').checked);
   const fd=parseList($('cFeeds').value);
