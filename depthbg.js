@@ -7,7 +7,7 @@
   st.textContent = 'html{background:#06080d}body{background:transparent!important}' +
     '#depthbg{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}' +
     '.stage{background:radial-gradient(120% 90% at 50% 0%,rgba(13,22,34,.5) 0%,rgba(6,8,13,.3) 72%)!important}' +
-    '#depthbgsw{position:fixed;right:12px;bottom:12px;z-index:50;background:rgba(6,8,13,.85);border:1px solid #1a2638;border-radius:4px;padding:6px 10px;font:500 11px ui-monospace,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;color:#9fb3c4;display:flex;gap:6px;align-items:center;cursor:pointer}';
+    '#depthbgsw{position:fixed;right:12px;bottom:92px;z-index:50;background:rgba(6,8,13,.85);border:1px solid #1a2638;border-radius:4px;padding:6px 10px;font:500 11px ui-monospace,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;color:#9fb3c4;display:flex;gap:6px;align-items:center;cursor:pointer}';
   document.head.appendChild(st);
   var cv = document.createElement('canvas'); cv.id = 'depthbg'; cv.setAttribute('aria-hidden', 'true'); document.body.insertBefore(cv, document.body.firstChild);
   var sw = document.createElement('label'); sw.id = 'depthbgsw'; sw.innerHTML = '<input type="checkbox"> Background motion'; document.body.appendChild(sw);
