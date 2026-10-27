@@ -41,6 +41,9 @@ header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-betw
 .brand .sub{color:var(--amber);font-size:11px;margin-top:3px}
 .brand .sub span{color:var(--dim)}
 nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button,.tabs button{border-color:#7a2630;background:#1a0d12;color:#ff8a94}
+nav button:hover,.tabs button:hover{border-color:var(--red);box-shadow:0 0 8px rgba(255,77,94,.4);color:#fff}
+.tabs button.on{border-color:var(--red);color:#fff;background:#3a1219}
 
 /* layout */
 main{flex:1;display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.5fr) minmax(300px,1fr);gap:10px;padding:10px}
@@ -83,7 +86,6 @@ audio,video{width:100%;margin-top:8px;border-radius:6px}
 .gauge .pin{position:absolute;top:-4px;width:4px;height:24px;background:#fff;box-shadow:0 0 8px #fff;border-radius:2px;transition:left .8s}
 .bigpct{font-size:30px;color:var(--amber)}
 .tabs{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
-.tabs button.on{border-color:var(--cyan);color:var(--cyan)}
 
 /* modals */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:50;padding:14px}
@@ -222,27 +224,6 @@ header{padding:8px 16px;padding-right:62px}
     <div class="mut" style="margin-top:6px">Left wheel: node = value mod 36. Right wheel (Sampi hub Ϡ 900, seal 99): vector = value × 7 mod 36, projected from the hub through every ring. Latin input drives all three scripts at once; native letters drive only their own script. Rune values are positional (1–24). The dim outer ring is Armenian: shown, but unplugged from the compass maths.</div>
   </div>
 
-  <div class="card" id="spheres">
-    <h2>Ophanim Spheres <small>the same letters, turned into a globe</small></h2>
-    <div class="row tabs">
-      <a href="greek-sphere.html"><button>Greek Sphere</button></a>
-      <a href="hebrew-sphere.html"><button>Hebrew Sphere</button></a>
-      <a href="futhark-sphere.html"><button>Futhark Sphere</button></a>
-      <a href="armenian-sphere.html"><button>Armenian Sphere</button></a>
-    </div>
-    <div class="mut why" id="spDisc"><b>For further study.</b> The wheels and spheres are a reading tool: letters become numbers, numbers become directions. They are not proof of anything on their own. To check a word, use the <a href="library.html">Library</a> (talks and PDFs). The Greek, Hebrew and Futhark sphere pages have a dictionary. The Greek page also searches the Septuagint (the Greek Torah), and the Greek and Hebrew pages can find a word from English through Strong&rsquo;s. The Armenian sphere counts with the Armenian letters&rsquo; own numeral values; the Mother&rsquo;s Code scroll tells the story behind them.</div>
-  </div>
-
-  <div class="card">
-    <h2>Armenian Grabar <small>standalone lookup</small></h2>
-    <div class="arm" style="margin-top:0">
-      <div class="mut" style="color:var(--amber);margin-bottom:5px">ARMENIAN GRABAR — standalone lookup (not part of the compass)</div>
-      <input id="armInput" placeholder="Type Armenian letters…" autocomplete="off">
-      <div class="kbd" id="kbA" aria-label="Armenian keyboard"></div>
-      <div class="chips" id="armOut"></div>
-    </div>
-  </div>
-
   <div class="card">
     <h2>Quick-Tap Specimen Database <small>tap = calculate · light nodes · play tones · animate twin wheels</small></h2>
     <div class="qt" id="qt"></div>
@@ -271,6 +252,27 @@ header{padding:8px 16px;padding-right:62px}
     <div class="mut" id="riskWhy" style="margin-top:6px">Waiting for headlines…</div>
     <div class="mut" style="margin-top:4px">Method: 20% neutral base + 3 × (net phrase weight ÷ headline count), clamped 0–100%. Phrase tiers ±15 / ±10 / ±5 / +3. No place names are scored. Keyword counting does not understand context or negation.</div>
   </div>
+
+  <div class="card" id="spheres">
+    <h2>Ophanim Spheres <small>the same letters, turned into a globe</small></h2>
+    <div class="row tabs">
+      <a href="greek-sphere.html"><button>Greek Sphere</button></a>
+      <a href="hebrew-sphere.html"><button>Hebrew Sphere</button></a>
+      <a href="futhark-sphere.html"><button>Futhark Sphere</button></a>
+      <a href="armenian-sphere.html"><button>Armenian Sphere</button></a>
+    </div>
+    <div class="mut why" id="spDisc"><b>For further study.</b> The wheels and spheres are a reading tool: letters become numbers, numbers become directions. They are not proof of anything on their own. To check a word, use the <a href="library.html">Library</a> (talks and PDFs). The Greek, Hebrew and Futhark sphere pages have a dictionary. The Greek page also searches the Septuagint (the Greek Torah), and the Greek and Hebrew pages can find a word from English through Strong&rsquo;s. The Armenian sphere counts with the Armenian letters&rsquo; own numeral values; the Mother&rsquo;s Code scroll tells the story behind them.</div>
+  </div>
+
+  <div class="card">
+    <h2>Armenian Grabar <small>standalone lookup</small></h2>
+    <div class="arm" style="margin-top:0">
+      <div class="mut" style="color:var(--amber);margin-bottom:5px">ARMENIAN GRABAR — standalone lookup (not part of the compass)</div>
+      <input id="armInput" placeholder="Type Armenian letters…" autocomplete="off">
+      <div class="kbd" id="kbA" aria-label="Armenian keyboard"></div>
+      <div class="chips" id="armOut"></div>
+    </div>
+  </div>
 </section>
 
 <!-- RIGHT -->
@@ -296,12 +298,6 @@ header{padding:8px 16px;padding-right:62px}
     <div class="list" id="parLive" style="max-height:140px"></div>
   </div>
 
-
-  <div class="card">
-    <h2>PDF Viewer Dock</h2>
-    <div class="row"><input id="pdfUrl" placeholder="https://…/document.pdf"><button id="pdfGo">Load</button></div>
-    <iframe class="frame tall" id="pdfFrame" title="PDF viewer"></iframe>
-  </div>
 
   <div class="card">
     <details class="xp" id="xBox">
@@ -915,7 +911,7 @@ function embedVideo(url,host){
   else if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/))){host.innerHTML=`<iframe class="frame" allowfullscreen src="https://player.vimeo.com/video/${m[1]}"></iframe>`}
   else{const v=document.createElement('video');v.controls=true;v.src=url;host.appendChild(v)}
 }
-function setPdf(u){$('pdfFrame').src=u?u:'about:blank'}
+function setPdf(u){var f=$('pdfFrame');if(f)f.src=u?u:'about:blank'}
 
 /* ============ drone (single audio) + sister sites + clocks ============ */
 const DRONE_URL='https://ice1.somafm.com/dronezone-128-mp3';
@@ -1001,7 +997,7 @@ function renderWallets(){
 function applyCms(){
   const c=store.get('ophanim.cms',{});
   if(c.vid){$('vidUrl').value=c.vid;embedVideo(c.vid,$('vidHost'))}
-  if(c.pdf){$('pdfUrl').value=c.pdf;setPdf(c.pdf)}
+  if(c.pdf&&$('pdfUrl')){$('pdfUrl').value=c.pdf;setPdf(c.pdf)}
   $('banner').innerHTML=c.img?`<img src="${esc(c.img)}" alt="banner">`:'';
   $('notes').textContent=(c.notes||'')+(c.tags?`  [tags: ${c.tags}]`:'');
   $('btnTip').style.display=store.get('ophanim.tipVisible',true)?'':'none';
@@ -1065,7 +1061,7 @@ function init(){
   $('loopTog').onchange=()=>{if(!$('loopTog').checked&&playing){/* current pass finishes, then stops */}};
 
   $('vidGo').onclick=()=>embedVideo($('vidUrl').value,$('vidHost'));
-  $('pdfGo').onclick=()=>setPdf($('pdfUrl').value.trim());
+  if($('pdfGo'))$('pdfGo').onclick=()=>setPdf($('pdfUrl').value.trim());
   renderSites();$('btnDrone').onclick=droneToggle;{const dv=$('droneVol');dv.value=store.get('ophanim.droneVol',6);dv.oninput=()=>{store.set('ophanim.droneVol',+dv.value);if(droneEl)droneEl.volume=dv.value/100}}$('siteClose').onclick=()=>{$('siteModal').classList.remove('open');$('siteFrame').src='about:blank'};
   tickTop();setInterval(tickTop,1000);
   const ZS=[1,1.15,1.3,1.5];let zi=0;try{zi=Math.min(3,Math.max(0,+localStorage.getItem('ophanim.zoom')||0))}catch(e){}
