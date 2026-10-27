@@ -19,10 +19,12 @@
   var T = {
     en: { btn: 'Game Lounge', title: 'Game Lounge', room: 'Match room', lead: 'Choose how to play ', pp: 'Pass & Play', ppd: 'Two players, one screen. Take turns on this device.', solo: 'Play Solo', sod: 'Play against the engine.', strong: 'Stronger', easy: 'Easier',
       ch: 'Challenge a Friend', chd: 'Make a room code and a link to send.', make: 'Make a room', code: 'Room code', link: 'Share link', copyc: 'Copy code', copyl: 'Copy link', share: 'Share', copied: 'Copied',
-      players: 'Players in this room', you: 'You', wait: 'Waiting for a friend to join', soon: 'Live rooms are not open yet. A code and link reserve nothing, and a friend who opens the link lands on this game with no live connection. Until online play is built, use Pass & Play on one screen, or play the engine.', invited: 'You were invited to room', started: 'New game started', close: 'Close' },
+      players: 'Players in this room', you: 'You', wait: 'Waiting for a friend to join', soon: 'Live rooms are not open yet. A code and link reserve nothing, and a friend who opens the link lands on this game with no live connection. Until online play is built, use Pass & Play on one screen, or play the engine.', invited: 'You were invited to room', started: 'New game started', close: 'Close',
+      me: 'Playing as', nonick: 'Guest. No nickname yet.', nick: 'Nickname', save: 'Save', change: 'Change', hint: 'Other players will see your nickname. 2 to 24 letters or numbers. Nobody else can use the same one.', bad: 'Use 2 to 24 letters, numbers, spaces, dots, dashes or underscores.', taken: 'That nickname is taken. Try another.', fail: 'Could not reach the back room. Try again in a moment.', saved: 'Nickname saved', wait2: 'Saving…' },
     el: { btn: 'Σαλόνι Παιχνιδιού', title: 'Σαλόνι Παιχνιδιού', room: 'Δωμάτιο αγώνα', lead: 'Επιλέξτε πώς θα παίξετε ', pp: 'Εναλλαγή στην ίδια οθόνη', ppd: 'Δύο παίκτες, μία οθόνη. Παίζετε εναλλάξ σε αυτή τη συσκευή.', solo: 'Μόνος', sod: 'Παίξτε εναντίον της μηχανής.', strong: 'Δυνατότερη', easy: 'Ευκολότερη',
       ch: 'Πρόκληση σε φίλο', chd: 'Φτιάξτε κωδικό δωματίου και σύνδεσμο για αποστολή.', make: 'Φτιάξτε δωμάτιο', code: 'Κωδικός δωματίου', link: 'Σύνδεσμος', copyc: 'Αντιγραφή κωδικού', copyl: 'Αντιγραφή συνδέσμου', share: 'Κοινοποίηση', copied: 'Αντιγράφηκε',
-      players: 'Παίκτες στο δωμάτιο', you: 'Εσείς', wait: 'Αναμονή για φίλο', soon: 'Τα ζωντανά δωμάτια δεν έχουν ανοίξει ακόμη. Ο κωδικός και ο σύνδεσμος δεν δεσμεύουν τίποτα και ο φίλος που ανοίγει τον σύνδεσμο φτάνει σε αυτό το παιχνίδι χωρίς ζωντανή σύνδεση. Μέχρι να γίνει το διαδικτυακό παιχνίδι, χρησιμοποιήστε την εναλλαγή στην ίδια οθόνη ή παίξτε με τη μηχανή.', invited: 'Σας προσκάλεσαν στο δωμάτιο', started: 'Ξεκίνησε νέο παιχνίδι', close: 'Κλείσιμο' }
+      players: 'Παίκτες στο δωμάτιο', you: 'Εσείς', wait: 'Αναμονή για φίλο', soon: 'Τα ζωντανά δωμάτια δεν έχουν ανοίξει ακόμη. Ο κωδικός και ο σύνδεσμος δεν δεσμεύουν τίποτα και ο φίλος που ανοίγει τον σύνδεσμο φτάνει σε αυτό το παιχνίδι χωρίς ζωντανή σύνδεση. Μέχρι να γίνει το διαδικτυακό παιχνίδι, χρησιμοποιήστε την εναλλαγή στην ίδια οθόνη ή παίξτε με τη μηχανή.', invited: 'Σας προσκάλεσαν στο δωμάτιο', started: 'Ξεκίνησε νέο παιχνίδι', close: 'Κλείσιμο',
+      me: 'Παίζετε ως', nonick: 'Επισκέπτης. Χωρίς ψευδώνυμο ακόμη.', nick: 'Ψευδώνυμο', save: 'Αποθήκευση', change: 'Αλλαγή', hint: 'Οι άλλοι παίκτες θα βλέπουν το ψευδώνυμό σας. 2 έως 24 γράμματα ή αριθμοί. Κανείς άλλος δεν μπορεί να έχει το ίδιο.', bad: 'Χρησιμοποιήστε 2 έως 24 γράμματα, αριθμούς, κενά, τελείες, παύλες ή κάτω παύλες.', taken: 'Αυτό το ψευδώνυμο το έχει άλλος. Δοκιμάστε άλλο.', fail: 'Δεν έγινε σύνδεση. Δοκιμάστε ξανά σε λίγο.', saved: 'Το ψευδώνυμο αποθηκεύτηκε', wait2: 'Αποθήκευση…' }
   };
   function tx() { return T[lang()]; }
   var css = '.gl-btn{position:fixed;right:12px;bottom:52px;z-index:2147481000;padding:7px 12px;font:600 11px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:#46e3f0;background:rgba(10,13,18,.92);border:1px solid rgba(70,227,240,.45);border-radius:999px;cursor:pointer}.gl-btn:hover,.gl-btn:focus-visible{background:rgba(70,227,240,.14);border-color:#46e3f0;outline:none}.gl-btn b{color:#e8c375;font-weight:600}' +
@@ -55,11 +57,42 @@
   function rand() { var s = '', i; try { var a = new Uint32Array(5); crypto.getRandomValues(a); for (i = 0; i < 5; i++) s += AL[a[i] % AL.length]; } catch (e) { for (i = 0; i < 5; i++) s += AL[Math.floor(Math.random() * AL.length)]; } return s; }
   function linkFor(c) { var u = new URL(location.href); u.search = ''; u.hash = ''; u.searchParams.set('room', c); return u.toString(); }
   function copy(text) { var d = tx().copied; try { navigator.clipboard.writeText(text).then(function () { toast(d); }, function () { prompt('', text); }); } catch (e) { prompt('', text); } }
+  var editing = false, nickMsg = '';
+  function nickCard(T0) {
+    var O = window.OphanimOnline, h = O.handle();
+    var c = el('div', 'gl-card');
+    c.appendChild(el('h3', null, T0.me));
+    var row = el('p', null); row.style.cssText = 'font-size:18px;color:#e8c375;margin:0 0 6px';
+    row.appendChild(document.createTextNode(h || T0.nonick)); c.appendChild(row);
+    if (h && !editing) {
+      var ch = el('button', 'gl-go c', T0.change); ch.type = 'button';
+      ch.addEventListener('click', function () { editing = true; nickMsg = ''; render(); }); c.appendChild(ch);
+    } else {
+      var inp = el('input', 'gl-in'); inp.maxLength = 24; inp.placeholder = T0.nick; inp.autocomplete = 'off'; inp.setAttribute('aria-label', T0.nick);
+      c.appendChild(inp);
+      var sv = el('button', 'gl-go', T0.save); sv.type = 'button';
+      function go() {
+        sv.disabled = true; nickMsg = T0.wait2; msg.textContent = nickMsg;
+        O.claim(inp.value).then(function (r) {
+          sv.disabled = false;
+          if (r.ok) { editing = false; nickMsg = ''; render(); toast(tx().saved); return; }
+          nickMsg = T0[r.error] || T0.fail; msg.textContent = nickMsg;
+        });
+      }
+      sv.addEventListener('click', go); inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+      c.appendChild(sv);
+      var msg = el('p', null, nickMsg); msg.style.cssText = 'color:#ff9a8a;margin:4px 0 0;font-size:14px'; c.appendChild(msg);
+      c.appendChild(el('p', null, T0.hint));
+      if (h) { var cn = el('button', 'gl-go c', T0.close); cn.type = 'button'; cn.addEventListener('click', function () { editing = false; nickMsg = ''; render(); }); c.appendChild(cn); }
+    }
+    return c;
+  }
   function render() {
     var T0 = tx(); box.textContent = '';
     var x = el('button', 'gl-x', '×'); x.type = 'button'; x.setAttribute('aria-label', T0.close); x.addEventListener('click', close); box.appendChild(x);
     var h = el('h2', null, T0.title); h.id = 'gl-h'; box.appendChild(h); box.appendChild(el('div', 'k', T0.lead + G.name));
-    var c1 = el('div', 'gl-card'); c1.appendChild(el('h3', null, T0.pp)); c1.appendChild(el('p', null, T0.ppd));
+    if (window.OphanimOnline) box.appendChild(nickCard(T0));
+    var c1 =el('div', 'gl-card'); c1.appendChild(el('h3', null, T0.pp)); c1.appendChild(el('p', null, T0.ppd));
     var b1 = el('button', 'gl-go', T0.pp); b1.type = 'button'; b1.addEventListener('click', function () { play('pp'); }); c1.appendChild(b1); box.appendChild(c1);
     var c2 = el('div', 'gl-card'); c2.appendChild(el('h3', null, T0.solo)); c2.appendChild(el('p', null, T0.sod));
     var sw = el('div', 'gl-sw'); [[true, T0.strong], [false, T0.easy]].forEach(function (a) { var b = el('button', null, a[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(strong === a[0])); b.addEventListener('click', function () { strong = a[0]; [].forEach.call(sw.children, function (q) { q.setAttribute('aria-pressed', String(q === b)); }); }); sw.appendChild(b); });
@@ -76,13 +109,14 @@
       var cl = el('button', 'gl-go c', T0.copyl); cl.type = 'button'; cl.addEventListener('click', function () { copy(linkFor(rc)); }); c3.appendChild(cl);
       if (navigator.share) { var sh = el('button', 'gl-go c', T0.share); sh.type = 'button'; sh.addEventListener('click', function () { navigator.share({ title: G.name, text: G.name + ' · ' + rc, url: linkFor(rc) }).catch(function () {}); }); c3.appendChild(sh); }
       c3.appendChild(el('h3', null, T0.players));
-      var ul = el('ul', 'gl-pl'); var me = window.OphanimAccount && window.OphanimAccount.get(); ul.appendChild(el('li', null, T0.you + ' · ' + (me ? '@' + me.handle : 'Guest')));
+      var ul = el('ul', 'gl-pl'); var me = window.OphanimAccount && window.OphanimAccount.get(); var on = window.OphanimOnline && window.OphanimOnline.handle(); ul.appendChild(el('li', null, T0.you + ' · ' + (on ? on : (me ? '@' + me.handle : 'Guest'))));
       ul.appendChild(el('li', 'w', T0.wait + ' …')); c3.appendChild(ul);
     }
     c3.appendChild(el('p', 'gl-note', T0.soon)); box.appendChild(c3);
   }
   function build() { if (ov) return; ov = el('div', 'gl-ov'); ov.addEventListener('click', function (e) { if (e.target === ov) close(); }); box = el('div', 'gl-box'); box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-labelledby', 'gl-h'); ov.appendChild(box); document.body.appendChild(ov); document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); }); }
-  function open() { build(); render(); ov.classList.add('on'); }
+  function open() { build(); render(); ov.classList.add('on'); if (window.OphanimOnline) window.OphanimOnline.init(); }
+  document.addEventListener('ophanim:online', function () { if (ov && ov.classList.contains('on') && !editing) render(); });
   function close() { if (ov) ov.classList.remove('on'); }
   btn.addEventListener('click', open); paintBtn();
   document.addEventListener('ophanim:account', function () { paintBtn(); if (ov && ov.classList.contains('on')) render(); });
