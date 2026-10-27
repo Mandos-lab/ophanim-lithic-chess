@@ -101,6 +101,26 @@
         var m = {}; ((r && r.data) || []).forEach(function (p) { m[p.id] = p.handle; }); return m;
       }).catch(function () { return {}; });
     },
+    /* Chat between the two players of a room. */
+    say: function (id, body) { return rpc('post_message', { p_room: id, p_body: body }); },
+    chat: function (id, cb) {
+      var stopped = false, ch = null, timer = null, last = 0, busy = false;
+      function pull() {
+        if (stopped || busy || !sb) return; busy = true;
+        sb.from('room_messages').select('id,sender,body,created_at').eq('room', id).gt('id', last).order('id', { ascending: true }).limit(200).then(function (r) {
+          busy = false; if (stopped || !r || r.error || !r.data || !r.data.length) return;
+          r.data.forEach(function (m) { if (m.id > last) last = m.id; });
+          cb(r.data);
+        }, function () { busy = false; });
+      }
+      client().then(function (c) {
+        if (stopped) return;
+        try { ch = c.channel('chat-' + id).on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'room_messages', filter: 'room=eq.' + id }, function () { pull(); }).subscribe(); } catch (e) {}
+        pull();
+      });
+      timer = setInterval(pull, 4000);
+      return { stop: function () { stopped = true; clearInterval(timer); try { if (ch && sb) sb.removeChannel(ch); } catch (e) {} }, pull: pull };
+    },
     /* Live updates, with a slow check every 4 seconds as a safety net. Returns a stop function. */
     watch: function (id, cb) {
       var stopped = false, ch = null, timer = null, last = '';

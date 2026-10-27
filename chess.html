@@ -1787,11 +1787,11 @@ updatePanel();
   function boot() {
   var O = window.OphanimOnline;
   if (!O || !O.room || typeof commit !== 'function' || typeof handleSquare !== 'function') return;
-  var NET = null, stopWatch = null, strip = null;
+  var NET = null, stopWatch = null, strip = null, chat = null;
   var _hs = handleSquare, _commit = commit, _status = statusText, _sync = syncControls;
 
   var st = document.createElement('style');
-  st.textContent = '.netbox .nrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.netbox .ninfo{font:500 14px var(--f-mono);line-height:1.6}.netbox .ninfo b{color:var(--amber)}.netbox .nmsg{margin:8px 0 0;font-size:13px;color:var(--muted)}';
+  st.textContent = '.netbox .nrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.netbox .ninfo{font:500 14px var(--f-mono);line-height:1.6}.netbox .ninfo b{color:var(--amber)}.netbox .nmsg{margin:8px 0 0;font-size:13px;color:var(--muted)}.netbox .nchat{margin-top:12px;border-top:1px solid var(--line,#1a2638);padding-top:10px}.netbox .nlog{max-height:180px;min-height:48px;overflow-y:auto;font-size:14px;line-height:1.5;padding:2px 0}.netbox .nlog p{margin:0 0 4px;overflow-wrap:anywhere}.netbox .nlog b{color:var(--amber)}.netbox .nlog .mine b{color:var(--cyan,#46e3f0)}.netbox .nlog .none{color:var(--muted)}.netbox .nform{display:flex;gap:8px;margin-top:8px}.netbox .nform input{flex:1;min-width:0;padding:8px 10px;background:#06080d;color:inherit;border:1px solid #1a2638;border-radius:4px;font:inherit;font-size:14px}';
   document.head.appendChild(st);
 
   function peerName() { return NET && NET.opp ? NET.opp : '…'; }
@@ -1802,12 +1802,36 @@ updatePanel();
     var c = document.createElement('div'); c.textContent = 'You play ' + (NET.me === 'w' ? 'White (cyan)' : 'Black (amber)') + ' against '; var b2 = document.createElement('b'); b2.textContent = peerName(); c.appendChild(b2); info.appendChild(c);
     strip.querySelector('#netResign').hidden = NET.over;
   }
+  function chatAdd(rows) {
+    if (!strip || !NET) return; var log = strip.querySelector('.nlog'); var none = log.querySelector('.none'); if (none) none.remove();
+    var near = log.scrollHeight - log.scrollTop - log.clientHeight < 40;
+    rows.forEach(function (m) {
+      var mine = m.sender === O.room.me(), p = document.createElement('p'); if (mine) p.className = 'mine';
+      var b = document.createElement('b'); b.textContent = (mine ? 'You' : (NET.opp || 'Opponent')) + ': '; p.appendChild(b); p.appendChild(document.createTextNode(m.body)); log.appendChild(p);
+    });
+    if (near || rows.length) log.scrollTop = log.scrollHeight;
+  }
+  function chatStart() {
+    if (chat) { chat.stop(); chat = null; }
+    var log = strip.querySelector('.nlog'); log.textContent = '';
+    var n = document.createElement('p'); n.className = 'none'; n.textContent = 'No messages yet.'; log.appendChild(n);
+    chat = O.room.chat(NET.id, chatAdd);
+  }
   function msg(t) { if (strip) strip.querySelector('.nmsg').textContent = t || ''; }
   function buildStrip() {
     if (strip) return;
     strip = document.createElement('div'); strip.className = 'card netbox'; strip.id = 'netStrip';
-    strip.innerHTML = '<p class="lbl">Online game</p><div class="ninfo"></div><div class="nrow"><button class="btn small" id="netResign" type="button">Resign</button><button class="btn small" id="netLeave" type="button">Leave room</button></div><p class="nmsg" aria-live="polite"></p>';
+    strip.innerHTML = '<p class="lbl">Online game</p><div class="ninfo"></div><div class="nrow"><button class="btn small" id="netResign" type="button">Resign</button><button class="btn small" id="netLeave" type="button">Leave room</button></div><p class="nmsg" aria-live="polite"></p><div class="nchat"><p class="lbl">Chat</p><div class="nlog" role="log" aria-live="polite"></div><form class="nform"><input type="text" maxlength="300" autocomplete="off" aria-label="Message" placeholder="Say something kind…"><button class="btn small" type="submit">Send</button></form></div>';
     var anchor = $('#cardMatch'); anchor.parentNode.insertBefore(strip, anchor);
+    var nf = strip.querySelector('.nform'), ni = nf.querySelector('input');
+    nf.addEventListener('submit', function (e) {
+      e.preventDefault(); if (!NET) return;
+      var t = ni.value.replace(/\s+/g, ' ').trim(); if (!t) return;
+      ni.value = ''; ni.focus();
+      O.room.say(NET.id, t).then(function () { if (chat) chat.pull(); }, function (er) {
+        ni.value = t; msg(/too many/i.test(String((er && er.message) || '')) ? 'Slow down a little.' : 'Could not send. Try again.');
+      });
+    });
     $('#netResign').addEventListener('click', function () {
       if (!NET || NET.over) return;
       if (!confirm('Resign this game?')) return;
@@ -1901,7 +1925,9 @@ updatePanel();
     if (stopWatch) { stopWatch(); stopWatch = null; }
     if (S.screen === 'classic') setScreen('play');
     var me = O.room.me();
-    NET = { id: r.id, code: r.code, me: (r.white === me ? 'w' : 'b'), over: false, opp: '', room: r };
+    var sd = $('#side'); var prev = (NET && NET.prevSide) || sd.value;
+    NET = { id: r.id, code: r.code, me: (r.white === me ? 'w' : 'b'), over: false, opp: '', room: r, prevSide: prev };
+    try { sd.value = NET.me; } catch (e) {}
     S.mode = 'online'; S.human = NET.me; S.logged = false; resetHint();
     var mode = $('#mode');
     if (!mode.querySelector('option[value="online"]')) { var o = document.createElement('option'); o.value = 'online'; o.textContent = 'Online room'; mode.appendChild(o); }
@@ -1913,12 +1939,13 @@ updatePanel();
     buildStrip(); strip.hidden = false; syncControls(); paintStrip();
     O.room.names([r.white, r.black]).then(function (map) { NET.opp = map[NET.me === 'w' ? r.black : r.white] || 'your opponent'; paintStrip(); updatePanel(); });
     if (r.status === 'finished') endBanner(r);
-    stopWatch = O.room.watch(r.id, apply);
+    stopWatch = O.room.watch(r.id, apply); chatStart();
     try { strip.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
   }
   function leave() {
     if (stopWatch) { stopWatch(); stopWatch = null; }
-    O.room.forget(); NET = null;
+    if (chat) { chat.stop(); chat = null; }
+    O.room.forget(); var ps = NET && NET.prevSide; NET = null; if (ps) $('#side').value = ps;
     if (strip) strip.hidden = true;
     var mode = $('#mode'), op = mode.querySelector('option[value="online"]'); if (op) op.remove();
     mode.value = 'cpu'; S.mode = 'cpu'; S.human = $('#side').value || 'w';
