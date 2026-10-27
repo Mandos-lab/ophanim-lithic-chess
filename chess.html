@@ -39,6 +39,7 @@ h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.7
 .seg button+button{border-left:1px solid var(--line)}
 .seg button[aria-pressed="true"]{background:var(--cyan);color:#021014}
 .seg button[disabled]{opacity:.35;cursor:not-allowed}
+.modeseg{display:flex;width:100%}.modeseg button{flex:1;padding:11px 14px;font-size:13px}
 
 .btn{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:var(--panel2);border:1px solid var(--line);padding:8px 12px;border-radius:3px;cursor:pointer;text-decoration:none;display:inline-block;line-height:1.3}
 .btn:hover{border-color:var(--cyan)}
@@ -250,8 +251,6 @@ footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid
     <div class="navtabs" id="navTabs">
       <a class="navtab" href="./">Ophanim Field Console</a>
       <a class="navtab" href="games.html">Games</a>
-      <button class="navtab on" id="tabPlay" type="button" aria-pressed="true">Play</button>
-      <button class="navtab" id="tabClassic" type="button" aria-pressed="false">Classic Games</button>
       <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
     </div>
     <div class="radio" role="group" aria-label="Background audio">
@@ -311,6 +310,7 @@ footer{max-width:1200px;margin:30px auto 0;padding-top:14px;border-top:1px solid
     </section>
 
     <aside class="side" aria-label="Controls and Lithos panel">
+      <div class="seg modeseg" role="group" aria-label="Play or watch classic games"><button id="tabPlay" type="button" aria-pressed="true">Play</button><button id="tabClassic" type="button" aria-pressed="false">Classic Games</button></div>
       <div class="card" id="cardMatch">
         <p class="lbl">Match</p>
         <div class="grid2">
