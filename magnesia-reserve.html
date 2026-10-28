@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en"><head>
+<script src="consent.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Magnesia Reserve - Philosophy From A Stone</title>
+<style>
+:root{--bg:#070b12;--panel:#0b1420;--line:#16283b;--text:#d6e6f4;--dim:#8aa0b5;--cyan:#00f0ff;--amber:#ffb700;--green:#19e08a;--red:#ff4d5e;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%,#0d1a2b 0%,var(--bg) 60%)}
+a{color:var(--cyan)}
+header{padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
+h1{margin:0;font-size:17px;color:var(--cyan);letter-spacing:.5px}
+.emb{vertical-align:middle;margin-right:8px}
+.sub{color:var(--amber);font-size:11px;margin-top:3px}
+.quote{color:#fff;font-weight:700;font-size:12px;margin-top:4px}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;align-items:center}
+.navtab{font:600 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border:1px solid #7a2630;border-radius:4px;color:#ffb3bb;text-decoration:none;background:#1a0d12;display:inline-block}
+a.navtab:hover{border-color:#ff4d5e;color:#fff;background:#3a1219}
+.navtab.on{color:#fff;background:#c42b41;border-color:#ff4d5e}
+.navtab.on.green{background:#0f8a56;border-color:var(--green)}
+.zoom{margin-left:auto;display:flex;gap:4px}
+.zoom button{font:600 13px var(--mono);color:var(--text);background:#0c1a28;border:1px solid #17445a;border-radius:4px;padding:8px 12px;cursor:pointer}
+main{max-width:820px;margin:0 auto;padding:22px 16px 50px}
+h2.t{font-size:22px;color:#fff;margin:0 0 6px;line-height:1.3}
+.tag{color:var(--green);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+h2{font-size:17px;color:var(--green);margin:34px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+h3{font-size:14px;color:#fff;margin:20px 0 6px}
+p,li{line-height:1.75}
+p{margin:0 0 12px}
+.epi{border-left:3px solid var(--amber);padding:6px 14px;margin:14px 0 18px;color:#fff}
+.epi small{display:block;color:var(--dim);margin-top:4px}
+.note{border:1px solid #6b4b00;background:#1b1403;border-radius:6px;padding:12px 14px;margin:14px 0}
+.note b{color:var(--amber)}
+table{border-collapse:collapse;width:100%;margin:12px 0 16px;font-size:13px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;line-height:1.5}
+th{background:#0b1a28;color:var(--cyan);font-weight:700}
+td.k{color:#fff}
+.tw{overflow-x:auto}
+.chain{list-style:none;margin:12px 0;padding:0}
+.chain li{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:10px 14px;margin:0 0 6px;position:relative}
+.chain li b{color:#fff}.chain li span{color:var(--dim);display:block}
+.chain li:not(:last-child)::after{content:"▼";position:absolute;left:50%;bottom:-17px;color:var(--green);font-size:11px}
+.chain li{margin-bottom:16px}
+.sum{font-size:15px;color:#fff;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:8px 0}
+.src li{color:var(--dim);line-height:1.6;margin-bottom:4px}
+footer{max-width:820px;margin:0 auto;padding:0 16px 30px;color:var(--dim);font-size:11px}
+</style><link rel="icon" href="mark.svg" type="image/svg+xml">
+</head>
+<body>
+<header>
+  <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>The Magnesia Reserve</h1>
+  <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone | <a href="https://x.com/Mandos16" target="_blank" rel="noopener">@Mandos16</a></div>
+  <div class="quote">&ldquo;Listen For The Shape In A Word&rdquo; &ndash; &ldquo;Responsible Manifestation&rdquo;</div>
+  <nav class="navtabs" aria-label="Site pages">
+    <a class="navtab" href="./">Ophanim Field Console</a>
+    <a class="navtab" href="games.html">Games</a>
+    <a class="navtab on green" href="library.html" aria-current="page">Library</a>
+    <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+    <a class="navtab" href="about.html">About</a>
+    <a class="navtab" href="el.html" lang="el">Ελληνικά</a>
+    <span class="zoom"><button id="zOut" aria-label="Smaller text">A−</button><button id="zIn" aria-label="Larger text">A+</button></span>
+  </nav>
+</header>
+<main>
+<h2 class="t" style="border:0;padding:0;margin-top:0">The Magnesia Reserve // The Incorruptible Ledger</h2>
+<div class="tag">Notes from Mandos &middot; Library &rsaquo; Mandos&rsquo; stuff</div>
+
+<div class="epi">Plato has the citizens of Magnesia keep a coin that is worth something among themselves and nothing to the rest of the world.
+<small>A paraphrase of Plato, Laws V, 742a. It is not a word-for-word quotation of any one translation.</small></div>
+
+<h2 style="margin-top:20px">1. Why the name Magnesia</h2>
+<p>I grew up on Magnesias Street in Nicosia. Years later I found the same word in a PDF of Plato&rsquo;s last work, and then in the word <i>magnet</i>. That is the thread I follow here: dots, iotas and the words between them that carry weight.</p>
+<ul>
+<li><b>The stone.</b> <i>Magnes lithos</i> is &ldquo;the stone from Magnesia&rdquo;, the lodestone. Magnesia is the root of <i>magnet</i> and of <i>magnesium</i>. A site called Philosophy From A Stone could hardly ask for a better word. A lodestone is silent attraction: it pulls without pushing.</li>
+<li><b>The geography.</b> There is Magnesia in Thessaly, Magnesia on the Maeander and Magnesia under Sipylus, the last two in Anatolia. Magnesia is also the name of the city Plato designs in the <i>Laws</i>. Cyprus and the Greek mainland meet in one word.</li>
+<li><b>The lounge.</b> As a room on this site, Magnesia means a place where gifts and value gather by attraction, not by force.</li>
+</ul>
+<p>None of this is mysticism. Each page here, from the Cadmeian Code and the Greek Sphere to Lithic Chess and the Library, runs on letter-by-letter isopsephy, plain arithmetic and historical measures that you can check. What looks like coincidence from outside is <i>noēsis</i> (νόησις): the mind recognising a pattern that was already there.</p>
+
+<h2>2. The premise and the inversion</h2>
+<p><b>Plato&rsquo;s premise.</b> In the <i>Laws</i> Plato designs a city, Magnesia, far from the sea and shielded from merchants, foreign empires and debased money. Its citizens use a closed coin of their own, whose value rests on the shared compact of the city. Plato does allow one exception: a common Greek currency, held by the state, for expeditions and embassies abroad (742a&ndash;b).</p>
+<p><b>The cryptographic inversion.</b> Two thousand years later the problem is the same: how to keep a signal pure when money can be debased. Plato&rsquo;s answer was isolation and law. Bitcoin&rsquo;s answer is arithmetic: a fixed, self-verifying, peer-to-peer ledger with no walls. One city built a closed ledger; the other built a ledger with no borders. Whether you read the two as a contrast or a parallel, the donation room rests on classical political thought, not technology slogans.</p>
+<div class="note"><b>Status.</b> The Magnesia Reserve is the planned home of the site&rsquo;s gifts and donations. No wallet addresses are shown on this page, and none will be until the licence is in place. Until then this page is about the ideas only. It is not financial advice and it is not an offer of anything.</div>
+
+<h2>3. Plato&rsquo;s numbers</h2>
+<p>Plato&rsquo;s plan is arithmetic from the first line. Three kinds of mathematics hold it up: divisibility, proportion and the calendar.</p>
+
+<h3>3.1 The citizen count: 5,040 = 7!</h3>
+<p>Magnesia has 5,040 households with land (<i>Laws</i> V, 737e&ndash;738a, and again in Book VI). Plato chose it on purpose: 5,040 = 1&times;2&times;3&times;4&times;5&times;6&times;7 = 7!.</p>
+<div class="tw"><table>
+<tr><th>Check</th><th>Result</th></tr>
+<tr><td>Divisors of 5,040</td><td>60 in all, or 59 not counting 5,040 itself. Plato&rsquo;s count of 59 leaves out the number itself.</td></tr>
+<tr><td>Divisible by 1 to 10</td><td>Yes, all ten in a row. 11 is the first number that fails. It is also divisible by 12.</td></tr>
+<tr><td>Twelve tribes</td><td>5,040 &divide; 12 = 420 households per tribe, with no remainder.</td></tr>
+</table></div>
+<p>This is why the number works as a civic key. The state can split the people into 2, 3, 4, 5, 6, 7, 8, 9, 10 or 12 equal groups for armies, juries, watches, taxes and festivals without ever leaving a remainder.</p>
+
+<h3>3.2 Two kinds of equality</h3>
+<p>In <i>Laws</i> VI (757b&ndash;c) Plato separates <b>arithmetical equality</b>, where everyone gets the same share (1 = 1 = 1), from <b>geometric equality</b>, where honour follows merit and the ratio between them is kept. He calls the first the equality of the lottery. It is crude and unstable. Plato prefers proportion. Music works the same way: harmony needs the right ratios between the notes, and equal string lengths won&rsquo;t give it.</p>
+
+<h3>3.3 The 4:1 wealth ratio</h3>
+<p>Each household holds a fixed, inalienable allotment of land. On top of it, movable wealth is limited to at most <b>four times</b> the value of the allotment (<i>Laws</i> V, 744d&ndash;745a). Anything above that goes to the city. In short: W<sub>max</sub> = 4 &times; W<sub>base</sub>. This is a proportional ceiling on how far apart the richest and the poorest can be.</p>
+
+<h3>3.4 The city as a wheel</h3>
+<ul>
+<li>At the centre is an acropolis for Hestia, Zeus and Athena (745b), the origin of the plan.</li>
+<li>Twelve wedge-shaped sectors run outward from it, matching the twelve months and the twelve tribes (745b&ndash;c).</li>
+<li>Every household gets two plots: one near the centre and one near the border (745e). A good plot near the market is balanced by a poorer one on the frontier, so no faction holds all the best land.</li>
+</ul>
+
+<h3>3.5 The calendar</h3>
+<p>The council has 360 members (<i>Laws</i> VI, 756b&ndash;e), matching the 360 degrees of the circle and the idealised year of 12 &times; 30 days. In four property classes it has 90 councillors each. One twelfth of the council, 30 members, is on duty each month (758b). So 360 &divide; 12 = 30, and 5,040 &divide; 360 = 14.</p>
+
+<h2>4. Appendix: the invariant ledger</h2>
+<p>Below, the plan of Magnesia is set beside Bitcoin, row by row. It is an <b>analogy</b>, not an equivalence.</p>
+<div class="tw"><table>
+<tr><th>Magnesia</th><th>Bitcoin</th><th>The link</th></tr>
+<tr><td class="k">N = 5,040 = 7! allotments, fixed by law</td><td class="k">Supply capped at just under 21 million BTC</td><td>Both fix the total in advance. One counts households and the other counts coins.</td></tr>
+<tr><td class="k">Divisible by 1 to 10 and by 12, with no remainder</td><td class="k">1 BTC = 100,000,000 satoshis, so the cap is about 2.1 quadrillion sats</td><td>Both are built to split cleanly into small units. 5,040 splits into groups, and a bitcoin splits into satoshis.</td></tr>
+<tr><td class="k">Wealth between 1&times; and 4&times; the allotment</td><td class="k">Issuance follows a fixed schedule that is set by the protocol and not by any ruler</td><td>Both limit what a ruler can do. Plato&rsquo;s city does it with a ceiling on wealth, while Bitcoin does it with a schedule of coin supply.</td></tr>
+<tr><td class="k">A closed coin for a closed city</td><td class="k">A borderless ledger for anyone</td><td>The two are opposites in design, on purpose.</td></tr>
+</table></div>
+<h3>Where the analogy breaks</h3>
+<ul>
+<li><b>The 4:1 clamp is redistribution.</b> Magnesia takes surplus wealth above the ceiling. Bitcoin has no such rule and nobody in it can confiscate anything. On this point the two pull in opposite directions.</li>
+<li><b>Closed vs open.</b> Plato wants outside trade and merchants kept small. Bitcoin crosses every border.</li>
+<li><b>Fixed in law vs fixed in code.</b> Plato&rsquo;s 5,040 is enforced by magistrates and could be amended. Bitcoin&rsquo;s cap is enforced by the network&rsquo;s rules.</li>
+<li><b>No fairness claim.</b> A fixed supply does not make a monetary system fair or safe, and I am not claiming it does.</li>
+</ul>
+<div class="sum">The allotment count was set in stone by Plato and the coin count is set in code. Both are finite, and both are meant to stay finite.</div>
+
+<h2>5. Laws Book X: how a proof about soul travelled</h2>
+<p>Book X of the <i>Laws</i> (896a&ndash;897b) is often called the first piece of natural theology. Plato answers the atomists (Democritus and Leucippus), who said matter came first by chance and mind came late. His reply is that body is passive and moves only when something moves it. Soul (<i>psychē</i>) is &ldquo;the motion that can move itself&rdquo;, so self-motion comes before bodily motion. Mind, judgment, number and law (<i>nomos</i>) are therefore prior to material things.</p>
+<ul class="chain">
+<li><b>Plato, Laws X</b><span>Soul as the self-mover. The regular turning of the stars shows intelligence at work.</span></li>
+<li><b>Aristotle</b><span>Physics VIII and Metaphysics Λ (1072b): the Unmoved Mover, pure actuality, thought thinking itself (<i>noēsis noēseōs</i>, 1074b), moving the cosmos &ldquo;as a beloved moves&rdquo; (<i>hōs erōmenon</i>).</span></li>
+<li><b>The Stoics</b><span>Make a similar argument from design: a Logos runs through the whole cosmos.</span></li>
+<li><b>Philo of Alexandria</b><span>In <i>De Opificio Mundi</i>, God first makes an intelligible cosmos (<i>kosmos noētos</i>) and then the physical one. Philo identifies that blueprint with the Logos.</span></li>
+<li><b>The early Christian writers</b><span>Justin Martyr and Clement of Alexandria use Greek philosophy to answer the charge of atheism. John 1:1, &ldquo;In the beginning was the Logos&rdquo;, is read against this background.</span></li>
+<li><b>Aquinas</b><span>The First Way (motion) and the Fifth Way (order and design) echo these arguments. Aquinas took them mainly from Aristotle, so the line back to <i>Laws</i> X is an echo, not a copy.</span></li>
+</ul>
+<p>Careful: the phrase <i>praeparatio evangelica</i> is the title of a book by Eusebius in the fourth century. Clement did call philosophy a preparation for the gospel, but the Latin phrase is not his.</p>
+
+<h2>6. The Greek checks</h2>
+<p>Here is the arithmetic in the house system, one value per letter-sound. </p>
+<div class="tw"><table>
+<tr><th>Word</th><th>Letters</th><th>Sum</th></tr>
+<tr><td class="k">Νόμος &middot; Law</td><td>50 + 70 + 40 + 70 + 200</td><td class="k">430</td></tr>
+<tr><td class="k">Ἀριθμός &middot; Number</td><td>1 + 100 + 10 + 9 + 40 + 70 + 200</td><td class="k">430</td></tr>
+<tr><td class="k">Μαθηματικά &middot; Mathematics</td><td>40 + 1 + 9 + 8 + 40 + 1 + 300 + 10 + 20 + 1</td><td class="k">430</td></tr>
+</table></div>
+<p>Law, number and mathematics all come to <b>430</b>. That is a real coincidence in the Greek sums, and it fits Plato&rsquo;s idea that law and number are one thing seen from two sides.</p>
+<p>For comparison, Logos (Λόγος) comes to 30 + 70 + 3 + 70 + 200 = <b>373</b>, a different number, so it is not on this axis.</p>
+
+<div class="sum">From a street in Nicosia to the discrete mathematics of Plato&rsquo;s ledger.</div>
+
+<h2>Sources</h2>
+<ul class="src">
+<li>Plato, <i>Laws</i>: V 737e&ndash;745e (5,040 households, wealth classes, wheel plan, two plots), V 742a&ndash;b (coinage), VI 756b&ndash;e and 758b (the council of 360), VI 757b&ndash;c (two equalities), X 896a&ndash;897b (soul as self-mover).</li>
+<li>Aristotle, <i>Physics</i> VIII; <i>Metaphysics</i> Λ (1072b, 1074b).</li>
+<li>Philo of Alexandria, <i>De Opificio Mundi</i>.</li>
+<li>Eusebius, <i>Praeparatio Evangelica</i>; Clement of Alexandria, <i>Stromata</i> I.</li>
+<li>The arithmetic on this page has been recomputed. The Plato references are standard Stephanus numbers. Check them against a printed translation (such as Saunders, Bury or Jowett) before quoting.</li>
+</ul>
+</main>
+<footer><a href="library.html">&larr; Back to the Library</a> &middot; <a href="privacy.html">Privacy and cookies</a></footer>
+<script>
+const ZS=[1,1.15,1.3,1.5];let zi=0;try{zi=Math.min(3,Math.max(0,+localStorage.getItem('ophanim.zoom')||0))}catch(e){}
+const zA=()=>{document.documentElement.style.zoom=ZS[zi];try{localStorage.setItem('ophanim.zoom',zi)}catch(e){}};
+document.getElementById('zIn').onclick=()=>{zi=Math.min(3,zi+1);zA()};document.getElementById('zOut').onclick=()=>{zi=Math.min(3,Math.max(0,zi-1));zA()};zA();
+</script><script src="account.js"></script>
+</body></html>
