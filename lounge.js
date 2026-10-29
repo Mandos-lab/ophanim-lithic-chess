@@ -7,6 +7,7 @@
   var G = {
     backgammon: { name: 'Tavli', sel: 'selOpp', two: '2p', hard: 'master', easy: 'apprentice' },
     tafl: { name: 'Tafl (Tufl)', sel: 'selSide', two: '2p', hard: 'def', easy: 'def', lvl: 'selLvl', lvlHard: 'jarl', lvlEasy: 'thrall' },
+    ludus: { name: 'Ludus Latrunculorum', sel: 'selOpp', two: '2p', hard: 'vizier', easy: 'scribe' },
     petteia: { name: 'Petteia', sel: 'selOpp', two: '2p', hard: 'vizier', easy: 'scribe' },
     ur: { name: 'Royal Game of Ur', sel: 'selOpp', two: '2p', hard: 'vizier', easy: 'scribe' },
     senet: { name: 'Senet', sel: 'selOpp', two: '2p', hard: 'vizier', easy: 'scribe' },
@@ -29,7 +30,7 @@
       joinb: 'Συμμετοχή στο παιχνίδι', over: 'Το παιχνίδι έχει τελειώσει. Φτιάξτε νέο δωμάτιο για να παίξετε ξανά.', cancelr: 'Ακύρωση δωματίου', liveinfo: 'Το δωμάτιό σας είναι ανοιχτό. Στείλτε τον κωδικό ή τον σύνδεσμο σε έναν φίλο. Το παιχνίδι ξεκινά μόλις συνδεθεί.', nosuch: 'Δεν υπάρχει δωμάτιο με αυτόν τον κωδικό.', full: 'Αυτό το δωμάτιο έχει ήδη δύο παίκτες.', toomany: 'Έχετε ήδη τρία ανοιχτά δωμάτια. Ακυρώστε ένα πρώτα.', connfail: 'Δεν έγινε σύνδεση. Δοκιμάστε ξανά σε λίγο.', working: 'Μια στιγμή…' }
   };
   function tx() { return T[lang()]; }
-  var css = '.gl-btn{position:fixed;right:12px;bottom:52px;z-index:2147481000;padding:7px 12px;font:600 11px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:#46e3f0;background:rgba(10,13,18,.92);border:1px solid rgba(70,227,240,.45);border-radius:999px;cursor:pointer}.gl-btn:hover,.gl-btn:focus-visible{background:rgba(70,227,240,.14);border-color:#46e3f0;outline:none}.gl-btn b{color:#e8c375;font-weight:600}' +
+  var css = '.gl-btn{position:fixed;right:12px;bottom:62px;z-index:2147481000;padding:9px 16px;font:700 14px/1.2 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em;color:#fff;background:#3a1219;border:2px solid #ff4d5e;border-radius:999px;cursor:pointer;box-shadow:0 0 10px rgba(255,77,94,.35)}.gl-btn:hover,.gl-btn:focus-visible{background:#5a1c26;border-color:#ff8a94;outline:none}.gl-btn b{color:#ffd27a;font-weight:700}' +
     '.gl-ov{position:fixed;inset:0;z-index:2147482400;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(2,5,9,.78);backdrop-filter:blur(3px)}.gl-ov.on{display:flex}' +
     '.gl-box{width:100%;max-width:520px;max-height:92vh;overflow:auto;position:relative;background:linear-gradient(160deg,#10151d,#0a0d12);border:1px solid rgba(232,195,117,.45);border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.7);color:#d6dde7;font:16px/1.5 "EB Garamond",Georgia,serif;padding:20px 22px}' +
     '.gl-box h2{font:500 22px "Cinzel",Georgia,serif;letter-spacing:.06em;color:#e8c375;margin:0}.gl-box .k{font:11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#46e3f0;margin:2px 0 12px}' +
