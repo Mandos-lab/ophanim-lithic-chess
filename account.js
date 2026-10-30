@@ -160,12 +160,14 @@
   function eye(inp) {
     if (!inp || inp.getAttribute('data-eye')) return;
     inp.setAttribute('data-eye', '1');
-    var gr = document.documentElement.lang === 'el', S = gr ? 'Εμφάνιση' : 'Show', H = gr ? 'Απόκρυψη' : 'Hide';
+    var tip = document.documentElement.lang === 'el' ? 'Εμφάνιση / απόκρυψη κωδικού' : 'Show / hide password';
     var w = document.createElement('div'); w.style.cssText = 'display:flex;gap:6px;align-items:stretch';
     inp.parentNode.insertBefore(w, inp); w.appendChild(inp); inp.style.flex = '1'; inp.style.minWidth = '0';
-    var b = document.createElement('button'); b.type = 'button'; b.textContent = S; b.setAttribute('aria-label', S);
-    b.style.cssText = 'flex:none;background:#0d1520;border:1px solid rgba(232,195,117,.3);color:#e8c375;font:600 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:0 12px;border-radius:4px;cursor:pointer';
-    b.addEventListener('click', function () { var on = inp.type === 'password'; inp.type = on ? 'text' : 'password'; b.textContent = on ? H : S; b.setAttribute('aria-label', on ? H : S); });
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = '\uD83D\uDC41\uFE0F'; b.title = tip; b.setAttribute('aria-label', tip); b.setAttribute('aria-pressed', 'false');
+    var off = 'flex:none;background:#0d1520;border:1px solid rgba(232,195,117,.3);color:#e8c375;font:20px/1 sans-serif;padding:0 14px;border-radius:4px;cursor:pointer;opacity:.75';
+    var on = 'flex:none;background:#e8c375;border:1px solid #e8c375;color:#0d1520;font:20px/1 sans-serif;padding:0 14px;border-radius:4px;cursor:pointer;opacity:1';
+    b.style.cssText = off;
+    b.addEventListener('click', function () { var s = inp.type === 'password'; inp.type = s ? 'text' : 'password'; b.style.cssText = s ? on : off; b.setAttribute('aria-pressed', String(s)); });
     w.appendChild(b);
   }
   window.OphanimEye = eye;
