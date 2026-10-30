@@ -93,6 +93,15 @@ footer{max-width:1000px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-
       <div class="row"><button type="button" class="btn" id="bCpw">Change password</button></div>
       <div class="msg" id="mCpw" role="status"></div>
     </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Delete my account</h2>
+      <p>This removes your sign-in, your name and every word you saved, for good. It cannot be undone. You may want to press &ldquo;Download my words&rdquo; first.</p>
+      <label for="dtx">To confirm, type the word DELETE</label>
+      <input type="text" id="dtx" autocomplete="off" spellcheck="false" aria-label="Type DELETE to confirm">
+      <div class="row"><button type="button" class="btn" id="bDel">Delete my account for good</button></div>
+      <div class="msg" id="mDel" role="status"></div>
+    </div>
   </div>
 </main>
 <footer><a href="privacy.html">Privacy and cookies</a></footer>
@@ -136,6 +145,16 @@ footer{max-width:1000px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-
   }
   $('bJoin').onclick = function () { if (window.OphanimAccount) OphanimAccount.open(3); };
   $('bOut').onclick = function () { M.signOut(); };
+  $('bDel').onclick = function () {
+    var ms = $('mDel'); ms.className = 'msg';
+    if ($('dtx').value.trim() !== 'DELETE') { ms.className = 'msg err'; ms.textContent = 'Type the word DELETE in capital letters first.'; return; }
+    $('bDel').disabled = true; ms.textContent = 'Deleting\u2026';
+    M.deleteAccount().then(function (r) {
+      $('bDel').disabled = false;
+      if (!r.ok) { ms.className = 'msg err'; ms.textContent = r.error; return; }
+      ms.textContent = 'Your account has been deleted.'; setTimeout(function () { location.href = 'index.html'; }, 1500);
+    });
+  };
   $('bHd').onclick = function () { $('mHd').className = 'msg'; M.setHandle($('hd').value).then(function (r) { $('mHd').textContent = r.ok ? 'Saved.' : r.error; if (!r.ok) $('mHd').className = 'msg err'; }); };
   $('bNpw').onclick = function () { M.setPassword($('npw').value).then(function (r) { $('mNpw').className = 'msg' + (r.ok ? '' : ' err'); $('mNpw').textContent = r.ok ? 'Password changed. Opening your dashboard...' : r.error; if (r.ok) setTimeout(function () { location.replace('dashboard.html'); }, 1200); }); };
   $('bCpw').onclick = function () { M.setPassword($('cpw').value).then(function (r) { $('mCpw').className = 'msg' + (r.ok ? '' : ' err'); $('mCpw').textContent = r.ok ? 'Password changed.' : r.error; if (r.ok) $('cpw').value = ''; }); };

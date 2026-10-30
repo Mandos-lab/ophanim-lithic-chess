@@ -138,6 +138,17 @@
         hnd = r.data[0].handle; fire(); return { ok: true, handle: hnd };
       }, function (e) { return { ok: false, error: say(e) }; });
     },
+    /* permanently deletes this member's account and everything saved with it (the database function delete_my_account does the work) */
+    deleteAccount: function () {
+      if (!me) return Promise.resolve({ ok: false, error: 'Sign in first.' });
+      return client().then(function (c) { return c.rpc('delete_my_account'); }).then(function (r) {
+        if (r.error) {
+          var t = String(r.error.message || '').toLowerCase();
+          return { ok: false, error: /could not find|does not exist|schema cache/.test(t) ? 'Account deletion is not switched on yet. Please try again later.' : 'Could not delete the account. Please try again.' };
+        }
+        return client().then(function (c) { return c.auth.signOut(); }).then(function () { me = null; hnd = null; fire(); return { ok: true }; }, function () { me = null; hnd = null; fire(); return { ok: true }; });
+      }, function (e) { return { ok: false, error: say(e) }; });
+    },
     recovering: function () { return REC; },
     words: words
   };
