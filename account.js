@@ -42,11 +42,11 @@
       hi: 'Συνδεδεμένος ως', since: 'σε αυτή τη συσκευή από', out: 'Αποσύνδεση', forget: 'Διαγραφή αυτού του προφίλ και της αποθηκευμένης προόδου', sure: 'Να αφαιρεθεί αυτό το προφίλ και η αποθηκευμένη πρόοδος από τη συσκευή;',
       close: 'Κλείσιμο', tooShort: 'Χρησιμοποιήστε τουλάχιστον 2 γράμματα ή αριθμούς.', greek: 'Άνοιγμα της σελίδας στα ελληνικά', english: 'Open this page in English', saved: 'Αποθηκεύτηκε σε αυτή τη συσκευή' }
   };
-  T.en.m = { join: 'Join free', title: 'Free member account', lead: 'A free account keeps your saved words and work on your own page, on any device. We keep your email only to sign you in.',
+  T.en.m = { guestBtn: 'Or carry on as a guest, no email', join: 'Join free', title: 'Free member account', lead: 'A free account keeps your saved words and work on your own page, on any device. We keep your email only to sign you in.',
     tabJoin: 'Create account', tabIn: 'Sign in', email: 'Email', pw: 'Password', pwHint: 'At least 8 characters.', create: 'Create my free account', signin: 'Sign in', forgot: 'Forgot my password', sendReset: 'Send me a reset link',
     back: 'Back to sign in', checkMail: 'Almost done. We sent a message to your email: open the link in it to confirm, then come back and sign in.', resetSent: 'If that email has an account, a reset link is on its way.',
     privacy: 'Privacy and cookies', member: 'Member', hi: 'Signed in as member', dash: 'My dashboard', out: 'Sign out', banner: 'Free member account: save your words and work, on any device.', bannerBtn: 'Join free or sign in', busy: 'Please wait...' };
-  T.el.m = { join: 'Εγγραφή δωρεάν', title: 'Δωρεάν λογαριασμός μέλους', lead: 'Ένας δωρεάν λογαριασμός κρατά τις λέξεις και τη δουλειά σας στη δική σας σελίδα, σε κάθε συσκευή. Κρατάμε το email σας μόνο για τη σύνδεση.',
+  T.el.m = { guestBtn: 'Ή συνεχίστε ως επισκέπτης, χωρίς email', join: 'Εγγραφή δωρεάν', title: 'Δωρεάν λογαριασμός μέλους', lead: 'Ένας δωρεάν λογαριασμός κρατά τις λέξεις και τη δουλειά σας στη δική σας σελίδα, σε κάθε συσκευή. Κρατάμε το email σας μόνο για τη σύνδεση.',
     tabJoin: 'Δημιουργία λογαριασμού', tabIn: 'Σύνδεση', email: 'Email', pw: 'Κωδικός', pwHint: 'Τουλάχιστον 8 χαρακτήρες.', create: 'Δημιουργία δωρεάν λογαριασμού', signin: 'Σύνδεση', forgot: 'Ξέχασα τον κωδικό μου', sendReset: 'Στείλτε μου σύνδεσμο επαναφοράς',
     back: 'Πίσω στη σύνδεση', checkMail: 'Σχεδόν έτοιμο. Στείλαμε μήνυμα στο email σας: ανοίξτε τον σύνδεσμο για επιβεβαίωση και μετά συνδεθείτε.', resetSent: 'Αν το email έχει λογαριασμό, ο σύνδεσμος επαναφοράς είναι καθ\u2019 οδόν.',
     privacy: 'Απόρρητο και cookies', member: 'Μέλος', hi: 'Συνδεδεμένος ως μέλος', dash: 'Ο πίνακάς μου', out: 'Αποσύνδεση', banner: 'Δωρεάν λογαριασμός μέλους: κρατήστε λέξεις και δουλειά, σε κάθε συσκευή.', bannerBtn: 'Εγγραφή ή σύνδεση', busy: 'Περιμένετε...' };
@@ -195,7 +195,7 @@
     box.appendChild(go);
     if (mmode === 'in') { var f = el('button', 'oa-sub', m.forgot); f.type = 'button'; f.addEventListener('click', function () { mmode = 'reset'; memberForm(tx); }); box.appendChild(f); }
     if (mmode === 'reset') { var bk = el('button', 'oa-sub', m.back); bk.type = 'button'; bk.addEventListener('click', function () { mmode = 'in'; memberForm(tx); }); box.appendChild(bk); }
-    var back = el('button', 'oa-go alt', tx.tabs[2]); back.type = 'button'; back.addEventListener('click', function () { tab = 2; render(); }); box.appendChild(back);
+    var back = el('button', 'oa-go alt', m.guestBtn || tx.tabs[2]); back.type = 'button'; back.addEventListener('click', function () { tab = 2; render(); }); box.appendChild(back);
     var pr = el('a', 'oa-link', m.privacy); pr.href = 'privacy.html'; box.appendChild(pr);
     setTimeout(function () { em.focus(); }, 30);
   }
@@ -233,7 +233,7 @@
     box = el('div', 'oa-box'); box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-labelledby', 'oa-h'); ov.appendChild(box); document.body.appendChild(ov);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('on')) close(); });
   }
-  function open(startTab) { build(); lastFocus = document.activeElement; tab = typeof startTab === 'number' ? startTab : (rd(K.profiles, []).length ? 0 : 1); render(); ov.classList.add('on'); }
+  function open(startTab) { build(); lastFocus = document.activeElement; tab = typeof startTab === 'number' ? startTab : (rd(K.profiles, []).length ? 0 : 3); render(); ov.classList.add('on'); }
   function close() { if (!ov) return; ov.classList.remove('on'); try { if (lastFocus && lastFocus.focus) lastFocus.focus(); } catch (e) {} }
   badge.addEventListener('click', function () { open(); });
 
