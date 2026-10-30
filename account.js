@@ -156,6 +156,19 @@
     box.appendChild(el('p', 'oa-note', tx.note));
     langLink(tx);
   }
+  /* a Show / Hide button beside a password box, so people can check what they typed */
+  function eye(inp) {
+    if (!inp || inp.getAttribute('data-eye')) return;
+    inp.setAttribute('data-eye', '1');
+    var gr = document.documentElement.lang === 'el', S = gr ? 'Εμφάνιση' : 'Show', H = gr ? 'Απόκρυψη' : 'Hide';
+    var w = document.createElement('div'); w.style.cssText = 'display:flex;gap:6px;align-items:stretch';
+    inp.parentNode.insertBefore(w, inp); w.appendChild(inp); inp.style.flex = '1'; inp.style.minWidth = '0';
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = S; b.setAttribute('aria-label', S);
+    b.style.cssText = 'flex:none;background:#0d1520;border:1px solid rgba(232,195,117,.3);color:#e8c375;font:600 11px "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:0 12px;border-radius:4px;cursor:pointer';
+    b.addEventListener('click', function () { var on = inp.type === 'password'; inp.type = on ? 'text' : 'password'; b.textContent = on ? H : S; b.setAttribute('aria-label', on ? H : S); });
+    w.appendChild(b);
+  }
+  window.OphanimEye = eye;
   var mmode = 'join';
   function memberForm(tx) {
     var m = tx.m, api = M();
@@ -172,7 +185,7 @@
     var pw = null;
     if (mmode !== 'reset') {
       var l2 = el('label', null, m.pw); l2.setAttribute('for', 'oa-pw'); box.appendChild(l2);
-      pw = el('input'); pw.type = 'password'; pw.id = 'oa-pw'; pw.autocomplete = mmode === 'join' ? 'new-password' : 'current-password'; box.appendChild(pw);
+      pw = el('input'); pw.type = 'password'; pw.id = 'oa-pw'; pw.autocomplete = mmode === 'join' ? 'new-password' : 'current-password'; box.appendChild(pw); eye(pw);
       if (mmode === 'join') box.appendChild(el('p', 'oa-hint', m.pwHint));
     }
     var err = el('p', 'oa-err'); err.setAttribute('role', 'alert'); box.appendChild(err);
