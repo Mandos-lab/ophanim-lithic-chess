@@ -18,5 +18,9 @@ function run(){var raw=inp.value.trim();stem=norm(raw).trim().split(/\s+/)[0]||'
   out.innerHTML='<p class="lx-sum"><b>'+n+'</b> '+(n===1?'occurrence':'occurrences')+' in <b>'+res.length+'</b> '+(res.length===1?'verse':'verses')+' of the Torah. '+(n?'<span class="dim">'+sum+'</span>':'Try fewer letters, or the stem without endings.')+'</p><div class="lx-list"></div><button type="button" class="lx-more">Show more</button>';
   out.querySelector('.lx-more').addEventListener('click',more);more();});}
 box.querySelector('.lx-form').addEventListener('submit',function(e){e.preventDefault();run();});
-var d=box.querySelector('.lx-dic');if(d)d.addEventListener('click',function(){var o=document.querySelector('#read .rt-form input');if(o&&o.value){inp.value=o.value;run();}});
+function sw(){var o=document.getElementById('hyin');return o&&o.value.trim()?o:document.querySelector('#read .rt-form input');}
+var d=box.querySelector('.lx-dic');if(d)d.addEventListener('click',function(){var o=sw();if(o&&o.value){inp.value=o.value;run();}});
+/* the box follows the word on the sphere: whatever is put in the top box is carried here (and searched once this box has been used or the word changes) */
+var last='',used=false;box.querySelector('.lx-form').addEventListener('submit',function(){used=true;});
+setInterval(function(){var o=document.getElementById('hyin');if(!o)return;var v=o.value.trim();if(v===last)return;var first=(last==='');last=v;if(!v)return;inp.value=v;if(!first)run();},500);
 })();
