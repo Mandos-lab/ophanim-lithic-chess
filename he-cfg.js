@@ -17,6 +17,6 @@ function translit(arr,words,M){
   var w=arr.join('').replace(/ /g,' ');
   for(var i=0;i<(words||[]).length;i++){if(parse(words[i][0],M||{}).join('')===w&&words[i][1])return words[i][1];}
   return arr.map(function(c){return c===' '?' ':(NAME[c]||'').replace('final ','')+' ';}).join('');}
-window.SPHERE_CFG={letters:L,values:V,sofit:SOF,names:NAME,lang:'he',dir:'rtl',sample:'אור',label:'Type or tap Hebrew letters (vowel points are ignored)',kbd:'Hebrew keyboard',
+window.SPHERE_CFG={letters:L,values:V,sofit:SOF,names:NAME,lang:'he',dir:'rtl',sample:'מלכות',label:'Type or tap Hebrew letters (vowel points are ignored)',kbd:'Hebrew keyboard',
  voice:/^(he|iw)/i,voiceName:'Hebrew',font:'14px "Noto Serif Hebrew","Frank Ruhl Libre",serif',parse:parse,translit:translit};
 })();

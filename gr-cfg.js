@@ -9,7 +9,7 @@ function parse(s,M){
   var o=[];for(var i=0;i<s.length;i++){var c=s[i];if(c===' '){o.push(' ');continue;}if(M[c]!==undefined)o.push(c);}return o;}
 function translit(arr){var s='';for(var i=0;i<arr.length;i++){var c=arr[i];if(c===' '){s+=' ';continue;}
   if(c==='Ο'&&arr[i+1]==='Υ'){s+='ou';i++;continue;}s+=(TR[c]||'');}return s;}
-window.SPHERE_CFG={letters:L,values:V,names:NAME,lang:'el',dir:'ltr',sample:'ΛΟΓΟΣ',label:'Type or tap Greek letters (accents are ignored)',kbd:'Greek keyboard',
+window.SPHERE_CFG={letters:L,values:V,names:NAME,lang:'el',dir:'ltr',sample:'ΒΑΣΙΛΕΙΑ',label:'Type or tap Greek letters (accents are ignored)',kbd:'Greek keyboard',
  voice:/^el/i,voiceName:'Greek',font:'13px "Cormorant Garamond",Georgia,serif',parse:parse,translit:translit};
 window.SPHERE_TR=translit;
 })();
