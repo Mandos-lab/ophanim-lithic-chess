@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head>
+<script src="consent.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Dashboard - Philosophy From A Stone</title>
+<style>:root{--bg:#070b12;--panel:#0b1420;--line:#16283b;--text:#cfe3f3;--dim:#8aa0b4;--cyan:#00f0ff;--amber:#ffb700;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%,#0d1a2b 0%,var(--bg) 60%)}
+a{color:var(--cyan)}
+header{padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0a111c,#070b12)}
+h1{margin:0;font-size:17px;color:var(--cyan);letter-spacing:.5px}
+.emb{vertical-align:middle;margin-right:8px}
+.sub{color:var(--amber);font-size:11px;margin-top:3px}
+.navtabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.navtab{font:600 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border:1px solid #7a2630;border-radius:4px;color:#ffb3bb;text-decoration:none;background:#1a0d12;display:inline-block}
+a.navtab:hover{border-color:#ff4d5e;color:#fff;background:#3a1219}
+.navtab.on{color:#fff;background:#c42b41;border-color:#ff4d5e}
+main{max-width:1000px;margin:0 auto;padding:18px 14px 60px}
+h2{font-size:15px;color:#fff;margin:26px 0 10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;margin:0 0 14px}
+.card p{margin:0 0 10px;line-height:1.6;color:var(--dim)}
+label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin:12px 0 5px}
+input[type=text],input[type=password],input[type=search]{width:100%;max-width:420px;background:#070a0f;border:1px solid #2a4258;color:#e6edf6;font:15px var(--mono);padding:9px 10px;border-radius:4px}
+input:focus{outline:none;border-color:var(--amber)}
+.btn{font:600 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--amber);background:none;border:1px solid rgba(255,183,0,.5);border-radius:4px;padding:9px 13px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:rgba(255,183,0,.1)}.btn.pri{background:rgba(255,183,0,.16)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.msg{min-height:1.4em;margin-top:8px;color:var(--amber)}.err{color:#ff8f8f}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:8px;color:var(--dim);font-weight:400;white-space:nowrap}
+td{padding:8px;border-top:1px solid var(--line);vertical-align:top}
+.w{font-size:20px;color:var(--amber)}.v{color:var(--cyan);margin-inline-start:6px;font-weight:600}
+.chk{font-size:11px;color:var(--dim)}.ok{color:#8fe3b0}
+.pill{display:inline-block;padding:2px 8px;border:1px solid #2a4258;border-radius:99px;font-size:12px;margin:2px 4px 2px 0;color:var(--text);text-decoration:none}
+.pill:hover{border-color:var(--amber)}
+[hidden]{display:none!important}
+footer{max-width:1000px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-size:11px}
+</style><link rel="icon" href="mark.svg" type="image/svg+xml">
+</head>
+<body>
+<header>
+  <h1><svg class="emb" viewBox="0 0 40 40" width="30" height="30" aria-label="Phonetic Archaeology emblem"><g transform="translate(20 20) rotate(45) scale(.76) translate(-20 -20)"><rect x="3" y="3" width="34" height="34" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="10" y="10" width="20" height="20" fill="none" stroke="#2f7bff" stroke-width="2"/><rect x="17" y="17" width="6" height="6" fill="#ffb700"/></g></svg>My Dashboard</h1>
+  <div class="sub">ΦΎ ΨΉ — Philosophy From A Stone</div>
+  <nav class="navtabs" aria-label="Site pages">
+    <a class="navtab" href="./">Ophanim Field Console</a>
+    <a class="navtab" href="games.html">Games</a>
+    <a class="navtab" href="library.html">Library</a>
+    <a class="navtab" href="ezekiels-reed.html">Ezekiel&#39;s Reed//deck</a>
+    <a class="navtab" href="about.html">About</a>
+    <span class="navtab on" aria-current="page">Dashboard</span>
+  </nav>
+</header>
+<main>
+  <div id="stLoad" class="card"><p>Loading...</p></div>
+
+  <div id="stOut" class="card" hidden>
+    <h2 style="margin-top:0">Sign in to see your dashboard</h2>
+    <p>A free member account keeps your saved words and work on this page, on any device. Visitors can still look words up and explore every sphere without an account.</p>
+    <div class="row"><button type="button" class="btn pri" id="bJoin">Join free or sign in</button></div>
+  </div>
+
+  <div id="stRec" class="card" hidden>
+    <h2 style="margin-top:0">Choose a new password</h2>
+    <label for="npw">New password</label><input type="password" id="npw" autocomplete="new-password">
+    <p style="margin-top:6px">At least 8 characters.</p>
+    <div class="row"><button type="button" class="btn pri" id="bNpw">Save the new password</button></div>
+    <div class="msg" id="mNpw" role="status"></div>
+  </div>
+
+  <div id="stIn" hidden>
+    <div class="card">
+      <h2 style="margin-top:0">My account</h2>
+      <p id="who"></p>
+      <label for="hd">Display name</label>
+      <input type="text" id="hd" maxlength="24" autocomplete="off" spellcheck="false">
+      <p style="margin-top:6px">2 to 24 letters, numbers, spaces, dots, dashes or underscores. This is the name others would see. It does not have to be your real name.</p>
+      <div class="row"><button type="button" class="btn pri" id="bHd">Save name</button><button type="button" class="btn" id="bOut">Sign out</button></div>
+      <div class="msg" id="mHd" role="status"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">My words</h2>
+      <p id="wc"></p>
+      <input type="search" id="fq" placeholder="Search my words" aria-label="Search my words">
+      <div class="scroll" id="wl" style="margin-top:10px"></div>
+      <div class="row"><button type="button" class="btn" id="bExp">Download my words</button></div>
+      <p style="margin-top:12px">Add words from the &ldquo;My words&rdquo; panel on any sphere: <a href="greek-sphere.html">Greek</a>, <a href="hebrew-sphere.html">Hebrew</a>, <a href="arabic-sphere.html">Arabic</a>, <a href="armenian-sphere.html">Armenian</a>, <a href="futhark-sphere.html">Futhark</a>. Every form starts as &ldquo;unchecked&rdquo; until you tick it yourself.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">Change my password</h2>
+      <label for="cpw">New password</label><input type="password" id="cpw" autocomplete="new-password">
+      <div class="row"><button type="button" class="btn" id="bCpw">Change password</button></div>
+      <div class="msg" id="mCpw" role="status"></div>
+    </div>
+  </div>
+</main>
+<footer><a href="privacy.html">Privacy and cookies</a></footer>
+<script src="account.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SPH = { gr: ['Greek', 'greek-sphere.html', 'el'], he: ['Hebrew', 'hebrew-sphere.html', 'he'], ar: ['Arabic', 'arabic-sphere.html', 'ar'], hy: ['Armenian', 'armenian-sphere.html', 'hy'], fu: ['Runes', 'futhark-sphere.html', 'non'] };
+  var ORDER = ['gr', 'he', 'ar', 'hy', 'fu'];
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var rows = [], M = null;
+  function show(id) { ['stLoad', 'stOut', 'stRec', 'stIn'].forEach(function (k) { $(k).hidden = k !== id; }); }
+  function draw() {
+    var q = $('fq').value.trim().toLowerCase();
+    var list = rows.filter(function (r) { return !q || (r.en + ' ' + ORDER.map(function (k) { return r.f[k] ? r.f[k].w + ' ' + (r.f[k].s || '') : ''; }).join(' ')).toLowerCase().indexOf(q) >= 0; });
+    $('wc').textContent = rows.length ? rows.length + (rows.length === 1 ? ' word saved.' : ' words saved.') : 'Nothing saved yet.';
+    if (!list.length) { $('wl').innerHTML = rows.length ? '<p>No word matches that search.</p>' : ''; return; }
+    var h = '<table><thead><tr><th>English</th>' + ORDER.map(function (k) { return '<th>' + SPH[k][0] + '</th>'; }).join('') + '<th></th></tr></thead><tbody>';
+    list.forEach(function (r) {
+      h += '<tr><td>' + esc(r.en) + '</td>' + ORDER.map(function (k) {
+        var f = r.f[k]; if (!f) return '<td><a class="pill" href="' + SPH[k][1] + '?en=' + encodeURIComponent(r.en) + '#mywords">+ add</a></td>';
+        return '<td><a class="w" lang="' + SPH[k][2] + '" href="' + SPH[k][1] + '?w=' + encodeURIComponent(f.w) + '&en=' + encodeURIComponent(r.en) + '#calc" style="text-decoration:none">' + esc(f.w) + '</a>' + (f.s ? '<div class="chk">' + esc(f.s) + '</div>' : '') + '<div class="chk ' + (f.ok ? 'ok' : '') + '">' + (f.ok ? 'checked by me' : 'unchecked') + '</div></td>';
+      }).join('') + '<td><button type="button" class="btn" data-id="' + esc(r.id) + '">Remove</button></td></tr>';
+    });
+    $('wl').innerHTML = h + '</tbody></table>';
+  }
+  function enter() {
+    $('who').textContent = 'Signed in as ' + M.email();
+    $('hd').value = M.handle() || '';
+    show('stIn'); $('wc').textContent = 'Loading your words...';
+    M.words.list().then(function (r) { rows = r.map(function (x) { return { id: x.id, en: x.en, f: x.forms || {} }; }); draw(); }, function () { $('wc').textContent = 'Could not load your words just now.'; });
+  }
+  function start() {
+    M = window.OphanimMember;
+    if (!M) { setTimeout(start, 80); return; }
+    M.ready().then(function () {
+      if (M.user()) { if (M.recovering()) { show('stRec'); } else enter(); } else show('stOut');
+    });
+    document.addEventListener('ophanim:member', function () { if (M.user()) { if (!M.recovering()) enter(); } else show('stOut'); });
+  }
+  $('bJoin').onclick = function () { if (window.OphanimAccount) OphanimAccount.open(3); };
+  $('bOut').onclick = function () { M.signOut(); };
+  $('bHd').onclick = function () { $('mHd').className = 'msg'; M.setHandle($('hd').value).then(function (r) { $('mHd').textContent = r.ok ? 'Saved.' : r.error; if (!r.ok) $('mHd').className = 'msg err'; }); };
+  $('bNpw').onclick = function () { M.setPassword($('npw').value).then(function (r) { $('mNpw').className = 'msg' + (r.ok ? '' : ' err'); $('mNpw').textContent = r.ok ? 'Password changed. Opening your dashboard...' : r.error; if (r.ok) setTimeout(function () { location.replace('dashboard.html'); }, 1200); }); };
+  $('bCpw').onclick = function () { M.setPassword($('cpw').value).then(function (r) { $('mCpw').className = 'msg' + (r.ok ? '' : ' err'); $('mCpw').textContent = r.ok ? 'Password changed.' : r.error; if (r.ok) $('cpw').value = ''; }); };
+  $('fq').addEventListener('input', draw);
+  $('wl').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-id]'); if (!b) return;
+    if (!b.dataset.sure) { b.dataset.sure = '1'; b.textContent = 'Sure?'; setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Remove'; } }, 3000); return; }
+    M.words.del(b.dataset.id).then(function () { rows = rows.filter(function (r) { return r.id !== b.dataset.id; }); draw(); }, function () { $('wc').textContent = 'Could not remove it just now.'; });
+  });
+  $('bExp').onclick = function () {
+    if (!rows.length) return;
+    var bl = new Blob([JSON.stringify(rows.map(function (r) { return { en: r.en, f: r.f }; }), null, 1)], { type: 'application/json' }), u = URL.createObjectURL(bl), l = document.createElement('a');
+    l.href = u; l.download = 'my-words.json'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 1000);
+  };
+  start();
+})();
+</script>
+</body></html>

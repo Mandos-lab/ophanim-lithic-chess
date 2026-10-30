@@ -1,7 +1,8 @@
 /* mywords.js: "My words" panel for the five sphere pages (Greek, Hebrew, Arabic, Armenian, Futhark).
    Look up an English word, paste the word in this script, see its value on the sphere, save it.
-   Saved words live in this browser only (localStorage) and are shared by all five sphere pages, so a word saved on one sphere
-   shows on the others with a link to add or open its form there. Nothing is sent anywhere; the dictionary buttons are plain links. */
+   Visitors can look words up, see their value and put them on the sphere. Saving, the list and the links between spheres are for free members:
+   their words are stored in their account (table member_words, private to them) and follow them to any device. Nothing is sent anywhere
+   unless a member saves; the dictionary buttons are plain links. */
 (function () {
   'use strict';
   var host = document.getElementById('spdb'); if (!host) return;
@@ -18,12 +19,19 @@
   var ORDER = ['gr', 'he', 'ar', 'hy', 'fu'], SK = 'ophanim.mywords.v1';
   var CFG = window.SPHERE_CFG || { lang: 'en', dir: 'ltr' };
 
-  var mem = null;
-  function load() {
+  var items = [], loaded = false;
+  function MB() { var m = window.OphanimMember; return m && m.user() ? m : null; }
+  function legacy() {
     try { var r = localStorage.getItem(SK); if (r) { var a = JSON.parse(r); if (Array.isArray(a)) return a; } } catch (e) { }
-    return mem || [];
+    return [];
   }
-  function store(a) { mem = a; try { localStorage.setItem(SK, JSON.stringify(a)); return true; } catch (e) { return false; } }
+  function reload() {
+    var m = MB(); loaded = false;
+    if (!m) { items = []; draw(); return; }
+    m.words.list().then(function (rows) {
+      items = rows.map(function (r) { return { id: r.id, en: r.en, f: r.forms || {} }; }); loaded = true; draw();
+    }, function () { items = []; loaded = true; draw(); say('Could not load your saved words. Try again in a moment.'); });
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function $(id) { return document.getElementById(id); }
   function nid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
@@ -46,7 +54,7 @@
     '#mywords .mww{font-size:22px;color:rgb(232,195,117)}#mywords .mwv{color:var(--cyan,#46e3f0);font-weight:600;margin-inline-start:6px}' +
     '#mywords .mwx{display:inline-block;margin:2px 6px 2px 0;padding:2px 8px;border:1px solid rgba(70,227,240,.35);border-radius:99px;font-size:14px;color:inherit;text-decoration:none}' +
     '#mywords .mwx.add{border-style:dashed;opacity:.75}#mywords .mwx:hover{border-color:rgb(232,195,117)}' +
-    '#mywords .mws{font-size:13px;opacity:.75}';
+    '#mywords .mws{font-size:13px;opacity:.75}#mywords .mwjoin{margin-top:10px;padding:10px 12px;border:1px solid rgba(70,227,240,.4);background:rgba(70,227,240,.06);border-radius:8px}#mywords [hidden]{display:none!important}';
   document.head.appendChild(css);
 
   var panel = document.createElement('div'); panel.id = 'mywords';
@@ -64,10 +72,12 @@
     '<div class="mwro" id="mwRo" aria-live="polite">Type the word above and its value appears here.</div>' +
     '<div class="mwst">3 &middot; Test it and keep it</div>' +
     '<div class="mwrow"><button type="button" class="mwb" id="mwPut">Put it on the sphere</button><button type="button" class="mwb pri" id="mwSave">Save to My words</button></div>' +
+    '<div class="mwjoin" id="mwJoin" hidden><span>Free members can save words, keep them on every sphere and find them again on any device.</span> <button type="button" class="mwb pri" id="mwJoinBtn">Join free or sign in</button></div>' +
     '<div class="mwm" id="mwMsg" aria-live="polite"></div>' +
-    '<h4>My saved words</h4><div id="mwList"></div>' +
-    '<div class="mwrow" style="margin-top:12px"><button type="button" class="mwb" id="mwCopy">Copy lines for the word file</button><button type="button" class="mwb" id="mwDl">Download my words</button><button type="button" class="mwb" id="mwUp">Load words from a file</button><input type="file" id="mwFile" accept=".json,application/json" hidden></div>' +
-    '<p class="mwd" style="margin-top:10px">Saved words are kept on this device only. &ldquo;Download&rdquo; and &ldquo;Load&rdquo; move them to another device. &ldquo;Copy lines&rdquo; gives you rows to paste into this sphere&rsquo;s word file if you want a word on the site for everyone. Every word starts as &ldquo;unchecked&rdquo; until you tick it yourself.</p>';
+    '<div id="mwMine" hidden><h4>My saved words</h4><div id="mwList"></div>' +
+    '<div class="mwrow" style="margin-top:12px"><button type="button" class="mwb" id="mwCopy">Copy lines for the word file</button><button type="button" class="mwb" id="mwDl">Download my words</button><a class="mwb" href="dashboard.html">My dashboard</a></div>' +
+    '<div class="mwrow" id="mwLeg" style="margin-top:10px" hidden><button type="button" class="mwb" id="mwImp">Move the words saved in this browser into my account</button></div>' +
+    '<p class="mwd" style="margin-top:10px">Your words are saved in your account and only you can see them. &ldquo;Copy lines&rdquo; gives you rows to paste into this sphere&rsquo;s word file if you want a word on the site for everyone. Every word starts as &ldquo;unchecked&rdquo; until you tick it yourself.</p></div>';
   host.parentNode.insertBefore(panel, host);
 
   var en = $('mwEn'), wi = $('mwW'), si = $('mwS'), ro = $('mwRo'), msg = $('mwMsg');
@@ -98,6 +108,7 @@
   }
   en.addEventListener('input', links); wi.addEventListener('input', readout);
   window.addEventListener('sphere-mode', function () { readout(); draw(); });
+  document.addEventListener('ophanim:member', reload);
 
   $('mwPut').onclick = function () {
     var w = wi.value.trim(); if (!w) { say('Type the word first.'); return; }
@@ -105,19 +116,22 @@
     SPHERE.load(w); var c = $('calc'); if (c) c.scrollIntoView({ behavior: 'smooth' });
   };
   $('mwSave').onclick = function () {
+    var m = MB(); if (!m) { say('Join free or sign in to save words.'); return; }
     var q = en.value.trim(), w = wi.value.trim(), i = info(w);
     if (!q) { say('Add the English word in step 1.'); return; }
     if (!w) { say('Add the ' + sc.n + ' word in step 2.'); return; }
     if (!i || !i.total) { say('That is not a ' + sc.n + ' word the sphere can read.'); return; }
-    var s = si.value.trim();
-    if (!s && CFG.translit) { try { s = CFG.translit(i.letters, [], {}); } catch (e) { s = ''; } }
-    var a = load(), ent = null;
-    a.forEach(function (x) { if (x.en.toLowerCase() === q.toLowerCase()) ent = x; });
-    if (!ent) { ent = { id: nid(), en: q, f: {}, t: Date.now() }; a.push(ent); }
-    ent.f[ME] = { w: w, s: s || '', ok: false };
-    if (!store(a)) say('Saved for this visit only: your browser would not keep it.'); else say('Saved. It is marked unchecked until you tick it.');
-    draw();
+    var sy = si.value.trim();
+    if (!sy && CFG.translit) { try { sy = CFG.translit(i.letters, [], {}); } catch (e) { sy = ''; } }
+    var f = {}; f[ME] = { w: w, s: sy || '', ok: false };
+    say('Saving...');
+    m.words.put(q, f).then(function (row) {
+      var ent = null; items.forEach(function (x) { if (x.id === row.id) ent = x; });
+      if (ent) ent.f = row.forms || {}; else items.push({ id: row.id, en: row.en, f: row.forms || {} });
+      say('Saved to your account. It is marked unchecked until you tick it.'); draw();
+    }, function () { say('Could not save just now. Check your connection and try again.'); });
   };
+  $('mwJoinBtn').onclick = function () { if (window.OphanimAccount) OphanimAccount.open(3); };
 
   function others(ent) {
     var h = '';
@@ -129,25 +143,34 @@
     return h;
   }
   function draw() {
-    var a = load(), box = $('mwList');
+    var m = MB(), box = $('mwList');
+    $('mwSave').hidden = !m; $('mwJoin').hidden = !!m; $('mwMine').hidden = !m;
+    $('mwLeg').hidden = !(m && legacy().length);
+    if (!m) return;
+    var a = items;
+    if (!loaded) { box.innerHTML = '<p class="mwd">Loading your words...</p>'; return; }
     if (!a.length) { box.innerHTML = '<p class="mwd">Nothing saved yet.</p>'; return; }
     var h = '<div class="mwscroll"><table><thead><tr><th>English</th><th>' + esc(sc.n) + '</th><th>On other spheres</th><th>Check</th><th></th></tr></thead><tbody>';
     a.forEach(function (ent, ix) {
       var f = ent.f[ME], c1;
       if (f) { var i = info(f.w); c1 = '<span class="mww" lang="' + esc(CFG.lang) + '" dir="' + esc(CFG.dir) + '">' + esc(f.w) + '</span>' + (i && i.total ? '<span class="mwv">' + i.total + '</span>' : '') + (f.s ? '<div class="mws">' + esc(f.s) + '</div>' : '') + '<div><button type="button" class="mwb" data-a="go" data-i="' + ix + '" style="padding:3px 9px">&#9654; Sphere</button></div>'; }
-      else c1 = '<button type="button" class="mwb" data-a="add" data-i="' + ix + '" style="padding:3px 9px">+ Add the ' + esc((sc.sh||sc.n.split(' ')[0])) + ' form</button>';
+      else c1 = '<button type="button" class="mwb" data-a="add" data-i="' + ix + '" style="padding:3px 9px">+ Add the ' + esc(sc.sh || sc.n.split(' ')[0]) + ' form</button>';
       var chk = f ? '<label><input type="checkbox" data-a="ok" data-i="' + ix + '"' + (f.ok ? ' checked' : '') + '> checked by me</label>' : '<span class="mws">-</span>';
       h += '<tr><td>' + esc(ent.en) + '</td><td>' + c1 + '</td><td>' + others(ent) + '</td><td>' + chk + '</td><td><button type="button" class="mwb" data-a="del" data-i="' + ix + '" style="padding:3px 9px" aria-label="Remove this word">Remove</button></td></tr>';
     });
     box.innerHTML = h + '</tbody></table></div>';
   }
   $('mwList').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-a]'); if (!b) return; var a = load(), ix = +b.dataset.i, ent = a[ix]; if (!ent) return;
+    var b = e.target.closest('[data-a]'); if (!b) return; var m = MB(), ix = +b.dataset.i, ent = items[ix]; if (!ent || !m) return;
     var act = b.dataset.a;
     if (act === 'go') { var f = ent.f[ME]; if (f && window.SPHERE) { wi.value = f.w; readout(); SPHERE.load(f.w); var c = $('calc'); if (c) c.scrollIntoView({ behavior: 'smooth' }); } }
     else if (act === 'add') { en.value = ent.en; links(); wi.value = ''; si.value = ''; readout(); wi.focus(); panel.scrollIntoView({ behavior: 'smooth' }); }
-    else if (act === 'del') { if (b.dataset.sure) { a.splice(ix, 1); store(a); draw(); } else { b.dataset.sure = '1'; b.textContent = 'Sure?'; setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Remove'; } }, 3000); } }
-    else if (act === 'ok') { if (ent.f[ME]) { ent.f[ME].ok = b.checked; store(a); } }
+    else if (act === 'del') {
+      if (b.dataset.sure) { m.words.del(ent.id).then(function () { items.splice(items.indexOf(ent), 1); draw(); }, function () { say('Could not remove it just now.'); }); }
+      else { b.dataset.sure = '1'; b.textContent = 'Sure?'; setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Remove'; } }, 3000); }
+    }
+    else if (act === 'ok') { if (ent.f[ME]) { var nf = JSON.parse(JSON.stringify(ent.f)); nf[ME].ok = b.checked; var one = {}; one[ME] = nf[ME]; m.words.put(ent.en, one).then(function (row) { ent.f = row.forms || nf; }, function () { b.checked = !b.checked; say('Could not save that tick.'); }); }
+    }
   });
 
   function copyText(t, okMsg) {
@@ -155,33 +178,23 @@
     try { navigator.clipboard.writeText(t).then(function () { say(okMsg); }, fb); } catch (e) { fb(); }
   }
   $('mwCopy').onclick = function () {
-    var lines = load().filter(function (x) { return x.f[ME]; }).map(function (x) {
+    var lines = items.filter(function (x) { return x.f[ME]; }).map(function (x) {
       var f = x.f[ME]; return "['" + f.w.replace(/'/g, "\\'") + "','" + (f.s || '').replace(/'/g, "\\'") + "','" + x.en.replace(/'/g, "\\'") + "','My words'],";
     });
     if (!lines.length) { say('No ' + sc.n + ' words saved yet.'); return; }
     copyText(lines.join('\n'), lines.length + ' line(s) copied. Paste them into the list in this sphere’s word file.');
   };
   $('mwDl').onclick = function () {
-    var a = load(); if (!a.length) { say('Nothing to download yet.'); return; }
+    var a = items; if (!a.length) { say('Nothing to download yet.'); return; }
     var bl = new Blob([JSON.stringify(a, null, 1)], { type: 'application/json' }), u = URL.createObjectURL(bl), l = document.createElement('a');
     l.href = u; l.download = 'my-words.json'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 1000);
   };
-  $('mwUp').onclick = function () { $('mwFile').click(); };
-  $('mwFile').onchange = function () {
-    var f = this.files && this.files[0]; if (!f) return; var r = new FileReader();
-    r.onload = function () {
-      try {
-        var inc = JSON.parse(r.result), a = load(), n = 0; if (!Array.isArray(inc)) throw 0;
-        inc.forEach(function (x) {
-          if (!x || typeof x.en !== 'string' || typeof x.f !== 'object') return;
-          var ent = null; a.forEach(function (y) { if (y.en.toLowerCase() === x.en.toLowerCase()) ent = y; });
-          if (!ent) { ent = { id: nid(), en: x.en, f: {}, t: Date.now() }; a.push(ent); }
-          ORDER.forEach(function (k) { if (x.f[k] && typeof x.f[k].w === 'string' && !ent.f[k]) { ent.f[k] = { w: x.f[k].w, s: String(x.f[k].s || ''), ok: !!x.f[k].ok }; n++; } });
-        });
-        store(a); draw(); say(n + ' form(s) added from the file.');
-      } catch (e) { say('That file is not a My words file.'); }
-    };
-    r.readAsText(f); this.value = '';
+  $('mwImp').onclick = function () {
+    var m = MB(), old = legacy(); if (!m || !old.length) return; say('Moving...');
+    var chain = Promise.resolve(), n = 0;
+    old.forEach(function (x) { if (!x || typeof x.en !== 'string' || typeof x.f !== 'object') return; var f = {}; ORDER.forEach(function (k) { if (x.f[k] && typeof x.f[k].w === 'string') f[k] = { w: x.f[k].w, s: String(x.f[k].s || ''), ok: !!x.f[k].ok }; });
+      if (Object.keys(f).length) chain = chain.then(function () { return m.words.put(x.en, f).then(function () { n++; }); }); });
+    chain.then(function () { try { localStorage.removeItem(SK); } catch (e) { } say(n + ' word(s) moved into your account.'); reload(); }, function () { say('Could not move them just now. Nothing was lost; try again later.'); });
   };
 
   /* arrive from another sphere: ?w=word (open it here) and ?en=English meaning */
@@ -197,5 +210,6 @@
     if (e1 && !w1) setTimeout(function () { panel.scrollIntoView({ behavior: 'smooth' }); }, 400);
   }
   links(); draw();
+  if (window.OphanimMember) window.OphanimMember.ready().then(reload);
   if (window.SPHERE) arrive(); else window.addEventListener('sphere-ready', function () { readout(); draw(); arrive(); });
 })();
