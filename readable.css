@@ -1,0 +1,29 @@
+/* readable.css: clear letters, bigger and brighter small text on the sphere pages */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Hebrew:wght@400;600&family=Noto+Sans+Armenian:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&display=swap');
+:root{--serif:"Noto Sans","Segoe UI",Arial,sans-serif !important;--mono:"Noto Sans","Segoe UI",Arial,sans-serif !important;--title:"Noto Sans","Segoe UI",Arial,sans-serif !important}
+body,button,input,select,textarea{font-family:"Noto Sans","Noto Sans Hebrew","Noto Sans Arabic","Noto Sans Armenian","Segoe UI",Arial,sans-serif}
+h1,h2,h3,h4{font-weight:600;letter-spacing:0}
+button,summary,.btn,.chip,.sppanel button,.sf-go{text-transform:none !important}
+.sf-go{display:inline-block;font-size:15px;color:var(--gold);border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:10px 14px;text-decoration:none}
+.sf-go:hover{background:rgba(232,195,117,.12)}
+:root{--ink-2:#c9d2d5 !important;--ink-3:#9aa8ae !important}
+body{font-size:21px}
+main p,main li,main label,main details,main .note,main small{line-height:1.6}
+main p,main li{max-width:none}
+/* small mono labels, notes and hints */
+.hud .note,.foldinfo,.chip,.legend,.goldlbl,.nums .pie,.nums .cw,.cmp td small,.kicker,.insight b,
+.tile s,.kb .wide,.counter .lbl,.eq .lbl,.dl dt,.audit .k,.codexlib a,#phDetail .ipa,.formula-chip,
+.mbox .lbl,.nums th,.cmp th,.audit th,details.auditbox summary,summary,.sppanel button,.btn,
+#sfbox .sf-n,#lxxbox .lx-ref,#ntbox .nt-ref,#sfbox button,#lxxbox button,#ntbox button,
+.codex::before,.record::before,.scrollcue,.stage .cap,.stage .tag,footer{font-size:15px !important;letter-spacing:.05em !important}
+/* tiny inline-styled text */
+[style*="font-size:10px"],[style*="font-size:11px"],[style*="font-size:12px"],[style*="font-size:13px"]{font-size:16px !important}
+[style*="font-size:14px"]{font-size:17px !important}
+[style*="font:11px"],[style*="font:12px"],[style*="font:13px"]{font-size:16px !important}
+/* sphere svg labels */
+#spsvg .lab,#spsvg .st text{font-size:14px !important}
+/* inputs and buttons easier to hit */
+main input[type=text],main select{font-size:20px !important}
+main button{min-height:42px}
+/* word table and calculator */
+#spdb,#spdb td,#spdb th,#splayout{font-size:17px}
