@@ -94,7 +94,7 @@ audio,video{width:100%;margin-top:8px;border-radius:6px}
 .mbox h2{color:var(--cyan);margin-bottom:10px}
 .field{margin:8px 0}.field label{display:block;color:var(--dim);font-size:11px;margin-bottom:3px}
 .wallet{display:flex;gap:6px;align-items:center;margin:6px 0}
-.wallet b{width:44px;color:var(--amber)}
+.wallet b{width:96px;flex:none;color:var(--amber)}
 .wallet code{flex:1;word-break:break-all;background:#070b12;border:1px solid var(--line);padding:5px;border-radius:4px;min-height:28px}
 .msg{min-height:16px;margin-top:6px}
 details.xp>summary{cursor:pointer;color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;font-size:11px}
@@ -352,11 +352,13 @@ header{padding:8px 16px;padding-right:62px}
     <div class="mut" style="margin-top:6px">Scan with your phone camera or the PayPal app. Thank you for supporting the work.</div>
   </div>
   <div id="cryptoBox">
-  <h3 style="color:var(--amber);margin:4px 0 6px">Crypto</h3>
   <div class="mut">New to Bitcoin? <a href="https://bitcoin.org" target="_blank" rel="noopener noreferrer" style="color:#f7931a">bitcoin.org</a></div>
   <div class="mut">Send only on the matching network. Always verify the address with the creator before sending.</div>
+  <h3 style="color:#f7931a;margin:10px 0 4px">&#8383; Bitcoin</h3>
   <div id="walletList"></div>
   <div style="text-align:center;margin:10px 0 4px"><img src="lightning-qr.png" width="170" height="170" alt="Lightning QR code. Scan it with a Lightning wallet." style="background:#fff;border-radius:8px;max-width:100%;height:auto;display:block;margin:0 auto"><div class="mut" style="margin-top:4px">Lightning: scan with a Lightning wallet, or copy the address above.</div></div>
+  <h3 style="margin:14px 0 4px">Other coins (not Bitcoin)</h3>
+  <div id="walletList2"></div>
   </div>
   <div class="row" style="margin-top:10px"><button id="tipClose">Close</button></div>
 </div></div>
@@ -1005,8 +1007,12 @@ async function sha(s){
 function renderWallets(){
   const sv=store.get('ophanim.wallets',{})||{},w={};Object.keys(DEF_WALLETS).forEach(k=>{w[k]=sv[k]||DEF_WALLETS[k]});
   $('cryptoBox').style.display=Object.keys(DEF_WALLETS).some(k=>w[k])?'':'none';
-  $('walletList').innerHTML=Object.keys(DEF_WALLETS).filter(k=>w[k]).map(k=>`<div class="wallet"><b>${k}</b><code>${w[k]?esc(w[k]):'<span class="mut">not set</span>'}</code><button data-c="${k}" ${w[k]?'':'disabled'}>Copy</button></div>`).join('');
-  $('walletList').querySelectorAll('button[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(w[b.dataset.c]).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200)})});
+  const NM={LN:'Lightning',BTC:'Bitcoin',ETH:'Ethereum',SOL:'Solana',ADA:'Cardano',LTC:'Litecoin'};
+  const row=k=>`<div class="wallet"><b>${NM[k]||k}</b><code>${w[k]?esc(w[k]):'<span class="mut">not set</span>'}</code><button data-c="${k}" ${w[k]?'':'disabled'}>Copy</button></div>`;
+  const keys=Object.keys(DEF_WALLETS).filter(k=>w[k]);
+  $('walletList').innerHTML=keys.filter(k=>k==='LN'||k==='BTC').map(row).join('');
+  $('walletList2').innerHTML=keys.filter(k=>k!=='LN'&&k!=='BTC').map(row).join('');
+  [$('walletList'),$('walletList2')].forEach(L=>L.querySelectorAll('button[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(w[b.dataset.c]).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200)})}));
 }
 function applyCms(){
   const c=store.get('ophanim.cms',{});

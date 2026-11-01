@@ -684,9 +684,11 @@
     <p style="color:#94a3b8">Thank you for supporting Ezekiel's Reed. Send only on the matching network, and double-check the address before sending.</p>
     <div style="text-align:center;margin:8px 0 12px"><b style="color:#00f0ff">PayPal</b><br><img src="paypal-qr.png" width="200" height="200" alt="PayPal QR code. Scan it with your phone camera or the PayPal app." style="background:#fff;border-radius:10px;max-width:100%;height:auto;display:block;margin:6px auto 0"><p style="color:#94a3b8;margin:6px 0 0">Scan with your phone camera or the PayPal app.</p></div>
     <div id="cryptoBox">
-    <b style="color:#00f0ff">Crypto</b>
+    <b style="color:#f7931a">&#8383; Bitcoin</b>
     <div id="tip-list"></div>
     <div style="text-align:center;margin:10px 0 4px"><img src="lightning-qr.png" width="170" height="170" alt="Lightning QR code. Scan it with a Lightning wallet." style="background:#fff;border-radius:8px;max-width:100%;height:auto;display:block;margin:0 auto"><div style="margin-top:4px;color:#94a3b8">Lightning: scan with a Lightning wallet, or copy the address above.</div></div>
+    <b style="color:#00f0ff">Other coins (not Bitcoin)</b>
+    <div id="tip-list2"></div>
     <p style="color:#94a3b8">New to Bitcoin? <a style="color:#f7931a" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a></p>
     </div>
     <button id="tip-close" type="button">Close</button>
@@ -1371,8 +1373,12 @@ function wormhole(go){
       const modal = $id('tip-modal');
       function renderTip() {
         $id('cryptoBox').style.display = Object.keys(WALLETS).some(k => WALLETS[k]) ? '' : 'none';
-        $id('tip-list').innerHTML = Object.keys(WALLETS).filter(k => WALLETS[k]).map(k => `<div class="w"><b style="width:38px">${k}</b><code>${WALLETS[k] ? WALLETS[k].replace(/[<>&"]/g, '') : '<span style="color:#64748b">not set yet</span>'}</code><button data-c="${k}" ${WALLETS[k] ? '' : 'disabled'}>Copy</button></div>`).join('');
-        $id('tip-list').querySelectorAll('button[data-c]').forEach(b => b.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(WALLETS[b.dataset.c]).then(() => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1500); }); });
+        const NM = { LN: 'Lightning', BTC: 'Bitcoin', ETH: 'Ethereum', SOL: 'Solana', ADA: 'Cardano', LTC: 'Litecoin' };
+        const wrow = k => `<div class="w"><b style="min-width:84px">${NM[k] || k}</b><code>${WALLETS[k] ? WALLETS[k].replace(/[<>&"]/g, '') : '<span style="color:#64748b">not set yet</span>'}</code><button data-c="${k}" ${WALLETS[k] ? '' : 'disabled'}>Copy</button></div>`;
+        const wk = Object.keys(WALLETS).filter(k => WALLETS[k]);
+        $id('tip-list').innerHTML = wk.filter(k => k === 'LN' || k === 'BTC').map(wrow).join('');
+        $id('tip-list2').innerHTML = wk.filter(k => k !== 'LN' && k !== 'BTC').map(wrow).join('');
+        ['tip-list', 'tip-list2'].forEach(id => $id(id).querySelectorAll('button[data-c]').forEach(b => b.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(WALLETS[b.dataset.c]).then(() => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1500); }); }));
       }
       $id('btn-tip').onclick = () => { renderTip(); modal.classList.add('open'); };
       $id('tip-close').onclick = () => modal.classList.remove('open');
