@@ -10,7 +10,7 @@
     '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read-old,#words{display:none !important}.dots{display:none !important}' +
     '#bench{display:grid;grid-template-columns:minmax(300px,42%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
     '#bench .bl{position:sticky;top:64px;height:calc(100vh - 84px);overflow:auto;padding-right:4px}' +
-    '#bench .bl canvas{width:100%;height:min(50vh,560px);display:block}' +
+    '#bench .bl .hyrow{justify-content:center;margin:0 0 12px}#bench .bl canvas{width:100%;height:min(50vh,560px);display:block}' +
     '#bench .hyr{display:block;position:static}#bench .hycap{position:static !important;text-align:center;font-size:15px;margin:4px 0 12px}' +
     '#bench .br{min-width:0}' +
     '#bench .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:56px;z-index:5;background:var(--bg);padding:6px 0}' +
@@ -38,7 +38,8 @@
   function take(sel) { var n = calc.querySelector(sel); if (n && n.parentNode) n.parentNode.removeChild(n); return n; }
   /* left: sphere + the answer */
   var out = take('#hyout'), tot = take('.hytot'), facts = take('#hyfacts'), pre = take('.hypre'), note = take('#hynote');
-  bl.appendChild(hyr); mv('calc', hyl);
+  var row = take('.hyrow');
+  bl.appendChild(hyr); if (row) bl.appendChild(row); mv('calc', hyl);
   [tot, out, facts].forEach(function (n) { if (n) bl.appendChild(n); });
   /* right: tabs */
   var calcLabel = hyl && hyl.querySelector('.hylab:last-of-type');
