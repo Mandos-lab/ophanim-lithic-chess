@@ -55,13 +55,25 @@
   if (words) { [].slice.call(words.querySelectorAll('.wrap > *')).forEach(function (n) { mv('help', n); }); }
   calc.querySelector('.wrap').innerHTML = ''; calc.querySelector('.wrap').appendChild(bench);
 
-  function show(k) { Object.keys(panes).forEach(function (j) { panes[j].classList.toggle('on', j === k); }); [].forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.getAttribute('data-k') === k); }); try { sessionStorage.setItem('ophbench', k); } catch (e) { } window.dispatchEvent(new Event('resize')); }
+  function show(k) { if (panes[k]) panes[k].scrollTop = 0;  Object.keys(panes).forEach(function (j) { panes[j].classList.toggle('on', j === k); }); [].forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.getAttribute('data-k') === k); }); try { sessionStorage.setItem('ophbench', k); } catch (e) { } window.dispatchEvent(new Event('resize')); }
   function addTab(k) { if (!panes[k]) return; var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-k', k); b.setAttribute('role', 'tab'); b.textContent = L[k]; b.onclick = function () { show(k); }; tabs.appendChild(b); }
   var order = ['calc', 'find', 'dict', 'texts', 'mine', 'list', 'help'];
   function build() { tabs.innerHTML = ''; order.forEach(addTab); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
   /* the My words panel is added by mywords.js a little later */
   var tries = 0, tm = setInterval(function () { var mw = document.getElementById('mywords'); tries++; if (mw && !pane('mine').contains(mw)) { pane('mine').appendChild(mw); var cur = tabs.querySelector('.on'); build(); if (cur) show(cur.getAttribute('data-k')); } if (tries > 40 || (mw && pane('mine').contains(mw))) clearInterval(tm); }, 250);
   build();
+  /* one word everywhere: the word on the sphere is carried into the dictionary box and the My words form */
+  (function () {
+    var hy = document.getElementById('hyin'); if (!hy) return;
+    var last = null;
+    function conv(v) { var C = window.SPHERE_CFG; v = v.trim(); return C && C.dictWord ? C.dictWord(v) : v; }
+    function put(inp, v, force) { if (!inp) return; var cur = inp.value.trim(); if (force || cur === '' || cur === last) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); var f = inp.closest && inp.closest('form'); if (f) f.dispatchEvent(new Event('rt-fill')); } }
+    function sync(first) {
+      var v = conv(hy.value); if (v === last) return;
+      put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
+    }
+    sync(true); setInterval(function () { sync(false); }, 400);
+  })();
   /* results sent onward from Find a word: switch to the tab that received them */
   if (find) find.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('button[data-a]'); if (!b) return; var a = b.getAttribute('data-a'); if (a === 'dic') show('dict'); else if (a === 'lxx') { show('texts'); var lb = document.getElementById('lxxbox'); if (lb) setTimeout(function () { lb.scrollIntoView({ block: 'start' }); }, 50); } }, true);
   /* other pages send people here with #calc: open the calculator tab */
