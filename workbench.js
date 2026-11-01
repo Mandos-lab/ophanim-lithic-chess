@@ -7,7 +7,7 @@
              : { calc: 'Calculator', find: 'Find a word', dict: 'Dictionary', texts: 'Texts', mine: 'My words', list: 'Word list', help: 'Help' };
   var css = document.createElement('style');
   css.textContent =
-    '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read,#words{display:none !important}.dots{display:none !important}' +
+    '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read-old,#words{display:none !important}.dots{display:none !important}' +
     '#bench{display:grid;grid-template-columns:minmax(300px,42%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
     '#bench .bl{position:sticky;top:64px;height:calc(100vh - 84px);overflow:auto;padding-right:4px}' +
     '#bench .bl canvas{width:100%;height:min(50vh,560px);display:block}' +
@@ -27,6 +27,7 @@
   var bench = document.createElement('div'); bench.id = 'bench';
   var bl = document.createElement('div'); bl.className = 'bl';
   var br = document.createElement('div'); br.className = 'br';
+  if (read) read.id = 'read-old'; br.id = 'read'; /* finders and styles look for #read */
   var tabs = document.createElement('div'); tabs.className = 'tabs'; tabs.setAttribute('role', 'tablist');
   br.appendChild(tabs); bench.appendChild(bl); bench.appendChild(br);
   var panes = {};
@@ -45,7 +46,7 @@
   if (note) pane('calc').appendChild(note);
   var intro = calc.querySelector('.wrap > .reveal');
   var find = document.getElementById('sfbox'); mv('find', find);
-  var dictIn = document.querySelector('#read .rt-form input'), dict = dictIn && dictIn.closest('.rt-box'); mv('dict', dict);
+  var dictIn = read && read.querySelector('.rt-form input'), dict = dictIn && dictIn.closest('.rt-box'); mv('dict', dict);
   if (read) { [].slice.call(read.querySelectorAll('.rt-box')).forEach(function (b) { if (b.parentNode && !b.querySelector('ol')) mv('texts', b); }); }
   var spdb = document.getElementById('spdb'); mv('list', spdb);
   /* help: all leftover explanation */
@@ -61,6 +62,8 @@
   /* the My words panel is added by mywords.js a little later */
   var tries = 0, tm = setInterval(function () { var mw = document.getElementById('mywords'); tries++; if (mw && !pane('mine').contains(mw)) { pane('mine').appendChild(mw); var cur = tabs.querySelector('.on'); build(); if (cur) show(cur.getAttribute('data-k')); } if (tries > 40 || (mw && pane('mine').contains(mw))) clearInterval(tm); }, 250);
   build();
+  /* results sent onward from Find a word: switch to the tab that received them */
+  if (find) find.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('button[data-a]'); if (!b) return; var a = b.getAttribute('data-a'); if (a === 'dic') show('dict'); else if (a === 'lxx') { show('texts'); var lb = document.getElementById('lxxbox'); if (lb) setTimeout(function () { lb.scrollIntoView({ block: 'start' }); }, 50); } }, true);
   /* other pages send people here with #calc: open the calculator tab */
   window.addEventListener('hashchange', function () { if (location.hash === '#calc') show('calc'); });
   /* when a word is sent to the sphere from another tab, show the sphere result (it is always visible on the left) */
