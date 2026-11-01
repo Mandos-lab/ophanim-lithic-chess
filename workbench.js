@@ -8,9 +8,9 @@
   var css = document.createElement('style');
   css.textContent =
     '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read-old,#words{display:none !important}.dots{display:none !important}' +
-    '#bench{display:grid;grid-template-columns:minmax(300px,42%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
+    '#bench{display:grid;grid-template-columns:minmax(340px,47%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
     '#bench .bl{position:sticky;top:64px;height:calc(100vh - 84px);overflow:auto;padding-right:4px}' +
-    '#bench .bl .hyrow{justify-content:center;margin:0 0 12px}#bench .bl canvas{width:100%;height:min(50vh,560px);display:block}' +
+    '#bench .bl .hyrow{justify-content:center;margin:0 0 12px}#bench .bl canvas{width:100%;height:min(54vh,620px);display:block}' +
     '#bench .hyr{display:block;position:static}#bench .hycap{position:static !important;text-align:center;font-size:15px;margin:4px 0 12px}' +
     '#bench .br{min-width:0}' +
     '#bench .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:56px;z-index:5;background:var(--bg);padding:6px 0}' +

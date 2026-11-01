@@ -666,7 +666,7 @@
     </div>
     <div class="grp"><span class="lbl">Support</span>
       <button class="pill tip" id="btn-tip" type="button"><i class="fa-solid fa-heart"></i> Donate / Tip</button>
-      <a class="pill btc" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-bitcoin"></i> Bitcoin.org</a>
+      <a class="pill btc" href="magnesia-reserve.html"><i class="fa-brands fa-bitcoin"></i> Magnesia Reserve</a>
     </div>
     <div class="grp"><span class="lbl">Share this page</span>
       <a class="pill sh" data-s="facebook" href="#" title="Share on Facebook" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -686,6 +686,7 @@
     <div id="cryptoBox">
     <b style="color:#00f0ff">Crypto</b>
     <div id="tip-list"></div>
+    <div style="text-align:center;margin:10px 0 4px"><img src="lightning-qr.png" width="170" height="170" alt="Lightning QR code. Scan it with a Lightning wallet." style="background:#fff;border-radius:8px;max-width:100%;height:auto;display:block;margin:0 auto"><div style="margin-top:4px;color:#94a3b8">Lightning: scan with a Lightning wallet, or copy the address above.</div></div>
     <p style="color:#94a3b8">New to Bitcoin? <a style="color:#f7931a" href="https://bitcoin.org" target="_blank" rel="noopener noreferrer">bitcoin.org</a></p>
     </div>
     <button id="tip-close" type="button">Close</button>
@@ -1337,7 +1338,7 @@ function wormhole(go){
 
     /* ---- bottom bar: tip jar + share buttons ---- */
     // Fill in your wallet addresses here (or leave empty to show "not set").
-    const WALLETS = { BTC: 'bc1ql5kx73cygrfpjn94q05heg7ys6p84atgd7q4uu', ETH: '0x40189a8123d691DE6748b32bA43CBA82D6048F7a', SOL: 'ChVfKKjqPPYCTwsaAJn6tNijagHkc7oZd9PmXkaDcmcg', ADA: 'addr1q8futv6np2mxlgfuujavalmy6gqcp2n8grkuxvjnmzfueywncke4xz4kd7snee96emlkf5spsz4xws8dcve98kynejgsz8vy2g', LTC: 'LaKvp7ypq4m5iDHxUsJ2ptqDQ7tPKueeaE' };
+    const WALLETS = { BTC: 'bc1ql5kx73cygrfpjn94q05heg7ys6p84atgd7q4uu', ETH: '0x40189a8123d691DE6748b32bA43CBA82D6048F7a', SOL: 'ChVfKKjqPPYCTwsaAJn6tNijagHkc7oZd9PmXkaDcmcg', ADA: 'addr1q8futv6np2mxlgfuujavalmy6gqcp2n8grkuxvjnmzfueywncke4xz4kd7snee96emlkf5spsz4xws8dcve98kynejgsz8vy2g', LTC: 'LaKvp7ypq4m5iDHxUsJ2ptqDQ7tPKueeaE', LN: 'meekthrive177@walletofsatoshi.com' };
     // After the site is live, put its address here, e.g. 'https://your-site.vercel.app/ezekiels-reed.html'. Empty = use the current page address.
     const SHARE_URL = '';
     (function () {
