@@ -1,7 +1,7 @@
 # Ophanim Lithic Chess (Philosophy From A Stone)
 
 > **Geometric Alphanumeric Battle Engine & WebGL 3D Tactical Interface**  
-> **Author & Architect:** Mandos Polycarpou (@Mandos16)  
+> **Author & Architect:** Mandos (@Mandos16), also known as ΦΥ ΨΗ  
 > **Official Channels:** X (Twitter): @Mandos16 | YouTube: @Mandos16
 
 ---
@@ -86,7 +86,7 @@ Includes interactive PGN move replay controls (Start, Back, Next, End, Autoplay 
 
 ## 📜 License & Author Attribution
 
-**Created by Mandos Polycarpou** (*Philosophy From A Stone — ΦΎ ΨΉ*)  
+**Created by Mandos, also known as ΦΥ ΨΗ** (*Philosophy From A Stone — ΦΎ ΨΉ*)  
 Connect & Follow:
 * **X / Twitter:** @Mandos16
 * **YouTube:** @Mandos16
