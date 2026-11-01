@@ -1,0 +1,68 @@
+/* workbench.js: one compact workbench on the sphere pages. Sphere pinned on the left, tools in tabs on the right. */
+(function () {
+  var calc = document.getElementById('calc'), read = document.getElementById('read'), words = document.getElementById('words');
+  if (!calc || !document.getElementById('hycalc')) return;
+  var el = (document.documentElement.lang || '').slice(0, 2) === 'el';
+  var L = el ? { calc: 'Αριθμομηχανή', find: 'Βρες λέξη', dict: 'Λεξικό', texts: 'Κείμενα', mine: 'Οι λέξεις μου', list: 'Λίστα λέξεων', help: 'Βοήθεια' }
+             : { calc: 'Calculator', find: 'Find a word', dict: 'Dictionary', texts: 'Texts', mine: 'My words', list: 'Word list', help: 'Help' };
+  var css = document.createElement('style');
+  css.textContent =
+    '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read,#words{display:none !important}.dots{display:none !important}' +
+    '#bench{display:grid;grid-template-columns:minmax(300px,42%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
+    '#bench .bl{position:sticky;top:64px;height:calc(100vh - 84px);overflow:auto;padding-right:4px}' +
+    '#bench .bl canvas{width:100%;height:min(50vh,560px);display:block}' +
+    '#bench .hyr{display:block;position:static}#bench .hycap{position:static !important;text-align:center;font-size:15px;margin:4px 0 12px}' +
+    '#bench .br{min-width:0}' +
+    '#bench .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:56px;z-index:5;background:var(--bg);padding:6px 0}' +
+    '#bench .tabs button{font:600 15px "Noto Sans",sans-serif;padding:9px 12px;border-radius:8px;border:1px solid rgba(232,195,117,.4);background:none;color:var(--ink);cursor:pointer}' +
+    '#bench .tabs button.on{background:rgba(232,195,117,.2);color:var(--gold);border-color:var(--gold)}' +
+    '#bench .pane{display:none;height:calc(100vh - 170px);overflow:auto;padding-right:6px}#bench .pane.on{display:block}' +
+    '#bench .pane .reveal{opacity:1 !important;transform:none !important}' +
+    '#bench .pane .kicker{display:none}#bench .pane h2{font-size:24px;margin:0 0 8px}' +
+    '#bench .links a{display:inline-block;margin:0 18px 6px 0}#bench .pane .rt-box,#bench #mywords{margin:0 0 14px}' +
+    '#bench .pane p,#bench .pane li,#bench .pane .dim{max-width:none;font-size:18px !important;line-height:1.55}#bench .pane h3{font-size:22px}' +
+    '@media(max-width:900px){#bench{display:block}#bench .bl{position:static;height:auto}#bench .pane{height:auto}#bench .tabs{top:48px}}';
+  document.head.appendChild(css);
+
+  var bench = document.createElement('div'); bench.id = 'bench';
+  var bl = document.createElement('div'); bl.className = 'bl';
+  var br = document.createElement('div'); br.className = 'br';
+  var tabs = document.createElement('div'); tabs.className = 'tabs'; tabs.setAttribute('role', 'tablist');
+  br.appendChild(tabs); bench.appendChild(bl); bench.appendChild(br);
+  var panes = {};
+  function pane(k) { if (panes[k]) return panes[k]; var d = document.createElement('div'); d.className = 'pane'; d.id = 'pane-' + k; br.appendChild(d); panes[k] = d; return d; }
+  function mv(k, n) { if (n) { pane(k).appendChild(n); } }
+
+  var hyr = calc.querySelector('.hyr'), hyl = calc.querySelector('.hyl');
+  function take(sel) { var n = calc.querySelector(sel); if (n && n.parentNode) n.parentNode.removeChild(n); return n; }
+  /* left: sphere + the answer */
+  var out = take('#hyout'), tot = take('.hytot'), facts = take('#hyfacts'), pre = take('.hypre'), note = take('#hynote');
+  bl.appendChild(hyr); mv('calc', hyl);
+  [tot, out, facts].forEach(function (n) { if (n) bl.appendChild(n); });
+  /* right: tabs */
+  var calcLabel = hyl && hyl.querySelector('.hylab:last-of-type');
+  if (pre) { var wl = pre.previousElementSibling; if (wl) pane('calc').appendChild(wl); pane('calc').appendChild(pre); }
+  if (note) pane('calc').appendChild(note);
+  var intro = calc.querySelector('.wrap > .reveal');
+  var find = document.getElementById('sfbox'); mv('find', find);
+  var dictIn = document.querySelector('#read .rt-form input'), dict = dictIn && dictIn.closest('.rt-box'); mv('dict', dict);
+  if (read) { [].slice.call(read.querySelectorAll('.rt-box')).forEach(function (b) { if (b.parentNode && !b.querySelector('ol')) mv('texts', b); }); }
+  var spdb = document.getElementById('spdb'); mv('list', spdb);
+  /* help: all leftover explanation */
+  if (intro) mv('help', intro);
+  if (read) { [].slice.call(read.querySelectorAll('.wrap > *')).forEach(function (n) { mv('help', n); }); }
+  if (words) { [].slice.call(words.querySelectorAll('.wrap > *')).forEach(function (n) { mv('help', n); }); }
+  calc.querySelector('.wrap').innerHTML = ''; calc.querySelector('.wrap').appendChild(bench);
+
+  function show(k) { Object.keys(panes).forEach(function (j) { panes[j].classList.toggle('on', j === k); }); [].forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.getAttribute('data-k') === k); }); try { sessionStorage.setItem('ophbench', k); } catch (e) { } window.dispatchEvent(new Event('resize')); }
+  function addTab(k) { if (!panes[k]) return; var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-k', k); b.setAttribute('role', 'tab'); b.textContent = L[k]; b.onclick = function () { show(k); }; tabs.appendChild(b); }
+  var order = ['calc', 'find', 'dict', 'texts', 'mine', 'list', 'help'];
+  function build() { tabs.innerHTML = ''; order.forEach(addTab); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
+  /* the My words panel is added by mywords.js a little later */
+  var tries = 0, tm = setInterval(function () { var mw = document.getElementById('mywords'); tries++; if (mw && !pane('mine').contains(mw)) { pane('mine').appendChild(mw); var cur = tabs.querySelector('.on'); build(); if (cur) show(cur.getAttribute('data-k')); } if (tries > 40 || (mw && pane('mine').contains(mw))) clearInterval(tm); }, 250);
+  build();
+  /* other pages send people here with #calc: open the calculator tab */
+  window.addEventListener('hashchange', function () { if (location.hash === '#calc') show('calc'); });
+  /* when a word is sent to the sphere from another tab, show the sphere result (it is always visible on the left) */
+  window.addEventListener('load', function () { window.dispatchEvent(new Event('resize')); });
+})();
