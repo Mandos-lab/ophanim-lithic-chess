@@ -16,7 +16,7 @@
   var listeners = [];
   function user() { var u = rd(K.stone, null); return u && u.handle ? u : null; }
   function prefs() { var p = rd(K.prefs, null); return p && typeof p === 'object' ? p : {}; }
-  function lang() { var p = prefs().lang; return p === 'el' || p === 'en' ? p : (/^el/i.test(navigator.language || '') ? 'el' : 'en'); }
+  function lang() { if (document.documentElement.lang === 'el') return 'el'; var p = prefs().lang; return p === 'el' || p === 'en' ? p : (/^el/i.test(navigator.language || '') ? 'el' : 'en'); }
   function setLang(l) { var p = prefs(); p.lang = l; wr(K.prefs, p); fire(); }
   function fire() { listeners.forEach(function (f) { try { f(user(), lang()); } catch (e) {} }); try { document.dispatchEvent(new CustomEvent('ophanim:account', { detail: { user: user(), lang: lang() } })); } catch (e) {} paintBadge(); }
   function pid() { var u = user(); return K.prog + (u ? u.handle : '_guest'); }

@@ -35,7 +35,7 @@ host.innerHTML=
 var $=function(id){return document.getElementById(id);};
 var inp=$('hyin'),kb=$('hykb'),out=$('hyout'),sum=$('hysum'),ang=$('hyang'),facts=$('hyfacts'),pre=$('hypre'),note=$('hynote');
 AR.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='hyk';b.setAttribute('lang',CFG.lang);b.innerHTML='<b>'+c+'</b><small>'+VALMAP[c]+'</small>';b.title=(CFG.names&&CFG.names[c]?CFG.names[c]+' ':'')+c+' = '+VALMAP[c]+' · '+Math.round(freq(c))+' Hz';b.onclick=function(){add(c);};kb.appendChild(b);});
-[['␣',' '],['⌫',null],['Clear','']].forEach(function(p){var b=document.createElement('button');b.type='button';b.className='hyk wide';b.textContent=p[0];b.onclick=function(){if(p[1]===null)inp.value=Array.from(inp.value).slice(0,-1).join('');else if(p[1]==='')inp.value='';else inp.value+=p[1];recalc();};kb.appendChild(b);});
+[['␣',' '],['⌫',null],[U('clear','Clear'),'']].forEach(function(p){var b=document.createElement('button');b.type='button';b.className='hyk wide';b.textContent=p[0];b.onclick=function(){if(p[1]===null)inp.value=Array.from(inp.value).slice(0,-1).join('');else if(p[1]==='')inp.value='';else inp.value+=p[1];recalc();};kb.appendChild(b);});
 words.forEach(function(w){var b=document.createElement('button');b.type='button';b.className='hyw';b.setAttribute('lang',CFG.lang);b.textContent=w[0];b.title=w[1]+' · '+w[2];b.onclick=function(){inp.value=w[0];recalc();play();};pre.appendChild(b);});
 var DEP=CFG.depths?CFG.depths[0]:null;
 function lv(c){return DEP?(DEP.per(c,VALMAP)||0):(VALMAP[c]||0);}
@@ -53,7 +53,7 @@ function recalc(){
   var sector=Math.min(N,Math.floor((bearing%360)/(360/N))+1),L=AR[sector-1];
   ang.innerHTML=total?(U('bearing','bearing')+' <b>'+bearing+'°</b> &middot; '+U('sector','sector')+' '+sector+' &middot; <b lang="'+CFG.lang+'">'+L+'</b>'):'';
   var ch=[];
-  if(total>1){var f=factor(total);ch.push(f.length===1?total+' is prime':total+' = '+f.join(' × '));}
+  if(total>1){var f=factor(total);ch.push(f.length===1?total+' '+U('prime','is prime'):total+' = '+f.join(' × '));}
   if(total&&total%27===0)ch.push('27 × '+(total/27));
   if(total&&total%9===0)ch.push('9 × '+(total/9));
   if(total&&N!==27&&N!==36&&total%N===0)ch.push(N+' × '+(total/N));
@@ -88,7 +88,7 @@ function translit(arr){return CFG.translit(arr,words,VALMAP);}
 var voices=[];function loadVoices(){try{voices=speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
 if(window.speechSynthesis){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
 function say(){
-  stopAll();if(!window.speechSynthesis||!cur.length){note.textContent='Speech is not available in this browser.';return;}
+  stopAll();if(!window.speechSynthesis||!cur.length){note.textContent=U('nospeech','Speech is not available in this browser.');return;}
   loadVoices();var hy=CFG.speakLatin?null:voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
   var u;if(hy){u=new SpeechSynthesisUtterance(cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
   else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent=CFG.sayNote||('This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.');}

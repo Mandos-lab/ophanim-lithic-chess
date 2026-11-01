@@ -5,8 +5,10 @@
    unless a member saves; the dictionary buttons are plain links. */
 (function () {
   'use strict';
+  var t=window.OphEL?OphEL.t:function(s,v){return v?s.replace(/\{(\w+)\}/g,function(m,k){return v[k];}):s;};
+  var adj = window.OphEL ? OphEL.adj : function (s) { return s; };
   var host = document.getElementById('spdb'); if (!host) return;
-  var KEYS = { 'greek-sphere': 'gr', 'hebrew-sphere': 'he', 'arabic-sphere': 'ar', 'armenian-sphere': 'hy', 'futhark-sphere': 'fu' };
+  var KEYS = { 'greek-sphere': 'gr', 'greek-sphere-el': 'gr', 'hebrew-sphere': 'he', 'arabic-sphere': 'ar', 'armenian-sphere': 'hy', 'futhark-sphere': 'fu' };
   var file = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
   var ME = KEYS[file]; if (!ME) return;
   var SC = {
@@ -30,7 +32,7 @@
     if (!m) { items = []; draw(); return; }
     m.words.list().then(function (rows) {
       items = rows.map(function (r) { return { id: r.id, en: r.en, f: r.forms || {} }; }); loaded = true; draw();
-    }, function () { items = []; loaded = true; draw(); say('Could not load your saved words. Try again in a moment.'); });
+    }, function () { items = []; loaded = true; draw(); say(t('Could not load your saved words. Try again in a moment.')); });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function $(id) { return document.getElementById(id); }
@@ -60,24 +62,24 @@
   var panel = document.createElement('div'); panel.id = 'mywords';
   var sc = SC[ME], hasBuiltIn = !!$('sfbox');
   panel.innerHTML =
-    '<h3>My words: look up, test and save</h3>' +
-    '<p class="mwd">Add a word you are learning. Find it from English, paste the ' + esc(sc.n) + ' form, see its value and pitch on this sphere, and save it. Your saved words stay in this browser and show on all five spheres, so you can carry a word from one script to another.</p>' +
-    '<div class="mwst">1 &middot; The English word</div>' +
-    '<div class="mwrow"><input type="text" id="mwEn" lang="en" placeholder="e.g. light" autocomplete="off" spellcheck="false" aria-label="English word"></div>' +
+    '<h3>' + t('My words: look up, test and save') + '</h3>' +
+    '<p class="mwd">' + t('Add a word you are learning. Find it from English, paste the {n} form, see its value and pitch on this sphere, and save it. Free members keep their saved words in their account, on all five spheres and on any device. Visitors can look words up and test them here.', { n: esc(adj(sc.n)) }) + '</p>' +
+    '<div class="mwst">1 &middot; ' + t('The English word') + '</div>' +
+    '<div class="mwrow"><input type="text" id="mwEn" lang="en" placeholder="' + t('e.g. light') + '" autocomplete="off" spellcheck="false" aria-label="' + t('English word') + '"></div>' +
     '<div class="mwrow" id="mwLinks" style="margin-top:10px"></div>' +
-    '<p class="mwd" style="margin-top:8px">The dictionary buttons open other websites in a new tab with your word already filled in. Machine translation is often wrong for single words and phrases, so check any form you find in a second source.</p>' +
-    '<div class="mwst">2 &middot; The ' + esc(sc.n) + ' word</div>' +
-    '<div class="mwrow"><input type="text" id="mwW" lang="' + esc(CFG.lang) + '" dir="' + esc(CFG.dir) + '" placeholder="Paste or type the ' + esc(sc.n) + ' word" autocomplete="off" spellcheck="false" aria-label="' + esc(sc.n) + ' word"></div>' +
-    '<div class="mwrow" style="margin-top:8px"><input type="text" id="mwS" lang="en" placeholder="How it sounds in Latin letters (optional)" autocomplete="off" spellcheck="false" aria-label="Latin spelling" style="font-size:16px"></div>' +
-    '<div class="mwro" id="mwRo" aria-live="polite">Type the word above and its value appears here.</div>' +
-    '<div class="mwst">3 &middot; Test it and keep it</div>' +
-    '<div class="mwrow"><button type="button" class="mwb" id="mwPut">Put it on the sphere</button><button type="button" class="mwb pri" id="mwSave">Save to My words</button></div>' +
-    '<div class="mwjoin" id="mwJoin" hidden><span>Free members can save words, keep them on every sphere and find them again on any device.</span> <button type="button" class="mwb pri" id="mwJoinBtn">Join free or sign in</button></div>' +
+    '<p class="mwd" style="margin-top:8px">' + t('The dictionary buttons open other websites in a new tab with your word already filled in. Machine translation is often wrong for single words and phrases, so check any form you find in a second source.') + '</p>' +
+    '<div class="mwst">2 &middot; ' + t('The {n} word', { n: esc(adj(sc.n)) }) + '</div>' +
+    '<div class="mwrow"><input type="text" id="mwW" lang="' + esc(CFG.lang) + '" dir="' + esc(CFG.dir) + '" placeholder="' + t('Paste or type the {n} word', { n: esc(adj(sc.n)) }) + '" autocomplete="off" spellcheck="false" aria-label="' + t('{n} word', { n: esc(adj(sc.n)) }) + '"></div>' +
+    '<div class="mwrow" style="margin-top:8px"><input type="text" id="mwS" lang="en" placeholder="' + t('How it sounds in Latin letters (optional)') + '" autocomplete="off" spellcheck="false" aria-label="' + t('Latin spelling') + '" style="font-size:16px"></div>' +
+    '<div class="mwro" id="mwRo" aria-live="polite">' + t('Type the word above and its value appears here.') + '</div>' +
+    '<div class="mwst">3 &middot; ' + t('Test it and keep it') + '</div>' +
+    '<div class="mwrow"><button type="button" class="mwb" id="mwPut">' + t('Put it on the sphere') + '</button><button type="button" class="mwb pri" id="mwSave">' + t('Save to My words') + '</button></div>' +
+    '<div class="mwjoin" id="mwJoin" hidden><span>' + t('Free members can save words, keep them on every sphere and find them again on any device.') + '</span> <button type="button" class="mwb pri" id="mwJoinBtn">' + t('Join free or sign in') + '</button></div>' +
     '<div class="mwm" id="mwMsg" aria-live="polite"></div>' +
-    '<div id="mwMine" hidden><h4>My saved words</h4><div id="mwList"></div>' +
-    '<div class="mwrow" style="margin-top:12px"><button type="button" class="mwb" id="mwCopy">Copy lines for the word file</button><button type="button" class="mwb" id="mwDl">Download my words</button><a class="mwb" href="dashboard.html">My dashboard</a></div>' +
-    '<div class="mwrow" id="mwLeg" style="margin-top:10px" hidden><button type="button" class="mwb" id="mwImp">Move the words saved in this browser into my account</button></div>' +
-    '<p class="mwd" style="margin-top:10px">Your words are saved in your account and only you can see them. &ldquo;Copy lines&rdquo; gives you rows to paste into this sphere&rsquo;s word file if you want a word on the site for everyone. Every word starts as &ldquo;unchecked&rdquo; until you tick it yourself.</p></div>';
+    '<div id="mwMine" hidden><h4>' + t('My saved words') + '</h4><div id="mwList"></div>' +
+    '<div class="mwrow" style="margin-top:12px"><button type="button" class="mwb" id="mwCopy">' + t('Copy lines for the word file') + '</button><button type="button" class="mwb" id="mwDl">' + t('Download my words') + '</button><a class="mwb" href="dashboard.html">' + t('My dashboard') + '</a></div>' +
+    '<div class="mwrow" id="mwLeg" style="margin-top:10px" hidden><button type="button" class="mwb" id="mwImp">' + t('Move the words saved in this browser into my account') + '</button></div>' +
+    '<p class="mwd" style="margin-top:10px">' + t('Your words are saved in your account and only you can see them. &ldquo;Copy lines&rdquo; gives you rows to paste into this sphere&rsquo;s word file if you want a word on the site for everyone. Every word starts as &ldquo;unchecked&rdquo; until you tick it yourself.') + '</p></div>';
   host.parentNode.insertBefore(panel, host);
 
   var en = $('mwEn'), wi = $('mwW'), si = $('mwS'), ro = $('mwRo'), msg = $('mwMsg');
@@ -85,10 +87,10 @@
 
   function links() {
     var q = en.value.trim(), box = $('mwLinks'), e = encodeURIComponent(q), h = '';
-    if (!q) { box.innerHTML = '<span class="mwd">Type the English word to get the dictionary buttons.</span>'; return; }
-    if (hasBuiltIn) h += '<button type="button" class="mwb pri" id="mwBuilt">Search the built-in dictionary</button>';
-    h += '<a class="mwb" target="_blank" rel="noopener noreferrer" href="https://en.wiktionary.org/wiki/' + e + '#Translations">Wiktionary translations</a>';
-    if (sc.gt) h += '<a class="mwb" target="_blank" rel="noopener noreferrer" href="https://translate.google.com/?sl=en&tl=' + sc.gt + '&text=' + e + '&op=translate">Google Translate</a>';
+    if (!q) { box.innerHTML = '<span class="mwd">' + t('Type the English word to get the dictionary buttons.') + '</span>'; return; }
+    if (hasBuiltIn) h += '<button type="button" class="mwb pri" id="mwBuilt">' + t('Search the built-in dictionary') + '</button>';
+    h += '<a class="mwb" target="_blank" rel="noopener noreferrer" href="https://en.wiktionary.org/wiki/' + e + '#Translations">' + t('Wiktionary translations') + '</a>';
+    if (sc.gt) h += '<a class="mwb" target="_blank" rel="noopener noreferrer" href="https://translate.google.com/?sl=en&tl=' + sc.gt + '&text=' + e + '&op=translate">' + t('Google Translate') + '</a>';
     box.innerHTML = h;
     var b = $('mwBuilt');
     if (b) b.onclick = function () {
@@ -100,36 +102,36 @@
   function info(w) { try { return window.SPHERE ? SPHERE.info(w) : null; } catch (e) { return null; } }
   function readout() {
     var w = wi.value.trim();
-    if (!w) { ro.innerHTML = 'Type the word above and its value appears here.'; return; }
+    if (!w) { ro.innerHTML = t('Type the word above and its value appears here.'); return; }
     var i = info(w);
-    if (!i) { ro.textContent = 'The sphere is still loading. Try again in a moment.'; return; }
-    if (!i.total) { ro.innerHTML = 'No ' + esc(sc.n) + ' letters found. Check that you pasted the word in this script.'; return; }
-    ro.innerHTML = '<b>' + i.total + '</b> &middot; bearing ' + i.bearing + '&deg; &middot; sector ' + i.sector + ' (<span lang="' + esc(CFG.lang) + '">' + esc(i.letter) + '</span>) &middot; ' + i.hzLow + ' to ' + i.hzHigh + ' Hz';
+    if (!i) { ro.textContent = t('The sphere is still loading. Try again in a moment.'); return; }
+    if (!i.total) { ro.innerHTML = t('No {n} letters found. Check that you pasted the word in this script.', { n: esc(adj(sc.n)) }); return; }
+    ro.innerHTML = '<b>' + i.total + '</b> &middot; ' + t('bearing') + ' ' + i.bearing + '&deg; &middot; ' + t('sector') + ' ' + i.sector + ' (<span lang="' + esc(CFG.lang) + '">' + esc(i.letter) + '</span>) &middot; ' + i.hzLow + ' ' + t('to') + ' ' + i.hzHigh + ' Hz';
   }
   en.addEventListener('input', links); wi.addEventListener('input', readout);
   window.addEventListener('sphere-mode', function () { readout(); draw(); });
   document.addEventListener('ophanim:member', reload);
 
   $('mwPut').onclick = function () {
-    var w = wi.value.trim(); if (!w) { say('Type the word first.'); return; }
-    if (!window.SPHERE) { say('The sphere is still loading.'); return; }
+    var w = wi.value.trim(); if (!w) { say(t('Type the word first.')); return; }
+    if (!window.SPHERE) { say(t('The sphere is still loading.')); return; }
     SPHERE.load(w); var c = $('calc'); if (c) c.scrollIntoView({ behavior: 'smooth' });
   };
   $('mwSave').onclick = function () {
-    var m = MB(); if (!m) { say('Join free or sign in to save words.'); return; }
+    var m = MB(); if (!m) { say(t('Join free or sign in to save words.')); return; }
     var q = en.value.trim(), w = wi.value.trim(), i = info(w);
-    if (!q) { say('Add the English word in step 1.'); return; }
-    if (!w) { say('Add the ' + sc.n + ' word in step 2.'); return; }
-    if (!i || !i.total) { say('That is not a ' + sc.n + ' word the sphere can read.'); return; }
+    if (!q) { say(t('Add the English word in step 1.')); return; }
+    if (!w) { say(t('Add the {n} word in step 2.', { n: adj(sc.n) })); return; }
+    if (!i || !i.total) { say(t('That is not a {n} word the sphere can read.', { n: adj(sc.n) })); return; }
     var sy = si.value.trim();
     if (!sy && CFG.translit) { try { sy = CFG.translit(i.letters, [], {}); } catch (e) { sy = ''; } }
     var f = {}; f[ME] = { w: w, s: sy || '', ok: false };
-    say('Saving...');
+    say(t('Saving...'));
     m.words.put(q, f).then(function (row) {
       var ent = null; items.forEach(function (x) { if (x.id === row.id) ent = x; });
       if (ent) ent.f = row.forms || {}; else items.push({ id: row.id, en: row.en, f: row.forms || {} });
-      say('Saved to your account. It is marked unchecked until you tick it.'); draw();
-    }, function () { say('Could not save just now. Check your connection and try again.'); });
+      say(t('Saved to your account. It is marked unchecked until you tick it.')); draw();
+    }, function () { say(t('Could not save just now. Check your connection and try again.')); });
   };
   $('mwJoinBtn').onclick = function () { if (window.OphanimAccount) OphanimAccount.open(3); };
 
@@ -137,8 +139,8 @@
     var h = '';
     ORDER.forEach(function (k) {
       if (k === ME) return; var s = SC[k];
-      if (ent.f[k]) h += '<a class="mwx" href="' + s.f + '?w=' + encodeURIComponent(ent.f[k].w) + '&en=' + encodeURIComponent(ent.en) + '#calc" title="Open on the ' + esc(s.n) + ' sphere"><span lang="">' + esc((s.sh||s.n.split(' ')[0])) + '</span> <span>' + esc(ent.f[k].w) + '</span></a>';
-      else h += '<a class="mwx add" href="' + s.f + '?en=' + encodeURIComponent(ent.en) + '#mywords" title="Add the ' + esc(s.n) + ' form">+ ' + esc((s.sh||s.n.split(' ')[0])) + '</a>';
+      if (ent.f[k]) h += '<a class="mwx" href="' + s.f + '?w=' + encodeURIComponent(ent.f[k].w) + '&en=' + encodeURIComponent(ent.en) + '#calc" title="' + t('Open on the {n} sphere', { n: esc(adj(s.n)) }) + '"><span lang="">' + esc(t(s.sh||s.n.split(' ')[0])) + '</span> <span>' + esc(ent.f[k].w) + '</span></a>';
+      else h += '<a class="mwx add" href="' + s.f + '?en=' + encodeURIComponent(ent.en) + '#mywords" title="' + t('Add the {n} form', { n: esc(adj(s.n)) }) + '">+ ' + esc(t(s.sh||s.n.split(' ')[0])) + '</a>';
     });
     return h;
   }
@@ -148,15 +150,15 @@
     $('mwLeg').hidden = !(m && legacy().length);
     if (!m) return;
     var a = items;
-    if (!loaded) { box.innerHTML = '<p class="mwd">Loading your words...</p>'; return; }
-    if (!a.length) { box.innerHTML = '<p class="mwd">Nothing saved yet.</p>'; return; }
-    var h = '<div class="mwscroll"><table><thead><tr><th>English</th><th>' + esc(sc.n) + '</th><th>On other spheres</th><th>Check</th><th></th></tr></thead><tbody>';
+    if (!loaded) { box.innerHTML = '<p class="mwd">' + t('Loading your words...') + '</p>'; return; }
+    if (!a.length) { box.innerHTML = '<p class="mwd">' + t('Nothing saved yet.') + '</p>'; return; }
+    var h = '<div class="mwscroll"><table><thead><tr><th>' + t('English') + '</th><th>' + esc(t(sc.n)) + '</th><th>' + t('On other spheres') + '</th><th>' + t('Check') + '</th><th></th></tr></thead><tbody>';
     a.forEach(function (ent, ix) {
       var f = ent.f[ME], c1;
-      if (f) { var i = info(f.w); c1 = '<span class="mww" lang="' + esc(CFG.lang) + '" dir="' + esc(CFG.dir) + '">' + esc(f.w) + '</span>' + (i && i.total ? '<span class="mwv">' + i.total + '</span>' : '') + (f.s ? '<div class="mws">' + esc(f.s) + '</div>' : '') + '<div><button type="button" class="mwb" data-a="go" data-i="' + ix + '" style="padding:3px 9px">&#9654; Sphere</button></div>'; }
-      else c1 = '<button type="button" class="mwb" data-a="add" data-i="' + ix + '" style="padding:3px 9px">+ Add the ' + esc(sc.sh || sc.n.split(' ')[0]) + ' form</button>';
-      var chk = f ? '<label><input type="checkbox" data-a="ok" data-i="' + ix + '"' + (f.ok ? ' checked' : '') + '> checked by me</label>' : '<span class="mws">-</span>';
-      h += '<tr><td>' + esc(ent.en) + '</td><td>' + c1 + '</td><td>' + others(ent) + '</td><td>' + chk + '</td><td><button type="button" class="mwb" data-a="del" data-i="' + ix + '" style="padding:3px 9px" aria-label="Remove this word">Remove</button></td></tr>';
+      if (f) { var i = info(f.w); c1 = '<span class="mww" lang="' + esc(CFG.lang) + '" dir="' + esc(CFG.dir) + '">' + esc(f.w) + '</span>' + (i && i.total ? '<span class="mwv">' + i.total + '</span>' : '') + (f.s ? '<div class="mws">' + esc(f.s) + '</div>' : '') + '<div><button type="button" class="mwb" data-a="go" data-i="' + ix + '" style="padding:3px 9px">&#9654; ' + t('Sphere') + '</button></div>'; }
+      else c1 = '<button type="button" class="mwb" data-a="add" data-i="' + ix + '" style="padding:3px 9px">+ ' + t('Add the {n} form', { n: esc(adj(sc.n)) }) + '</button>';
+      var chk = f ? '<label><input type="checkbox" data-a="ok" data-i="' + ix + '"' + (f.ok ? ' checked' : '') + '> ' + t('checked by me') + '</label>' : '<span class="mws">-</span>';
+      h += '<tr><td>' + esc(ent.en) + '</td><td>' + c1 + '</td><td>' + others(ent) + '</td><td>' + chk + '</td><td><button type="button" class="mwb" data-a="del" data-i="' + ix + '" style="padding:3px 9px" aria-label="' + t('Remove this word') + '">' + t('Remove') + '</button></td></tr>';
     });
     box.innerHTML = h + '</tbody></table></div>';
   }
@@ -166,35 +168,35 @@
     if (act === 'go') { var f = ent.f[ME]; if (f && window.SPHERE) { wi.value = f.w; readout(); SPHERE.load(f.w); var c = $('calc'); if (c) c.scrollIntoView({ behavior: 'smooth' }); } }
     else if (act === 'add') { en.value = ent.en; links(); wi.value = ''; si.value = ''; readout(); wi.focus(); panel.scrollIntoView({ behavior: 'smooth' }); }
     else if (act === 'del') {
-      if (b.dataset.sure) { m.words.del(ent.id).then(function () { items.splice(items.indexOf(ent), 1); draw(); }, function () { say('Could not remove it just now.'); }); }
-      else { b.dataset.sure = '1'; b.textContent = 'Sure?'; setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = 'Remove'; } }, 3000); }
+      if (b.dataset.sure) { m.words.del(ent.id).then(function () { items.splice(items.indexOf(ent), 1); draw(); }, function () { say(t('Could not remove it just now.')); }); }
+      else { b.dataset.sure = '1'; b.textContent = t('Sure?'); setTimeout(function () { if (b.isConnected) { delete b.dataset.sure; b.textContent = t('Remove'); } }, 3000); }
     }
-    else if (act === 'ok') { if (ent.f[ME]) { var nf = JSON.parse(JSON.stringify(ent.f)); nf[ME].ok = b.checked; var one = {}; one[ME] = nf[ME]; m.words.put(ent.en, one).then(function (row) { ent.f = row.forms || nf; }, function () { b.checked = !b.checked; say('Could not save that tick.'); }); }
+    else if (act === 'ok') { if (ent.f[ME]) { var nf = JSON.parse(JSON.stringify(ent.f)); nf[ME].ok = b.checked; var one = {}; one[ME] = nf[ME]; m.words.put(ent.en, one).then(function (row) { ent.f = row.forms || nf; }, function () { b.checked = !b.checked; say(t('Could not save that tick.')); }); }
     }
   });
 
   function copyText(t, okMsg) {
-    function fb() { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); say(okMsg); } catch (x) { say('Press Ctrl+C to copy.'); } ta.remove(); }
+    function fb() { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); say(okMsg); } catch (x) { say(t('Press Ctrl+C to copy.')); } ta.remove(); }
     try { navigator.clipboard.writeText(t).then(function () { say(okMsg); }, fb); } catch (e) { fb(); }
   }
   $('mwCopy').onclick = function () {
     var lines = items.filter(function (x) { return x.f[ME]; }).map(function (x) {
       var f = x.f[ME]; return "['" + f.w.replace(/'/g, "\\'") + "','" + (f.s || '').replace(/'/g, "\\'") + "','" + x.en.replace(/'/g, "\\'") + "','My words'],";
     });
-    if (!lines.length) { say('No ' + sc.n + ' words saved yet.'); return; }
-    copyText(lines.join('\n'), lines.length + ' line(s) copied. Paste them into the list in this sphere’s word file.');
+    if (!lines.length) { say(t('No {n} words saved yet.', { n: adj(sc.n) })); return; }
+    copyText(lines.join('\n'), lines.length + ' ' + t('line(s) copied. Paste them into the list in this sphere’s word file.'));
   };
   $('mwDl').onclick = function () {
-    var a = items; if (!a.length) { say('Nothing to download yet.'); return; }
+    var a = items; if (!a.length) { say(t('Nothing to download yet.')); return; }
     var bl = new Blob([JSON.stringify(a, null, 1)], { type: 'application/json' }), u = URL.createObjectURL(bl), l = document.createElement('a');
     l.href = u; l.download = 'my-words.json'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 1000);
   };
   $('mwImp').onclick = function () {
-    var m = MB(), old = legacy(); if (!m || !old.length) return; say('Moving...');
+    var m = MB(), old = legacy(); if (!m || !old.length) return; say(t('Moving...'));
     var chain = Promise.resolve(), n = 0;
     old.forEach(function (x) { if (!x || typeof x.en !== 'string' || typeof x.f !== 'object') return; var f = {}; ORDER.forEach(function (k) { if (x.f[k] && typeof x.f[k].w === 'string') f[k] = { w: x.f[k].w, s: String(x.f[k].s || ''), ok: !!x.f[k].ok }; });
       if (Object.keys(f).length) chain = chain.then(function () { return m.words.put(x.en, f).then(function () { n++; }); }); });
-    chain.then(function () { try { localStorage.removeItem(SK); } catch (e) { } say(n + ' word(s) moved into your account.'); reload(); }, function () { say('Could not move them just now. Nothing was lost; try again later.'); });
+    chain.then(function () { try { localStorage.removeItem(SK); } catch (e) { } say(n + ' ' + t('word(s) moved into your account.')); reload(); }, function () { say(t('Could not move them just now. Nothing was lost; try again later.')); });
   };
 
   /* arrive from another sphere: ?w=word (open it here) and ?en=English meaning */
@@ -205,7 +207,7 @@
     if (w1 && window.SPHERE) {
       var i = info(w1);
       if (i && i.total) { wi.value = w1; readout(); var inp = $('hyin'); if (inp) { inp.value = w1; inp.dispatchEvent(new Event('input')); } }
-      else { say('That word is written in another script. Add the ' + sc.n + ' form below.'); }
+      else { say(t('That word is written in another script. Add the {n} form below.', { n: adj(sc.n) })); }
     }
     if (e1 && !w1) setTimeout(function () { panel.scrollIntoView({ behavior: 'smooth' }); }, 400);
   }
