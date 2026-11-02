@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en"><head>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Ophanim Lithic Chaturanga</title>
+<meta name="description" content="Chaturanga, the ancestor of chess, played with Platonic solids. Reconstructed 6th-century rules, two players or against the computer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080d;--panel:#0a0f17;--panel2:#0e1521;--line:#1a2638;--fg:#d6e4ec;--muted:#8aa0b1;--cyan:#00f0ff;--amber:#ffb700;--emerald:#18e39c;--danger:#ff4d6a;
+--f-display:'Syne','Segoe UI',system-ui,sans-serif;--f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;color-scheme:dark}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+*{box-sizing:border-box}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1100px;margin-inline:auto}
+.nav{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.navtab{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:var(--panel)}
+.navtab.on{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+a.navtab:hover{border-color:var(--cyan);color:var(--fg)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.6rem);line-height:1.05;margin:0}
+.sub{margin:8px 0 0;color:var(--muted);font:400 13px var(--f-mono)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start;margin-top:18px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+.boardwrap{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px}
+svg.board{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none}
+.side{display:flex;flex-direction:column;gap:12px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.box h2{font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin:0 0 8px}
+.status{font-size:17px;font-weight:600;min-height:52px}
+.status small{display:block;font-weight:400;font-size:14px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:9px 14px;font:500 13px var(--f-mono);letter-spacing:.04em;cursor:pointer}
+.btn:hover{border-color:var(--cyan)}
+.btn[aria-pressed="true"]{background:var(--cyan);color:#021014;border-color:var(--cyan)}
+.moves{max-height:190px;overflow:auto;font:400 13px var(--f-mono);color:var(--fg);columns:2;column-gap:14px;margin:0;padding:0;list-style:none}
+.moves li{padding:1px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td svg{width:34px;height:34px;display:block}
+.hist{margin-top:26px;max-width:75ch}
+.hist h2{font-family:var(--f-display);font-size:1.5rem;margin:0 0 8px}
+.hist p{margin:0 0 12px}
+.note{color:var(--muted);font-size:14px}
+.cy{color:var(--cyan)}.am{color:var(--amber)}
+footer{max-width:1100px;margin:34px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 12px/1.7 var(--f-mono)}
+footer a{color:var(--cyan)}
+.embed .nav,.embed footer{display:none!important}
+</style></head><body>
+<div class="wrap">
+<nav class="nav" aria-label="Site">
+<a class="navtab" href="./">Ophanim Field Console</a>
+<a class="navtab" href="games.html">Games</a>
+<span class="navtab on" aria-current="page">Chaturanga</span>
+<a class="navtab" href="library.html">Library</a>
+<a class="navtab" href="about.html">About</a>
+</nav>
+<h1>Ophanim Lithic Chaturanga</h1>
+<p class="sub">The ancestor of chess &middot; 8&times;8 Ashtapada &middot; reconstructed rules &middot; Platonic solids for pieces</p>
+
+<div class="layout">
+<div>
+<div class="boardwrap"><svg id="bd" class="board" viewBox="0 0 680 680" role="img" aria-label="Chaturanga board, 8 by 8"></svg></div>
+</div>
+<div class="side">
+<div class="box"><div class="status" id="st" aria-live="polite"></div></div>
+<div class="box"><h2>Game</h2>
+<div class="row" style="margin-bottom:8px"><button class="btn" id="m2" aria-pressed="false">Two players</button><button class="btn" id="m1" aria-pressed="true">Against the computer</button></div>
+<div class="row"><button class="btn" id="nw">New game</button><button class="btn" id="un">Undo</button></div>
+<p class="note" style="margin:8px 0 0" id="who">You play cyan and move first. The computer plays amber.</p></div>
+<div class="box"><h2>Moves</h2><ol class="moves" id="mv"></ol></div>
+</div>
+</div>
+
+<div class="box" style="margin-top:20px"><h2>The six pieces</h2>
+<table id="tb"><thead><tr><th></th><th>Piece</th><th>Shape</th><th>Moves</th></tr></thead><tbody></tbody></table>
+<p class="note" style="margin:10px 0 0">The shapes are our own choice, picked to suit the movement. They are not a claim about the original pieces.</p></div>
+
+<section class="hist">
+<h2>About this game</h2>
+<p>Chaturanga means &ldquo;four limbs&rdquo; in Sanskrit, the four arms of an army: foot soldiers, horses, elephants and chariots. It is usually dated to about the 6th century CE in northern India, and it is the best-supported ancestor of chess. It went to Persia as Shatranj, then through the Islamic world into Europe, where it became modern chess by about the 15th century.</p>
+<p>No rulebook from that time survives. The rules here are a <b>reconstruction</b> from later sources, and scholars differ on details. This page uses the common baseline: no check rule (you simply win by taking the Raja), a pawn that reaches the far side becomes a Mantri, and a player left with only a Raja loses. If you have no legal move the game is a draw. That last point is our assumption.</p>
+<p>Because the Mantri and Gaja can only step one or two squares, the game is slower and more positional than modern chess. Watch your Raja: nothing warns you before it is taken, except the red mark this page adds.</p>
+</section>
+</div>
+<footer>Part of <a href="games.html">the Ophanim games</a>. Rules reconstructed, not original. <a href="magnesia-reserve.html">Support the work</a></footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="gP" viewBox="0 0 100 100"><polygon points="50,16 20,78 80,78"/><polyline points="50,16 50,60 20,78"/><polyline points="50,60 80,78"/></symbol>
+<symbol id="gR" viewBox="0 0 100 100"><polygon points="50,14 82,32 82,68 50,86 18,68 18,32"/><polyline points="18,32 50,50 82,32"/><line x1="50" y1="50" x2="50" y2="86"/></symbol>
+<symbol id="gN" viewBox="0 0 100 100"><polygon points="50,10 84,50 50,90 16,50"/><line x1="16" y1="50" x2="84" y2="50"/><polyline points="50,10 36,50 50,90"/><polyline points="50,10 64,50 50,90"/></symbol>
+<symbol id="gG" viewBox="0 0 100 100"><polygon points="50,8 82,56 50,70 18,56"/><polygon points="50,92 82,56 50,70 18,56" /><line x1="50" y1="8" x2="50" y2="70"/><line x1="50" y1="92" x2="50" y2="70"/><line x1="18" y1="56" x2="82" y2="56"/></symbol>
+<symbol id="gM" viewBox="0 0 100 100"><polygon points="50,8 86,29 86,71 50,92 14,71 14,29"/><polygon points="50,28 74,66 26,66"/><polyline points="50,8 50,28"/><polyline points="86,29 74,66"/><polyline points="14,29 26,66"/><polyline points="50,92 50,66"/></symbol>
+<symbol id="gK" viewBox="0 0 100 100"><polygon points="50,8 91,38 75,88 25,88 9,38"/><polygon points="50,34 68,47 61,68 39,68 32,47"/><line x1="50" y1="8" x2="50" y2="34"/><line x1="91" y1="38" x2="68" y2="47"/><line x1="75" y1="88" x2="61" y2="68"/><line x1="25" y1="88" x2="39" y2="68"/><line x1="9" y1="38" x2="32" y2="47"/></symbol>
+</defs></svg>
+
+<script>
+(function(){
+var NAMES={P:'Padati',R:'Ratha',N:'Ashva',G:'Gaja',M:'Mantri',K:'Raja'};
+var SHAPE={P:'Tetrahedron',R:'Cube',N:'Octahedron',G:'Double tetrahedron',M:'Icosahedron',K:'Dodecahedron'};
+var DESC={P:'One step forward. Captures one step diagonally forward. Becomes a Mantri on the last rank.',
+R:'Any distance along a row or column, until blocked.',
+N:'An L-shape: two squares one way, one the other. Jumps over pieces.',
+G:'Exactly two squares diagonally. Jumps over any piece between.',
+M:'One square diagonally.',
+K:'One square in any direction. Lose it and you lose the game.'};
+var VAL={P:1,N:3,G:2,M:2,R:5,K:1000};
+var COL=['#00f0ff','#ffb700'];
+var B,turn,hist,over,mode=1,sel=null,legal=[],last=null,busy=false,SQ=80,OFF=20;
+function $(i){return document.getElementById(i)}
+function setup(){
+ B=[];for(var r=0;r<8;r++){B.push([null,null,null,null,null,null,null,null])}
+ var back='RNGMKGNR';
+ for(var c=0;c<8;c++){B[0][c]={t:back[c],s:1};B[1][c]={t:'P',s:1};B[6][c]={t:'P',s:0};B[7][c]={t:back[c],s:0}}
+ turn=0;hist=[];over=null;sel=null;legal=[];last=null;
+}
+function inb(r,c){return r>=0&&r<8&&c>=0&&c<8}
+function gen(b,r,c){
+ var p=b[r][c],out=[],s=p.s;if(!p)return out;
+ function add(rr,cc){if(!inb(rr,cc))return false;var q=b[rr][cc];if(q&&q.s===s)return false;out.push([rr,cc]);return !q}
+ var i,j;
+ if(p.t==='P'){var d=s===0?-1:1;
+  if(inb(r+d,c)&&!b[r+d][c])out.push([r+d,c]);
+  for(j=-1;j<=1;j+=2){if(inb(r+d,c+j)&&b[r+d][c+j]&&b[r+d][c+j].s!==s)out.push([r+d,c+j])}
+ }else if(p.t==='K'){for(i=-1;i<=1;i++)for(j=-1;j<=1;j++)if(i||j)add(r+i,c+j)}
+ else if(p.t==='M'){for(i=-1;i<=1;i+=2)for(j=-1;j<=1;j+=2)add(r+i,c+j)}
+ else if(p.t==='G'){for(i=-2;i<=2;i+=4)for(j=-2;j<=2;j+=4)add(r+i,c+j)}
+ else if(p.t==='N'){var L=[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]];for(i=0;i<8;i++)add(r+L[i][0],c+L[i][1])}
+ else if(p.t==='R'){var D=[[1,0],[-1,0],[0,1],[0,-1]];for(i=0;i<4;i++){var rr=r+D[i][0],cc=c+D[i][1];while(inb(rr,cc)){var more=add(rr,cc);if(!more)break;rr+=D[i][0];cc+=D[i][1]}}}
+ return out;
+}
+function allMoves(b,s){var o=[];for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.s===s){var m=gen(b,r,c);for(var k=0;k<m.length;k++)o.push([r,c,m[k][0],m[k][1]])}}return o}
+function apply(b,m){
+ var p=b[m[0]][m[1]],cap=b[m[2]][m[3]],promo=false;
+ b[m[0]][m[1]]=null;
+ if(p.t==='P'&&((p.s===0&&m[2]===0)||(p.s===1&&m[2]===7))){p={t:'M',s:p.s};promo=true}
+ b[m[2]][m[3]]=p;return {cap:cap,promo:promo};
+}
+function copy(b){return b.map(function(row){return row.map(function(x){return x?{t:x.t,s:x.s}:null})})}
+function bare(b,s){for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.s===s&&p.t!=='K')return false}return true}
+function kingPos(b,s){for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(p&&p.s===s&&p.t==='K')return [r,c]}return null}
+function inDanger(b,s){var k=kingPos(b,s);if(!k)return false;var m=allMoves(b,1-s);for(var i=0;i<m.length;i++)if(m[i][2]===k[0]&&m[i][3]===k[1])return true;return false}
+function sq(r,c){return 'abcdefgh'[c]+(8-r)}
+function snapshot(){hist.push({b:copy(B),turn:turn,last:last,over:over,log:$('mv').innerHTML})}
+function play(m){
+ snapshot();
+ var p=B[m[0]][m[1]],res=apply(B,m);
+ var li=document.createElement('li');
+ li.innerHTML='<span class="'+(p.s?'am':'cy')+'">'+NAMES[p.t]+'</span> '+sq(m[0],m[1])+(res.cap?' x ':' &ndash; ')+sq(m[2],m[3])+(res.promo?' = Mantri':'');
+ $('mv').appendChild(li);$('mv').scrollTop=1e5;
+ last=m;
+ var mover=turn;turn=1-turn;
+ if(res.cap&&res.cap.t==='K'){over={w:mover,why:'The Raja was captured.'}}
+ else if(bare(B,turn)&&!bare(B,mover)){over={w:mover,why:'Only a bare Raja is left.'}}
+ else if(bare(B,turn)&&bare(B,mover)){over={w:-1,why:'Only the two Rajas are left.'}}
+ else if(!allMoves(B,turn).length){over={w:-1,why:'No legal move, counted here as a draw.'}}
+ sel=null;legal=[];draw();
+ if(!over&&mode===1&&turn===1)aiMove();
+}
+function evalB(b){var v=0;for(var r=0;r<8;r++)for(var c=0;c<8;c++){var p=b[r][c];if(!p)continue;var x=VAL[p.t];if(p.t==='P'){var adv=p.s===1?r:7-r;x+=adv*0.08}
+ v+=p.s===1?x:-x}return v}
+function search(b,s,d,al,be){
+ if(d===0)return evalB(b);
+ var ms=allMoves(b,s);if(!ms.length)return 0;
+ var best=s===1?-1e9:1e9;
+ for(var i=0;i<ms.length;i++){var nb=copy(b),res=apply(nb,ms[i]),v;
+  if(res.cap&&res.cap.t==='K')v=s===1?5000+d:-5000-d;else v=search(nb,1-s,d-1,al,be);
+  if(s===1){if(v>best)best=v;if(best>al)al=best}else{if(v<best)best=v;if(best<be)be=best}
+  if(be<=al)break}
+ return best;
+}
+function aiMove(){
+ busy=true;draw();
+ setTimeout(function(){
+  var ms=allMoves(B,1),bestV=-1e9,pick=[];
+  for(var i=0;i<ms.length;i++){var nb=copy(B),res=apply(nb,ms[i]),v;
+   if(res.cap&&res.cap.t==='K')v=9000;else v=search(nb,0,2,-1e9,1e9);
+   v+=Math.random()*0.05;
+   if(v>bestV+1e-9){bestV=v;pick=[ms[i]]}else if(Math.abs(v-bestV)<1e-9)pick.push(ms[i])}
+  busy=false;
+  if(pick.length)play(pick[Math.floor(Math.random()*pick.length)]);
+ },250);
+}
+function draw(){
+ var h='',r,c;
+ h+='<rect x="0" y="0" width="680" height="680" rx="6" fill="#0b1522"/>';
+ h+='<rect x="'+OFF+'" y="'+OFF+'" width="640" height="640" fill="#10233a" stroke="#2b4a6b" stroke-width="2"/>';
+ for(r=0;r<8;r++)for(c=0;c<8;c++){
+  h+='<rect x="'+(OFF+c*SQ)+'" y="'+(OFF+r*SQ)+'" width="'+SQ+'" height="'+SQ+'" fill="none" stroke="#2b4a6b" stroke-width="1"/>';
+ }
+ for(c=0;c<8;c++)h+='<text x="'+(OFF+c*SQ+SQ/2)+'" y="676" text-anchor="middle" font-size="13" fill="#8aa0b1" font-family="IBM Plex Mono,monospace">'+'abcdefgh'[c]+'</text>';
+ for(r=0;r<8;r++)h+='<text x="8" y="'+(OFF+r*SQ+SQ/2+5)+'" text-anchor="middle" font-size="13" fill="#8aa0b1" font-family="IBM Plex Mono,monospace">'+(8-r)+'</text>';
+ if(last){[[last[0],last[1]],[last[2],last[3]]].forEach(function(q){h+='<rect x="'+(OFF+q[1]*SQ+2)+'" y="'+(OFF+q[0]*SQ+2)+'" width="'+(SQ-4)+'" height="'+(SQ-4)+'" fill="rgba(255,255,255,.07)"/>'})}
+ var dg=null;if(!over&&inDanger(B,turn))dg=kingPos(B,turn);
+ if(dg)h+='<rect x="'+(OFF+dg[1]*SQ+2)+'" y="'+(OFF+dg[0]*SQ+2)+'" width="'+(SQ-4)+'" height="'+(SQ-4)+'" fill="rgba(255,77,106,.28)" stroke="#ff4d6a" stroke-width="2"/>';
+ if(sel)h+='<rect x="'+(OFF+sel[1]*SQ+2)+'" y="'+(OFF+sel[0]*SQ+2)+'" width="'+(SQ-4)+'" height="'+(SQ-4)+'" fill="rgba(24,227,156,.18)" stroke="#18e39c" stroke-width="2"/>';
+ for(r=0;r<8;r++)for(c=0;c<8;c++){var p=B[r][c];if(!p)continue;
+  h+='<use href="#g'+p.t+'" x="'+(OFF+c*SQ+8)+'" y="'+(OFF+r*SQ+8)+'" width="'+(SQ-16)+'" height="'+(SQ-16)+'" style="color:'+COL[p.s]+';fill:'+(p.s?'rgba(255,183,0,.16)':'rgba(0,240,255,.14)')+';stroke:'+COL[p.s]+';stroke-width:3.2;stroke-linejoin:round;stroke-linecap:round"/>';
+ }
+ legal.forEach(function(m){var cap=B[m[0]][m[1]];
+  h+=cap?'<circle cx="'+(OFF+m[1]*SQ+SQ/2)+'" cy="'+(OFF+m[0]*SQ+SQ/2)+'" r="34" fill="none" stroke="#18e39c" stroke-width="3"/>':'<circle cx="'+(OFF+m[1]*SQ+SQ/2)+'" cy="'+(OFF+m[0]*SQ+SQ/2)+'" r="8" fill="#18e39c"/>';});
+ for(r=0;r<8;r++)for(c=0;c<8;c++)h+='<rect data-r="'+r+'" data-c="'+c+'" x="'+(OFF+c*SQ)+'" y="'+(OFF+r*SQ)+'" width="'+SQ+'" height="'+SQ+'" fill="transparent" style="cursor:pointer"/>';
+ $('bd').innerHTML=h;
+ var s=$('st');
+ if(over){s.innerHTML=(over.w<0?'Draw.':(over.w?'<span class="am">Amber wins.</span>':'<span class="cy">Cyan wins.</span>'))+'<small>'+over.why+'</small>'}
+ else if(busy){s.innerHTML='<span class="am">Amber is thinking&hellip;</span>'}
+ else{var d=inDanger(B,turn);s.innerHTML=(turn?'<span class="am">Amber':'<span class="cy">Cyan')+' to move.</span>'+(d?'<small style="color:#ff6f86">Your Raja is under attack.</small>':'<small>Pick a piece, then a green square.</small>')}
+ $('un').disabled=!hist.length||busy;
+ $('m1').setAttribute('aria-pressed',mode===1);$('m2').setAttribute('aria-pressed',mode===2);
+ $('who').textContent=mode===1?'You play cyan and move first. The computer plays amber.':'Two players on one screen. Cyan moves first.';
+}
+$('bd').addEventListener('click',function(e){
+ var t=e.target;if(!t.getAttribute||t.getAttribute('data-r')===null||over||busy)return;
+ var r=+t.getAttribute('data-r'),c=+t.getAttribute('data-c');
+ for(var i=0;i<legal.length;i++)if(legal[i][0]===r&&legal[i][1]===c){play([sel[0],sel[1],r,c]);return}
+ var p=B[r][c];
+ if(p&&p.s===turn&&!(mode===1&&turn===1)){sel=[r,c];legal=gen(B,r,c)}else{sel=null;legal=[]}
+ draw();
+});
+function fresh(){busy=false;setup();$('mv').innerHTML='';draw()}
+$('nw').onclick=fresh;
+$('m1').onclick=function(){mode=1;fresh()};
+$('m2').onclick=function(){mode=2;fresh()};
+$('un').onclick=function(){
+ if(!hist.length||busy)return;
+ var n=(mode===1&&hist.length>1&&turn===0)?2:1;
+ if(mode===1&&turn===1)n=1;
+ var h;while(n--&&hist.length)h=hist.pop();
+ B=h.b;turn=h.turn;last=h.last;over=h.over;$('mv').innerHTML=h.log;sel=null;legal=[];draw();
+};
+var tb=$('tb').querySelector('tbody');
+['K','M','G','N','R','P'].forEach(function(k){
+ var tr=document.createElement('tr');
+ tr.innerHTML='<td><svg viewBox="0 0 100 100" aria-hidden="true" style="fill:rgba(0,240,255,.14);stroke:#00f0ff;stroke-width:4;stroke-linejoin:round;stroke-linecap:round"><use href="#g'+k+'"/></svg></td><td><b>'+NAMES[k]+'</b></td><td>'+SHAPE[k]+'</td><td>'+DESC[k]+'</td>';
+ tb.appendChild(tr);
+});
+setup();draw();
+})();
+</script>
+<script src="account.js"></script>
+</body></html>
