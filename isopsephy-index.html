@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head>
+<script>if(/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}else{document.write('<script src="consent.js"><\/script>');}</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Greek Isopsephy Index</title>
+<meta name="description" content="An index of Greek isopsephy sums with the letter-by-letter working. Search by number or type a Greek word to count it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans:wght@400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080d;--panel:#0a0f17;--panel2:#0e1521;--line:#1a2638;--fg:#d6e4ec;--muted:#8aa0b1;--cyan:#00f0ff;--amber:#ffb700;--emerald:#18e39c;--danger:#ff4d6a;
+--f-display:'Syne','Segoe UI',system-ui,sans-serif;--f-body:'Noto Sans','IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;color-scheme:dark}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+*{box-sizing:border-box}
+button,input{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:980px;margin-inline:auto}
+.nav{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.navtab{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:var(--panel)}
+.navtab.on{color:#021014;background:var(--cyan);border-color:var(--cyan)}
+a.navtab:hover{border-color:var(--cyan);color:var(--fg)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,4.4vw,2.6rem);line-height:1.05;margin:0}
+.sub{margin:8px 0 0;color:var(--muted);font-size:15px;max-width:70ch}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-top:16px}
+.box h2{font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin:0 0 10px}
+.q{display:flex;gap:8px;flex-wrap:wrap}
+.q input{flex:1 1 260px;min-width:0;background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:11px 12px;font-size:18px}
+.btn{background:var(--panel2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:10px 14px;font:500 13px var(--f-mono);cursor:pointer}
+.btn:hover{border-color:var(--cyan)}
+.res{margin-top:12px;font-size:16px}
+.big{font:800 34px var(--f-display);color:var(--amber)}
+.work{font-family:var(--f-mono);font-size:14px;color:var(--fg);word-break:break-word}
+.muted{color:var(--muted)}
+.grp{margin-top:22px}
+.grp h3{font:800 26px var(--f-display);color:var(--amber);margin:0 0 6px;display:flex;align-items:baseline;gap:10px}
+.grp h3 small{font:400 13px var(--f-mono);color:var(--muted)}
+.row{border:1px solid var(--line);background:var(--panel);border-radius:5px;padding:10px 14px;margin-bottom:8px}
+.row .g{font-size:21px;font-weight:600}
+.row .e{color:var(--muted);font-size:15px;margin-left:6px}
+.tag{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:2px 7px;margin-left:8px;vertical-align:middle}
+.tag.ok{color:var(--emerald);border-color:var(--emerald)}
+.tag.no{color:var(--danger);border-color:var(--danger)}
+ul.lex{list-style:none;padding:0;margin:8px 0 0}
+ul.lex li{padding:6px 0;border-bottom:1px solid var(--line)}
+ul.lex b{font-size:19px}
+.note{color:var(--muted);font-size:14px}
+footer{max-width:980px;margin:34px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 12px/1.7 var(--f-mono)}
+footer a{color:var(--cyan)}
+.embed .nav,.embed footer{display:none!important}
+</style></head><body>
+<div class="wrap">
+<nav class="nav" aria-label="Site">
+<a class="navtab" href="./">Ophanim Field Console</a>
+<a class="navtab" href="games.html">Games</a>
+<span class="navtab on" aria-current="page">Isopsephy Index</span>
+<a class="navtab" href="library.html">Library</a>
+<a class="navtab" href="about.html">About</a>
+</nav>
+<h1>Greek Isopsephy Index</h1>
+<p class="sub">Every entry is added up letter by letter, so you can check it yourself. Standard letter values, 27 signs: α 1 to ω 800, with final ς counted as 200.</p>
+
+<div class="box"><h2>Count a word, or search a number</h2>
+<form class="q" id="f"><input id="in" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Type Greek (ψυχή) or a number (1224)" aria-label="Greek word or number"><button class="btn" type="submit">Go</button></form>
+<div class="res" id="res" aria-live="polite"><span class="muted">Accents and breathing marks are ignored. A number shows the index entries with that value, and can search the Strong&rsquo;s Greek lexicon.</span></div>
+</div>
+
+<div id="idx"></div>
+
+<div class="box"><h2>Number identities from the handshake summary</h2>
+<div id="ids"></div></div>
+
+<div class="box"><h2>About this index</h2>
+<p style="margin:0 0 10px">Each value is computed by this page from the Greek letters, not typed in by hand, and a green mark means the page&rsquo;s total matches the value in the source. The entries so far come from the &ldquo;Alphanumeric Handshake&rdquo; summary. Their authorship is still to be confirmed, so no entry is marked as anyone&rsquo;s finding.</p>
+<p style="margin:0" class="note">The lexicon search uses Strong&rsquo;s Greek dictionary (public domain) and the same plain letter values. It lists words that share a number. That is a fact about the letters, not a claim that the words are related.</p></div>
+</div>
+<footer>Part of <a href="library.html">the Library</a>. <a href="magnesia-reserve.html">Support the work</a></footer>
+
+<script>
+(function(){
+var V={'α':1,'β':2,'γ':3,'δ':4,'ε':5,'ϛ':6,'ζ':7,'η':8,'θ':9,'ι':10,'κ':20,'λ':30,'μ':40,'ν':50,'ξ':60,'ο':70,'π':80,'ϟ':90,'ϙ':90,'ρ':100,'σ':200,'ς':200,'ϲ':200,'τ':300,'υ':400,'φ':500,'χ':600,'ψ':700,'ω':800,'ϡ':900};
+function norm(s){return s.normalize('NFD').replace(/[̀-ͯͅ]/g,'').toLowerCase()}
+function count(s){var t=norm(s),sum=0,parts=[],c;for(var i=0;i<t.length;i++){c=t[i];if(V[c]!==undefined){sum+=V[c];parts.push(c+' '+V[c])}}return {sum:sum,parts:parts}}
+var E=[
+ ['ψυχή','Soul (psyche)',1708],['περιστερά','Dove (peristera)',801],['ὁ κτίσας','The Creator (ho ktisas)',801],['Α + Ω','Alpha and Omega, the two end letters',801],
+ ['τὸ δίκτυον','The net (to diktyon)',1224],['ἰχθύες','Fishes (ichthyes)',1224],['ὁ κύριος ὁ θεός','The Lord God (ho kyrios ho theos)',1224],
+ ['ἀλήθεια','Truth (aletheia)',64],['Ἰησοῦς','Jesus (Iesous)',888],['Χριστός','Christ (Christos)',1480],['Ἰησοῦς Χριστός','Jesus Christ',2368]];
+var by={};E.forEach(function(e){(by[e[2]]=by[e[2]]||[]).push(e)});
+var keys=Object.keys(by).map(Number).sort(function(a,b){return a-b});
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function row(e){var r=count(e[0]),ok=r.sum===e[2];
+ return '<div class="row"><span class="g">'+esc(e[0])+'</span><span class="e">'+esc(e[1])+'</span><span class="tag '+(ok?'ok':'no')+'">'+(ok?'checked '+r.sum:'page says '+r.sum+', source says '+e[2])+'</span><div class="work">'+r.parts.join(' + ')+' = <b>'+r.sum+'</b></div></div>'}
+function render(list){
+ var h='';
+ keys.forEach(function(k){var es=by[k].filter(function(e){return list===null||list.indexOf(k)>-1});
+  if(!es.length)return;
+  h+='<div class="grp" id="v'+k+'"><h3>'+k+'<small>'+es.length+(es.length>1?' entries':' entry')+'</small></h3>'+es.map(row).join('')+'</div>'});
+ document.getElementById('idx').innerHTML=h||'<div class="box"><span class="muted">No index entry has that value yet.</span></div>';
+}
+var ids=[['153 × 8',153*8],['4³ − 3³ = 64 − 27',Math.pow(4,3)-Math.pow(3,3)],['37 × 64',37*64],['888 + 1480',888+1480]];
+document.getElementById('ids').innerHTML=ids.map(function(x){return '<div class="work" style="padding:3px 0">'+x[0]+' = <b>'+x[1]+'</b></div>'}).join('')+'<p class="note" style="margin:8px 0 0">The handshake summary links 153 × 8 to 1224, 4³ − 3³ to 37, and 37 × 64 to 2368. The sums are right. The links are the reading, not arithmetic.</p>';
+var lex=null,loading=false;
+function loadLex(cb){if(lex){cb();return}if(loading)return;loading=true;var s=document.createElement('script');s.src='strongs.js';s.onload=function(){lex=window.STRONGS.G;cb()};s.onerror=function(){loading=false;document.getElementById('res').insertAdjacentHTML('beforeend','<p class="note">Could not load the lexicon.</p>')};document.head.appendChild(s)}
+function lexSearch(n){
+ var out=[];for(var i=0;i<lex.length;i++){var w=lex[i][1];if(!w)continue;var c=count(w);if(c.sum===n)out.push(lex[i])}
+ var h='<p style="margin:12px 0 0"><b>'+out.length+'</b> Greek lemma'+(out.length===1?'':'s')+' in Strong&rsquo;s add up to '+n+(out.length>80?' (first 80 shown)':'')+'.</p><ul class="lex">';
+ out.slice(0,80).forEach(function(l){h+='<li><b>'+esc(l[1])+'</b> <span class="muted">'+esc(l[2])+' &middot; G'+l[0]+'</span> &mdash; '+esc((l[3]||'').slice(0,110))+'</li>'});
+ h+='</ul>';var d=document.getElementById('lexout');if(d)d.innerHTML=h;
+}
+function go(q){
+ q=q.trim();var res=document.getElementById('res');
+ if(!q){res.innerHTML='';render(null);return}
+ if(/^\d+$/.test(q)){var n=+q;
+  res.innerHTML='<div><span class="big">'+n+'</span></div><button class="btn" id="lb" style="margin-top:8px">Search the Strong&rsquo;s lexicon for words that add up to '+n+'</button><div id="lexout"></div>';
+  render([n]);
+  document.getElementById('lb').onclick=function(){this.textContent='Searching…';var b=this;loadLex(function(){b.remove();lexSearch(n)})};
+  return}
+ var r=count(q);
+ if(!r.parts.length){res.innerHTML='<span class="muted">I could not find Greek letters there. Type Greek letters, or a number.</span>';return}
+ res.innerHTML='<div><span class="big">'+r.sum+'</span></div><div class="work">'+r.parts.join(' + ')+' = '+r.sum+'</div><p class="note" style="margin:8px 0 0">Letters counted: '+r.parts.length+'. <a href="#v'+r.sum+'" style="color:var(--cyan)" id="jump">Jump to '+r.sum+' in the index</a> if it is there.</p>';
+ render([r.sum]);
+ var j=document.getElementById('jump');if(j&&!by[r.sum])j.remove();
+}
+document.getElementById('f').addEventListener('submit',function(e){e.preventDefault();go(document.getElementById('in').value)});
+document.getElementById('in').addEventListener('input',function(){if(!this.value.trim())go('')});
+var m=/[?&]n=(\d+)/.exec(location.search);if(m){document.getElementById('in').value=m[1];go(m[1])}else render(null);
+})();
+</script>
+<script src="account.js"></script>
+</body></html>
