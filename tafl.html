@@ -708,9 +708,11 @@ var Tafl = (function () {
   }
   window.addEventListener('resize', size);
 
-  function isHuman(p) { return mode === '2p' || (mode === 'def' && p === 2) || (mode === 'att' && p === 1); }
+  var NET = null;
+  function isHuman(p) { if (mode === 'online') return !!(NET && p === NET.me); return mode === '2p' || (mode === 'def' && p === 2) || (mode === 'att' && p === 1); }
   function lvName() { return level === 'thrall' ? 'Thrall' : 'Jarl'; }
   function who(p) {
+    if (mode === 'online') return (NET && p === NET.me) ? 'You' : ((NET && NET.opp) || 'Your opponent');
     if (mode === '2p') return SN[p];
     if (mode === 'watch') return SN[p] + ' (Jarl)';
     return isHuman(p) ? 'You (' + SN[p].toLowerCase() + ')' : SN[p] + ' (' + lvName() + ')';
@@ -760,18 +762,20 @@ var Tafl = (function () {
   function log(h) { var ul = $('logList'), li = document.createElement('li'); li.innerHTML = h; ul.insertBefore(li, ul.firstChild); while (ul.children.length > 40) ul.removeChild(ul.lastChild); }
   function clear() { if (timer) { clearTimeout(timer); timer = null; } }
   function newGame() {
+    if (NET && !NET.rep) { $('selSide').value = 'online'; log('This is a live room. Leave the room to start another game.'); return; }
     clear();
     var pr = PRESETS[$('selRule').value], rebuild = !G || N !== pr.n || G.esc !== pr.esc;
     mode = $('selSide').value; level = $('selLvl').value;
+    if (NET && NET.rep) mode = 'online';
     N = pr.n; G = T.newGame(pr.n, pr.esc, pr.weak); over = false; last = []; sel = null; seen = {}; seen[T.key(G)] = 1;
     L = T.moves(G, G.turn);
     if (rebuild) { build(); size(); }
     $('logList').textContent = ''; log('New game. <b>Attackers</b> move first.');
     render(); next();
   }
-  function next() { if (!over && !isHuman(G.turn)) timer = setTimeout(aiMove, mode === 'watch' ? 650 : 750); }
+  function next() { if (!over && mode !== 'online' && !isHuman(G.turn)) timer = setTimeout(aiMove, mode === 'watch' ? 650 : 750); }
   function aiMove() { if (over) return; var m = T.choose(G, mode === 'watch' ? 'jarl' : level); if (m) doMove(m); }
-  function doMove(m) {
+  function doMove0(m) {
     clear();
     var p = G.turn, res = T.apply(G, m); G = res.state; sel = null;
     last = [key(m.from[0], m.from[1]), key(m.to[0], m.to[1])];
@@ -797,6 +801,122 @@ var Tafl = (function () {
     if (G.b[r][c] && T.side(G.b[r][c]) === G.turn && L.some(function (x) { return x.from[0] === r && x.from[1] === c; })) { sel = (sel && sel[0] === r && sel[1] === c) ? null : [r, c]; render(); }
     else if (sel) { sel = null; render(); }
   }
+
+  /* ---------- live room (two players, two devices) ---------- */
+function NT(en, el) { var g = false; try { g = window.OphanimAccount && window.OphanimAccount.lang() === 'el'; } catch (e) {} return g ? el : en; }
+  function e36(n) { return n.toString(36); }
+  function onl(tok, by) {
+    if (!NET || NET.rep || by !== NET.me) return;
+    NET.applied++;
+    var res = null; if (over) res = G.draw ? '1/2-1/2' : (G.winner === 1 ? '1-0' : '0-1');
+    netSend(tok, res);
+  }
+  function doMove(m) {
+    if (NET && !NET.rep && !isHuman(G.turn)) return;
+    var p = G.turn; doMove0(m); onl('M' + e36(m.from[0]) + e36(m.from[1]) + e36(m.to[0]) + e36(m.to[1]), p);
+  }
+  function netSend(tok, result) {
+    var n = NET, O = window.OphanimOnline;
+    n.q = n.q.then(function () {
+      return O.room.event(n.id, tok, n.len, result).then(function (row) { n.len = (row.moves || []).length; });
+    }).catch(function () {
+      if (NET !== n) return;
+      netMsg(NT('The connection dropped. Re-syncing…', 'Η σύνδεση διακόπηκε. Συγχρονισμός…'));
+      O.room.get(n.id).then(function (row) { n.len = (row.moves || []).length; netResync(row); }, function () {});
+    });
+  }
+  function netMsg(t) { var e = document.getElementById('netMsg'); if (e) e.textContent = t || ''; }
+  function netBoard(key) {
+    if (!PRESETS[key]) key = '11';
+    $('selRule').value = key;
+    NET.rep = true; try { newGame(); } finally { NET.rep = false; }
+    NET.ruleSet = true;
+  }
+  function netApply(tok) {
+    NET.rep = true;
+    try {
+      var k = tok.charAt(0);
+      if (k === 'Z') { NET.rep = false; netBoard(tok.slice(1)); NET.rep = true; }
+      else if (k === 'M') {
+        var d = tok.slice(1).split('').map(function (c) { return parseInt(c, 36); });
+        var mv = L.filter(function (x) { return x.from[0] === d[0] && x.from[1] === d[1] && x.to[0] === d[2] && x.to[1] === d[3]; })[0];
+        if (!mv) throw new Error('no such move');
+        doMove(mv);
+      }
+    } finally { NET.rep = false; }
+  }
+  function netResync(row) {
+    if (!NET) return;
+    var n = NET; n.room = row; n.applied = 0; n.q = Promise.resolve(); n.ruleSet = false;
+    var mv = row.moves || [], i;
+    if (!mv.length || mv[0].charAt(0) !== 'Z') { netBoard('11'); n.ruleSet = false; }
+    try { for (i = 0; i < mv.length; i++) { netApply(mv[i]); n.applied++; } } catch (e) { netMsg('The two boards disagree. Leave and rejoin the room.'); }
+    n.len = Math.max(n.len || 0, mv.length);
+    netEnd(row); netPaint(); render();
+  }
+  function netRow(row) {
+    if (!NET || !row || row.id !== NET.id) return;
+    var n = NET; n.room = row;
+    var mv = row.moves || [];
+    if (mv.length > n.len) n.len = mv.length;
+    if (mv.length > n.applied) {
+      try { while (n.applied < mv.length) { netApply(mv[n.applied]); n.applied++; } }
+      catch (e) { netResync(row); return; }
+    }
+    netEnd(row); netPaint();
+  }
+  function netEnd(row) {
+    if (row.status === 'finished' && !over && row.ended_by === 'resign') {
+      var w = row.result === '1-0' ? 1 : 2;
+      G.winner = w; G.why = 'resign'; over = true; score[w]++; render(); snd('win'); log('<b>' + who(w) + ' win' + (who(w) === 'You' ? '' : 's') + ' (the other player left the game).</b>');
+    }
+  }
+  function netPaint() {
+    var e = document.getElementById('netStrip'); if (!e || !NET) return;
+    e.hidden = false;
+    document.getElementById('netInfo').textContent = NT('Live room ', 'Ζωντανό δωμάτιο ') + NET.code + NT(' · you are the ', ' · είστε οι ') + (NET.me === 1 ? NT('attackers', 'Επιτιθέμενοι') : NT('defenders', 'Αμυνόμενοι')) + NT(' · playing ', ' · παίζετε με ') + (NET.opp || NT('your opponent', 'τον αντίπαλό σας'));
+    document.getElementById('netRes').disabled = !!(over || (NET.room && NET.room.status === 'finished'));
+  }
+  function netStart(row) {
+    var O = window.OphanimOnline;
+    if (NET && NET.stop) NET.stop();
+    NET = { id: row.id, code: row.code, me: (row.white === O.room.me() ? 1 : 2), room: row, applied: 0, len: (row.moves || []).length, q: Promise.resolve(), opp: '', rep: false, stop: null, ruleSet: false };
+    var so = $('selSide'); if (!so.querySelector('option[value="online"]')) { var o = document.createElement('option'); o.value = 'online'; o.textContent = 'Live room'; so.appendChild(o); }
+    so.value = 'online'; mode = 'online'; score = [0, 0, 0];
+    netBuildStrip();
+    var hostFresh = !(row.moves || []).length && row.host === O.room.me();
+    var key = $('selRule').value;
+    netResync(row);
+    if (hostFresh) { netBoard(key); NET.applied++; netSend('Z' + key, null); }
+    O.room.names([row.white, row.black]).then(function (map) { if (NET && NET.id === row.id) { NET.opp = map[NET.me === 1 ? row.black : row.white] || 'your opponent'; netPaint(); render(); } });
+    NET.stop = O.room.watch(row.id, netRow);
+    netPaint(); render();
+  }
+  function netBuildStrip() {
+    if (document.getElementById('netStrip')) return;
+    var d = document.createElement('div'); d.id = 'netStrip'; d.hidden = true;
+    d.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:0 0 10px;padding:9px 12px;border:1px solid #ffb700;border-radius:6px;background:rgba(255,183,0,.08);font-size:14px';
+    d.innerHTML = '<span id="netInfo" style="flex:1 1 220px"></span><span id="netMsg" style="color:#ff9a8a"></span><button class="btn" type="button" id="netRes">' + NT('Resign', 'Παράδοση') + '</button><button class="btn" type="button" id="netLeave">' + NT('Leave room', 'Έξοδος από το δωμάτιο') + '</button>';
+    var st = $('stage'); st.parentNode.insertBefore(d, st);
+    $('netRes').addEventListener('click', function () { if (NET && window.confirm(NT('Resign this game?', 'Να παραδοθεί το παιχνίδι;'))) window.OphanimOnline.room.resign(NET.id).then(function (r) { netRow(r); }, function () { netMsg('Could not resign. Try again.'); }); });
+    $('netLeave').addEventListener('click', netLeave);
+  }
+  function netLeave() {
+    if (!NET) return;
+    if (NET.stop) NET.stop();
+    window.OphanimOnline.room.forget(); NET = null;
+    var so = $('selSide'), op = so.querySelector('option[value="online"]'); if (op) op.remove();
+    so.value = 'def'; score = [0, 0, 0];
+    var e = document.getElementById('netStrip'); if (e) e.hidden = true;
+    newGame();
+  }
+  window.OphanimRoomHooks = { start: netStart };
+  window.addEventListener('load', function () {
+    var had = false; try { had = !!localStorage.getItem('ophanim.room'); } catch (e) {}
+    var O = window.OphanimOnline; if (!had || !O) return;
+    O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing' && r.game === 'tafl') netStart(r); });
+  });
+
   $('btnNew').onclick = newGame; ['selSide', 'selLvl', 'selRule'].forEach(function (id) { $(id).onchange = newGame; });
 
   var tx = 54, rz = 0, dragMoved = false, drag = null;

@@ -785,9 +785,12 @@ try { var sc = JSON.parse(LS.get('olb_score', 'null')); if (sc && typeof sc.w ==
 function cubeOn() { return VARS[G.variant].cube; }
 function setEngine() { EN = VARS[G.variant].eng; }
 function other(s) { return s === 'w' ? 'b' : 'w'; }
-function isHuman(s) { return G.mode === '2p' || (G.mode !== 'watch' && s === 'w'); }
+var NET = null;
+function isHuman(s) { if (G.mode === 'online') return !!(NET && s === NET.me); return G.mode === '2p' || (G.mode !== 'watch' && s === 'w'); }
+function isBot(s) { return G.mode !== 'online' && !isHuman(s); }
 function level() { return G.mode === 'apprentice' ? 'apprentice' : 'master'; }
 function nameOf(s) {
+  if (G.mode === 'online') return (NET && s === NET.me) ? 'You' : ((NET && NET.opp) || 'Your opponent');
   if (G.mode === '2p') return s === 'w' ? 'Cyan' : 'Amber';
   if (G.mode === 'watch') return s === 'w' ? 'Cyan Socrates' : 'Amber Socrates';
   return s === 'w' ? 'You' : 'Socrates';
@@ -924,13 +927,14 @@ function aiShouldTake(resp) {
 
 /* ---------- game flow ---------- */
 function newGame() {
+  if (NET && !NET.rep) { say('This is a live room. Leave the room to start another game.'); return; }
   G.gid++;
   if (G.timer) { clearTimeout(G.timer); G.timer = null; }
   setEngine();
   G.st = EN.initial(); G.cube = { v: 1, owner: null }; G.undo = []; G.sel = null; G.hint = null;
   G.last = null; G.over = null; G.offer = null; G.tween = null; G._f = null; G.log = [];
   var a, b;
-  do { a = rnd6(); b = rnd6(); } while (a === b);
+  if (NET && NET.open) { a = NET.open[0]; b = NET.open[1]; } else { do { a = rnd6(); b = rnd6(); } while (a === b); }
   G.dice = [a, b]; G.rem = [a, b]; G.rollSeq++;
   G.turn = a > b ? 'w' : 'b'; G.phase = 'move'; G.openRoll = true;
   say('Opening roll: ' + nameOf('w') + ' rolled ' + a + ', ' + nameOf('b') + ' rolled ' + b + '. ' + nameOf(G.turn) + (nameOf(G.turn) === 'You' ? ' play' : ' plays') + ' both dice.');
@@ -942,22 +946,22 @@ function afterRoll() {
   var f = firsts();
   if (!f.length) {
     say(nameOf(G.turn) + (G.turn === 'w' && isHuman('w') ? ': no legal move, the turn passes.' : ': no legal move.'));
-    G.timer = later(endTurn, 1400);
-  } else if (!isHuman(G.turn)) {
+    G.timer = later(autoEnd, 1400);
+  } else if (isBot(G.turn)) {
     G.timer = later(aiPlay, 700);
   } else if (G.st.bar[G.turn] > 0) G.sel = 'bar';
   render();
 }
-function rollDice() {
+function rollDice0(ra, rb) {
   if (G.phase !== 'pre' || G.over) return;
-  var a = rnd6(), b = rnd6();
+  var a = typeof ra === 'number' ? ra : rnd6(), b = typeof rb === 'number' ? rb : rnd6();
   G.dice = [a, b]; G.rem = a === b ? [a, a, a, a] : [a, b]; G.rollSeq++;
   G.phase = 'move'; G.undo = []; G.openRoll = false;
   say(nameOf(G.turn) + ' rolled ' + a + '-' + b + (a === b ? ' (doubles)' : '') + '.');
   sfx('roll');
   afterRoll();
 }
-function doMove(m) {
+function doMove0(m) {
   var s = G.turn, st0 = G.st;
   G.undo.push({ st: EN.clone(st0), rem: G.rem.slice(), last: G.last });
   var cnt = m.from === 'bar' ? st0.bar[s] : stackOf(st0, m.from).length;
@@ -972,7 +976,7 @@ function doMove(m) {
   if (!f.length && isHuman(s)) G.timer = later(endTurn, 1500);
   render();
 }
-function undoMove() {
+function undoMove0() {
   if (G.phase !== 'move' || !G.undo.length) return;
   if (G.timer) { clearTimeout(G.timer); G.timer = null; }
   var u = G.undo.pop();
@@ -980,14 +984,14 @@ function undoMove() {
   if (G.st.bar[G.turn] > 0) G.sel = 'bar';
   render();
 }
-function endTurn() {
+function endTurn0() {
   if (G.timer) { clearTimeout(G.timer); G.timer = null; }
   if (G.phase !== 'move' || G.over) return;
   G.undo = []; G.dice = [0, 0]; G.rem = []; G.sel = null; G.hint = null; G._f = null; G.tween = null;
   G.st = EN.endTurn(G.st, G.turn);
   if (EN.deadlocked && EN.deadlocked(G.st)) { finishDraw(); return; }
   G.turn = other(G.turn); G.phase = 'pre';
-  if (!isHuman(G.turn)) G.timer = later(aiPre, 800);
+  if (isBot(G.turn)) G.timer = later(aiPre, 800);
   render();
 }
 function aiPre() {
@@ -996,16 +1000,16 @@ function aiPre() {
   if (canDouble(s) && aiShouldDouble(s)) { offerDouble(s); return; }
   rollDice();
 }
-function offerDouble(s) {
+function offerDouble0(s) {
   if (!canDouble(s)) return;
   G.offer = { by: s }; G.phase = 'offer'; G.sel = null; G.hint = null;
   say(V(s, 'double') + ' to ' + G.cube.v * 2 + '.');
   sfx('cube');
   var r = other(s);
-  if (!isHuman(r)) G.timer = later(function () { respond(aiShouldTake(r)); }, 1100);
+  if (isBot(r)) G.timer = later(function () { respond(aiShouldTake(r)); }, 1100);
   render();
 }
-function respond(take) {
+function respond0(take) {
   if (G.phase !== 'offer') return;
   var by = G.offer.by, r = other(by);
   if (G.timer) { clearTimeout(G.timer); G.timer = null; }
@@ -1013,7 +1017,7 @@ function respond(take) {
     G.cube.v *= 2; G.cube.owner = r; G.offer = null; G.phase = 'pre';
     say(V(r, 'take') + '. The cube is now ' + G.cube.v + ' and sits with ' + lname(r) + '.');
     sfx('cube');
-    if (!isHuman(by)) G.timer = later(rollDice, 700);
+    if (isBot(by)) G.timer = later(rollDice, 700);
     render();
   } else {
     var pts = G.cube.v;
@@ -1027,7 +1031,7 @@ function finish(w, text0, forcedPts) {
   var kt = forcedPts ? '' : (kind === 3 ? ' with a backgammon' : kind === 2 ? ' with a ' + (VARS[G.variant].mars ? 'mars' : 'gammon') : '');
   G.over = { winner: w, pts: pts, text: V(w, 'win') + ' ' + pts + (pts === 1 ? ' point' : ' points') + kt };
   G.phase = 'over'; G.sel = null; G.hint = null; G._f = null;
-  if (G.mode !== 'watch') { G.score[w] += pts; LS.set('olb_score', JSON.stringify(G.score)); }
+  if (G.mode !== 'watch') { G.score[w] += pts; if (G.mode !== 'online') LS.set('olb_score', JSON.stringify(G.score)); }
   say(G.over.text + '.');
   sfx('win');
   render();
@@ -1090,7 +1094,7 @@ function coachHTML() {
   if (G.mode === 'watch') return 'Socrates is playing both sides. Pips: cyan ' + EN.pips(G.st, 'w') + ', amber ' + EN.pips(G.st, 'b') + '.';
   if (G.over) return 'Game over. Start a new game when you are ready.';
   var me = G.phase === 'offer' ? other(G.offer.by) : G.turn;
-  if (!isHuman(me)) return 'Socrates is thinking.';
+  if (!isHuman(me)) return G.mode === 'online' ? nameOf(me) + (me === 'w' ? ' is' : ' is') + ' playing.' : 'Socrates is thinking.';
   var o = other(me), pm = EN.pips(G.st, me), po = EN.pips(G.st, o), race = EN.isRace(G.st);
   if (!cubeOn()) {
     if (G.phase === 'move' && G.hint) return 'Socrates suggests: <b>' + esc(G.hint.text) + '</b>. ' + esc(G.hint.note) + ' The first step is marked in violet.';
@@ -1565,7 +1569,7 @@ function render() {
     $('bannerT').textContent = nameOf(G.offer.by) + ' doubles to ' + G.cube.v * 2;
     $('bannerS').textContent = 'Take and you own the cube. Drop and you lose ' + G.cube.v + (G.cube.v === 1 ? ' point.' : ' points.');
   }
-  var sc = G.mode === '2p' ? 'Cyan ' + G.score.w + ' – Amber ' + G.score.b : G.mode === 'watch' ? 'not scored' : 'You ' + G.score.w + ' – Socrates ' + G.score.b;
+  var sc = (G.mode === '2p' || G.mode === 'online') ? 'Cyan ' + G.score.w + ' – Amber ' + G.score.b : G.mode === 'watch' ? 'not scored' : 'You ' + G.score.w + ' – Socrates ' + G.score.b;
   $('scoreTxt').textContent = sc;
   $('coachTxt').innerHTML = coachHTML();
   if (ph !== 'move' || !human) { /* keep selection clear outside own move */ if (ph !== 'move') G.sel = null; }
@@ -1697,6 +1701,157 @@ function boot() {
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize3D).observe($('stage'));
   newGame();
 }
+
+/* ---------- live room (two players, two devices) ---------- */
+function NT(en, el) { var g = false; try { g = window.OphanimAccount && window.OphanimAccount.lang() === 'el'; } catch (e) {} return g ? el : en; }
+function onl(tok, by) {
+  if (!NET || NET.rep || by !== NET.me) return;
+  NET.applied++;
+  var res = null;
+  if (G.over) res = G.over.winner === 'w' ? '1-0' : (G.over.winner === 'b' ? '0-1' : '1/2-1/2');
+  netSend(tok, res);
+}
+function autoEnd() { var o = NET && NET.silent; if (NET) NET.silent = true; endTurn(); if (NET) NET.silent = o; }
+function rollDice(ra, rb) {
+  if (G.phase !== 'pre' || G.over) return;
+  if (NET && !NET.rep && !isHuman(G.turn)) return;
+  rollDice0(ra, rb); onl('R' + G.dice[0] + G.dice[1], G.turn);
+}
+function doMove(m) {
+  if (NET && !NET.rep && !isHuman(G.turn)) return;
+  var s = G.turn; doMove0(m); onl('M' + m.from + '_' + m.to + '_' + m.die, s);
+}
+function undoMove() {
+  if (NET && !NET.rep && !isHuman(G.turn)) return;
+  var n = G.undo.length, s = G.turn; undoMove0(); if (G.undo.length < n) onl('U', s);
+}
+function endTurn() {
+  var s = G.turn, ph0 = G.phase, ov0 = G.over;
+  if (NET && !NET.rep && !NET.silent && ph0 === 'move' && !isHuman(s)) return;
+  endTurn0();
+  if (ph0 === 'move' && !ov0 && (G.turn !== s || G.over) && !(NET && NET.silent)) onl('E', s);
+}
+function offerDouble(s) {
+  if (NET && !NET.rep && s !== NET.me) return;
+  offerDouble0(s); if (G.phase === 'offer') onl('D', s);
+}
+function respond(take) {
+  if (G.phase !== 'offer') return;
+  var r = other(G.offer.by);
+  if (NET && !NET.rep && r !== NET.me) return;
+  respond0(take); onl(take ? 'T' : 'X', r);
+}
+function netSend(tok, result) {
+  var n = NET, O = window.OphanimOnline;
+  n.q = n.q.then(function () {
+    return O.room.event(n.id, tok, n.len, result).then(function (row) { n.len = (row.moves || []).length; });
+  }).catch(function (e) {
+    if (NET !== n) return;
+    netMsg(NT('The connection dropped. Re-syncing…', 'Η σύνδεση διακόπηκε. Συγχρονισμός…'));
+    O.room.get(n.id).then(function (row) { n.len = (row.moves || []).length; netResync(row); }, function () {});
+  });
+}
+function netMsg(t) { var e = document.getElementById('netMsg'); if (e) e.textContent = t || ''; }
+function netFlush() { if (G.phase === 'move' && !G.over && !firsts().length) endTurn(); }
+function netApply(tok) {
+  NET.rep = true;
+  try {
+    netFlush();
+    var k = tok.charAt(0), x;
+    if (k === 'O') { NET.open = [+tok.charAt(1), +tok.charAt(2)]; newGame(); NET.open = null; }
+    else if (k === 'R') rollDice(+tok.charAt(1), +tok.charAt(2));
+    else if (k === 'M') {
+      x = tok.slice(1).split('_');
+      var f = x[0] === 'bar' ? 'bar' : +x[0], t = x[1] === 'off' ? 'off' : +x[1], d = +x[2];
+      var mv = firsts().filter(function (m) { return m.from === f && m.to === t && m.die === d; })[0];
+      if (!mv) throw new Error('no such move');
+      doMove(mv);
+    }
+    else if (k === 'E') endTurn();
+    else if (k === 'D') offerDouble(G.turn);
+    else if (k === 'T') respond(true);
+    else if (k === 'X') respond(false);
+    else if (k === 'U') undoMove();
+  } finally { NET.rep = false; }
+}
+function netResync(row) {
+  if (!NET) return;
+  var n = NET; n.room = row;
+  if (G.timer) { clearTimeout(G.timer); G.timer = null; }
+  G.over = null; G.offer = null; G.sel = null; G.hint = null;
+  n.applied = 0; n.q = Promise.resolve();
+  var mv = row.moves || [], i;
+  try { for (i = 0; i < mv.length; i++) { netApply(mv[i]); n.applied++; } } catch (e) { netMsg('The two boards disagree. Leave and rejoin the room.'); }
+  n.len = Math.max(n.len || 0, mv.length);
+  netEnd(row); netPaint(); render();
+}
+function netRow(row) {
+  if (!NET || !row || row.id !== NET.id) return;
+  var n = NET; n.room = row;
+  var mv = row.moves || [];
+  if (mv.length > n.len) n.len = mv.length;
+  if (mv.length > n.applied) {
+    try { while (n.applied < mv.length) { netApply(mv[n.applied]); n.applied++; } }
+    catch (e) { netResync(row); return; }
+  }
+  netEnd(row); netPaint();
+}
+function netEnd(row) {
+  if (row.status === 'finished' && !G.over && row.ended_by === 'resign') {
+    NET.rep = true; try { finish(row.result === '1-0' ? 'w' : 'b', 'wins (the other player left the game)', 1); } finally { NET.rep = false; }
+  }
+}
+function netPaint() {
+  var e = document.getElementById('netStrip'); if (!e || !NET) return;
+  e.hidden = false;
+  var done = G.over || (NET.room && NET.room.status === 'finished');
+  document.getElementById('netInfo').textContent = NT('Live room ', 'Ζωντανό δωμάτιο ') + NET.code + NT(' · you are ', ' · είστε το ') + (NET.me === 'w' ? NT('Cyan', 'Κυανό') : NT('Amber', 'Κεχριμπάρι')) + NT(' · playing ', ' · παίζετε με ') + (NET.opp || NT('your opponent', 'τον αντίπαλό σας'));
+  document.getElementById('netRes').disabled = !!done;
+}
+function netStart(row) {
+  var O = window.OphanimOnline;
+  if (NET && NET.stop) NET.stop();
+  NET = { id: row.id, code: row.code, me: (row.white === O.room.me() ? 'w' : 'b'), room: row, applied: 0, len: (row.moves || []).length, q: Promise.resolve(), opp: '', rep: false, silent: false, open: null, stop: null };
+  G.mode = 'online';
+  var so = $('selOpp'); if (!so.querySelector('option[value="online"]')) { var o = document.createElement('option'); o.value = 'online'; o.textContent = 'Live room'; so.appendChild(o); }
+  so.value = 'online';
+  G.score = { w: 0, b: 0 };
+  netBuildStrip();
+  netResync(row);
+  if (!(row.moves || []).length && row.host === O.room.me()) {
+    var a, b; do { a = rnd6(); b = rnd6(); } while (a === b);
+    NET.rep = true; NET.open = [a, b]; try { newGame(); } finally { NET.open = null; NET.rep = false; }
+    NET.applied++; netSend('O' + a + b, null);
+  }
+  O.room.names([row.white, row.black]).then(function (map) { if (NET && NET.id === row.id) { NET.opp = map[NET.me === 'w' ? row.black : row.white] || 'your opponent'; netPaint(); render(); } });
+  NET.stop = O.room.watch(row.id, netRow);
+  netPaint(); render();
+}
+function netBuildStrip() {
+  if (document.getElementById('netStrip')) return;
+  var d = document.createElement('div'); d.id = 'netStrip'; d.hidden = true;
+  d.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:0 0 10px;padding:9px 12px;border:1px solid #ffb700;border-radius:6px;background:rgba(255,183,0,.08);font-size:14px';
+  d.innerHTML = '<span id="netInfo" style="flex:1 1 220px"></span><span id="netMsg" style="color:#ff9a8a"></span><button class="btn" type="button" id="netRes">' + NT('Resign', 'Παράδοση') + '</button><button class="btn" type="button" id="netLeave">' + NT('Leave room', 'Έξοδος από το δωμάτιο') + '</button>';
+  var st = $('stage'); st.parentNode.insertBefore(d, st);
+  $('netRes').addEventListener('click', function () { if (NET && window.confirm(NT('Resign this game?', 'Να παραδοθεί το παιχνίδι;'))) window.OphanimOnline.room.resign(NET.id).then(function (r) { netRow(r); }, function () { netMsg('Could not resign. Try again.'); }); });
+  $('netLeave').addEventListener('click', netLeave);
+}
+function netLeave() {
+  if (!NET) return;
+  if (NET.stop) NET.stop();
+  window.OphanimOnline.room.forget(); NET = null;
+  var so = $('selOpp'), op = so.querySelector('option[value="online"]'); if (op) op.remove();
+  G.mode = 'master'; so.value = 'master'; G.score = { w: 0, b: 0 };
+  var e = document.getElementById('netStrip'); if (e) e.hidden = true;
+  newGame();
+}
+window.OphanimRoomHooks = { start: netStart };
+window.addEventListener('load', function () {
+  var had = false; try { had = !!localStorage.getItem('ophanim.room'); } catch (e) {}
+  var O = window.OphanimOnline; if (!had || !O) return;
+  O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing' && r.game === 'backgammon') netStart(r); });
+});
+
 if (typeof window !== 'undefined') window.__olb = { G: G, newGame: newGame, rollDice: rollDice, clickKey: clickKey, respond: respond, offerDouble: offerDouble, endTurn: endTurn, doMove: doMove, firsts: firsts, undoMove: undoMove, showHint: showHint, canDouble: canDouble, VARS: VARS, setEngine: setEngine, flatDyn: flatDyn, coachHTML: coachHTML, render: render, pickBest: pickBest, evalPos: evalPos, winProb: winProb };
 boot();
 })();

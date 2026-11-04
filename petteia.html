@@ -567,9 +567,11 @@ var Petteia = (function () {
   }
   window.addEventListener('resize', size);
 
-  function isHuman(p) { return mode === '2p' || ((mode === 'vizier' || mode === 'scribe') && p === 1); }
+  var NET = null;
+  function isHuman(p) { if (mode === 'online') return !!(NET && p === NET.me); return mode === '2p' || ((mode === 'vizier' || mode === 'scribe') && p === 1); }
   function level() { return mode === 'scribe' ? 'scribe' : 'vizier'; }
   function who(p) {
+    if (mode === 'online') return (NET && p === NET.me) ? 'You' : ((NET && NET.opp) || 'Your opponent');
     if (mode === '2p') return PN[p];
     if (mode === 'watch') return PN[p] + ' (Vizier)';
     return p === 1 ? 'You (cyan)' : 'Amber (' + (mode === 'scribe' ? 'Scribe' : 'Vizier') + ')';
@@ -598,19 +600,20 @@ var Petteia = (function () {
     $('statusTxt').textContent = statusText();
   }
   function statusText() {
-    if (over) return G.draw ? 'A draw: equal pieces after ' + P.CAP_LIMIT + ' moves.' : who(G.winner) + ' win' + (mode === '2p' || mode === 'watch' || G.winner === 2 ? 's' : '') + '!';
+    if (over) return G.draw ? 'A draw: equal pieces after ' + P.CAP_LIMIT + ' moves.' : who(G.winner) + ' win' + (mode === '2p' || mode === 'watch' || (mode !== 'online' && G.winner === 2) || (mode === 'online' && who(G.winner) !== 'You') ? 's' : '') + '!';
     var w = who(G.turn); return w + (isHuman(G.turn) ? ': tap a glowing piece, then a square' : ' is thinking');
   }
   function log(h) { var ul = $('logList'), li = document.createElement('li'); li.innerHTML = h; ul.insertBefore(li, ul.firstChild); while (ul.children.length > 40) ul.removeChild(ul.lastChild); }
   function clear() { if (timer) { clearTimeout(timer); timer = null; } }
   function newGame() {
+    if (NET && !NET.rep) { $('selOpp').value = 'online'; log('This is a live room. Leave the room to start another game.'); return; }
     clear(); mode = $('selOpp').value; G = P.newGame(); over = false; last = null; sel = null; L = P.moves(G, G.turn);
     $('logList').textContent = ''; log('New game. <b>Cyan</b> moves first.');
     render(); next();
   }
-  function next() { if (!over && !isHuman(G.turn)) timer = setTimeout(aiMove, mode === 'watch' ? 650 : 750); }
+  function next() { if (!over && mode !== 'online' && !isHuman(G.turn)) timer = setTimeout(aiMove, mode === 'watch' ? 650 : 750); }
   function aiMove() { if (over) return; var m = P.choose(G, G.turn, level()); if (m) doMove(m); }
-  function doMove(m) {
+  function doMove0(m) {
     clear();
     var p = G.turn, res = P.apply(G, m); G = res.state; sel = null;
     last = key(m.to[0], m.to[1]);
@@ -634,6 +637,114 @@ var Petteia = (function () {
     if (G.b[r][c] === G.turn && L.some(function (x) { return x.from[0] === r && x.from[1] === c; })) { sel = (sel && sel[0] === r && sel[1] === c) ? null : [r, c]; render(); }
     else if (sel) { sel = null; render(); }
   }
+
+  /* ---------- live room (two players, two devices) ---------- */
+function NT(en, el) { var g = false; try { g = window.OphanimAccount && window.OphanimAccount.lang() === 'el'; } catch (e) {} return g ? el : en; }
+  function onl(tok, by) {
+    if (!NET || NET.rep || by !== NET.me) return;
+    NET.applied++;
+    var res = null; if (over) res = G.draw ? '1/2-1/2' : (G.winner === 1 ? '1-0' : '0-1');
+    netSend(tok, res);
+  }
+  function doMove(m) {
+    if (NET && !NET.rep && !isHuman(G.turn)) return;
+    var p = G.turn; doMove0(m); onl('M' + m.from[0] + m.from[1] + m.to[0] + m.to[1], p);
+  }
+  function netSend(tok, result) {
+    var n = NET, O = window.OphanimOnline;
+    n.q = n.q.then(function () {
+      return O.room.event(n.id, tok, n.len, result).then(function (row) { n.len = (row.moves || []).length; });
+    }).catch(function () {
+      if (NET !== n) return;
+      netMsg(NT('The connection dropped. Re-syncing…', 'Η σύνδεση διακόπηκε. Συγχρονισμός…'));
+      O.room.get(n.id).then(function (row) { n.len = (row.moves || []).length; netResync(row); }, function () {});
+    });
+  }
+  function netMsg(t) { var e = document.getElementById('netMsg'); if (e) e.textContent = t || ''; }
+  function netApply(tok) {
+    NET.rep = true;
+    try {
+      if (tok.charAt(0) === 'M') {
+        var d = tok.slice(1).split('').map(Number);
+        var mv = L.filter(function (x) { return x.from[0] === d[0] && x.from[1] === d[1] && x.to[0] === d[2] && x.to[1] === d[3]; })[0];
+        if (!mv) throw new Error('no such move');
+        doMove(mv);
+      }
+    } finally { NET.rep = false; }
+  }
+  function netReset() {
+    clear(); G = P.newGame(); over = false; last = null; sel = null; L = P.moves(G, G.turn); $('logList').textContent = '';
+    log('Live room. <b>Cyan</b> moves first.');
+  }
+  function netResync(row) {
+    if (!NET) return;
+    var n = NET; n.room = row; n.applied = 0; n.q = Promise.resolve();
+    netReset();
+    var mv = row.moves || [], i;
+    try { for (i = 0; i < mv.length; i++) { netApply(mv[i]); n.applied++; } } catch (e) { netMsg('The two boards disagree. Leave and rejoin the room.'); }
+    n.len = Math.max(n.len || 0, mv.length);
+    netEnd(row); netPaint(); render();
+  }
+  function netRow(row) {
+    if (!NET || !row || row.id !== NET.id) return;
+    var n = NET; n.room = row;
+    var mv = row.moves || [];
+    if (mv.length > n.len) n.len = mv.length;
+    if (mv.length > n.applied) {
+      try { while (n.applied < mv.length) { netApply(mv[n.applied]); n.applied++; } }
+      catch (e) { netResync(row); return; }
+    }
+    netEnd(row); netPaint();
+  }
+  function netEnd(row) {
+    if (row.status === 'finished' && !over && row.ended_by === 'resign') {
+      var w = row.result === '1-0' ? 1 : 2;
+      G.winner = w; over = true; score[w]++; render(); snd('win'); log('<b>' + who(w) + ' win' + (who(w) === 'You' ? '' : 's') + ' (the other player left the game).</b>');
+    }
+  }
+  function netPaint() {
+    var e = document.getElementById('netStrip'); if (!e || !NET) return;
+    e.hidden = false;
+    document.getElementById('netInfo').textContent = NT('Live room ', 'Ζωντανό δωμάτιο ') + NET.code + NT(' · you are ', ' · είστε το ') + (NET.me === 1 ? NT('Cyan', 'Κυανό') : NT('Amber', 'Κεχριμπάρι')) + NT(' · playing ', ' · παίζετε με ') + (NET.opp || NT('your opponent', 'τον αντίπαλό σας'));
+    document.getElementById('netRes').disabled = !!(over || (NET.room && NET.room.status === 'finished'));
+  }
+  function netStart(row) {
+    var O = window.OphanimOnline;
+    if (NET && NET.stop) NET.stop();
+    NET = { id: row.id, code: row.code, me: (row.white === O.room.me() ? 1 : 2), room: row, applied: 0, len: (row.moves || []).length, q: Promise.resolve(), opp: '', rep: false, stop: null };
+    var so = $('selOpp'); if (!so.querySelector('option[value="online"]')) { var o = document.createElement('option'); o.value = 'online'; o.textContent = 'Live room'; so.appendChild(o); }
+    so.value = 'online'; mode = 'online'; score = [0, 0, 0];
+    netBuildStrip();
+    netResync(row);
+    O.room.names([row.white, row.black]).then(function (map) { if (NET && NET.id === row.id) { NET.opp = map[NET.me === 1 ? row.black : row.white] || 'your opponent'; netPaint(); render(); } });
+    NET.stop = O.room.watch(row.id, netRow);
+    netPaint(); render();
+  }
+  function netBuildStrip() {
+    if (document.getElementById('netStrip')) return;
+    var d = document.createElement('div'); d.id = 'netStrip'; d.hidden = true;
+    d.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:0 0 10px;padding:9px 12px;border:1px solid #ffb700;border-radius:6px;background:rgba(255,183,0,.08);font-size:14px';
+    d.innerHTML = '<span id="netInfo" style="flex:1 1 220px"></span><span id="netMsg" style="color:#ff9a8a"></span><button class="btn" type="button" id="netRes">' + NT('Resign', 'Παράδοση') + '</button><button class="btn" type="button" id="netLeave">' + NT('Leave room', 'Έξοδος από το δωμάτιο') + '</button>';
+    var st = $('stage'); st.parentNode.insertBefore(d, st);
+    $('netRes').addEventListener('click', function () { if (NET && window.confirm(NT('Resign this game?', 'Να παραδοθεί το παιχνίδι;'))) window.OphanimOnline.room.resign(NET.id).then(function (r) { netRow(r); }, function () { netMsg('Could not resign. Try again.'); }); });
+    $('netLeave').addEventListener('click', netLeave);
+  }
+  function netLeave() {
+    if (!NET) return;
+    if (NET.stop) NET.stop();
+    window.OphanimOnline.room.forget(); NET = null;
+    var so = $('selOpp'), op = so.querySelector('option[value="online"]'); if (op) op.remove();
+    so.value = 'vizier'; score = [0, 0, 0];
+    var e = document.getElementById('netStrip'); if (e) e.hidden = true;
+    newGame();
+  }
+  window.OphanimRoomHooks = { start: netStart };
+  window.addEventListener('load', function () {
+    var had = false; try { had = !!localStorage.getItem('ophanim.room'); } catch (e) {}
+    var O = window.OphanimOnline; if (!had || !O) return;
+    O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing' && r.game === 'petteia') netStart(r); });
+  });
+
   $('btnNew').onclick = newGame; $('selOpp').onchange = newGame;
 
   var tx = 54, rz = 0, dragMoved = false, drag = null;

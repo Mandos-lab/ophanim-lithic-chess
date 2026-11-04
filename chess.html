@@ -1955,7 +1955,7 @@ updatePanel();
 
   /* a refresh, or coming back later: pick the game up where it was */
   var had = false; try { had = !!localStorage.getItem('ophanim.room'); } catch (e) {}
-  if (had) O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing') start(r); });
+  if (had) O.init().then(function () { return O.room.resume(); }).then(function (r) { if (r && r.status === 'playing' && (!r.game || r.game === 'chess')) start(r); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

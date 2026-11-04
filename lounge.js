@@ -62,12 +62,12 @@
   function copy(text) { var d = tx().copied; try { navigator.clipboard.writeText(text).then(function () { toast(d); }, function () { prompt('', text); }); } catch (e) { prompt('', text); } }
   /* ---- Live rooms (chess only for now; the other games keep the mock-up) ---- */
   var live = null, liveMsg = '', liveBusy = false, stopLive = null;
-  function liveOK() { return file === 'chess' && window.OphanimOnline && window.OphanimOnline.room && window.OphanimRoomHooks; }
+  function liveOK() { return window.OphanimOnline && window.OphanimOnline.room && window.OphanimRoomHooks; }
   function errKey(e) { var m = String((e && e.message) || e || ''); if (/no such room/i.test(m)) return 'nosuch'; if (/full/i.test(m)) return 'full'; if (/too many/i.test(m)) return 'toomany'; return 'connfail'; }
   function enterGame(row) { if (stopLive) { stopLive(); stopLive = null; } live = null; liveMsg = ''; liveBusy = false; close(); window.OphanimRoomHooks.start(row); }
   function makeLive() {
     liveBusy = true; liveMsg = tx().working; render();
-    window.OphanimOnline.room.create('chess').then(function (row) {
+    window.OphanimOnline.room.create(file).then(function (row) {
       liveBusy = false; liveMsg = ''; live = row;
       if (row.status === 'playing') { enterGame(row); return; }
       stopLive = window.OphanimOnline.room.watch(row.id, function (r) { if (r.status === 'playing') enterGame(r); else if (r.status === 'finished') { live = null; if (stopLive) { stopLive(); stopLive = null; } render(); } });
@@ -77,6 +77,7 @@
   function joinLive(code) {
     liveBusy = true; liveMsg = tx().working; render();
     window.OphanimOnline.room.join(code).then(function (row) {
+      if (row.game && row.game !== file) { window.OphanimOnline.room.forget(); location.href = row.game + '.html?room=' + encodeURIComponent(code); return; }
       if (row.status === 'playing') enterGame(row); else if (row.status === 'finished') { window.OphanimOnline.room.forget(); invited = ''; paintBtn(); liveBusy = false; live = null; liveMsg = tx().over; render(); } else { liveBusy = false; live = row; liveMsg = ''; render(); }
     }, function (e) { liveBusy = false; liveMsg = tx()[errKey(e)]; render(); });
   }

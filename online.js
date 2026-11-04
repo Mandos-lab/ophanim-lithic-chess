@@ -84,6 +84,8 @@
     me: function () { return uid; },
     move: function (id, san, len, result) { return rpc('post_move', { p_room: id, p_san: san, p_len: len, p_result: result || null }); },
     resign: function (id) { return rpc('resign_room', { p_room: id }); },
+    /* Every non-chess game: one short token per action, in order. */
+    event: function (id, tok, len, result) { return rpc('post_event', { p_room: id, p_tok: tok, p_len: len, p_result: result || null }); },
     cancel: function (id) { return rpc('cancel_room', { p_room: id }).then(function () { ls(RK, null); }); },
     forget: function () { ls(RK, null); },
     /* Picks up a room this device was in (refresh, or coming back later). Never creates a visitor. */
