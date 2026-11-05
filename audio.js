@@ -72,8 +72,8 @@
   }
   function label() {
     var b = $('btnSound'), d = $('btnDrone');
-    if (b) { b.textContent = 'Sound: ' + (on ? 'on' : 'off'); b.setAttribute('aria-pressed', on); }
-    if (d) { d.textContent = 'Drone: ' + (droneOn ? 'on' : 'off'); d.setAttribute('aria-pressed', droneOn); }
+    if (b) { b.textContent = T('Sound: ', 'Ήχος: ') + (on ? T('on', 'ναι') : T('off', 'όχι')); b.setAttribute('aria-pressed', on); }
+    if (d) { d.textContent = T('Drone: ', 'Βόμβος: ') + (droneOn ? T('on', 'ναι') : T('off', 'όχι')); d.setAttribute('aria-pressed', droneOn); }
   }
   window.OphanimSound = { play: play };
 
@@ -85,7 +85,9 @@
     '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}' +
     '@media(max-width:900px){section[data-narrate]{flex-direction:column;align-items:stretch}section[data-narrate]>.narr{align-self:stretch;margin:0 0 10px}}';
   var speaking = null;
-  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = 'Read aloud'; }); }
+  var EL = /^el/i.test(document.documentElement.lang || '');
+  function T(en, el) { return EL ? el : en; }
+  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); }
   function pickVoice() {
     var vs = []; try { vs = speechSynthesis.getVoices() || []; } catch (e) {}
     var lang = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
@@ -100,8 +102,8 @@
   function speakSection(sec, rate, btn) {
     stopSpeak();
     var nodes = Array.prototype.slice.call(sec.querySelectorAll('h2,h3,p,li')).filter(function (n) { return !n.closest('.narr') && !n.closest('table') && !n.classList.contains('src') && n.textContent.trim().length > 1; });
-    var token = { stop: false }; speaking = token; btn.textContent = 'Stop';
-    try { var hh = sec.querySelector('h2'); window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: true, title: hh ? hh.textContent.replace(/\s+/g, ' ').trim() : 'This page' } })); } catch (e) {}
+    var token = { stop: false }; speaking = token; btn.textContent = T('Stop', 'Διακοπή');
+    try { var hh = sec.querySelector('h2'); window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: true, title: hh ? hh.textContent.replace(/\s+/g, ' ').trim() : T('This page', 'Αυτή η σελίδα') } })); } catch (e) {}
     var i = 0, voice = pickVoice();
     function nextNode() {
       if (token.stop || i >= nodes.length) { if (!token.stop) stopSpeak(); return; }
@@ -122,27 +124,27 @@
     var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
     var canTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
     secs.forEach(function (sec) {
-      var bar = document.createElement('div'); bar.className = 'narr'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Listen to this section');
+      var bar = document.createElement('div'); bar.className = 'narr'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', T('Listen to this section', 'Ακούστε αυτή την ενότητα'));
       var audioSrc = sec.getAttribute('data-audio');
       var slot = document.createElement('span'); bar.appendChild(slot);
       var tts = null;
       if (canTTS) {
         tts = document.createElement('span');
-        tts.innerHTML = '<button type="button" data-say>Read aloud</button> <label>Speed <select aria-label="Reading speed"><option value="0.85">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label>';
+        tts.innerHTML = '<button type="button" data-say>' + T('Read aloud', 'Ανάγνωση φωναχτά') + '</button> <label>' + T('Speed', 'Ταχύτητα') + ' <select aria-label="' + T('Reading speed', 'Ταχύτητα ανάγνωσης') + '"><option value="0.85">' + T('Slow', 'Αργά') + '</option><option value="1" selected>' + T('Normal', 'Κανονικά') + '</option><option value="1.2">' + T('Fast', 'Γρήγορα') + '</option></select></label>';
         bar.appendChild(tts);
         var btn = tts.querySelector('button'), sel = tts.querySelector('select');
         btn.addEventListener('click', function () { if (speaking) stopSpeak(); else speakSection(sec, function () { return parseFloat(sel.value); }, btn); });
       }
       var note = document.createElement('span'); note.className = 'nn';
-      note.textContent = canTTS ? (sec.getAttribute('data-note') || 'Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.') : 'Read aloud is not available in this browser.';
+      note.textContent = canTTS ? (sec.getAttribute('data-note') || T('Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.', 'Φωνή υπολογιστή. Μπορεί να παραλείψει ή να προφέρει λάθος ελληνικές και αρμενικές λέξεις· για αυτές είναι καλύτερη μια ηχογράφηση.')) : T('Read aloud is not available in this browser.', 'Η ανάγνωση φωναχτά δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.');
       bar.appendChild(note);
       var h = sec.querySelector('h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
       if (audioSrc) {                                                // offer the recording only if the file really exists
         fetch(audioSrc, { method: 'HEAD' }).then(function (r) {
           if (!r.ok) return;
-          var a = document.createElement('audio'); a.controls = true; a.preload = 'none'; a.src = audioSrc; a.setAttribute('aria-label', 'Recording of this section');
+          var a = document.createElement('audio'); a.controls = true; a.preload = 'none'; a.src = audioSrc; a.setAttribute('aria-label', T('Recording of this section', 'Ηχογράφηση αυτής της ενότητας'));
           a.addEventListener('play', stopSpeak); slot.appendChild(a);
-          note.textContent = 'Recording by the author. The computer voice is also available.';
+          note.textContent = T('Recording by the author. The computer voice is also available.', 'Ηχογράφηση από τον συγγραφέα. Διατίθεται και η φωνή υπολογιστή.');
         }).catch(function () {});
       }
     });
