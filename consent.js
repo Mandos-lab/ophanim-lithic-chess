@@ -32,8 +32,10 @@
     if (!src) return false;
     try { var u = new URL(src, location.href); return /^https?:$/.test(u.protocol) && u.origin !== location.origin; } catch (e) { return false; }
   }
+  var EL = /^el/i.test(document.documentElement.lang || '');
+  function T(en, el) { return EL ? el : en; }
   var NOTE = '<body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;background:#0b0f16;color:#9aa7b8;font:13px/1.5 system-ui,sans-serif;text-align:center;padding:12px;box-sizing:border-box">' +
-    '<div>This frame loads content from another website.<br>Choose <b>Allow third-party content</b> in the Cookie settings (bottom-left of the page) to show it.</div></body>';
+    '<div>' + T('This frame loads content from another website.<br>Choose <b>Allow third-party content</b> in the Cookie settings (bottom-left of the page) to show it.', 'Αυτό το πλαίσιο φορτώνει περιεχόμενο από άλλον ιστότοπο.<br>Επιλέξτε <b>Να επιτρέπεται περιεχόμενο τρίτων</b> στις Ρυθμίσεις cookies (κάτω αριστερά στη σελίδα) για να εμφανιστεί.') + '</div></body>';
   function hold(f) {
     if (mediaOk() || busy) return;
     var src = f.getAttribute('src');
@@ -89,13 +91,13 @@
   function choose(media) { save(media); if (media) releaseAll(); closeBar(); try { window.dispatchEvent(new Event('ophanim-consent')); } catch (e) {} }
   function openBar() {
     if (document.getElementById('ocBar')) return;
-    var bar = el('div', { id: 'ocBar', role: 'dialog', 'aria-label': 'Cookie settings' },
-      '<h2>Cookies and embedded content</h2>' +
-      '<p>This site stores your settings in your own browser (needed for it to work). ' +
-      'Some pages can also show videos and posts from YouTube, Vimeo and X. Those companies may set their own cookies and see your IP address, so they stay off unless you allow them. ' +
-      '<a href="privacy.html">Read the privacy page</a>.</p>' +
-      '<div class="ocRow"><button type="button" class="ocYes" id="ocAllow">Allow third-party content</button>' +
-      '<button type="button" id="ocEss">Essential only</button></div>');
+    var bar = el('div', { id: 'ocBar', role: 'dialog', 'aria-label': T('Cookie settings', 'Ρυθμίσεις cookies') },
+      '<h2>' + T('Cookies and embedded content', 'Cookies και ενσωματωμένο περιεχόμενο') + '</h2>' +
+      '<p>' + T('This site stores your settings in your own browser (needed for it to work). ', 'Αυτός ο ιστότοπος αποθηκεύει τις ρυθμίσεις σας στον δικό σας περιηγητή (χρειάζεται για να λειτουργεί). ') +
+      T('Some pages can also show videos and posts from YouTube, Vimeo and X. Those companies may set their own cookies and see your IP address, so they stay off unless you allow them. ', 'Ορισμένες σελίδες μπορούν να δείχνουν βίντεο και αναρτήσεις από το YouTube, το Vimeo και το X. Αυτές οι εταιρείες μπορεί να βάλουν δικά τους cookies και να δουν τη διεύθυνση IP σας, γι’ αυτό μένουν κλειστές αν δεν τις επιτρέψετε. ') +
+      '<a href="privacy.html">' + T('Read the privacy page', 'Διαβάστε τη σελίδα απορρήτου') + '</a>.</p>' +
+      '<div class="ocRow"><button type="button" class="ocYes" id="ocAllow">' + T('Allow third-party content', 'Να επιτρέπεται περιεχόμενο τρίτων') + '</button>' +
+      '<button type="button" id="ocEss">' + T('Essential only', 'Μόνο τα απαραίτητα') + '</button></div>');
     document.body.appendChild(bar);
     document.getElementById('ocAllow').onclick = function () { choose(true); };
     document.getElementById('ocEss').onclick = function () { choose(false); };
@@ -104,7 +106,7 @@
   }
   function init() {
     var st = el('style', {}); st.textContent = css; document.head.appendChild(st);
-    var set = el('button', { id: 'ocSet', type: 'button', 'aria-label': 'Cookie settings' }, 'Cookie settings');
+    var set = el('button', { id: 'ocSet', type: 'button', 'aria-label': T('Cookie settings', 'Ρυθμίσεις cookies') }, T('Cookie settings', 'Ρυθμίσεις cookies'));
     set.onclick = openBar; document.body.appendChild(set);
     scan(document);
     if (state) set.hidden = false; else openBar();
