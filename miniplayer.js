@@ -4,6 +4,8 @@
    Stop, "Go to player" and Close. No settings needed. */
 (function () {
   var cur = null, bar, ttl, bPlay, started = false, dismissed = false, inView = true, io;
+  var EL = /^el/i.test(document.documentElement.lang || '');
+  function T(en, el) { return EL ? el : en; }
   var css = document.createElement('style');
   css.textContent =
     '#mp{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:60;display:none;align-items:center;gap:8px;' +
@@ -19,25 +21,25 @@
   }
   function build() {
     if (bar) return;
-    bar = document.createElement('div'); bar.id = 'mp'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Now playing');
+    bar = document.createElement('div'); bar.id = 'mp'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', T('Now playing', 'Αναπαραγωγή τώρα'));
     ttl = document.createElement('span'); ttl.className = 'mt';
-    bPlay = btn('❚❚', 'Pause or play', function () { if (speech) { try { if (speechPaused) speechSynthesis.resume(); else speechSynthesis.pause(); speechPaused = !speechPaused; } catch (x) {} refresh(); return; } if (!cur) return; if (cur.paused) cur.play(); else cur.pause(); });
+    bPlay = btn('❚❚', T('Pause or play', 'Παύση ή αναπαραγωγή'), function () { if (speech) { try { if (speechPaused) speechSynthesis.resume(); else speechSynthesis.pause(); speechPaused = !speechPaused; } catch (x) {} refresh(); return; } if (!cur) return; if (cur.paused) cur.play(); else cur.pause(); });
     bar.appendChild(ttl); bar.appendChild(bPlay);
-    bar.appendChild(btn('■', 'Stop', function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } if (!cur) return; cur.pause(); cur.currentTime = 0; started = false; refresh(); }));
-    bar.appendChild(btn('▲', 'Go to the player', function () { if (speech) { var n = document.querySelector('.narr-now'); if (n) n.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; } if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
-    bar.appendChild(btn('✕', 'Close this bar', function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } dismissed = true; refresh(); }));
+    bar.appendChild(btn('■', T('Stop', 'Διακοπή'), function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } if (!cur) return; cur.pause(); cur.currentTime = 0; started = false; refresh(); }));
+    bar.appendChild(btn('▲', T('Go to the player', 'Μετάβαση στον αναπαραγωγέα'), function () { if (speech) { var n = document.querySelector('.narr-now'); if (n) n.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; } if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+    bar.appendChild(btn('✕', T('Close this bar', 'Κλείσιμο αυτής της μπάρας'), function () { if (speech) { window.dispatchEvent(new CustomEvent('ophanim-speech-stop')); return; } dismissed = true; refresh(); }));
     document.body.appendChild(bar);
   }
   function title(m) {
     var t = m.getAttribute('data-title');
-    if (!t) { var s = m.closest('section,figure'); var h = s && s.querySelector('h2'); t = h ? h.textContent : (m.tagName === 'VIDEO' ? 'Video' : 'Recorded talk'); }
+    if (!t) { var s = m.closest('section,figure'); var h = s && s.querySelector('h2'); t = h ? h.textContent : (m.tagName === 'VIDEO' ? T('Video', 'Βίντεο') : T('Recorded talk', 'Ηχογραφημένη ομιλία')); }
     return t.replace(/\s+/g, ' ').trim();
   }
   var speech = null, speechPaused = false;
   function refresh() {
     build();
     if (speech) {                                                  // the computer voice is reading a section
-      bar.classList.add('on'); ttl.textContent = 'Reading aloud · ' + speech; bPlay.textContent = speechPaused ? '▶' : '❚❚'; return;
+      bar.classList.add('on'); ttl.textContent = T('Reading aloud', 'Ανάγνωση φωναχτά') + ' · ' + speech; bPlay.textContent = speechPaused ? '▶' : '❚❚'; return;
     }
     var show = cur && started && !dismissed && !inView;
     bar.classList.toggle('on', !!show);
@@ -45,7 +47,7 @@
   }
   window.addEventListener('ophanim-speech', function (e) {
     var d = e.detail || {};
-    if (d.on) { speech = d.title || 'This page'; speechPaused = false; document.querySelectorAll('audio,video').forEach(function (o) { if (!o.paused) o.pause(); }); }
+    if (d.on) { speech = d.title || T('This page', 'Αυτή η σελίδα'); speechPaused = false; document.querySelectorAll('audio,video').forEach(function (o) { if (!o.paused) o.pause(); }); }
     else { speech = null; speechPaused = false; }
     refresh();
   });
