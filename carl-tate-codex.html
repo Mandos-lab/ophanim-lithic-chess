@@ -50,7 +50,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -393,6 +393,7 @@ blockquote.pull{font-style:italic;color:var(--gold);border-left:2px solid var(--
 #calc .hyr{position:sticky;top:76px}
 #calc canvas{width:100%;aspect-ratio:1/1;display:block;touch-action:pan-y;cursor:grab;background:radial-gradient(circle,rgba(70,227,240,.05),transparent 70%)}
 #calc .hycap{text-align:center;font-size:13px;opacity:.7}
+@media (orientation:portrait){section{min-height:auto}}
 </style>
 <style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
 <link rel="icon" href="mark.svg" type="image/svg+xml">

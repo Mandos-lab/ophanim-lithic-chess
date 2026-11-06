@@ -50,7 +50,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -445,6 +445,8 @@ h1{font-size:clamp(38px,6vw,68px)}h1 em{display:block;font-size:.55em;margin-top
 .rt-form input{direction:rtl}
 @media(max-width:600px){.dbscroll{overflow-x:auto}}
 @media(max-width:900px){#calc .hyc{grid-template-columns:1fr}#calc .hyr{position:static}}
+@media (orientation:portrait){section{min-height:auto}}
+.links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}.links a{font:12px var(--mono,monospace);letter-spacing:.06em;color:var(--lime,#46e3f0);text-decoration:none;border:1px solid rgba(70,227,240,.3);border-radius:4px;padding:8px 12px}.links a:hover{border-color:#e8c375;color:#e8c375}
 </style>
 <link rel="icon" href="mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="readable.css">

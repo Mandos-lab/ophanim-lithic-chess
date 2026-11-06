@@ -51,7 +51,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -391,6 +391,7 @@ table.dec th{font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase
 table.dec td:first-child{font-size:22px;color:var(--gold);white-space:nowrap}
 .auditbox summary{cursor:pointer}
 @media(max-width:700px){table.dec td,table.dec th{padding:8px 5px;font-size:15px;word-break:break-word}table.dec td:first-child{white-space:normal;font-size:17px}}
+@media (orientation:portrait){section{min-height:auto}}
 </style>
 <style>
 .jeqs{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}.jeq{border:1px solid var(--line);background:var(--panel);padding:12px 14px}.jeqh{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}.jeqh .jw{font-size:28px;color:var(--gold)}.jeqh .jm{font-style:italic;color:var(--cyan)}

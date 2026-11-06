@@ -50,7 +50,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -398,6 +398,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 .houses button.on{background:var(--gold);color:var(--bg)}
 .pc.s-a{background:radial-gradient(circle at 35% 35%,#fff,#cfc5ad)}
 .pc.s-b{background:radial-gradient(circle at 35% 35%,#59d0c4,#14605a)}
+@media (orientation:portrait){section{min-height:auto}}
 </style>
 <style>@media(max-width:900px){.game iframe{height:2300px!important}}</style>
 <style>.gp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}.gp-cards .c{border:1px solid var(--line-g);background:var(--panel);padding:16px}.gp-cards .c h3{margin:0 0 6px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.gp-cards .c p{margin:0;color:var(--dim);font-size:16px;line-height:1.6}.gp-sec p{max-width:74ch}</style>

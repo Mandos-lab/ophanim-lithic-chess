@@ -50,7 +50,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -336,6 +336,7 @@ figure.fig figcaption{margin-top:8px;font-size:15px;color:var(--ink-2)}
 .shbtns a:hover,.shbtns button:hover{border-color:var(--cyan);color:var(--cyan)}
 .shbtns.big a{font-size:14px;padding:14px 26px;border-color:var(--gold)}
 .shbtns.big{margin-top:28px}
+@media (orientation:portrait){section{min-height:auto}}
 </style>
 <style id="navfix">.bar{flex-wrap:nowrap}@media(max-width:620px){.bar{gap:6px;padding:8px 10px;letter-spacing:.04em}.bar a{padding:6px 8px;white-space:nowrap}.bar .t{display:none}.bar a:first-child{margin-right:auto}}</style>
 <style id="hdrfix">@media(max-width:700px){header.bar,header.pbar{flex-wrap:wrap;gap:6px;padding:8px 10px;justify-content:flex-start}header.bar a,header.pbar a{padding:4px 8px;font-size:11px;letter-spacing:.04em}header.bar .t,header.pbar .t{display:none}}</style><link rel="icon" href="mark.svg" type="image/svg+xml">

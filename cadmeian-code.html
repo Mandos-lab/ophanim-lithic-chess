@@ -50,7 +50,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:900px){.dots{display:none}}
 
 /* ---------- layout ---------- */
-section{min-height:100vh;padding:110px 24px 90px;display:flex;align-items:center}
+section{min-height:min(100vh,780px);padding:110px 24px 90px;display:flex;align-items:center}
 .wrap{max-width:1180px;margin:0 auto;width:100%}
 .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .grid2.flip>:first-child{order:2}
@@ -314,6 +314,7 @@ details.auditbox summary{cursor:pointer;font-family:var(--mono);font-size:12px;l
 .howto table.pebbles th{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:left;font-weight:400;padding:4px 6px 4px 0;white-space:nowrap}
 .howto table.pebbles td{border:1px solid var(--line);padding:4px 6px;text-align:center;color:var(--gold);white-space:nowrap}
 @media(max-width:700px){.howto table.pebbles{display:block;overflow-x:auto}}
+@media (orientation:portrait){section{min-height:auto}}
 </style>
 <style id="markfab">.fab{width:58px;height:58px;border:0;background:none;transform:none;padding:0;border-radius:6px}.fab img{width:100%;height:100%;display:block;transition:.2s}.fab:hover img{filter:drop-shadow(0 0 8px rgba(70,227,240,.6))}</style>
 <link rel="icon" href="mark.svg" type="image/svg+xml">
