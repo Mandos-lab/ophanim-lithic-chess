@@ -64,7 +64,7 @@ p{max-width:76ch;margin-bottom:16px}
 .viewport canvas{width:100%;height:100%;display:block}
 .hudmini{margin-top:10px}
 /* simulator */
-.cvw{border:1px solid var(--line);background:var(--cv);border-radius:8px;margin-top:10px;position:relative}
+.cvw{border:1px solid var(--line);background:#010306;border-radius:8px;margin-top:10px;position:relative;max-width:680px}
 .cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
 .cvw canvas:active{cursor:grabbing}
 .read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
@@ -152,6 +152,7 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
       <label><input type="checkbox" data-ly="ring" checked> Rings</label>
       <label><input type="checkbox" data-ly="path"> Paths of the points</label>
       <label><input type="checkbox" data-ly="spoke"> Spokes (24 edges + 12 = 36)</label>
+      <label><input type="checkbox" data-ly="centre" checked> Centre (Sampi &#992;)</label>
       <label><input type="checkbox" data-ly="let" checked> Letters</label>
       <label><input type="checkbox" data-ly="cage" checked> 26-point cage</label>
       <label><input type="checkbox" data-ly="spike" checked> 8 spikes</label>
@@ -177,7 +178,7 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
       <tr><th>Stage</th><th>Twist &theta;</th><th>Volume</th><th>Radius</th><th>Symmetry (order)</th><th>Reading (framework)</th></tr>
       <tr><td>Vector Equilibrium</td><td>0&deg;</td><td>20</td><td>1.4142 (&radic;2)</td><td>O<sub>h</sub> &middot; 48</td><td>Ground state, zero: the unfolded origin</td></tr>
       <tr><td>Icosahedron</td><td>22.24&deg;</td><td>18.51</td><td>1.3450</td><td>I<sub>h</sub> &middot; 120</td><td>Golden-ratio expansion (a/b = &phi;)</td></tr>
-      <tr><td>Octahedron</td><td>60&deg;</td><td>4</td><td>1.0000</td><td>O<sub>h</sub> &middot; 48</td><td>The &ldquo;sort amongst yourselves&rdquo; transducer</td></tr>
+      <tr><td>Octahedron</td><td>60&deg;</td><td>4</td><td>1.0000</td><td>O<sub>h</sub> &middot; 48</td><td>The &ldquo;salt amongst yourselves&rdquo; transducer</td></tr>
       <tr><td>Tetrahedron</td><td>folded stage (not drawn)</td><td>1</td><td>&mdash;</td><td>T<sub>d</sub> &middot; 24</td><td>Primary structural simplex</td></tr>
       <tr><td>Point</td><td>beyond 60&deg; (shrinking)</td><td>0</td><td>0</td><td>&mdash;</td><td>Absolute silence, stillness &middot; Sampi &#992; 900</td></tr>
     </table></div>
@@ -361,7 +362,7 @@ function tone(f,dur){var a=actx();if(!a)return;if(a.state==='suspended')a.resume
 function pick(i){st.sel=i;tone(hz(letterOf(i)),1.1);var t=document.getElementById('jb-tone');t.textContent=info(i);}
 var outT=[];
 function outward(){outT.forEach(clearTimeout);outT=[];[12,0,1,2,3,4,5,6,7,8,9,10,11].forEach(function(i,n){outT.push(setTimeout(function(){pick(i);},n*420));});}
-var st={th:0,play:true,dir:1,rx:-0.45,ry:0.6,drag:false,go:null,ly:{tri:true,sq:true,ring:true,path:false,spoke:false,let:true,cage:true,spike:true},sel:-1,Q:[],C:[0,0],tdown:null};
+var st={th:0,play:true,dir:1,rx:-0.45,ry:0.6,drag:false,go:null,ly:{tri:true,sq:true,ring:true,path:false,spoke:false,centre:true,let:true,cage:true,spike:true},sel:-1,Q:[],C:[0,0],tdown:null};
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)st.play=false;
 var W=0,H=0,DPR=1;
 function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(300,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
@@ -370,7 +371,7 @@ function rot(p){var cy=Math.cos(st.ry),sy=Math.sin(st.ry),cx=Math.cos(st.rx),sx=
 var SC=0.2;
 function proj(p){var r=rot(p),F=5,k=F/(F-r[2]),S=Math.min(W,H*1.45)*SC;return[W/2+r[0]*S*k,H/2-r[1]*S*k,r[2]];}
 function line(a,b,col,w,dash){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.setLineDash(dash||[]);ctx.stroke();ctx.setLineDash([]);}
-var LIGHT=[-0.42,0.72,0.55],AMB=[232,195,117],LIM=[70,205,226],TEA=[48,150,160];
+var LIGHT=[-0.42,0.72,0.55],AMB=[232,195,117],LIM=[84,140,232],TEA=[52,96,168];
 function sh(c,b,al){return 'rgba('+Math.round(c[0]*b)+','+Math.round(c[1]*b)+','+Math.round(c[2]*b)+','+al+')';}
 function tri3(P,f,col,al){ /* flat-shaded triangle in view space */
   var r0=rot(P[f[0]]),r1=rot(P[f[1]]),r2=rot(P[f[2]]),u=[r1[0]-r0[0],r1[1]-r0[1],r1[2]-r0[2]],w=[r2[0]-r0[0],r2[1]-r0[1],r2[2]-r0[2]];
@@ -380,7 +381,7 @@ function tri3(P,f,col,al){ /* flat-shaded triangle in view space */
 function node3(p,r,c0,c1){var g=ctx.createRadialGradient(p[0]-r*.35,p[1]-r*.35,r*.1,p[0],p[1],r);g.addColorStop(0,c0);g.addColorStop(1,c1);ctx.fillStyle=g;ctx.beginPath();ctx.arc(p[0],p[1],r,0,7);ctx.fill();}
 function draw(){
   ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
-  var bg=ctx.createRadialGradient(W/2,H/2,10,W/2,H/2,Math.max(W,H)*.6);bg.addColorStop(0,'rgba(20,70,84,.50)');bg.addColorStop(1,'rgba(5,11,16,0)');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  var bg=ctx.createRadialGradient(W/2,H/2,10,W/2,H/2,Math.max(W,H)*.6);bg.addColorStop(0,'rgba(30,64,110,.40)');bg.addColorStop(1,'rgba(5,11,16,0)');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
   var P=verts(st.th),Q=P.map(proj);
   var q=ab(Math.min(st.th,60)),kk=st.th>60?1-(st.th-60)/30:1,R=Math.hypot(q[0],q[1])*kk,uu=st.th>60?(st.th-60)/30:0;
   var big=st.ly.cage||st.ly.spike;SC=big?0.150:0.215;Q=P.map(proj);
@@ -390,8 +391,8 @@ function draw(){
   if(st.ly.cage||st.ly.spike){
     var C=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
     if(st.ly.cage){
-      [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(function(e){var a=proj(C[e[0]]),b=proj(C[e[1]]);line(a,b,'rgba(120,200,215,'+(0.22+0.3*zf((a[2]+b[2])/2))+')',1.1);});
-      for(var x=-1;x<=1;x++)for(var y=-1;y<=1;y++)for(var z=-1;z<=1;z++){if(!x&&!y&&!z)continue;var p=proj([x,y,z]);ctx.fillStyle='rgba(150,205,215,'+(0.35+0.4*zf(p[2]))+')';ctx.beginPath();ctx.arc(p[0],p[1],2.2+1.4*zf(p[2]),0,7);ctx.fill();}
+      [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(function(e){var a=proj(C[e[0]]),b=proj(C[e[1]]);line(a,b,'rgba(110,150,200,'+(0.22+0.3*zf((a[2]+b[2])/2))+')',1.1);});
+      for(var x=-1;x<=1;x++)for(var y=-1;y<=1;y++)for(var z=-1;z<=1;z++){if(!x&&!y&&!z)continue;var p=proj([x,y,z]);ctx.fillStyle='rgba(140,170,210,'+(0.35+0.4*zf(p[2]))+')';ctx.beginPath();ctx.arc(p[0],p[1],2.2+1.4*zf(p[2]),0,7);ctx.fill();}
     }
     if(st.ly.spike){
       C.forEach(function(c){var u=1+(Math.sqrt(3)-1)/Math.sqrt(3),a=proj(c),b=proj([c[0]*u,c[1]*u,c[2]*u]);
@@ -403,7 +404,7 @@ function draw(){
   /* rings in the three coordinate planes, passing through the 4 points that lie in each */
   if(st.ly.ring){
     for(var pl=0;pl<3;pl++){var pts=[];for(var i=0;i<=72;i++){var t=i/72*Math.PI*2,c=Math.cos(t)*R,s=Math.sin(t)*R;pts.push(proj(pl===0?[c,s,0]:pl===1?[0,c,s]:[c,0,s]));}
-      ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.strokeStyle='rgba(70,227,240,.55)';ctx.lineWidth=1.3;ctx.setLineDash([5,5]);ctx.stroke();ctx.setLineDash([]);}
+      ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.strokeStyle='rgba(70,227,240,.40)';ctx.lineWidth=1.3;ctx.setLineDash([5,5]);ctx.stroke();ctx.setLineDash([]);}
   }
   /* paths of the 12 points over the whole motion */
   if(st.ly.path){
@@ -423,10 +424,11 @@ function draw(){
   TRI.forEach(function(f){for(var e=0;e<3;e++){var a=Q[f[e]],b=Q[f[(e+1)%3]];line(a,b,'rgba(236,240,214,'+(0.35+0.5*zf((a[2]+b[2])/2))+')',1.4);}});
   /* nodes as lit spheres, back to front, larger when nearer */
   var nodes=Q.map(function(p,i){return{p:p,i:i};}).sort(function(a,b){return a.p[2]-b.p[2];});
-  nodes.forEach(function(n){var p=n.p,r=4.6+3.2*zf(p[2]);var g=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],r*3);g.addColorStop(0,'rgba(255,225,150,.55)');g.addColorStop(1,'rgba(255,225,150,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p[0],p[1],r*3,0,7);ctx.fill();node3(p,r,'#fffbe6','#d9a93c');});
+  nodes.forEach(function(n){var p=n.p,r=3.6+2.4*zf(p[2]);var g=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],r*3);g.addColorStop(0,'rgba(255,225,150,.32)');g.addColorStop(1,'rgba(255,225,150,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p[0],p[1],r*3,0,7);ctx.fill();node3(p,r,'#fffbe6','#d9a93c');});
   var c0=proj([0,0,0]);
-  var cg2=ctx.createRadialGradient(c0[0],c0[1],0,c0[0],c0[1],34);cg2.addColorStop(0,'rgba(255,214,120,.9)');cg2.addColorStop(.35,'rgba(70,227,240,.30)');cg2.addColorStop(1,'rgba(70,227,240,0)');ctx.fillStyle=cg2;ctx.beginPath();ctx.arc(c0[0],c0[1],34,0,7);ctx.fill();
-  node3(c0,8+6*uu,'#fff3c4','#e0a53a');ctx.beginPath();ctx.arc(c0[0],c0[1],12.5+8*uu,0,7);ctx.strokeStyle='rgba(70,227,240,.85)';ctx.lineWidth=1.6;ctx.stroke();
+  if(st.ly.centre){
+  var cg2=ctx.createRadialGradient(c0[0],c0[1],0,c0[0],c0[1],64);cg2.addColorStop(0,'rgba(255,236,170,1)');cg2.addColorStop(.25,'rgba(255,206,110,.55)');cg2.addColorStop(.6,'rgba(120,170,255,.16)');cg2.addColorStop(1,'rgba(60,120,255,0)');ctx.fillStyle=cg2;ctx.beginPath();ctx.arc(c0[0],c0[1],64,0,7);ctx.fill();
+  node3(c0,10+7*uu,'#ffffff','#f0b040');ctx.beginPath();ctx.arc(c0[0],c0[1],15+9*uu,0,7);ctx.strokeStyle='rgba(255,236,170,.9)';ctx.lineWidth=1.8;ctx.stroke();}
   st.Q=Q;st.C=c0;
   if(st.ly.let){ctx.font='700 17px "JetBrains Mono",ui-monospace,monospace';ctx.textAlign='left';ctx.textBaseline='middle';
     Q.forEach(function(p,i){ctx.fillStyle=(i===st.sel)?'#ffffff':'rgba(240,236,220,.96)';ctx.strokeStyle='rgba(4,8,12,.85)';ctx.lineWidth=3;ctx.strokeText(PL[i],p[0]+10,p[1]-11);ctx.fillText(PL[i],p[0]+10,p[1]-11);});
@@ -446,8 +448,8 @@ var last=0;
 function tick(t){
   var dt=Math.min(0.05,(t-last)/1000||0);last=t;
   if(st.go!==null){var d=st.go-st.th;if(Math.abs(d)<0.05){st.th=st.go;st.go=null;}else st.th+=d*Math.min(1,dt*4);}
-  else if(st.play){st.th+=st.dir*6*dt;if(st.th>=90){st.th=90;st.dir=-1;}if(st.th<=0){st.th=0;st.dir=1;}}
-  if(!st.drag&&!reduce)st.ry+=dt*0.25;
+  else if(st.play){st.th+=st.dir*3*dt;if(st.th>=90){st.th=90;st.dir=-1;}if(st.th<=0){st.th=0;st.dir=1;}}
+  if(!st.drag&&!reduce)st.ry+=dt*0.08;
   draw();requestAnimationFrame(tick);
 }
 /* controls */
