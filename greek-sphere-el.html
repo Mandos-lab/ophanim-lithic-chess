@@ -413,7 +413,7 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
 </header>
 <nav class="dots" id="dots"></nav>
 <main>
-<section id="hero" data-label="Πρόλογος">
+<section data-narrate id="hero" data-label="Πρόλογος">
   <div class="wrap" style="text-align:center">
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; Αλφαριθμητικές, Φωνητικές Σφαίρες &middot; Ελληνικά</div>
     <h1>Η Ελληνική Σφαίρα<br><em>Γράμματα, Αριθμοί, Πυξίδα, Ήχος</em></h1>
@@ -464,7 +464,7 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
     <div class="reveal" id="spdb"></div>
   </div>
 </section>
-<section id="plan" data-label="Διάταξη">
+<section data-narrate id="plan" data-label="Διάταξη">
   <div class="wrap">
     <div class="reveal"><div class="kicker">IV &middot; Πώς Είναι Στημένη η Σφαίρα</div><h2>Τρεις ζώνες, <em>εννέα μήκη</em></h2>
     <p class="dim" style="max-width:66ch">Γραμμή προς γραμμή: το γράμμα, η αξία του και η νότα του. Η νότα είναι 216 Hz επί ένα βήμα των αρμονικών λόγων (1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2, 9/4) στις εννέα στήλες, και κάθε ζώνη πιο πάνω την ανεβάζει μισή οκτάβα. Οι τομείς της πυξίδας ακολουθούν την ίδια σειρά, ένα γράμμα ανά 13,3 μοίρες.</p></div>
@@ -472,7 +472,7 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
     <div class="layers reveal" style="margin-top:22px"><div class="record"><p><b>Έλεγχος.</b> Οι 27 αξίες δίνουν άθροισμα 4.995. Τα 24 κλασικά γράμματα δίνουν 3.999, και τα τρία αρχαϊκά (6 + 90 + 900 = 996) συμπληρώνουν το υπόλοιπο.</p></div></div>
   </div>
 </section>
-<section id="audit" data-label="Έλεγχος">
+<section data-narrate id="audit" data-label="Έλεγχος">
   <div class="wrap">
     <div class="reveal"><div class="kicker">V &middot; Ανοιχτό σε Έλεγχο</div><h2>Τι είναι ακόμη <em>πρόχειρο</em></h2></div>
     <div class="record reveal audit">
@@ -493,7 +493,7 @@ table.lay .ll{display:block;font-size:24px;color:var(--gold)}table.lay small{dis
     <div class="kicker" style="justify-content:center">Μοιράσου αυτή τη σελίδα</div>
     <div class="shbtns" id="shbtns"></div>
     <div class="kicker" style="justify-content:center;margin-top:26px">Ακολούθησε</div>
-    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="magnesia-reserve.html">Δωρεά &middot; Magnesia Reserve</a></div>
+    <div class="shbtns"><a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a><a href="https://www.youtube.com/@philosophy_from_a_stone" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a><a href="magnesia-reserve.html">Δωρεά &middot; Magnesia Reserve</a></div>
     <div class="shbtns big"><a href="library.html">Βιβλιοθήκη</a><a href="games.html">Όλα τα παιχνίδια</a><a href="hebrew-sphere.html">Η Εβραϊκή Σφαίρα</a></div>
     <p class="dim noref" style="font-size:13px;margin-top:26px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)">&Phi;&Upsilon; &Psi;&Eta; &middot; Φωνητική Αρχαιολογία<br>Listen For The Shape In A Word &mdash; Responsible Manifestation</p>
     <p class="dim" style="font-size:15px;margin-top:14px"><a href="privacy.html">Απόρρητο και cookies</a> &middot; <a href="terms-el.html">Όροι χρήσης</a></p>
@@ -530,6 +530,7 @@ const items=[['X',()=>'https://twitter.com/intent/tweet?url='+encodeURIComponent
 items.forEach(([n,f])=>{const a=document.createElement('a');a.textContent=n;a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',e=>{a.href=f();});box.appendChild(a);});
 const b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',()=>{const s=()=>{b.textContent=L.done;setTimeout(()=>b.textContent=L.copy,1800)};try{navigator.clipboard.writeText(u()).then(s,()=>prompt(L.copy,u()))}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
 </script>
+<script src="audio.js"></script>
 <script src="i18n-el.js"></script>
 <script src="gr-cfg.js"></script>
 <script src="gr-cfg-el.js"></script>

@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   function go() {
-    if (document.querySelector('a[href*="youtube.com/@Mandos16"]')) return;
+    if (document.querySelector('a[href*="youtube.com/@philosophy_from_a_stone"]')) return;
     if (/magnesia-reserve\.html/.test(location.pathname)) return;
     var EL = /^el/i.test(document.documentElement.lang || '');
     var css = '#mdLinks{position:relative;z-index:1;text-align:center;padding:30px 16px 74px;font:12px/1.4 ui-monospace,Consolas,monospace;letter-spacing:.08em}' +
@@ -12,7 +12,7 @@
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
     var d = document.createElement('div'); d.id = 'mdLinks';
     d.innerHTML = '<a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a>' +
-      '<a href="https://www.youtube.com/@Mandos16" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a>' +
+      '<a href="https://www.youtube.com/@philosophy_from_a_stone" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a>' +
       '<a href="magnesia-reserve.html">' + (EL ? 'Δωρεά' : 'Donate') + ' &middot; Magnesia Reserve</a>';
     document.body.appendChild(d);
   }
