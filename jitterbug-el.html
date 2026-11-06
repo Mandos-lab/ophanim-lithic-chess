@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Το Jitterbug · Ophanim Codex</title>
+<meta name="description" content="Το Jitterbug του Μπάκμινστερ Φούλερ: δώδεκα σημεία που διπλώνουν από το κυβοκταέδρο στο εικοσάεδρο και στο οκτάεδρο χωρίς να αλλάζει το μήκος καμίας ακμής. Διαδραστικό, με όλους τους αριθμούς ελεγμένους.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Ophanim Codex · The Jitterbug. Soft green-yellow palette (not black). */
+:root{
+  --bg:#11160f; --bg2:#182014; --panel:rgba(32,44,24,.72); --cv:#0d120b;
+  --lime:#c3d86b; --lime-d:#7e9440; --gold:#e8cf7a; --gold-d:#9c8a3c;
+  --ink:#e0e4c9; --ink-2:#b7c0a0; --ink-3:#7f8a6a;
+  --line:rgba(195,216,107,.24); --line-g:rgba(232,207,122,.38);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:20px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(195,216,107,.03) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(195,216,107,.03) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(195,216,107,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,207,122,.06),transparent 60%)}
+a{color:var(--lime)}
+main,header,footer{position:relative;z-index:1}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:linear-gradient(var(--bg) 40%,rgba(17,22,15,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s;white-space:nowrap}
+.bar a:hover{color:var(--lime);border-color:var(--lime)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+section{padding:96px 20px 40px}
+.wrap{max-width:1040px;margin:0 auto;width:100%}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--lime)}
+h1,h2{font-family:var(--title);font-weight:500;line-height:1.15;color:var(--ink)}
+h1{font-size:clamp(38px,6vw,72px);margin-bottom:18px}
+h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:16px}
+h1 em,h2 em{color:var(--gold);font-style:normal}
+p{max-width:68ch;margin-bottom:14px}
+.dim{color:var(--ink-2)}
+.lead{font-size:23px;color:var(--ink)}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(170,226,140);border-color:rgba(170,226,140,.55)}
+.tag.fw{color:rgb(196,176,240);border-color:rgba(196,176,240,.55)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:12px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:16px;color:var(--ink-2);cursor:pointer}
+.ctl button{font:13px var(--mono);letter-spacing:.05em;color:var(--gold);background:none;border:1px solid rgba(232,207,122,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button:hover{border-color:var(--gold)}
+.ctl button.on{background:rgba(232,207,122,.14);border-color:var(--gold)}
+.ctl input[type=range]{flex:1;min-width:180px;accent-color:#c3d86b}
+.ctl input[type=checkbox]{accent-color:#c3d86b;width:16px;height:16px}
+/* hero: breathing vector equilibrium, pure CSS 3D */
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+@media(max-width:860px){.heroGrid{grid-template-columns:1fr}}
+.viewport{position:relative;height:340px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:radial-gradient(circle at center,#1c2616 0%,var(--cv) 78%)}
+.viewport canvas{width:100%;height:100%;display:block}
+.hudmini{margin-top:10px}
+/* simulator */
+.cvw{border:1px solid var(--line);background:var(--cv);border-radius:8px;margin-top:10px;position:relative}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
+.cvw canvas:active{cursor:grabbing}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.read div{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.read span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.read b{font:600 17px var(--mono);color:var(--lime)}
+.phase{font:14px var(--mono);color:var(--gold);margin-top:10px;min-height:22px}
+.phase.tone{color:var(--lime);margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:17px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--panel)}
+.tw{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:16px;color:var(--lime);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0;max-width:none;overflow-x:auto;line-height:1.9}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:14px 0}
+.ids .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}
+.ids h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ids p{font-size:17px;margin-bottom:8px}
+.ids .sum{font:15px var(--mono);color:var(--lime)}
+blockquote{border-left:3px solid var(--lime);padding:6px 0 6px 18px;margin:14px 0;font-size:22px;font-style:italic;max-width:62ch}
+blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-top:8px}
+.sharefoot{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+@media(max-width:600px){.bar{justify-content:space-between}.bar .t{display:none}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a href="ophanim-engine-codex-el.html">&#9666; Μηχανή</a>
+  <div class="t">Ophanim Codex &middot; <b>Το Jitterbug</b></div>
+  <a href="jitterbug.html">English</a>
+  <a href="library.html">Βιβλιοθήκη &#9656;</a>
+</header>
+<main>
+
+<section id="hero">
+  <div class="wrap">
+    <div class="heroGrid">
+      <div>
+        <div class="kicker">Μηχανές &middot; Γεωμετρία</div>
+        <h1>Το <em>Jitterbug</em></h1>
+        <p class="lead">Δώδεκα σημεία γύρω από ένα κέντρο μπορούν να διπλώσουν και να στραφούν, χωρίς καμία ακμή να αλλάξει μήκος, από κυβοκταέδρο σε εικοσάεδρο και μετά σε οκτάεδρο.</p>
+        <p class="dim">Ο Μπάκμινστερ Φούλερ ονόμασε το σχήμα των δώδεκα σημείων Ισορροπία Διανυσμάτων (Vector Equilibrium) και την κίνηση Jitterbug. Σε αυτή τη σελίδα μπορείτε να το κινήσετε μόνοι σας, να δείτε τον όγκο του να αλλάζει και να διαβάσετε την ελεγμένη αριθμητική που το συνοδεύει.</p>
+      </div>
+      <div>
+        <div class="viewport"><canvas id="he-cv" role="img" aria-label="Ένα περιστρεφόμενο σύρμα-μοντέλο του σχήματος των δώδεκα σημείων μέσα σε τρεις δακτυλίους"></canvas></div>
+        <div class="ctl hudmini"><label for="breath">Εισπνοή και εκπνοή</label><input type="range" id="breath" min="0.6" max="1.5" step="0.01" value="1" aria-label="Εισπνοή και εκπνοή"></div>
+        <p class="dim" style="font-size:15px">Αυτή η πρώτη εικόνα απλώς μεγαλώνει και μικραίνει το σχήμα των δώδεκα σημείων. Δεν είναι η στροφή. Η πραγματική στροφή είναι παρακάτω.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sim">
+  <div class="wrap">
+    <div class="kicker">Η κίνηση</div>
+    <h2>Στρίψτε το, <em>μην το κλιμακώνετε απλώς</em></h2>
+    <p class="dim">Σύρετε την εικόνα για να την γυρίσετε. Πατήστε αναπαραγωγή ή κινήστε το ρυθμιστικό με το χέρι από 0&deg; (κυβοκταέδρο) έως 60&deg; (οκτάεδρο). Τα τρία κουμπιά πηγαίνουν στα ονομασμένα στάδια του Φούλερ.</p>
+    <div class="cvw"><canvas id="jb-cv" aria-label="Ένα περιστρεφόμενο τρισδιάστατο μοντέλο του Jitterbug, δώδεκα χρυσά σημεία ενωμένα με οκτώ τρίγωνα"></canvas></div>
+    <div class="phase" id="jb-phase" aria-live="polite"></div>
+    <div class="phase tone" id="jb-tone" aria-live="polite"></div>
+    <div class="ctl">
+      <button type="button" id="jb-play" class="on">Παύση</button>
+      <button type="button" id="jb-rev">Αντιστροφή</button>
+      <input type="range" id="jb-th" min="0" max="60" step="0.01" value="0" aria-label="Γωνία στροφής">
+    </div>
+    <div class="ctl">
+      <button type="button" data-go="0">Ισορροπία Διανυσμάτων</button>
+      <button type="button" data-go="22.2388">Εικοσάεδρο</button>
+      <button type="button" data-go="60">Οκτάεδρο</button>
+      <button type="button" id="jb-out">Το Άλφα προς τα έξω</button>
+    </div>
+    <div class="ctl">
+      <label><input type="checkbox" data-ly="tri" checked> Τρίγωνα</label>
+      <label><input type="checkbox" data-ly="sq" checked> Τετράγωνα</label>
+      <label><input type="checkbox" data-ly="ring" checked> Δακτύλιοι</label>
+      <label><input type="checkbox" data-ly="path"> Διαδρομές των σημείων</label>
+      <label><input type="checkbox" data-ly="let" checked> Γράμματα</label>
+    </div>
+    <div class="read">
+      <div><span>Στροφή</span><b id="r-th">0&deg;</b></div>
+      <div><span>Όγκος</span><b id="r-vol">20.00</b></div>
+      <div><span>Ακτίνα</span><b id="r-rad">1.4142</b></div>
+      <div><span>Ακμή</span><b id="r-edge">1.4142</b></div>
+      <div><span>a / b</span><b id="r-ratio">1.000</b></div>
+    </div>
+    <p class="dim" style="font-size:15px;margin-top:12px"><span class="tag ok">ελέγχθηκε</span>Ο όγκος μετριέται στη μονάδα του Φούλερ, όπου ένα τετράεδρο στην ίδια ακμή είναι 1. Η σελίδα τον υπολογίζει από τις έδρες και συμφωνεί με ξεχωριστό υπολογισμό κυρτού περιβλήματος: 20 στην αρχή, 18,51 στο εικοσάεδρο, 4 στο οκτάεδρο. Ενδιάμεσα πρώτα φουσκώνει ελαφρά, σε περίπου 20,44 κοντά στις 7,2&deg;, και μετά πέφτει. Η ακμή μένει &radic;2 σε όλη τη διάρκεια.</p>
+    <p class="dim" style="font-size:15px"><span class="tag fw">πλαίσιο</span>Το Άλφα κάθεται στο κέντρο και τα γράμματα Β έως Μ τοποθετούνται με τη σειρά στα δώδεκα σημεία. Κάθε νότα είναι της ελληνικής σφαίρας: η θέση ενός γράμματος ανάμεσα στα 27 του δίνει μια νότα μετρημένη από τα 216 Hz (Άλφα 216, Στίγμα 360). Το ότι αυτά τα γράμματα ανήκουν σε αυτά τα σημεία είναι η ανάγνωση· οι νότες ακολουθούν ακριβώς τον κανόνα της σφαίρας.</p>
+  </div>
+</section>
+
+<section id="stages">
+  <div class="wrap">
+    <div class="kicker">Τα στάδια</div>
+    <h2>Τέσσερα σχήματα, <em>μία κίνηση</em></h2>
+    <div class="tw"><table>
+      <tr><th>Στάδιο</th><th>Στροφή &theta;</th><th>Όγκος</th><th>Ακτίνα</th><th>Συμμετρία (τάξη)</th></tr>
+      <tr><td>Ισορροπία Διανυσμάτων</td><td>0&deg;</td><td>20</td><td>1.4142 (&radic;2)</td><td>O<sub>h</sub> &middot; 48</td></tr>
+      <tr><td>Εικοσάεδρο</td><td>22.24&deg;</td><td>18.51</td><td>1.3450</td><td>I<sub>h</sub> &middot; 120</td></tr>
+      <tr><td>Οκτάεδρο</td><td>60&deg;</td><td>4</td><td>1.0000</td><td>O<sub>h</sub> &middot; 48</td></tr>
+      <tr><td>Τετράεδρο</td><td>διπλωμένο τελικό στάδιο</td><td>1</td><td>&mdash;</td><td>T<sub>d</sub> &middot; 24</td></tr>
+    </table></div>
+    <p class="dim" style="font-size:16px"><span class="tag ok">ελέγχθηκε</span>Οι όγκοι 20, 18,51, 4 και 1 είναι του Φούλερ (Synergetics, 1975) και οι τρεις πρώτοι ξαναυπολογίστηκαν εδώ. Το τετράεδρο είναι το πεπλατυσμένο, διπλωμένο τελευταίο στάδιο· ο προσομοιωτής σχεδιάζει την κίνηση μέχρι το οκτάεδρο. Στις &theta; = 22,24&deg; ο λόγος a/b ισούται με τη χρυσή τομή 1,618.</p>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="kicker">Γιατί δουλεύει</div>
+    <h2>Γιατί καμία ακμή <em>δεν αλλάζει ποτέ</em></h2>
+    <p class="dim">Βάλτε τα δώδεκα σημεία στα (&plusmn;a, &plusmn;b, 0), (0, &plusmn;a, &plusmn;b) και (&plusmn;b, 0, &plusmn;a). Αφήστε τη γωνία στροφής &theta; να τρέξει από 0 έως 60&deg; και τα a και b να κινούνται ως εξής:</p>
+    <div class="eq">a(&theta;) = cos&theta; + sin&theta; / &radic;3<br>b(&theta;) = cos&theta; &minus; sin&theta; / &radic;3<br>a&sup2; &minus; ab + b&sup2; = cos&sup2;&theta; + sin&sup2;&theta; = 1<br>edge L = &radic;(2 (a&sup2; &minus; ab + b&sup2;)) = &radic;2</div>
+    <p class="dim">Επειδή το a&sup2; &minus; ab + b&sup2; είναι πάντα ακριβώς 1, η απόσταση ανάμεσα σε γειτονικά σημεία είναι &radic;2 σε κάθε γωνία. Το σχήμα μπορεί να αλλάξει εντελώς ενώ τα μήκη των ράβδων δεν αλλάζουν ποτέ. Γι&rsquo; αυτό είναι Jitterbug και όχι ένα σχήμα που απλώς τεντώνεται. Στις &theta; = 0 τα a και b είναι και τα δύο 1 και έχουμε το κυβοκταέδρο· στις 60&deg; το b είναι 0 και τα σημεία έχουν συναντηθεί ανά δύο: το οκτάεδρο.</p>
+    <p class="dim" style="font-size:16px"><span class="tag ok">ελέγχθηκε</span>Οι διαδρομές των δώδεκα σημείων είναι τόξα ελλείψεων (ενεργοποιήστε τις «Διαδρομές των σημείων» παραπάνω). Ελέγχθηκε με πρόγραμμα στις 0&deg;, 22,24&deg; και 60&deg;.</p>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="wrap">
+    <div class="kicker">Αριθμοί δίπλα στο σχήμα</div>
+    <h2>Λίγα αθροίσματα <em>που ισχύουν</em></h2>
+    <p class="dim">Αυτά είναι αθροίσματα αριθμητικών αξιών ελληνικών γραμμάτων (ισοψηφία, με τα 27 μιλησιακά σημεία). Καθένα ξαναυπολογίστηκε με πρόγραμμα. Το αν ταιριάζουν δίπλα σε αυτό το σχήμα είναι η ανάγνωση, όχι η απόδειξη.</p>
+    <div class="ids">
+      <div class="c"><h3>430</h3><p>Τρεις διαφορετικές λέξεις, ένα άθροισμα: νόμος, αριθμός και μαθηματικά.</p><p class="sum">Ν50+Ο70+Μ40+Ο70+Σ200 = 430<br>Α1+Ρ100+Ι10+Θ9+Μ40+Ο70+Σ200 = 430<br>Μ40+Α1+Θ9+Η8+Μ40+Α1+Τ300+Ι10+Κ20+Α1 = 430</p><p><a href="isopsephy-index.html?n=430">Άνοιγμα στο Ευρετήριο Ισοψηφίας &rarr;</a></p></div>
+      <div class="c"><h3>37 &times; 64 = 2368</h3><p>Ένα μπλοκ 3 &times; 3 &times; 3 μέσα σε πλέγμα 4 &times; 4 &times; 4 αφήνει ένα κέλυφος 37 κελιών. 37 &times; 64 = 2368, και το 2368 είναι επίσης Ἰησοῦς + Χριστός.</p><p class="sum">4&sup3; &minus; 3&sup3; = 64 &minus; 27 = 37<br>ἀλήθεια = 64 &middot; 37 &times; 64 = 2368<br>Ἰησοῦς 888 + Χριστός 1480 = 2368</p><p><a href="isopsephy-index.html?n=2368">Άνοιγμα στο Ευρετήριο Ισοψηφίας &rarr;</a></p></div>
+      <div class="c"><h3>1332 = 37 &times; 36</h3><p>Το ἰδιώτης είναι 1332. Και 1332 = 37 &times; 36, όπου 36 είναι το πλήθος των διανυσμάτων του σχήματος των δώδεκα σημείων (24 ακμές και 12 ακτίνες προς το κέντρο του).</p><p class="sum">Ι10+Δ4+Ι10+Ω800+Τ300+Η8+Σ200 = 1332<br>24 edges + 12 spokes = 36 vectors<br>37 &times; 36 = 1332</p><p><a href="isopsephy-index.html?n=1332">Άνοιγμα στο Ευρετήριο Ισοψηφίας &rarr;</a></p></div>
+      <div class="c"><h3>1080 + 666 = 1746</h3><p>Το 1746 είναι 1080 + 666 και είναι το άθροισμα του ἐξουσία κυρίου.</p><p class="sum">1080 + 666 = 1746<br>ἐξουσία 746 + κυρίου 1000 = 1746</p><p><a href="isopsephy-index.html?n=1746">Άνοιγμα στο Ευρετήριο Ισοψηφίας &rarr;</a></p></div>
+      <div class="c"><h3>4995 = 135 &times; 37</h3><p>Τα 27 μιλησιακά γράμματα δίνουν 4995, δηλαδή 135 &times; 37. Το 5 εδώ είναι απλώς παράγοντας. Τα ελληνικά έχουν ένα τελικό γράμμα (ς), όχι πέντε.</p><p class="sum">45 + 450 + 4500 = 4995<br>4995 = 27 &times; 5 &times; 37</p></div>
+    </div>
+    <p class="dim" style="font-size:16px"><span class="tag ok">ελέγχθηκε</span>Τα αθροίσματα και τα γινόμενα παραπάνω είναι ακριβή. <span class="tag fw">πλαίσιο</span>Το ότι τα 37, 36 και 430 ανήκουν σε αυτό το σχήμα είναι η ανάγνωση του πλαισίου.</p>
+    <p class="dim" style="font-size:16px">Σημείωση: τα αθροίσματα που περιέχουν ου (Ἰησοῦς 888, και κυρίου μέσα στο 1746) μετρούν το ο και το υ ως δύο γράμματα. Αν το ΟΥ μετρηθεί ως ένας ήχος, αυτά τα σύνολα αλλάζουν.</p>
+  </div>
+</section>
+
+<section id="noticed">
+  <div class="wrap">
+    <div class="kicker">Τι πρόσεξα</div>
+    <h2>Μια σημείωση <em>από το σώμα</em></h2>
+    <blockquote>Βλέποντας το σχήμα να κλείνει προς το κέντρο του, ένιωσα σφίξιμο στη μέση του στήθους, σαν πεταλούδες. Όταν άνοιξε ξανά προς τα έξω, ένιωσα ανακούφιση, σαν να άνοιγε σε αστέρι.<cite>Mandos, also known as ΦΥ ΨΗ</cite></blockquote>
+    <p class="dim" style="font-size:16px">Αυτό είναι μόνο ό,τι πρόσεξα, όχι μέτρηση και όχι ισχυρισμός. Δοκιμάστε το για ένα-δυο λεπτά και δείτε τι προσέχετε εσείς.</p>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="kicker">Πηγές και έλεγχοι</div>
+    <p class="dim" style="font-size:16px"><span class="tag ok">ελέγχθηκε</span>R. Buckminster Fuller, Synergetics: Explorations in the Geometry of Thinking (1975), για το Jitterbug και τους όγκους 20, 18,51, 4 και 1. Κάθε αριθμός σε αυτή τη σελίδα ξαναυπολογίστηκε με πρόγραμμα.</p>
+    <p class="dim" style="font-size:16px">Ένα προηγούμενο προσχέδιο αυτής της σελίδας είχε δύο λάθος αθροίσματα: το ΣΙΓΗ είναι 221 (όχι 231) και το ἰδιώτης είναι 1332 (όχι 1331). Και τα δύο διορθώθηκαν εδώ. Ό,τι δεν μπορούσε να ελεγχθεί αφέθηκε έξω.</p>
+  </div>
+</section>
+</main>
+
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Κοινοποίηση της σελίδας</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="shbtns" style="margin-top:22px"><a href="ophanim-engine-codex-el.html">Μηχανή</a><a href="library.html">Βιβλιοθήκη</a><a href="isopsephy-index.html">Ευρετήριο Ισοψηφίας</a></div>
+    <p class="dim" style="font-size:13px;margin:26px auto 0;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:center">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin:14px auto 0;text-align:center"><a href="privacy.html">Απόρρητο και cookies</a></p>
+  </div>
+</footer>
+
+<script>
+/* ===== hero: breathing vector equilibrium (simple scaling) ===== */
+(function(){
+var cv=document.getElementById('he-cv'),sl=document.getElementById('breath');if(!cv)return;
+var ctx=cv.getContext('2d'),k=1,ry=0.5,W=300,H=300,DPR=1;
+var P=[[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1]];
+var E=[];for(var i=0;i<12;i++)for(var j=i+1;j<12;j++){var d=Math.hypot(P[i][0]-P[j][0],P[i][1]-P[j][1],P[i][2]-P[j][2]);if(Math.abs(d-1.4142)<0.01)E.push([i,j]);}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+function pr(p){var x=p[0]*k,y=p[1]*k,z=p[2]*k,c=Math.cos(ry),s=Math.sin(ry),cx=Math.cos(-0.45),sx=Math.sin(-0.45);
+  var X=x*c+z*s,Z=-x*s+z*c,Y=y*cx-Z*sx,Z2=y*sx+Z*cx,F=7,m=F/(F-Z2),S=Math.min(W,H)*0.21;return[W/2+X*S*m,H/2-Y*S*m,Z2];}
+function frame(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  for(var pl=0;pl<3;pl++){ctx.beginPath();for(var i=0;i<=72;i++){var t=i/72*Math.PI*2,c=Math.cos(t)*1.4142,s=Math.sin(t)*1.4142,q=pr(pl===0?[c,s,0]:pl===1?[0,c,s]:[c,0,s]);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}
+    ctx.strokeStyle='rgba(195,216,107,.45)';ctx.lineWidth=1;ctx.setLineDash([4,5]);ctx.stroke();ctx.setLineDash([]);}
+  var Q=P.map(pr);
+  E.forEach(function(e){ctx.beginPath();ctx.moveTo(Q[e[0]][0],Q[e[0]][1]);ctx.lineTo(Q[e[1]][0],Q[e[1]][1]);ctx.strokeStyle='rgba(224,228,201,.4)';ctx.lineWidth=1;ctx.stroke();});
+  Q.map(function(p){return p;}).sort(function(a,b){return a[2]-b[2];}).forEach(function(p){var g=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],11);g.addColorStop(0,'rgba(232,207,122,.9)');g.addColorStop(1,'rgba(232,207,122,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p[0],p[1],11,0,7);ctx.fill();ctx.fillStyle='#e8cf7a';ctx.beginPath();ctx.arc(p[0],p[1],3.6,0,7);ctx.fill();});
+}
+var last=0;function tick(t){var dt=Math.min(.05,(t-last)/1000||0);last=t;if(!reduce)ry+=dt*0.4;frame();requestAnimationFrame(tick);}
+if(sl)sl.addEventListener('input',function(){k=parseFloat(sl.value);});
+window.addEventListener('resize',size);size();requestAnimationFrame(tick);
+})();
+
+/* ===== the true jitterbug: plain canvas, no libraries ===== */
+(function(){
+var L={"hint": "Πατήστε ένα σημείο για να ακούσετε το γράμμα του. Το Άλφα είναι στο κέντρο.", "names": ["άλφα", "βήτα", "γάμμα", "δέλτα", "έψιλον", "στίγμα", "ζήτα", "ήτα", "θήτα", "ιώτα", "κάπα", "λάμδα", "μι"], "ve": "Ισορροπία Διανυσμάτων (κυβοκταέδρο): 12 σημεία, 8 τρίγωνα, 6 τετράγωνα", "ico": "Εικοσάεδρο: τα τετράγωνα έχουν διπλώσει σε τρίγωνα, 12 σημεία", "oct": "Οκτάεδρο: τα σημεία έχουν συναντηθεί ανά δύο, 6 σημεία", "mid": "Ενδιάμεσα: σε κίνηση", "pause": "Παύση", "play": "Αναπαραγωγή"};
+var cv=document.getElementById('jb-cv'),ctx=cv.getContext('2d');
+var S3=Math.sqrt(3),D=Math.PI/180;
+var TRI=[[0,4,8],[1,4,11],[3,5,8],[2,5,11],[0,7,9],[1,7,10],[3,6,9],[2,6,10]];
+var SQ=[[0,8,3,9],[1,11,2,10],[0,4,1,7],[3,5,2,6],[4,8,5,11],[7,9,6,10]];
+function ab(th){var t=th*D,c=Math.cos(t),s=Math.sin(t)/S3;return[c+s,c-s];}
+function verts(th){var q=ab(th),a=q[0],b=q[1];return[[a,b,0],[-a,b,0],[-a,-b,0],[a,-b,0],[0,a,b],[0,-a,b],[0,-a,-b],[0,a,-b],[b,0,a],[b,0,-a],[-b,0,-a],[-b,0,a]];}
+function sub(p,q){return[p[0]-q[0],p[1]-q[1],p[2]-q[2]];}
+function dist(p,q){var d=sub(p,q);return Math.hypot(d[0],d[1],d[2]);}
+/* volume of the body in synergetic units (the tetrahedron on the same edge = 1), by the divergence sum over its faces */
+function volume(P){
+  var faces=TRI.slice();
+  SQ.forEach(function(q){
+    if(dist(P[q[0]],P[q[2]])<=dist(P[q[1]],P[q[3]])){faces.push([q[0],q[1],q[2]],[q[0],q[2],q[3]]);}
+    else{faces.push([q[1],q[2],q[3]],[q[1],q[3],q[0]]);}
+  });
+  var V=0;
+  faces.forEach(function(f){
+    var p0=P[f[0]],p1=P[f[1]],p2=P[f[2]],u=sub(p1,p0),w=sub(p2,p0);
+    var n=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]];
+    var c=[(p0[0]+p1[0]+p2[0])/3,(p0[1]+p1[1]+p2[1])/3,(p0[2]+p1[2]+p2[2])/3];
+    if(n[0]*c[0]+n[1]*c[1]+n[2]*c[2]<0){n=[-n[0],-n[1],-n[2]];}
+    V+=(p0[0]*n[0]+p0[1]*n[1]+p0[2]*n[2])/6;
+  });
+  return V*3;
+}
+/* letters on the points: Alpha at the centre, B to M on the twelve points. Pitch = the Greek sphere's own rule. */
+var ALL='ΑΒΓΔΕϚΖΗΘΙΚΛΜΝΞΟΠϘΡΣΤΥΦΧΨΩϠ'.split(''),VALS=[1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900];
+var RAT=[1,9/8,5/4,4/3,3/2,5/3,15/8,2,9/4];
+function hz(ch){var i=ALL.indexOf(ch);return 216*Math.pow(2,Math.floor(i/9)/2)*RAT[i%9];}
+var PL=['Β','Γ','Δ','Ε','Ϛ','Ζ','Η','Θ','Ι','Κ','Λ','Μ'];
+function letterOf(i){return i===12?'Α':PL[i];}
+function info(i){var ch=letterOf(i),k=ALL.indexOf(ch);return ch+' \u00b7 '+L.names[k<=12?k:0]+' \u00b7 '+VALS[k]+' \u00b7 '+Math.round(hz(ch)*10)/10+' Hz';}
+var AC=null,MG=null;
+function actx(){if(AC)return AC;try{var A=window.AudioContext||window.webkitAudioContext;AC=new A();MG=AC.createGain();MG.gain.value=.9;MG.connect(AC.destination);}catch(e){AC=null;}return AC;}
+function tone(f,dur){var a=actx();if(!a)return;if(a.state==='suspended')a.resume();var t=a.currentTime;
+  [[1,'sine',.16],[2,'triangle',.04]].forEach(function(p){var o=a.createOscillator(),g=a.createGain();o.type=p[1];o.frequency.value=f*p[0];g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(p[2],t+.04);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(MG);o.start(t);o.stop(t+dur+.05);});}
+function pick(i){st.sel=i;tone(hz(letterOf(i)),1.1);var t=document.getElementById('jb-tone');t.textContent=info(i);}
+var outT=[];
+function outward(){outT.forEach(clearTimeout);outT=[];[12,0,1,2,3,4,5,6,7,8,9,10,11].forEach(function(i,n){outT.push(setTimeout(function(){pick(i);},n*420));});}
+var st={th:0,play:true,dir:1,rx:-0.45,ry:0.6,drag:false,go:null,ly:{tri:true,sq:true,ring:true,path:false,let:true},sel:-1,Q:[],C:[0,0],tdown:null};
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)st.play=false;
+var W=0,H=0,DPR=1;
+function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(300,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+function rot(p){var cy=Math.cos(st.ry),sy=Math.sin(st.ry),cx=Math.cos(st.rx),sx=Math.sin(st.rx);
+  var x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,y=p[1];var y2=y*cx-z*sx,z2=y*sx+z*cx;return[x,y2,z2];}
+function proj(p){var r=rot(p),F=6,k=F/(F-r[2]),S=Math.min(W,H*1.45)*0.2;return[W/2+r[0]*S*k,H/2-r[1]*S*k,r[2]];}
+function line(a,b,col,w,dash){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.setLineDash(dash||[]);ctx.stroke();ctx.setLineDash([]);}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  var P=verts(st.th),Q=P.map(proj);
+  var q=ab(st.th),R=Math.hypot(q[0],q[1]);
+  /* rings in the three coordinate planes, passing through the 4 points that lie in each */
+  if(st.ly.ring){
+    for(var pl=0;pl<3;pl++){var pts=[];for(var i=0;i<=72;i++){var t=i/72*Math.PI*2,c=Math.cos(t)*R,s=Math.sin(t)*R;pts.push(proj(pl===0?[c,s,0]:pl===1?[0,c,s]:[c,0,s]));}
+      ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.strokeStyle='rgba(195,216,107,.38)';ctx.lineWidth=1;ctx.setLineDash([4,5]);ctx.stroke();ctx.setLineDash([]);}
+  }
+  /* paths of the 12 points over the whole motion */
+  if(st.ly.path){
+    for(var vi=0;vi<12;vi++){var pts=[];for(var d=0;d<=60;d+=2){pts.push(proj(verts(d)[vi]));}
+      ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.strokeStyle='rgba(232,207,122,.4)';ctx.lineWidth=1;ctx.stroke();}
+  }
+  /* faces, back to front */
+  var items=[];
+  if(st.ly.sq)SQ.forEach(function(f){var z=(Q[f[0]][2]+Q[f[1]][2]+Q[f[2]][2]+Q[f[3]][2])/4;items.push({f:f,z:z,sq:true});});
+  if(st.ly.tri)TRI.forEach(function(f,i){var z=(Q[f[0]][2]+Q[f[1]][2]+Q[f[2]][2])/3;items.push({f:f,z:z,i:i});});
+  items.sort(function(a,b){return a.z-b.z;});
+  items.forEach(function(it){ctx.beginPath();it.f.forEach(function(k,j){j?ctx.lineTo(Q[k][0],Q[k][1]):ctx.moveTo(Q[k][0],Q[k][1]);});ctx.closePath();
+    if(it.sq){ctx.fillStyle='rgba(232,207,122,.10)';ctx.strokeStyle='rgba(232,207,122,.55)';}
+    else{ctx.fillStyle=(it.i%2?'rgba(195,216,107,.30)':'rgba(170,226,140,.22)');ctx.strokeStyle='rgba(195,216,107,.8)';}
+    ctx.fill();ctx.lineWidth=1.2;ctx.stroke();});
+  /* the 24 edges (all belong to the 8 triangles) */
+  TRI.forEach(function(f){for(var e=0;e<3;e++){var a=Q[f[e]],b=Q[f[(e+1)%3]];line(a,b,'rgba(224,228,201,.55)',1);}});
+  /* nodes, back to front */
+  var nodes=Q.map(function(p,i){return{p:p,i:i};}).sort(function(a,b){return a.p[2]-b.p[2];});
+  nodes.forEach(function(n){var g=ctx.createRadialGradient(n.p[0],n.p[1],0,n.p[0],n.p[1],11);g.addColorStop(0,'rgba(232,207,122,.9)');g.addColorStop(1,'rgba(232,207,122,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.p[0],n.p[1],11,0,7);ctx.fill();ctx.fillStyle='#e8cf7a';ctx.beginPath();ctx.arc(n.p[0],n.p[1],3.6,0,7);ctx.fill();});
+  var c0=proj([0,0,0]);ctx.fillStyle='rgba(195,216,107,.9)';ctx.beginPath();ctx.arc(c0[0],c0[1],2.4,0,7);ctx.fill();
+  st.Q=Q;st.C=c0;
+  if(st.ly.let){ctx.font='600 15px "Cormorant Garamond",Georgia,serif';ctx.textAlign='left';ctx.textBaseline='middle';
+    Q.forEach(function(p,i){ctx.fillStyle=(i===st.sel)?'#ffffff':'rgba(224,228,201,.85)';ctx.fillText(PL[i],p[0]+8,p[1]-9);});
+    ctx.font='700 18px "Cormorant Garamond",Georgia,serif';ctx.fillStyle=(st.sel===12)?'#ffffff':'#c3d86b';ctx.fillText('Α',c0[0]+8,c0[1]-10);}
+  if(st.sel>=0){var sp=st.sel===12?c0:Q[st.sel];ctx.beginPath();ctx.arc(sp[0],sp[1],15,0,7);ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1.5;ctx.stroke();}
+  /* readouts */
+  var vol=volume(P),ratio=q[1]>1e-6?q[0]/q[1]:Infinity;
+  set('r-th',st.th.toFixed(2)+'°');set('r-vol',vol.toFixed(2));set('r-rad',R.toFixed(4));
+  set('r-edge',(Math.sqrt(2*(q[0]*q[0]-q[0]*q[1]+q[1]*q[1]))).toFixed(4));set('r-ratio',isFinite(ratio)?ratio.toFixed(3):'∞');
+  var ph=document.getElementById('jb-phase'),txt;
+  if(st.th<0.4)txt=L.ve;else if(Math.abs(st.th-22.2388)<0.4)txt=L.ico;else if(st.th>59.6)txt=L.oct;else txt=L.mid;
+  if(ph.textContent!==txt)ph.textContent=txt;
+  var sl=document.getElementById('jb-th');if(document.activeElement!==sl)sl.value=st.th;
+}
+function set(id,v){var e=document.getElementById(id);if(e.textContent!==v)e.textContent=v;}
+var last=0;
+function tick(t){
+  var dt=Math.min(0.05,(t-last)/1000||0);last=t;
+  if(st.go!==null){var d=st.go-st.th;if(Math.abs(d)<0.05){st.th=st.go;st.go=null;}else st.th+=d*Math.min(1,dt*4);}
+  else if(st.play){st.th+=st.dir*6*dt;if(st.th>=60){st.th=60;st.dir=-1;}if(st.th<=0){st.th=0;st.dir=1;}}
+  if(!st.drag&&!reduce)st.ry+=dt*0.25;
+  draw();requestAnimationFrame(tick);
+}
+/* controls */
+document.getElementById('jb-play').addEventListener('click',function(){st.play=!st.play;st.go=null;this.textContent=st.play?L.pause:L.play;this.classList.toggle('on',st.play);});
+document.getElementById('jb-rev').addEventListener('click',function(){st.dir=-st.dir;st.play=true;st.go=null;var b=document.getElementById('jb-play');b.textContent=L.pause;b.classList.add('on');});
+document.getElementById('jb-th').addEventListener('input',function(e){st.th=parseFloat(e.target.value);st.go=null;st.play=false;var b=document.getElementById('jb-play');b.textContent=L.play;b.classList.remove('on');});
+Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(b){b.addEventListener('click',function(){st.go=parseFloat(b.getAttribute('data-go'));st.play=false;var p=document.getElementById('jb-play');p.textContent=L.play;p.classList.remove('on');});});
+Array.prototype.forEach.call(document.querySelectorAll('[data-ly]'),function(c){c.addEventListener('change',function(){st.ly[c.getAttribute('data-ly')]=c.checked;});});
+var lx=0,ly=0;
+cv.addEventListener('pointerdown',function(e){st.drag=true;lx=e.clientX;ly=e.clientY;st.tdown=[e.clientX,e.clientY];try{cv.setPointerCapture(e.pointerId);}catch(x){}});
+cv.addEventListener('pointermove',function(e){if(!st.drag)return;st.ry+=(e.clientX-lx)*0.01;st.rx=Math.max(-1.5,Math.min(1.5,st.rx+(e.clientY-ly)*0.01));lx=e.clientX;ly=e.clientY;});
+cv.addEventListener('pointerup',function(e){st.drag=false;var d=st.tdown;st.tdown=null;if(!d||Math.hypot(e.clientX-d[0],e.clientY-d[1])>6)return;
+  var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,best=-1,bd=22;
+  st.Q.forEach(function(p,i){var dd=Math.hypot(p[0]-x,p[1]-y);if(dd<bd){bd=dd;best=i;}});
+  if(Math.hypot(st.C[0]-x,st.C[1]-y)<bd)best=12;
+  if(best>=0)pick(best);});
+cv.addEventListener('pointercancel',function(){st.drag=false;st.tdown=null;});
+document.getElementById('jb-out').addEventListener('click',outward);
+window.addEventListener('resize',size);
+document.getElementById('jb-tone').textContent=L.hint;size();var pb=document.getElementById('jb-play');pb.textContent=st.play?L.pause:L.play;pb.classList.toggle('on',st.play);
+window.__jb={st:st,verts:verts,volume:volume,draw:draw};
+requestAnimationFrame(tick);
+})();
+
+/* ===== share buttons ===== */
+(function(){var box=document.getElementById('shbtns');if(!box)return;var u=function(){return location.href.split('#')[0]},t=document.title;
+var L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+var items=[['X',function(){return 'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)}],['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())}],['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(t+' '+u())}],[L.mail,function(){return 'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())}]];
+items.forEach(function(it){var a=document.createElement('a');a.textContent=it[0];a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',function(){a.href=it[1]();});box.appendChild(a);});
+var b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',function(){var s=function(){b.textContent=L.done;setTimeout(function(){b.textContent=L.copy},1800)};try{navigator.clipboard.writeText(u()).then(s,function(){prompt(L.copy,u())})}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+</script>
+<script src="account.js"></script>
+</body>
+</html>
