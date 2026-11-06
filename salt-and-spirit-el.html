@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Αλάτι και Πνεύμα · Ophanim Codex</title>
+<meta name="description" content="Γιατί ο πρώτος ορός στα επείγοντα είναι αλατόνερο, και πώς αυτό το ένα γεγονός συνδέεται με τον κρύσταλλο, τα ελληνικά γράμματα και τους αριθμούς δίπλα τους.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Ophanim Codex · The Jitterbug. The site's own palette: deep blue-black, cyan, gold. */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72); --cv:#050b10;
+  --lime:#46e3f0; --lime-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#dcd6c4; --ink-2:#b4bec2; --ink-3:#7d8c92;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:15.5px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.06),transparent 60%)}
+a{color:var(--lime)}
+main,header,footer{position:relative;z-index:1}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s;white-space:nowrap}
+.bar a:hover{color:var(--lime);border-color:var(--lime)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+section{padding:96px 20px 40px}
+.wrap{max-width:1040px;margin:0 auto;width:100%}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--lime)}
+h1,h2{font-family:var(--title);font-weight:500;line-height:1.15;color:var(--ink)}
+h1{font-size:clamp(38px,6vw,72px);margin-bottom:18px}
+h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:16px}
+h1 em,h2 em{color:var(--gold);font-style:normal}
+p{max-width:76ch;margin-bottom:16px}
+.dim{color:var(--ink-2)}
+.lead{font-size:18px;color:#f0ead8}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(170,226,140);border-color:rgba(170,226,140,.55)}
+.tag.un{color:rgb(240,170,100);border-color:rgba(240,170,100,.55)}
+.tag.fw{color:rgb(196,176,240);border-color:rgba(196,176,240,.55)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:12px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
+.ctl button{font:13px var(--mono);letter-spacing:.05em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button:hover{border-color:var(--gold)}
+.ctl button.on{background:rgba(232,195,117,.14);border-color:var(--gold)}
+.ctl input[type=range]{flex:1;min-width:180px;accent-color:#46e3f0}
+.ctl input[type=checkbox]{accent-color:#46e3f0;width:16px;height:16px}
+/* hero: breathing vector equilibrium, pure CSS 3D */
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+@media(max-width:860px){.heroGrid{grid-template-columns:1fr}}
+.viewport{position:relative;height:340px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:radial-gradient(circle at center,#0a1a22 0%,var(--cv) 78%)}
+.viewport canvas{width:100%;height:100%;display:block}
+.hudmini{margin-top:10px}
+/* simulator */
+.cvw{border:1px solid var(--line);background:#010306;border-radius:8px;margin-top:10px;position:relative;max-width:680px}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
+.cvw canvas:active{cursor:grabbing}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.read div{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.read span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.read b{font:600 17px var(--mono);color:var(--lime)}
+.phase{font:14px var(--mono);color:var(--gold);margin-top:10px;min-height:22px}
+.phase.tone{color:var(--lime);margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--panel)}
+.tw{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:16px;color:var(--lime);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0;max-width:none;overflow-x:auto;line-height:1.9}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:14px 0}
+.ids .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}
+.ids h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ids p{font-size:14.5px;margin-bottom:8px}
+.ids .sum{font:15px var(--mono);color:var(--lime)}
+blockquote{border-left:3px solid var(--lime);padding:6px 0 6px 18px;margin:14px 0;font-family:var(--serif);font-size:24px;line-height:1.5;font-style:italic;max-width:62ch}
+blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-top:8px}
+.sharefoot{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+.wrap ul{max-width:76ch;margin:0 0 16px 22px}.wrap li{margin-bottom:9px}
+h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:26px 0 10px}
+.eq.big{font-size:15px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
+.two .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}.two .c b{display:block;font:600 22px var(--mono);color:var(--lime);margin:4px 0}
+.thesis{border:1px solid var(--line-g);background:var(--panel);border-radius:8px;padding:18px 22px;margin:14px 0}.thesis p{font-size:15px}
+.aud{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;margin:14px 0}.aud input{width:100%;max-width:480px;font:18px var(--mono);color:var(--ink);background:var(--cv);border:1px solid var(--line);border-radius:6px;padding:9px 12px}
+.aud .pre button{font:12px var(--mono);color:var(--gold);background:none;border:1px solid rgba(232,195,117,.4);border-radius:5px;padding:5px 9px;margin:4px 6px 0 0;cursor:pointer}
+.aud .res{font:600 26px var(--mono);color:var(--lime);margin-top:12px}.aud .brk{font:13px var(--mono);color:var(--ink-2);word-break:break-word}
+@media(max-width:600px){.bar{justify-content:space-between}.bar .t{display:none}}
+
+.read+p,.read+h3{margin-top:18px}
+.stat4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.stat4 div{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:10px 14px}
+.stat4 span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.stat4 b{display:block;font:600 24px var(--mono);color:var(--lime)}
+.stat4 i{display:block;font:12px var(--mono);color:var(--ink-3);font-style:normal}
+.pour{font-family:var(--serif);font-size:22px;line-height:1.55;font-style:italic;color:#f0ead8;border-left:3px solid var(--gold);padding:4px 0 4px 18px;margin:18px 0;max-width:62ch}
+.cell{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.cell svg{width:190px;height:150px;flex:none;border:1px solid var(--line);border-radius:8px;background:#010306}
+.cell .txt{flex:1;min-width:230px}
+.sig{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.sig button{font:600 15px var(--mono);color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:5px 8px;cursor:pointer;min-width:42px}
+.sig button:hover{color:var(--gold);border-color:var(--gold)}
+.sig button small{display:block;font:10px var(--mono);color:var(--lime)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.steps .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;position:relative}
+.steps .c .g{font:600 44px var(--title);color:var(--gold);line-height:1}
+.steps .c h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--lime);margin:8px 0}
+.steps .c .n{font:15px var(--mono);color:var(--gold)}
+.steps .c p{font-size:14.5px;margin:6px 0}
+.lnk{font-size:13.5px;color:var(--ink-3)}
+.lnk a{color:var(--lime)}
+.spike{height:150px}
+canvas.sp{width:100%;max-width:520px;height:150px;border:1px solid var(--line);border-radius:8px;background:#010306;display:block;margin-top:10px}
+.mini{width:100%;max-width:420px;aspect-ratio:1/1;display:block;border:1px solid var(--line);border-radius:8px;background:#010306}
+.heroGrid2{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+@media(max-width:860px){.heroGrid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a href="ophanim-engine-codex-el.html">&#9666; Μηχανή</a>
+  <div class="t">Ophanim Codex &middot; <b>Αλάτι και Πνεύμα</b></div>
+  <a href="salt-and-spirit.html">English</a>
+  <a href="library.html">Βιβλιοθήκη &#9656;</a>
+</header>
+<main>
+<section id="hero"><div class="wrap"><div class="heroGrid2"><div>
+<div class="kicker">Ο Ιοντικός Πίνακας &middot; Βιοφυσική &amp; ελληνικοί αριθμοί</div>
+<h1>Αλάτι και <em>Πνεύμα</em></h1>
+<p class="lead">Όταν ένα σώμα καταρρέει και φτάνει στα επείγοντα, ο πρώτος ορός που κρεμάνε δεν είναι καθαρό νερό. Είναι αλατόνερο.</p>
+<p class="dim">Αυτό το μικρό γεγονός λέει κάτι μεγάλο. Το νερό μόνο του δεν μεταφέρει ρεύμα, και ένα κύτταρο μέσα του φουσκώνει μέχρι να σπάσει. Βάλε όμως την σωστή ποσότητα αλατιού και το ίδιο νερό γίνεται η τάση ενός νεύρου, ένας χτύπος καρδιάς, μια σκέψη. Η σελίδα ξεκινά από εκείνο το δωμάτιο και ακολουθεί το αλάτι μέσα στον κρύσταλλο, μέσα στα ελληνικά γράμματα και στους αριθμούς που εμφανίζονται διαρκώς δίπλα του.</p>
+</div><div>
+<canvas id="lat-hero" class="mini" role="img" aria-label="Περιστρεφόμενο μοντέλο κρυστάλλου αλατιού: νάτριο σε κυανό, χλώριο σε χρυσό"></canvas>
+<p class="dim" style="font-size:13.5px;margin-top:8px">Ένας κρύσταλλος αλατιού με 27 σημεία. Σύρε για να τον γυρίσεις.</p>
+</div></div>
+<div class="stat4">
+<div><span>Υγρό του ορού</span><b>0.9 %</b><i>154 mM νάτριο και 154 mM χλώριο</i></div>
+<div><span>Κύτταρο σε ηρεμία</span><b>&minus;70 mV</b><i>η τάση πάνω στη μεμβράνη</i></div>
+<div><span>Η αντλία</span><b>3 : 2</b><i>3 Na&#8314; έξω, 2 K&#8314; μέσα</i></div>
+<div><span>Αριθμός Σύντηξης</span><b>1746</b><i>1080 + 666</i></div>
+</div></div></section>
+<section data-narrate id="er"><div class="wrap">
+<div class="kicker">Πυλώνας Ι &middot; Στα επείγοντα</div><h2>Το πρώτο πράγμα που <em>κρεμάνε στον ορό</em></h2>
+<p class="lead">Το απεσταγμένο νερό είναι μονωτής. Δεν έχει σχεδόν ελεύθερα φορτία, άρα δεν μεταφέρει ρεύμα, και ένα ζωντανό κύτταρο δεν μπορεί να λειτουργήσει μέσα του.</p>
+<p>Βάλε ένα ερυθρό αιμοσφαίριο σε καθαρό νερό και το νερό μπαίνει μέσα από τη μεμβράνη, γιατί το εσωτερικό είναι πιο αλμυρό από το εξωτερικό. Το κύτταρο φουσκώνει και σπάει. Βάλε πίσω αλάτι στην σωστή ποσότητα, 0,9 τοις εκατό, που λέγεται φυσιολογικός ορός, και το κύτταρο κρατά το σχήμα του. Ο αριθμός δεν είναι τυχαίος: 0,9 γραμμάρια ανά 100 χιλιοστόλιτρα είναι 154 χιλιοστομόρια νατρίου και 154 χλωρίου ανά λίτρο, περίπου όσα έχει ήδη το υγρό γύρω από τα κύτταρά σου.</p>
+<div class="pour">Ο χρυσοχόος το ξέρει από τον πάγκο. Ο καθαρός χρυσός 24 καρατίων είναι υπέροχος και μαλακός, και δεν κρατά αιχμηρό σχήμα. Λίγος χαλκός ή ασήμι στο κράμα, το όριο, είναι που αφήνει το δαχτυλίδι να κρατήσει την άκρη του. Εδώ το νερό είναι ο καθαρός χρυσός. Το αλάτι είναι το κράμα που το αφήνει να κρατήσει σχήμα και να μεταφέρει φορτίο.</div>
+<h3 class="sub">Δοκίμασε τους τρεις ορούς</h3>
+<p>Διάλεξε μέσα σε τι βρίσκεται το κύτταρο. Η εικόνα είναι σχηματική, αλλά η φορά του νερού είναι πραγματική.</p>
+<div class="cell">
+<svg id="cellsvg" viewBox="0 0 190 150" role="img" aria-label="Ένα στρογγυλό κύτταρο που φουσκώνει, κρατά ή μικραίνει ανάλογα με το υγρό γύρω του"><circle id="cellc" cx="95" cy="75" r="40" fill="rgba(70,227,240,.12)" stroke="#46e3f0" stroke-width="2"/><circle cx="95" cy="75" r="8" fill="rgba(232,195,117,.5)"/></svg>
+<div class="txt"><div class="ctl"><button type="button" data-fl="0">Καθαρό νερό</button><button type="button" data-fl="1" class="on">Ορός 0,9 %</button><button type="button" data-fl="2">Ορός 3 %</button></div>
+<p id="cellmsg" class="phase" style="min-height:70px" aria-live="polite"></p></div></div>
+<h3 class="sub">Τα ελληνικά ονόματα των δύο συνεργατών</h3>
+<p>Οι αρχαίοι Έλληνες είχαν ονόματα για αυτό το ζευγάρι. Το <b>άπειρον</b> είναι το απροσδιόριστο, το ρευστό χωρίς άκρη. Το <b>πέρας</b> είναι το όριο, η άκρη που δίνει σε κάτι το σχήμα του. Το νερό είναι το άπειρον. Τα ιόντα νατρίου και χλωρίου του άλατος είναι το πέρας, μικρά μετρημένα βοτσαλάκια ορίου: οι <i>ψήφοι</i> (ψῆφοι), η ίδια λέξη με τα βότσαλα που μετρούσαν και ψήφιζαν. Γι’ αυτό η λέξη για το βότσαλο είναι τόσο κοντά στη λέξη για τον αριθμό.</p>
+<h3 class="sub">Η μπαταρία σε κάθε κύτταρο</h3>
+<p>Κάθε κύτταρο κρατά μια τάση πάνω στη μεμβράνη του. Μια πρωτεΐνη-αντλία, η αντλία νατρίου-καλίου, καίει ένα ATP για να βγάλει τρία ιόντα νατρίου και να φέρει μέσα δύο ιόντα καλίου. Αυτή η άνιση ανταλλαγή αφήνει το εσωτερικό περίπου 70 millivolt αρνητικό. Η αντλία δουλεύει διαρκώς και παίρνει μεγάλο μερίδιο της ενέργειας ενός νευρώνα, γι’ αυτό ο εγκέφαλος πεινά τόσο. Κάθε νευρικό σήμα και κάθε χτύπος καρδιάς είναι αυτή η αποθηκευμένη τάση που ελευθερώνεται για μια στιγμή.</p>
+<h3 class="sub">Γύρνα τα καντράν</h3>
+<p class="dim">Εδώ χρησιμοποιείται η εξίσωση Goldman&ndash;Hodgkin&ndash;Katz μόνο με νάτριο και κάλιο (θερμοκρασία σώματος, νάτριο μέσα 12 mM, κάλιο μέσα 140 mM). Άφησε τα καντράν στην αρχή και θα διαβάσεις περίπου &minus;71 mV.</p>
+<div class="ctl"><label>Νάτριο έξω <input type="range" id="m-nao" min="100" max="170" step="1" value="142"> <b id="o-nao">142</b> mM</label></div>
+<div class="ctl"><label>Κάλιο έξω <input type="range" id="m-ko" min="2" max="12" step="0.5" value="4"> <b id="o-ko">4</b> mM</label></div>
+<div class="ctl"><label>Διαρροή νατρίου σε σχέση με κάλιο <input type="range" id="m-pr" min="0.01" max="0.30" step="0.01" value="0.04"> <b id="o-pr">0.04</b></label></div>
+<div class="read"><div><span>Τάση ηρεμίας</span><b id="r-vm">&minus;71 mV</b></div><div><span>E<sub>Na</sub></span><b id="r-ena">+66 mV</b></div><div><span>E<sub>K</sub></span><b id="r-ek">&minus;95 mV</b></div></div>
+<div class="ctl"><button type="button" id="fire">Στείλε ένα νευρικό σήμα</button></div>
+<canvas id="spk" class="sp" role="img" aria-label="Σχέδιο ενός νευρικού σήματος: η τάση ανεβαίνει περίπου στα +30 mV, πέφτει κάτω από την ηρεμία και επιστρέφει"></canvas>
+<p class="dim" style="font-size:13.5px">Η καμπύλη είναι σχηματική απεικόνιση του συνηθισμένου σχήματος ενός νευρικού σήματος, όχι μέτρηση.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Φυσιολογικός+ορός" target="_blank" rel="noopener">Φυσιολογικός ορός</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ώσμωση" target="_blank" rel="noopener">Ώσμωση</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Αντλία+νατρίου-καλίου" target="_blank" rel="noopener">Αντλία νατρίου-καλίου</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Δυναμικό+ηρεμίας" target="_blank" rel="noopener">Δυναμικό ηρεμίας</a></p>
+</div></section>
+<section data-narrate id="maxim"><div class="wrap">
+<div class="kicker">Πυλώνας ΙΙ &middot; Το αλάτι στις παλιές ιστορίες</div><h2>Αλάτι <em>στο τραπέζι</em></h2>
+<p>Ανάμεσα στα λόγια που μας παραδόθηκαν από τον <a href="https://el.wikipedia.org/w/index.php?search=Πυθαγόρας" target="_blank" rel="noopener">Πυθαγόρας</a> υπάρχει ένα απλό: βάλε αλάτι στο τραπέζι. Συγγραφείς όπως ο Διογένης Λαέρτιος το μεταφέρουν ως υπενθύμιση της δικαιοσύνης. Το αλάτι κρατά ό,τι αγγίζει από το να σαπίσει, και φτιάχνεται όταν ο ήλιος δουλεύει πάνω στη θάλασσα, δηλαδή με την ήσυχη δικαιοσύνη που ταιριάζει σε ένα τραπέζι.</p>
+<p>Την ίδια σκέψη βρίσκουμε στο Ευαγγέλιο του Μάρκου, σε δύο διπλανές γραμμές:</p>
+<div class="eq">Μάρκ. 9:49 &nbsp; πᾶς γὰρ πυρὶ ἁλισθήσεται<br>«Γιατί καθένας θα αλατιστεί με φωτιά.»<br><br>Μάρκ. 9:50 &nbsp; ἔχετε ἐν ἑαυτοῖς ἅλα, καὶ εἰρηνεύετε ἐν ἀλλήλοις<br>«Έχετε μέσα σας αλάτι, και ειρηνεύετε μεταξύ σας.»</div>
+<p>Πρόσεξε πού μπαίνει το αλάτι. Είναι <i>μέσα σας</i> (ἐν ἑαυτοῖς), ενώ η ειρήνη είναι <i>μεταξύ</i> σας (ἐν ἀλλήλοις). Το αλάτι είναι πρώτα μέσα στον καθένα, ακριβώς αυτό που διδάσκουν τα επείγοντα: είναι μέσα σε κάθε κύτταρο πριν από οπουδήποτε αλλού. Πολλά χειρόγραφα του εδαφίου 49 συνεχίζουν «και κάθε θυσία θα αλατιστεί με αλάτι» (καὶ πᾶσα θυσία ἁλὶ ἁλισθήσεται). Το αρχαίο Ισραήλ έβαζε αλάτι σε κάθε προσφορά ως σημάδι άρρηκτης υπόσχεσης, τη «διαθήκη του άλατος» του Αριθμοί 18:19.</p>
+<p>Η ελληνική λέξη για το αλάτι είναι <b>ἅλς</b> και με τις αριθμητικές αξίες των γραμμάτων κάνει 231 (Α1 + Λ30 + Σ200). Κράτα τον αριθμό στην τσέπη σου· θα ξαναγυρίσει στην επόμενη ενότητα.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Πυθαγόρας" target="_blank" rel="noopener">Πυθαγόρας</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Κατά+Μάρκον+Ευαγγέλιο" target="_blank" rel="noopener">Κατά Μάρκον Ευαγγέλιο</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Διαθήκη+άλατος" target="_blank" rel="noopener">Διαθήκη άλατος</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ισοψηφία" target="_blank" rel="noopener">Ισοψηφία</a></p>
+</div></section>
+<section data-narrate id="descent"><div class="wrap">
+<div class="kicker">Πυλώνας ΙΙΙ &middot; Η κάθοδος</div><h2>Από το μάτι, στη φωτιά, <em>στο αλάτι</em></h2>
+<p>Ο Δρ. Θεολόγος Σημαιοφόρος δίδασκε ότι τα ελληνικά γράμματα δεν είναι τυχαία σχήματα. Το καθένα περιγράφει μια δύναμη. Διαβασμένες έτσι, τρεις λέξεις φτιάχνουν μια σκάλα από το ακίνητο στο στερεό.</p>
+<div class="steps">
+<div class="c"><div class="g">&Theta;</div><h3>Θήτα, το βλέμμα</h3><div class="n">&Theta;9 + &Eta;8 + &Tau;300 + &Alpha;1 = 318</div><p>Η αρχαία μορφή του θήτα ήταν ένας κύκλος με τελεία στο κέντρο, το μάτι, ο ομφαλός του κόσμου (ο <a href="https://el.wikipedia.org/w/index.php?search=Ομφαλός" target="_blank" rel="noopener">ομφαλός</a>). Είναι το ακίνητο κέντρο που μόνο κοιτάζει.</p></div>
+<div class="c"><div class="g">&Theta;&epsilon;&#x1FD6;&omicron;&nu;</div><h3>Θείον, η ακτινοβολία</h3><div class="n">&Theta;9 + &Epsilon;5 + &Iota;10 + &Omicron;70 + &Nu;50 = 144 = 12&sup2;</div><p>Το θήτα κοιτάζει, και τα επόμενα γράμματα το βάζουν σε κίνηση: &epsilon; πορεία, &iota; σταθερή ροή φωτός, &omicron; οριοθετημένος χώρος, &nu; νους και νόμος. Η λέξη σημαίνει και «θεϊκό» και «θειάφι», το θείο που καίει. Το άθροισμά της, 144, είναι 12 &times; 12.</p></div>
+<div class="c"><div class="g">&#x1F09D;&lambda;&varsigma;</div><h3>Άλς, το αλάτι</h3><div class="n">&Alpha;1 + &Lambda;30 + &Sigma;200 = 231</div><p>Η φωτιά χρειάζεται κάτι να την κρατήσει. Το αλάτι είναι αυτό το δοχείο: μια σκληρή, διάφανη, κυβική πέτρα που αφήνει η θάλασσα όταν ο ήλιος πιει το νερό της. Η σκάλα τελειώνει σε έναν κρύσταλλο.</p></div>
+</div>
+<p>Η ανάγνωση κάθε γράμματος ανήκει στον Σημαιοφόρο. Η αριθμητική ανήκει σε όλους και κάθε άθροισμα ελέγχεται με τον υπολογιστή πιο κάτω. Παρεμπιπτόντως, η λέξη για τον Ήλιο, ἥλιος, κάνει επίσης 318, όσο και το θῆτα, γι’ αυτό το θήτα λέγεται μάτι του ήλιου. Τον γνωστό του ξάδερφο 666 θα τον συναντήσεις πιο κάτω, και θα δεις γιατί οι δύο αριθμοί είναι διαφορετικοί.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Θήτα" target="_blank" rel="noopener">Θήτα</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Θείο" target="_blank" rel="noopener">Θείο</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Αλίτης" target="_blank" rel="noopener">Αλίτης</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ήλιος" target="_blank" rel="noopener">Ήλιος</a></p>
+</div></section>
+<section data-narrate id="lattice"><div class="wrap">
+<div class="kicker">Πυλώνας IV &middot; Ο κρύσταλλος</div><h2>Γιατί το αλάτι είναι <em>κύβος</em></h2>
+<p>Το ορυκτό αλάτι, ο <a href="https://el.wikipedia.org/w/index.php?search=Αλίτης" target="_blank" rel="noopener">αλίτης</a>, μεγαλώνει και σπάει σε κύβους. Το νάτριο και το χλώριο κάθονται σε τρισδιάστατο πλέγμα, και το καθένα έχει γύρω του έξι του άλλου είδους, ένα πάνω, ένα κάτω, ένα σε κάθε πλευρά. Ένωσε αυτούς τους έξι γείτονες και σχεδιάζεις ένα οκτάεδρο, το δυϊκό του κύβου. Μέσα σε κάθε μικρό κύβο λοιπόν δουλεύει ήσυχα ένα οκτάεδρο.</p>
+<div class="cvw"><canvas id="lat-cv" role="img" aria-label="Περιστρεφόμενο μοντέλο κρυστάλλου αλατιού με νάτριο σε κυανό και χλώριο σε χρυσό" style="aspect-ratio:16/11"></canvas></div>
+<div class="ctl"><button type="button" data-m="0" class="on">Κελί κρυστάλλου (27)</button><button type="button" data-m="1">Κέλυφος (26)</button><button type="button" data-m="2">Ακτινοβολητής (34)</button></div>
+<div class="ctl"><label><input type="checkbox" id="lat-bond" checked> Δεσμοί</label><label><input type="checkbox" id="lat-oct"> Οκτάεδρο γύρω από το κέντρο</label><label><input type="checkbox" id="lat-spin" checked> Περιστροφή</label><label><input type="checkbox" id="lat-pulse"> Παλμός</label></div>
+<div class="phase" id="lat-msg" aria-live="polite"></div>
+<div class="read"><div><span>Σταθερά πλέγματος</span><b>564.02 pm</b></div><div><span>Γείτονες</span><b>6 : 6</b></div><div><span>Ομάδα συμμετρίας</span><b>Fm3&#772;m</b></div><div><span>Σταθερά Madelung</span><b>1.7476</b></div></div>
+<p>Μέτρα τι δείχνει η εικόνα. Ένα μπλοκ 3 &times; 3 &times; 3 έχει 27 σημεία. Αφαίρεσε το μεσαίο και μένουν 26 απ’ έξω, το κέλυφος. Τώρα σπρώξε τις οκτώ γωνίες προς τα έξω πάνω στις διαγώνιους κατά &radic;3 &minus; 1 &asymp; 0,732 και έχεις οκτώ αιχμές: 26 + 8 = 34. Είναι το ίδιο κλουβί των 26 σημείων και το ίδιο άστρο των 34 με τη <a href="jitterbug-el.html">σελίδα του Jitterbug</a>, εδώ μέσα σε έναν κρύσταλλο αλατιού.</p>
+<p>Η σταθερά Madelung, ένας αριθμός που συνοψίζει πώς προστίθενται τα φορτία ενός κρυστάλλου αλατιού, βγαίνει κοντά στο 1,7476. Μοιάζει πολύ με το 1746. Είναι μια περίεργη ηχώ, τίποτα παραπάνω, αλλά είναι το είδος της ηχούς που αρέσει σε αυτή τη σελίδα να ακούει.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Χλωριούχο+νάτριο" target="_blank" rel="noopener">Χλωριούχο νάτριο</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Κύβος" target="_blank" rel="noopener">Κύβος</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Οκτάεδρο" target="_blank" rel="noopener">Οκτάεδρο</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Σταθερά+Madelung" target="_blank" rel="noopener">Σταθερά Madelung</a> &middot; <a href="jitterbug-el.html">Το Jitterbug</a></p>
+</div></section>
+<section data-narrate id="ellin"><div class="wrap">
+<div class="kicker">Πυλώνας V &middot; Τα γράμματα</div><h2>Ψυχή και ειρήνη, <em>γράμμα προς γράμμα</em></h2>
+<p>Στη μέθοδο Ελλην Λόγος του Δρ. Σημαιοφόρου μια λέξη διαβάζεται από τους ήχους που την αποτελούν, γράμμα γράμμα, και κάθε γράμμα φέρει ένα νόημα. Να δύο λέξεις που οι περισσότεροι λέμε καθημερινά.</p>
+<div class="ids">
+<div class="c"><h3>&Psi;&Upsilon;&Chi;&Eta; = 1708</h3><p>Το Ψ είναι η θεϊκή εσωτερική φωτιά που έρχεται από τον Πατέρα. Το Υ είναι φως συγκεντρωμένο και πυκνωμένο. Το Χ είναι αυτή η φωτιά τοποθετημένη σε σώμα επίγειο. Το Η είναι η φανέρωσή της. Η ψυχή λοιπόν διαβάζεται ως φωτιά που μαζεύεται σε δοχείο και φανερώνεται. Το άθροισμα 1708 είναι και η φράση «ο Θεός της καρδιάς μου».</p><p class="sum">&Psi;700 + &Upsilon;400 + &Chi;600 + &Eta;8 = 1708<br>&ldquo;&#x1F41; &theta;&epsilon;&#x1F78;&sigmaf; &tau;&#x1FC6;&sigmaf; &kappa;&alpha;&rho;&delta;&#x1F77;&alpha;&sigmaf; &mu;&omicron;&upsilon;&rdquo; = 1708</p></div>
+<div class="c"><h3>&Epsilon;&Iota;&Rho;&Eta;&Nu;&Eta; = 181</h3><p>Η ειρήνη έρχεται από το <i>είρω</i> (εἴρω), που σημαίνει και «μιλώ» και «συνδέω». Το Ρ είναι η σταθερή ροή του φωτός, το Ν ο νους κάτω από τον νόμο. Η ειρήνη λοιπόν διαβάζεται ως φως που ρέει σε νου που ακολουθεί τον νόμο. Πρόσεξε πάλι το Ν: το ίδιο γράμμα κλείνει το ΘΕΙΟΝ και το ΝΟΜΟΣ.</p><p class="sum">&Epsilon;5 + &Iota;10 + &Rho;100 + &Eta;8 + &Nu;50 + &Eta;8 = 181</p></div>
+</div>
+<p>Τα νοήματα των γραμμάτων είναι η ανάγνωση της μεθόδου και σε προσκαλούμε να τα δοκιμάσεις με τους ήχους που μιλάς. Τα αθροίσματα είναι απλή αριθμητική.</p>
+<p class="lnk">Συνέχισε: <a href="ellin-logos-codex-el.html">Ellin Logos Codex</a> &middot; <a href="greek-sphere-el.html">Σφαίρα ελληνικών γραμμάτων</a> &middot; <a href="isopsephy-index.html">Ευρετήριο ισοψηφίας</a></p>
+</div></section>
+<section data-narrate id="law"><div class="wrap">
+<div class="kicker">Πυλώνας VI &middot; Η μέτρηση</div><h2>Νόμος, αριθμός και μαθηματικά <em>κάνουν ένα άθροισμα</em></h2>
+<p>Να το πρώτο πράγμα που έκανε τους ανθρώπους να σταματήσουν και να κοιτάξουν. Τρεις ελληνικές λέξεις, τρεις διαφορετικές ιδέες, ένα σύνολο.</p>
+<div class="ids">
+<div class="c"><h3>&Nu;&Omicron;&Mu;&Omicron;&Sigma; = 430</h3><p>Νόμος, η τάξη των πραγμάτων.</p><p class="sum">&Nu;50+&Omicron;70+&Mu;40+&Omicron;70+&Sigma;200 = 430</p></div>
+<div class="c"><h3>&Alpha;&Rho;&Iota;&Theta;&Mu;&Omicron;&Sigma; = 430</h3><p>Αριθμός, η μονάδα της μέτρησης.</p><p class="sum">&Alpha;1+&Rho;100+&Iota;10+&Theta;9+&Mu;40+&Omicron;70+&Sigma;200 = 430</p></div>
+<div class="c"><h3>&Mu;&Alpha;&Theta;&Eta;&Mu;&Alpha;&Tau;&Iota;&Kappa;&Alpha; = 430</h3><p>Μαθηματικά, ό,τι μπορεί να μαθευτεί και να γίνει γνώση.</p><p class="sum">&Mu;40+&Alpha;1+&Theta;9+&Eta;8+&Mu;40+&Alpha;1+&Tau;300+&Iota;10+&Kappa;20+&Alpha;1 = 430</p></div>
+</div>
+<p>Ο αριθμός 430 εμφανίζεται και αλλού. Ο προφήτης Ιεζεκιήλ ξάπλωσε στο πλάι 390 ημέρες και μετά 40 ημέρες, 430 συνολικά (Ιεζ. 4:5&ndash;6)· το <a href="reed-codex-el.html">Reed codex</a> έχει περισσότερα. Τα παραπάνω αθροίσματα ακολουθούν τον κλασικό τρόπο, όπου ο ήχος ΟΥ μετριέται ως ο και υ.</p>
+<div class="ids">
+<div class="c"><h3>4995 = 27 &times; 5 &times; 37</h3><p>Οι 27 μιλησιακές αξίες γραμμάτων (εννέα μονάδες, εννέα δεκάδες, εννέα εκατοντάδες) κάνουν 4995. Είναι 27 &times; 5 &times; 37 και το 135 είναι 27 &times; 5. Το 5 δεν είναι επινοημένο: τα ελληνικά έχουν πέντε σημεία στο 500 έως 900 (Φ Χ Ψ Ω Ϡ) και τα εβραϊκά πέντε τελικά γράμματα στο 500 έως 900, έτσι και τα δύο αλφάβητα φτάνουν στο 4995.</p><p class="sum">45 + 450 + 4500 = 4995<br>4995 &divide; 135 = 37</p></div>
+<div class="c"><h3>37 &times; 64 = 2368</h3><p>Και το 37, ο αριθμός που εμφανίζεται συνεχώς: είναι η διαφορά κύβων 4&sup3; &minus; 3&sup3;. Πολλαπλασιασμένο με τη λέξη για την αλήθεια (ἀλήθεια = 64 = 4&sup3;), δίνει 2368, το σύνολο του Ἰησοῦς Χριστός.</p><p class="sum">4&sup3; &minus; 3&sup3; = 64 &minus; 27 = 37<br>&#x1F00;&lambda;&#x1F75;&theta;&epsilon;&iota;&alpha; = 64 = 4&sup3;<br>&Iota;&eta;&sigma;&omicron;&#x1FE6;&sigmaf; 888 + &Chi;&rho;&iota;&sigma;&tau;&#x1F79;&sigmaf; 1480 = 2368</p></div>
+</div>
+<p class="lnk">Έλεγξέ το μόνος σου: <a href="isopsephy-index.html?n=430">430</a> &middot; <a href="isopsephy-index.html?n=2368">2368</a> &middot; <a href="jitterbug-el.html">Το 37 στο Jitterbug</a></p>
+</div></section>
+<section data-narrate id="fusion"><div class="wrap">
+<div class="kicker">Πυλώνας VII &middot; Τα δύο ρεύματα</div><h2>Σελήνη και ήλιος, <em>ένας σπόρος</em></h2>
+<p>Ο Τζον Μίτσελ, που αφιέρωσε τη ζωή του στα μέτρα των αρχαίων ιερών τόπων, πρόσεξε δύο αριθμούς να στέκονται αντικριστά και να προσθέτουν σε έναν τρίτο, στον οποίο ελληνικές φράσεις επιστρέφουν διαρκώς.</p>
+<div class="two">
+<div class="c"><span class="dim">Σελήνη</span><b>1080</b><p>Η ακτίνα της Σελήνης είναι περίπου 1080 μίλια. Η δεκτική, αργυρή, υδάτινη πλευρά.</p></div>
+<div class="c"><span class="dim">Ήλιος</span><b>666</b><p>Οι αριθμοί από το 1 έως το 36 αθροίζουν στο 666, το σύνολο του μαγικού τετραγώνου 6 &times; 6 του Ήλιου. Η ενεργή, χρυσή, φλογερή πλευρά.</p></div>
+<div class="c"><span class="dim">Μαζί</span><b>1746</b><p>Τα δύο ρεύματα συναντιούνται σε έναν αριθμό: τον σπόρο των πάντων, από τον κόκκο του σιναπιού μέχρι την «εξουσία του Κυρίου».</p></div>
+</div>
+<div class="eq">1080 + 666 = 1746</div>
+<p>Το ίδιο σύνολο είναι η τιμή αυτών των ελληνικών φράσεων:</p>
+<ul>
+<li>κόκκος σινάπεως (κόκκος σιναπιού) = 1746</li>
+<li>ἐξουσία Κυρίου (η εξουσία του Κυρίου) = 1746</li>
+<li>τὸ κεκρυμμένον πνεῦμα (το κρυμμένο πνεύμα) = 1746</li>
+<li>ἡ δόξα τοῦ θεοῦ Ἰσραήλ (η δόξα του Θεού του Ισραήλ) = 1746</li>
+</ul>
+<p>Για έναν χρυσοχόο είναι παλιός φίλος: ο χρυσός είναι το μέταλλο του ήλιου και το ασήμι της σελήνης, και ένα καλό κομμάτι τα θέλει και τα δύο. Το αλάτι των προηγούμενων ενοτήτων βρίσκεται στη μέση όλου αυτού. Η φωτιά μόνη καίει, το νερό μόνο πνίγει, και το αλάτι είναι αυτό που τα αφήνει να ζήσουν μαζί σε ένα σώμα.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Τζον+Μίτσελ" target="_blank" rel="noopener">Τζον Μίτσελ</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Σελήνη" target="_blank" rel="noopener">Σελήνη</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ήλιος" target="_blank" rel="noopener">Ήλιος</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Παραβολή+του+κόκκου+του+σινάπεως" target="_blank" rel="noopener">Παραβολή του κόκκου του σινάπεως</a></p>
+</div></section>
+<section data-narrate id="helios"><div class="wrap">
+<div class="kicker">Μια συνηθισμένη σύγχυση, ξεκαθαρισμένη</div><h2>Ο Ήλιος (η λέξη) είναι <em>318</em>, ο αριθμός του Ήλιου είναι <em>666</em></h2>
+<p class="lead">Η λέξη για τον Ήλιο και ο αριθμός του Ήλιου είναι δύο διαφορετικά πράγματα, και τα δύο σωστά.</p>
+<div class="two">
+<div class="c"><span class="dim">Η λέξη ΗΛΙΟΣ</span><b>318</b><p class="sum">&Eta;8 + &Lambda;30 + &Iota;10 + &Omicron;70 + &Sigma;200 = 318</p><p>Πρόσθεσε τις αξίες των γραμμάτων του &#x1F25;&lambda;&iota;&omicron;&sigmaf; και βγαίνει 318. Το θήτα (&Theta;&Eta;&Tau;&Alpha;) είναι επίσης 318, γι’ αυτό ανήκουν μαζί: το μάτι και ο ήλιος με τον οποίο κοιτάζει.</p></div>
+<div class="c"><span class="dim">Το τετράγωνο του Ήλιου</span><b>666</b><p class="sum">1 + 2 + 3 + &hellip; + 36 = 666</p><p>Τα παλιά πλανητικά τετράγωνα δίνουν στον Ήλιο ένα τετράγωνο 6 &times; 6, με 36 κελιά που κρατούν τους αριθμούς 1 έως 36. Πρόσθεσε και τα 36 και το σύνολο είναι 666. Άρα το 666 είναι ο δικός του αριθμός του Ήλιου, όχι η ορθογραφία του ονόματός του.</p></div>
+</div>
+<p>Λέξεις που πράγματι γράφουν 666 στα ελληνικά είναι:</p>
+<ul>
+<li>Τειταν (Teitan, ο «Τιτάν» που πρότεινε ο πρώιμος συγγραφέας Ειρηναίος για το θηρίο της Αποκάλυψης)</li>
+<li>ὁ Σεράπις (ο Σάραπις, ο θεός-ήλιος της Αλεξάνδρειας)</li>
+<li>Συήνη (Συήνη, σημερινό Ασουάν)</li>
+</ul>
+<p>Ένα μικρό μπόνους: το 318 είναι επίσης πολύ κοντά στο 1000 &divide; &pi; = 318,31 και είναι ο αριθμός των εκπαιδευμένων ανδρών που πήρε ο Άβραμ για να σώσει τον Λωτ στη Γένεση 14:14. Αριθμοί σαν αυτούς κάνουν το θήτα να μοιάζει με αριθμό του Ήλιου. Κράτα το 666 του Ήλιου και το 318 του το καθένα στη θέση του, και η αριθμητική μένει καθαρή.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Ήλιος" target="_blank" rel="noopener">Ήλιος</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Αριθμός+του+θηρίου" target="_blank" rel="noopener">Αριθμός του θηρίου</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Σάραπις" target="_blank" rel="noopener">Σάραπις</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ασουάν" target="_blank" rel="noopener">Ασουάν</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Αβραάμ" target="_blank" rel="noopener">Αβραάμ</a></p>
+</div></section>
+<section data-narrate id="levi"><div class="wrap">
+<div class="kicker">Πυλώνας VIII &middot; Η παλιά χημεία</div><h2>Θείο, υδράργυρος <em>και αλάτι</em></h2>
+<p>Οι αλχημιστές μιλούσαν για τρεις αρχές: το θείο για αυτό που καίει, τον υδράργυρο για αυτό που ρέει και το αλάτι για αυτό που στερεώνει. Τον δέκατο ένατο αιώνα ο <a href="https://el.wikipedia.org/w/index.php?search=Ελιφάς+Λεβί" target="_blank" rel="noopener">Ελιφάς Λεβί</a> (γεννημένος Alphonse Louis Constant, 1810&ndash;1875) τις συγκέντρωσε κάτω από το όνομα <i>αστρικό φως</i>, ένα ρευστό με θετική πλευρά (θείο) και αρνητική (υδράργυρο). Όταν ισορροπήσουν, έλεγε, κατακάθονται σε αλάτι, και από την ισορροπία προέρχεται η σταθερότητα.</p>
+<div class="tw"><table><thead><tr><th>Αρχή</th><th>Παλιό όνομα</th><th>Ουσία</th><th>Δουλειά στο σώμα</th></tr></thead><tbody>
+<tr><td>Αλάτι</td><td>το σταθερό, το όριο</td><td>NaCl</td><td>τα ιόντα που κρατούν την τάση</td></tr>
+<tr><td>Θείο</td><td>το ενεργό, το καυστικό</td><td>θερμότητα</td><td>καύση ζάχαρης για ενέργεια</td></tr>
+<tr><td>Υδράργυρος</td><td>το ρευστό, το πτητικό</td><td>H&#8322;O</td><td>το νερό που τα μεταφέρει όλα</td></tr>
+<tr><td>Αζώθ</td><td>το όλον, η ισορροπία</td><td>&minus;70 mV</td><td>1746</td></tr>
+</tbody></table></div>
+<p>Ο Λεβί συνέδεσε τον κυβικό λίθο των αλχημιστών με τον «βράχο» στον λόγο προς τον Πέτρο, <i>Πέτρος</i> και <i>πέτρα</i> (Πέτρα = 486, και η αραμαϊκή μορφή Κηφᾶς = 729 = 27&sup2;). Μεταγενέστερες αλχημιστικές εικόνες, μεταξύ τους αυτές που αποδίδονται στον <a href="https://el.wikipedia.org/w/index.php?search=Βασίλειος+Βαλεντίνος" target="_blank" rel="noopener">Βασίλειος Βαλεντίνος</a>, ζωγραφίζουν το αλάτι ως κύβο.</p>
+<p>Ο Λεβί έδωσε και μια προειδοποίηση που ταιριάζει σε σελίδα για την τάση. Το αστρικό φως, έλεγε, είναι τυφλό ρεύμα. Αν μείνει αφύλακτο, μόνο ξεσηκώνει παλιούς φόβους και πάθη, και έγραψε ότι στο Λονδίνο το 1854 η δική του προσπάθεια να επικαλεστεί το πνεύμα του Απολλώνιου του Τυανέα του άφησε το χέρι μουδιασμένο. Η απάντησή του ήταν η ισορροπία και μια σταθερή θέληση. Ένας κύβος που κρατά τα πάντα κλειστά είναι ασφαλής αλλά ψυχρός, γι’ αυτό το επόμενο μέρος ρωτά τι γίνεται όταν ο κύβος ανοίγει.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Ελιφάς+Λεβί" target="_blank" rel="noopener">Ελιφάς Λεβί</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Αζώθ" target="_blank" rel="noopener">Αζώθ</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Βασίλειος+Βαλεντίνος" target="_blank" rel="noopener">Βασίλειος Βαλεντίνος</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Απόστολος+Πέτρος" target="_blank" rel="noopener">Απόστολος Πέτρος</a></p>
+</div></section>
+<section data-narrate id="open"><div class="wrap">
+<div class="kicker">Πυλώνας IX &middot; Το άνοιγμα του κύβου</div><h2>Από το κλουβί των 26 <em>στο άστρο των 34</em></h2>
+<p>Γύρνα στον κρύσταλλο και στα 26 εξωτερικά του σημεία. Αυτό είναι το κλουβί, το κλειστό κουτί του αλατιού. Σπρώξε τις οκτώ γωνίες προς τα έξω πάνω στις διαγώνιους και το κουτί βγάζει οκτώ αιχμές, 34 σημεία συνολικά, σαν λάμπα που ρίχνει φως αντί να το κρατά. Το Jitterbug δείχνει το ίδιο βήμα σε κίνηση.</p>
+<div class="eq">26 + 8 = 34</div>
+<p>Πρόσεξε πώς τελειώνει το αλφάβητο. Το 27ο σημείο είναι το σαμπί (Ϡ = 900), ένα σημείο που κάθεται στο τέλος της σειράς και, στο κλασικό αλφάβητο, έχει σωπάσει. Η λέξη για τη σιωπή, σιγή (ΣΙΓΗ = 221), είναι καλό όνομα για αυτή την ηρεμία μετά το τελευταίο γράμμα. Το αλάτι μας έδωσε το όριο. Η σιωπή είναι ό,τι μένει όταν το όριο έχει κάνει τη δουλειά του και το σήμα βγαίνει καθαρό.</p>
+<p>Υπάρχει και μια ακόμα γραμμή που ανήκει εδώ. Η άγνοια, ἄγνοια, κάνει 135, και το 135 είναι 27 &times; 5, ο αριθμός που συναντήσαμε στη μέτρηση. Το να μη γνωρίζεις και ολόκληρο το αλφάβητο μοιράζονται το ίδιο μέτρο. Θυμήσου το όταν πεις την επόμενη φορά ότι δεν ξέρεις κάτι: στέκεσαι ακριβώς εκεί που στέκεται το αλφάβητο.</p>
+</div></section>
+<section data-narrate id="calc"><div class="wrap">
+<div class="kicker">Η δική σου σειρά</div><h2>Ο υπολογιστής <em>αθροισμάτων</em></h2>
+<p class="dim">Γράψε ή επικόλλησε οποιαδήποτε ελληνική λέξη. Οι τόνοι δεν μετράνε και το τελικό ς είναι 200. Ή πάτησε μία από τις λέξεις αυτής της σελίδας.</p>
+<div class="aud"><label for="aud-in" class="dim">Ελληνική λέξη ή φράση</label><br>
+<input id="aud-in" type="text" value="ΝΟΜΟΣ" autocomplete="off" spellcheck="false" lang="el">
+<div class="pre"><button type="button" data-w="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button type="button" data-w="ΑΡΙΘΜΟΣ">ΑΡΙΘΜΟΣ</button><button type="button" data-w="ΜΑΘΗΜΑΤΙΚΑ">ΜΑΘΗΜΑΤΙΚΑ</button><button type="button" data-w="ἅλς">ἅλς</button><button type="button" data-w="ΘΗΤΑ">ΘΗΤΑ</button><button type="button" data-w="ἥλιος">ἥλιος</button><button type="button" data-w="ΘΕΙΟΝ">ΘΕΙΟΝ</button><button type="button" data-w="ΨΥΧΗ">ΨΥΧΗ</button><button type="button" data-w="ΕΙΡΗΝΗ">ΕΙΡΗΝΗ</button><button type="button" data-w="ΑΛΗΘΕΙΑ">ΑΛΗΘΕΙΑ</button><button type="button" data-w="ΣΙΓΗ">ΣΙΓΗ</button><button type="button" data-w="ΙΔΙΩΤΗΣ">ΙΔΙΩΤΗΣ</button><button type="button" data-w="ΨΗΦΙΔΙΟ">ΨΗΦΙΔΙΟ</button><button type="button" data-w="κόκκος σινάπεως">κόκκος σινάπεως</button><button type="button" data-w="ἐξουσία Κυρίου">ἐξουσία Κυρίου</button><button type="button" data-w="ΙΗΣΟΥΣ">ΙΗΣΟΥΣ</button><button type="button" data-w="ΧΡΙΣΤΟΣ">ΧΡΙΣΤΟΣ</button></div>
+<div class="res" id="aud-sum" aria-live="polite">430</div>
+<div class="brk" id="aud-brk"></div><div class="brk" id="aud-37"></div></div>
+<h3 class="sub">Τα 27 σημεία. Πάτησε για να προσθέσεις.</h3>
+<div class="sig" id="sig"></div>
+<p class="dim" style="font-size:13px">Τα 27 μιλησιακά σημεία: εννέα μονάδες (1&ndash;9, με το στίγμα &#987; για το 6), εννέα δεκάδες (10&ndash;90, με το κόππα &#985; για το 90) και εννέα εκατοντάδες (100&ndash;900, με τελευταίο το σαμπί &#993; για το 900). Το ΟΥ μετριέται κλασικά ως ο70 + υ400.</p>
+</div></section>
+<section data-narrate id="together"><div class="wrap">
+<div class="kicker">Όλα μαζί</div><h2>Το ίδιο σχέδιο <em>σε κάθε μέγεθος</em></h2>
+<p>Κάνε ένα βήμα πίσω και η σελίδα λέει το ίδιο πράγμα τρεις φορές.</p>
+<div class="steps">
+<div class="c"><div class="g">1</div><h3>Στο κύτταρο</h3><p>Το νερό, το απέραντο, κρατιέται από το αλάτι, το όριο. Το αποτέλεσμα είναι μια τάση &minus;70 mV που αφήνει ένα νεύρο να πυροδοτηθεί και μια καρδιά να χτυπήσει.</p></div>
+<div class="c"><div class="g">2</div><h3>Στα γράμματα</h3><p>Το θήτα, το μάτι (318), γίνεται Θείον, η ακτινοβολία (144), και κατακάθεται στο αλάτι (231), κρατημένο από τον νόμο (430).</p></div>
+<div class="c"><div class="g">3</div><h3>Στον κόσμο</h3><p>Η Σελήνη (1080) και ο Ήλιος (666) ισορροπούν σε έναν σπόρο (1746), και ο κλειστός κύβος ανοίγει σε άστρο.</p></div>
+</div>
+<p>Την επόμενη φορά λοιπόν που κάποιος θα πει «το αλάτι της γης», ίσως το ακούσεις λίγο διαφορετικά. Είναι στο αίμα σου και στα νεύρα σου. Όπως το λέει ο Μάρκος: <i>έχετε μέσα σας αλάτι</i>.</p>
+</div></section>
+<section id="sources"><div class="wrap">
+<div class="kicker">Πηγές και περαιτέρω ανάγνωση</div>
+<p class="dim">Κλινικά υγρά και κυτταρική βιολογία: τυπικά συγγράμματα φυσιολογίας για τον φυσιολογικό ορό (0,9 %, 154 mmol/L), την αντλία νατρίου-καλίου, το δυναμικό ηρεμίας και την εξίσωση Goldman&ndash;Hodgkin&ndash;Katz. Στοιχεία κρυστάλλου: αλίτης (Fm3&#772;m, a = 564,02 pm, συναρμογή 6:6, σταθερά Madelung περίπου 1,7476).</p>
+<p class="dim">Ιερά μέτρα: John Michell, <i>The View over Atlantis</i> και <i>City of Revelation</i>. Ελληνικά γράμματα: Δρ. Θεολόγος Σημαιοφόρος, ο Ελλην Λόγος (Κώδικας του Ελληνικού Αλφαβήτου). Δυτικός εσωτερισμός: &Eacute;liphas L&eacute;vi, <i>Dogme et Rituel de la Haute Magie</i> (1854&ndash;56). Γραφή: Μάρκ. 9:49&ndash;50, Αριθμ. 18:19, Ματθ. 13:31, Γέν. 14:14. Γεωμετρία των 26 και 34 σημείων: <a href="jitterbug-el.html">Το Jitterbug</a>, μετά τον R. Buckminster Fuller.</p>
+</div></section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Μοιραστείτε τη σελίδα</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="shbtns" style="margin-top:22px"><a href="ophanim-engine-codex-el.html">Μηχανή</a><a href="library.html">Βιβλιοθήκη</a><a href="isopsephy-index.html">Ευρετήριο ισοψηφίας</a></div>
+    <p class="dim" style="font-size:13px;margin:26px auto 0;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:center">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin:14px auto 0;text-align:center"><a href="privacy.html">Απόρρητο</a></p>
+  </div>
+</footer>
+<script>
+var EL = /^el/i.test(document.documentElement.lang||''); function T(en,el){return EL?el:en;}
+
+/* ===== crystal lattice (hero + section) ===== */
+function mkLat(cv,opt){
+ var ctx=cv.getContext('2d'),W=300,H=300,DPR=1,ry=0.6,rx=-0.5,mode=opt.mode||0,bonds=true,oct=false,spin=true,pulse=false,t0=performance.now();
+ var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var N=[];for(var i=-1;i<=1;i++)for(var j=-1;j<=1;j++)for(var k=-1;k<=1;k++){var s=Math.abs(i)+Math.abs(j)+Math.abs(k);N.push({p:[i,j,k],na:(s%2===1),corner:(s===3),c:(s===0)});}
+ var ext=(Math.sqrt(3)-1)/Math.sqrt(3);
+ var SP=[];for(var a=-1;a<=1;a+=2)for(var b=-1;b<=1;b+=2)for(var c=-1;c<=1;c+=2){SP.push({from:[a,b,c],to:[a*(1+ext),b*(1+ext),c*(1+ext)]});}
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function pr(p){var x=p[0],y=p[1],z=p[2],c=Math.cos(ry),s=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);
+  var X=x*c+z*s,Z=-x*s+z*c,Y=y*cx-Z*sx,Z2=y*sx+Z*cx,F=9,m=F/(F-Z2),S=Math.min(W,H)*(opt.zoom||0.2);return[W/2+X*S*m,H/2-Y*S*m,Z2,m];}
+ var ph=0;
+ function draw(now){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  var vis=N.filter(function(n){return !(mode>0&&n.c);});
+  var P=vis.map(function(n){return{n:n,q:pr(n.p)};});
+  if(bonds){ctx.lineWidth=1;for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){var a=P[i].n.p,b=P[j].n.p;var d=Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])+Math.abs(a[2]-b[2]);
+   if(d===1&&Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2])===1){ctx.strokeStyle='rgba(120,170,190,.30)';ctx.beginPath();ctx.moveTo(P[i].q[0],P[i].q[1]);ctx.lineTo(P[j].q[0],P[j].q[1]);ctx.stroke();}}}
+  if(oct){var nb=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].map(pr);var ed=[[0,2],[0,3],[0,4],[0,5],[1,2],[1,3],[1,4],[1,5],[2,4],[2,5],[3,4],[3,5]];
+   ctx.fillStyle='rgba(232,195,117,.07)';ctx.strokeStyle='rgba(232,195,117,.85)';ctx.lineWidth=1.4;ed.forEach(function(e){ctx.beginPath();ctx.moveTo(nb[e[0]][0],nb[e[0]][1]);ctx.lineTo(nb[e[1]][0],nb[e[1]][1]);ctx.stroke();});}
+  var items=P.map(function(o){return{q:o.q,n:o.n,k:0};});
+  if(mode===2){SP.forEach(function(s){var a=pr(s.from),b=pr(s.to);ctx.strokeStyle='rgba(232,195,117,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();items.push({q:b,n:null,k:1});});}
+  items.sort(function(a,b){return a.q[2]-b.q[2];});
+  items.forEach(function(it){var q=it.q,m=q[3],r;var f=Math.max(.35,Math.min(1,.62+q[2]*0.16));
+   if(it.k){r=4.2*m;ctx.fillStyle='rgba(255,225,150,'+f+')';ctx.beginPath();ctx.arc(q[0],q[1],r,0,6.283);ctx.fill();return;}
+   var na=it.n.na;r=(na?5.2:8.4)*m*(W/420+.55);
+   var pu=pulse?(0.5+0.5*Math.sin(ph*2.2-(it.n.p[0]+it.n.p[1]+it.n.p[2])*1.1)):0;
+   var g=ctx.createRadialGradient(q[0]-r*.3,q[1]-r*.3,r*.1,q[0],q[1],r);
+   if(na){g.addColorStop(0,'rgba(190,250,255,'+f+')');g.addColorStop(1,'rgba(30,150,170,'+(f*.9)+')');}
+   else{g.addColorStop(0,'rgba(255,236,176,'+f+')');g.addColorStop(1,'rgba(176,130,40,'+(f*.9)+')');}
+   ctx.fillStyle=g;ctx.beginPath();ctx.arc(q[0],q[1],r*(1+pu*.35),0,6.283);ctx.fill();
+   if(it.n.c){ctx.strokeStyle='rgba(232,195,117,.9)';ctx.lineWidth=1;ctx.stroke();}});
+ }
+ var last=performance.now();
+ function loop(now){var dt=Math.min(.05,(now-last)/1000);last=now;ph+=dt;if(spin&&!reduce&&!drag)ry+=dt*0.35;draw(now);req=requestAnimationFrame(loop);}
+ var req=0,drag=false,lx=0,ly=0;
+ cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+ cv.addEventListener('pointermove',function(e){if(!drag)return;ry+=(e.clientX-lx)*0.01;rx=Math.max(-1.3,Math.min(1.3,rx+(e.clientY-ly)*0.01));lx=e.clientX;ly=e.clientY;});
+ cv.addEventListener('pointerup',function(){drag=false});cv.addEventListener('pointercancel',function(){drag=false});
+ window.addEventListener('resize',size);size();
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!req){last=performance.now();req=requestAnimationFrame(loop);}}else{cancelAnimationFrame(req);req=0;}});}):null;
+ if(io)io.observe(cv);else req=requestAnimationFrame(loop);
+ return{set:function(o){if('mode' in o)mode=o.mode;if('bonds' in o)bonds=o.bonds;if('oct' in o)oct=o.oct;if('spin' in o)spin=o.spin;if('pulse' in o)pulse=o.pulse;}};
+}
+(function(){
+ var h=document.getElementById('lat-hero');if(h)mkLat(h,{mode:0,zoom:0.2});
+ var c=document.getElementById('lat-cv');if(!c)return;var api=mkLat(c,{mode:0,zoom:0.19});
+ var msg=document.getElementById('lat-msg');
+ var tx=[T('27 points in a 3 × 3 × 3 block: 14 sodium (cyan, small) and 13 chloride (gold, large). Every ion has six neighbours of the other kind.','27 σημεία σε μπλοκ 3 × 3 × 3: 14 νάτριο (κυανό, μικρό) και 13 χλώριο (χρυσό, μεγάλο). Κάθε ιόν έχει έξι γείτονες του άλλου είδους.'),
+  T('Take away the middle point and 26 are left on the outside: the hull, the closed cage.','Αφαίρεσε το κεντρικό σημείο και μένουν 26 απ’ έξω: το κέλυφος, το κλειστό κλουβί.'),
+  T('Push the 8 corners out by √3 − 1 ≈ 0.732 along the diagonals: 26 + 8 = 34 points. The cage opens into a star.','Σπρώξε τις 8 γωνίες προς τα έξω κατά √3 − 1 ≈ 0,732 πάνω στις διαγώνιους: 26 + 8 = 34 σημεία. Το κλουβί ανοίγει σε άστρο.')];
+ function setm(m){api.set({mode:m});msg.textContent=tx[m];Array.prototype.forEach.call(document.querySelectorAll('[data-m]'),function(b){b.classList.toggle('on',+b.getAttribute('data-m')===m);});}
+ Array.prototype.forEach.call(document.querySelectorAll('[data-m]'),function(b){b.addEventListener('click',function(){setm(+b.getAttribute('data-m'));});});
+ document.getElementById('lat-bond').addEventListener('change',function(e){api.set({bonds:e.target.checked});});
+ document.getElementById('lat-oct').addEventListener('change',function(e){api.set({oct:e.target.checked});});
+ document.getElementById('lat-spin').addEventListener('change',function(e){api.set({spin:e.target.checked});});
+ document.getElementById('lat-pulse').addEventListener('change',function(e){api.set({pulse:e.target.checked});});
+ setm(0);
+})();
+/* ===== cell in the drip ===== */
+(function(){
+ var c=document.getElementById('cellc');if(!c)return;var msg=document.getElementById('cellmsg');
+ var R=[62,40,26],COL=['rgba(255,120,120,.15)','rgba(70,227,240,.12)','rgba(232,195,117,.12)'],ST=['#ff7a7a','#46e3f0','#e8c375'];
+ var tx=[T('Pure water: the inside of the cell is saltier than the outside, so water rushes in. The cell swells and, left long enough, bursts. This is why a patient is never given plain water in a vein.','Καθαρό νερό: το εσωτερικό του κυττάρου είναι πιο αλμυρό από το εξωτερικό, οπότε το νερό μπαίνει μέσα. Το κύτταρο φουσκώνει και, αν μείνει αρκετά, σπάει. Γι’ αυτό ποτέ δεν δίνουν σκέτο νερό σε φλέβα.'),
+  T('0.9 % saline: same saltiness inside and out. No net water moves and the cell keeps its shape.','Ορός 0,9 %: ίδια αλμυρότητα μέσα και έξω. Δεν κινείται καθαρό νερό και το κύτταρο κρατά το σχήμα του.'),
+  T('3 % saline: now it is saltier outside, so water leaves the cell and it shrinks. Doctors do use this on purpose, in small, careful amounts.','Ορός 3 %: τώρα είναι πιο αλμυρό έξω, οπότε το νερό φεύγει από το κύτταρο και αυτό μικραίνει. Οι γιατροί το χρησιμοποιούν σκόπιμα, σε μικρές και προσεκτικές ποσότητες.')];
+ function go(i){c.setAttribute('r',R[i]);c.setAttribute('fill',COL[i]);c.setAttribute('stroke',ST[i]);c.setAttribute('stroke-dasharray',i===0?'5 4':'none');msg.textContent=tx[i];
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fl]'),function(b){b.classList.toggle('on',+b.getAttribute('data-fl')===i);});}
+ c.style.transition='r .8s ease';
+ Array.prototype.forEach.call(document.querySelectorAll('[data-fl]'),function(b){b.addEventListener('click',function(){go(+b.getAttribute('data-fl'));});});go(1);
+})();
+/* ===== membrane voltage (GHK, Na and K only) ===== */
+(function(){
+ var a=document.getElementById('m-nao');if(!a)return;var b=document.getElementById('m-ko'),p=document.getElementById('m-pr');
+ var Nai=12,Ki=140,RT=61.5;
+ function calc(){var No=+a.value,Ko=+b.value,pr=+p.value;
+  var vm=RT*Math.log10((Ko+pr*No)/(Ki+pr*Nai)),ena=RT*Math.log10(No/Nai),ek=RT*Math.log10(Ko/Ki);
+  document.getElementById('o-nao').textContent=No;document.getElementById('o-ko').textContent=Ko;document.getElementById('o-pr').textContent=pr.toFixed(2);
+  var f=function(v){return (v>=0?'+':'−')+Math.abs(v).toFixed(0)+' mV';};
+  document.getElementById('r-vm').textContent=f(vm);document.getElementById('r-ena').textContent=f(ena);document.getElementById('r-ek').textContent=f(ek);return vm;}
+ [a,b,p].forEach(function(e){e.addEventListener('input',calc);});calc();
+ var cv=document.getElementById('spk'),fire=document.getElementById('fire'),ctx=cv.getContext('2d'),W=520,H=150,DPR=1,t=-1,raf=0;
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(220,r.width);H=150;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function shape(u){ // schematic nerve signal over u in 0..1 (ms scale ~ 5 ms)
+  var rest=calc();if(u<0.12)return rest;
+  if(u<0.30){var s=(u-0.12)/0.18;return rest+(30-rest)*(s*s*(3-2*s));}
+  if(u<0.50){var s2=(u-0.30)/0.20;return 30+(-90-30)*(s2*s2*(3-2*s2));}
+  if(u<0.80){var s3=(u-0.50)/0.30;return -90+(rest+90)*(s3*s3*(3-2*s3));}
+  return rest;}
+ function draw(){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  var y=function(v){return H-14-(v+100)/140*(H-28);};
+  ctx.strokeStyle='rgba(70,227,240,.18)';ctx.lineWidth=1;[30,0,-70,-90].forEach(function(v){ctx.beginPath();ctx.moveTo(0,y(v));ctx.lineTo(W,y(v));ctx.stroke();});
+  ctx.fillStyle='rgba(180,190,200,.8)';ctx.font='11px monospace';[30,0,-70,-90].forEach(function(v){ctx.fillText((v>0?'+':v<0?'−':'')+Math.abs(v),4,y(v)-3);});
+  ctx.strokeStyle='#e8c375';ctx.lineWidth=2;ctx.beginPath();var lim=t<0?1:Math.min(1,t);
+  for(var i=0;i<=200;i++){var u=i/200;if(u>lim)break;var X=34+u*(W-44),Y=y(shape(u));if(i===0)ctx.moveTo(X,Y);else ctx.lineTo(X,Y);}ctx.stroke();}
+ function run(ts){t+=0.012;draw();if(t<1.05)raf=requestAnimationFrame(run);else{t=-1;draw();}}
+ fire.addEventListener('click',function(){cancelAnimationFrame(raf);t=0;raf=requestAnimationFrame(run);});
+ window.addEventListener('resize',function(){size();draw();});size();draw();
+ [a,b,p].forEach(function(e){e.addEventListener('input',draw);});
+})();
+/* ===== word-sum calculator + 27 signs ===== */
+(function(){
+ var inp=document.getElementById('aud-in');if(!inp)return;
+ var V={'Α':1,'Β':2,'Γ':3,'Δ':4,'Ε':5,'Ϛ':6,'Ζ':7,'Η':8,'Θ':9,'Ι':10,'Κ':20,'Λ':30,'Μ':40,'Ν':50,'Ξ':60,'Ο':70,'Π':80,'Ϙ':90,'Ρ':100,'Σ':200,'Τ':300,'Υ':400,'Φ':500,'Χ':600,'Ψ':700,'Ω':800,'Ϡ':900};
+ function norm(c){c=c.toUpperCase();if(c==='ς'||c==='Ϲ'||c==='ϲ')c='Σ';if(c==='Ϝ'||c==='ϝ')c='Ϛ';if(c==='Ϟ'||c==='ϟ')c='Ϙ';if(c==='Ͳ'||c==='ͳ')c='Ϡ';if(c==='ϛ')c='Ϛ';if(c==='ϙ')c='Ϙ';if(c==='ϡ')c='Ϡ';return c;}
+ function run(){var t=inp.value.normalize('NFD').replace(/[̀-ͯ]/g,'').normalize('NFC'),sum=0,parts=[];
+  Array.prototype.forEach.call(t,function(ch){var c=norm(ch);if(V[c]){sum+=V[c];parts.push(c+V[c]);}});
+  document.getElementById('aud-sum').textContent=sum;document.getElementById('aud-brk').textContent=parts.join(' + ');
+  document.getElementById('aud-37').textContent=sum&&sum%37===0?'= 37 × '+(sum/37):(sum?'÷ 37 = '+(sum/37).toFixed(3):'');}
+ inp.addEventListener('input',run);
+ Array.prototype.forEach.call(document.querySelectorAll('.aud [data-w]'),function(b){b.addEventListener('click',function(){inp.value=b.getAttribute('data-w');run();});});
+ var box=document.getElementById('sig');
+ Object.keys(V).forEach(function(k){var b=document.createElement('button');b.type='button';b.innerHTML=k+'<small>'+V[k]+'</small>';b.setAttribute('aria-label',k+' '+V[k]);b.addEventListener('click',function(){inp.value+=k;run();inp.focus();});box.appendChild(b);});
+ run();})();
+
+/* ===== share buttons ===== */
+(function(){var box=document.getElementById('shbtns');if(!box)return;var u=function(){return location.href.split('#')[0]},t=document.title;
+var L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+var items=[['X',function(){return 'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)}],['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())}],['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(t+' '+u())}],[L.mail,function(){return 'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())}]];
+items.forEach(function(it){var a=document.createElement('a');a.textContent=it[0];a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',function(){a.href=it[1]();});box.appendChild(a);});
+var b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',function(){var s=function(){b.textContent=L.done;setTimeout(function(){b.textContent=L.copy},1800)};try{navigator.clipboard.writeText(u()).then(s,function(){prompt(L.copy,u())})}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+
+
+</script>
+<script src="account.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script src="mandos-links.js"></script>
+</body>
+</html>

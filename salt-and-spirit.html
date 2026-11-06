@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Salt and Spirit · Ophanim Codex</title>
+<meta name="description" content="Why the first thing hung on the emergency-room drip is salt water, and how that one fact connects to the crystal, the Greek letters and the numbers beside them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Ophanim Codex · The Jitterbug. The site's own palette: deep blue-black, cyan, gold. */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72); --cv:#050b10;
+  --lime:#46e3f0; --lime-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#dcd6c4; --ink-2:#b4bec2; --ink-3:#7d8c92;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:15.5px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.06),transparent 60%)}
+a{color:var(--lime)}
+main,header,footer{position:relative;z-index:1}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s;white-space:nowrap}
+.bar a:hover{color:var(--lime);border-color:var(--lime)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+section{padding:96px 20px 40px}
+.wrap{max-width:1040px;margin:0 auto;width:100%}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--lime)}
+h1,h2{font-family:var(--title);font-weight:500;line-height:1.15;color:var(--ink)}
+h1{font-size:clamp(38px,6vw,72px);margin-bottom:18px}
+h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:16px}
+h1 em,h2 em{color:var(--gold);font-style:normal}
+p{max-width:76ch;margin-bottom:16px}
+.dim{color:var(--ink-2)}
+.lead{font-size:18px;color:#f0ead8}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(170,226,140);border-color:rgba(170,226,140,.55)}
+.tag.un{color:rgb(240,170,100);border-color:rgba(240,170,100,.55)}
+.tag.fw{color:rgb(196,176,240);border-color:rgba(196,176,240,.55)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:12px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
+.ctl button{font:13px var(--mono);letter-spacing:.05em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button:hover{border-color:var(--gold)}
+.ctl button.on{background:rgba(232,195,117,.14);border-color:var(--gold)}
+.ctl input[type=range]{flex:1;min-width:180px;accent-color:#46e3f0}
+.ctl input[type=checkbox]{accent-color:#46e3f0;width:16px;height:16px}
+/* hero: breathing vector equilibrium, pure CSS 3D */
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+@media(max-width:860px){.heroGrid{grid-template-columns:1fr}}
+.viewport{position:relative;height:340px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:radial-gradient(circle at center,#0a1a22 0%,var(--cv) 78%)}
+.viewport canvas{width:100%;height:100%;display:block}
+.hudmini{margin-top:10px}
+/* simulator */
+.cvw{border:1px solid var(--line);background:#010306;border-radius:8px;margin-top:10px;position:relative;max-width:680px}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
+.cvw canvas:active{cursor:grabbing}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.read div{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.read span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.read b{font:600 17px var(--mono);color:var(--lime)}
+.phase{font:14px var(--mono);color:var(--gold);margin-top:10px;min-height:22px}
+.phase.tone{color:var(--lime);margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--panel)}
+.tw{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:16px;color:var(--lime);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0;max-width:none;overflow-x:auto;line-height:1.9}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:14px 0}
+.ids .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}
+.ids h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ids p{font-size:14.5px;margin-bottom:8px}
+.ids .sum{font:15px var(--mono);color:var(--lime)}
+blockquote{border-left:3px solid var(--lime);padding:6px 0 6px 18px;margin:14px 0;font-family:var(--serif);font-size:24px;line-height:1.5;font-style:italic;max-width:62ch}
+blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-top:8px}
+.sharefoot{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+.wrap ul{max-width:76ch;margin:0 0 16px 22px}.wrap li{margin-bottom:9px}
+h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:26px 0 10px}
+.eq.big{font-size:15px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
+.two .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}.two .c b{display:block;font:600 22px var(--mono);color:var(--lime);margin:4px 0}
+.thesis{border:1px solid var(--line-g);background:var(--panel);border-radius:8px;padding:18px 22px;margin:14px 0}.thesis p{font-size:15px}
+.aud{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;margin:14px 0}.aud input{width:100%;max-width:480px;font:18px var(--mono);color:var(--ink);background:var(--cv);border:1px solid var(--line);border-radius:6px;padding:9px 12px}
+.aud .pre button{font:12px var(--mono);color:var(--gold);background:none;border:1px solid rgba(232,195,117,.4);border-radius:5px;padding:5px 9px;margin:4px 6px 0 0;cursor:pointer}
+.aud .res{font:600 26px var(--mono);color:var(--lime);margin-top:12px}.aud .brk{font:13px var(--mono);color:var(--ink-2);word-break:break-word}
+@media(max-width:600px){.bar{justify-content:space-between}.bar .t{display:none}}
+
+.read+p,.read+h3{margin-top:18px}
+.stat4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.stat4 div{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:10px 14px}
+.stat4 span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.stat4 b{display:block;font:600 24px var(--mono);color:var(--lime)}
+.stat4 i{display:block;font:12px var(--mono);color:var(--ink-3);font-style:normal}
+.pour{font-family:var(--serif);font-size:22px;line-height:1.55;font-style:italic;color:#f0ead8;border-left:3px solid var(--gold);padding:4px 0 4px 18px;margin:18px 0;max-width:62ch}
+.cell{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.cell svg{width:190px;height:150px;flex:none;border:1px solid var(--line);border-radius:8px;background:#010306}
+.cell .txt{flex:1;min-width:230px}
+.sig{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.sig button{font:600 15px var(--mono);color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:5px 8px;cursor:pointer;min-width:42px}
+.sig button:hover{color:var(--gold);border-color:var(--gold)}
+.sig button small{display:block;font:10px var(--mono);color:var(--lime)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.steps .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;position:relative}
+.steps .c .g{font:600 44px var(--title);color:var(--gold);line-height:1}
+.steps .c h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--lime);margin:8px 0}
+.steps .c .n{font:15px var(--mono);color:var(--gold)}
+.steps .c p{font-size:14.5px;margin:6px 0}
+.lnk{font-size:13.5px;color:var(--ink-3)}
+.lnk a{color:var(--lime)}
+.spike{height:150px}
+canvas.sp{width:100%;max-width:520px;height:150px;border:1px solid var(--line);border-radius:8px;background:#010306;display:block;margin-top:10px}
+.mini{width:100%;max-width:420px;aspect-ratio:1/1;display:block;border:1px solid var(--line);border-radius:8px;background:#010306}
+.heroGrid2{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+@media(max-width:860px){.heroGrid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a href="ophanim-engine-codex.html">&#9666; Engine</a>
+  <div class="t">Ophanim Codex &middot; <b>Salt and Spirit</b></div>
+  <a href="salt-and-spirit-el.html">Ελληνικά</a>
+  <a href="library.html">Library &#9656;</a>
+</header>
+<main>
+<section id="hero"><div class="wrap"><div class="heroGrid2"><div>
+<div class="kicker">The Ionic Matrix &middot; Biophysics &amp; Greek numbers</div>
+<h1>Salt and <em>Spirit</em></h1>
+<p class="lead">When a collapsed body is wheeled into the emergency room, the first bag hung on the drip is not pure water. It is salt water.</p>
+<p class="dim">That small fact says something large. Water alone cannot carry a current, and a cell sitting in it swells until it bursts. Add the right amount of salt and the same water becomes the voltage of a nerve, a heartbeat, a thought. This page starts in that room, then follows the salt into the crystal, into the Greek letters, and into the numbers that keep turning up beside it.</p>
+</div><div>
+<canvas id="lat-hero" class="mini" role="img" aria-label="A turning model of a salt crystal: sodium in cyan, chloride in gold"></canvas>
+<p class="dim" style="font-size:13.5px;margin-top:8px">A salt crystal, drawn as 27 points. Drag it to turn it.</p>
+</div></div>
+<div class="stat4">
+<div><span>Drip fluid</span><b>0.9 %</b><i>154 mM sodium and 154 mM chloride</i></div>
+<div><span>Resting cell</span><b>&minus;70 mV</b><i>the voltage across the membrane</i></div>
+<div><span>The pump</span><b>3 : 2</b><i>3 Na&#8314; out, 2 K&#8314; in</i></div>
+<div><span>Number of Fusion</span><b>1746</b><i>1080 + 666</i></div>
+</div></div></section>
+<section data-narrate id="er"><div class="wrap">
+<div class="kicker">Pillar I &middot; In the emergency room</div><h2>The very first thing <em>they hang on the drip</em></h2>
+<p class="lead">Pure distilled water is an insulator. It has almost no free charges, so it cannot carry an electric current, and a living cell cannot run on it.</p>
+<p>Put a red blood cell in pure water and water rushes in through the membrane, because the inside is saltier than the outside. The cell swells and bursts. Put salt back in the right amount, 0.9 per cent, called normal saline, and the cell keeps its shape. That number is no accident: 0.9 grams in 100 millilitres is 154 millimoles of sodium and 154 of chloride per litre, about what the body fluid around your cells already holds.</p>
+<div class="pour">A goldsmith knows this from the bench. Pure 24-carat gold is lovely and soft, and it will not hold a sharp shape. A little copper or silver in the mix, the limit, is what lets a ring keep its edge. Water is the pure gold here. Salt is the alloy that lets it hold a shape and carry a charge.</div>
+<h3 class="sub">Try the three drips</h3>
+<p>Choose what the cell is sitting in. The picture is schematic, but the direction of the water is real.</p>
+<div class="cell">
+<svg id="cellsvg" viewBox="0 0 190 150" role="img" aria-label="A round cell that swells, holds or shrinks depending on the fluid around it"><circle id="cellc" cx="95" cy="75" r="40" fill="rgba(70,227,240,.12)" stroke="#46e3f0" stroke-width="2"/><circle cx="95" cy="75" r="8" fill="rgba(232,195,117,.5)"/></svg>
+<div class="txt"><div class="ctl"><button type="button" data-fl="0">Pure water</button><button type="button" data-fl="1" class="on">0.9 % saline</button><button type="button" data-fl="2">3 % saline</button></div>
+<p id="cellmsg" class="phase" style="min-height:70px" aria-live="polite"></p></div></div>
+<h3 class="sub">The Greek names for the two partners</h3>
+<p>The old Greeks had names for this pair. The <b>apeiron</b> (ἄπειρον) is the boundless, the formless fluid with no edge. The <b>peras</b> (πέρας) is the limit, the edge that gives a thing its shape. Water is the apeiron. The sodium and chloride ions of salt are the peras, little counted pebbles of limit: <i>psephoi</i> (ψῆφοι), the same word as the pebbles used for counting and voting. That is why the word for a pebble sits so close to the word for a number.</p>
+<h3 class="sub">The battery in every cell</h3>
+<p>Every cell keeps a voltage across its membrane. A protein pump, the sodium&ndash;potassium pump, burns one ATP to push three sodium ions out and bring two potassium ions in. That uneven trade leaves the inside about 70 millivolts negative. The pump runs all the time and takes a large share of a nerve cell&rsquo;s energy, which is why a brain is so hungry. Every nerve signal and every heartbeat is that stored voltage being let go for a moment.</p>
+<h3 class="sub">Move the dials</h3>
+<p class="dim">This uses the Goldman&ndash;Hodgkin&ndash;Katz equation with sodium and potassium only (body temperature, inside sodium 12 mM, inside potassium 140 mM). Leave the dials at the start and you should read about &minus;71 mV.</p>
+<div class="ctl"><label>Sodium outside <input type="range" id="m-nao" min="100" max="170" step="1" value="142"> <b id="o-nao">142</b> mM</label></div>
+<div class="ctl"><label>Potassium outside <input type="range" id="m-ko" min="2" max="12" step="0.5" value="4"> <b id="o-ko">4</b> mM</label></div>
+<div class="ctl"><label>Sodium leak compared with potassium leak <input type="range" id="m-pr" min="0.01" max="0.30" step="0.01" value="0.04"> <b id="o-pr">0.04</b></label></div>
+<div class="read"><div><span>Resting voltage</span><b id="r-vm">&minus;71 mV</b></div><div><span>E<sub>Na</sub></span><b id="r-ena">+66 mV</b></div><div><span>E<sub>K</sub></span><b id="r-ek">&minus;95 mV</b></div></div>
+<div class="ctl"><button type="button" id="fire">Fire a nerve signal</button></div>
+<canvas id="spk" class="sp" role="img" aria-label="A drawing of one nerve signal: the voltage rises to about +30 mV, drops below rest, then returns"></canvas>
+<p class="dim" style="font-size:13.5px">The trace is a schematic of the usual shape of a nerve signal, not a measurement.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Saline_(medicine)" target="_blank" rel="noopener">Saline (medicine)</a> &middot; <a href="https://en.wikipedia.org/wiki/Osmosis" target="_blank" rel="noopener">Osmosis</a> &middot; <a href="https://en.wikipedia.org/wiki/Sodium%E2%80%93potassium_pump" target="_blank" rel="noopener">Sodium–potassium pump</a> &middot; <a href="https://en.wikipedia.org/wiki/Resting_potential" target="_blank" rel="noopener">Resting potential</a></p>
+</div></section>
+<section data-narrate id="maxim"><div class="wrap">
+<div class="kicker">Pillar II &middot; Salt in the old stories</div><h2>Salt <em>on the table</em></h2>
+<p>Among the sayings handed down from <a href="https://en.wikipedia.org/wiki/Pythagoras" target="_blank" rel="noopener">Pythagoras</a> is a plain one: set salt on the table. Writers such as Diogenes Laërtius pass it on as a reminder of justice. Salt keeps what it touches from rotting, and it is made by the sun working on the sea, which is exactly the kind of quiet fairness a table should have.</p>
+<p>The same thought runs through the Gospel of Mark, in two neighbouring lines:</p>
+<div class="eq">Mark 9:49 &nbsp; πᾶς γὰρ πυρὶ ἁλισθήσεται<br>&ldquo;For everyone will be salted with fire.&rdquo;<br><br>Mark 9:50 &nbsp; ἔχετε ἐν ἑαυτοῖς ἅλα, καὶ εἰρηνεύετε ἐν ἀλλήλοις<br>&ldquo;Have salt in yourselves, and be at peace with one another.&rdquo;</div>
+<p>Notice where the salt goes. It is <i>in yourselves</i> (ἐν ἑαυτοῖς), and the peace is <i>between</i> you (ἐν ἀλλήλοις). The salt is inside each person first, which is just what the emergency room teaches: it is in every cell before it is anywhere else. Many manuscripts of verse 49 continue &ldquo;and every sacrifice will be salted with salt&rdquo; (καὶ πᾶσα θυσία ἁλὶ ἁλισθήσεται). Older Israel set salt on every offering as a sign of an unbreakable promise, the &ldquo;covenant of salt&rdquo; of Numbers 18:19.</p>
+<p>The Greek for salt is <b>ἅλς</b>, and it adds up to 231 with the letter values (Α1 + Λ30 + Σ200). Keep that number in your pocket; it comes back in the next section.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Pythagoras" target="_blank" rel="noopener">Pythagoras</a> &middot; <a href="https://en.wikipedia.org/wiki/Gospel_of_Mark" target="_blank" rel="noopener">Gospel of Mark</a> &middot; <a href="https://en.wikipedia.org/wiki/Covenant_of_salt" target="_blank" rel="noopener">Covenant of salt</a> &middot; <a href="https://en.wikipedia.org/wiki/Isopsephy" target="_blank" rel="noopener">Isopsephy</a></p>
+</div></section>
+<section data-narrate id="descent"><div class="wrap">
+<div class="kicker">Pillar III &middot; The descent</div><h2>From the eye, to the fire, <em>to the salt</em></h2>
+<p>Dr. Theologos Simaioforos taught that Greek letters are not arbitrary shapes. Each one describes a force. Read that way, three words make a staircase from the unmoving to the solid.</p>
+<div class="steps">
+<div class="c"><div class="g">&Theta;</div><h3>Theta, the looking</h3><div class="n">&Theta;9 + &Eta;8 + &Tau;300 + &Alpha;1 = 318</div><p>The old form of theta was a circle with a dot in the middle, the eye, the navel of the world (the <a href="https://en.wikipedia.org/wiki/Omphalos" target="_blank" rel="noopener">omphalos</a>). It is the still centre that only looks.</p></div>
+<div class="c"><div class="g">&Theta;&epsilon;&#x1FD6;&omicron;&nu;</div><h3>Theion, the radiance</h3><div class="n">&Theta;9 + &Epsilon;5 + &Iota;10 + &Omicron;70 + &Nu;50 = 144 = 12&sup2;</div><p>Theta looks, then the next letters set it moving: &epsilon; course, &iota; a steady stream of light, &omicron; a bounded space, &nu; mind and law. The word means both &ldquo;divine&rdquo; and &ldquo;brimstone&rdquo;, the sulphur that burns. Its sum, 144, is 12 &times; 12.</p></div>
+<div class="c"><div class="g">&#x1F09D;&lambda;&varsigma;</div><h3>Hals, the salt</h3><div class="n">&Alpha;1 + &Lambda;30 + &Sigma;200 = 231</div><p>Fire needs something to hold it. The salt is that holder: a hard, clear, cubic stone that the sea leaves behind when the sun has drunk the water. The staircase ends in a crystal.</p></div>
+</div>
+<p>The reading of each letter belongs to Simaioforos. The arithmetic belongs to everyone, and you can check every sum with the calculator below. By the way, the word for the Sun, ἥλιος, also adds to 318, the same as θῆτα, which is why the theta is called the eye of the sun. You will meet its famous cousin 666 further down, and see why the two are different numbers.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Theta" target="_blank" rel="noopener">Theta</a> &middot; <a href="https://en.wikipedia.org/wiki/Sulfur" target="_blank" rel="noopener">Sulfur</a> &middot; <a href="https://en.wikipedia.org/wiki/Halite" target="_blank" rel="noopener">Halite</a> &middot; <a href="https://en.wikipedia.org/wiki/Helios" target="_blank" rel="noopener">Helios</a></p>
+</div></section>
+<section data-narrate id="lattice"><div class="wrap">
+<div class="kicker">Pillar IV &middot; The crystal</div><h2>Why salt is <em>a cube</em></h2>
+<p>Rock salt, or <a href="https://en.wikipedia.org/wiki/Halite" target="_blank" rel="noopener">halite</a>, grows and splits in cubes. Sodium and chloride sit on a three-way grid, each one surrounded by six of the other kind, one up, one down, one at each side. Join those six neighbours and you draw an octahedron, the cube&rsquo;s dual. So inside every little cube there is an octahedron quietly working.</p>
+<div class="cvw"><canvas id="lat-cv" role="img" aria-label="A turning model of a salt crystal with sodium in cyan and chloride in gold" style="aspect-ratio:16/11"></canvas></div>
+<div class="ctl"><button type="button" data-m="0" class="on">Crystal cell (27)</button><button type="button" data-m="1">Hull (26)</button><button type="button" data-m="2">Radiator (34)</button></div>
+<div class="ctl"><label><input type="checkbox" id="lat-bond" checked> Bonds</label><label><input type="checkbox" id="lat-oct"> Octahedron around the centre</label><label><input type="checkbox" id="lat-spin" checked> Spin</label><label><input type="checkbox" id="lat-pulse"> Pulse</label></div>
+<div class="phase" id="lat-msg" aria-live="polite"></div>
+<div class="read"><div><span>Lattice constant</span><b>564.02 pm</b></div><div><span>Neighbours</span><b>6 : 6</b></div><div><span>Space group</span><b>Fm3&#772;m</b></div><div><span>Madelung constant</span><b>1.7476</b></div></div>
+<p>Count what the picture shows. A 3 &times; 3 &times; 3 block has 27 points. Take away the middle one and 26 are left on the outside, the hull. Now push the eight corners straight out along their diagonals by &radic;3 &minus; 1 &asymp; 0.732, and you have eight spikes: 26 + 8 = 34. This is the same 26-point cage and 34-point star as in the <a href="jitterbug.html">Jitterbug page</a>, seen here in a salt crystal.</p>
+<p>The Madelung constant, a number that sums up how the charges of a salt crystal add together, comes out near 1.7476. It looks a lot like 1746. That is a curious echo, nothing more, but it is the kind of echo this page likes to listen for.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Sodium_chloride" target="_blank" rel="noopener">Sodium chloride</a> &middot; <a href="https://en.wikipedia.org/wiki/Cube" target="_blank" rel="noopener">Cube</a> &middot; <a href="https://en.wikipedia.org/wiki/Octahedron" target="_blank" rel="noopener">Octahedron</a> &middot; <a href="https://en.wikipedia.org/wiki/Madelung_constant" target="_blank" rel="noopener">Madelung constant</a> &middot; <a href="jitterbug.html">The Jitterbug</a></p>
+</div></section>
+<section data-narrate id="ellin"><div class="wrap">
+<div class="kicker">Pillar V &middot; The letters</div><h2>Soul and peace, <em>letter by letter</em></h2>
+<p>In the Ellin Logos method of Dr. Simaioforos, a word is read by the sounds it is made of, one letter after another, each carrying a meaning. Here are two words most of us use daily.</p>
+<div class="ids">
+<div class="c"><h3>&Psi;&Upsilon;&Chi;&Eta; = 1708</h3><p>Ψ is the divine inner fire that comes from the Father. Υ is light gathered and concentrated. Χ is that fire placed in an earthly body. Η is its being revealed. So the soul is read as fire collected into a vessel and shown. The sum 1708 is also the phrase &ldquo;the God of my heart&rdquo;.</p><p class="sum">&Psi;700 + &Upsilon;400 + &Chi;600 + &Eta;8 = 1708<br>&ldquo;&#x1F41; &theta;&epsilon;&#x1F78;&sigmaf; &tau;&#x1FC6;&sigmaf; &kappa;&alpha;&rho;&delta;&#x1F77;&alpha;&sigmaf; &mu;&omicron;&upsilon;&rdquo; = 1708</p></div>
+<div class="c"><h3>&Epsilon;&Iota;&Rho;&Eta;&Nu;&Eta; = 181</h3><p>Peace comes from <i>eiro</i> (εἴρω), which means both &ldquo;I speak&rdquo; and &ldquo;I join together&rdquo;. Ρ is the steady flow of light, Ν is the mind under law. So peace is read as light flowing into a mind that follows the law. Notice the Ν again: the same letter that closes ΘΕΙΟΝ and ΝΟΜΟΣ.</p><p class="sum">&Epsilon;5 + &Iota;10 + &Rho;100 + &Eta;8 + &Nu;50 + &Eta;8 = 181</p></div>
+</div>
+<p>The letter meanings are the method&rsquo;s reading, and you are welcome to test them against the sounds you speak. The sums are plain arithmetic.</p>
+<p class="lnk">Go on: <a href="ellin-logos-codex.html">Ellin Logos codex</a> &middot; <a href="greek-sphere.html">Greek letter sphere</a> &middot; <a href="isopsephy-index.html">Isopsephy index</a></p>
+</div></section>
+<section data-narrate id="law"><div class="wrap">
+<div class="kicker">Pillar VI &middot; The counting</div><h2>Law, number and mathematics <em>make one sum</em></h2>
+<p>Here is the first thing that made people stop and look. Three Greek words, three different ideas, one total.</p>
+<div class="ids">
+<div class="c"><h3>&Nu;&Omicron;&Mu;&Omicron;&Sigma; = 430</h3><p>Law, the order of things.</p><p class="sum">&Nu;50+&Omicron;70+&Mu;40+&Omicron;70+&Sigma;200 = 430</p></div>
+<div class="c"><h3>&Alpha;&Rho;&Iota;&Theta;&Mu;&Omicron;&Sigma; = 430</h3><p>Number, the unit of counting.</p><p class="sum">&Alpha;1+&Rho;100+&Iota;10+&Theta;9+&Mu;40+&Omicron;70+&Sigma;200 = 430</p></div>
+<div class="c"><h3>&Mu;&Alpha;&Theta;&Eta;&Mu;&Alpha;&Tau;&Iota;&Kappa;&Alpha; = 430</h3><p>Mathematics, what can be learned and known.</p><p class="sum">&Mu;40+&Alpha;1+&Theta;9+&Eta;8+&Mu;40+&Alpha;1+&Tau;300+&Iota;10+&Kappa;20+&Alpha;1 = 430</p></div>
+</div>
+<p>The number 430 turns up elsewhere too. The prophet Ezekiel lay on his side 390 days and then 40 days, 430 in all (Ezekiel 4:5&ndash;6); the <a href="reed-codex.html">Reed codex</a> has more on that. The sums above use the classical way, where the sound ΟΥ is counted as ο and υ.</p>
+<div class="ids">
+<div class="c"><h3>4995 = 27 &times; 5 &times; 37</h3><p>The 27 Milesian letter values (nine units, nine tens, nine hundreds) add to 4995. That is 27 &times; 5 &times; 37, and the 135 is 27 &times; 5. The 5 is not made up: Greek has five signs at 500 to 900 (Φ Χ Ψ Ω Ϡ), and Hebrew has five final letters at 500 to 900, so both alphabets reach 4995.</p><p class="sum">45 + 450 + 4500 = 4995<br>4995 &divide; 135 = 37</p></div>
+<div class="c"><h3>37 &times; 64 = 2368</h3><p>Then 37, the number that keeps appearing: it is the cube difference 4&sup3; &minus; 3&sup3;. Times the word for truth (ἀλήθεια = 64 = 4&sup3;), it gives 2368, the total of Ἰησοῦς Χριστός.</p><p class="sum">4&sup3; &minus; 3&sup3; = 64 &minus; 27 = 37<br>&#x1F00;&lambda;&#x1F75;&theta;&epsilon;&iota;&alpha; = 64 = 4&sup3;<br>&Iota;&eta;&sigma;&omicron;&#x1FE6;&sigmaf; 888 + &Chi;&rho;&iota;&sigma;&tau;&#x1F79;&sigmaf; 1480 = 2368</p></div>
+</div>
+<p class="lnk">Check it yourself: <a href="isopsephy-index.html?n=430">430</a> &middot; <a href="isopsephy-index.html?n=2368">2368</a> &middot; <a href="jitterbug.html">37 in the Jitterbug</a></p>
+</div></section>
+<section data-narrate id="fusion"><div class="wrap">
+<div class="kicker">Pillar VII &middot; The two currents</div><h2>Moon plus sun, <em>one seed</em></h2>
+<p>John Michell, who spent his life on the measures of old sacred places, noticed two numbers standing across from each other that add to a third, one that Greek phrases keep returning to.</p>
+<div class="two">
+<div class="c"><span class="dim">Moon</span><b>1080</b><p>The Moon&rsquo;s radius is about 1080 miles. The receptive, silvery, watery side.</p></div>
+<div class="c"><span class="dim">Sun</span><b>666</b><p>The numbers 1 to 36 add up to 666, the total of the Sun&rsquo;s magic square of 6 &times; 6. The active, golden, fiery side.</p></div>
+<div class="c"><span class="dim">Together</span><b>1746</b><p>Both streams meet in one number: the seed of everything, from a grain of mustard to the &ldquo;authority of the Lord&rdquo;.</p></div>
+</div>
+<div class="eq">1080 + 666 = 1746</div>
+<p>The same total is the value of these Greek phrases:</p>
+<ul>
+<li>κόκκος σινάπεως (a grain of mustard seed) = 1746</li>
+<li>ἐξουσία Κυρίου (the authority of the Lord) = 1746</li>
+<li>τὸ κεκρυμμένον πνεῦμα (the hidden spirit) = 1746</li>
+<li>ἡ δόξα τοῦ θεοῦ Ἰσραήλ (the glory of the God of Israel) = 1746</li>
+</ul>
+<p>For a goldsmith this is an old friend: gold is the sun&rsquo;s metal and silver the moon&rsquo;s, and a good piece needs both. The salt of the earlier sections sits in the middle of this. Fire alone burns, water alone drowns, and salt is what lets them live together in one body.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/John_Michell_(writer)" target="_blank" rel="noopener">John Michell (writer)</a> &middot; <a href="https://en.wikipedia.org/wiki/Moon" target="_blank" rel="noopener">Moon</a> &middot; <a href="https://en.wikipedia.org/wiki/Sun" target="_blank" rel="noopener">Sun</a> &middot; <a href="https://en.wikipedia.org/wiki/Parable_of_the_Mustard_Seed" target="_blank" rel="noopener">Parable of the Mustard Seed</a></p>
+</div></section>
+<section data-narrate id="helios"><div class="wrap">
+<div class="kicker">A common mix-up, set straight</div><h2>Helios is <em>318</em>, the Sun&rsquo;s number is <em>666</em></h2>
+<p class="lead">The word for the Sun and the number of the Sun are two different things, and both are right.</p>
+<div class="two">
+<div class="c"><span class="dim">The word ΗΛΙΟΣ</span><b>318</b><p class="sum">&Eta;8 + &Lambda;30 + &Iota;10 + &Omicron;70 + &Sigma;200 = 318</p><p>Add the letter values of &#x1F25;&lambda;&iota;&omicron;&sigmaf; and you get 318. Theta (&Theta;&Eta;&Tau;&Alpha;) is also 318, which is why the two belong together: the eye and the sun it looks with.</p></div>
+<div class="c"><span class="dim">The Sun&rsquo;s square</span><b>666</b><p class="sum">1 + 2 + 3 + &hellip; + 36 = 666</p><p>The old planetary squares give the Sun a 6 &times; 6 square, whose 36 cells hold the numbers 1 to 36. Add all 36 and the total is 666. So 666 is the Sun&rsquo;s own number, not the spelling of its name.</p></div>
+</div>
+<p>Words that do spell 666 in Greek include:</p>
+<ul>
+<li>Τειταν (Teitan, the &ldquo;Titan&rdquo; that the early writer Irenaeus suggested for the beast of Revelation)</li>
+<li>ὁ Σεράπις (ho Serapis, the sun-god of Alexandria)</li>
+<li>Συήνη (Syene, today&rsquo;s Aswan)</li>
+</ul>
+<p>A small bonus: 318 is also very close to 1000 &divide; &pi; = 318.31, and it is the number of trained men that Abram took to rescue Lot in Genesis 14:14. Numbers like these are why theta feels like a number of the Sun. Keep the Sun&rsquo;s 666 and its 318 each in its own place, and the arithmetic stays clean.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Helios" target="_blank" rel="noopener">Helios</a> &middot; <a href="https://en.wikipedia.org/wiki/Number_of_the_Beast" target="_blank" rel="noopener">Number of the Beast</a> &middot; <a href="https://en.wikipedia.org/wiki/Serapis" target="_blank" rel="noopener">Serapis</a> &middot; <a href="https://en.wikipedia.org/wiki/Aswan" target="_blank" rel="noopener">Aswan</a> &middot; <a href="https://en.wikipedia.org/wiki/Abraham" target="_blank" rel="noopener">Abraham</a></p>
+</div></section>
+<section data-narrate id="levi"><div class="wrap">
+<div class="kicker">Pillar VIII &middot; Old chemistry</div><h2>Sulphur, mercury <em>and salt</em></h2>
+<p>Alchemists spoke of three principles: sulphur for the burning, mercury for the flowing, and salt for the fixing. In the nineteenth century <a href="https://en.wikipedia.org/wiki/%C3%89liphas_L%C3%A9vi" target="_blank" rel="noopener">Éliphas Lévi</a> (born Alphonse Louis Constant, 1810&ndash;1875) gathered them under the name <i>astral light</i>, a fluid with a positive side (sulphur) and a negative side (mercury). When they come into balance, he said, they settle into salt, and from balance comes stability.</p>
+<div class="tw"><table><thead><tr><th>Principle</th><th>Old name</th><th>Substance</th><th>Job in the body</th></tr></thead><tbody>
+<tr><td>Salt</td><td>the fixed, the edge</td><td>NaCl</td><td>the ions that hold the voltage</td></tr>
+<tr><td>Sulphur</td><td>the active, the burning</td><td>heat</td><td>burning sugar for energy</td></tr>
+<tr><td>Mercury</td><td>the flowing, the volatile</td><td>H&#8322;O</td><td>the water that carries it all</td></tr>
+<tr><td>Azoth</td><td>the all-in-one, the balance</td><td>&minus;70 mV</td><td>1746</td></tr>
+</tbody></table></div>
+<p>Lévi linked the cubic stone of the alchemists to the &ldquo;rock&rdquo; in the saying to Peter, <i>Petros</i> and <i>petra</i> (Πέτρα = 486, and the Aramaic form Κηφᾶς = 729 = 27&sup2;). Later alchemical pictures, among them those attributed to <a href="https://en.wikipedia.org/wiki/Basil_Valentine" target="_blank" rel="noopener">Basil Valentine</a>, draw salt as a cube.</p>
+<p>Lévi also gave a warning that fits a page about voltage. The astral light, he said, is a blind current. Unattended, it only stirs up old fears and appetites, and he wrote that in London in 1854 his own attempt to call up the spirit of Apollonius of Tyana left his arm numb. His answer was balance and a steady will. A cube that holds everything closed is safe but cold, which is why the next part asks what happens when the cube opens.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/%C3%89liphas_L%C3%A9vi" target="_blank" rel="noopener">Éliphas Lévi</a> &middot; <a href="https://en.wikipedia.org/wiki/Azoth" target="_blank" rel="noopener">Azoth</a> &middot; <a href="https://en.wikipedia.org/wiki/Basil_Valentine" target="_blank" rel="noopener">Basil Valentine</a> &middot; <a href="https://en.wikipedia.org/wiki/Saint_Peter" target="_blank" rel="noopener">Saint Peter</a></p>
+</div></section>
+<section data-narrate id="open"><div class="wrap">
+<div class="kicker">Pillar IX &middot; Opening the cube</div><h2>From the cage of 26 <em>to the star of 34</em></h2>
+<p>Go back to the crystal and its 26 outside points. That is the cage, the closed salt box. Push the eight corners out along their diagonals and the box grows eight spikes, 34 points in all, like a lamp throwing light instead of holding it. The Jitterbug shows the same step in motion.</p>
+<div class="eq">26 + 8 = 34</div>
+<p>Notice how the alphabet ends. The 27th sign is sampi (Ϡ = 900), a sign that sits at the end of the row and, in the classical alphabet, has fallen silent. The word for silence, σιγή (ΣΙΓΗ = 221), is a good name for that stillness after the last letter. Salt gave us the limit. Silence is what is left when the limit has done its work and the signal goes out clean.</p>
+<p>There is one more line that belongs here. Ignorance, ἄγνοια, adds to 135, and 135 is 27 &times; 5, the number we met in the counting. Not-knowing and the whole alphabet share the same measure. Keep that in mind when you next say you do not know something: you are standing exactly where the alphabet stands.</p>
+</div></section>
+<section data-narrate id="calc"><div class="wrap">
+<div class="kicker">Your turn</div><h2>The word-sum <em>calculator</em></h2>
+<p class="dim">Type or paste any Greek word. Accents do not matter and a final ς counts as 200. Or tap one of the words used on this page.</p>
+<div class="aud"><label for="aud-in" class="dim">Greek word or phrase</label><br>
+<input id="aud-in" type="text" value="ΝΟΜΟΣ" autocomplete="off" spellcheck="false" lang="el">
+<div class="pre"><button type="button" data-w="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button type="button" data-w="ΑΡΙΘΜΟΣ">ΑΡΙΘΜΟΣ</button><button type="button" data-w="ΜΑΘΗΜΑΤΙΚΑ">ΜΑΘΗΜΑΤΙΚΑ</button><button type="button" data-w="ἅλς">ἅλς</button><button type="button" data-w="ΘΗΤΑ">ΘΗΤΑ</button><button type="button" data-w="ἥλιος">ἥλιος</button><button type="button" data-w="ΘΕΙΟΝ">ΘΕΙΟΝ</button><button type="button" data-w="ΨΥΧΗ">ΨΥΧΗ</button><button type="button" data-w="ΕΙΡΗΝΗ">ΕΙΡΗΝΗ</button><button type="button" data-w="ΑΛΗΘΕΙΑ">ΑΛΗΘΕΙΑ</button><button type="button" data-w="ΣΙΓΗ">ΣΙΓΗ</button><button type="button" data-w="ΙΔΙΩΤΗΣ">ΙΔΙΩΤΗΣ</button><button type="button" data-w="ΨΗΦΙΔΙΟ">ΨΗΦΙΔΙΟ</button><button type="button" data-w="κόκκος σινάπεως">κόκκος σινάπεως</button><button type="button" data-w="ἐξουσία Κυρίου">ἐξουσία Κυρίου</button><button type="button" data-w="ΙΗΣΟΥΣ">ΙΗΣΟΥΣ</button><button type="button" data-w="ΧΡΙΣΤΟΣ">ΧΡΙΣΤΟΣ</button></div>
+<div class="res" id="aud-sum" aria-live="polite">430</div>
+<div class="brk" id="aud-brk"></div><div class="brk" id="aud-37"></div></div>
+<h3 class="sub">The 27 signs. Tap to add one.</h3>
+<div class="sig" id="sig"></div>
+<p class="dim" style="font-size:13px">The 27 Milesian signs: nine units (1&ndash;9, with stigma &#987; for 6), nine tens (10&ndash;90, with koppa &#985; for 90) and nine hundreds (100&ndash;900, ending in sampi &#993; for 900). The sound ΟΥ is counted as ο70 + υ400 in classical sums.</p>
+</div></section>
+<section data-narrate id="together"><div class="wrap">
+<div class="kicker">Putting it together</div><h2>The same pattern <em>at every size</em></h2>
+<p>Step back and the page says one thing three times.</p>
+<div class="steps">
+<div class="c"><div class="g">1</div><h3>In the cell</h3><p>Water, the boundless, is held by salt, the limit. The result is a voltage of &minus;70 mV that lets a nerve fire and a heart beat.</p></div>
+<div class="c"><div class="g">2</div><h3>In the letters</h3><p>Theta, the eye (318), becomes Theion, the radiance (144), and settles in salt (231), held by law (430).</p></div>
+<div class="c"><div class="g">3</div><h3>In the cosmos</h3><p>Moon (1080) and Sun (666) are balanced into one seed (1746), and the closed cube opens into a star.</p></div>
+</div>
+<p>So the next time someone says &ldquo;salt of the earth&rdquo;, you might hear it a little differently. It is in your blood and in your nerves. As the line from Mark has it: <i>have salt in yourselves</i>.</p>
+</div></section>
+<section id="sources"><div class="wrap">
+<div class="kicker">Sources and further reading</div>
+<p class="dim">Clinical fluids and cell biology: standard physiology texts on normal saline (0.9 %, 154 mmol/L), the sodium&ndash;potassium pump, the resting potential and the Goldman&ndash;Hodgkin&ndash;Katz equation. Crystal facts: halite (Fm3&#772;m, a = 564.02 pm, 6:6 coordination, Madelung constant about 1.7476).</p>
+<p class="dim">Sacred measures: John Michell, <i>The View over Atlantis</i> and <i>City of Revelation</i>. Greek letters: Dr. Theologos Simaioforos, the Ellin Logos (Greek Alphabet Code). Western esotericism: &Eacute;liphas L&eacute;vi, <i>Dogme et Rituel de la Haute Magie</i> (1854&ndash;56). Scripture: Mark 9:49&ndash;50, Numbers 18:19, Matthew 13:31, Genesis 14:14. Geometry of the 26 and 34 points: <a href="jitterbug.html">The Jitterbug</a>, after R. Buckminster Fuller.</p>
+</div></section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Share this page</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="shbtns" style="margin-top:22px"><a href="ophanim-engine-codex.html">Engine</a><a href="library.html">Library</a><a href="isopsephy-index.html">Isopsephy index</a></div>
+    <p class="dim" style="font-size:13px;margin:26px auto 0;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:center">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin:14px auto 0;text-align:center"><a href="privacy.html">Privacy</a></p>
+  </div>
+</footer>
+<script>
+var EL = /^el/i.test(document.documentElement.lang||''); function T(en,el){return EL?el:en;}
+
+/* ===== crystal lattice (hero + section) ===== */
+function mkLat(cv,opt){
+ var ctx=cv.getContext('2d'),W=300,H=300,DPR=1,ry=0.6,rx=-0.5,mode=opt.mode||0,bonds=true,oct=false,spin=true,pulse=false,t0=performance.now();
+ var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ var N=[];for(var i=-1;i<=1;i++)for(var j=-1;j<=1;j++)for(var k=-1;k<=1;k++){var s=Math.abs(i)+Math.abs(j)+Math.abs(k);N.push({p:[i,j,k],na:(s%2===1),corner:(s===3),c:(s===0)});}
+ var ext=(Math.sqrt(3)-1)/Math.sqrt(3);
+ var SP=[];for(var a=-1;a<=1;a+=2)for(var b=-1;b<=1;b+=2)for(var c=-1;c<=1;c+=2){SP.push({from:[a,b,c],to:[a*(1+ext),b*(1+ext),c*(1+ext)]});}
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function pr(p){var x=p[0],y=p[1],z=p[2],c=Math.cos(ry),s=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx);
+  var X=x*c+z*s,Z=-x*s+z*c,Y=y*cx-Z*sx,Z2=y*sx+Z*cx,F=9,m=F/(F-Z2),S=Math.min(W,H)*(opt.zoom||0.2);return[W/2+X*S*m,H/2-Y*S*m,Z2,m];}
+ var ph=0;
+ function draw(now){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  var vis=N.filter(function(n){return !(mode>0&&n.c);});
+  var P=vis.map(function(n){return{n:n,q:pr(n.p)};});
+  if(bonds){ctx.lineWidth=1;for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){var a=P[i].n.p,b=P[j].n.p;var d=Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])+Math.abs(a[2]-b[2]);
+   if(d===1&&Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2])===1){ctx.strokeStyle='rgba(120,170,190,.30)';ctx.beginPath();ctx.moveTo(P[i].q[0],P[i].q[1]);ctx.lineTo(P[j].q[0],P[j].q[1]);ctx.stroke();}}}
+  if(oct){var nb=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].map(pr);var ed=[[0,2],[0,3],[0,4],[0,5],[1,2],[1,3],[1,4],[1,5],[2,4],[2,5],[3,4],[3,5]];
+   ctx.fillStyle='rgba(232,195,117,.07)';ctx.strokeStyle='rgba(232,195,117,.85)';ctx.lineWidth=1.4;ed.forEach(function(e){ctx.beginPath();ctx.moveTo(nb[e[0]][0],nb[e[0]][1]);ctx.lineTo(nb[e[1]][0],nb[e[1]][1]);ctx.stroke();});}
+  var items=P.map(function(o){return{q:o.q,n:o.n,k:0};});
+  if(mode===2){SP.forEach(function(s){var a=pr(s.from),b=pr(s.to);ctx.strokeStyle='rgba(232,195,117,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();items.push({q:b,n:null,k:1});});}
+  items.sort(function(a,b){return a.q[2]-b.q[2];});
+  items.forEach(function(it){var q=it.q,m=q[3],r;var f=Math.max(.35,Math.min(1,.62+q[2]*0.16));
+   if(it.k){r=4.2*m;ctx.fillStyle='rgba(255,225,150,'+f+')';ctx.beginPath();ctx.arc(q[0],q[1],r,0,6.283);ctx.fill();return;}
+   var na=it.n.na;r=(na?5.2:8.4)*m*(W/420+.55);
+   var pu=pulse?(0.5+0.5*Math.sin(ph*2.2-(it.n.p[0]+it.n.p[1]+it.n.p[2])*1.1)):0;
+   var g=ctx.createRadialGradient(q[0]-r*.3,q[1]-r*.3,r*.1,q[0],q[1],r);
+   if(na){g.addColorStop(0,'rgba(190,250,255,'+f+')');g.addColorStop(1,'rgba(30,150,170,'+(f*.9)+')');}
+   else{g.addColorStop(0,'rgba(255,236,176,'+f+')');g.addColorStop(1,'rgba(176,130,40,'+(f*.9)+')');}
+   ctx.fillStyle=g;ctx.beginPath();ctx.arc(q[0],q[1],r*(1+pu*.35),0,6.283);ctx.fill();
+   if(it.n.c){ctx.strokeStyle='rgba(232,195,117,.9)';ctx.lineWidth=1;ctx.stroke();}});
+ }
+ var last=performance.now();
+ function loop(now){var dt=Math.min(.05,(now-last)/1000);last=now;ph+=dt;if(spin&&!reduce&&!drag)ry+=dt*0.35;draw(now);req=requestAnimationFrame(loop);}
+ var req=0,drag=false,lx=0,ly=0;
+ cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+ cv.addEventListener('pointermove',function(e){if(!drag)return;ry+=(e.clientX-lx)*0.01;rx=Math.max(-1.3,Math.min(1.3,rx+(e.clientY-ly)*0.01));lx=e.clientX;ly=e.clientY;});
+ cv.addEventListener('pointerup',function(){drag=false});cv.addEventListener('pointercancel',function(){drag=false});
+ window.addEventListener('resize',size);size();
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!req){last=performance.now();req=requestAnimationFrame(loop);}}else{cancelAnimationFrame(req);req=0;}});}):null;
+ if(io)io.observe(cv);else req=requestAnimationFrame(loop);
+ return{set:function(o){if('mode' in o)mode=o.mode;if('bonds' in o)bonds=o.bonds;if('oct' in o)oct=o.oct;if('spin' in o)spin=o.spin;if('pulse' in o)pulse=o.pulse;}};
+}
+(function(){
+ var h=document.getElementById('lat-hero');if(h)mkLat(h,{mode:0,zoom:0.2});
+ var c=document.getElementById('lat-cv');if(!c)return;var api=mkLat(c,{mode:0,zoom:0.19});
+ var msg=document.getElementById('lat-msg');
+ var tx=[T('27 points in a 3 × 3 × 3 block: 14 sodium (cyan, small) and 13 chloride (gold, large). Every ion has six neighbours of the other kind.','27 σημεία σε μπλοκ 3 × 3 × 3: 14 νάτριο (κυανό, μικρό) και 13 χλώριο (χρυσό, μεγάλο). Κάθε ιόν έχει έξι γείτονες του άλλου είδους.'),
+  T('Take away the middle point and 26 are left on the outside: the hull, the closed cage.','Αφαίρεσε το κεντρικό σημείο και μένουν 26 απ’ έξω: το κέλυφος, το κλειστό κλουβί.'),
+  T('Push the 8 corners out by √3 − 1 ≈ 0.732 along the diagonals: 26 + 8 = 34 points. The cage opens into a star.','Σπρώξε τις 8 γωνίες προς τα έξω κατά √3 − 1 ≈ 0,732 πάνω στις διαγώνιους: 26 + 8 = 34 σημεία. Το κλουβί ανοίγει σε άστρο.')];
+ function setm(m){api.set({mode:m});msg.textContent=tx[m];Array.prototype.forEach.call(document.querySelectorAll('[data-m]'),function(b){b.classList.toggle('on',+b.getAttribute('data-m')===m);});}
+ Array.prototype.forEach.call(document.querySelectorAll('[data-m]'),function(b){b.addEventListener('click',function(){setm(+b.getAttribute('data-m'));});});
+ document.getElementById('lat-bond').addEventListener('change',function(e){api.set({bonds:e.target.checked});});
+ document.getElementById('lat-oct').addEventListener('change',function(e){api.set({oct:e.target.checked});});
+ document.getElementById('lat-spin').addEventListener('change',function(e){api.set({spin:e.target.checked});});
+ document.getElementById('lat-pulse').addEventListener('change',function(e){api.set({pulse:e.target.checked});});
+ setm(0);
+})();
+/* ===== cell in the drip ===== */
+(function(){
+ var c=document.getElementById('cellc');if(!c)return;var msg=document.getElementById('cellmsg');
+ var R=[62,40,26],COL=['rgba(255,120,120,.15)','rgba(70,227,240,.12)','rgba(232,195,117,.12)'],ST=['#ff7a7a','#46e3f0','#e8c375'];
+ var tx=[T('Pure water: the inside of the cell is saltier than the outside, so water rushes in. The cell swells and, left long enough, bursts. This is why a patient is never given plain water in a vein.','Καθαρό νερό: το εσωτερικό του κυττάρου είναι πιο αλμυρό από το εξωτερικό, οπότε το νερό μπαίνει μέσα. Το κύτταρο φουσκώνει και, αν μείνει αρκετά, σπάει. Γι’ αυτό ποτέ δεν δίνουν σκέτο νερό σε φλέβα.'),
+  T('0.9 % saline: same saltiness inside and out. No net water moves and the cell keeps its shape.','Ορός 0,9 %: ίδια αλμυρότητα μέσα και έξω. Δεν κινείται καθαρό νερό και το κύτταρο κρατά το σχήμα του.'),
+  T('3 % saline: now it is saltier outside, so water leaves the cell and it shrinks. Doctors do use this on purpose, in small, careful amounts.','Ορός 3 %: τώρα είναι πιο αλμυρό έξω, οπότε το νερό φεύγει από το κύτταρο και αυτό μικραίνει. Οι γιατροί το χρησιμοποιούν σκόπιμα, σε μικρές και προσεκτικές ποσότητες.')];
+ function go(i){c.setAttribute('r',R[i]);c.setAttribute('fill',COL[i]);c.setAttribute('stroke',ST[i]);c.setAttribute('stroke-dasharray',i===0?'5 4':'none');msg.textContent=tx[i];
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fl]'),function(b){b.classList.toggle('on',+b.getAttribute('data-fl')===i);});}
+ c.style.transition='r .8s ease';
+ Array.prototype.forEach.call(document.querySelectorAll('[data-fl]'),function(b){b.addEventListener('click',function(){go(+b.getAttribute('data-fl'));});});go(1);
+})();
+/* ===== membrane voltage (GHK, Na and K only) ===== */
+(function(){
+ var a=document.getElementById('m-nao');if(!a)return;var b=document.getElementById('m-ko'),p=document.getElementById('m-pr');
+ var Nai=12,Ki=140,RT=61.5;
+ function calc(){var No=+a.value,Ko=+b.value,pr=+p.value;
+  var vm=RT*Math.log10((Ko+pr*No)/(Ki+pr*Nai)),ena=RT*Math.log10(No/Nai),ek=RT*Math.log10(Ko/Ki);
+  document.getElementById('o-nao').textContent=No;document.getElementById('o-ko').textContent=Ko;document.getElementById('o-pr').textContent=pr.toFixed(2);
+  var f=function(v){return (v>=0?'+':'−')+Math.abs(v).toFixed(0)+' mV';};
+  document.getElementById('r-vm').textContent=f(vm);document.getElementById('r-ena').textContent=f(ena);document.getElementById('r-ek').textContent=f(ek);return vm;}
+ [a,b,p].forEach(function(e){e.addEventListener('input',calc);});calc();
+ var cv=document.getElementById('spk'),fire=document.getElementById('fire'),ctx=cv.getContext('2d'),W=520,H=150,DPR=1,t=-1,raf=0;
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(220,r.width);H=150;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function shape(u){ // schematic nerve signal over u in 0..1 (ms scale ~ 5 ms)
+  var rest=calc();if(u<0.12)return rest;
+  if(u<0.30){var s=(u-0.12)/0.18;return rest+(30-rest)*(s*s*(3-2*s));}
+  if(u<0.50){var s2=(u-0.30)/0.20;return 30+(-90-30)*(s2*s2*(3-2*s2));}
+  if(u<0.80){var s3=(u-0.50)/0.30;return -90+(rest+90)*(s3*s3*(3-2*s3));}
+  return rest;}
+ function draw(){ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  var y=function(v){return H-14-(v+100)/140*(H-28);};
+  ctx.strokeStyle='rgba(70,227,240,.18)';ctx.lineWidth=1;[30,0,-70,-90].forEach(function(v){ctx.beginPath();ctx.moveTo(0,y(v));ctx.lineTo(W,y(v));ctx.stroke();});
+  ctx.fillStyle='rgba(180,190,200,.8)';ctx.font='11px monospace';[30,0,-70,-90].forEach(function(v){ctx.fillText((v>0?'+':v<0?'−':'')+Math.abs(v),4,y(v)-3);});
+  ctx.strokeStyle='#e8c375';ctx.lineWidth=2;ctx.beginPath();var lim=t<0?1:Math.min(1,t);
+  for(var i=0;i<=200;i++){var u=i/200;if(u>lim)break;var X=34+u*(W-44),Y=y(shape(u));if(i===0)ctx.moveTo(X,Y);else ctx.lineTo(X,Y);}ctx.stroke();}
+ function run(ts){t+=0.012;draw();if(t<1.05)raf=requestAnimationFrame(run);else{t=-1;draw();}}
+ fire.addEventListener('click',function(){cancelAnimationFrame(raf);t=0;raf=requestAnimationFrame(run);});
+ window.addEventListener('resize',function(){size();draw();});size();draw();
+ [a,b,p].forEach(function(e){e.addEventListener('input',draw);});
+})();
+/* ===== word-sum calculator + 27 signs ===== */
+(function(){
+ var inp=document.getElementById('aud-in');if(!inp)return;
+ var V={'Α':1,'Β':2,'Γ':3,'Δ':4,'Ε':5,'Ϛ':6,'Ζ':7,'Η':8,'Θ':9,'Ι':10,'Κ':20,'Λ':30,'Μ':40,'Ν':50,'Ξ':60,'Ο':70,'Π':80,'Ϙ':90,'Ρ':100,'Σ':200,'Τ':300,'Υ':400,'Φ':500,'Χ':600,'Ψ':700,'Ω':800,'Ϡ':900};
+ function norm(c){c=c.toUpperCase();if(c==='ς'||c==='Ϲ'||c==='ϲ')c='Σ';if(c==='Ϝ'||c==='ϝ')c='Ϛ';if(c==='Ϟ'||c==='ϟ')c='Ϙ';if(c==='Ͳ'||c==='ͳ')c='Ϡ';if(c==='ϛ')c='Ϛ';if(c==='ϙ')c='Ϙ';if(c==='ϡ')c='Ϡ';return c;}
+ function run(){var t=inp.value.normalize('NFD').replace(/[̀-ͯ]/g,'').normalize('NFC'),sum=0,parts=[];
+  Array.prototype.forEach.call(t,function(ch){var c=norm(ch);if(V[c]){sum+=V[c];parts.push(c+V[c]);}});
+  document.getElementById('aud-sum').textContent=sum;document.getElementById('aud-brk').textContent=parts.join(' + ');
+  document.getElementById('aud-37').textContent=sum&&sum%37===0?'= 37 × '+(sum/37):(sum?'÷ 37 = '+(sum/37).toFixed(3):'');}
+ inp.addEventListener('input',run);
+ Array.prototype.forEach.call(document.querySelectorAll('.aud [data-w]'),function(b){b.addEventListener('click',function(){inp.value=b.getAttribute('data-w');run();});});
+ var box=document.getElementById('sig');
+ Object.keys(V).forEach(function(k){var b=document.createElement('button');b.type='button';b.innerHTML=k+'<small>'+V[k]+'</small>';b.setAttribute('aria-label',k+' '+V[k]);b.addEventListener('click',function(){inp.value+=k;run();inp.focus();});box.appendChild(b);});
+ run();})();
+
+/* ===== share buttons ===== */
+(function(){var box=document.getElementById('shbtns');if(!box)return;var u=function(){return location.href.split('#')[0]},t=document.title;
+var L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+var items=[['X',function(){return 'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)}],['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())}],['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(t+' '+u())}],[L.mail,function(){return 'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())}]];
+items.forEach(function(it){var a=document.createElement('a');a.textContent=it[0];a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',function(){a.href=it[1]();});box.appendChild(a);});
+var b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',function(){var s=function(){b.textContent=L.done;setTimeout(function(){b.textContent=L.copy},1800)};try{navigator.clipboard.writeText(u()).then(s,function(){prompt(L.copy,u())})}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+
+
+</script>
+<script src="account.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script src="mandos-links.js"></script>
+</body>
+</html>

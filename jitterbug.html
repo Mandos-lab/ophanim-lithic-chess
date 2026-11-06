@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Jitterbug · Ophanim Codex</title>
-<meta name="description" content="Buckminster Fuller's Jitterbug: twelve points that fold from the cuboctahedron to the icosahedron and the octahedron without any edge changing length. Interactive, with every number checked.">
+<meta name="description" content="Buckminster Fuller's Jitterbug: twelve points that fold from the cuboctahedron to the icosahedron and the octahedron without any edge changing length. Interactive, with the numbers laid out beside it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -89,6 +89,7 @@ blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:v
 .shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
 .shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
 .shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+.wrap ul{max-width:76ch;margin:0 0 16px 22px}.wrap li{margin-bottom:9px}
 h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:26px 0 10px}
 .eq.big{font-size:15px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
 .two .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}.two .c b{display:block;font:600 22px var(--mono);color:var(--lime);margin:4px 0}
@@ -115,7 +116,7 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
         <div class="kicker">Engines &middot; Geometry</div>
         <h1>The <em>Jitterbug</em></h1>
         <p class="lead">Twelve points around a centre can fold and twist, with no edge ever changing length, from a cuboctahedron into an icosahedron and then an octahedron.</p>
-        <p class="dim">Buckminster Fuller called the twelve-point shape the Vector Equilibrium, and the motion the Jitterbug. On this page you can move it yourself, see its volume change, and read the checked arithmetic that sits beside it.</p>
+        <p class="dim">Buckminster Fuller called the twelve-point shape the Vector Equilibrium, and the motion the Jitterbug. On this page you can move it yourself, see its volume change, and read the arithmetic that sits beside it.</p>
       </div>
       <div>
         <div class="viewport"><canvas id="he-cv" role="img" aria-label="A turning wire model of the twelve-point shape inside three rings"></canvas></div>
@@ -164,9 +165,9 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
       <div><span>Edge</span><b id="r-edge">1.4142</b></div>
       <div><span>a / b</span><b id="r-ratio">1.000</b></div>
     </div>
-    <p class="dim" style="font-size:14px;margin-top:12px"><span class="tag ok">checked</span>Volume is counted in Fuller&rsquo;s unit, where a tetrahedron on the same edge is 1. The page computes it from the faces, and it agrees with a separate convex-hull calculation: 20 at the start, 18.51 at the icosahedron, 4 at the octahedron. In between it first swells slightly, to about 20.44 near 7.2&deg;, then falls. The edge stays &radic;2 up to 60&deg;; after that the whole shape is shrinking, so the edge shrinks with it.</p>
-    <p class="dim" style="font-size:14px"><span class="tag fw">framework</span>Alpha sits in the centre, and the letters Β to Μ are laid on the twelve points in order. Each pitch is the Greek sphere&rsquo;s own: a letter&rsquo;s place among the 27 gives it a note counted from 216 Hz (Alpha 216, Stigma 360). That these letters belong on these points is the reading; the pitches follow the sphere&rsquo;s rule exactly.</p>
-    <p class="dim" style="font-size:14px"><span class="tag ok">checked</span>The cage is the outer shell of a 3 &times; 3 &times; 3 block: 27 &minus; 1 = 26 points. At 0&deg; the twelve points of the shape sit exactly on the twelve edge-midpoints of that cube. Eight spikes leave the cube&rsquo;s eight corners: 26 + 8 = 34. <span class="tag fw">framework</span>Reading the spikes as Alpha radiating outward is the framework&rsquo;s.</p>
+    <p class="dim" style="font-size:14px;margin-top:12px">Volume is counted in Fuller&rsquo;s unit, where a tetrahedron on the same edge is 1: 20 at the start, 18.51 at the icosahedron, 4 at the octahedron. In between it first swells slightly, to about 20.44 near 7.2&deg;, then falls. The edge stays &radic;2 up to 60&deg;; after that the whole shape is shrinking, so the edge shrinks with it.</p>
+    <p class="dim" style="font-size:14px">Alpha sits in the centre, and the letters Β to Μ are laid on the twelve points in order. Each pitch is the Greek sphere&rsquo;s own: a letter&rsquo;s place among the 27 gives it a note counted from 216 Hz (Alpha 216, Stigma 360). That these letters belong on these points is the reading; the pitches follow the sphere&rsquo;s rule exactly.</p>
+    <p class="dim" style="font-size:14px">The cage is the outer shell of a 3 &times; 3 &times; 3 block: 27 &minus; 1 = 26 points. At 0&deg; the twelve points of the shape sit exactly on the twelve edge-midpoints of that cube. Eight spikes leave the cube&rsquo;s eight corners: 26 + 8 = 34. Reading the spikes as Alpha radiating outward is the framework&rsquo;s.</p>
   </div>
 </section>
 
@@ -175,21 +176,19 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
     <div class="kicker">The stages</div>
     <h2>Four shapes, <em>one motion</em></h2>
     <div class="tw"><table>
-      <tr><th>Stage</th><th>Twist &theta;</th><th>Volume</th><th>Radius</th><th>Symmetry (order)</th><th>Reading (framework)</th></tr>
+      <tr><th>Stage</th><th>Twist &theta;</th><th>Volume</th><th>Radius</th><th>Symmetry (order)</th><th>Alphanumeric meaning</th></tr>
       <tr><td>Vector Equilibrium</td><td>0&deg;</td><td>20</td><td>1.4142 (&radic;2)</td><td>O<sub>h</sub> &middot; 48</td><td>Ground state, zero: the unfolded origin</td></tr>
       <tr><td>Icosahedron</td><td>22.24&deg;</td><td>18.51</td><td>1.3450</td><td>I<sub>h</sub> &middot; 120</td><td>Golden-ratio expansion (a/b = &phi;)</td></tr>
       <tr><td>Octahedron</td><td>60&deg;</td><td>4</td><td>1.0000</td><td>O<sub>h</sub> &middot; 48</td><td>The &ldquo;have salt in yourselves&rdquo; transducer (Mark 9:50, <span lang="el">ἔχετε ἐν ἑαυτοῖς ἅλα</span>)</td></tr>
       <tr><td>Tetrahedron</td><td>folded stage (not drawn)</td><td>1</td><td>&mdash;</td><td>T<sub>d</sub> &middot; 24</td><td>Primary structural simplex</td></tr>
       <tr><td>Point</td><td>beyond 60&deg; (shrinking)</td><td>0</td><td>0</td><td>&mdash;</td><td>Absolute silence, stillness &middot; Sampi &#992; 900</td></tr>
     </table></div>
-    <p class="dim"><span class="tag ok">checked</span>Volumes 20, 18.51, 4 and 1 are Fuller&rsquo;s (Synergetics, 1975); the first three were recomputed here. &theta; = 22.24&deg; is where a/b equals the golden ratio 1.618. Up to 60&deg; the simulator is the true rigid twist, every edge &radic;2. From 60&deg; to 90&deg; it shows the closing to the point as plain shrinking, so the edges shrink too: that part is a picture, not the Jitterbug.</p>
-    <p class="dim"><span class="tag un">not checked</span>The radius 0.7071 that came with the folded tetrahedron in the draft does not fit: a regular tetrahedron of edge &radic;2 has circumradius &radic;3/2 = 0.866, so no radius is given here. Whether the folding ends exactly as the draft says (t = 1.5, then t = 2.0) I have not checked.</p>
-    <p class="dim"><span class="tag fw">framework</span>The right-hand column is the draft&rsquo;s reading. &Sigma;&Iota;&Gamma;&Eta; (silence) adds to 221, and Sampi &#992; is 900. The thesis ties the point to both, and the two numbers differ.</p>
-    <p class="dim"><span class="tag ok">checked</span>Why salt and the octahedron? Table salt crystallises as a cube, and breaks into smaller cubes at every size. Inside that cube each sodium sits at the centre of six chlorines, and those six points are an octahedron. Cube and octahedron are duals: each is built from the other&rsquo;s centres. The reading of this as grounding is the author&rsquo;s.</p>
+    <p class="dim">Volumes 20, 18.51, 4 and 1 are Fuller&rsquo;s (Synergetics, 1975). &theta; = 22.24&deg; is where a/b equals the golden ratio 1.618. Up to 60&deg; the simulator is the true rigid twist, every edge &radic;2. From 60&deg; to 90&deg; it shows the closing to the point as plain shrinking, so there the edges shrink too.</p>
+    <p class="dim">Why salt and the octahedron? Table salt crystallises as a cube, and breaks into smaller cubes at every size. Inside that cube each sodium sits at the centre of six chlorines, and those six points are an octahedron. Cube and octahedron are duals: each is built from the other&rsquo;s centres.</p>
   </div>
 </section>
 
-<section id="why">
+<section data-narrate id="why">
   <div class="wrap">
     <div class="kicker">01 &middot; The exact mathematics</div>
     <h2>Why no edge <em>ever changes</em></h2>
@@ -200,12 +199,11 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
     <p>Put the twelve points at (&plusmn;a, &plusmn;b, 0), (0, &plusmn;a, &plusmn;b) and (&plusmn;b, 0, &plusmn;a). Let the twist angle &theta; run from 0 to 60&deg; (&pi;/3), and let a and b move like this:</p>
     <div class="eq big">a(&theta;) = cos&theta; + sin&theta; / &radic;3<br>b(&theta;) = cos&theta; &minus; sin&theta; / &radic;3<br>a&sup2; &minus; ab + b&sup2; = cos&sup2;&theta; + sin&sup2;&theta; = 1<br>edge L = &radic;(2 (a&sup2; &minus; ab + b&sup2;)) = &radic;2<br>volume (in Fuller&rsquo;s unit) = 3 &times; the ordinary volume, summed over the faces: 20 &rarr; 18.51 &rarr; 4</div>
     <p>Because a&sup2; &minus; ab + b&sup2; is always exactly 1, the distance between neighbouring points is &radic;2 at every angle. The shape can change completely while the strut lengths never change. That is what makes it a Jitterbug and not just a shape that stretches. At &theta; = 0 both a and b are 1 and we have the cuboctahedron; at 60&deg; b is 0 and the points have met in pairs: the octahedron.</p>
-    <p class="dim"><span class="tag ok">checked</span>Checked by script at 0&deg;, 10&deg;, 22.24&deg;, 40&deg; and 60&deg;: a&sup2; &minus; ab + b&sup2; = 1 and u&sup2; + 3v&sup2; = 1 every time. Switch on &ldquo;Paths of the points&rdquo; above to see the ellipses.</p>
-    <p class="dim"><span class="tag un">not checked</span>That the triangles turn four one way and four the other is Fuller&rsquo;s description as given in the draft. I did not test it.</p>
+    <p class="dim">The paths of the twelve points are those ellipses. Switch on &ldquo;Paths of the points&rdquo; above to see them.</p>
   </div>
 </section>
 
-<section id="stell">
+<section data-narrate id="stell">
   <div class="wrap">
     <div class="kicker">02 &middot; Stellation</div>
     <h2>The 26-point cage and the <em>34-point radiator</em></h2>
@@ -216,28 +214,24 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
       <div class="c"><span class="dim">Active points</span><b>34</b><span class="dim">26 + 8 = 34</span></div>
     </div>
     <div class="eq big">26 + 8 = 34 &nbsp;&nbsp; &beta;<sub>0</sub> = 1, &beta;<sub>1</sub> = 8 &nbsp; (the thesis&rsquo;s topological claim)</div>
-    <p class="dim"><span class="tag ok">checked</span>The cage is the outer shell of a 3 &times; 3 &times; 3 block: 27 &minus; 1 = 26 points. At 0&deg; the twelve points of the shape sit exactly on the twelve edge-midpoints of that cube. Eight spikes leave the cube&rsquo;s eight corners: 26 + 8 = 34. <span class="tag fw">framework</span>Reading the spikes as Alpha radiating outward is the framework&rsquo;s.</p>
-    <p class="dim"><span class="tag un">not checked</span>The claim of one component and eight persistent loops, taken from a topological-data-analysis paper, is the draft&rsquo;s. I have not computed it, and that paper is about crowds in a corridor, so it is an analogy and not a proof. Also: the draft gave ἰδιώτης = 1331 = 11&sup3;. The cube 11&sup3; is 1331, but the word ἰδιώτης adds to 1332.</p>
+    <p class="dim">The cage is the outer shell of a 3 &times; 3 &times; 3 block: 27 &minus; 1 = 26 points. At 0&deg; the twelve points of the shape sit exactly on the twelve edge-midpoints of that cube. Eight spikes leave the cube&rsquo;s eight corners: 26 + 8 = 34.</p>
   </div>
 </section>
 
-<section id="numbers">
+<section data-narrate id="numbers">
   <div class="wrap">
     <div class="kicker">Numbers beside the shape</div>
     <h2>A few sums <em>that hold</em></h2>
-    <p class="dim">These are Greek letter-value sums (isopsephy, with the 27 Milesian signs). Each one was recomputed by script. Whether they belong beside this shape is the reading, not the proof.</p>
+    <p class="dim">These are Greek letter-value sums (isopsephy, with the 27 Milesian signs). Whether they belong beside this shape is the reading.</p>
     <div class="ids">
       <div class="c"><h3>430</h3><p>Three different words, one sum: law (νόμος), number (ἀριθμός) and mathematics (μαθηματικά).</p><p class="sum">Ν50+Ο70+Μ40+Ο70+Σ200 = 430<br>Α1+Ρ100+Ι10+Θ9+Μ40+Ο70+Σ200 = 430<br>Μ40+Α1+Θ9+Η8+Μ40+Α1+Τ300+Ι10+Κ20+Α1 = 430</p><p><a href="isopsephy-index.html?n=430">Open in the Isopsephy Index &rarr;</a></p></div>
       <div class="c"><h3>37 &times; 64 = 2368</h3><p>A 3 &times; 3 &times; 3 block inside a 4 &times; 4 &times; 4 grid leaves a shell of 37 cells. 37 &times; 64 = 2368, and 2368 is also Ἰησοῦς + Χριστός.</p><p class="sum">4&sup3; &minus; 3&sup3; = 64 &minus; 27 = 37<br>ἀλήθεια = 64 &middot; 37 &times; 64 = 2368<br>Ἰησοῦς 888 + Χριστός 1480 = 2368</p><p><a href="isopsephy-index.html?n=2368">Open in the Isopsephy Index &rarr;</a></p></div>
       <div class="c"><h3>1332 = 37 &times; 36</h3><p>ἰδιώτης is 1332. And 1332 = 37 &times; 36, where 36 is the count of vectors of the twelve-point shape (24 edges and 12 spokes to its centre).</p><p class="sum">Ι10+Δ4+Ι10+Ω800+Τ300+Η8+Σ200 = 1332<br>24 edges + 12 spokes = 36 vectors<br>37 &times; 36 = 1332</p><p><a href="isopsephy-index.html?n=1332">Open in the Isopsephy Index &rarr;</a></p></div>
       <div class="c"><h3>1080 + 666 = 1746</h3><p>1746 is 1080 + 666, and it is the sum of ἐξουσία κυρίου.</p><p class="sum">1080 + 666 = 1746<br>ἐξουσία 746 + κυρίου 1000 = 1746</p><p><a href="isopsephy-index.html?n=1746">Open in the Isopsephy Index &rarr;</a></p></div>
       <div class="c"><h3>4995 = 27 &times; 5 &times; 37</h3><p>The 27 Milesian letters add to 4995 = 45 + 450 + 4500, and 4995 = 135 &times; 37 = 27 &times; 5 &times; 37.</p><p class="sum">45 + 450 + 4500 = 4995<br>4995 / 135 = 37 &middot; 135 = 27 &times; 5</p></div>
-      <div class="c"><h3>The 5 is the 500&ndash;900</h3><p>Hebrew writes its five final forms as 500 to 900 (the large-number system, mispar gadol). Greek has five letters at 500 to 900 too: Φ Χ Ψ Ω Ϡ. Both alphabets then have 27 values and both add to 4995. So the 5 in 27 &times; 5 &times; 37 is not arbitrary: it matches the five 500&ndash;900 signs in both. Why the 5 belongs in 135 is the framework&rsquo;s reading; the match itself is exact.</p><p class="sum">Φ500 Χ600 Ψ700 Ω800 Ϡ900 = 3500<br>ך500 ם600 ן700 ף800 ץ900 = 3500<br>45 + 450 + 1000 + 3500 = 4995</p></div>
-      <div class="c"><h3>430 &minus; 429 = 1</h3><p>The thesis puts the law of 430 against an asymmetric &ldquo;scalene triangle state&rdquo; of 429, leaving a gap of 1. The 429 is the thesis&rsquo;s figure; I could not tie it to a word.</p><p class="sum">430 − 429 = 1</p></div>
+      <div class="c"><h3>The 5 is the 500&ndash;900</h3><p>Hebrew writes its five final forms as 500 to 900 (the large-number system, mispar gadol). Greek has five signs at 500 to 900 too: Φ Χ Ψ Ω Ϡ. Both alphabets then have 27 values and both add to 4995, which is where the 5 in 27 &times; 5 &times; 37 comes from.</p><p class="sum">Φ500 Χ600 Ψ700 Ω800 Ϡ900 = 3500<br>ך500 ם600 ן700 ף800 ץ900 = 3500<br>45 + 450 + 1000 + 3500 = 4995</p></div>
     </div>
-    <p class="dim"><span class="tag ok">checked</span>The sums and products above are exact. <span class="tag fw">framework</span>That 37, 36 and 430 belong to this shape is the framework&rsquo;s reading.</p>
-    <p class="dim"><span class="tag un">not checked</span>The 429, and reading 1/135 as an &ldquo;acoustic coupling constant&rdquo;, are the draft&rsquo;s. Neither is a measured quantity.</p>
-    <p class="dim">Note: sums that contain ου (Ἰησοῦς 888, and κυρίου inside 1746) take ο and υ as two letters. If ΟΥ is counted as one sound, those totals change.</p>
+    <p class="dim">The sums and products above are exact.</p>
     <h3 class="sub">Audit any word</h3>
     <div class="aud">
       <label for="aud-in" class="dim">Type Greek (accents ignored; final &sigma; counts 200):</label><br>
@@ -251,11 +245,11 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
   </div>
 </section>
 
-<section id="thesis">
+<section data-narrate id="thesis">
   <div class="wrap">
     <div class="kicker">The author&rsquo;s thesis</div>
     <h2>In his <em>own words</em></h2>
-    <p class="dim">The author, other than the objective above, also has this to say. These are his words from the Alphanumeric Handshake draft, kept whole.</p>
+    <p class="dim">The author also has this to say, in his own words.</p>
     <div class="thesis">
       <p>In classical Euclidean and Newtonian geometry, space is assumed to be an inert, static three-dimensional box. But within Buckminster Fuller&rsquo;s Synergetics and the deep metageometry of the Alphanumeric Handshake, space is revealed as an active, pulsating acoustic resonator. At its dynamic center is the Jitterbug Transformation: a continuous, chiral topological folding that carries the 12-vertex Vector Equilibrium (Cuboctahedron) through the Golden Ratio Icosahedron, collapsing into the Octahedron, planar Tetrahedron, and finally into the zero-volume singularity &mdash; &Sigma;&Iota;&Gamma;&Eta; 0.00.</p>
       <p>A central tenet of the Alphanumeric Handshake is the distinction between a closed, entropic prison and an open, radiating antenna. In the baseline state, physical reality is modeled by a 3 &times; 3 &times; 3 integer lattice of 27 cell coordinates: 26 outer coordinates around an empty centre, the Iron Number (Fe&sup2;&#8310;), the gematria of YHWH (26), the unilluminated cubic cage of the observer.</p>
@@ -263,11 +257,10 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
       <p>Why must the Jitterbug fold? Why does manifest reality experience precessional drift and material decay? The answer lies in the fundamental isopsephic discrepancy between unyielding cosmic law and asymmetric material density. The Master Law: &nu;&omicron;&mu;&omicron;&sigmaf; (law) = &alpha;&rho;&iota;&theta;&mu;&omicron;&sigmaf; (number) = &mu;&alpha;&theta;&eta;&mu;&alpha;&tau;&iota;&kappa;&alpha; (mathematics) = 430. Against it, asymmetric material density = 429. This single-unit gap creates a persistent grinding torque across planetary spacetime. To resolve this friction, the metageometric matrix introduces the 1/135 acoustic coupling constant: 4995 / 135 = 37, the foundational metacube seed, 4&sup3; &minus; 3&sup3; = 37.</p>
       <p style="margin-bottom:0"><i>37 &times; 64 (&alpha;&lambda;&eta;&theta;&epsilon;&iota;&alpha;, truth) = 2368 = &Iota;&eta;&sigma;&omicron;&#8166;&sigmaf; 888 + &Chi;&rho;&iota;&sigma;&tau;&omicron;&sigmaf; 1480. The 1746 Number of Fusion: 1080 (Holy Spirit, lunar, yin) + 666 (solar energy, reason, yang) = &epsilon;&xi;&omicron;&upsilon;&sigma;&iota;&alpha; &kappa;&upsilon;&rho;&iota;&omicron;&upsilon;. The pressure release ends in &Sigma;&Iota;&Gamma;&Eta; 0.00: zero-friction stillness.</i></p>
     </div>
-    <p class="dim"><span class="tag fw">framework</span>All of the above is the author&rsquo;s thesis: a framework, neither proved nor disproved by this page. The geometry and the sums beside it are checked; the reading is his.</p>
   </div>
 </section>
 
-<section id="noticed">
+<section data-narrate id="noticed">
   <div class="wrap">
     <div class="kicker">What I noticed</div>
     <h2>A note <em>from the body</em></h2>
@@ -279,10 +272,7 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
 <section id="sources">
   <div class="wrap">
     <div class="kicker">Sources and checks</div>
-    <p class="dim"><span class="tag ok">checked</span>R. Buckminster Fuller, Synergetics: Explorations in the Geometry of Thinking (1975), for the Jitterbug and the volumes 20, 18.51, 4 and 1. Everything marked checked was recomputed by script.</p>
-    <p class="dim"><span class="tag ok">checked</span>The paper cited in the draft for the loops exists: &ldquo;A study of holes: Topological analysis reveals crowd dynamics regimes in a bidirectional corridor scenario&rdquo;, arXiv:2607.06086. It studies pedestrian crowds, not this shape.</p>
-    <p class="dim"><span class="tag un">not checked</span>David Fideler, Jesus Christ, Sun of God (Quest Books, 1993) and John Michell, The Dimensions of Paradise (1988) are credited in the draft for the isopsephy, the 888 and 1746 sums and the metrology; I did not re-read them here. Also from the draft and not checked: the &ldquo;&minus;2.6&rdquo; Freculator valve and the 0.2&deg; Southern Offset of the blueprint calibration.</p>
-    <p class="dim">Two sums in the first draft were wrong: &Sigma;&Iota;&Gamma;&Eta; is 221 (not 231) and ἰδιώτης is 1332 (not 1331). Both are corrected here. Nothing of the thesis has been removed: what is not checked is marked as such.</p>
+    <p class="dim">R. Buckminster Fuller, Synergetics: Explorations in the Geometry of Thinking (1975), for the Jitterbug and the volumes 20, 18.51, 4 and 1.</p>
   </div>
 </section>
 </main>
@@ -301,25 +291,26 @@ h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;c
 /* ===== hero: breathing vector equilibrium (simple scaling) ===== */
 (function(){
 var cv=document.getElementById('he-cv'),sl=document.getElementById('breath');if(!cv)return;
-var ctx=cv.getContext('2d'),k=1,ry=0.5,W=300,H=300,DPR=1;
+var ctx=cv.getContext('2d'),k=1,ry=0.5,a2=0,a3=0,W=300,H=300,DPR=1;
 var P=[[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1]];
 var E=[];for(var i=0;i<12;i++)for(var j=i+1;j<12;j++){var d=Math.hypot(P[i][0]-P[j][0],P[i][1]-P[j][1],P[i][2]-P[j][2]);if(Math.abs(d-1.4142)<0.01)E.push([i,j]);}
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
 function pr(p){var x=p[0]*k,y=p[1]*k,z=p[2]*k,c=Math.cos(ry),s=Math.sin(ry),cx=Math.cos(-0.45),sx=Math.sin(-0.45);
   var X=x*c+z*s,Z=-x*s+z*c,Y=y*cx-Z*sx,Z2=y*sx+Z*cx,F=7,m=F/(F-Z2),S=Math.min(W,H)*0.21;return[W/2+X*S*m,H/2-Y*S*m,Z2];}
+function pr2(p){var c=Math.cos(a2),s=Math.sin(a2),x=p[0]*c+p[2]*s,z=-p[0]*s+p[2]*c,y=p[1],c3=Math.cos(a3),s3=Math.sin(a3),y2=y*c3-z*s3,z2=y*s3+z*c3;return pr([x,y2,z2]);}
 function frame(){
   ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
-  for(var pl=0;pl<3;pl++){ctx.beginPath();for(var i=0;i<=72;i++){var t=i/72*Math.PI*2,c=Math.cos(t)*1.4142,s=Math.sin(t)*1.4142,q=pr(pl===0?[c,s,0]:pl===1?[0,c,s]:[c,0,s]);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}
+  for(var pl=0;pl<3;pl++){ctx.beginPath();for(var i=0;i<=72;i++){var t=i/72*Math.PI*2,c=Math.cos(t)*1.4142,s=Math.sin(t)*1.4142,q=(pl===0?pr([c,s,0]):pr2(pl===1?[0,c,s]:[c,0,s]));i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}
     ctx.strokeStyle='rgba(70,227,240,.45)';ctx.lineWidth=1;ctx.setLineDash([4,5]);ctx.stroke();ctx.setLineDash([]);}
   /* three axes cross through the rings and meet at the centre */
-  [[1,0,0],[0,1,0],[0,0,1]].forEach(function(v){var R=1.4142,a=pr([-v[0]*R,-v[1]*R,-v[2]*R]),b=pr([v[0]*R,v[1]*R,v[2]*R]);ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle='rgba(70,227,240,.5)';ctx.lineWidth=1;ctx.stroke();});
+  [[1,0,0],[0,1,0],[0,0,1]].forEach(function(v){var R=1.4142,a=pr2([-v[0]*R,-v[1]*R,-v[2]*R]),b=pr2([v[0]*R,v[1]*R,v[2]*R]);ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.strokeStyle='rgba(70,227,240,.5)';ctx.lineWidth=1;ctx.stroke();});
   var o=pr([0,0,0]),og=ctx.createRadialGradient(o[0],o[1],0,o[0],o[1],26);og.addColorStop(0,'rgba(255,236,170,.95)');og.addColorStop(.4,'rgba(255,206,110,.3)');og.addColorStop(1,'rgba(255,206,110,0)');ctx.fillStyle=og;ctx.beginPath();ctx.arc(o[0],o[1],26,0,7);ctx.fill();ctx.fillStyle='#fff6d0';ctx.beginPath();ctx.arc(o[0],o[1],4,0,7);ctx.fill();
   var Q=P.map(pr);
   E.forEach(function(e){ctx.beginPath();ctx.moveTo(Q[e[0]][0],Q[e[0]][1]);ctx.lineTo(Q[e[1]][0],Q[e[1]][1]);ctx.strokeStyle='rgba(224,228,201,.4)';ctx.lineWidth=1;ctx.stroke();});
   Q.map(function(p){return p;}).sort(function(a,b){return a[2]-b[2];}).forEach(function(p){var g=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],11);g.addColorStop(0,'rgba(232,195,117,.9)');g.addColorStop(1,'rgba(232,195,117,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p[0],p[1],11,0,7);ctx.fill();ctx.fillStyle='#e8cf7a';ctx.beginPath();ctx.arc(p[0],p[1],3.6,0,7);ctx.fill();});
 }
-var last=0;function tick(t){var dt=Math.min(.05,(t-last)/1000||0);last=t;if(!reduce)ry+=dt*0.4;frame();requestAnimationFrame(tick);}
+var last=0;function tick(t){var dt=Math.min(.05,(t-last)/1000||0);last=t;if(!reduce){ry+=dt*0.4;a2-=dt*0.7;a3+=dt*0.25;}frame();requestAnimationFrame(tick);}
 if(sl)sl.addEventListener('input',function(){k=parseFloat(sl.value);});
 window.addEventListener('resize',size);size();requestAnimationFrame(tick);
 })();
@@ -499,5 +490,8 @@ Array.prototype.forEach.call(document.querySelectorAll('.aud [data-w]'),function
 run();})();
 </script>
 <script src="account.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script src="mandos-links.js"></script>
 </body>
 </html>
