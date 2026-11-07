@@ -12,7 +12,7 @@
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
     var d = document.createElement('div'); d.id = 'mdLinks';
     d.innerHTML = '<a href="https://x.com/Mandos16" target="_blank" rel="noopener noreferrer">X &middot; @Mandos16</a>' +
-      '<a href="https://www.youtube.com/@philosophy_from_a_stone" target="_blank" rel="noopener noreferrer">YouTube &middot; @Mandos16</a>' +
+      '<a href="https://www.youtube.com/@philosophy_from_a_stone" target="_blank" rel="noopener noreferrer">YouTube &middot; @philosophy_from_a_stone</a>' +
       '<a href="magnesia-reserve.html">' + (EL ? 'Δωρεά' : 'Donate') + ' &middot; Magnesia Reserve</a>';
     document.body.appendChild(d);
   }
