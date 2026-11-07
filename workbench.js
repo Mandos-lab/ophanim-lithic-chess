@@ -9,19 +9,19 @@
   css.textContent =
     '#calc{padding:70px 16px 24px !important;min-height:0 !important}#read-old,#words{display:none !important}.dots{display:none !important}' +
     '#bench{display:grid;grid-template-columns:minmax(340px,47%) 1fr;gap:20px;max-width:1500px;margin:0 auto;align-items:start}' +
-    '#bench .bl{position:sticky;top:64px;height:calc(100vh - 84px);overflow:auto;padding-right:4px}' +
+    '#bench .bl{position:sticky;top:64px;max-height:min(calc(100vh - 84px),860px);overflow:auto;padding-right:4px}' +
     '#bench .bl .hyrow{justify-content:center;margin:0 0 12px}#bench .bl canvas{width:100%;height:min(54vh,620px);display:block}' +
     '#bench .hyr{display:block;position:static}#bench .hycap{position:static !important;text-align:center;font-size:15px;margin:4px 0 12px}' +
     '#bench .br{min-width:0}' +
     '#bench .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:56px;z-index:5;background:var(--bg);padding:6px 0}' +
     '#bench .tabs button{font:600 15px "Noto Sans",sans-serif;padding:9px 12px;border-radius:8px;border:1px solid rgba(232,195,117,.4);background:none;color:var(--ink);cursor:pointer}' +
     '#bench .tabs button.on{background:rgba(232,195,117,.2);color:var(--gold);border-color:var(--gold)}' +
-    '#bench .pane{display:none;height:calc(100vh - 170px);overflow:auto;padding-right:6px}#bench .pane.on{display:block}' +
+    '#bench .pane{display:none;max-height:min(calc(100vh - 170px),780px);overflow:auto;padding-right:6px}#bench .pane.on{display:block}' +
     '#bench .pane .reveal{opacity:1 !important;transform:none !important}' +
     '#bench .pane .kicker{display:none}#bench .pane h2{font-size:24px;margin:0 0 8px}' +
     '#bench .links a{display:inline-block;margin:0 18px 6px 0}#bench .pane .rt-box,#bench #mywords{margin:0 0 14px}' +
     '#bench .pane p,#bench .pane li,#bench .pane .dim{max-width:none;font-size:18px !important;line-height:1.55}#bench .pane h3{font-size:22px}' +
-    '@media(max-width:900px){#bench{display:block}#bench .bl{position:static;height:auto}#bench .pane{height:auto}#bench .tabs{top:48px}}';
+    '@media(max-width:900px){#bench{display:block}#bench .bl{position:static;max-height:none}#bench .pane{max-height:none}#bench .tabs{top:48px}}';
   document.head.appendChild(css);
 
   var bench = document.createElement('div'); bench.id = 'bench';

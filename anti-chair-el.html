@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="el">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Η Αντι-Καρέκλα και ο Αντηχητικός Μονόλιθος · Ophanim Codex</title>
+<meta name="description" content="Πότε ένα πράγμα γίνεται αντικείμενο, και τι συμβαίνει όταν το χρήμα προσπαθεί να γίνει πέτρα; Μια καρέκλα, το Bitcoin και η εμπέδηση.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Ophanim Codex · The Jitterbug. The site's own palette: deep blue-black, cyan, gold. */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72); --cv:#050b10;
+  --lime:#46e3f0; --lime-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#dcd6c4; --ink-2:#b4bec2; --ink-3:#7d8c92;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:15.5px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.06),transparent 60%)}
+a{color:var(--lime)}
+main,header,footer{position:relative;z-index:1}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s;white-space:nowrap}
+.bar a:hover{color:var(--lime);border-color:var(--lime)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+section{padding:96px 20px 40px}
+.wrap{max-width:1040px;margin:0 auto;width:100%}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--lime)}
+h1,h2{font-family:var(--title);font-weight:500;line-height:1.15;color:var(--ink)}
+h1{font-size:clamp(38px,6vw,72px);margin-bottom:18px}
+h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:16px}
+h1 em,h2 em{color:var(--gold);font-style:normal}
+p{max-width:76ch;margin-bottom:16px}
+.dim{color:var(--ink-2)}
+.lead{font-size:18px;color:#f0ead8}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(170,226,140);border-color:rgba(170,226,140,.55)}
+.tag.un{color:rgb(240,170,100);border-color:rgba(240,170,100,.55)}
+.tag.fw{color:rgb(196,176,240);border-color:rgba(196,176,240,.55)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:12px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
+.ctl button{font:13px var(--mono);letter-spacing:.05em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button:hover{border-color:var(--gold)}
+.ctl button.on{background:rgba(232,195,117,.14);border-color:var(--gold)}
+.ctl input[type=range]{flex:1;min-width:180px;accent-color:#46e3f0}
+.ctl input[type=checkbox]{accent-color:#46e3f0;width:16px;height:16px}
+/* hero: breathing vector equilibrium, pure CSS 3D */
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+@media(max-width:860px){.heroGrid{grid-template-columns:1fr}}
+.viewport{position:relative;height:340px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:radial-gradient(circle at center,#0a1a22 0%,var(--cv) 78%)}
+.viewport canvas{width:100%;height:100%;display:block}
+.hudmini{margin-top:10px}
+/* simulator */
+.cvw{border:1px solid var(--line);background:#010306;border-radius:8px;margin-top:10px;position:relative;max-width:680px}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
+.cvw canvas:active{cursor:grabbing}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.read div{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.read span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.read b{font:600 17px var(--mono);color:var(--lime)}
+.phase{font:14px var(--mono);color:var(--gold);margin-top:10px;min-height:22px}
+.phase.tone{color:var(--lime);margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--panel)}
+.tw{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:16px;color:var(--lime);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0;max-width:none;overflow-x:auto;line-height:1.9}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:14px 0}
+.ids .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}
+.ids h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ids p{font-size:14.5px;margin-bottom:8px}
+.ids .sum{font:15px var(--mono);color:var(--lime)}
+blockquote{border-left:3px solid var(--lime);padding:6px 0 6px 18px;margin:14px 0;font-family:var(--serif);font-size:24px;line-height:1.5;font-style:italic;max-width:62ch}
+blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-top:8px}
+.sharefoot{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+.wrap ul{max-width:76ch;margin:0 0 16px 22px}.wrap li{margin-bottom:9px}
+h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:26px 0 10px}
+.eq.big{font-size:15px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
+.two .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}.two .c b{display:block;font:600 22px var(--mono);color:var(--lime);margin:4px 0}
+.thesis{border:1px solid var(--line-g);background:var(--panel);border-radius:8px;padding:18px 22px;margin:14px 0}.thesis p{font-size:15px}
+.aud{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;margin:14px 0}.aud input{width:100%;max-width:480px;font:18px var(--mono);color:var(--ink);background:var(--cv);border:1px solid var(--line);border-radius:6px;padding:9px 12px}
+.aud .pre button{font:12px var(--mono);color:var(--gold);background:none;border:1px solid rgba(232,195,117,.4);border-radius:5px;padding:5px 9px;margin:4px 6px 0 0;cursor:pointer}
+.aud .res{font:600 26px var(--mono);color:var(--lime);margin-top:12px}.aud .brk{font:13px var(--mono);color:var(--ink-2);word-break:break-word}
+@media(max-width:600px){.bar{justify-content:space-between}.bar .t{display:none}}
+
+.read+p,.read+h3{margin-top:18px}
+.stat4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.stat4 div{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:10px 14px}
+.stat4 span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.stat4 b{display:block;font:600 24px var(--mono);color:var(--lime)}
+.stat4 i{display:block;font:12px var(--mono);color:var(--ink-3);font-style:normal}
+.pour{font-family:var(--serif);font-size:22px;line-height:1.55;font-style:italic;color:#f0ead8;border-left:3px solid var(--gold);padding:4px 0 4px 18px;margin:18px 0;max-width:62ch}
+.cell{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.cell svg{width:190px;height:150px;flex:none;border:1px solid var(--line);border-radius:8px;background:#010306}
+.cell .txt{flex:1;min-width:230px}
+.sig{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.sig button{font:600 15px var(--mono);color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:5px 8px;cursor:pointer;min-width:42px}
+.sig button:hover{color:var(--gold);border-color:var(--gold)}
+.sig button small{display:block;font:10px var(--mono);color:var(--lime)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.steps .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;position:relative}
+.steps .c .g{font:600 44px var(--title);color:var(--gold);line-height:1}
+.steps .c h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--lime);margin:8px 0}
+.steps .c .n{font:15px var(--mono);color:var(--gold)}
+.steps .c p{font-size:14.5px;margin:6px 0}
+.lnk{font-size:13.5px;color:var(--ink-3)}
+.lnk a{color:var(--lime)}
+.spike{height:150px}
+canvas.sp{width:100%;max-width:520px;height:150px;border:1px solid var(--line);border-radius:8px;background:#010306;display:block;margin-top:10px}
+.mini{width:100%;max-width:420px;aspect-ratio:1/1;display:block;border:1px solid var(--line);border-radius:8px;background:#010306}
+.heroGrid2{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+@media(max-width:860px){.heroGrid2{grid-template-columns:1fr}}
+.pre2{display:flex;flex-wrap:wrap;gap:8px}.postfig{margin:18px 0}.postfig img{display:block;width:100%;max-width:520px;height:auto;border:1px solid var(--line);border-radius:12px}.postfig figcaption{font:12px var(--mono);color:var(--ink-3);margin-top:8px}.postfig figcaption a{color:var(--lime)}.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
+</head>
+<body>
+<header class="bar">
+  <a href="ophanim-engine-codex-el.html">&#9666; Μηχανή</a>
+  <div class="t">Ophanim Codex &middot; <b>Η Αντι-Καρέκλα</b></div>
+  <a href="anti-chair.html">English</a>
+  <a href="library.html">Βιβλιοθήκη &#9656;</a>
+</header>
+<main>
+<section id="hero"><div class="wrap"><div class="heroGrid2"><div>
+<div class="kicker">Αρχείο Codex 5040.Z &middot; Αντικειμενικότητα και Bitcoin</div>
+<h1>Η Αντι-Καρέκλα και ο <em>Αντηχητικός Μονόλιθος</em></h1>
+<p class="lead">Πότε ένα πράγμα γίνεται αντικείμενο; Και τι συμβαίνει όταν προσπαθείς να κάνεις το χρήμα πέτρα;</p>
+<p class="dim">Ξεκίνα με μια παλιά πολυθρόνα σε ένα κομμάτι πρωινού ήλιου. Μετά κοίταξε το Bitcoin. Απαντούν στο ίδιο ερώτημα με αντίθετο τρόπο, και η διαφορά δείχνει ποιος κουβαλά το βάρος.</p>
+</div><div>
+<canvas id="wv-hero" class="mini" style="aspect-ratio:4/3" role="img" aria-label="Δύο κύματα μετά από το ίδιο χτύπημα. Το χρυσό σβήνει σαν καρέκλα. Το κυανό συνεχίζει να αντηχεί σαν πέτρα."></canvas>
+<p class="dim" style="font-size:13.5px;margin-top:8px">Τα δύο κύματα μετά από ένα χτύπημα: το ένα σβήνει γρήγορα, το άλλο συνεχίζει να αντηχεί</p>
+</div></div>
+<div class="stat4">
+<div><span>Ο κανόνας</span><b><i style="display:inline;font:inherit;color:inherit">Z = R + jX</i></b><i>αντίσταση συν αέργος αντίσταση</i></div>
+<div><span>Προσφορά Bitcoin</span><b>21,000,000</b><i>ένα ταβάνι που δεν λυγίζει</i></div>
+<div><span>Ο αριθμός του νόμου</span><b>430</b><i>νόμος, αριθμός, μαθηματικά</i></div>
+<div><span>Η νότα ηρεμίας</span><b>432 Hz</b><i>η πυθαγόρεια βάση</i></div>
+</div></div></section>
+<section data-narrate id="problem"><div class="wrap">
+<div class="kicker">01 &middot; Το πρόβλημα της αντικειμενικότητας</div><h2>Ένα μήνυμα που <em>ταίριαξε στη ραφή</em></h2>
+<p>Είχα περάσει μια μέρα και ένα ήσυχο πρωινό πάνω στη θέση μου για την πολυθρόνα στη ηλιόλουστη γωνιά του γραφείου μου, δοκιμάζοντάς την απέναντι στον <a href="https://el.wikipedia.org/w/index.php?search=Μάρτιν+Χάιντεγκερ" target="_blank" rel="noopener">Μάρτιν Χάιντεγκερ</a>, τον <a href="https://el.wikipedia.org/w/index.php?search=Ιμάνουελ+Καντ" target="_blank" rel="noopener">Ιμάνουελ Καντ</a>, τη θεωρία διεπαφής του Donald Hoffman και τη φυσική της εμπέδησης. Είχα καταλήξει σε ένα συμπέρασμα: η καρέκλα γίνεται αντικείμενο μόνο όταν κλειδώσει μια διεπαφή τριών αξόνων, και ησυχάζει το σώμα τόσο καλά που το θηλαστικό αντέχει να στοχαστεί.</p>
+<p>Άφησα τα εργαλεία και άνοιξα τη ροή μου. Στην κορυφή υπήρχε ένα μήνυμα από τον Matt:</p>
+<figure class="postfig"><img src="img/matt-post.jpg" alt="«Το καλύτερο επιχείρημα ενάντια στο Bitcoin δεν είναι ότι είναι φανταστικό. Είναι ότι η μεταβλητότητα, ο κίνδυνος φύλαξης και η αβεβαιότητα υιοθέτησης είναι πραγματικά. Φέρτε τουλάχιστον τις καλύτερες ενστάσεις σας στη μάχη.»" loading="lazy" width="1080" height="1273"><figcaption>Matt (<a href="https://x.com/MatthewRyanCase" target="_blank" rel="noopener">@MatthewRyanCase</a>) &middot; X &middot; 7 Nov 2026</figcaption></figure><p class="vh">«Το καλύτερο επιχείρημα ενάντια στο Bitcoin δεν είναι ότι είναι φανταστικό. Είναι ότι η μεταβλητότητα, ο κίνδυνος φύλαξης και η αβεβαιότητα υιοθέτησης είναι πραγματικά. Φέρτε τουλάχιστον τις καλύτερες ενστάσεις σας στη μάχη.»</p>
+<p>Ήταν σαν ψάρι στο παραγάδι: μασάς μια ραφή του κόσμου και ο κόσμος ρίχνει μπροστά σου τον σωστό καθρέφτη. Κρατώ Bitcoin από το 2016, εκτός από μια παρέκκλιση τριών μηνών σε άλλα tokens πριν γυρίσω στο θεμέλιο. Ο Matt έλεγε ότι τα αδύνατα σημεία του Bitcoin δεν είναι φανταστικά αλλά πραγματικά. Δίκιο. Όμως η δουλειά μου για την εμπέδηση μόλις μου είχε δείξει τι σημαίνει «πραγματικό» στη φυσική των πραγμάτων.</p>
+<p>Οι φιλόσοφοι ρωτούν από παλιά αν η αντικειμενικότητα κατοικεί σε κάποια κρυμμένη ουσία, το καντιανό <a href="https://el.wikipedia.org/w/index.php?search=Πράγμα+καθαυτό" target="_blank" rel="noopener">πράγμα καθαυτό</a>. Στην ακουστική και την ηλεκτρονική δεν υπάρχει κρυμμένο φάντασμα μέσα στο ξύλο. Κάτι μετράει ως αντικείμενο όταν η συνάντηση δύο συστημάτων καταλήγει σε ισορροπία χωρίς άσχημη παραμόρφωση. Η ισορροπία έχει δύο μέρη: το <b>R</b>, την αντίσταση, το πραγματικό αντίκρισμα της ύλης που μετατρέπει ένα χτύπημα σε λίγη θερμότητα· και το <b>X</b>, την αέργο αντίσταση, την υστέρηση ανάμεσα στο πόσο αργά αλλάζει η ύλη και πόσο γρήγορα ανανεώνεται ένα νευρικό σύστημα.</p>
+<div class="eq">Z = R + jX</div>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Σύνθετη+αντίσταση" target="_blank" rel="noopener">Σύνθετη αντίσταση</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ιμάνουελ+Καντ" target="_blank" rel="noopener">Ιμάνουελ Καντ</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Μάρτιν+Χάιντεγκερ" target="_blank" rel="noopener">Μάρτιν Χάιντεγκερ</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Donald+Hoffman" target="_blank" rel="noopener">Donald Hoffman</a></p>
+</div></section>
+<section data-narrate id="chair"><div class="wrap">
+<div class="kicker">02 &middot; Η καρέκλα στον ήλιο</div><h2>Τέσσερα τεστ που ένα αντικείμενο <em>πρέπει να περάσει</em></h2>
+<p>Πότε η ξύλινη πολυθρόνα στη σκονισμένη λωρίδα φωτός γίνεται αντικείμενο; Όχι τυχαία, και όχι με διάταγμα. Χρειάζονται τέσσερα πράγματα μαζί.</p>
+<div class="steps">
+<div class="c"><div class="g">I</div><h3>Ηρεμία</h3><p>Μια πολυθρόνα που πέφτει από αεροπλάνο, συνθλίβεται σε πρέσα ή φλέγεται δεν σου δίνει τίποτα να στοχαστείς. Καλεί μόνο το «πάλεψε ή φύγε». Το να βλέπεις το ξύλο ως σχήμα είναι πολυτέλεια που τη δίνει μόνο κάτι ήρεμο.</p></div>
+<div class="c"><div class="g">II</div><h3>Ισορροπία</h3><p>Οι αρμοί με εντορμία και πύρο δίνουν άφθονη πραγματική αντίσταση R. Η κυτταρίνη και η λιγνίνη δίνουν μακρά υστέρηση X: έναν αιώνα αργού ξύλου απέναντι σε ένα χιλιοστό του δευτερολέπτου νεύρου. Μαζί φτιάχνουν το Z = R + jX.</p></div>
+<div class="c"><div class="g">III</div><h3>Κανένα φάντασμα</h3><p>Δεν υπάρχει κρυμμένη «καρεκλότητα» στους αρμούς. Ό,τι ξεφεύγει από μια μέτρηση είναι μόνο η νερώδη υφή για τη γεωμετρία και το ξεθώριασμα του φωτός για τον καθισμένο. Το υπόλοιπο είναι το όριο του κόσκινου, όχι ουσία.</p></div>
+<div class="c"><div class="g">IV</div><h3>Η επιδότηση</h3><p>Η καρέκλα παίρνει το βάρος, αγκαλιάζει τη σπονδυλική στήλη και πληρώνει τον λογαριασμό της γλυκόζης. Οι μύες που με κρατούν όρθιο σταματούν να καίνε ενέργεια, και αυτό το εύρος που περισσεύει είναι ελεύθερο να μπει στη &nu;&#972;&eta;&sigma;&iota;&nbsp;(νόηση), την πράξη του σκέπτεσθαι, και να συναντήσει το &tau;&#8057; &Nu;&omicron;&omicron;&#973;&mu;&epsilon;&nu;&omicron;&nu;, το νοούμενο.</p></div>
+</div>
+<p>Αυτό το τέταρτο σημείο είναι αυτό που με νοιάζει περισσότερο: <b>η ύλη επιδοτεί το πνεύμα</b>. Ένα καλό αντικείμενο είναι αυτό που σηκώνει το φορτίο ώστε να μπορείς να κοιτάξεις αλλού και να σκεφτείς.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Νόηση" target="_blank" rel="noopener">Νόηση</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Απόσβεση" target="_blank" rel="noopener">Απόσβεση</a></p>
+</div></section>
+<section data-narrate id="monolith"><div class="wrap">
+<div class="kicker">03 &middot; Ο αντηχητικός μονόλιθος</div><h2>Το Bitcoin, <em>η αντι-καρέκλα</em></h2>
+<p>Άφησε τώρα την πολυθρόνα και κοίταξε τη μεγάλη κρυπτογραφική μηχανή που λέγεται <a href="https://el.wikipedia.org/w/index.php?search=Bitcoin" target="_blank" rel="noopener">Bitcoin</a>. Ο Matt είχε δίκιο ότι η μεταβλητότητα, ο κίνδυνος φύλαξης και η αργή υιοθέτηση είναι πραγματικά. Διαφωνώ στο γιατί. Δεν είναι μικρά σφάλματα που θα τα σιδερώσει ένα αμοιβαίο κεφάλαιο ή μια φιλική εφαρμογή. Είναι το σχήμα της αντικειμενικότητάς του: μια διεπαφή που προσπαθεί σκληρά να παριστάνει ότι είναι πέτρα.</p>
+<div class="steps">
+<div class="c"><div class="g">1</div><h3>Ένα ταβάνι που δεν λυγίζει</h3><p>Το ξύλο υποχωρεί λίγο κάτω από βάρος. Η προσφορά του Bitcoin δεν μπορεί: 21.000.000 και όχι περισσότερα. Αφού η προσφορά δεν λυγίζει, κάθε κλονισμός της οικονομίας, της ρευστότητας ή της διάθεσης πηγαίνει κατευθείαν στην τιμή.</p></div>
+<div class="c"><div class="g">2</div><h3>Κανόνες που σκληραίνουν</h3><p>Για να αλλάξει ένας βασικός κανόνας πρέπει σχεδόν όλοι να συμφωνήσουν, και όταν δεν συμφωνούν η αλυσίδα μπορεί να σπάσει, όπως έγινε στη διαμάχη για το μέγεθος του μπλοκ που μας έδωσε το <a href="https://el.wikipedia.org/w/index.php?search=Bitcoin+Cash" target="_blank" rel="noopener">Bitcoin Cash</a>. Το πρωτόκολλο κρατά το σχήμα του επειδή δεν λυγίζει.</p></div>
+<div class="c"><div class="g">3</div><h3>Βάρος φύλαξης</h3><p>Η φύλαξη των δικών σου νομισμάτων δεν αφήνει περιθώριο για ανθρώπινη αδυναμία. Χάσε ή γράψε λάθος μία φράση ανάκτησης 24 λέξεων (<a href="https://el.wikipedia.org/w/index.php?search=Seed+phrase" target="_blank" rel="noopener">seed phrase</a>) και η απώλεια είναι οριστική. Πολλοί καταλήγουν να δίνουν πίσω τα νομίσματά τους σε έναν θεματοφύλακα, δηλαδή ακριβώς σε αυτό που η πέτρα υποτίθεται ότι απέφευγε.</p></div>
+</div>
+<p>Εδώ χωρίζουν οι δρόμοι τους. Η καρέκλα <b>αποσβένει</b>: παίρνει το χτύπημα και το κάνει λίγη ζεστασιά (το R είναι μεγάλο). Το Bitcoin έχει σχεδόν μηδενική απόσβεση (το R κοντά στο μηδέν), οπότε συμπεριφέρεται σαν αντηχείο υψηλού Q, σαν καμπάνα. Κάθε ρίγος του κόσμου του χρήματος περνά μέσα του και αντηχεί, και η αντήχηση φτάνει ως διακυμάνσεις τιμής και ανθρώπινη ανησυχία. Δες το <a href="#lab">εργαστήριο</a> πιο κάτω.</p>
+<p>Υπάρχει και δεύτερη διαφορά, και αφορά την ανάπαυση. Μπορείς να αποκοιμηθείς σε μια καρέκλα και να ξεχάσεις ότι υπάρχει. Ένα νόμισμα που κρατάς μόνος σου ζητά ξύπνιο μάτι: αν σταματήσεις να προσέχεις, ένα κλειδί μπορεί να χαθεί, ή η αξία να μισέψει πριν σηκώσεις το κεφάλι.</p>
+<div class="pour">Η καρέκλα παίρνει το φορτίο ώστε ο άνθρωπος να ξεκουραστεί. Το Bitcoin ζητά από τον άνθρωπο να πάρει τον κλονισμό ώστε ο κώδικας να μείνει καθαρός.</div>
+<p class="dim" style="font-size:14px">Αυτό είναι ένα φιλοσοφικό δοκίμιο, όχι χρηματοοικονομική συμβουλή. Δεν λέει τίποτα για το αν πρέπει να αγοράσεις, να κρατήσεις ή να πουλήσεις.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Bitcoin" target="_blank" rel="noopener">Bitcoin</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Συντονισμός" target="_blank" rel="noopener">Συντονισμός</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Παράγοντας+ποιότητας" target="_blank" rel="noopener">Παράγοντας ποιότητας</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Νόμοι+(Πλάτων)" target="_blank" rel="noopener">Plato, Laws</a></p>
+</div></section>
+<section data-narrate id="numbers"><div class="wrap">
+<div class="kicker">04 &middot; Πυθαγόρειοι αριθμοί</div><h2>Οι αριθμοί <em>από κάτω</em></h2>
+<p>Γιατί τα άκαμπτα πράγματα αντηχούν τόσο δυνατά; Τα αρχαία ελληνικά γράμματα-αριθμοί δίνουν έναν τρόπο να το δεις. Κάθε κάρτα πιο κάτω είναι απλή πρόσθεση με τις 27 μιλησιακές αξίες γραμμάτων, ώστε να τις ελέγξεις με τον υπολογιστή πιο κάτω.</p>
+<div class="ids">
+<div class="c"><h3>&Nu;&Omicron;&Mu;&Omicron;&Sigma; = &Alpha;&Rho;&Iota;&Theta;&Mu;&Omicron;&Sigma; = 430</h3><p>Νόμος, αριθμός και μαθηματικά μοιράζονται ένα σύνολο. Αυτή η ισότητα είναι το σκληρό εξωτερικό κουτί ολόκληρης της εικόνας.</p><p class="sum">&Nu;50 + &Omicron;70 + &Mu;40 + &Omicron;70 + &Sigma;200 = 430<br>&Alpha;1 + &Rho;100 + &Iota;10 + &Theta;9 + &Mu;40 + &Omicron;70 + &Sigma;200 = 430<br>&Mu;&Alpha;&Theta;&Eta;&Mu;&Alpha;&Tau;&Iota;&Kappa;&Alpha; = 430</p></div>
+<div class="c"><h3>430 &minus; 429 = 1</h3><p>Το σκαληνόν, το τρίγωνο με τρεις άνισες πλευρές, κάνει 429. Η πραγματική ύλη δεν είναι ποτέ τέλεια ίση, και σε αυτή την εικόνα το ένα σημείο που της λείπει από τον Νόμο είναι η τριβή που φθείρει τα πάντα.</p><p class="sum">&sigma;&kappa;&alpha;&lambda;&eta;&nu;&#972;&nu; = &Sigma;200 + &Kappa;20 + &Alpha;1 + &Lambda;30 + &Eta;8 + &Nu;50 + &Omicron;70 + &Nu;50 = 429</p></div>
+<div class="c"><h3>4995 &divide; 135 = 37</h3><p>Όλες οι 27 αξίες γραμμάτων αθροίζουν στο 4995, και αν διαιρέσεις με 27 &times; 5 = 135 μένει ο πρώτος 37, ο ίδιος 37 που εμφανίζεται διαρκώς στον κύβο και στο Jitterbug.</p><p class="sum">4995 = 27 &times; 5 &times; 37<br>27 &times; 5 = 135</p></div>
+<div class="c"><h3>&Phi;&Rho;&Omicron;&Nu;&Eta;&Sigma;&Iota;&Sigma; = 1138</h3><p>Η φρόνηση, η πρακτική σοφία, είναι η δεξιότητα να ξεχωρίζεις μια ήρεμη ανάπαυση από μια τριβή που σε φθείρει. Είναι και η δεξιότητα να ξέρεις ποιο από τα δύο κρατάς.</p><p class="sum">&Phi;500 + &Rho;100 + &Omicron;70 + &Nu;50 + &Eta;8 + &Sigma;200 + &Iota;10 + &Sigma;200 = 1138</p></div>
+<div class="c"><h3>&Kappa;&Eta;&Phi;&Alpha;&Sigma; = 729 = 9&sup3;</h3><p>Ο Κηφάς, το όνομα που δίνει ο Ιησούς στον Πέτρο («βράχος»), κάνει 729, που είναι 9 &times; 9 &times; 9: ένας βράχος που είναι και κύβος. Εδώ συμβολίζει μια πέτρα υπό πίεση.</p><p class="sum">&Kappa;20 + &Eta;8 + &Phi;500 + &Alpha;1 + &Sigma;200 = 729</p></div>
+<div class="c"><h3>&Sigma;&Iota;&Gamma;&Eta; = 221</h3><p>Η σιωπή, η <i>σιγή</i>, είναι η ησυχία στο τέλος. Το 27ο γράμμα, το σαμπί (900), ανάγεται στο 9, και το 9 είναι η κυβική ρίζα του 729: εκεί που η πίεση αφήνεται, η αντήχηση σταματά. Αυτή την ησυχία τη λέω «Hush 0.00», σήμα χωρίς τριβή.</p><p class="sum">&Sigma;200 + &Iota;10 + &Gamma;3 + &Eta;8 = 221<br>&#993; 900 &rarr; 9 + 0 + 0 = 9</p></div>
+</div>
+<p>Μια μικρή περιέργεια: η &nu;&#972;&eta;&sigma;&iota;&sigmaf; (η πράξη του σκέπτεσθαι) κάνει 538, και το 538 αφήνει το ίδιο υπόλοιπο με το 430 όταν διαιρεθεί με το 36. Και τα δύο πέφτουν στη θέση 34 του τροχού των 36. Ο νόμος και η σκέψη κάθονται στο ίδιο σημείο.</p>
+<p class="lnk">Έλεγξέ το μόνος σου: <a href="jitterbug-el.html">Το 37 στο Jitterbug</a> &middot; <a href="isopsephy-index.html">Ευρετήριο ισοψηφίας</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Ισοψηφία" target="_blank" rel="noopener">Ισοψηφία</a></p>
+</div></section>
+<section data-narrate id="lab"><div class="wrap">
+<div class="kicker">05 &middot; Διαδραστικό</div><h2>Το <em>εργαστήριο</em> εμπέδησης</h2>
+<p class="dim">Διάλεξε ένα πράγμα, ή γύρνα εσύ τα καντράν, και μετά χτύπα το και δες το κύμα. Ένα μεγάλο R κάνει το χτύπημα να σβήνει γρήγορα. Ένα μικροσκοπικό R το αφήνει να αντηχεί.</p>
+<div class="cvw"><canvas id="wv-lab" role="img" aria-label="Ένα κύμα που σβήνει γρήγορα ή συνεχίζει να αντηχεί ανάλογα με την αντίσταση R" style="aspect-ratio:16/8"></canvas></div>
+<div class="ctl pre2"><button type="button" data-p="0.95,0.15,40" class="on">Πολυθρόνα στον ήλιο</button><button type="button" data-p="0.02,0.98,85">Μονόλιθος Bitcoin</button><button type="button" data-p="0.12,0.45,95">Φλεγόμενη καρέκλα</button><button type="button" data-p="1,0.01,0">Hush 0.00</button></div>
+<div class="ctl"><label>Αντίσταση R <input type="range" id="sR" min="0.01" max="1" step="0.01" value="0.95"> <b id="vR">0.95</b></label></div>
+<div class="ctl"><label>Αέργος X <input type="range" id="sX" min="0.01" max="1" step="0.01" value="0.15"> <b id="vX">0.15</b></label></div>
+<div class="ctl"><label>Εξωτερικό χτύπημα <input type="range" id="sD" min="0" max="100" step="1" value="40"> <b id="vD">40</b></label></div>
+<div class="ctl"><button type="button" id="knock">Χτύπα το</button><button type="button" id="snd">Ήχος (432 Hz)</button></div>
+<div class="read"><div><span>|Z|</span><b id="rZ">0.962</b></div><div><span>Γωνία φάσης</span><b id="rT">9.0&deg;</b></div><div><span>Q &asymp; X &divide; R</span><b id="rQ">0.16</b></div><div><span>Φορτίο στον άνθρωπο</span><b id="rL">48</b></div></div>
+<div class="phase" id="rDx" aria-live="polite"></div>
+<p class="dim" style="font-size:13.5px">Η εικόνα είναι διδακτικό μοντέλο, όχι μέτρηση κάποιας πραγματικής καρέκλας ή κέρματος. Το φορτίο είναι το χτύπημα &divide; R, αυξημένο όταν το X είναι μεγάλο. Κάτω από 60 το αντικείμενο σηκώνει το βάρος· πάνω από 180 το σηκώνει ο άνθρωπος. Ο ήχος φτιάχνεται στον browser σου όταν πατήσεις το κουμπί.</p>
+<p class="lnk">Διάβασε περισσότερα: <a href="https://el.wikipedia.org/w/index.php?search=Σύνθετη+αντίσταση" target="_blank" rel="noopener">Σύνθετη αντίσταση</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Παράγοντας+ποιότητας" target="_blank" rel="noopener">Παράγοντας ποιότητας</a> &middot; <a href="https://el.wikipedia.org/w/index.php?search=Απόσβεση" target="_blank" rel="noopener">Απόσβεση</a></p>
+</div></section>
+<section data-narrate id="calc"><div class="wrap">
+<div class="kicker">06 &middot; Η δική σου σειρά</div><h2>Ο <em>επιθεωρητής</em> αθροισμάτων</h2>
+<p class="dim">Γράψε ή επικόλλησε οποιαδήποτε ελληνική λέξη. Οι τόνοι δεν μετράνε και το τελικό ς είναι 200. Θα δεις το σύνολο, την ψηφιακή του ρίζα, τη θέση του στον τροχό των 36 και αν το 37 το διαιρεί.</p>
+<div class="aud"><label for="aud-in" class="dim">Ελληνική λέξη ή φράση</label><br>
+<input id="aud-in" type="text" value="ΝΟΜΟΣ" autocomplete="off" spellcheck="false" lang="el">
+<div class="pre"><button type="button" data-w="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button type="button" data-w="ΑΡΙΘΜΟΣ">ΑΡΙΘΜΟΣ</button><button type="button" data-w="ΣΚΑΛΗΝΟΝ">ΣΚΑΛΗΝΟΝ</button><button type="button" data-w="ΦΡΟΝΗΣΙΣ">ΦΡΟΝΗΣΙΣ</button><button type="button" data-w="ΚΗΦΑΣ">ΚΗΦΑΣ</button><button type="button" data-w="ΣΙΓΗ">ΣΙΓΗ</button><button type="button" data-w="ΝΟΗΣΙΣ">ΝΟΗΣΙΣ</button></div>
+<div class="res" id="aud-sum" aria-live="polite">430</div>
+<div class="brk" id="aud-brk"></div><div class="brk" id="aud-37"></div><div class="brk" id="aud-dr"></div></div>
+<h3 class="sub">Τα 27 σημεία. Πάτησε για να προσθέσεις.</h3>
+<div class="sig" id="sig"></div>
+</div></section>
+<section data-narrate id="matrix"><div class="wrap">
+<div class="kicker">07 &middot; Δίπλα δίπλα</div><h2>Ξύλο και <em>πέτρα</em></h2>
+<div class="tw"><table><thead><tr><th>Μέτρο</th><th>Η πολυθρόνα στον ήλιο</th><th>Ο μονόλιθος Bitcoin</th></tr></thead><tbody><tr><td>Εμπέδηση</td><td>Υψηλή αντίσταση R, αργή αιώνια φθορά X</td><td>R κοντά στο μηδέν, γρήγορη αναντιστοιχία ρολογιού X</td></tr><tr><td>Όταν τη ταρακουνήσεις</td><td>Αποσβένει το χτύπημα· οι αρμοί παίρνουν τον κλονισμό</td><td>Αντηχεί· κάθε κλονισμός γίνεται διακύμανση τιμής</td></tr><tr><td>Ποιος επιδοτεί ποιον</td><td>Η ύλη επιδοτεί τον άνθρωπο: το ξύλο σηκώνει το βάρος ώστε το θηλαστικό να σκέφτεται</td><td>Ο άνθρωπος επιδοτεί τον κώδικα: το πρόσωπο απορροφά τον κλονισμό για ένα άκαμπτο καθολικό</td></tr><tr><td>Φύλαξη</td><td>Παθητική παρουσία, καμία νοητική επιβάρυνση</td><td>Εύθραυστη οριστικότητα· ένα φορτίο 24 λέξεων σπρώχνει πολλούς πίσω στις τράπεζες</td></tr><tr><td>Τρόπος του νου</td><td>Ηρεμία: μπορείς να ξεχάσεις ότι υπάρχει</td><td>Άγρυπνη φρουρά: κοίτα αλλού και ρισκάρεις απώλεια</td></tr><tr><td>Τόνος αγκύρωσης</td><td>432 Hz ηρεμία, μετά η Hush</td><td>729 Hz (9&sup3;) πίεση, με το 666 ως ηλιακή φωτιά</td></tr></tbody></table></div>
+</div></section>
+<section data-narrate id="verdict"><div class="wrap">
+<div class="kicker">08 &middot; Η ετυμηγορία</div><h2>Ποιος κουβαλά <em>την πίεση</em></h2>
+<div class="pour">Η καρέκλα στην ηλιόλουστη γωνιά είναι αντικείμενο γιατί ισορροπεί το βάρος σου, αποσβένει τον θόρυβο του κόσμου και σε αφήνει να ξεχάσεις ότι είναι εκεί.</div>
+<div class="pour">Το Bitcoin είναι η αντι-καρέκλα: μια μηχανή τόσο φοβισμένη μη λυγίσει μπροστά στην ανθρώπινη αδυναμία που σου ζητά να στέκεσαι προσοχή για πάντα, κρατώντας ψηλά την ίδια την πέτρα που υποτίθεται ότι θα σε κρατούσε.</div>
+<div class="pour">Τις δομές μας να τις κρίνουμε όχι από την καθαρότητα του κώδικά τους ή την αυστηρότητα των ορίων τους, αλλά από το ποιος, ή τι, καλείται να σηκώσει την πίεση.</div>
+<p>Το χρήμα που προσπαθεί να γίνει πέτρα πρέπει να ρωτήσει: πέτρα για ποιον; Ένα καλό αντικείμενο δίνει ανάπαυση σε αυτόν που ζει μαζί του. Είναι ένα τεστ που αξίζει να το πάρεις μαζί σου σε κάθε εργαλείο που σου δίνουν, από μια καρέκλα μέχρι ένα νόμισμα και έναν κανόνα.</p>
+</div></section>
+<section id="sources"><div class="wrap">
+<div class="kicker">Πηγές και περαιτέρω ανάγνωση</div>
+<p class="dim">Γραμμένο από τον Mandos, επίσης γνωστό ως ΦΥ ΨΗ (@Mandos16), από το αρχείο Codex 5040.Z. Στοχαστές που αναφέρονται: ο <a href="https://el.wikipedia.org/w/index.php?search=Ιμάνουελ+Καντ" target="_blank" rel="noopener">Ιμάνουελ Καντ</a>, ο <a href="https://el.wikipedia.org/w/index.php?search=Μάρτιν+Χάιντεγκερ" target="_blank" rel="noopener">Μάρτιν Χάιντεγκερ</a>, ο Donald Hoffman (θεωρία διεπαφής της αντίληψης) και ο <a href="https://el.wikipedia.org/w/index.php?search=Πλάτων" target="_blank" rel="noopener">Πλάτων</a>, <i>Νόμοι</i>, βιβλίο Ε (742a), για το να μένουν ο χρυσός και το ασήμι έξω από ιδιωτικούς θησαυρούς. Φυσική: σύνθετη αντίσταση Z = R + jX και παράγοντας ποιότητας Q. Αξίες γραμμάτων: τα 27 μιλησιακά σημεία (4995 συνολικά). Το μήνυμα του Matt παρατίθεται με αναφορά από δημόσιο X.</p>
+<p class="dim" style="font-size:14px">Ένα φιλοσοφικό δοκίμιο, όχι χρηματοοικονομική συμβουλή. Τίποτα εδώ δεν σου λέει τι να κάνεις με τα χρήματά σου.</p>
+</div></section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Μοιραστείτε τη σελίδα</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="shbtns" style="margin-top:22px"><a href="ophanim-engine-codex-el.html">Μηχανή</a><a href="library.html">Βιβλιοθήκη</a><a href="isopsephy-index.html">Ευρετήριο ισοψηφίας</a></div>
+    <p class="dim" style="font-size:13px;margin:26px auto 0;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:center">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin:14px auto 0;text-align:center"><a href="privacy.html">Απόρρητο</a></p>
+  </div>
+</footer>
+<script>
+var EL = /^el/i.test(document.documentElement.lang||''); function T(en,el){return EL?el:en;}
+
+/* ===== waves ===== */
+function mkWave(cv,get,loop){
+ var ctx=cv.getContext('2d'),W=300,H=170,DPR=1,t0=performance.now(),req=0,tk=0,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(120,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function env(R,tt,D){var g=0.15+4*R;return (D/100)*Math.exp(-g*tt);}
+ function trace(R,D,tt0,col,yc,amp){ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();var span=6;
+  for(var i=0;i<=300;i++){var u=i/300,tt=u*span;var y=0;if(tt>=tt0){var d=tt-tt0;y=env(R,d,D)*Math.cos(2*Math.PI*3*d);}
+   var X=u*W,Y=yc-y*amp;if(i===0)ctx.moveTo(X,Y);else ctx.lineTo(X,Y);}ctx.stroke();}
+ function draw(now){var p=get();var tt0=0.3;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(70,227,240,.15)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+  if(p.two){trace(.95,p.D,tt0,'#e8c375',H*.28,H*.22);trace(.02,p.D,tt0,'#46e3f0',H*.74,H*.22);
+   ctx.fillStyle='rgba(180,190,200,.8)';ctx.font='11px monospace';ctx.fillText(p.l1,6,12);ctx.fillText(p.l2,6,H*.5+12);}
+  else{trace(p.R,p.D,tt0,p.R>0.5?'#e8c375':'#46e3f0',H/2,H*.38);}
+  var m=(now-t0)/1000%7;ctx.strokeStyle='rgba(232,195,117,.6)';var X=Math.min(1,m/6)*W;if(loop||tk){ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,H);ctx.stroke();}}
+ // animate by redrawing a sweeping "now" line
+ function frame(now){draw(now);req=requestAnimationFrame(frame);}
+ window.addEventListener('resize',size);size();
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!req)req=requestAnimationFrame(frame);}else{cancelAnimationFrame(req);req=0;}});}):null;
+ if(io)io.observe(cv);else req=requestAnimationFrame(frame);
+ return{knock:function(){t0=performance.now();tk=1;}};
+}
+(function(){
+ var h=document.getElementById('wv-hero');if(h)mkWave(h,function(){return{two:true,D:80,l1:T('chair','καρέκλα'),l2:T('bitcoin','bitcoin')};},true);
+ var lab=document.getElementById('wv-lab');if(!lab)return;
+ var sR=document.getElementById('sR'),sX=document.getElementById('sX'),sD=document.getElementById('sD');
+ var cur={R:.95,X:.15,D:40};
+ var w=mkWave(lab,function(){return{two:false,R:cur.R,D:Math.max(15,cur.D)};},true);
+ var audio=null,on=false;
+ function note(){var Rr=cur.R;if(!on)return;try{
+  if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();var a=audio,o=a.createOscillator(),g=a.createGain(),now=a.currentTime;
+  o.type='sine';o.frequency.value=432;var peak=Math.min(.2,.03+cur.D/100*.12),dur=Math.min(8,4.6/(0.15+4*Rr));
+  g.gain.setValueAtTime(0.0001,now);g.gain.exponentialRampToValueAtTime(peak,now+.02);g.gain.exponentialRampToValueAtTime(0.0001,now+Math.max(.25,dur));
+  o.connect(g);g.connect(a.destination);o.start(now);o.stop(now+Math.max(.3,dur)+.05);}catch(e){}}
+ function calc(){cur.R=+sR.value;cur.X=+sX.value;cur.D=+sD.value;
+  var Z=Math.hypot(cur.R,cur.X),th=Math.atan2(cur.X,cur.R),Q=cur.X/cur.R,L=cur.D/(cur.R+.01)*(1+Math.sin(th));
+  document.getElementById('vR').textContent=cur.R.toFixed(2);document.getElementById('vX').textContent=cur.X.toFixed(2);document.getElementById('vD').textContent=cur.D.toFixed(0);
+  document.getElementById('rZ').textContent=Z.toFixed(3);document.getElementById('rT').textContent=(th*180/Math.PI).toFixed(1)+'°';document.getElementById('rQ').textContent=Q<10?Q.toFixed(2):Q.toFixed(0);document.getElementById('rL').textContent=L<1000?L.toFixed(0):L.toFixed(0);
+  var d=document.getElementById('rDx');
+  if(L<60)d.textContent=T('Rest. The thing takes the knock and turns it into warmth. The human is free to think.','Ανάπαυση. Το αντικείμενο παίρνει το χτύπημα και το κάνει ζεστασιά. Ο άνθρωπος είναι ελεύθερος να σκεφτεί.');
+  else if(L<180)d.textContent=T('Borderline. Some of the shock reaches the human, who has to keep adjusting.','Στα όρια. Μέρος του κλονισμού φτάνει στον άνθρωπο, που πρέπει να προσαρμόζεται διαρκώς.');
+  else d.textContent=T('Vigil. Almost no damping: the human absorbs the shock so the structure can stay unchanged.','Φρουρά. Σχεδόν καμία απόσβεση: ο άνθρωπος απορροφά τον κλονισμό ώστε η δομή να μένει αναλλοίωτη.');}
+ [sR,sX,sD].forEach(function(e){e.addEventListener('input',function(){calc();});});calc();
+ Array.prototype.forEach.call(document.querySelectorAll('[data-p]'),function(b){b.addEventListener('click',function(){var p=b.getAttribute('data-p').split(',');sR.value=p[0];sX.value=p[1];sD.value=p[2];calc();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-p]'),function(o){o.classList.toggle('on',o===b);});w.knock();note();});});
+ document.getElementById('knock').addEventListener('click',function(){w.knock();note();});
+ document.getElementById('snd').addEventListener('click',function(e){on=!on;e.target.classList.toggle('on',on);if(on)note();});
+})();
+/* ===== word-sum calculator ===== */
+(function(){
+ var inp=document.getElementById('aud-in');if(!inp)return;
+ var V={'Α':1,'Β':2,'Γ':3,'Δ':4,'Ε':5,'Ϛ':6,'Ζ':7,'Η':8,'Θ':9,'Ι':10,'Κ':20,'Λ':30,'Μ':40,'Ν':50,'Ξ':60,'Ο':70,'Π':80,'Ϙ':90,'Ρ':100,'Σ':200,'Τ':300,'Υ':400,'Φ':500,'Χ':600,'Ψ':700,'Ω':800,'Ϡ':900};
+ function norm(c){c=c.toUpperCase();if(c==='ς'||c==='Ϲ'||c==='ϲ')c='Σ';if(c==='Ϝ'||c==='ϝ'||c==='ϛ')c='Ϛ';if(c==='Ϟ'||c==='ϟ'||c==='ϙ')c='Ϙ';if(c==='Ͳ'||c==='ͳ'||c==='ϡ')c='Ϡ';return c;}
+ function dr(n){while(n>9){n=String(n).split('').reduce(function(a,b){return a+ +b;},0);}return n;}
+ function run(){var t=inp.value.normalize('NFD').replace(/[̀-ͯ]/g,'').normalize('NFC'),sum=0,parts=[];
+  Array.prototype.forEach.call(t,function(ch){var c=norm(ch);if(V[c]){sum+=V[c];parts.push(c+V[c]);}});
+  document.getElementById('aud-sum').textContent=sum;document.getElementById('aud-brk').textContent=parts.join(' + ');
+  document.getElementById('aud-37').textContent=sum?(sum%37===0?'= 37 × '+(sum/37):'÷ 37 = '+(sum/37).toFixed(3)):'';
+  document.getElementById('aud-dr').textContent=sum?T('digital root ','ψηφιακή ρίζα ')+dr(sum)+' · '+T('slot ','θέση ')+(sum%36===0?36:sum%36)+T(' of 36',' από 36'):'';}
+ inp.addEventListener('input',run);
+ Array.prototype.forEach.call(document.querySelectorAll('.aud [data-w]'),function(b){b.addEventListener('click',function(){inp.value=b.getAttribute('data-w');run();});});
+ var box=document.getElementById('sig');
+ Object.keys(V).forEach(function(k){var b=document.createElement('button');b.type='button';b.innerHTML=k+'<small>'+V[k]+'</small>';b.setAttribute('aria-label',k+' '+V[k]);b.addEventListener('click',function(){inp.value+=k;run();inp.focus();});box.appendChild(b);});
+ run();})();
+
+/* ===== share buttons ===== */
+(function(){var box=document.getElementById('shbtns');if(!box)return;var u=function(){return location.href.split('#')[0]},t=document.title;
+var L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+var items=[['X',function(){return 'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)}],['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())}],['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(t+' '+u())}],[L.mail,function(){return 'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())}]];
+items.forEach(function(it){var a=document.createElement('a');a.textContent=it[0];a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',function(){a.href=it[1]();});box.appendChild(a);});
+var b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',function(){var s=function(){b.textContent=L.done;setTimeout(function(){b.textContent=L.copy},1800)};try{navigator.clipboard.writeText(u()).then(s,function(){prompt(L.copy,u())})}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+
+
+</script>
+<script src="account.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script src="chapternav.js"></script>
+<script src="mandos-links.js"></script>
+</body>
+</html>

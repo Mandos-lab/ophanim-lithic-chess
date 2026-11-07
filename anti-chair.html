@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Anti-Chair and the Resonant Monolith · Ophanim Codex</title>
+<meta name="description" content="When does a thing become an object, and what happens when money tries to become stone? A chair, Bitcoin and impedance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Ophanim Codex · The Jitterbug. The site's own palette: deep blue-black, cyan, gold. */
+:root{
+  --bg:#04080c; --bg2:#081118; --panel:rgba(10,24,32,.72); --cv:#050b10;
+  --lime:#46e3f0; --lime-d:#1d8a96; --gold:#e8c375; --gold-d:#9c7a36;
+  --ink:#dcd6c4; --ink-2:#b4bec2; --ink-3:#7d8c92;
+  --line:rgba(70,227,240,.22); --line-g:rgba(232,195,117,.35);
+  --serif:"Cormorant Garamond",Georgia,serif; --title:"Cinzel",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:15.5px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   linear-gradient(rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   linear-gradient(90deg,rgba(70,227,240,.03) 1px,transparent 1px) 0 0/48px 48px,
+   radial-gradient(ellipse at 50% -10%,rgba(70,227,240,.10),transparent 60%),
+   radial-gradient(ellipse at 50% 120%,rgba(232,195,117,.06),transparent 60%)}
+a{color:var(--lime)}
+main,header,footer{position:relative;z-index:1}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:linear-gradient(var(--bg) 40%,rgba(4,8,12,0));font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.bar a{color:var(--ink-2);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:2px;transition:.2s;white-space:nowrap}
+.bar a:hover{color:var(--lime);border-color:var(--lime)}
+.bar .t{color:var(--ink-3);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t b{color:var(--gold);font-weight:600}
+section{padding:96px 20px 40px}
+.wrap{max-width:1040px;margin:0 auto;width:100%}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1px;background:var(--lime)}
+h1,h2{font-family:var(--title);font-weight:500;line-height:1.15;color:var(--ink)}
+h1{font-size:clamp(38px,6vw,72px);margin-bottom:18px}
+h2{font-size:clamp(26px,3.6vw,42px);margin-bottom:16px}
+h1 em,h2 em{color:var(--gold);font-style:normal}
+p{max-width:76ch;margin-bottom:16px}
+.dim{color:var(--ink-2)}
+.lead{font-size:18px;color:#f0ead8}
+.tag{display:inline-block;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:99px;margin-right:6px;vertical-align:2px}
+.tag.ok{color:rgb(170,226,140);border-color:rgba(170,226,140,.55)}
+.tag.un{color:rgb(240,170,100);border-color:rgba(240,170,100,.55)}
+.tag.fw{color:rgb(196,176,240);border-color:rgba(196,176,240,.55)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:12px 0}
+.ctl label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--ink-2);cursor:pointer}
+.ctl button{font:13px var(--mono);letter-spacing:.05em;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:7px 12px;cursor:pointer}
+.ctl button:hover{border-color:var(--gold)}
+.ctl button.on{background:rgba(232,195,117,.14);border-color:var(--gold)}
+.ctl input[type=range]{flex:1;min-width:180px;accent-color:#46e3f0}
+.ctl input[type=checkbox]{accent-color:#46e3f0;width:16px;height:16px}
+/* hero: breathing vector equilibrium, pure CSS 3D */
+.heroGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+@media(max-width:860px){.heroGrid{grid-template-columns:1fr}}
+.viewport{position:relative;height:340px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:radial-gradient(circle at center,#0a1a22 0%,var(--cv) 78%)}
+.viewport canvas{width:100%;height:100%;display:block}
+.hudmini{margin-top:10px}
+/* simulator */
+.cvw{border:1px solid var(--line);background:#010306;border-radius:8px;margin-top:10px;position:relative;max-width:680px}
+.cvw canvas{width:100%;display:block;touch-action:none;cursor:grab;aspect-ratio:16/10}
+.cvw canvas:active{cursor:grabbing}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.read div{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.read span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.read b{font:600 17px var(--mono);color:var(--lime)}
+.phase{font:14px var(--mono);color:var(--gold);margin-top:10px;min-height:22px}
+.phase.tone{color:var(--lime);margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--panel)}
+.tw{overflow-x:auto}
+.eq{font-family:var(--mono);font-size:16px;color:var(--lime);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0;max-width:none;overflow-x:auto;line-height:1.9}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:14px 0}
+.ids .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}
+.ids h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ids p{font-size:14.5px;margin-bottom:8px}
+.ids .sum{font:15px var(--mono);color:var(--lime)}
+blockquote{border-left:3px solid var(--lime);padding:6px 0 6px 18px;margin:14px 0;font-family:var(--serif);font-size:24px;line-height:1.5;font-style:italic;max-width:62ch}
+blockquote cite{display:block;font:12px var(--mono);letter-spacing:.12em;color:var(--ink-3);font-style:normal;margin-top:8px}
+.sharefoot{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+.shbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.shbtns a,.shbtns button{font:12px var(--mono);letter-spacing:.08em;color:var(--ink-2);text-decoration:none;border:1px solid var(--line);background:none;border-radius:4px;padding:7px 12px;cursor:pointer}
+.shbtns a:hover,.shbtns button:hover{color:var(--lime);border-color:var(--lime)}
+.wrap ul{max-width:76ch;margin:0 0 16px 22px}.wrap li{margin-bottom:9px}
+h3.sub{font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:26px 0 10px}
+.eq.big{font-size:15px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
+.two .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:14px}.two .c b{display:block;font:600 22px var(--mono);color:var(--lime);margin:4px 0}
+.thesis{border:1px solid var(--line-g);background:var(--panel);border-radius:8px;padding:18px 22px;margin:14px 0}.thesis p{font-size:15px}
+.aud{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;margin:14px 0}.aud input{width:100%;max-width:480px;font:18px var(--mono);color:var(--ink);background:var(--cv);border:1px solid var(--line);border-radius:6px;padding:9px 12px}
+.aud .pre button{font:12px var(--mono);color:var(--gold);background:none;border:1px solid rgba(232,195,117,.4);border-radius:5px;padding:5px 9px;margin:4px 6px 0 0;cursor:pointer}
+.aud .res{font:600 26px var(--mono);color:var(--lime);margin-top:12px}.aud .brk{font:13px var(--mono);color:var(--ink-2);word-break:break-word}
+@media(max-width:600px){.bar{justify-content:space-between}.bar .t{display:none}}
+
+.read+p,.read+h3{margin-top:18px}
+.stat4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0}
+.stat4 div{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:10px 14px}
+.stat4 span{display:block;font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.stat4 b{display:block;font:600 24px var(--mono);color:var(--lime)}
+.stat4 i{display:block;font:12px var(--mono);color:var(--ink-3);font-style:normal}
+.pour{font-family:var(--serif);font-size:22px;line-height:1.55;font-style:italic;color:#f0ead8;border-left:3px solid var(--gold);padding:4px 0 4px 18px;margin:18px 0;max-width:62ch}
+.cell{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.cell svg{width:190px;height:150px;flex:none;border:1px solid var(--line);border-radius:8px;background:#010306}
+.cell .txt{flex:1;min-width:230px}
+.sig{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.sig button{font:600 15px var(--mono);color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:5px 8px;cursor:pointer;min-width:42px}
+.sig button:hover{color:var(--gold);border-color:var(--gold)}
+.sig button small{display:block;font:10px var(--mono);color:var(--lime)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+.steps .c{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px;position:relative}
+.steps .c .g{font:600 44px var(--title);color:var(--gold);line-height:1}
+.steps .c h3{font:600 14px var(--mono);letter-spacing:.1em;color:var(--lime);margin:8px 0}
+.steps .c .n{font:15px var(--mono);color:var(--gold)}
+.steps .c p{font-size:14.5px;margin:6px 0}
+.lnk{font-size:13.5px;color:var(--ink-3)}
+.lnk a{color:var(--lime)}
+.spike{height:150px}
+canvas.sp{width:100%;max-width:520px;height:150px;border:1px solid var(--line);border-radius:8px;background:#010306;display:block;margin-top:10px}
+.mini{width:100%;max-width:420px;aspect-ratio:1/1;display:block;border:1px solid var(--line);border-radius:8px;background:#010306}
+.heroGrid2{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+@media(max-width:860px){.heroGrid2{grid-template-columns:1fr}}
+.pre2{display:flex;flex-wrap:wrap;gap:8px}.postfig{margin:18px 0}.postfig img{display:block;width:100%;max-width:520px;height:auto;border:1px solid var(--line);border-radius:12px}.postfig figcaption{font:12px var(--mono);color:var(--ink-3);margin-top:8px}.postfig figcaption a{color:var(--lime)}.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
+</head>
+<body>
+<header class="bar">
+  <a href="ophanim-engine-codex.html">&#9666; Engine</a>
+  <div class="t">Ophanim Codex &middot; <b>The Anti-Chair</b></div>
+  <a href="anti-chair-el.html">Ελληνικά</a>
+  <a href="library.html">Library &#9656;</a>
+</header>
+<main>
+<section id="hero"><div class="wrap"><div class="heroGrid2"><div>
+<div class="kicker">Codex record 5040.Z &middot; Objectivity and Bitcoin</div>
+<h1>The Anti-Chair and the <em>Resonant Monolith</em></h1>
+<p class="lead">When does a thing become an object? And what happens when you try to turn money into stone?</p>
+<p class="dim">Start with an old armchair in a patch of morning sun. Then look at Bitcoin. They answer the same question in opposite ways, and the difference tells you who is carrying the weight.</p>
+</div><div>
+<canvas id="wv-hero" class="mini" style="aspect-ratio:4/3" role="img" aria-label="Two waves after the same knock. The gold one dies away like a chair. The cyan one keeps ringing like a stone."></canvas>
+<p class="dim" style="font-size:13.5px;margin-top:8px">The two waves after one knock: one quickly fades, one keeps ringing</p>
+</div></div>
+<div class="stat4">
+<div><span>The rule</span><b><i style="display:inline;font:inherit;color:inherit">Z = R + jX</i></b><i>resistance plus reactance</i></div>
+<div><span>Bitcoin supply</span><b>21,000,000</b><i>a ceiling that cannot bend</i></div>
+<div><span>The law number</span><b>430</b><i>law, number, mathematics</i></div>
+<div><span>The rest note</span><b>432 Hz</b><i>the Pythagorean baseline</i></div>
+</div></div></section>
+<section data-narrate id="problem"><div class="wrap">
+<div class="kicker">01 &middot; The problem of objectivity</div><h2>A dispatch that <em>fit the seam</em></h2>
+<p>I had spent a day and a quiet morning at my thesis on the armchair in the sunny corner of my study, testing it against <a href="https://en.wikipedia.org/wiki/Martin_Heidegger" target="_blank" rel="noopener">Martin Heidegger</a>, <a href="https://en.wikipedia.org/wiki/Immanuel_Kant" target="_blank" rel="noopener">Immanuel Kant</a>, Donald Hoffman&rsquo;s interface theory and the physics of impedance. I had reached one conclusion: a chair becomes an object only when a three-way interface locks, and it quietens the body so well that the mammal can afford to contemplate.</p>
+<p>I put my tools down and opened my timeline. At the top of the feed was a note from Matt:</p>
+<figure class="postfig"><img src="img/matt-post.jpg" alt="&ldquo;The best argument against Bitcoin isn&rsquo;t that it&rsquo;s imaginary. It&rsquo;s that volatility, custody risk and adoption uncertainty are real. At least bring your best objections to the fight.&rdquo;" loading="lazy" width="1080" height="1273"><figcaption>Matt (<a href="https://x.com/MatthewRyanCase" target="_blank" rel="noopener">@MatthewRyanCase</a>) &middot; X &middot; 7 Nov 2026</figcaption></figure><p class="vh">&ldquo;The best argument against Bitcoin isn&rsquo;t that it&rsquo;s imaginary. It&rsquo;s that volatility, custody risk and adoption uncertainty are real. At least bring your best objections to the fight.&rdquo;</p>
+<p>It felt like a catch on a fishing line: you chew on a seam in the world and the world drops the right mirror in front of you. I have held Bitcoin since 2016, apart from one three-month detour into other tokens before I came back to the bedrock. Matt was saying that Bitcoin&rsquo;s weak points are not imaginary but real. Fair. But my work on impedance had just shown me what &ldquo;real&rdquo; means in the physics of things.</p>
+<p>Philosophers have long asked whether objectivity lives in some hidden essence, the Kantian <a href="https://en.wikipedia.org/wiki/Thing-in-itself" target="_blank" rel="noopener">thing-in-itself</a>. In acoustics and electronics there is no hidden ghost in the wood. A thing counts as an object when the meeting between two systems settles into balance without a nasty distortion. The balance has two parts: <b>R</b>, the resistance, the real pushback of matter that turns a knock into a little heat; and <b>X</b>, the reactance, the lag between how slowly matter changes and how fast a nervous system refreshes.</p>
+<div class="eq">Z = R + jX</div>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Electrical_impedance" target="_blank" rel="noopener">Electrical impedance</a> &middot; <a href="https://en.wikipedia.org/wiki/Immanuel_Kant" target="_blank" rel="noopener">Immanuel Kant</a> &middot; <a href="https://en.wikipedia.org/wiki/Martin_Heidegger" target="_blank" rel="noopener">Martin Heidegger</a> &middot; <a href="https://en.wikipedia.org/wiki/Donald_D._Hoffman" target="_blank" rel="noopener">Donald D. Hoffman</a></p>
+</div></section>
+<section data-narrate id="chair"><div class="wrap">
+<div class="kicker">02 &middot; The chair in the sun</div><h2>Four tests an object <em>must pass</em></h2>
+<p>When does the wooden armchair in its dusty shaft of light become an object? Not by accident, and not by decree. It takes four things at once.</p>
+<div class="steps">
+<div class="c"><div class="g">I</div><h3>Stillness</h3><p>An armchair falling from a plane, crushed in a press or on fire gives you nothing to contemplate. It only calls up fight-or-flight. Looking at timber as shape is a luxury that only a settled thing can give.</p></div>
+<div class="c"><div class="g">II</div><h3>Balance</h3><p>Mortise-and-tenon joints give plenty of real resistance R. The cellulose and lignin give a long phase lag X: a century of slow wood against a millisecond of nerve. Together they make Z = R + jX.</p></div>
+<div class="c"><div class="g">III</div><h3>No ghost</h3><p>There is no hidden &ldquo;chairness&rdquo; in the joints. What a measurement misses is only grain for geometry and fading light for the sitter. The remainder is the limit of the sieve, not an essence.</p></div>
+<div class="c"><div class="g">IV</div><h3>The subsidy</h3><p>The chair takes the weight, cradles the spine and pays the glucose bill. My stabilising muscles stop burning energy to hold me up, and that spare bandwidth is free to enter &nu;&#972;&eta;&sigma;&iota;&sigmaf; (noesis), the act of thinking, and meet &tau;&#8057; &Nu;&omicron;&omicron;&#973;&mu;&epsilon;&nu;&omicron;&nu;, the thing thought.</p></div>
+</div>
+<p>That fourth point is the one I care about most: <b>matter subsidises spirit</b>. A good object is one that carries the load so you can look away from it and think.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Noesis" target="_blank" rel="noopener">Noesis</a> &middot; <a href="https://en.wikipedia.org/wiki/Damping" target="_blank" rel="noopener">Damping</a></p>
+</div></section>
+<section data-narrate id="monolith"><div class="wrap">
+<div class="kicker">03 &middot; The resonant monolith</div><h2>Bitcoin, <em>the anti-chair</em></h2>
+<p>Now leave the armchair and look at the large cryptographic machine called <a href="https://en.wikipedia.org/wiki/Bitcoin" target="_blank" rel="noopener">Bitcoin</a>. Matt was right that volatility, custody risk and slow adoption are real. Where I differ is on why. They are not small bugs that a fund or a friendly app will iron out. They are the shape of its objectivity: an interface working very hard to pretend it is a stone.</p>
+<div class="steps">
+<div class="c"><div class="g">1</div><h3>A ceiling that cannot bend</h3><p>Timber gives a little under weight. Bitcoin&rsquo;s supply cannot: 21,000,000 and no more. Since supply cannot flex, every shock to the economy, liquidity or mood goes straight into the price.</p></div>
+<div class="c"><div class="g">2</div><h3>Rules that set hard</h3><p>Changing a core rule takes nearly everyone agreeing, and when they do not agree the chain can split, as it did in the block-size fight that gave us <a href="https://en.wikipedia.org/wiki/Bitcoin_Cash" target="_blank" rel="noopener">Bitcoin Cash</a>. The protocol keeps its shape because it will not flex.</p></div>
+<div class="c"><div class="g">3</div><h3>Custody strain</h3><p>Holding your own coins leaves no room for human frailty. Lose or mistype one 24-word <a href="https://en.wikipedia.org/wiki/Seed_phrase" target="_blank" rel="noopener">seed phrase</a> and the loss is final. Many people end up handing their coins back to a custodian, which is the very thing the stone was meant to avoid.</p></div>
+</div>
+<p>Here is where the two part ways. A chair <b>damps</b>: it takes the knock and turns it into a little warmth (R is large). Bitcoin has almost no damping (R close to zero), so it behaves like a high-Q resonator, a bell. Every tremor in the money world rings through it, and the ringing arrives as price swings and human worry. See the <a href="#lab">lab</a> below.</p>
+<p>There is a second difference, and it is about rest. You can fall asleep in a chair and forget it exists. A coin you hold alone asks for a watchful eye: if you stop paying attention, a key can be lost, or the value can halve before you look up.</p>
+<div class="pour">The chair takes the load so the human can rest. Bitcoin asks the human to take the shock so the code can stay pure.</div>
+<p class="dim" style="font-size:14px">This is a philosophical essay, not financial advice. It says nothing about whether you should buy, hold or sell.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Bitcoin" target="_blank" rel="noopener">Bitcoin</a> &middot; <a href="https://en.wikipedia.org/wiki/Resonance" target="_blank" rel="noopener">Resonance</a> &middot; <a href="https://en.wikipedia.org/wiki/Q_factor" target="_blank" rel="noopener">Q factor</a> &middot; <a href="https://en.wikipedia.org/wiki/Laws_(dialogue)" target="_blank" rel="noopener">Plato, Laws</a></p>
+</div></section>
+<section data-narrate id="numbers"><div class="wrap">
+<div class="kicker">04 &middot; Pythagorean numbers</div><h2>The numbers <em>underneath</em></h2>
+<p>Why do rigid things ring so hard? The old Greek letter-numbers give one way of looking at it. Every card below is plain addition with the 27 Milesian letter values, so you can check each one with the calculator further down.</p>
+<div class="ids">
+<div class="c"><h3>&Nu;&Omicron;&Mu;&Omicron;&Sigma; = &Alpha;&Rho;&Iota;&Theta;&Mu;&Omicron;&Sigma; = 430</h3><p>Law, number and mathematics share one total. That equality is the hard outer box of the whole picture.</p><p class="sum">&Nu;50 + &Omicron;70 + &Mu;40 + &Omicron;70 + &Sigma;200 = 430<br>&Alpha;1 + &Rho;100 + &Iota;10 + &Theta;9 + &Mu;40 + &Omicron;70 + &Sigma;200 = 430<br>&Mu;&Alpha;&Theta;&Eta;&Mu;&Alpha;&Tau;&Iota;&Kappa;&Alpha; = 430</p></div>
+<div class="c"><h3>430 &minus; 429 = 1</h3><p>Scalene, the triangle with three unequal sides, comes to 429. Real matter is never perfectly even, and in this picture the single point it falls short of Law is the friction that wears everything down.</p><p class="sum">&sigma;&kappa;&alpha;&lambda;&eta;&nu;&#972;&nu; = &Sigma;200 + &Kappa;20 + &Alpha;1 + &Lambda;30 + &Eta;8 + &Nu;50 + &Omicron;70 + &Nu;50 = 429</p></div>
+<div class="c"><h3>4995 &divide; 135 = 37</h3><p>All 27 letter values add to 4995, and dividing by 27 &times; 5 = 135 leaves the prime 37, the same 37 that keeps turning up in the cube and the Jitterbug.</p><p class="sum">4995 = 27 &times; 5 &times; 37<br>27 &times; 5 = 135</p></div>
+<div class="c"><h3>&Phi;&Rho;&Omicron;&Nu;&Eta;&Sigma;&Iota;&Sigma; = 1138</h3><p>Phronesis, practical wisdom, is the skill of telling a settled rest from a grinding strain. It is also the skill of knowing which one you are holding.</p><p class="sum">&Phi;500 + &Rho;100 + &Omicron;70 + &Nu;50 + &Eta;8 + &Sigma;200 + &Iota;10 + &Sigma;200 = 1138</p></div>
+<div class="c"><h3>&Kappa;&Eta;&Phi;&Alpha;&Sigma; = 729 = 9&sup3;</h3><p>Kephas, the name Jesus gives Peter (&ldquo;rock&rdquo;), comes to 729, which is 9 &times; 9 &times; 9: a rock that is also a cube. Here it stands for a stone under strain.</p><p class="sum">&Kappa;20 + &Eta;8 + &Phi;500 + &Alpha;1 + &Sigma;200 = 729</p></div>
+<div class="c"><h3>&Sigma;&Iota;&Gamma;&Eta; = 221</h3><p>Silence, <i>sige</i>, is the quiet at the end. The 27th letter, sampi (900), reduces to 9, and 9 is the cube root of 729: where the strain is let go, the ringing stops. I call that quiet &ldquo;Hush 0.00&rdquo;, a signal with no friction.</p><p class="sum">&Sigma;200 + &Iota;10 + &Gamma;3 + &Eta;8 = 221<br>&#993; 900 &rarr; 9 + 0 + 0 = 9</p></div>
+</div>
+<p>A small curiosity: &nu;&#972;&eta;&sigma;&iota;&sigmaf; (noesis, the act of thinking) adds to 538, and 538 leaves the same remainder as 430 when you divide by 36. Both land on slot 34 of the 36-point wheel. Law and thought sit on the same spot.</p>
+<p class="lnk">Check it yourself: <a href="jitterbug.html">The 37 in the Jitterbug</a> &middot; <a href="isopsephy-index.html">Isopsephy index</a> &middot; <a href="https://en.wikipedia.org/wiki/Isopsephy" target="_blank" rel="noopener">Isopsephy</a></p>
+</div></section>
+<section data-narrate id="lab"><div class="wrap">
+<div class="kicker">05 &middot; Interactive</div><h2>The impedance <em>laboratory</em></h2>
+<p class="dim">Pick a thing, or move the dials yourself, then knock it and watch the wave. A big R makes the knock fade fast. A tiny R lets it ring.</p>
+<div class="cvw"><canvas id="wv-lab" role="img" aria-label="A wave that fades quickly or keeps ringing depending on the resistance R" style="aspect-ratio:16/8"></canvas></div>
+<div class="ctl pre2"><button type="button" data-p="0.95,0.15,40" class="on">Armchair in the sun</button><button type="button" data-p="0.02,0.98,85">Bitcoin monolith</button><button type="button" data-p="0.12,0.45,95">Burning chair</button><button type="button" data-p="1,0.01,0">Hush 0.00</button></div>
+<div class="ctl"><label>Resistance R <input type="range" id="sR" min="0.01" max="1" step="0.01" value="0.95"> <b id="vR">0.95</b></label></div>
+<div class="ctl"><label>Reactance X <input type="range" id="sX" min="0.01" max="1" step="0.01" value="0.15"> <b id="vX">0.15</b></label></div>
+<div class="ctl"><label>Shock from outside <input type="range" id="sD" min="0" max="100" step="1" value="40"> <b id="vD">40</b></label></div>
+<div class="ctl"><button type="button" id="knock">Knock it</button><button type="button" id="snd">Sound on (432 Hz)</button></div>
+<div class="read"><div><span>|Z|</span><b id="rZ">0.962</b></div><div><span>Phase angle</span><b id="rT">9.0&deg;</b></div><div><span>Q &asymp; X &divide; R</span><b id="rQ">0.16</b></div><div><span>Load on the human</span><b id="rL">48</b></div></div>
+<div class="phase" id="rDx" aria-live="polite"></div>
+<p class="dim" style="font-size:13.5px">The picture is a teaching model, not a measurement of any real chair or coin. The load figure is shock &divide; R, nudged up when X is large. Below 60 the thing carries the weight; above 180 the human does. The sound is made in your browser when you press the button.</p>
+<p class="lnk">Read more: <a href="https://en.wikipedia.org/wiki/Electrical_impedance" target="_blank" rel="noopener">Electrical impedance</a> &middot; <a href="https://en.wikipedia.org/wiki/Q_factor" target="_blank" rel="noopener">Q factor</a> &middot; <a href="https://en.wikipedia.org/wiki/Damping" target="_blank" rel="noopener">Damping</a></p>
+</div></section>
+<section data-narrate id="calc"><div class="wrap">
+<div class="kicker">06 &middot; Your turn</div><h2>The word-sum <em>inspector</em></h2>
+<p class="dim">Type or paste any Greek word. Accents do not matter and a final ς counts as 200. You will see the total, its digital root, its slot on the 36-point wheel, and whether 37 divides it.</p>
+<div class="aud"><label for="aud-in" class="dim">Greek word or phrase</label><br>
+<input id="aud-in" type="text" value="ΝΟΜΟΣ" autocomplete="off" spellcheck="false" lang="el">
+<div class="pre"><button type="button" data-w="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button type="button" data-w="ΑΡΙΘΜΟΣ">ΑΡΙΘΜΟΣ</button><button type="button" data-w="ΣΚΑΛΗΝΟΝ">ΣΚΑΛΗΝΟΝ</button><button type="button" data-w="ΦΡΟΝΗΣΙΣ">ΦΡΟΝΗΣΙΣ</button><button type="button" data-w="ΚΗΦΑΣ">ΚΗΦΑΣ</button><button type="button" data-w="ΣΙΓΗ">ΣΙΓΗ</button><button type="button" data-w="ΝΟΗΣΙΣ">ΝΟΗΣΙΣ</button></div>
+<div class="res" id="aud-sum" aria-live="polite">430</div>
+<div class="brk" id="aud-brk"></div><div class="brk" id="aud-37"></div><div class="brk" id="aud-dr"></div></div>
+<h3 class="sub">The 27 signs. Tap to add one.</h3>
+<div class="sig" id="sig"></div>
+</div></section>
+<section data-narrate id="matrix"><div class="wrap">
+<div class="kicker">07 &middot; Side by side</div><h2>Timber and <em>stone</em></h2>
+<div class="tw"><table><thead><tr><th>Measure</th><th>The armchair in the sun</th><th>The Bitcoin monolith</th></tr></thead><tbody><tr><td>Impedance</td><td>High resistance R, slow century decay X</td><td>R close to zero, fast clock mismatch X</td></tr><tr><td>When shaken</td><td>Damps the knock; the joinery takes the shock</td><td>Rings; every shock becomes price swing</td></tr><tr><td>Who subsidises whom</td><td>Matter subsidises the human: wood bears the weight so the mammal can think</td><td>The human subsidises the code: the person absorbs the shock for an unbending ledger</td></tr><tr><td>Custody</td><td>Passive presence, no mental overhead</td><td>Brittle finality; a 24-word load pushes many back to banks</td></tr><tr><td>Mode of mind</td><td>Quiescence: you can forget it is there</td><td>A watchful vigil: look away and you risk loss</td></tr><tr><td>Anchor tone</td><td>432 Hz rest, then the Hush</td><td>729 Hz (9&sup3;) strain, with 666 as the solar fire</td></tr></tbody></table></div>
+</div></section>
+<section data-narrate id="verdict"><div class="wrap">
+<div class="kicker">08 &middot; The verdict</div><h2>Who carries <em>the strain</em></h2>
+<div class="pour">The chair in the sunny corner is an object because it settles your weight, damps the world&rsquo;s noise, and lets you forget it is there.</div>
+<div class="pour">Bitcoin is the anti-chair: a machine so afraid of bending to human frailty that it asks you to stand at attention forever, holding up the very stone that was meant to hold you.</div>
+<div class="pour">We should judge our structures not by the purity of their code or the strictness of their edges, but by who, or what, is asked to take the strain.</div>
+<p>Money that tries to become stone has to ask: stone for whom? A good object gives rest to the one who lives with it. That is a test worth carrying to every tool you are handed, from a chair to a coin to a rule.</p>
+</div></section>
+<section id="sources"><div class="wrap">
+<div class="kicker">Sources and further reading</div>
+<p class="dim">Written by Mandos, also known as ΦΥ ΨΗ (@Mandos16), from Codex record 5040.Z. Thinkers named: <a href="https://en.wikipedia.org/wiki/Immanuel_Kant" target="_blank" rel="noopener">Immanuel Kant</a>, <a href="https://en.wikipedia.org/wiki/Martin_Heidegger" target="_blank" rel="noopener">Martin Heidegger</a>, Donald Hoffman (interface theory of perception) and <a href="https://en.wikipedia.org/wiki/Plato" target="_blank" rel="noopener">Plato</a>, <i>Laws</i>, Book V (742a), on keeping gold and silver out of private hoards. Physics: electrical impedance Z = R + jX, and the Q factor. Letter values: the 27 Milesian signs (4995 in all). Matt&rsquo;s post is quoted with credit from public X.</p>
+<p class="dim" style="font-size:14px">A philosophical essay, not financial advice. Nothing here tells you what to do with your money.</p>
+</div></section>
+</main>
+<footer class="sharefoot" id="sharefoot">
+  <div class="wrap" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Share this page</div>
+    <div class="shbtns" id="shbtns"></div>
+    <div class="shbtns" style="margin-top:22px"><a href="ophanim-engine-codex.html">Engine</a><a href="library.html">Library</a><a href="isopsephy-index.html">Isopsephy index</a></div>
+    <p class="dim" style="font-size:13px;margin:26px auto 0;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:center">&Phi;&Upsilon; &Psi;&Eta; &middot; Phonetic Archaeology</p>
+    <p class="dim" style="font-size:15px;margin:14px auto 0;text-align:center"><a href="privacy.html">Privacy</a></p>
+  </div>
+</footer>
+<script>
+var EL = /^el/i.test(document.documentElement.lang||''); function T(en,el){return EL?el:en;}
+
+/* ===== waves ===== */
+function mkWave(cv,get,loop){
+ var ctx=cv.getContext('2d'),W=300,H=170,DPR=1,t0=performance.now(),req=0,tk=0,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function size(){DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(120,r.height);cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);}
+ function env(R,tt,D){var g=0.15+4*R;return (D/100)*Math.exp(-g*tt);}
+ function trace(R,D,tt0,col,yc,amp){ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();var span=6;
+  for(var i=0;i<=300;i++){var u=i/300,tt=u*span;var y=0;if(tt>=tt0){var d=tt-tt0;y=env(R,d,D)*Math.cos(2*Math.PI*3*d);}
+   var X=u*W,Y=yc-y*amp;if(i===0)ctx.moveTo(X,Y);else ctx.lineTo(X,Y);}ctx.stroke();}
+ function draw(now){var p=get();var tt0=0.3;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(70,227,240,.15)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+  if(p.two){trace(.95,p.D,tt0,'#e8c375',H*.28,H*.22);trace(.02,p.D,tt0,'#46e3f0',H*.74,H*.22);
+   ctx.fillStyle='rgba(180,190,200,.8)';ctx.font='11px monospace';ctx.fillText(p.l1,6,12);ctx.fillText(p.l2,6,H*.5+12);}
+  else{trace(p.R,p.D,tt0,p.R>0.5?'#e8c375':'#46e3f0',H/2,H*.38);}
+  var m=(now-t0)/1000%7;ctx.strokeStyle='rgba(232,195,117,.6)';var X=Math.min(1,m/6)*W;if(loop||tk){ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,H);ctx.stroke();}}
+ // animate by redrawing a sweeping "now" line
+ function frame(now){draw(now);req=requestAnimationFrame(frame);}
+ window.addEventListener('resize',size);size();
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!req)req=requestAnimationFrame(frame);}else{cancelAnimationFrame(req);req=0;}});}):null;
+ if(io)io.observe(cv);else req=requestAnimationFrame(frame);
+ return{knock:function(){t0=performance.now();tk=1;}};
+}
+(function(){
+ var h=document.getElementById('wv-hero');if(h)mkWave(h,function(){return{two:true,D:80,l1:T('chair','καρέκλα'),l2:T('bitcoin','bitcoin')};},true);
+ var lab=document.getElementById('wv-lab');if(!lab)return;
+ var sR=document.getElementById('sR'),sX=document.getElementById('sX'),sD=document.getElementById('sD');
+ var cur={R:.95,X:.15,D:40};
+ var w=mkWave(lab,function(){return{two:false,R:cur.R,D:Math.max(15,cur.D)};},true);
+ var audio=null,on=false;
+ function note(){var Rr=cur.R;if(!on)return;try{
+  if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();var a=audio,o=a.createOscillator(),g=a.createGain(),now=a.currentTime;
+  o.type='sine';o.frequency.value=432;var peak=Math.min(.2,.03+cur.D/100*.12),dur=Math.min(8,4.6/(0.15+4*Rr));
+  g.gain.setValueAtTime(0.0001,now);g.gain.exponentialRampToValueAtTime(peak,now+.02);g.gain.exponentialRampToValueAtTime(0.0001,now+Math.max(.25,dur));
+  o.connect(g);g.connect(a.destination);o.start(now);o.stop(now+Math.max(.3,dur)+.05);}catch(e){}}
+ function calc(){cur.R=+sR.value;cur.X=+sX.value;cur.D=+sD.value;
+  var Z=Math.hypot(cur.R,cur.X),th=Math.atan2(cur.X,cur.R),Q=cur.X/cur.R,L=cur.D/(cur.R+.01)*(1+Math.sin(th));
+  document.getElementById('vR').textContent=cur.R.toFixed(2);document.getElementById('vX').textContent=cur.X.toFixed(2);document.getElementById('vD').textContent=cur.D.toFixed(0);
+  document.getElementById('rZ').textContent=Z.toFixed(3);document.getElementById('rT').textContent=(th*180/Math.PI).toFixed(1)+'°';document.getElementById('rQ').textContent=Q<10?Q.toFixed(2):Q.toFixed(0);document.getElementById('rL').textContent=L<1000?L.toFixed(0):L.toFixed(0);
+  var d=document.getElementById('rDx');
+  if(L<60)d.textContent=T('Rest. The thing takes the knock and turns it into warmth. The human is free to think.','Ανάπαυση. Το αντικείμενο παίρνει το χτύπημα και το κάνει ζεστασιά. Ο άνθρωπος είναι ελεύθερος να σκεφτεί.');
+  else if(L<180)d.textContent=T('Borderline. Some of the shock reaches the human, who has to keep adjusting.','Στα όρια. Μέρος του κλονισμού φτάνει στον άνθρωπο, που πρέπει να προσαρμόζεται διαρκώς.');
+  else d.textContent=T('Vigil. Almost no damping: the human absorbs the shock so the structure can stay unchanged.','Φρουρά. Σχεδόν καμία απόσβεση: ο άνθρωπος απορροφά τον κλονισμό ώστε η δομή να μένει αναλλοίωτη.');}
+ [sR,sX,sD].forEach(function(e){e.addEventListener('input',function(){calc();});});calc();
+ Array.prototype.forEach.call(document.querySelectorAll('[data-p]'),function(b){b.addEventListener('click',function(){var p=b.getAttribute('data-p').split(',');sR.value=p[0];sX.value=p[1];sD.value=p[2];calc();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-p]'),function(o){o.classList.toggle('on',o===b);});w.knock();note();});});
+ document.getElementById('knock').addEventListener('click',function(){w.knock();note();});
+ document.getElementById('snd').addEventListener('click',function(e){on=!on;e.target.classList.toggle('on',on);if(on)note();});
+})();
+/* ===== word-sum calculator ===== */
+(function(){
+ var inp=document.getElementById('aud-in');if(!inp)return;
+ var V={'Α':1,'Β':2,'Γ':3,'Δ':4,'Ε':5,'Ϛ':6,'Ζ':7,'Η':8,'Θ':9,'Ι':10,'Κ':20,'Λ':30,'Μ':40,'Ν':50,'Ξ':60,'Ο':70,'Π':80,'Ϙ':90,'Ρ':100,'Σ':200,'Τ':300,'Υ':400,'Φ':500,'Χ':600,'Ψ':700,'Ω':800,'Ϡ':900};
+ function norm(c){c=c.toUpperCase();if(c==='ς'||c==='Ϲ'||c==='ϲ')c='Σ';if(c==='Ϝ'||c==='ϝ'||c==='ϛ')c='Ϛ';if(c==='Ϟ'||c==='ϟ'||c==='ϙ')c='Ϙ';if(c==='Ͳ'||c==='ͳ'||c==='ϡ')c='Ϡ';return c;}
+ function dr(n){while(n>9){n=String(n).split('').reduce(function(a,b){return a+ +b;},0);}return n;}
+ function run(){var t=inp.value.normalize('NFD').replace(/[̀-ͯ]/g,'').normalize('NFC'),sum=0,parts=[];
+  Array.prototype.forEach.call(t,function(ch){var c=norm(ch);if(V[c]){sum+=V[c];parts.push(c+V[c]);}});
+  document.getElementById('aud-sum').textContent=sum;document.getElementById('aud-brk').textContent=parts.join(' + ');
+  document.getElementById('aud-37').textContent=sum?(sum%37===0?'= 37 × '+(sum/37):'÷ 37 = '+(sum/37).toFixed(3)):'';
+  document.getElementById('aud-dr').textContent=sum?T('digital root ','ψηφιακή ρίζα ')+dr(sum)+' · '+T('slot ','θέση ')+(sum%36===0?36:sum%36)+T(' of 36',' από 36'):'';}
+ inp.addEventListener('input',run);
+ Array.prototype.forEach.call(document.querySelectorAll('.aud [data-w]'),function(b){b.addEventListener('click',function(){inp.value=b.getAttribute('data-w');run();});});
+ var box=document.getElementById('sig');
+ Object.keys(V).forEach(function(k){var b=document.createElement('button');b.type='button';b.innerHTML=k+'<small>'+V[k]+'</small>';b.setAttribute('aria-label',k+' '+V[k]);b.addEventListener('click',function(){inp.value+=k;run();inp.focus();});box.appendChild(b);});
+ run();})();
+
+/* ===== share buttons ===== */
+(function(){var box=document.getElementById('shbtns');if(!box)return;var u=function(){return location.href.split('#')[0]},t=document.title;
+var L=document.documentElement.lang==='el'?{copy:'Αντιγραφή συνδέσμου',done:'Αντιγράφηκε',mail:'Email'}:{copy:'Copy link',done:'Copied',mail:'Email'};
+var items=[['X',function(){return 'https://twitter.com/intent/tweet?url='+encodeURIComponent(u())+'&text='+encodeURIComponent(t)}],['Facebook',function(){return 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u())}],['WhatsApp',function(){return 'https://wa.me/?text='+encodeURIComponent(t+' '+u())}],[L.mail,function(){return 'mailto:?subject='+encodeURIComponent(t)+'&body='+encodeURIComponent(u())}]];
+items.forEach(function(it){var a=document.createElement('a');a.textContent=it[0];a.href='#';a.target='_blank';a.rel='noopener noreferrer';a.addEventListener('click',function(){a.href=it[1]();});box.appendChild(a);});
+var b=document.createElement('button');b.type='button';b.textContent=L.copy;b.addEventListener('click',function(){var s=function(){b.textContent=L.done;setTimeout(function(){b.textContent=L.copy},1800)};try{navigator.clipboard.writeText(u()).then(s,function(){prompt(L.copy,u())})}catch(e){prompt(L.copy,u())}});box.appendChild(b);})();
+
+
+</script>
+<script src="account.js"></script>
+<script src="miniplayer.js"></script>
+<script src="audio.js"></script>
+<script src="chapternav.js"></script>
+<script src="mandos-links.js"></script>
+</body>
+</html>
