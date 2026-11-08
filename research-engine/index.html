@@ -2,6 +2,17 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Symbolic Engine</title>
 <style>
+#gate{position:fixed;inset:0;z-index:99;background:radial-gradient(1200px 500px at 50% -120px,#0b1f2a,#04080c);display:flex;align-items:center;justify-content:center;padding:16px}
+#gate .bx{width:100%;max-width:380px;background:#0a1820;border:1px solid rgba(70,227,240,.22);border-radius:14px;padding:26px 22px;text-align:center}
+#gate h2{margin:0 0 6px;font-weight:400;font-size:18px;letter-spacing:.3em;color:#e8c375}
+#gate p{margin:6px 0 14px;color:#8fa6ab;font-size:15px}
+#gate input{width:100%;box-sizing:border-box;margin:0 0 10px;padding:12px;border-radius:8px;border:1px solid rgba(70,227,240,.3);background:#04080c;color:#e6f1f3;font:17px "Noto Sans",sans-serif}
+#gate button{width:100%;padding:12px;border-radius:8px;border:1px solid #46e3f0;background:rgba(70,227,240,.12);color:#46e3f0;font:600 16px "Noto Sans",sans-serif;cursor:pointer}
+#gate .msg{min-height:22px;margin:10px 0 0;font-size:15px;color:#e8c375}
+#gate a{color:#8fa6ab;font-size:14px}
+#outbtn{position:fixed;top:8px;right:10px;z-index:5;background:none;border:0;color:#8fa6ab;font-size:13px;cursor:pointer}
+</style>
+<style>
 :root{--bg:#04080c;--panel:#0a1820;--line:rgba(70,227,240,.22);--cy:#46e3f0;--go:#e8c375;--ink:#e6f1f3;--dim:#8fa6ab}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 500px at 50% -120px,#0b1f2a,#04080c);color:var(--ink);font:18px/1.55 "Noto Sans",system-ui,sans-serif;min-height:100vh}
 .w{max-width:900px;margin:0 auto;padding:0 16px}
@@ -45,7 +56,11 @@ label{display:block;color:var(--dim);font-size:13px;margin:6px 0 4px}.row{displa
 details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 .bots{display:flex;flex-wrap:wrap;gap:8px}.bots button{font:600 15px 'Noto Sans',sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}.bots button.on{border-color:var(--go);color:var(--go);background:rgba(232,195,117,.12)}.cmp-b{font:600 14px 'Noto Sans',sans-serif;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 14px;cursor:pointer}.msg{border-radius:14px;padding:14px 16px;margin:12px 0;line-height:1.6}.msg.me{background:rgba(70,227,240,.08);border:1px solid var(--line)}.msg.bot{background:var(--panel);border:1px solid rgba(232,195,117,.3)}.msg b.n{display:block;color:var(--go);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.msg p{margin:0 0 10px}.msg ul{margin:0 0 10px;padding-left:20px}.empty{text-align:center;color:var(--dim);padding:26px 10px}
 @media(max-width:600px){body{font-size:17px}.word{font-size:36px}.val{font-size:44px}.search input{font-size:20px}}
-</style></head><body><div class="w">
+</style></head><body>
+<div id="gate"><div class="bx"><h2>SYMBOLIC ENGINE</h2><p>Private research tool. Sign in with your member account.</p>
+<form id="gf"><input id="ge" type="email" autocomplete="username" placeholder="Email"><input id="gp" type="password" autocomplete="current-password" placeholder="Password"><button type="submit" id="gb">Sign in</button></form>
+<p class="msg" id="gm"></p><p style="margin:10px 0 0"><a href="../library.html">&larr; Library</a></p></div></div><button id="outbtn" style="display:none">Sign out</button>
+<div class="w">
 <header><p style="margin:0 0 8px;font-size:14px"><a href="../library.html" style="color:var(--dim);text-decoration:none">← Library</a></p><h1>SYMBOLIC ENGINE</h1><p>Type a Greek or Hebrew word, a number, or a verse. Numbers, sounds and the Ellin Logos Code, all in one place.</p></header>
 <nav id="nav"></nav>
 
@@ -104,9 +119,8 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 <p>Greek counts the 27 signs (stigma 6, koppa 90, sampi 900); final sigma is 200; accents are ignored.</p>
 <p class="mut">Texts: Homer, Hesiod and Plato from the Perseus Digital Library (Tufts University, CC BY-SA 4.0; Allen, Solmsen and Burnet editions). Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0); SBL Greek New Testament with MorphGNT (CC BY-SA 3.0). Word list: Strong's dictionaries from Open Scriptures (CC-BY-SA). The Septuagint is not included yet.</p></div></section>
 </div>
-<script src="data.js"></script>
 <script src="pdf.min.js"></script><script src="pdf.worker.min.js"></script>
-<script>
+<script type="text/plain" id="mainjs">
 const $=id=>document.getElementById(id);
 const HEB={א:1,ב:2,ג:3,ד:4,ה:5,ו:6,ז:7,ח:8,ט:9,י:10,כ:20,ל:30,מ:40,נ:50,ס:60,ע:70,פ:80,צ:90,ק:100,ר:200,ש:300,ת:400};
 const FIN={ך:'כ',ם:'מ',ן:'נ',ף:'פ',ץ:'צ'},GAD={ך:500,ם:600,ן:700,ף:800,ץ:900},AB='אבגדהוזחטיכלמנסעפצקרשת';
@@ -123,7 +137,7 @@ const ref=(b,ch,vs)=>b.c==='PL'?b.n+' '+ch+String.fromCharCode(96+vs):b.n+' '+ch
 const CLS={loaded:false,p:null};
 function ensureClassics(){if(CLS.loaded)return Promise.resolve();if(CLS.p)return CLS.p;
  CLS.p=new Promise((ok,no)=>{const go=()=>{try{window.CLASSICS.forEach(b=>BK.push({c:b.c,n:b.n,v:b.v.map(([ch,vs,ws])=>[ch,vs,ws.map(w=>{const i=w.lastIndexOf(':');return[w.slice(0,i),'',+w.slice(i+1)]})])}));CLS.loaded=true;IDX=null;if(window.rebuildBooks)window.rebuildBooks();ok()}catch(e){CLS.p=null;no(e)}};
-  if(window.CLASSICS)return go();const sc=document.createElement('script');sc.src='classics.js';sc.onload=go;sc.onerror=()=>{CLS.p=null;no(new Error('Could not load the classical texts'))};document.head.appendChild(sc)});return CLS.p}
+  if(window.CLASSICS)return go();window.__loadEnc('classics.enc').then(go,()=>{CLS.p=null;no(new Error('Could not load the classical texts'))})});return CLS.p}
 // tabs
 [['go','Explore'],['ask','Bots'],['decode','Decode'],['hunt','Hunt'],['read','Read'],['help','Help']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
 function show(k){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
@@ -293,4 +307,37 @@ async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;
 $('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
 mkBots();
 try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
+</script><script>
+(function(){
+var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz',LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js';
+var g=function(i){return document.getElementById(i)},sb=null,K=null,booted=false;
+function msg(t){g('gm').textContent=t||''}
+function lib(){return new Promise(function(ok,no){if(window.supabase&&window.supabase.createClient)return ok();var s=document.createElement('script');s.src=LIB;s.onload=ok;s.onerror=function(){no(new Error('lib'))};document.head.appendChild(s)})}
+function hex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
+function dec(buf){var b=new Uint8Array(buf);return crypto.subtle.importKey('raw',hex(K),'AES-GCM',false,['decrypt']).then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:b.slice(0,12)},k,b.slice(12))}).then(function(p){return new TextDecoder().decode(p)})}
+function runText(t){var s=document.createElement('script');s.text=t;document.head.appendChild(s)}
+window.__loadEnc=function(f){return fetch(f).then(function(r){if(!r.ok)throw new Error('fetch');return r.arrayBuffer()}).then(dec).then(runText)};
+function open_(){
+  msg('Unlocking the texts...');
+  window.__loadEnc('data.enc').then(function(){
+    g('gate').style.display='none';g('outbtn').style.display='';
+    if(!booted){booted=true;runText(g('mainjs').textContent)}
+  }).catch(function(){msg('Could not open the texts. Check your connection and try again.')});
+}
+function after(sess){
+  if(!sess){g('gate').style.display='flex';return}
+  sb.from('engine_keys').select('k').eq('id','v1').maybeSingle().then(function(r){
+    if(r.error||!r.data||!r.data.k){g('gate').style.display='flex';msg('This account does not have access.');sb.auth.signOut();return}
+    K=r.data.k;open_();
+  });
+}
+lib().then(function(){
+  sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});
+  sb.auth.getSession().then(function(r){after(r.data&&r.data.session)});
+},function(){msg('Could not reach the sign-in service. Check your connection.')});
+g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Still loading, try again in a second.');msg('Signing in...');
+  sb.auth.signInWithPassword({email:g('ge').value.trim().toLowerCase(),password:g('gp').value}).then(function(r){
+    if(r.error)return msg('Wrong email or password.');g('gp').value='';after(r.data.session)})};
+g('outbtn').onclick=function(){if(sb)sb.auth.signOut().then(function(){location.reload()})};
+})();
 </script></body></html>
