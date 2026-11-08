@@ -1,3 +1,3 @@
-1. Unzip. Copy the research-engine folder into your repo folder, replacing.
-2. IMPORTANT: in your repo's research-engine folder, DELETE data.js and classics.js (the old open copies). The new data.enc and classics.enc replace them.
-3. GitHub Desktop: commit, push to main. Wait about 1 minute. Ctrl+F5.
+1. Unzip. Copy the research-engine folder into your repo folder, replacing everything.
+2. GitHub Desktop: tick all, commit, push to main. Wait about 1 minute. Ctrl+F5.
+Nothing needs deleting.
