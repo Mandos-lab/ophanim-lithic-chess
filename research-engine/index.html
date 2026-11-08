@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbolic Engine</title>
+<style>
+:root{--bg:#04080c;--panel:#0a1820;--line:rgba(70,227,240,.22);--cy:#46e3f0;--go:#e8c375;--ink:#e6f1f3;--dim:#8fa6ab}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 500px at 50% -120px,#0b1f2a,#04080c);color:var(--ink);font:18px/1.55 "Noto Sans",system-ui,sans-serif;min-height:100vh}
+.w{max-width:900px;margin:0 auto;padding:0 16px}
+header{padding:26px 0 6px;text-align:center}
+h1{margin:0;font-weight:400;font-size:20px;letter-spacing:.32em;color:var(--go)}
+header p{margin:8px 0 0;color:var(--dim);font-size:16px}
+nav{display:flex;justify-content:center;gap:6px;margin:14px 0 6px}
+nav button{font:600 15px "Noto Sans",sans-serif;padding:8px 16px;border-radius:999px;border:1px solid transparent;background:none;color:var(--dim);cursor:pointer}
+nav button.on{color:var(--go);border-color:rgba(232,195,117,.5);background:rgba(232,195,117,.1)}
+.tab{display:none}.tab.on{display:block}
+.search{display:flex;gap:8px;margin-top:10px}
+.search input{flex:1;min-width:0;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:14px 16px;font:24px "Noto Serif","Times New Roman",serif}
+.search button,.btn{font:600 16px "Noto Sans",sans-serif;background:var(--cy);color:#04141a;border:0;border-radius:12px;padding:0 22px;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;align-items:center}.chips span{color:var(--dim);font-size:14px}
+.chip{font:20px "Noto Serif",serif;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(70,227,240,.06);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--cy)}
+.kbtog{display:flex;gap:14px;margin:6px 0;font-size:14px;color:var(--dim)}.kbtog a{cursor:pointer;color:var(--cy)}
+.kb{display:none;flex-wrap:wrap;gap:5px;margin:6px 0 2px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(10,24,32,.7)}
+.kb.on{display:flex}.kb button{min-width:38px;height:40px;font:22px "Noto Serif",serif;background:#0a1d27;color:var(--ink);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.kb button.sp{font:14px "Noto Sans",sans-serif;padding:0 12px}
+.kb.he{direction:rtl}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.cap{color:var(--dim);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
+.word{font:44px/1.2 "Noto Serif","Times New Roman",serif;margin:0}.word.he{direction:rtl;text-align:right}
+.val{font-size:54px;font-weight:600;color:var(--go);line-height:1}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.chain{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.chain.he{direction:rtl}
+.bead{display:flex;flex-direction:column;align-items:center;min-width:46px;padding:6px 8px 5px;border-radius:12px;border:1px solid rgba(232,195,117,.45);background:linear-gradient(#17140a,#0b0a05)}
+.bead b{font:26px "Noto Serif",serif;font-weight:400;color:var(--ink)}.bead i{font:600 14px "Noto Sans",sans-serif;font-style:normal;color:var(--go)}
+.plus{color:var(--dim);font-size:14px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid rgba(70,227,240,.1);padding:7px 6px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:500;font-size:13px}td.n{text-align:right;color:var(--go);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gr,.he2{font:22px "Noto Serif",serif}.he2{direction:rtl;unicode-bidi:isolate}
+a.w2{color:var(--ink);cursor:pointer;border-bottom:1px dotted var(--cy)}
+.mut{color:var(--dim);font-size:15px}.ok{color:#7be0a0}
+.cmp{display:flex;gap:8px;margin-top:6px}.cmp input{flex:1;min-width:0;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:20px "Noto Serif",serif}
+.cmp button{font:600 15px "Noto Sans",sans-serif;background:rgba(70,227,240,.15);color:var(--cy);border:1px solid var(--cy);border-radius:10px;padding:0 16px;cursor:pointer}
+select{background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:16px "Noto Sans",sans-serif;width:100%}
+label{display:block;color:var(--dim);font-size:13px;margin:6px 0 4px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1;min-width:110px}
+details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
+.bots{display:flex;flex-wrap:wrap;gap:8px}.bots button{font:600 15px 'Noto Sans',sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}.bots button.on{border-color:var(--go);color:var(--go);background:rgba(232,195,117,.12)}.cmp-b{font:600 14px 'Noto Sans',sans-serif;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 14px;cursor:pointer}.msg{border-radius:14px;padding:14px 16px;margin:12px 0;line-height:1.6}.msg.me{background:rgba(70,227,240,.08);border:1px solid var(--line)}.msg.bot{background:var(--panel);border:1px solid rgba(232,195,117,.3)}.msg b.n{display:block;color:var(--go);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.msg p{margin:0 0 10px}.msg ul{margin:0 0 10px;padding-left:20px}.empty{text-align:center;color:var(--dim);padding:26px 10px}
+@media(max-width:600px){body{font-size:17px}.word{font-size:36px}.val{font-size:44px}.search input{font-size:20px}}
+</style></head><body><div class="w">
+<header><p style="margin:0 0 8px;font-size:14px"><a href="../library.html" style="color:var(--dim);text-decoration:none">← Library</a></p><h1>SYMBOLIC ENGINE</h1><p>Type a Greek or Hebrew word, a number, or a verse. Numbers, sounds and the Ellin Logos Code, all in one place.</p></header>
+<nav id="nav"></nav>
+
+<section class="tab on" id="t-go">
+ <div class="search"><input id="q" dir="auto" autocomplete="off" spellcheck="false" placeholder="ΚΑΔΜΟΣ   ·   ים סוף   ·   430   ·   John 1:1"><button id="go">Go</button></div>
+ <div class="kbtog"><span>No Greek or Hebrew keyboard?</span><a id="kg">Greek letters</a><a id="kh">Hebrew letters</a><a id="kx">Clear</a></div>
+ <div class="kb" id="kbg"></div><div class="kb he" id="kbh"></div>
+ <div class="chips"><span>Try:</span><button class="chip" data-q="ΚΑΔΜΟΣ">ΚΑΔΜΟΣ</button><button class="chip" data-q="ΚΑΛΑΜΟΣ">ΚΑΛΑΜΟΣ</button><button class="chip" data-q="ים סוף">ים סוף</button><button class="chip" data-q="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button class="chip" data-q="430">430</button><button class="chip" data-q="Gen 1:1">Gen 1:1</button></div>
+ <details><summary>More options</summary><label>Hebrew method</label><select id="hm"><option value="hechrachi">Standard (final letters count as plain letters)</option><option value="gadol">Gadol (final letters 500 to 900)</option><option value="katan">Katan (digits reduced)</option><option value="atbash">Atbash</option></select></details>
+ <div id="out"><div class="empty">Tap one of the words above to see how it works.</div></div>
+</section>
+
+<section class="tab" id="t-ask">
+ <div class="card"><p class="cap">The three bots</p>
+ <p style="margin:0 0 12px">Ask in plain words. Each bot uses the engine for every number and every verse, so the sums are always checked.</p>
+ <div class="bots" id="bots"></div>
+ <p class="mut" id="bot-role" style="margin:10px 0 0"></p>
+ <textarea id="a-in" dir="auto" style="width:100%;min-height:90px;margin-top:12px;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:12px;font:19px 'Noto Serif',serif" placeholder="Ask here"></textarea>
+ <div class="chips" id="a-chips"></div>
+ <p style="margin:10px 0 0"><button class="btn" id="a-go" style="padding:12px 26px">Ask</button> <button class="cmp-b" id="a-new">New conversation</button> <span class="mut" id="a-st"></span></p></div>
+ <div id="a-out"></div></section>
+
+<section class="tab" id="t-decode">
+ <div class="card"><p class="cap">Ellin Logos Code</p>
+ <p style="margin:0 0 10px">Type a Greek word, a name or a phrase. Each letter and diphthong is read with the meaning from Theologos Simioforos's Code (ramafa.gr), then joined into one reading.</p>
+ <div class="search"><input id="d-in" dir="auto" autocomplete="off" spellcheck="false" placeholder="ΑΒΡΑΣΑΞ   ·   ΒΟΥΛΗ   ·   ΗΛΙΟΣ"><button id="d-go">Decode</button></div>
+ <div class="chips"><span>Try:</span><button class="chip" data-d="ΑΒΡΑΣΑΞ">ΑΒΡΑΣΑΞ</button><button class="chip" data-d="ΒΟΥΛΗ">ΒΟΥΛΗ</button><button class="chip" data-d="ΗΛΙΟΣ">ΗΛΙΟΣ</button><button class="chip" data-d="ΚΑΔΜΟΣ">ΚΑΔΜΟΣ</button><button class="chip" data-d="ΚΑΛΑΜΟΣ">ΚΑΛΑΜΟΣ</button></div></div>
+ <div id="d-out"><div class="empty">Tap a word above.</div></div></section>
+
+<section class="tab" id="t-hunt">
+ <div class="card"><p class="cap">The hunter</p>
+ <p style="margin:0 0 10px">Give it a whole text and it goes hunting: swaps like Kadmos and Kalamos, words hiding inside words, words that share a number with Bible words, and what keeps repeating.</p>
+ <div class="row"><div><label>Open a PDF or text file</label><input type="file" id="h-file" accept=".pdf,.txt,.text,.md,.html" style="width:100%;color:var(--ink)"></div></div>
+ <label>or paste the text here</label>
+ <textarea id="h-txt" dir="auto" style="width:100%;min-height:110px;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:19px 'Noto Serif',serif"></textarea>
+ <details><summary>Options</summary>
+  <label><input type="checkbox" id="h-end"> Count endings too (grammar changes like -ος and -οι)</label>
+  <label>Also look for these numbers (optional, comma between)</label><input id="h-num" placeholder="430, 1746, 666" style="width:100%;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:17px 'Noto Sans',sans-serif">
+ </details>
+ <p style="margin:12px 0 0"><button class="btn" id="h-go" style="padding:12px 26px">Hunt</button> <span class="mut" id="h-st"></span></p></div>
+ <div id="h-out"></div></section>
+
+<section class="tab" id="t-read"><div class="card"><div class="row">
+ <div><label>Book</label><select id="s-b"></select></div><div><label>Chapter</label><select id="s-c"></select></div>
+ <div><label>From verse</label><select id="s-v1"></select></div><div><label>To verse</label><select id="s-v2"></select></div></div>
+ <p style="margin:12px 0 0"><button class="btn" id="s-go" style="padding:10px 22px">Show</button></p></div><div id="s-out"></div></section>
+
+<section class="tab" id="t-help"><div class="card"><p class="cap">How it works</p>
+<p>Use the box on the first screen. It understands three things:</p>
+<p><b>A word</b> (Greek or Hebrew). You get its number, built letter by letter like beads on a chain, then the other words with the same number, and where it appears in the Bible.</p>
+<p><b>A number.</b> You get every word with that number.</p>
+<p><b>A verse</b>, like Gen 1:1 or John 1:1-3. You get each word with its number, and the total.</p>
+<p>Tap any word in the results to look it up. To compare two words, use the Compare box under a word.</p>
+<p>No keyboard for Greek or Hebrew? Tap "Greek letters" or "Hebrew letters" under the box.</p>
+<p>Greek counts the 27 signs (stigma 6, koppa 90, sampi 900); final sigma is 200; accents are ignored.</p>
+<p class="mut">Texts: Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0); SBL Greek New Testament with MorphGNT (CC BY-SA 3.0). Word list: Strong's dictionaries from Open Scriptures (CC-BY-SA). The Septuagint is not included yet.</p></div></section>
+</div>
+<script src="data.js"></script>
+<script src="pdf.min.js"></script><script src="pdf.worker.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const HEB={א:1,ב:2,ג:3,ד:4,ה:5,ו:6,ז:7,ח:8,ט:9,י:10,כ:20,ל:30,מ:40,נ:50,ס:60,ע:70,פ:80,צ:90,ק:100,ר:200,ש:300,ת:400};
+const FIN={ך:'כ',ם:'מ',ן:'נ',ף:'פ',ץ:'צ'},GAD={ך:500,ם:600,ן:700,ף:800,ץ:900},AB='אבגדהוזחטיכלמנסעפצקרשת';
+const GRK={α:1,β:2,γ:3,δ:4,ε:5,ϛ:6,ζ:7,η:8,θ:9,ι:10,κ:20,λ:30,μ:40,ν:50,ξ:60,ο:70,π:80,ϟ:90,ϙ:90,ρ:100,σ:200,ς:200,τ:300,υ:400,φ:500,χ:600,ψ:700,ω:800,ϡ:900};
+const lang=w=>{for(const ch of w){if(ch>='֐'&&ch<='׿')return'he';if((ch>='Ͱ'&&ch<='Ͽ')||(ch>='ἀ'&&ch<='῿'))return'gr'}return''};
+const M=()=>$('hm').value;
+function heb(w){const rows=[];let t=0;for(const ch of w.normalize('NFD')){if(!(ch in HEB)&&!(ch in FIN))continue;const b=FIN[ch]||ch,m=M();let v;
+ if(m==='gadol'&&GAD[ch])v=GAD[ch];else if(m==='katan'){v=HEB[b];while(v>9)v=String(v).split('').reduce((a,d)=>a+ +d,0)}else if(m==='atbash')v=HEB[AB[21-AB.indexOf(b)]];else v=HEB[b];rows.push([ch,v]);t+=v}return{t,rows}}
+function grk(w){const rows=[];let t=0;for(const ch of w.toLowerCase().normalize('NFD')){if(/\p{M}/u.test(ch)||!(ch in GRK))continue;rows.push([ch,GRK[ch]]);t+=GRK[ch]}return{t,rows}}
+const val=w=>{const l=lang(w);return l?Object.assign({l},l==='he'?heb(w):grk(w)):null};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BK=window.BIBLE;
+// tabs
+[['go','Explore'],['ask','Bots'],['decode','Decode'],['hunt','Hunt'],['read','Read'],['help','Help']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
+function show(k){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
+// keyboards
+'αβγδεϛζηθικλμνξοπϟρσςτυφχψωϡ'.split('').forEach(c=>kb('kbg',c));'אבגדהוזחטיכלמנסעפצקרשתךםןףץ'.split('').forEach(c=>kb('kbh',c));
+function kb(id,c){const b=document.createElement('button');b.textContent=c;b.onclick=()=>{const q=$('q'),s=q.selectionStart??q.value.length,e=q.selectionEnd??s;q.value=q.value.slice(0,s)+c+q.value.slice(e);q.selectionStart=q.selectionEnd=s+1};$(id).appendChild(b)}
+['kbg','kbh'].forEach(id=>{const b=document.createElement('button');b.className='sp';b.textContent='⌫';b.onclick=()=>{const q=$('q');q.value=q.value.slice(0,-1)};$(id).appendChild(b);const g=document.createElement('button');g.className='sp';g.textContent='space';g.onclick=()=>{$('q').value+=' '};$(id).appendChild(g)});
+$('kg').onclick=()=>{$('kbg').classList.toggle('on');$('kbh').classList.remove('on')};$('kh').onclick=()=>{$('kbh').classList.toggle('on');$('kbg').classList.remove('on')};$('kx').onclick=()=>{$('q').value='';$('out').innerHTML='<div class="empty">Tap one of the words above to see how it works.</div>'};
+// index for "same value"
+let IDX=null;function index(){IDX=new Map();BK.forEach((b,bi)=>b.v.forEach(([ch,vs,ws])=>ws.forEach(w=>{let a=IDX.get(w[2]);if(!a)IDX.set(w[2],a=[]);a.push([bi,ch,vs,w[0],w[1]])})))}
+function same(n,cp,limit){if(!IDX)index();const hits=(IDX.get(n)||[]).filter(x=>!cp||BK[x[0]].c===cp),g=new Map();
+ hits.forEach(x=>{const k=BK[x[0]].c+'|'+x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(BK[x[0]].n+' '+x[1]+':'+x[2])});
+ const rows=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,limit);
+ let h='<div class="card"><p class="cap">In the Bible text</p>';
+ if(!hits.length)return h+'<p class="mut">No word in the Hebrew Bible or Greek New Testament has the value '+n+'.</p></div>';
+ h+='<p style="margin:0 0 6px"><b>'+hits.length+'</b> places, <b>'+g.size+'</b> different forms</p><table>'+rows.map(([k,refs])=>{const[c,s]=k.split('|');return'<tr><td><a class="w2 '+(c==='MT'?'he2':'gr')+'" data-q="'+esc(s)+'">'+esc(s)+'</a></td><td class="n">'+refs.length+'×</td><td class="mut">'+esc(refs.slice(0,2).join(', '))+'</td></tr>'}).join('')+'</table>';
+ if(g.size>limit)h+='<p class="mut" style="margin:8px 0 0">The '+limit+' most frequent forms are shown.</p>';
+ let lw=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===n)lw.push([l,e])}));
+ h+='</div>';
+ if(lw.length)h+='<div class="card"><p class="cap">In the Strong\'s word list</p><table>'+lw.slice(0,15).map(([l,e])=>'<tr><td><a class="w2 '+(l==='hebrew'?'he2':'gr')+'" data-q="'+esc(e[1])+'">'+esc(e[1])+'</a></td><td class="mut">'+esc(e[2])+'</td><td class="mut">'+esc(e[3])+'</td></tr>').join('')+'</table>'+(lw.length>15?'<p class="mut" style="margin:8px 0 0">'+lw.length+' words in all; the first 15 are shown.</p>':'')+'</div>';
+ return h}
+function chance(la,lb){const d=l=>{const c=new Map();LEX[l].forEach(e=>c.set(e[4],(c.get(e[4])||0)+1));return[c,LEX[l].length]};const[A,na]=d(la),[B,nb]=d(lb);let p=0;A.forEach((n,v)=>{if(B.has(v))p+=n/na*B.get(v)/nb});return p}
+const nm=l=>l==='gr'?'greek':'hebrew';
+function beads(r){return'<div class="chain '+(r.l==='he'?'he':'')+'">'+r.rows.map((x,i)=>(i?'<span class="plus">+</span>':'')+'<div class="bead"><b>'+esc(x[0])+'</b><i>'+x[1]+'</i></div>').join('')+'</div>'}
+function wordCard(w,r){return'<div class="card"><div class="top"><p class="word '+r.l+'">'+esc(w)+'</p><div class="val">'+r.t+'</div></div>'+beads(r)+'</div>'}
+function bind(el){el.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;explore();window.scrollTo({top:0,behavior:'smooth'})});
+ const c=el.querySelector('#cmp-go');if(c)c.onclick=()=>doCmp(el);const ci=el.querySelector('#cmp-in');if(ci)ci.onkeydown=e=>{if(e.key==='Enter')doCmp(el)}}
+let cur=null;
+function doCmp(el){const b=el.querySelector('#cmp-in').value.trim(),rb=val(b),o=el.querySelector('#cmp-out');if(!rb){o.innerHTML='<p class="mut">Type a Greek or Hebrew word.</p>';return}
+ const d=rb.t-cur.t;let h='<div style="margin-top:14px"><div class="top"><p class="word '+rb.l+'" style="font-size:32px">'+esc(b)+'</p><div class="val" style="font-size:38px">'+rb.t+'</div></div>'+beads(rb)+'<p style="margin:14px 0 4px">Difference: <b style="color:var(--go);font-size:24px">'+(d>0?'+':'')+d+'</b></p>';
+ if(!d){const one=Math.round(1/chance(nm(cur.l),nm(rb.l)));h+='<p class="ok" style="margin:4px 0">Equal.</p><p class="mut" style="margin:0">About 1 random pair in '+one+' shares a value, so a match like this turns up by chance roughly every '+one+' pairs tried.</p>'}
+ o.innerHTML=h+'</div>'}
+function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML='';return}
+ if(/^\d+$/.test(q)){out.innerHTML='<div class="card"><p class="cap">Number</p><div class="val">'+q+'</div></div>'+same(+q,'',40);bind(out);return}
+ const vm=q.match(/^(\d?\s?[A-Za-z]+)\.?\s+(\d+)[:.](\d+)(?:\s*[-–]\s*(\d+))?$/);
+ if(vm){const bi=BK.findIndex(b=>b.n.toLowerCase()===vm[1].replace(/\s/g,'').toLowerCase());if(bi<0){out.innerHTML='<div class="empty">I do not know that book. Try Gen, Exod, Ps, Matt, John, Rev.</div>';return}verseOut(out,bi,+vm[2],+vm[3],+(vm[4]||vm[3]));return}
+ const ws=q.split(/[\s,;]+/).filter(Boolean),rs=ws.map(w=>[w,val(w)]).filter(x=>x[1]);
+ if(!rs.length){out.innerHTML='<div class="empty">I read Greek and Hebrew words, numbers like 430, and verses like Gen 1:1.</div>';return}
+ let h='';
+ if(rs.length>1){const tot=rs.reduce((a,x)=>a+x[1].t,0);h+='<div class="card"><p class="cap">All together</p><div class="val">'+tot+'</div><p class="mut" style="margin:6px 0 0">'+rs.length+' words added up. Tap a word below to explore it.</p></div>';
+  rs.forEach(([w,r])=>{h+='<div class="card"><div class="top"><a class="w2 word '+r.l+'" data-q="'+esc(w)+'" style="border:0;font-size:34px">'+esc(w)+'</a><div class="val" style="font-size:40px">'+r.t+'</div></div>'+beads(r)+'</div>'});out.innerHTML=h;bind(out);return}
+ const[w,r]=rs[0];cur=r;
+ h+=wordCard(w,r)+(r.l==='gr'?'<div class="card"><p class="cap">Code reading</p>'+(()=>{const u=kodUnits(w);return u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')})()+'</div>':'')+'<div class="card"><p class="cap">Compare with another word</p><div class="cmp"><input id="cmp-in" dir="auto" placeholder="ΚΑΛΑΜΟΣ" autocomplete="off"><button id="cmp-go">Compare</button></div><div id="cmp-out"></div></div>'+same(r.t,'',12);
+ out.innerHTML=h;bind(out)}
+function verseOut(out,bi,c,v1,v2){const b=BK[bi];let tot=0,h='<div class="card"><p class="cap">'+esc(b.n)+' '+c+':'+v1+(v2>v1?'-'+v2:'')+'</p><table>';const cls=b.c==='MT'?'he2':'gr';let any=false;
+ b.v.forEach(([ch,vs,ws])=>{if(ch!==c||vs<v1||vs>v2)return;any=true;let vt=0;ws.forEach(w=>{vt+=w[2];h+='<tr><td class="mut">'+ch+':'+vs+'</td><td><a class="w2 '+cls+'" data-q="'+esc(w[0])+'">'+esc(w[0])+'</a></td><td class="mut">'+esc(w[1])+'</td><td class="n">'+w[2]+'</td></tr>'});tot+=vt;if(v2>v1)h+='<tr><td></td><td class="mut">verse total</td><td></td><td class="n">'+vt+'</td></tr>'});
+ if(!any){out.innerHTML='<div class="empty">No such verse.</div>';return}
+ h+='</table><p style="margin:12px 0 0">Total <span class="val" style="font-size:40px">'+tot+'</span> <a class="w2" data-q="'+tot+'" style="margin-left:10px;font-size:15px">words with this number</a></p></div>';out.innerHTML=h;bind(out)}
+// read tab
+const sb=$('s-b');[['MT','Hebrew Bible'],['NT','Greek New Testament']].forEach(([c,n])=>{const g=document.createElement('optgroup');g.label=n;BK.forEach((b,i)=>{if(b.c===c){const o=document.createElement('option');o.value=i;o.textContent=b.n;g.appendChild(o)}});sb.appendChild(g)});
+function fill(sel,arr){sel.innerHTML='';arr.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;sel.appendChild(o)})}
+function chapters(){fill($('s-c'),[...new Set(BK[sb.value].v.map(x=>x[0]))]);verses()}
+function verses(){const vs=BK[sb.value].v.filter(x=>x[0]===+$('s-c').value).map(x=>x[1]);fill($('s-v1'),vs);fill($('s-v2'),vs);$('s-v2').value=vs[0]}
+sb.onchange=chapters;$('s-c').onchange=verses;$('s-v1').onchange=()=>{if(+$('s-v2').value<+$('s-v1').value)$('s-v2').value=$('s-v1').value};chapters();
+$('s-go').onclick=()=>{const v1=+$('s-v1').value;verseOut($('s-out'),+sb.value,+$('s-c').value,v1,Math.max(v1,+$('s-v2').value));$('s-out').querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore()})};
+$('go').onclick=explore;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')explore()});$('hm').onchange=explore;
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{$('q').value=c.dataset.q;explore()});
+
+
+// ======== ELLIN LOGOS CODE (Theologos Simioforos, ramafa.gr; meanings paraphrased) ========
+const KOD={α:'original force, the sun\'s first light',β:'energy in every form; sound and voice in motion',γ:'an earthy particle; a flow settling into the ground',δ:'the force that builds and shapes; creation',ε:'force flowing outward from the light; motion and extent',ζ:'life, heat, warmth',η:'a double descent of light; appearing, revelation',θ:'seeing, observation',ι:'a small steady flow of force from the light, moving both ways, unseen',κ:'what is below; lower energy',λ:'solar light above, moisture below',μ:'visible, gathered nature',ν:'mind, law and water in nature',ξ:'Κ + Σ: what lies below, inside an inner space',ο:'a bounded space of any size',π:'fire, the first element; above, fatherly',ρ:'flow, first of the light-energies, then any flow',σ:'inward, internal seeing',τ:'stabilising of force or sight; solid',υ:'a large accumulation of force or light',φ:'light',χ:'earthy, soil-like substance',ψ:'Π + Σ: inner fire, the soul',ω:'the planet, earthly space; light settling on earth'};
+const KDI={αι:'original power continually descending',αυ:'original light accumulated in great amount',ει:'movement and extent with a continuous supply of power; being',ευ:'movement with accumulation: the good',οι:'a space with a small, two-way, hidden flow',ου:'a filled, structured space'};
+function kodUnits(w){const t=grk(w).rows.map(r=>r[0]==='ς'?'σ':r[0]);const out=[];for(let i=0;i<t.length;i++){const d=t[i]+(t[i+1]||'');if(KDI[d]){out.push([d,KDI[d]]);i++}else if(KOD[t[i]])out.push([t[i],KOD[t[i]]])}return out}
+function kodCard(w){const u=kodUnits(w);if(!u.length)return'';return'<div class="card"><div class="top"><p class="word gr" style="font-size:36px">'+esc(w)+'</p></div><div class="chain">'+u.map((x,i)=>(i?'<span class="plus">·</span>':'')+'<div class="bead" style="max-width:150px;text-align:center"><b>'+esc(x[0])+'</b><i style="font:13px/1.3 \'Noto Sans\',sans-serif;color:var(--dim)">'+esc(x[1])+'</i></div>').join('')+'</div><p style="margin:14px 0 0"><span class="mut">Reads:</span> '+u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')+'</p></div>'}
+function doDecode(){const q=$('d-in').value.trim(),o=$('d-out');if(!q){o.innerHTML='';return}const ws=q.split(/[\s,;]+/).filter(w=>lang(w)==='gr');o.innerHTML=ws.length?ws.map(kodCard).join('')+'<p class="mut" style="margin:6px 4px">Meanings are the Code\'s own, paraphrased from ramafa.gr. They are a reading, not standard etymology.</p>':'<div class="empty">Type a Greek word.</div>'}
+$('d-go').onclick=doDecode;$('d-in').addEventListener('keydown',e=>{if(e.key==='Enter')doDecode()});document.querySelectorAll('[data-d]').forEach(c=>c.onclick=()=>{$('d-in').value=c.dataset.d;doDecode()});
+
+// ======== THE HUNTER ========
+function norm(w,l){if(l==='gr'){let o='';for(const ch of w.toLowerCase().normalize('NFD')){if(/\p{M}/u.test(ch))continue;const c=ch==='ς'?'σ':ch;if(c in GRK)o+=c}return o}
+ let o='';for(const ch of w.normalize('NFD')){if(ch in HEB)o+=ch;else if(ch in FIN)o+=FIN[ch]}return o}
+function pdist(a,b,max){ // edit distance up to max (returns max+1 if more)
+ if(Math.abs(a.length-b.length)>max)return max+1;let p=[];for(let j=0;j<=b.length;j++)p[j]=j;
+ for(let i=1;i<=a.length;i++){const c=[i];let m=i;for(let j=1;j<=b.length;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));if(c[j]<m)m=c[j]}if(m>max)return max+1;p=c}return p[b.length]}
+function delvars(w,depth){const out=new Set([w]);let cur=[w];for(let d=0;d<depth;d++){const nx=[];for(const x of cur)for(let i=0;i<x.length;i++){const y=x.slice(0,i)+x.slice(i+1);if(!out.has(y)){out.add(y);nx.push(y)}}cur=nx}return out}
+function isEnding(a,b){let i=0;while(i<a.length&&i<b.length&&a[i]===b[i])i++;return i>=Math.min(a.length,b.length)-2}
+let LEMSET=null;function lemmas(){if(LEMSET)return LEMSET;LEMSET={gr:new Map(),he:new Map()};LEX.greek.forEach(e=>{const n=norm(e[1],'gr');if(n.length>=4&&!LEMSET.gr.has(n))LEMSET.gr.set(n,e)});LEX.hebrew.forEach(e=>{const n=norm(e[1],'he');if(n.length>=3&&!LEMSET.he.has(n))LEMSET.he.set(n,e)});return LEMSET}
+function tokenise(text){const sents=text.split(/[.·;!?;·׃\n\r]+/);const toks=[];let sid=0;for(const s of sents){const parts=s.split(/[^\p{L}\p{M}]+/u).filter(Boolean);let any=false;for(const p of parts){const l=lang(p);if(!l)continue;const n=norm(p,l);if(!n)continue;toks.push({raw:p,n,l,sid});any=true}if(any)sid++}return toks}
+function hunt(text,opt){
+ const toks=tokenise(text);const D={gr:new Map(),he:new Map()};
+ toks.forEach(t=>{const m=D[t.l];let e=m.get(t.n);if(!e)m.set(t.n,e={n:t.n,raw:t.raw,c:0,v:(t.l==='gr'?grk(t.raw):heb(t.raw)).t});e.c++});
+ const R={words:toks.length,gd:D.gr.size,hd:D.he.size,swaps:[],hidden:[],matches:[],repeat:[],phr:[],nums:[]};
+ for(const l of ['gr','he']){
+  const words=[...D[l].values()].filter(w=>w.n.length>=(l==='gr'?4:3));
+  // swaps
+  const buckets=new Map();words.filter(w=>w.n.length>=(l==='gr'?5:4)).forEach(w=>{for(const k of delvars(w.n,2)){if(!k)continue;let b=buckets.get(k);if(!b)buckets.set(k,b=[]);b.push(w)}});
+  const seen=new Set();
+  buckets.forEach(b=>{if(b.length<2||b.length>40)return;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];const key=a.n<c.n?a.n+'|'+c.n:c.n+'|'+a.n;if(seen.has(key))continue;seen.add(key);const d=pdist(a.n,c.n,2);if(d>2||(d===2&&Math.abs(a.n.length-c.n.length)!==1))continue;if(!opt.end&&isEnding(a.n,c.n))continue;
+   R.swaps.push({a,c,l,d,delta:c.v-a.v})}});
+  // hidden words
+  const lm=lemmas()[l];words.forEach(w=>{if(w.n.length<(l==='gr'?6:4))return;const found=[];for(let len=Math.min(w.n.length-1,10);len>=(l==='gr'?4:3);len--){for(let i=0;i+len<=w.n.length;i++){const sub=w.n.slice(i,i+len);const e=lm.get(sub);if(!e)continue;if(w.n.startsWith(sub)&&w.n.length-len<=3)continue;if(w.n.endsWith(sub)&&w.n.length-len<=3)continue;if(found.some(f=>f.sub.includes(sub)))continue;found.push({sub,e,at:i})}}
+   found.slice(0,2).forEach(f=>R.hidden.push({w,l,sub:f.sub,e:f.e}))});
+  // same value
+  words.forEach(w=>{const hits=LEX[l==='gr'?'greek':'hebrew'].filter(e=>e[4]===w.v&&norm(e[1],l)!==w.n);if(hits.length&&hits.length<=5)R.matches.push({w,l,hits})});
+ }
+ // repeats
+ R.repeat=[...D.gr.values(),...D.he.values()].filter(w=>w.n.length>=4&&w.c>=3).sort((a,b)=>b.c-a.c).slice(0,25).map(w=>({w,l:lang(w.raw)}));
+ const ph=new Map();for(let i=0;i<toks.length-1;i++){for(let k=2;k<=3;k++){if(i+k>toks.length)break;const sl=toks.slice(i,i+k);if(sl.some(t=>t.sid!==sl[0].sid))break;const key=sl.map(t=>t.n).join(' ');let e=ph.get(key);if(!e)ph.set(key,e={key,raw:sl.map(t=>t.raw).join(' '),c:0,l:sl[0].l,k});e.c++}}
+ R.phr=[...ph.values()].filter(p=>p.c>=3&&p.raw.length>=8).sort((a,b)=>b.c*b.k-a.c*a.k).slice(0,20);
+ // optional numbers
+ if(opt.nums.length){const vs=toks.map(t=>(t.l==='gr'?grk(t.raw):heb(t.raw)).t);const P=[0];vs.forEach(v=>P.push(P[P.length-1]+v));const T=new Set(opt.nums);
+  for(let k=1;k<=6;k++)for(let i=0;i+k<=toks.length;i++){const s=P[i+k]-P[i];if(T.has(s)&&toks[i].sid===toks[i+k-1].sid)R.nums.push({n:s,raw:toks.slice(i,i+k).map(t=>t.raw).join(' '),l:toks[i].l})}}
+ R.swaps.sort((a,b)=>Math.min(b.a.n.length,b.c.n.length)-Math.min(a.a.n.length,a.c.n.length)||a.d-b.d||Math.min(b.a.c,b.c.c)-Math.min(a.a.c,a.c.c));
+ R.hidden.sort((a,b)=>b.sub.length-a.sub.length||b.w.c-a.w.c);
+ R.matches.sort((a,b)=>a.hits.length-b.hits.length||b.w.c-a.w.c);
+ return R}
+const cl=l=>l==='he'?'he2':'gr';
+const wl=(raw,l)=>'<a class="w2 '+cl(l)+'" data-q="'+esc(raw)+'">'+esc(raw)+'</a>';
+function huntOut(R){let h='<div class="card"><p class="cap">What I read</p><p style="margin:0"><b>'+R.words+'</b> words in all: <b>'+R.gd+'</b> different Greek words and <b>'+R.hd+'</b> different Hebrew words.</p></div>';
+ if(!R.words)return'<div class="empty">I found no Greek or Hebrew words in that. If it is a scanned PDF (a picture of pages), I cannot read it. Text you can select and copy works.</div>';
+ const sec=(t,sub,body)=>'<div class="card"><p class="cap">'+t+'</p><p class="mut" style="margin:0 0 8px">'+sub+'</p>'+body+'</div>';
+ h+=sec('Swaps','Words in your text that differ by one or two letters. The last column shows how the number moves.',R.swaps.length?'<table>'+R.swaps.slice(0,40).map(s=>'<tr><td>'+wl(s.a.raw,s.l)+' <span class="mut">'+s.a.v+'</span></td><td class="mut">→</td><td>'+wl(s.c.raw,s.l)+' <span class="mut">'+s.c.v+'</span></td><td class="n">'+(s.delta>0?'+':'')+s.delta+'</td></tr>').join('')+'</table>'+(R.swaps.length>40?'<p class="mut" style="margin:8px 0 0">'+R.swaps.length+' pairs found, the first 40 shown.</p>':''):'<p class="mut">None found.</p>');
+ h+=sec('Words hiding inside words','A longer word that carries a smaller dictionary word inside it.',R.hidden.length?'<table>'+R.hidden.slice(0,40).map(x=>'<tr><td>'+wl(x.w.raw,x.l)+'</td><td class="mut">holds</td><td>'+wl(x.e[1],x.l)+'</td><td class="mut">'+esc(x.e[2])+' '+esc(x.e[3].slice(0,40))+'</td></tr>').join('')+'</table>'+(R.hidden.length>40?'<p class="mut" style="margin:8px 0 0">'+R.hidden.length+' found, the longest 40 shown.</p>':''):'<p class="mut">None found.</p>');
+ h+=sec('Same number, other words','Words in your text that share their number with only a few dictionary words.',R.matches.length?'<table>'+R.matches.slice(0,30).map(m=>'<tr><td>'+wl(m.w.raw,m.l)+'</td><td class="n">'+m.w.v+'</td><td>'+m.hits.slice(0,3).map(e=>wl(e[1],m.l)+' <span class="mut">'+esc(e[3].slice(0,24))+'</span>').join(' · ')+'</td></tr>').join('')+'</table>'+(R.matches.length>30?'<p class="mut" style="margin:8px 0 0">'+R.matches.length+' words matched, the first 30 shown.</p>':''):'<p class="mut">None found.</p>');
+ h+=sec('What keeps coming back','Words and phrases that repeat.','<table>'+R.repeat.slice(0,15).map(x=>'<tr><td>'+wl(x.w.raw,x.l)+'</td><td class="n">'+x.w.c+'×</td><td class="mut">'+x.w.v+'</td></tr>').join('')+R.phr.slice(0,10).map(p=>'<tr><td>'+esc(p.raw)+'</td><td class="n">'+p.c+'×</td><td class="mut">phrase</td></tr>').join('')+'</table>');
+ if(R.nums.length){const g=new Map();R.nums.forEach(x=>{const k=x.n+'|'+x.raw;g.set(k,(g.get(k)||0)+1)});h+=sec('Your numbers','Words and phrases that add up to a number you asked for.','<table>'+[...g.entries()].slice(0,40).map(([k,c])=>{const[n,raw]=k.split('|');return'<tr><td>'+esc(raw)+'</td><td class="n">'+n+'</td><td class="mut">'+c+'×</td></tr>'}).join('')+'</table>')}
+ return h}
+function runHunt(text){const o=$('h-out'),st=$('h-st');st.textContent='Hunting...';o.innerHTML='';setTimeout(()=>{try{const nums=($('h-num').value.match(/\d+/g)||[]).map(Number);const R=hunt(text,{end:$('h-end').checked,nums});o.innerHTML=huntOut(R);o.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore();window.scrollTo(0,0)});st.textContent='Done.'}catch(e){st.textContent='Something went wrong: '+e.message}},30)}
+$('h-go').onclick=()=>{const t=$('h-txt').value;if(!t.trim()){$('h-st').textContent='Open a file or paste some text first.';return}runHunt(t)};
+$('h-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;const st=$('h-st');st.textContent='Reading '+f.name+'...';
+ try{let text='';if(/\.pdf$/i.test(f.name)){const buf=await f.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p);const tc=await pg.getTextContent();text+=tc.items.map(i=>i.str+(i.hasEOL?'\n':' ')).join('')+'\n';if(p%10===0)st.textContent='Reading page '+p+' of '+pdf.numPages+'...'}}else text=await f.text();
+  $('h-txt').value=text;st.textContent='Read '+text.length.toLocaleString()+' characters. Hunting...';runHunt(text)}catch(err){st.textContent='I could not read that file: '+err.message}};
+
+// ======== THE THREE BOTS (Claude, with the engine as its tools) ========
+const BOTS={
+ b1:{name:'Bot 1 · Hebrew',role:'Hebrew words and verses, roots, loanwords and variants.',chips:['ים סוף: what is it, where does it appear?','Show Exodus 14:21 word by word','Which Hebrew words equal 86?'],
+  sys:'You are Bot 1, the Hebrew bot of Mandos\'s Symbolic Engine. Corpus: the Hebrew Bible (Westminster Leningrad Codex) held in the tools. You give the Hebrew side of a question: the verse and where it sits, the words, their Strong\'s numbers, roots and meanings, loanword flags (for example Egyptian or Akkadian origins), and variants. You do not interpret symbolically and you do not compare with Greek; if asked, say Bot 3 does that.'},
+ b2:{name:'Bot 2 · Greek',role:'Greek words, the New Testament, mythology, and the Ellin Logos Code.',chips:['Decode ΑΒΡΑΣΑΞ the Code way','Decode ΚΑΔΜΟΣ and ΚΑΛΑΜΟΣ and show what changes','Read John 1:1-3 through the Code'],
+  sys:'You are Bot 2, the Greek bot of Mandos\'s Symbolic Engine. Corpus: the Greek New Testament held in the tools, plus what you know of Homer, Hesiod, Plato, the tragedians, Nonnus and Greek myth. Read Greek by its living sounds (ου is one sound; β sounds v; η, ι, υ, ει, οι sound alike). Your main method is the Ellin Logos Code of Theologos Simioforos (ramafa.gr): every letter and diphthong has one code meaning, and a word is read by joining them, cutting the word into syllables the way his decodes do. Use the code_reading tool for the units, then write the reading as a flowing sentence and say how it fits the myth or text. Lead with sound and the Code. Give numbers only when asked or as a short side note. For texts older than the isopsephy tradition (Homer, Hesiod, most of Plato) say plainly that a number is applied afterwards. Call the Code readings "Code reading". Never invent letter meanings: use only the table the tool returns.'},
+ b3:{name:'Bot 3 · Nexus',role:'Compares Hebrew and Greek, tests your ideas, and checks the sums.',chips:['Compare ΚΑΔΜΟΣ with ΚΑΛΑΜΟΣ: does the change hold?','Is ΝΟΜΟΣ = ΑΡΙΘΜΟΣ unusual?','Compare ים סוף with Ἐρυθρὰ Θάλασσα by sound'],
+  sys:'You are Bot 3, the Nexus bot of Mandos\'s Symbolic Engine. You work with Mandos as an investigator. He gives a lead; you test it. Always answer in two parts. First "The Codex": the symbolic, sound-based reading in warm plain words, using the Ellin Logos Code where it helps (code_reading tool) and living Greek sounds. Then "The Record": redo every sum with the tools, say whether each claim holds, say how common such a match is by chance (chance tool), and add one short line wherever the Codex goes beyond standard linguistics or anatomy. Mark each claim as checked (a tool or named source backs it), a reading (interpretation), or disputed. Never let a strong Codex reading raise the Record. If a sum fails, say so kindly and show it.'}
+};
+const BASE='You work for Mandos (ΦΥ ΨΗ), the lead investigator, who spots the patterns while you test them. Write in warm, plain language, short paragraphs, no jargon. Phonetic Archaeology does not judge people; it checks claims. Every number and every verse must come from your tools; never add letter values in your head, never invent verses, Strong\'s numbers or sources, and if a tool finds nothing say so. Greek is counted in the house system of 27 signs (stigma 6, koppa 90, sampi 900, final sigma 200, accents ignored); Hebrew counts finals as plain letters unless asked. Keep answers focused and not long.';
+let curBot='b1';const HIST={b1:[],b2:[],b3:[]};
+function mkBots(){const w=$('bots');Object.keys(BOTS).forEach(k=>{const b=document.createElement('button');b.textContent=BOTS[k].name;b.dataset.k=k;b.onclick=()=>pick(k);w.appendChild(b)});pick('b1')}
+function pick(k){curBot=k;document.querySelectorAll('#bots button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$('bot-role').textContent=BOTS[k].role;$('a-chips').innerHTML='<span>Try:</span>';BOTS[k].chips.forEach(c=>{const b=document.createElement('button');b.className='chip';b.style.font="15px 'Noto Sans',sans-serif";b.textContent=c;b.onclick=()=>{$('a-in').value=c};$('a-chips').appendChild(b)});render()}
+const mdl=t=>{let h=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');const out=[];let li=false;h.split(/\n/).forEach(l=>{if(/^\s*[-•]\s+/.test(l)){if(!li){out.push('<ul>');li=true}out.push('<li>'+l.replace(/^\s*[-•]\s+/,'')+'</li>')}else{if(li){out.push('</ul>');li=false}if(l.trim())out.push('<p>'+l+'</p>')}});if(li)out.push('</ul>');return out.join('')};
+function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>'<div class="msg '+(m.role==='user'?'me':'bot')+'"><b class="n">'+(m.role==='user'?'You':BOTS[curBot].name)+'</b>'+mdl(m.content)+'</div>').join('')}
+// tools the bots can call (all run inside this page)
+function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase()===String(n).replace(/\s/g,'').toLowerCase())}
+const TOOLS=[
+ {name:'value',description:'Number value of a Greek or Hebrew word or phrase, with every letter. Greek: 27-sign house system. Hebrew: standard.',inputSchema:{type:'object',properties:{text:{type:'string'},hebrew_method:{type:'string',enum:['hechrachi','gadol','katan','atbash']}},required:['text']},
+  execute:({text,hebrew_method})=>{const old=$('hm').value;if(hebrew_method)$('hm').value=hebrew_method;try{return text.split(/\s+/).filter(Boolean).map(w=>{const r=val(w);return r?{word:w,value:r.t,letters:r.rows.map(x=>x[0]+x[1]).join(' + ')}:{word:w,error:'not Greek or Hebrew'}})}finally{$('hm').value=old}}},
+ {name:'verse',description:'Words of a Bible verse range with Strong\'s numbers and values. Hebrew Bible or Greek New Testament. Book names: Gen, Exod, Lev, Num, Deut, Ps, Isa, Matt, Mark, Luke, John, Acts, Rom, Rev and so on.',inputSchema:{type:'object',properties:{book:{type:'string'},chapter:{type:'integer'},from:{type:'integer'},to:{type:'integer'}},required:['book','chapter','from']},
+  execute:({book,chapter,from,to})=>{const bi=bookIdx(book);if(bi<0)return{error:'unknown book',books:BK.map(b=>b.n).join(', ')};const b=BK[bi],t=to||from;let tot=0;const verses=[];b.v.forEach(([ch,vs,ws])=>{if(ch!==chapter||vs<from||vs>t)return;const vt=ws.reduce((a,w)=>a+w[2],0);tot+=vt;if(verses.length<12)verses.push({verse:ch+':'+vs,total:vt,words:ws.map(w=>w[0]+' ('+w[1]+', '+w[2]+')').join(' ')})});return verses.length?{book:b.n,corpus:b.c==='MT'?'Hebrew Bible':'Greek New Testament',verses,total:tot}:{error:'no such verse'}}},
+ {name:'same_value',description:'Every word in the Hebrew Bible and Greek New Testament with a given number value, plus dictionary words with that value.',inputSchema:{type:'object',properties:{value:{type:'integer'},corpus:{type:'string',enum:['MT','NT']}},required:['value']},
+  execute:({value,corpus})=>{if(!IDX)index();const hits=(IDX.get(value)||[]).filter(x=>!corpus||BK[x[0]].c===corpus),g=new Map();hits.forEach(x=>{const k=x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(BK[x[0]].n+' '+x[1]+':'+x[2])});const forms=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,15).map(([k,r])=>({form:k.split('|')[0],strongs:k.split('|')[1],times:r.length,first:r[0]}));const lex=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===value&&lex.length<12)lex.push({word:e[1],says:e[2],meaning:e[3].slice(0,50)})}));return{places:hits.length,different_forms:g.size,top_forms:forms,dictionary_words:lex}}},
+ {name:'code_reading',description:'Ellin Logos Code (Theologos Simioforos, ramafa.gr) reading of a Greek word: each letter or diphthong with its code meaning. Use only these meanings.',inputSchema:{type:'object',properties:{word:{type:'string'}},required:['word']},
+  execute:({word})=>{const u=kodUnits(word);return u.length?{word,units:u.map(x=>({unit:x[0],meaning:x[1]}))}:{error:'not a Greek word'}}},
+ {name:'chance',description:'How often two random words share a number value, in the dictionary word list. Use to judge whether an equal-value match is rare.',inputSchema:{type:'object',properties:{a:{type:'string'},b:{type:'string'}},required:['a','b']},
+  execute:({a,b})=>{const ra=val(a),rb=val(b);if(!ra||!rb)return{error:'need Greek or Hebrew words'};const p=chance(nm(ra.l),nm(rb.l));return{a_value:ra.t,b_value:rb.t,equal:ra.t===rb.t,one_random_pair_in:Math.round(1/p)}}}
+];
+let busy=false;
+async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;const st=$('a-st');
+ let sample=null;try{sample=await (window.claude&&window.claude.use?window.claude.use('sample'):null)}catch(e){}
+ if(!sample){st.textContent='The bots work when this page is opened from Claude. The other tabs work anywhere.';return}
+ busy=true;st.textContent='Thinking...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';render();
+ const sys=BASE+'\n\n'+BOTS[curBot].sys;
+ const msgs=H.map((m,i)=>i===0?{role:'user',content:'INSTRUCTIONS (follow them, do not repeat them):\n'+sys+'\n\nMANDOS ASKS:\n'+m.content}:m);
+ H.push({role:'assistant',content:''});const my=H[H.length-1];
+ try{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'complex',onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}
+ catch(e){H.pop();st.textContent=e&&e.code==='rate_limited'?'Too many questions at once. Wait a moment and try again.':e&&e.code==='not_granted'?'Permission was not given, so the bots cannot answer.':'The bot could not answer: '+((e&&e.message)||'error')}
+ busy=false;render()}
+$('a-go').onclick=ask;$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
+mkBots();
+try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
+</script></body></html>

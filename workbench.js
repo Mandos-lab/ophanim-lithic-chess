@@ -15,6 +15,7 @@
     '#bench .br{min-width:0}' +
     '#bench .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:sticky;top:56px;z-index:5;background:var(--bg);padding:6px 0}' +
     '#bench .tabs button{font:600 15px "Noto Sans",sans-serif;padding:9px 12px;border-radius:8px;border:1px solid rgba(232,195,117,.4);background:none;color:var(--ink);cursor:pointer}' +
+    '#bench .tabs a.eng{font:600 15px "Noto Sans",sans-serif;padding:9px 12px;border-radius:8px;border:1px solid rgba(70,227,240,.55);color:var(--cyan,#46e3f0);text-decoration:none;margin-left:auto}' +
     '#bench .tabs button.on{background:rgba(232,195,117,.2);color:var(--gold);border-color:var(--gold)}' +
     '#bench .pane{display:none;max-height:min(calc(100vh - 170px),780px);overflow:auto;padding-right:6px}#bench .pane.on{display:block}' +
     '#bench .pane .reveal{opacity:1 !important;transform:none !important}' +
@@ -59,7 +60,9 @@
   function show(k) { if (panes[k]) panes[k].scrollTop = 0;  Object.keys(panes).forEach(function (j) { panes[j].classList.toggle('on', j === k); }); [].forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.getAttribute('data-k') === k); }); try { sessionStorage.setItem('ophbench', k); } catch (e) { } window.dispatchEvent(new Event('resize')); }
   function addTab(k) { if (!panes[k]) return; var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-k', k); b.setAttribute('role', 'tab'); b.textContent = L[k]; b.onclick = function () { show(k); }; tabs.appendChild(b); }
   var order = ['calc', 'find', 'dict', 'texts', 'mine', 'list', 'help'];
-  function build() { tabs.innerHTML = ''; order.forEach(addTab); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
+  var engA = null;
+  if (/greek-sphere|hebrew-sphere/.test(location.pathname)) { engA = document.createElement('a'); engA.className = 'eng'; engA.target = '_blank'; engA.rel = 'noopener'; engA.href = 'research-engine/'; engA.textContent = el ? 'Μηχανή έρευνας ↗' : 'Research Engine ↗'; }
+  function build() { tabs.innerHTML = ''; order.forEach(addTab); if (engA) tabs.appendChild(engA); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
   /* the My words panel is added by mywords.js a little later */
   var tries = 0, tm = setInterval(function () { var mw = document.getElementById('mywords'); tries++; if (mw && !pane('mine').contains(mw)) { pane('mine').appendChild(mw); var cur = tabs.querySelector('.on'); build(); if (cur) show(cur.getAttribute('data-k')); } if (tries > 40 || (mw && pane('mine').contains(mw))) clearInterval(tm); }, 250);
   build();
@@ -71,7 +74,7 @@
     function put(inp, v, force) { if (!inp) return; var cur = inp.value.trim(); if (force || cur === '' || cur === last) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); var f = inp.closest && inp.closest('form'); if (f) f.dispatchEvent(new Event('rt-fill')); } }
     function sync(first) {
       var v = conv(hy.value); if (v === last) return;
-      put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
+      if (engA) engA.href = 'research-engine/' + (v ? '#q=' + encodeURIComponent(v.split(/\s+/)[0]) : ''); put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
     }
     sync(true); setInterval(function () { sync(false); }, 400);
   })();
