@@ -54,7 +54,7 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
  <div class="kbtog"><span>No Greek or Hebrew keyboard?</span><a id="kg">Greek letters</a><a id="kh">Hebrew letters</a><a id="kx">Clear</a></div>
  <div class="kb" id="kbg"></div><div class="kb he" id="kbh"></div>
  <div class="chips"><span>Try:</span><button class="chip" data-q="ΚΑΔΜΟΣ">ΚΑΔΜΟΣ</button><button class="chip" data-q="ΚΑΛΑΜΟΣ">ΚΑΛΑΜΟΣ</button><button class="chip" data-q="ים סוף">ים סוף</button><button class="chip" data-q="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button class="chip" data-q="430">430</button><button class="chip" data-q="Gen 1:1">Gen 1:1</button></div>
- <details><summary>More options</summary><label>Hebrew method</label><select id="hm"><option value="hechrachi">Standard (final letters count as plain letters)</option><option value="gadol">Gadol (final letters 500 to 900)</option><option value="katan">Katan (digits reduced)</option><option value="atbash">Atbash</option></select></details>
+ <details><summary>More options</summary><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="cl"> Include Homer, Hesiod and Plato in searches (loads 7 MB)</label><span class="mut" id="cl-st"></span><label>Hebrew method</label><select id="hm"><option value="hechrachi">Standard (final letters count as plain letters)</option><option value="gadol">Gadol (final letters 500 to 900)</option><option value="katan">Katan (digits reduced)</option><option value="atbash">Atbash</option></select></details>
  <div id="out"><div class="empty">Tap one of the words above to see how it works.</div></div>
 </section>
 
@@ -65,7 +65,7 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
  <p class="mut" id="bot-role" style="margin:10px 0 0"></p>
  <textarea id="a-in" dir="auto" style="width:100%;min-height:90px;margin-top:12px;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:12px;font:19px 'Noto Serif',serif" placeholder="Ask here"></textarea>
  <div class="chips" id="a-chips"></div>
- <p style="margin:10px 0 0"><button class="btn" id="a-go" style="padding:12px 26px">Ask</button> <button class="cmp-b" id="a-new">New conversation</button> <span class="mut" id="a-st"></span></p></div>
+ <p style="margin:10px 0 0"><button class="btn" id="a-go" style="padding:12px 26px">Ask</button> <button class="cmp-b" id="a-stop">Stop</button> <button class="cmp-b" id="a-new">New conversation</button> <span class="mut" id="a-st"></span></p></div>
  <div id="a-out"></div></section>
 
 <section class="tab" id="t-decode">
@@ -91,17 +91,18 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 <section class="tab" id="t-read"><div class="card"><div class="row">
  <div><label>Book</label><select id="s-b"></select></div><div><label>Chapter</label><select id="s-c"></select></div>
  <div><label>From verse</label><select id="s-v1"></select></div><div><label>To verse</label><select id="s-v2"></select></div></div>
+ <p class="mut" style="margin:10px 0 0">Homer, Hesiod and Plato load when you pick them. <a class="w2" id="s-cl">Load them now</a></p>
  <p style="margin:12px 0 0"><button class="btn" id="s-go" style="padding:10px 22px">Show</button></p></div><div id="s-out"></div></section>
 
 <section class="tab" id="t-help"><div class="card"><p class="cap">How it works</p>
 <p>Use the box on the first screen. It understands three things:</p>
 <p><b>A word</b> (Greek or Hebrew). You get its number, built letter by letter like beads on a chain, then the other words with the same number, and where it appears in the Bible.</p>
 <p><b>A number.</b> You get every word with that number.</p>
-<p><b>A verse</b>, like Gen 1:1 or John 1:1-3. You get each word with its number, and the total.</p>
+<p><b>A verse</b>, like Gen 1:1 or John 1:1-3. Also Iliad 1:1, Odyssey 1:1, Theogony 1:116, and Plato by page and section, like Cratylus 383a. You get each word with its number, and the total.</p>
 <p>Tap any word in the results to look it up. To compare two words, use the Compare box under a word.</p>
 <p>No keyboard for Greek or Hebrew? Tap "Greek letters" or "Hebrew letters" under the box.</p>
 <p>Greek counts the 27 signs (stigma 6, koppa 90, sampi 900); final sigma is 200; accents are ignored.</p>
-<p class="mut">Texts: Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0); SBL Greek New Testament with MorphGNT (CC BY-SA 3.0). Word list: Strong's dictionaries from Open Scriptures (CC-BY-SA). The Septuagint is not included yet.</p></div></section>
+<p class="mut">Texts: Homer, Hesiod and Plato from the Perseus Digital Library (Tufts University, CC BY-SA 4.0; Allen, Solmsen and Burnet editions). Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0); SBL Greek New Testament with MorphGNT (CC BY-SA 3.0). Word list: Strong's dictionaries from Open Scriptures (CC-BY-SA). The Septuagint is not included yet.</p></div></section>
 </div>
 <script src="data.js"></script>
 <script src="pdf.min.js"></script><script src="pdf.worker.min.js"></script>
@@ -118,6 +119,11 @@ function grk(w){const rows=[];let t=0;for(const ch of w.toLowerCase().normalize(
 const val=w=>{const l=lang(w);return l?Object.assign({l},l==='he'?heb(w):grk(w)):null};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const BK=window.BIBLE;
+const ref=(b,ch,vs)=>b.c==='PL'?b.n+' '+ch+String.fromCharCode(96+vs):b.n+' '+ch+':'+vs;
+const CLS={loaded:false,p:null};
+function ensureClassics(){if(CLS.loaded)return Promise.resolve();if(CLS.p)return CLS.p;
+ CLS.p=new Promise((ok,no)=>{const go=()=>{try{window.CLASSICS.forEach(b=>BK.push({c:b.c,n:b.n,v:b.v.map(([ch,vs,ws])=>[ch,vs,ws.map(w=>{const i=w.lastIndexOf(':');return[w.slice(0,i),'',+w.slice(i+1)]})])}));CLS.loaded=true;IDX=null;if(window.rebuildBooks)window.rebuildBooks();ok()}catch(e){CLS.p=null;no(e)}};
+  if(window.CLASSICS)return go();const sc=document.createElement('script');sc.src='classics.js';sc.onload=go;sc.onerror=()=>{CLS.p=null;no(new Error('Could not load the classical texts'))};document.head.appendChild(sc)});return CLS.p}
 // tabs
 [['go','Explore'],['ask','Bots'],['decode','Decode'],['hunt','Hunt'],['read','Read'],['help','Help']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
 function show(k){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
@@ -129,9 +135,9 @@ $('kg').onclick=()=>{$('kbg').classList.toggle('on');$('kbh').classList.remove('
 // index for "same value"
 let IDX=null;function index(){IDX=new Map();BK.forEach((b,bi)=>b.v.forEach(([ch,vs,ws])=>ws.forEach(w=>{let a=IDX.get(w[2]);if(!a)IDX.set(w[2],a=[]);a.push([bi,ch,vs,w[0],w[1]])})))}
 function same(n,cp,limit){if(!IDX)index();const hits=(IDX.get(n)||[]).filter(x=>!cp||BK[x[0]].c===cp),g=new Map();
- hits.forEach(x=>{const k=BK[x[0]].c+'|'+x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(BK[x[0]].n+' '+x[1]+':'+x[2])});
+ hits.forEach(x=>{const k=BK[x[0]].c+'|'+x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(ref(BK[x[0]],x[1],x[2]))});
  const rows=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,limit);
- let h='<div class="card"><p class="cap">In the Bible text</p>';
+ let h='<div class="card"><p class="cap">In the texts</p>';
  if(!hits.length)return h+'<p class="mut">No word in the Hebrew Bible or Greek New Testament has the value '+n+'.</p></div>';
  h+='<p style="margin:0 0 6px"><b>'+hits.length+'</b> places, <b>'+g.size+'</b> different forms</p><table>'+rows.map(([k,refs])=>{const[c,s]=k.split('|');return'<tr><td><a class="w2 '+(c==='MT'?'he2':'gr')+'" data-q="'+esc(s)+'">'+esc(s)+'</a></td><td class="n">'+refs.length+'×</td><td class="mut">'+esc(refs.slice(0,2).join(', '))+'</td></tr>'}).join('')+'</table>';
  if(g.size>limit)h+='<p class="mut" style="margin:8px 0 0">The '+limit+' most frequent forms are shown.</p>';
@@ -152,8 +158,9 @@ function doCmp(el){const b=el.querySelector('#cmp-in').value.trim(),rb=val(b),o=
  o.innerHTML=h+'</div>'}
 function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML='';return}
  if(/^\d+$/.test(q)){out.innerHTML='<div class="card"><p class="cap">Number</p><div class="val">'+q+'</div></div>'+same(+q,'',40);bind(out);return}
- const vm=q.match(/^(\d?\s?[A-Za-z]+)\.?\s+(\d+)[:.](\d+)(?:\s*[-–]\s*(\d+))?$/);
- if(vm){const bi=BK.findIndex(b=>b.n.toLowerCase()===vm[1].replace(/\s/g,'').toLowerCase());if(bi<0){out.innerHTML='<div class="empty">I do not know that book. Try Gen, Exod, Ps, Matt, John, Rev.</div>';return}verseOut(out,bi,+vm[2],+vm[3],+(vm[4]||vm[3]));return}
+ const pm=q.match(/^([A-Za-z]+)\s+(\d+)([a-e])$/);
+ const vm=pm?[q,pm[1],pm[2],String(pm[3].charCodeAt(0)-96)]:q.match(/^(\d?\s?[A-Za-z]+)\.?\s+(\d+)[:.](\d+)(?:\s*[-–]\s*(\d+))?$/);
+ if(vm){const go=()=>{const bi=BK.findIndex(b=>b.n.toLowerCase()===vm[1].replace(/\s/g,'').toLowerCase());if(bi<0){out.innerHTML='<div class="empty">I do not know that book. Try Gen, Ps, Matt, John, Rev, Iliad, Odyssey, Cratylus 383a.</div>';return}verseOut(out,bi,+vm[2],+vm[3],+(vm[4]||vm[3]))};if(!CLS.loaded&&/^(iliad|odyssey|theogony|worksdays|cratylus|timaeus|critias|republic|phaedrus|symposium|phaedo)$/i.test(vm[1])){out.innerHTML='<div class="empty">Loading the classical texts...</div>';ensureClassics().then(go).catch(e=>{out.innerHTML='<div class="empty">'+esc(e.message)+'</div>'})}else go();return}
  const ws=q.split(/[\s,;]+/).filter(Boolean),rs=ws.map(w=>[w,val(w)]).filter(x=>x[1]);
  if(!rs.length){out.innerHTML='<div class="empty">I read Greek and Hebrew words, numbers like 430, and verses like Gen 1:1.</div>';return}
  let h='';
@@ -162,17 +169,20 @@ function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML
  const[w,r]=rs[0];cur=r;
  h+=wordCard(w,r)+(r.l==='gr'?'<div class="card"><p class="cap">Code reading</p>'+(()=>{const u=kodUnits(w);return u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')})()+'</div>':'')+'<div class="card"><p class="cap">Compare with another word</p><div class="cmp"><input id="cmp-in" dir="auto" placeholder="ΚΑΛΑΜΟΣ" autocomplete="off"><button id="cmp-go">Compare</button></div><div id="cmp-out"></div></div>'+same(r.t,'',12);
  out.innerHTML=h;bind(out)}
-function verseOut(out,bi,c,v1,v2){const b=BK[bi];let tot=0,h='<div class="card"><p class="cap">'+esc(b.n)+' '+c+':'+v1+(v2>v1?'-'+v2:'')+'</p><table>';const cls=b.c==='MT'?'he2':'gr';let any=false;
- b.v.forEach(([ch,vs,ws])=>{if(ch!==c||vs<v1||vs>v2)return;any=true;let vt=0;ws.forEach(w=>{vt+=w[2];h+='<tr><td class="mut">'+ch+':'+vs+'</td><td><a class="w2 '+cls+'" data-q="'+esc(w[0])+'">'+esc(w[0])+'</a></td><td class="mut">'+esc(w[1])+'</td><td class="n">'+w[2]+'</td></tr>'});tot+=vt;if(v2>v1)h+='<tr><td></td><td class="mut">verse total</td><td></td><td class="n">'+vt+'</td></tr>'});
+function verseOut(out,bi,c,v1,v2){const b=BK[bi];let tot=0,h='<div class="card"><p class="cap">'+esc(b.c==='PL'?b.n+' '+c+String.fromCharCode(96+v1)+(v2>v1?'-'+String.fromCharCode(96+v2):''):b.n+' '+c+':'+v1+(v2>v1?'-'+v2:''))+'</p><table>';const cls=b.c==='MT'?'he2':'gr';let any=false;
+ b.v.forEach(([ch,vs,ws])=>{if(ch!==c||vs<v1||vs>v2)return;any=true;let vt=0;ws.forEach(w=>{vt+=w[2];h+='<tr><td class="mut">'+(b.c==='PL'?ch+String.fromCharCode(96+vs):ch+':'+vs)+'</td><td><a class="w2 '+cls+'" data-q="'+esc(w[0])+'">'+esc(w[0])+'</a></td><td class="mut">'+esc(w[1])+'</td><td class="n">'+w[2]+'</td></tr>'});tot+=vt;if(v2>v1)h+='<tr><td></td><td class="mut">verse total</td><td></td><td class="n">'+vt+'</td></tr>'});
  if(!any){out.innerHTML='<div class="empty">No such verse.</div>';return}
  h+='</table><p style="margin:12px 0 0">Total <span class="val" style="font-size:40px">'+tot+'</span> <a class="w2" data-q="'+tot+'" style="margin-left:10px;font-size:15px">words with this number</a></p></div>';out.innerHTML=h;bind(out)}
 // read tab
-const sb=$('s-b');[['MT','Hebrew Bible'],['NT','Greek New Testament']].forEach(([c,n])=>{const g=document.createElement('optgroup');g.label=n;BK.forEach((b,i)=>{if(b.c===c){const o=document.createElement('option');o.value=i;o.textContent=b.n;g.appendChild(o)}});sb.appendChild(g)});
-function fill(sel,arr){sel.innerHTML='';arr.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;sel.appendChild(o)})}
+const sb=$('s-b');function rebuildBooks(){const keep=sb.value;sb.innerHTML='';[['MT','Hebrew Bible'],['NT','Greek New Testament'],['GK','Homer and Hesiod'],['PL','Plato']].forEach(([c,n])=>{const g=document.createElement('optgroup');g.label=n;BK.forEach((b,i)=>{if(b.c===c){const o=document.createElement('option');o.value=i;o.textContent=b.n;g.appendChild(o)}});if(g.children.length)sb.appendChild(g)});if(keep&&sb.querySelector('option[value="'+keep+'"]'))sb.value=keep;chapters()}
+window.rebuildBooks=rebuildBooks;
+function fill(sel,arr,lab){sel.innerHTML='';arr.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=lab?lab(x):x;sel.appendChild(o)})}
 function chapters(){fill($('s-c'),[...new Set(BK[sb.value].v.map(x=>x[0]))]);verses()}
-function verses(){const vs=BK[sb.value].v.filter(x=>x[0]===+$('s-c').value).map(x=>x[1]);fill($('s-v1'),vs);fill($('s-v2'),vs);$('s-v2').value=vs[0]}
-sb.onchange=chapters;$('s-c').onchange=verses;$('s-v1').onchange=()=>{if(+$('s-v2').value<+$('s-v1').value)$('s-v2').value=$('s-v1').value};chapters();
+function verses(){const pl=BK[sb.value].c==='PL';const lab=pl?(x=>String.fromCharCode(96+x)):null;const vs=BK[sb.value].v.filter(x=>x[0]===+$('s-c').value).map(x=>x[1]);fill($('s-v1'),vs,lab);fill($('s-v2'),vs,lab);$('s-v2').value=vs[0]}
+sb.onchange=chapters;$('s-c').onchange=verses;$('s-v1').onchange=()=>{if(+$('s-v2').value<+$('s-v1').value)$('s-v2').value=$('s-v1').value};rebuildBooks();
+$('s-cl').onclick=()=>{$('s-cl').textContent='Loading...';ensureClassics().then(()=>{$('s-cl').textContent='Loaded'}).catch(e=>{$('s-cl').textContent=e.message})};
 $('s-go').onclick=()=>{const v1=+$('s-v1').value;verseOut($('s-out'),+sb.value,+$('s-c').value,v1,Math.max(v1,+$('s-v2').value));$('s-out').querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore()})};
+$('cl').onchange=()=>{if($('cl').checked){$('cl-st').textContent='Loading...';ensureClassics().then(()=>{$('cl-st').textContent='Loaded.';explore()}).catch(e=>{$('cl-st').textContent=e.message;$('cl').checked=false})}};
 $('go').onclick=explore;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')explore()});$('hm').onchange=explore;
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{$('q').value=c.dataset.q;explore()});
 
@@ -245,7 +255,7 @@ const BOTS={
  b1:{name:'Bot 1 · Hebrew',role:'Hebrew words and verses, roots, loanwords and variants.',chips:['ים סוף: what is it, where does it appear?','Show Exodus 14:21 word by word','Which Hebrew words equal 86?'],
   sys:'You are Bot 1, the Hebrew bot of Mandos\'s Symbolic Engine. Corpus: the Hebrew Bible (Westminster Leningrad Codex) held in the tools. You give the Hebrew side of a question: the verse and where it sits, the words, their Strong\'s numbers, roots and meanings, loanword flags (for example Egyptian or Akkadian origins), and variants. You do not interpret symbolically and you do not compare with Greek; if asked, say Bot 3 does that.'},
  b2:{name:'Bot 2 · Greek',role:'Greek words, the New Testament, mythology, and the Ellin Logos Code.',chips:['Decode ΑΒΡΑΣΑΞ the Code way','Decode ΚΑΔΜΟΣ and ΚΑΛΑΜΟΣ and show what changes','Read John 1:1-3 through the Code'],
-  sys:'You are Bot 2, the Greek bot of Mandos\'s Symbolic Engine. Corpus: the Greek New Testament held in the tools, plus what you know of Homer, Hesiod, Plato, the tragedians, Nonnus and Greek myth. Read Greek by its living sounds (ου is one sound; β sounds v; η, ι, υ, ει, οι sound alike). Your main method is the Ellin Logos Code of Theologos Simioforos (ramafa.gr): every letter and diphthong has one code meaning, and a word is read by joining them, cutting the word into syllables the way his decodes do. Use the code_reading tool for the units, then write the reading as a flowing sentence and say how it fits the myth or text. Lead with sound and the Code. Give numbers only when asked or as a short side note. For texts older than the isopsephy tradition (Homer, Hesiod, most of Plato) say plainly that a number is applied afterwards. Call the Code readings "Code reading". Never invent letter meanings: use only the table the tool returns.'},
+  sys:'You are Bot 2, the Greek bot of Mandos\'s Symbolic Engine. Corpus: the Greek New Testament, Homer (Iliad, Odyssey), Hesiod (Theogony, Works and Days) and Plato (Cratylus, Timaeus, Critias, Republic, Phaedrus, Symposium, Phaedo), all held in the tools, plus what you know of the tragedians, Nonnus and Greek myth. Read Greek by its living sounds (ου is one sound; β sounds v; η, ι, υ, ει, οι sound alike). Your main method is the Ellin Logos Code of Theologos Simioforos (ramafa.gr): every letter and diphthong has one code meaning, and a word is read by joining them, cutting the word into syllables the way his decodes do. Use the code_reading tool for the units, then write the reading as a flowing sentence and say how it fits the myth or text. Lead with sound and the Code. Give numbers only when asked or as a short side note. For texts older than the isopsephy tradition (Homer, Hesiod, most of Plato) say plainly that a number is applied afterwards. Call the Code readings "Code reading". Never invent letter meanings: use only the table the tool returns.'},
  b3:{name:'Bot 3 · Nexus',role:'Compares Hebrew and Greek, tests your ideas, and checks the sums.',chips:['Compare ΚΑΔΜΟΣ with ΚΑΛΑΜΟΣ: does the change hold?','Is ΝΟΜΟΣ = ΑΡΙΘΜΟΣ unusual?','Compare ים סוף with Ἐρυθρὰ Θάλασσα by sound'],
   sys:'You are Bot 3, the Nexus bot of Mandos\'s Symbolic Engine. You work with Mandos as an investigator. He gives a lead; you test it. Always answer in two parts. First "The Codex": the symbolic, sound-based reading in warm plain words, using the Ellin Logos Code where it helps (code_reading tool) and living Greek sounds. Then "The Record": redo every sum with the tools, say whether each claim holds, say how common such a match is by chance (chance tool), and add one short line wherever the Codex goes beyond standard linguistics or anatomy. Mark each claim as checked (a tool or named source backs it), a reading (interpretation), or disputed. Never let a strong Codex reading raise the Record. If a sum fails, say so kindly and show it.'}
 };
@@ -260,10 +270,10 @@ function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase()===String(n).replace
 const TOOLS=[
  {name:'value',description:'Number value of a Greek or Hebrew word or phrase, with every letter. Greek: 27-sign house system. Hebrew: standard.',inputSchema:{type:'object',properties:{text:{type:'string'},hebrew_method:{type:'string',enum:['hechrachi','gadol','katan','atbash']}},required:['text']},
   execute:({text,hebrew_method})=>{const old=$('hm').value;if(hebrew_method)$('hm').value=hebrew_method;try{return text.split(/\s+/).filter(Boolean).map(w=>{const r=val(w);return r?{word:w,value:r.t,letters:r.rows.map(x=>x[0]+x[1]).join(' + ')}:{word:w,error:'not Greek or Hebrew'}})}finally{$('hm').value=old}}},
- {name:'verse',description:'Words of a Bible verse range with Strong\'s numbers and values. Hebrew Bible or Greek New Testament. Book names: Gen, Exod, Lev, Num, Deut, Ps, Isa, Matt, Mark, Luke, John, Acts, Rom, Rev and so on.',inputSchema:{type:'object',properties:{book:{type:'string'},chapter:{type:'integer'},from:{type:'integer'},to:{type:'integer'}},required:['book','chapter','from']},
-  execute:({book,chapter,from,to})=>{const bi=bookIdx(book);if(bi<0)return{error:'unknown book',books:BK.map(b=>b.n).join(', ')};const b=BK[bi],t=to||from;let tot=0;const verses=[];b.v.forEach(([ch,vs,ws])=>{if(ch!==chapter||vs<from||vs>t)return;const vt=ws.reduce((a,w)=>a+w[2],0);tot+=vt;if(verses.length<12)verses.push({verse:ch+':'+vs,total:vt,words:ws.map(w=>w[0]+' ('+w[1]+', '+w[2]+')').join(' ')})});return verses.length?{book:b.n,corpus:b.c==='MT'?'Hebrew Bible':'Greek New Testament',verses,total:tot}:{error:'no such verse'}}},
- {name:'same_value',description:'Every word in the Hebrew Bible and Greek New Testament with a given number value, plus dictionary words with that value.',inputSchema:{type:'object',properties:{value:{type:'integer'},corpus:{type:'string',enum:['MT','NT']}},required:['value']},
-  execute:({value,corpus})=>{if(!IDX)index();const hits=(IDX.get(value)||[]).filter(x=>!corpus||BK[x[0]].c===corpus),g=new Map();hits.forEach(x=>{const k=x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(BK[x[0]].n+' '+x[1]+':'+x[2])});const forms=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,15).map(([k,r])=>({form:k.split('|')[0],strongs:k.split('|')[1],times:r.length,first:r[0]}));const lex=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===value&&lex.length<12)lex.push({word:e[1],says:e[2],meaning:e[3].slice(0,50)})}));return{places:hits.length,different_forms:g.size,top_forms:forms,dictionary_words:lex}}},
+ {name:'verse',description:'Words of a Bible verse range with Strong\'s numbers and values. Hebrew Bible, Greek New Testament, Iliad and Odyssey (chapter = book number, from/to = line), Theogony and WorksDays (chapter 1, from/to = line), and the Plato dialogues Cratylus, Timaeus, Critias, Republic, Phaedrus, Symposium, Phaedo (chapter = Stephanus page number, from/to = section number with a=1, b=2, c=3, d=4, e=5). Book names: Gen, Exod, Lev, Num, Deut, Ps, Isa, Matt, Mark, Luke, John, Acts, Rom, Rev and so on.',inputSchema:{type:'object',properties:{book:{type:'string'},chapter:{type:'integer'},from:{type:'integer'},to:{type:'integer'}},required:['book','chapter','from']},
+  execute:async({book,chapter,from,to})=>{await ensureClassics();const bi=bookIdx(book);if(bi<0)return{error:'unknown book',books:BK.map(b=>b.n).join(', ')};const b=BK[bi],t=to||from;let tot=0;const verses=[];b.v.forEach(([ch,vs,ws])=>{if(ch!==chapter||vs<from||vs>t)return;const vt=ws.reduce((a,w)=>a+w[2],0);tot+=vt;if(verses.length<12)verses.push({verse:b.c==='PL'?ch+String.fromCharCode(96+vs):ch+':'+vs,total:vt,words:ws.map(w=>w[0]+' ('+w[1]+', '+w[2]+')').join(' ')})});return verses.length?{book:b.n,corpus:({MT:'Hebrew Bible',NT:'Greek New Testament',GK:'Homer or Hesiod',PL:'Plato'})[b.c],verses,total:tot}:{error:'no such verse'}}},
+ {name:'same_value',description:'Every word in the Hebrew Bible and Greek New Testament with a given number value, plus dictionary words with that value.',inputSchema:{type:'object',properties:{value:{type:'integer'},corpus:{type:'string',enum:['MT','NT','GK','PL']}},required:['value']},
+  execute:async({value,corpus})=>{await ensureClassics();if(!IDX)index();const hits=(IDX.get(value)||[]).filter(x=>!corpus||BK[x[0]].c===corpus),g=new Map();hits.forEach(x=>{const k=x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(ref(BK[x[0]],x[1],x[2]))});const forms=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,15).map(([k,r])=>({form:k.split('|')[0],strongs:k.split('|')[1],times:r.length,first:r[0]}));const lex=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===value&&lex.length<12)lex.push({word:e[1],says:e[2],meaning:e[3].slice(0,50)})}));return{places:hits.length,different_forms:g.size,top_forms:forms,dictionary_words:lex}}},
  {name:'code_reading',description:'Ellin Logos Code (Theologos Simioforos, ramafa.gr) reading of a Greek word: each letter or diphthong with its code meaning. Use only these meanings.',inputSchema:{type:'object',properties:{word:{type:'string'}},required:['word']},
   execute:({word})=>{const u=kodUnits(word);return u.length?{word,units:u.map(x=>({unit:x[0],meaning:x[1]}))}:{error:'not a Greek word'}}},
  {name:'chance',description:'How often two random words share a number value, in the dictionary word list. Use to judge whether an equal-value match is rare.',inputSchema:{type:'object',properties:{a:{type:'string'},b:{type:'string'}},required:['a','b']},
@@ -273,14 +283,14 @@ let busy=false;
 async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;const st=$('a-st');
  let sample=null;try{sample=await (window.claude&&window.claude.use?window.claude.use('sample'):null)}catch(e){}
  if(!sample){st.textContent='The bots work when this page is opened from Claude. The other tabs work anywhere.';return}
- busy=true;st.textContent='Thinking...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';render();
+ busy=true;const ctl=new AbortController();window.__stop=()=>ctl.abort();st.textContent='Thinking...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';render();
  const sys=BASE+'\n\n'+BOTS[curBot].sys;
  const msgs=H.map((m,i)=>i===0?{role:'user',content:'INSTRUCTIONS (follow them, do not repeat them):\n'+sys+'\n\nMANDOS ASKS:\n'+m.content}:m);
  H.push({role:'assistant',content:''});const my=H[H.length-1];
- try{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'complex',onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}
- catch(e){H.pop();st.textContent=e&&e.code==='rate_limited'?'Too many questions at once. Wait a moment and try again.':e&&e.code==='not_granted'?'Permission was not given, so the bots cannot answer.':'The bot could not answer: '+((e&&e.message)||'error')}
+ try{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'default',signal:ctl.signal,onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}
+ catch(e){H.pop();st.textContent=e&&e.code==='cancelled'?'Stopped.':e&&e.code==='rate_limited'?'Too many questions at once. Wait a moment and try again.':e&&e.code==='not_granted'?'Permission was not given, so the bots cannot answer.':'The bot could not answer: '+((e&&e.message)||'error')}
  busy=false;render()}
-$('a-go').onclick=ask;$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
+$('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
 mkBots();
 try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
 </script></body></html>
