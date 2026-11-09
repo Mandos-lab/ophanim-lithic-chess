@@ -1,3 +1,7 @@
-One small file again (index.html). It replaces 174 (includes the Notebook and the book-name fix), so use this one if you have not pushed 174 yet.
-1. Unzip. Copy research-engine/index.html into your repo, into research-engine, replacing the old one.
-2. GitHub Desktop: commit, push. Wait 1 minute. Ctrl+F5.
+Septuagint + bot gateway, zip 177 (replaces 176 and 173-175: it has all of them).
+Copy these into your repo folder (the one with index.html, chess.html etc.), replacing if asked:
+  1. the folder  api          (one file inside: bot.js)
+  2. the file    vercel.json
+  3. the folder  research-engine  (two files inside: index.html and lxx.enc - lxx.enc is new)
+Commit, push to main, wait 1 minute, Ctrl+F5.
+Then in the engine: type  LXX Gen 1:1  in the first box. The first time it takes a moment to load (about 2 MB).
