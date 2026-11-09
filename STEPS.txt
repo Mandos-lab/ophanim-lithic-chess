@@ -1,7 +1,7 @@
-ENGINE 180 - Bot 4 (Resonance, experimental)
+ENGINE 181 - Latin-letter readings and "one word everywhere"
 
 1. Unzip this folder.
-2. It holds 2 folders. Copy the "api" folder and the "research-engine" folder into your repo folder. Say Replace if asked.
-3. GitHub Desktop: write "bot 4" in the Summary box, press Commit to main, then Push origin.
-4. Wait about 1 minute. Open the engine, Ctrl+F5, sign in, open the Bots tab. There are now 4 buttons.
-(The bots still need the AI key to answer. Bot 4 is built and waiting like the other three.)
+2. Open the folder "research-engine" inside it. Copy the 1 file (index.html) into your repo's research-engine folder. Say Replace.
+3. GitHub Desktop: write "latin reading" in the Summary box, Commit to main, then Push origin.
+4. Wait about 1 minute, Ctrl+F5, sign in.
+5. Explore: look up a word. Under it you see "Said in Latin letters". Now tap Decode, Read or Bots: your word is already there.
