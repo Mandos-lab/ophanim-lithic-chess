@@ -1,7 +1,7 @@
-Septuagint + bot gateway, zip 177 (replaces 176 and 173-175: it has all of them).
-Copy these into your repo folder (the one with index.html, chess.html etc.), replacing if asked:
-  1. the folder  api          (one file inside: bot.js)
-  2. the file    vercel.json
-  3. the folder  research-engine  (two files inside: index.html and lxx.enc - lxx.enc is new)
-Commit, push to main, wait 1 minute, Ctrl+F5.
-Then in the engine: type  LXX Gen 1:1  in the first box. The first time it takes a moment to load (about 2 MB).
+ENGINE 178 - Liddell and Scott lexicon
+
+1. Unzip this folder.
+2. Open the folder "research-engine" inside it. Copy the 2 files (index.html and lsj.enc) into your repo's research-engine folder. Say Replace if asked.
+3. GitHub Desktop: write "lexicon" in the Summary box, press Commit to main, then Push origin.
+4. Wait about 1 minute. Open the engine, press Ctrl+F5, sign in.
+5. Read tab: new box "Lexicon: Liddell and Scott". Type a Greek word (accents optional), press Look up.
