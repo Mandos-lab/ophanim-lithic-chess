@@ -1,3 +1,4 @@
-Only ONE small file changed (index.html), so this push is tiny.
+Only ONE small file (index.html), about 55 KB. This includes the book-name fix from zip 173, so you can skip 173.
 1. Unzip. Copy research-engine/index.html into your repo folder, into research-engine, replacing the old one.
 2. GitHub Desktop: commit, push. Wait 1 minute. Ctrl+F5.
+3. Open the new Notebook tab.

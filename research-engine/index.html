@@ -56,13 +56,22 @@ label{display:block;color:var(--dim);font-size:13px;margin:6px 0 4px}.row{displa
 details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 .bots{display:flex;flex-wrap:wrap;gap:8px}.bots button{font:600 15px 'Noto Sans',sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}.bots button.on{border-color:var(--go);color:var(--go);background:rgba(232,195,117,.12)}.cmp-b{font:600 14px 'Noto Sans',sans-serif;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 14px;cursor:pointer}.msg{border-radius:14px;padding:14px 16px;margin:12px 0;line-height:1.6}.msg.me{background:rgba(70,227,240,.08);border:1px solid var(--line)}.msg.bot{background:var(--panel);border:1px solid rgba(232,195,117,.3)}.msg b.n{display:block;color:var(--go);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.msg p{margin:0 0 10px}.msg ul{margin:0 0 10px;padding-left:20px}.empty{text-align:center;color:var(--dim);padding:26px 10px}
 @media(max-width:600px){body{font-size:17px}.word{font-size:36px}.val{font-size:44px}.search input{font-size:20px}}
+</style><style>
+#t-nb .it{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+#t-nb .it:last-child{border-bottom:0}
+#t-nb .k{font:600 11px 'Noto Sans';letter-spacing:.12em;text-transform:uppercase;color:var(--go);min-width:56px}
+#t-nb .qq{flex:1;min-width:140px;cursor:pointer;color:var(--ink);font:19px 'Noto Serif',serif;word-break:break-word}
+#t-nb .d{color:var(--dim);font-size:13px}
+#t-nb .nt{width:100%;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:15px 'Noto Sans'}
+#t-nb button.mini{background:none;border:1px solid var(--line);border-radius:999px;color:var(--cy);padding:3px 10px;cursor:pointer;font:600 13px 'Noto Sans'}
+#keepbtn{position:fixed;right:14px;bottom:14px;z-index:6;background:#0a1820;border:1px solid var(--go);color:var(--go);border-radius:999px;padding:10px 16px;font:600 15px 'Noto Sans';cursor:pointer;display:none}
 </style></head><body>
 <div id="gate"><div class="bx"><h2>SYMBOLIC ENGINE</h2><p>Private research tool. Sign in with your member account.</p>
 <form id="gf"><input id="ge" type="email" autocomplete="username" placeholder="Email"><input id="gp" type="password" autocomplete="current-password" placeholder="Password"><button type="submit" id="gb">Sign in</button></form>
 <p class="msg" id="gm"></p><p style="margin:10px 0 0"><a href="../library.html">&larr; Library</a></p></div></div><button id="outbtn" style="display:none">Sign out</button>
 <div class="w">
 <header><p style="margin:0 0 8px;font-size:14px"><a href="../library.html" style="color:var(--dim);text-decoration:none">← Library</a></p><h1>SYMBOLIC ENGINE</h1><p>Type a Greek or Hebrew word, a number, or a verse. Numbers, sounds and the Ellin Logos Code, all in one place.</p></header>
-<nav id="nav"></nav>
+<nav id="nav"></nav><button id="keepbtn">&#9733; Keep this</button>
 
 <section class="tab on" id="t-go">
  <div class="search"><input id="q" dir="auto" autocomplete="off" spellcheck="false" placeholder="ΚΑΔΜΟΣ   ·   ים סוף   ·   430   ·   John 1:1"><button id="go">Go</button></div>
@@ -109,12 +118,16 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
  <p class="mut" style="margin:10px 0 0">Homer, Hesiod and Plato load when you pick them. <a class="w2" id="s-cl">Load them now</a></p>
  <p style="margin:12px 0 0"><button class="btn" id="s-go" style="padding:10px 22px">Show</button></p></div><div id="s-out"></div></section>
 
+<section class="tab" id="t-nb">
+ <div class="card"><p class="cap">Kept in your notebook</p><p class="mut" style="margin:0 0 8px">Private to your account. It follows you from the Acer to your phone. Tap an item to open it again.</p><div id="nb-kept"><div class="empty">Loading...</div></div></div>
+ <div class="card"><p class="cap">Recent on this computer</p><p class="mut" style="margin:0 0 8px">Added automatically. Tap the star to keep one.</p><div id="nb-rec"></div><p style="margin:10px 0 0"><button class="chip" id="nb-clr">Clear recent</button></p></div>
+</section>
 <section class="tab" id="t-help"><div class="card"><p class="cap">How it works</p>
 <p>Use the box on the first screen. It understands three things:</p>
 <p><b>A word</b> (Greek or Hebrew). You get its number, built letter by letter like beads on a chain, then the other words with the same number, and where it appears in the Bible.</p>
 <p><b>A number.</b> You get every word with that number.</p>
 <p><b>A verse</b>, like Gen 1:1 or John 1:1-3. Also Yetzirah 1:1 (Sefer Yetzirah), Iliad 1:1, Odyssey 1:1, Theogony 1:116, and Plato by page and section, like Cratylus 383a. You get each word with its number, and the total.</p>
-<p>Tap any word in the results to look it up. To compare two words, use the Compare box under a word.</p>
+<p>The <b>Notebook</b> tab remembers what you looked up, and the star button keeps a find in your private account. Tap any word in the results to look it up. To compare two words, use the Compare box under a word.</p>
 <p>No keyboard for Greek or Hebrew? Tap "Greek letters" or "Hebrew letters" under the box.</p>
 <p>Greek counts the 27 signs (stigma 6, koppa 90, sampi 900); final sigma is 200; accents are ignored.</p>
 <p class="mut">Texts: Homer, Hesiod and Plato from the Perseus Digital Library (Tufts University, CC BY-SA 4.0; Allen, Solmsen and Burnet editions). Sefer Yetzirah, Warsaw 1884 edition, digitised by Sefaria (public domain). Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0); SBL Greek New Testament with MorphGNT (CC BY-SA 3.0). Word list: Strong's dictionaries from Open Scriptures (CC-BY-SA). The Septuagint is not included yet.</p></div></section>
@@ -139,8 +152,8 @@ function ensureClassics(){if(CLS.loaded)return Promise.resolve();if(CLS.p)return
  CLS.p=new Promise((ok,no)=>{const go=()=>{try{window.CLASSICS.forEach(b=>BK.push({c:b.c,n:b.n,v:b.v.map(([ch,vs,ws])=>[ch,vs,ws.map(w=>{const i=w.lastIndexOf(':');return[w.slice(0,i),'',+w.slice(i+1)]})])}));CLS.loaded=true;IDX=null;if(window.rebuildBooks)window.rebuildBooks();ok()}catch(e){CLS.p=null;no(e)}};
   if(window.CLASSICS)return go();window.__loadEnc('classics.enc').then(go,()=>{CLS.p=null;no(new Error('Could not load the classical texts'))})});return CLS.p}
 // tabs
-[['go','Explore'],['ask','Bots'],['decode','Decode'],['hunt','Hunt'],['read','Read'],['help','Help']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
-function show(k){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
+[['go','Explore'],['ask','Bots'],['decode','Decode'],['hunt','Hunt'],['read','Read'],['nb','Notebook'],['help','Help']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
+function show(k){if(k==='nb'&&window.nbRender)window.nbRender();window.__tab=k;if(window.nbKeepBtn)window.nbKeepBtn();document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
 // keyboards
 'αβγδεϛζηθικλμνξοπϟρσςτυφχψωϡ'.split('').forEach(c=>kb('kbg',c));'אבגדהוזחטיכלמנסעפצקרשתךםןףץ'.split('').forEach(c=>kb('kbh',c));
 function kb(id,c){const b=document.createElement('button');b.textContent=c;b.onclick=()=>{const q=$('q'),s=q.selectionStart??q.value.length,e=q.selectionEnd??s;q.value=q.value.slice(0,s)+c+q.value.slice(e);q.selectionStart=q.selectionEnd=s+1};$(id).appendChild(b)}
@@ -171,7 +184,7 @@ function doCmp(el){const b=el.querySelector('#cmp-in').value.trim(),rb=val(b),o=
  if(!d){const one=Math.round(1/chance(nm(cur.l),nm(rb.l)));h+='<p class="ok" style="margin:4px 0">Equal.</p><p class="mut" style="margin:0">About 1 random pair in '+one+' shares a value, so a match like this turns up by chance roughly every '+one+' pairs tried.</p>'}
  o.innerHTML=h+'</div>'}
 const AL={"genesis": "gen", "gn": "gen", "exodus": "exod", "ex": "exod", "exo": "exod", "leviticus": "lev", "lv": "lev", "numbers": "num", "nm": "num", "deuteronomy": "deut", "dt": "deut", "joshua": "josh", "judges": "judg", "1samuel": "1sam", "2samuel": "2sam", "1kings": "1kgs", "2kings": "2kgs", "1chronicles": "1chr", "2chronicles": "2chr", "nehemiah": "neh", "esther": "esth", "psalms": "ps", "psalm": "ps", "proverbs": "prov", "ecclesiastes": "eccl", "songofsongs": "song", "songofsolomon": "song", "isaiah": "isa", "jeremiah": "jer", "lamentations": "lam", "ezekiel": "ezek", "daniel": "dan", "hosea": "hos", "obadiah": "obad", "micah": "mic", "nahum": "nah", "habakkuk": "hab", "zephaniah": "zeph", "haggai": "hag", "zechariah": "zech", "malachi": "mal", "matthew": "matt", "mathew": "matt", "mathhew": "matt", "mat": "matt", "mt": "matt", "mk": "mark", "lk": "luke", "jn": "john", "romans": "rom", "1corinthians": "1cor", "2corinthians": "2cor", "galatians": "gal", "ephesians": "eph", "philippians": "phil", "colossians": "col", "1thessalonians": "1thess", "2thessalonians": "2thess", "1timothy": "1tim", "2timothy": "2tim", "philemon": "phlm", "hebrews": "heb", "james": "jas", "1peter": "1pet", "2peter": "2pet", "revelation": "rev", "apocalypse": "rev", "yetzirah": "yetzirah", "seferyetzirah": "yetzirah", "workandays": "worksdays", "worksanddays": "worksdays", "worksdays": "worksdays", "republic": "republic"};function canon(n){const k=String(n).toLowerCase().replace(/[\s.]/g,'');return AL[k]||k}
-function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML='';return}
+function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML='';return}if(window.nbLog)nbLog('look',q);
  if(/^\d+$/.test(q)){out.innerHTML='<div class="card"><p class="cap">Number</p><div class="val">'+q+'</div></div>'+same(+q,'',40);bind(out);return}
  const pm=q.match(/^([A-Za-z]+)\s+(\d+)([a-e])$/);
  const qv=q.replace(/\s*:\s*/g,':').replace(/\s*[-–]\s*(?=\d)/g,'-');const vm=pm?[q,pm[1],pm[2],String(pm[3].charCodeAt(0)-96)]:qv.match(/^(\d?\s?[A-Za-z]+)\.?\s+(\d+)[:.](\d+)(?:\s*[-–]\s*(\d+))?$/);
@@ -196,7 +209,7 @@ function chapters(){fill($('s-c'),[...new Set(BK[sb.value].v.map(x=>x[0]))]);ver
 function verses(){const pl=BK[sb.value].c==='PL';const lab=pl?(x=>String.fromCharCode(96+x)):null;const vs=BK[sb.value].v.filter(x=>x[0]===+$('s-c').value).map(x=>x[1]);fill($('s-v1'),vs,lab);fill($('s-v2'),vs,lab);$('s-v2').value=vs[0]}
 sb.onchange=chapters;$('s-c').onchange=verses;$('s-v1').onchange=()=>{if(+$('s-v2').value<+$('s-v1').value)$('s-v2').value=$('s-v1').value};rebuildBooks();
 $('s-cl').onclick=()=>{$('s-cl').textContent='Loading...';ensureClassics().then(()=>{$('s-cl').textContent='Loaded'}).catch(e=>{$('s-cl').textContent=e.message})};
-$('s-go').onclick=()=>{const v1=+$('s-v1').value;verseOut($('s-out'),+sb.value,+$('s-c').value,v1,Math.max(v1,+$('s-v2').value));$('s-out').querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore()})};
+$('s-go').onclick=()=>{const v1=+$('s-v1').value;if(window.nbLog){const bk=BK[+sb.value];nbLog('look',ref(bk,+$('s-c').value,v1)+(bk.c!=='PL'&&Math.max(v1,+$('s-v2').value)>v1?'-'+Math.max(v1,+$('s-v2').value):''))}verseOut($('s-out'),+sb.value,+$('s-c').value,v1,Math.max(v1,+$('s-v2').value));$('s-out').querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore()})};
 $('cl').onchange=()=>{if($('cl').checked){$('cl-st').textContent='Loading...';ensureClassics().then(()=>{$('cl-st').textContent='Loaded.';explore()}).catch(e=>{$('cl-st').textContent=e.message;$('cl').checked=false})}};
 $('go').onclick=explore;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')explore()});$('hm').onchange=explore;
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{$('q').value=c.dataset.q;explore()});
@@ -207,7 +220,7 @@ const KOD={α:'original force, the sun\'s first light',β:'energy in every form;
 const KDI={αι:'original power continually descending',αυ:'original light accumulated in great amount',ει:'movement and extent with a continuous supply of power; being',ευ:'movement with accumulation: the good',οι:'a space with a small, two-way, hidden flow',ου:'a filled, structured space'};
 function kodUnits(w){const t=grk(w).rows.map(r=>r[0]==='ς'?'σ':r[0]);const out=[];for(let i=0;i<t.length;i++){const d=t[i]+(t[i+1]||'');if(KDI[d]){out.push([d,KDI[d]]);i++}else if(KOD[t[i]])out.push([t[i],KOD[t[i]]])}return out}
 function kodCard(w){const u=kodUnits(w);if(!u.length)return'';return'<div class="card"><div class="top"><p class="word gr" style="font-size:36px">'+esc(w)+'</p></div><div class="chain">'+u.map((x,i)=>(i?'<span class="plus">·</span>':'')+'<div class="bead" style="max-width:150px;text-align:center"><b>'+esc(x[0])+'</b><i style="font:13px/1.3 \'Noto Sans\',sans-serif;color:var(--dim)">'+esc(x[1])+'</i></div>').join('')+'</div><p style="margin:14px 0 0"><span class="mut">Reads:</span> '+u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')+'</p></div>'}
-function doDecode(){const q=$('d-in').value.trim(),o=$('d-out');if(!q){o.innerHTML='';return}const ws=q.split(/[\s,;]+/).filter(w=>lang(w)==='gr');o.innerHTML=ws.length?ws.map(kodCard).join('')+'<p class="mut" style="margin:6px 4px">Meanings are the Code\'s own, paraphrased from ramafa.gr. They are a reading, not standard etymology.</p>':'<div class="empty">Type a Greek word.</div>'}
+function doDecode(){const q=$('d-in').value.trim(),o=$('d-out');if(!q){o.innerHTML='';return}if(window.nbLog)nbLog('decode',q);const ws=q.split(/[\s,;]+/).filter(w=>lang(w)==='gr');o.innerHTML=ws.length?ws.map(kodCard).join('')+'<p class="mut" style="margin:6px 4px">Meanings are the Code\'s own, paraphrased from ramafa.gr. They are a reading, not standard etymology.</p>':'<div class="empty">Type a Greek word.</div>'}
 $('d-go').onclick=doDecode;$('d-in').addEventListener('keydown',e=>{if(e.key==='Enter')doDecode()});document.querySelectorAll('[data-d]').forEach(c=>c.onclick=()=>{$('d-in').value=c.dataset.d;doDecode()});
 
 // ======== THE HUNTER ========
@@ -259,7 +272,7 @@ function huntOut(R){let h='<div class="card"><p class="cap">What I read</p><p st
  h+=sec('What keeps coming back','Words and phrases that repeat.','<table>'+R.repeat.slice(0,15).map(x=>'<tr><td>'+wl(x.w.raw,x.l)+'</td><td class="n">'+x.w.c+'×</td><td class="mut">'+x.w.v+'</td></tr>').join('')+R.phr.slice(0,10).map(p=>'<tr><td>'+esc(p.raw)+'</td><td class="n">'+p.c+'×</td><td class="mut">phrase</td></tr>').join('')+'</table>');
  if(R.nums.length){const g=new Map();R.nums.forEach(x=>{const k=x.n+'|'+x.raw;g.set(k,(g.get(k)||0)+1)});h+=sec('Your numbers','Words and phrases that add up to a number you asked for.','<table>'+[...g.entries()].slice(0,40).map(([k,c])=>{const[n,raw]=k.split('|');return'<tr><td>'+esc(raw)+'</td><td class="n">'+n+'</td><td class="mut">'+c+'×</td></tr>'}).join('')+'</table>')}
  return h}
-function runHunt(text){const o=$('h-out'),st=$('h-st');st.textContent='Hunting...';o.innerHTML='';setTimeout(()=>{try{const nums=($('h-num').value.match(/\d+/g)||[]).map(Number);const R=hunt(text,{end:$('h-end').checked,nums});o.innerHTML=huntOut(R);o.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore();window.scrollTo(0,0)});st.textContent='Done.'}catch(e){st.textContent='Something went wrong: '+e.message}},30)}
+function runHunt(text){if(window.nbLog)nbLog('hunt',text.trim().replace(/\s+/g,' ').slice(0,70),text);const o=$('h-out'),st=$('h-st');st.textContent='Hunting...';o.innerHTML='';setTimeout(()=>{try{const nums=($('h-num').value.match(/\d+/g)||[]).map(Number);const R=hunt(text,{end:$('h-end').checked,nums});o.innerHTML=huntOut(R);o.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore();window.scrollTo(0,0)});st.textContent='Done.'}catch(e){st.textContent='Something went wrong: '+e.message}},30)}
 $('h-go').onclick=()=>{const t=$('h-txt').value;if(!t.trim()){$('h-st').textContent='Open a file or paste some text first.';return}runHunt(t)};
 $('h-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;const st=$('h-st');st.textContent='Reading '+f.name+'...';
  try{let text='';if(/\.pdf$/i.test(f.name)){const buf=await f.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p);const tc=await pg.getTextContent();text+=tc.items.map(i=>i.str+(i.hasEOL?'\n':' ')).join('')+'\n';if(p%10===0)st.textContent='Reading page '+p+' of '+pdf.numPages+'...'}}else text=await f.text();
@@ -307,6 +320,29 @@ async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;
  busy=false;render()}
 $('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
 mkBots();
+// ===== Notebook =====
+const NB={rec:[],kept:[],cur:{look:null,decode:null,hunt:null},msg:''};
+const NBLS='se.rec.v1';
+try{NB.rec=JSON.parse(localStorage.getItem(NBLS)||'[]')}catch(e){NB.rec=[]}
+function nbSaveRec(){try{localStorage.setItem(NBLS,JSON.stringify(NB.rec))}catch(e){}}
+window.nbLog=function(kind,q,text){q=String(q||'').trim();if(!q)return;const key=kind+'|'+q.slice(0,200);NB.rec=NB.rec.filter(x=>x.key!==key);const it={key,kind,q:q.slice(0,200),t:Date.now()};if(text)it.text=String(text).slice(0,20000);NB.rec.unshift(it);NB.rec=NB.rec.slice(0,150);NB.cur[kind]=it;nbSaveRec();nbKeepBtn()};
+const NBK={go:'look',read:'look',decode:'decode',hunt:'hunt'};
+window.nbKeepBtn=function(){const b=$('keepbtn');if(!b)return;const k=NBK[window.__tab],it=k&&NB.cur[k];b.style.display=it?'block':'none';if(it)b.title='Keep: '+it.q};
+function nbDate(t){const d=new Date(t);return d.toLocaleDateString(undefined,{day:'numeric',month:'short'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}
+function nbOpen(it){if(it.kind==='look'){$('q').value=it.q;show('go');explore()}else if(it.kind==='decode'){$('d-in').value=it.q;show('decode');doDecode()}else{const tx=(it.text||(it.data&&it.data.text)||it.q);$('h-txt').value=tx;show('hunt');runHunt(tx)}window.scrollTo({top:0})}
+async function nbKeep(it){const sb=window.__sb;if(!sb)return nbSay('Not signed in.');const row={kind:it.kind,q:it.q,data:it.text?{text:it.text}:(it.data||{}),note:it.note||''};const r=await sb.from('engine_notes').insert(row).select().single();if(r.error){nbSay('Could not keep it: '+r.error.message);return}nbSay('Kept.');await nbLoadKept();nbRender()}
+function nbSay(m){const b=$('keepbtn');NB.msg=m;if(b){const o=b.innerHTML;b.innerHTML=m;setTimeout(()=>{b.innerHTML='&#9733; Keep this'},1600)}const e=$('nb-msg');if(e)e.textContent=m}
+async function nbLoadKept(){const sb=window.__sb;if(!sb)return;const r=await sb.from('engine_notes').select('*').order('created_at',{ascending:false}).limit(300);if(!r.error)NB.kept=r.data||[];else NB.keptErr=r.error.message}
+window.nbRender=async function(){
+ await nbLoadKept();
+ const K=$('nb-kept'),R=$('nb-rec');
+ K.innerHTML=NB.kept.length?'':'<div class="empty">Nothing kept yet. Use the star after a lookup, decode or hunt.</div>';
+ NB.kept.forEach(it=>{const d=document.createElement('div');d.className='it';d.innerHTML='<span class="k">'+esc(it.kind)+'</span><span class="qq">'+esc(it.q)+'</span><span class="d">'+nbDate(it.created_at)+'</span><button class="mini" data-x="1">Delete</button><input class="nt" placeholder="Your note..." value="'+esc(it.note||'')+'">';d.querySelector('.qq').onclick=()=>nbOpen(it);d.querySelector('[data-x]').onclick=async()=>{if(!confirm('Delete this from your notebook?'))return;await window.__sb.from('engine_notes').delete().eq('id',it.id);nbRender()};const nt=d.querySelector('.nt');nt.onchange=async()=>{const r=await window.__sb.from('engine_notes').update({note:nt.value}).eq('id',it.id);nbSay(r.error?'Could not save the note.':'Note saved.')};K.appendChild(d)});
+ R.innerHTML=NB.rec.length?'':'<div class="empty">Nothing yet. Look something up.</div>';
+ NB.rec.slice(0,60).forEach(it=>{const d=document.createElement('div');d.className='it';d.innerHTML='<span class="k">'+esc(it.kind)+'</span><span class="qq">'+esc(it.q)+'</span><span class="d">'+nbDate(it.t)+'</span><button class="mini">&#9733; Keep</button>';d.querySelector('.qq').onclick=()=>nbOpen(it);d.querySelector('button').onclick=()=>nbKeep(it);R.appendChild(d)});
+};
+$('nb-clr').onclick=()=>{if(!confirm('Clear the recent list on this computer? Kept items stay.'))return;NB.rec=[];nbSaveRec();nbRender()};
+$('keepbtn').onclick=()=>{const k=NBK[window.__tab],it=k&&NB.cur[k];if(it)nbKeep(it)};
 try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
 </script><script>
 (function(){
@@ -333,7 +369,7 @@ function after(sess){
   });
 }
 lib().then(function(){
-  sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});
+  sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});window.__sb=sb;
   sb.auth.getSession().then(function(r){after(r.data&&r.data.session)});
 },function(){msg('Could not reach the sign-in service. Check your connection.')});
 g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Still loading, try again in a second.');msg('Signing in...');
