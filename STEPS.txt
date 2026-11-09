@@ -1,5 +1,3 @@
-IMPORTANT, do these in order:
-1. In GitHub Desktop, click "Undo" next to "Committed ... ago" (bottom left). This takes back the stuck commit. Your files stay as they are.
-2. Unzip. Copy the research-engine folder into your repo folder, replacing everything.
-3. Tick all, commit, push to main. This time the upload is only about 6 MB instead of 22 MB.
-4. Wait 1 minute, Ctrl+F5, open the Help tab: it should now mention Yetzirah 1:1.
+Only ONE small file changed (index.html), so this push is tiny.
+1. Unzip. Copy research-engine/index.html into your repo folder, into research-engine, replacing the old one.
+2. GitHub Desktop: commit, push. Wait 1 minute. Ctrl+F5.
