@@ -1,7 +1,7 @@
-ENGINE 178 - Liddell and Scott lexicon
+ENGINE 179 - explanations on every box, plus the Liddell and Scott lexicon (this replaces 178)
 
 1. Unzip this folder.
 2. Open the folder "research-engine" inside it. Copy the 2 files (index.html and lsj.enc) into your repo's research-engine folder. Say Replace if asked.
-3. GitHub Desktop: write "lexicon" in the Summary box, press Commit to main, then Push origin.
+3. GitHub Desktop: write "notes" in the Summary box, press Commit to main, then Push origin.
 4. Wait about 1 minute. Open the engine, press Ctrl+F5, sign in.
-5. Read tab: new box "Lexicon: Liddell and Scott". Type a Greek word (accents optional), press Look up.
+5. Type a word on Explore. Each box now has a short green-edged note saying what it is. "Hide notes" under the search box turns them off.
