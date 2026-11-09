@@ -9,7 +9,7 @@ const MODEL = process.env.BOT_MODEL || 'claude-sonnet-5-5';
 const DAILY = parseInt(process.env.BOT_DAILY || '150', 10); // steps per person per day (one question is about 2 to 6 steps)
 const ALLOW = (process.env.BOT_ALLOW || 'polycarpoumandos@gmail.com,mandospolycarpou@hotmail.com')
   .toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
-const BOTS = ['b1', 'b2', 'b3'];
+const BOTS = ['b1', 'b2', 'b3', 'b4'];
 
 const RULES = [
   'HOUSE RULES (they come before everything else):',

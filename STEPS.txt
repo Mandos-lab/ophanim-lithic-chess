@@ -1,7 +1,7 @@
-ENGINE 179 - explanations on every box, plus the Liddell and Scott lexicon (this replaces 178)
+ENGINE 180 - Bot 4 (Resonance, experimental)
 
 1. Unzip this folder.
-2. Open the folder "research-engine" inside it. Copy the 2 files (index.html and lsj.enc) into your repo's research-engine folder. Say Replace if asked.
-3. GitHub Desktop: write "notes" in the Summary box, press Commit to main, then Push origin.
-4. Wait about 1 minute. Open the engine, press Ctrl+F5, sign in.
-5. Type a word on Explore. Each box now has a short green-edged note saying what it is. "Hide notes" under the search box turns them off.
+2. It holds 2 folders. Copy the "api" folder and the "research-engine" folder into your repo folder. Say Replace if asked.
+3. GitHub Desktop: write "bot 4" in the Summary box, press Commit to main, then Push origin.
+4. Wait about 1 minute. Open the engine, Ctrl+F5, sign in, open the Bots tab. There are now 4 buttons.
+(The bots still need the AI key to answer. Bot 4 is built and waiting like the other three.)
