@@ -1,7 +1,8 @@
-ENGINE 181 - Latin-letter readings and "one word everywhere"
+ENGINE 182 - readable Hebrew, and a speaker button (replaces 181)
 
 1. Unzip this folder.
 2. Open the folder "research-engine" inside it. Copy the 1 file (index.html) into your repo's research-engine folder. Say Replace.
-3. GitHub Desktop: write "latin reading" in the Summary box, Commit to main, then Push origin.
+3. GitHub Desktop: write "speaker" in the Summary box, Commit to main, then Push origin.
 4. Wait about 1 minute, Ctrl+F5, sign in.
-5. Explore: look up a word. Under it you see "Said in Latin letters". Now tap Decode, Read or Bots: your word is already there.
+5. Look up a word. Tap the small speaker next to it to hear it.
+   If it says your computer has no Greek or Hebrew voice, try the same page in Microsoft Edge.
