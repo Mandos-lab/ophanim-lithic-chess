@@ -56,7 +56,7 @@ label{display:block;color:var(--dim);font-size:13px;margin:6px 0 4px}.row{displa
 details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 .bots{display:flex;flex-wrap:wrap;gap:8px}.bots button{font:600 15px 'Noto Sans',sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}.bots button.on{border-color:var(--go);color:var(--go);background:rgba(232,195,117,.12)}.cmp-b{font:600 14px 'Noto Sans',sans-serif;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 14px;cursor:pointer}.msg{border-radius:14px;padding:14px 16px;margin:12px 0;line-height:1.6}.msg.me{background:rgba(70,227,240,.08);border:1px solid var(--line)}.msg.bot{background:var(--panel);border:1px solid rgba(232,195,117,.3)}.msg b.n{display:block;color:var(--go);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.msg p{margin:0 0 10px}.msg ul{margin:0 0 10px;padding-left:20px}.empty{text-align:center;color:var(--dim);padding:26px 10px}
 @media(max-width:600px){body{font-size:17px}.word{font-size:36px}.val{font-size:44px}.search input{font-size:20px}}
-.sayall{font:600 13px 'Noto Sans',sans-serif;margin:2px 0 6px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}</style><style>
+.sayall,.saystop{font:600 13px 'Noto Sans',sans-serif;margin:2px 0 6px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}</style><style>
 #t-nb .it{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 #t-nb .it:last-child{border-bottom:0}
 #t-nb .k{font:600 11px 'Noto Sans';letter-spacing:.12em;text-transform:uppercase;color:var(--go);min-width:56px}
@@ -361,24 +361,31 @@ const mdl=t=>{let h=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');const out=[];le
 function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>'<div class="msg '+(m.role==='user'?'me':'bot')+'"><b class="n">'+(m.role==='user'?'You':BOTS[curBot].name)+'</b>'+mdl(m.content)+'</div>').join('')
  try{botSpeak($('a-out'))}catch(e){}}
 function botSpeak(root){const RUN=/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,}(?:[ \u00A0][\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,})*/g;
- root.querySelectorAll('.msg.bot').forEach(box=>{if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Read all';ra.title='Read this whole answer out loud';box.insertBefore(ra,box.children[1]||null)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
+ root.querySelectorAll('.msg.bot').forEach(box=>{if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Read all';ra.title='Read this whole answer out loud';box.insertBefore(ra,box.children[1]||null);const sp=document.createElement('button');sp.className='saystop';sp.type='button';sp.textContent='\u25A0 Stop';sp.title='Stop reading';box.insertBefore(sp,ra.nextSibling)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
  nodes.forEach(t=>{const txt=t.nodeValue;RUN.lastIndex=0;if(!RUN.test(txt))return;RUN.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;while((m=RUN.exec(txt))){f.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));const b=document.createElement('button');b.className='say';b.dataset.w=m[0].replace(/\u00A0/g,' ');b.textContent='\uD83D\uDD0A';b.title='Hear it';b.setAttribute('aria-label','Hear it');f.appendChild(b);last=m.index+m[0].length}
  f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)})})}
-function readAll(box){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
- if(ss.speaking||ss.pending){ss.cancel();return}
- const clone=box.cloneNode(true);clone.querySelectorAll('.say,.sayall,.n').forEach(x=>x.remove());
+function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Read all';b.dataset.on=''});window.__raBtn=null}
+function readAll(box,btn){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
+ if(btn&&btn.dataset.on==='1'){if(ss.paused){ss.resume();btn.textContent='⏸ Pause'}else{ss.pause();btn.textContent='▶ Resume'}return}
+ ss.cancel();try{ss.resume()}catch(e){}raReset();
+ const clone=box.cloneNode(true);clone.querySelectorAll('.say,.sayall,.saystop,.n').forEach(x=>x.remove());
  let txt=clone.innerText||clone.textContent||'';
- const GH='\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF';
+ const GH='Ͱ-Ͽἀ-῿֐-׿';
  txt=txt.replace(new RegExp('(['+GH+'])\\s*\\(([A-Za-z\\u00C0-\\u024F\\s\\u00B7\\-\\u2019\']+)\\)','g'),'$1');
- const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};txt=txt.replace(/(^|[^\u0370-\u03FF\u1F00-\u1FFF])([\u03B1-\u03C9])(?![\u0370-\u03FF\u1F00-\u1FFF])/g,(a,b,c)=>b+(LN[c]||c));
- const parts=[];const RX=new RegExp('['+GH+']+(?:[ \\u00A0]['+GH+']+)*','g');let last=0,m;
- while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),'en']);parts.push([m[0],lang(m[0])==='he'?'he':'el']);last=m.index+m[0].length}
+ const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
+ txt=txt.replace(/(^|[^Ͱ-Ͽἀ-῿])([α-ω])(?![Ͱ-Ͽἀ-῿])/g,(a,b,c)=>b+(LN[c]||c));
+ const latin=run=>run.split(/\s+/).map(x=>{let t='';try{t=trl(x)||''}catch(e){}return t.replace(/ · vowels unknown/,'')||x}).join(' ');
+ const parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;
+ while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),'en']);parts.push(lang(m[0])==='he'?[m[0],'he']:[latin(m[0]),'en']);last=m.index+m[0].length}
  if(last<txt.length)parts.push([txt.slice(last),'en']);
- const go=()=>{const V=ss.getVoices(),pick=c=>V.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(c));const need={};ss.cancel();
-  parts.forEach(([t,c])=>{t=t.replace(/[*_#\u25CF\u2022]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='en'?t:sayText(t));u.voice=v;u.lang=v.lang;u.rate=c==='en'?1:.85;ss.speak(u)});
-  if(need.el||need.he)sayNote('No '+(need.el?'Greek':'Hebrew')+' voice on this computer, so those parts were skipped. Microsoft Edge usually has one built in.')};
+ const go=()=>{const V=ss.getVoices(),pick=c=>V.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(c));const need={};ss.cancel();const us=[];
+  parts.forEach(([t,c])=>{t=t.replace(/[*_#●•]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='en'?t:sayText(t));u.voice=v;u.lang=v.lang;u.rate=1;us.push(u)});
+  if(!us.length){sayNote('No voice available to read this.');return}
+  if(btn){btn.dataset.on='1';btn.textContent='⏸ Pause';window.__raBtn=btn;us[us.length-1].onend=raReset;us[us.length-1].onerror=raReset}
+  us.forEach(u=>ss.speak(u));
+  if(need.he)sayNote('No Hebrew voice on this computer, so the Hebrew parts were skipped.')};
  if(ss.getVoices().length)go();else{let d=false;const f=()=>{if(d)return;d=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Could not play the sound.')}}
-document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'))}},true);
+document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);
 // tools the bots can call (all run inside this page)
 function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase().replace(/\s/g,'')===canon(n))}
 const TOOLS=[
