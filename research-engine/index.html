@@ -227,7 +227,8 @@ function htr1(w){const strip=s=>s.replace(/[֑-ֽֿ֯׀׃-ׇ]/g,'');w=strip(w);l
 const YHWH=/^[י][ה][ו][ה]$/;
 function trl(w){const l=lang(w);try{if(l==='he'&&YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'YHWH, the Name (said Adonai)';return l==='gr'?gtr(w):l==='he'?htr(w):''}catch(e){return''}}
 function sayNote(m){let d=document.getElementById('say-note');if(!d){d=document.createElement('div');d.id='say-note';document.body.appendChild(d)}d.textContent=m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display='none'},5000)}
-function sayText(w){if(YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'אֲדֹנָי';return lang(w)==='he'?w.trim().split(/\s+/).map(x=>hpt(x)||x).join(' '):w}
+function gsay(w){return w.normalize('NFD').replace(/[\u0313\u0314\u0342\u0343\u0344\u0345]/g,'').replace(/\u0300/g,'\u0301').normalize('NFC').toLowerCase().replace(/[^\u0370-\u03FF\s'-]/g,' ').replace(/\s+/g,' ').trim()}
+function sayText(w){if(YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'אֲדֹנָי';const l=lang(w);return l==='he'?w.trim().split(/\s+/).map(x=>hpt(x)||x).join(' '):l==='gr'?gsay(w):w}
 function say(w){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
  const code=lang(w)==='he'?'he':'el',go=()=>{const v=ss.getVoices().find(x=>x.lang.toLowerCase().replace('_','-').startsWith(code));if(!v){sayNote('This computer has no '+(code==='he'?'Hebrew':'Greek')+' voice yet. Microsoft Edge usually has one built in.');return}ss.cancel();const u=new SpeechSynthesisUtterance(sayText(w));u.voice=v;u.lang=v.lang;u.rate=.85;ss.speak(u)};
  if(ss.getVoices().length)go();else{let done=false;const f=()=>{if(done)return;done=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Could not play the sound.')}}
@@ -374,7 +375,7 @@ function readAll(box){try{const ss=window.speechSynthesis;if(!ss||!window.Speech
  while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),'en']);parts.push([m[0],lang(m[0])==='he'?'he':'el']);last=m.index+m[0].length}
  if(last<txt.length)parts.push([txt.slice(last),'en']);
  const go=()=>{const V=ss.getVoices(),pick=c=>V.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(c));const need={};ss.cancel();
-  parts.forEach(([t,c])=>{t=t.replace(/[*_#\u25CF\u2022]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='he'?sayText(t):t);u.voice=v;u.lang=v.lang;u.rate=c==='en'?1:.85;ss.speak(u)});
+  parts.forEach(([t,c])=>{t=t.replace(/[*_#\u25CF\u2022]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='en'?t:sayText(t));u.voice=v;u.lang=v.lang;u.rate=c==='en'?1:.85;ss.speak(u)});
   if(need.el||need.he)sayNote('No '+(need.el?'Greek':'Hebrew')+' voice on this computer, so those parts were skipped. Microsoft Edge usually has one built in.')};
  if(ss.getVoices().length)go();else{let d=false;const f=()=>{if(d)return;d=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Could not play the sound.')}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'))}},true);
@@ -403,7 +404,7 @@ async function askProxy(H,sys,my,ctl,st){
  const sb=window.__sb;const g=await sb.auth.getSession();const tok=g&&g.data&&g.data.session&&g.data.session.access_token;
  if(!tok)throw{code:'proxy',message:'Please refresh the page and sign in again.'};
  const tools=TOOLS.map(t=>({name:t.name,description:t.description,input_schema:t.inputSchema}));
- const msgs=H.slice(0,-1).map(m=>({role:m.role,content:m.content}));let shown='';
+ const msgs=H.slice(0,-1).map(m=>({role:m.role,content:m.content}));let shown='',nudged=false;
  for(let hop=0;hop<8;hop++){
   const r=await fetch('/api/bot',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify({bot:curBot,system:sys,messages:msgs,tools}),signal:ctl.signal});
   const j=await r.json().catch(()=>({}));
@@ -411,7 +412,11 @@ async function askProxy(H,sys,my,ctl,st){
   const content=j.content||[];const text=content.filter(b=>b.type==='text').map(b=>b.text).join('');
   if(text){shown+=(shown?'\n\n':'')+text;my.content=shown;render();window.scrollTo({top:document.body.scrollHeight})}
   const uses=content.filter(b=>b.type==='tool_use');
-  if(j.stop_reason!=='tool_use'||!uses.length)return shown;
+  if(j.stop_reason!=='tool_use'||!uses.length){
+   if(!shown&&!nudged){nudged=true;const last=msgs[msgs.length-1],ask='Now write your full answer for Mandos, in plain words.';
+    if(last&&last.role==='user'){if(typeof last.content==='string')last.content+='\n\n'+ask;else last.content=last.content.concat([{type:'text',text:ask}])}else msgs.push({role:'user',content:ask});
+    continue}
+   return shown||'The bot sent no answer this time. Please press Ask again.'}
   msgs.push({role:'assistant',content});const results=[];
   for(const u of uses){let out;try{const t=TOOLS.find(x=>x.name===u.name);out=t?await t.execute(u.input||{}):{error:'unknown tool'}}catch(e){out={error:String((e&&e.message)||e)}}
    results.push({type:'tool_result',tool_use_id:u.id,content:JSON.stringify(out).slice(0,12000)})}
