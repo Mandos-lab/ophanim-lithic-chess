@@ -1,4 +1,4 @@
-Two files this time (the bot's voice changed):
-1. Copy research-engine/index.html into your repo's research-engine folder, replacing the old one.
-2. Copy api/bot.js into your repo's api folder, replacing the old one.
-3. GitHub Desktop: Commit, then Push. Wait about a minute for Vercel.
+One file this time:
+1. Copy research-engine/index.html into your repo research-engine folder, replacing the old one.
+2. GitHub Desktop: Commit, then Push. Wait about a minute for Vercel.
+3. Press Ctrl+F5 in the engine. Each bot answer now has a "Read all" button.
