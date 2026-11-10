@@ -1,3 +1,4 @@
-One file:
+Two files:
 1. Copy research-engine/index.html into your repo research-engine folder, replacing the old one.
-2. GitHub Desktop: Commit, then Push. Wait about a minute, then press Ctrl+F5 in the engine.
+2. Copy api/bot.js into your repo api folder, replacing the old one.
+3. GitHub Desktop: Commit, then Push. Wait about a minute, then press Ctrl+F5 in the engine.

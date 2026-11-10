@@ -358,10 +358,10 @@ let curBot='b1';const HIST={b1:[],b2:[],b3:[],b4:[]};
 function mkBots(){const w=$('bots');Object.keys(BOTS).forEach(k=>{const b=document.createElement('button');b.textContent=BOTS[k].name;b.dataset.k=k;b.onclick=()=>pick(k);w.appendChild(b)});pick('b1')}
 function pick(k){curBot=k;document.querySelectorAll('#bots button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$('bot-role').textContent=BOTS[k].role;$('a-chips').innerHTML='<span>Try:</span>';BOTS[k].chips.forEach(c=>{const b=document.createElement('button');b.className='chip';b.style.font="15px 'Noto Sans',sans-serif";b.textContent=c;b.onclick=()=>{$('a-in').value=c};$('a-chips').appendChild(b)});render()}
 const mdl=t=>{let h=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');const out=[];let li=false;h.split(/\n/).forEach(l=>{if(/^\s*[-•]\s+/.test(l)){if(!li){out.push('<ul>');li=true}out.push('<li>'+l.replace(/^\s*[-•]\s+/,'')+'</li>')}else{if(li){out.push('</ul>');li=false}if(l.trim())out.push('<p>'+l+'</p>')}});if(li)out.push('</ul>');return out.join('')};
-function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>'<div class="msg '+(m.role==='user'?'me':'bot')+'"><b class="n">'+(m.role==='user'?'You':BOTS[curBot].name)+'</b>'+mdl(m.content)+'</div>').join('')
+function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>{const wait=m.role!=='user'&&!m.content&&window.__busy;const c=wait?'\u23F3 '+(($('a-st').textContent||'Thinking...').replace(/\.+$/,''))+'... Please wait, it can take up to a minute. No need to press Ask again.':m.content;return'<div class="msg '+(m.role==='user'?'me':'bot')+(wait?' wait':'')+'"><b class="n">'+(m.role==='user'?'You':BOTS[curBot].name)+'</b>'+mdl(c)+'</div>'}).join('')
  try{botSpeak($('a-out'))}catch(e){}}
 function botSpeak(root){const RUN=/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,}(?:[ \u00A0][\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,})*/g;
- root.querySelectorAll('.msg.bot').forEach(box=>{if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Read all';ra.title='Read this whole answer out loud';box.insertBefore(ra,box.children[1]||null);const sp=document.createElement('button');sp.className='saystop';sp.type='button';sp.textContent='\u25A0 Stop';sp.title='Stop reading';box.insertBefore(sp,ra.nextSibling)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
+ root.querySelectorAll('.msg.bot').forEach(box=>{if(box.classList.contains('wait'))return;if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Read all';ra.title='Read this whole answer out loud';box.insertBefore(ra,box.children[1]||null);const sp=document.createElement('button');sp.className='saystop';sp.type='button';sp.textContent='\u25A0 Stop';sp.title='Stop reading';box.insertBefore(sp,ra.nextSibling)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
  nodes.forEach(t=>{const txt=t.nodeValue;RUN.lastIndex=0;if(!RUN.test(txt))return;RUN.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;while((m=RUN.exec(txt))){f.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));const b=document.createElement('button');b.className='say';b.dataset.w=m[0].replace(/\u00A0/g,' ');b.textContent='\uD83D\uDD0A';b.title='Hear it';b.setAttribute('aria-label','Hear it');f.appendChild(b);last=m.index+m[0].length}
  f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)})})}
 function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Read all';b.dataset.on=''});window.__raBtn=null}
@@ -411,23 +411,24 @@ async function askProxy(H,sys,my,ctl,st){
  const sb=window.__sb;const g=await sb.auth.getSession();const tok=g&&g.data&&g.data.session&&g.data.session.access_token;
  if(!tok)throw{code:'proxy',message:'Please refresh the page and sign in again.'};
  const tools=TOOLS.map(t=>({name:t.name,description:t.description,input_schema:t.inputSchema}));
- const msgs=H.slice(0,-1).map(m=>({role:m.role,content:m.content}));let shown='',nudged=false;
+ const msgs=H.slice(0,-1).map(m=>({role:m.role,content:m.content}));let shown='',nudged=0,lastStop='',lastTypes='';
  for(let hop=0;hop<8;hop++){
-  const r=await fetch('/api/bot',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify({bot:curBot,system:sys,messages:msgs,tools}),signal:ctl.signal});
+  const r=await fetch('/api/bot',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify({bot:curBot,system:sys,messages:msgs,tools,tool_choice:nudged>=2?{type:'none'}:undefined}),signal:ctl.signal});
   const j=await r.json().catch(()=>({}));
   if(!r.ok)throw{code:'proxy',message:j.error||('The bot could not answer (error '+r.status+').')};
   const content=j.content||[];const text=content.filter(b=>b.type==='text').map(b=>b.text).join('');
   if(text){shown+=(shown?'\n\n':'')+text;my.content=shown;render();window.scrollTo({top:document.body.scrollHeight})}
   const uses=content.filter(b=>b.type==='tool_use');
+  lastStop=j.stop_reason||'';lastTypes=content.map(b=>b.type).join('+')||'nothing';
   if(j.stop_reason!=='tool_use'||!uses.length){
-   if(!shown&&!nudged){nudged=true;const last=msgs[msgs.length-1],ask='Now write your full answer for Mandos, in plain words.';
+   if(!shown&&nudged<2){nudged++;const last=msgs[msgs.length-1],ask='Now write your full answer for Mandos, in plain words, from what you have already found. Do not call any more tools.';
     if(last&&last.role==='user'){if(typeof last.content==='string')last.content+='\n\n'+ask;else last.content=last.content.concat([{type:'text',text:ask}])}else msgs.push({role:'user',content:ask});
     continue}
-   return shown||'The bot sent no answer this time. Please press Ask again.'}
+   return shown||'The bot sent no answer this time (it ended with: '+lastStop+', '+lastTypes+'). Please press Ask again, or ask in smaller pieces.'}
   msgs.push({role:'assistant',content});const results=[];
   for(const u of uses){let out;try{const t=TOOLS.find(x=>x.name===u.name);out=t?await t.execute(u.input||{}):{error:'unknown tool'}}catch(e){out={error:String((e&&e.message)||e)}}
    results.push({type:'tool_result',tool_use_id:u.id,content:JSON.stringify(out).slice(0,12000)})}
-  msgs.push({role:'user',content:results});st.textContent='Checking the engine...';
+  msgs.push({role:'user',content:results});st.textContent='Checking the engine...';render();
  }
  return shown||'I ran out of steps on that one. Please ask a simpler question.';
 }
@@ -436,13 +437,13 @@ async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;
  let sample=null;try{sample=await (window.claude&&window.claude.use?window.claude.use('sample'):null)}catch(e){}
  const useProxy=!sample&&!!window.__sb;
  if(!sample&&!useProxy){st.textContent='Please sign in to use the bots. The other tabs work without them.';return}
- busy=true;const ctl=new AbortController();window.__stop=()=>ctl.abort();st.textContent='Thinking...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';render();
+ busy=true;window.__busy=true;const gb=$('a-go');gb.textContent='Thinking...';gb.style.opacity='.6';const ctl=new AbortController();window.__stop=()=>ctl.abort();st.textContent='Thinking...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';
  const sys=BASE+'\n\n'+BOTS[curBot].sys;
  const msgs=H.map((m,i)=>i===0?{role:'user',content:'INSTRUCTIONS (follow them, do not repeat them):\n'+sys+'\n\nMANDOS ASKS:\n'+m.content}:m);
- H.push({role:'assistant',content:''});const my=H[H.length-1];
+ H.push({role:'assistant',content:''});const my=H[H.length-1];render();try{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}catch(e){}
  try{if(useProxy){const t=await askProxy(H,sys,my,ctl,st);my.content=t||my.content;st.textContent=''}else{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'default',signal:ctl.signal,onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}}
  catch(e){H.pop();if(e&&e.code==='proxy'){H.pop();$('a-in').value=q}st.textContent=e&&e.code==='proxy'?e.message:e&&(e.code==='cancelled'||e.name==='AbortError')?'Stopped.':e&&e.code==='rate_limited'?'Too many questions at once. Wait a moment and try again.':e&&e.code==='not_granted'?'Permission was not given, so the bots cannot answer.':'The bot could not answer: '+((e&&e.message)||'error')}
- busy=false;render()}
+ busy=false;window.__busy=false;gb.textContent='Ask';gb.style.opacity='';render()}
 $('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
 mkBots();
 // ===== Notebook =====

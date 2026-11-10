@@ -96,9 +96,10 @@ module.exports = async function handler(req, res) {
       headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 1800,
+        max_tokens: 3000,
         system: RULES + (system ? '\n\n' + system : ''),
         messages,
+        ...(body.tool_choice && body.tool_choice.type === 'none' && tools.length ? { tool_choice: { type: 'none' } } : {}),
         tools: tools.map(t => ({ name: String(t.name).slice(0, 64), description: String(t.description || '').slice(0, 2000), input_schema: t.input_schema || { type: 'object', properties: {} } }))
       }),
       signal: AbortSignal.timeout(55000)
@@ -117,6 +118,6 @@ module.exports = async function handler(req, res) {
     if (up.status === 429 || up.status === 529) return send(res, 503, { error: 'The AI is busy right now. Try again in a moment.' });
     return send(res, 502, { error: 'The AI could not answer: ' + msg.slice(0, 160) });
   }
-  console.log('ok', email, bot, JSON.stringify(j.usage || {}));
+  console.log('ok', email, bot, j.stop_reason, (j.content || []).map(b => b.type).join('+'), JSON.stringify(j.usage || {}));
   return send(res, 200, { content: j.content || [], stop_reason: j.stop_reason || 'end_turn' });
 };
