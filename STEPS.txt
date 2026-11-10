@@ -1,8 +1,4 @@
-ENGINE 182 - readable Hebrew, and a speaker button (replaces 181)
-
-1. Unzip this folder.
-2. Open the folder "research-engine" inside it. Copy the 1 file (index.html) into your repo's research-engine folder. Say Replace.
-3. GitHub Desktop: write "speaker" in the Summary box, Commit to main, then Push origin.
-4. Wait about 1 minute, Ctrl+F5, sign in.
-5. Look up a word. Tap the small speaker next to it to hear it.
-   If it says your computer has no Greek or Hebrew voice, try the same page in Microsoft Edge.
+Two files this time (the bot's voice changed):
+1. Copy research-engine/index.html into your repo's research-engine folder, replacing the old one.
+2. Copy api/bot.js into your repo's api folder, replacing the old one.
+3. GitHub Desktop: Commit, then Push. Wait about a minute for Vercel.
