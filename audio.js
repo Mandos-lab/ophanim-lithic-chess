@@ -2,7 +2,7 @@
    1. OphanimSound: short sounds made in the browser (no audio files): stone tap, clatter, chime, thud, water, win; plus an optional low drone.
    2. OphanimNarrate: a "Listen" bar for long articles. Mark a section with data-narrate. If it also has data-audio="audio/name.mp3"
       and that file exists, the recording is offered. Otherwise a "Read aloud" button uses the browser's own voice, paragraph by paragraph.
-   Nothing here contacts any website. */
+   For Greek, Hebrew and Arabic pages "Read aloud" asks the site's own /api/tts for a natural voice (Google Chirp 3 HD, kept behind the site); if that is not available it falls back to the device voice. */
 (function () {
   'use strict';
   function $(id) { return document.getElementById(id); }
@@ -84,10 +84,12 @@
     '.narr .nn{flex-basis:100%;font-weight:400;font-size:11px}' +
     '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}' +
     '@media(max-width:900px){section[data-narrate]{flex-direction:column;align-items:stretch}section[data-narrate]>.narr{align-self:stretch;margin:0 0 10px}}';
-  var speaking = null;
+  var speaking = null, player = null;
+  var RL = (function () { var l = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return /^(el|he|ar)$/.test(l) ? l : ''; })();
+  function voiceUrl(text, rate) { return '/api/tts?l=' + RL + '&r=' + (Math.round(rate * 100) / 100) + '&t=' + encodeURIComponent(text); }
   var EL = /^el/i.test(document.documentElement.lang || '');
   function T(en, el) { return EL ? el : en; }
-  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); }
+  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} if (player) { try { player.onended = null; player.onerror = null; player.pause(); } catch (e) {} } try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); }
   function pickVoice() {
     var vs = []; try { vs = speechSynthesis.getVoices() || []; } catch (e) {}
     var lang = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
@@ -112,7 +114,19 @@
       var cs = chunks(n.textContent), j = 0;
       (function nextChunk() {
         if (token.stop) return; if (j >= cs.length) { nextNode(); return; }
-        var u = new SpeechSynthesisUtterance(cs[j++]); u.rate = rate(); if (voice) u.voice = voice; u.lang = voice ? voice.lang : (document.documentElement.lang || 'en');
+        var txt = cs[j++];
+        if (RL && !token.dev) {
+          var fired = false, rate0 = rate();
+          var bad = function () { if (fired || token.stop) return; fired = true; token.dev = true; j--; nextChunk(); };
+          if (!player) player = new Audio();
+          var p = player; p.onended = function () { if (fired || token.stop) return; fired = true; nextChunk(); }; p.onerror = bad;
+          p.src = voiceUrl(txt, rate0);
+          var pr = p.play(); if (pr && pr.catch) pr.catch(bad);
+          if (cs[j]) { try { fetch(voiceUrl(cs[j], rate0)).catch(function () {}); } catch (e) {} }   // fetch the next sentence ahead so there is no gap
+          return;
+        }
+        if (!('speechSynthesis' in window)) { stopSpeak(); return; }
+        var u = new SpeechSynthesisUtterance(txt); u.rate = rate(); if (voice) u.voice = voice; u.lang = voice ? voice.lang : (document.documentElement.lang || 'en');
         u.onend = nextChunk; u.onerror = function () { if (!token.stop) nextChunk(); };
         speechSynthesis.speak(u);
       })();
@@ -122,7 +136,7 @@
   function initNarrate() {
     var secs = document.querySelectorAll('[data-narrate]'); if (!secs.length) return;
     var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
-    var canTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    var canTTS = !!RL || ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window);
     secs.forEach(function (sec) {
       var bar = document.createElement('div'); bar.className = 'narr'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', T('Listen to this section', 'Ακούστε αυτή την ενότητα'));
       var audioSrc = sec.getAttribute('data-audio');
@@ -136,7 +150,7 @@
         btn.addEventListener('click', function () { if (speaking) stopSpeak(); else speakSection(sec, function () { return parseFloat(sel.value); }, btn); });
       }
       var note = document.createElement('span'); note.className = 'nn';
-      note.textContent = canTTS ? (sec.getAttribute('data-note') || T('Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.', 'Φωνή υπολογιστή. Μπορεί να παραλείψει ή να προφέρει λάθος ελληνικές και αρμενικές λέξεις· για αυτές είναι καλύτερη μια ηχογράφηση.')) : T('Read aloud is not available in this browser.', 'Η ανάγνωση φωναχτά δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.');
+      note.textContent = canTTS ? (sec.getAttribute('data-note') || (RL ? T('Natural voice. If it is not available, your device voice is used.', 'Φυσική φωνή. Αν δεν είναι διαθέσιμη, χρησιμοποιείται η φωνή της συσκευής σας.') : T('Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.', 'Φωνή υπολογιστή. Μπορεί να παραλείψει ή να προφέρει λάθος ελληνικές και αρμενικές λέξεις· για αυτές είναι καλύτερη μια ηχογράφηση.'))) : T('Read aloud is not available in this browser.', 'Η ανάγνωση φωναχτά δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.');
       bar.appendChild(note);
       var h = sec.querySelector('h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
       if (audioSrc) {                                                // offer the recording only if the file really exists

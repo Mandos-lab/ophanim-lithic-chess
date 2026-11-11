@@ -70,12 +70,12 @@ var words2;
 function add(c){inp.value+=c;recalc();tone(c,.35);flash(c);}
 inp.addEventListener('input',recalc);
 /* ---------- sound ---------- */
-var ac=null,master=null,timers=[];
+var ac=null,master=null,timers=[],vplayer=null;
 function ctx(){if(ac)return ac;var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;try{ac=new C();master=ac.createGain();master.gain.value=.5;master.connect(ac.destination);}catch(e){ac=null;}if(ac&&ac.state==='suspended')ac.resume();return ac;}
 function tone(c,dur,at,vol){var a=ctx();if(!a)return;var f=freq(c),t=(at||0)+a.currentTime,v=vol||.14;
   [[1,'sine',1],[2,'triangle',.22]].forEach(function(p){var o=a.createOscillator(),g=a.createGain();o.type=p[1];o.frequency.value=f*p[0];g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v*p[2],t+.04);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.05);});}
 var flashT=0,flashC=null;function flash(c){flashC=c;flashT=performance.now();}
-function stopAll(){timers.forEach(clearTimeout);timers=[];lit=-1;try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){}pulse=0;}
+function stopAll(){timers.forEach(clearTimeout);timers=[];lit=-1;try{if(vplayer){vplayer.onended=null;vplayer.onerror=null;vplayer.pause();vplayer=null;}}catch(e){}try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){}pulse=0;}
 function play(){
   stopAll();var cs=cur.filter(function(c){return c!==' ';});if(!cs.length||!ctx())return;
   var step=.55;cs.forEach(function(c,i){tone(c,.7,i*step);timers.push(setTimeout(function(){lit=i;pulse=1;},i*step*1000));});
@@ -88,12 +88,23 @@ function translit(arr){return CFG.translit(arr,words,VALMAP);}
 var voices=[];function loadVoices(){try{voices=speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
 if(window.speechSynthesis){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
 function say(){
-  stopAll();if(!window.speechSynthesis||!cur.length){note.textContent=U('nospeech','Speech is not available in this browser.');return;}
   var isEl=/^el/i.test(CFG.lang||'');
-  loadVoices();var hy=CFG.speakLatin?null:voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
-  var u;if(hy){u=new SpeechSynthesisUtterance(isEl?cur.join('').toLowerCase().trim().split(/\s+/).join(', '):cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
-  else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent=CFG.sayNote||('This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.');}
-  u.rate=isEl?.62:.8;u.onstart=function(){pulse=1;};try{speechSynthesis.speak(u);}catch(e){}
+  stopAll();if((!window.speechSynthesis&&!isEl)||!cur.length){note.textContent=U('nospeech','Speech is not available in this browser.');return;}
+  var sayDevice=function(){
+    if(!window.speechSynthesis){note.textContent=U('nospeech','Speech is not available in this browser.');return;}
+    loadVoices();var hy=CFG.speakLatin?null:voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
+    var u;if(hy){u=new SpeechSynthesisUtterance(isEl?cur.join('').toLowerCase().trim().split(/\s+/).join(', '):cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
+    else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent=CFG.sayNote||('This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.');}
+    u.rate=isEl?.62:.8;u.onstart=function(){pulse=1;};try{speechSynthesis.speak(u);}catch(e){}
+  };
+  if(isEl){                                                        // natural Greek voice from the site's own /api/tts, with the device voice as fallback
+    var gt=inp.value.toLowerCase().trim().replace(/\s+/g,', '),gdone=false;
+    var gfail=function(){if(gdone)return;gdone=true;vplayer=null;sayDevice();};
+    if(!gt){return;}
+    try{vplayer=new Audio('/api/tts?l=el&r=.8&t='+encodeURIComponent(gt));vplayer.onplay=function(){pulse=1;note.textContent='';};vplayer.onerror=gfail;var gp=vplayer.play();if(gp&&gp.catch)gp.catch(gfail);}catch(e){gfail();}
+    return;
+  }
+  sayDevice();
 }
 $('hyplay').onclick=play;$('hysay').onclick=say;$('hystop').onclick=stopAll;
 /* ---------- the hologram ---------- */
