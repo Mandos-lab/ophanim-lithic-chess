@@ -6,7 +6,7 @@ const SUPA = process.env.SUPABASE_URL || 'https://pbhtnlxvouwxxnwatynp.supabase.
 const PUB = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz';
 const AI_URL = process.env.ANTHROPIC_URL || 'https://api.anthropic.com/v1/messages';
 const MODEL = process.env.BOT_MODEL || 'claude-sonnet-5-5';
-const DAILY = parseInt(process.env.BOT_DAILY || '150', 10); // steps per person per day (one question is about 2 to 6 steps)
+const FREE_MODEL = process.env.BOT_FREE_MODEL || MODEL;
 const ALLOW = (process.env.BOT_ALLOW || 'polycarpoumandos@gmail.com,mandospolycarpou@hotmail.com')
   .toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
 const BOTS = ['b1', 'b2', 'b3', 'b4'];
@@ -44,19 +44,28 @@ async function who(token) {
   });
   if (!r.ok) return null;
   const u = await r.json();
-  return u && u.email ? String(u.email).toLowerCase() : null;
+  if (!u || !u.email) return null;
+  return { email: String(u.email).toLowerCase(), confirmed: !!(u.email_confirmed_at || u.confirmed_at) };
 }
 
+// Asks the database for a step. The limits live in the bot_limits table (owner_day, free_day, free_hour, free_pool),
+// so they can be changed without touching the code. Returns { ok, ... } or null if the check itself failed.
 async function take(token, bot) {
-  const r = await fetch(SUPA + '/rest/v1/rpc/bot_take', {
+  const r = await fetch(SUPA + '/rest/v1/rpc/bot_take_tier', {
     method: 'POST',
     headers: { apikey: PUB, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ p_limit: DAILY, p_bot: bot }),
+    body: JSON.stringify({ p_bot: bot, p_take: true }),
     signal: AbortSignal.timeout(8000)
   });
   if (!r.ok) return null;
-  const n = await r.json();
-  return typeof n === 'number' ? n : null;
+  const j = await r.json();
+  return j && typeof j.ok === 'boolean' ? j : null;
+}
+
+function wait(min) {
+  if (min >= 90) return 'about ' + Math.round(min / 60) + ' hours';
+  if (min >= 60) return 'about an hour';
+  return min + ' minute' + (min === 1 ? '' : 's');
 }
 
 module.exports = async function handler(req, res) {
@@ -66,10 +75,12 @@ module.exports = async function handler(req, res) {
   if (!m) return send(res, 401, { error: 'Please sign in first.' });
   const token = m[1];
 
-  let email;
-  try { email = await who(token); } catch (e) { return send(res, 502, { error: 'Could not check your sign-in. Try again in a moment.' }); }
-  if (!email) return send(res, 401, { error: 'Your sign-in has expired. Refresh the page and sign in again.' });
-  if (!ALLOW.includes(email)) return send(res, 403, { error: 'The bots are not open to this account yet.' });
+  let me;
+  try { me = await who(token); } catch (e) { return send(res, 502, { error: 'Could not check your sign-in. Try again in a moment.' }); }
+  if (!me) return send(res, 401, { error: 'Your sign-in has expired. Refresh the page and sign in again.' });
+  if (!me.confirmed) return send(res, 403, { error: 'Please confirm your email first: open the link we sent you, then sign in again.' });
+  const email = me.email;
+  const owner = ALLOW.includes(email);
 
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return send(res, 503, { error: 'The bot is built but not switched on yet: the AI key has not been added to the site.' });
@@ -84,10 +95,14 @@ module.exports = async function handler(req, res) {
     return send(res, 400, { error: 'The conversation is too long. Press New chat and ask again.' });
   if (messages[0].role !== 'user') return send(res, 400, { error: 'Bad conversation.' });
 
-  let used;
-  try { used = await take(token, bot); } catch (e) { used = null; }
-  if (used === null) return send(res, 502, { error: 'Could not check your daily allowance. Try again in a moment.' });
-  if (used < 0) return send(res, 429, { error: 'You have used today\'s allowance of bot steps. It starts again tomorrow.' });
+  let slot;
+  try { slot = await take(token, bot); } catch (e) { slot = null; }
+  if (slot === null) return send(res, 502, { error: 'Could not check your allowance. Try again in a moment.' });
+  if (!slot.ok) {
+    if (slot.reason === 'hour') return send(res, 429, { error: 'You have used this hour\'s steps. More are free in ' + wait(slot.wait_min || 60) + '.' });
+    if (slot.reason === 'pool') return send(res, 429, { error: 'The free bots have reached their limit for today. They start again in ' + wait(slot.wait_min || 60) + '.' });
+    return send(res, 429, { error: 'You have used today\'s steps. They start again at midnight Cyprus time, in ' + wait(slot.wait_min || 60) + '.' });
+  }
 
   let up;
   try {
@@ -95,8 +110,8 @@ module.exports = async function handler(req, res) {
       method: 'POST',
       headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 3000,
+        model: owner ? MODEL : FREE_MODEL,
+        max_tokens: owner ? 3000 : 2000,
         system: RULES + (system ? '\n\n' + system : ''),
         messages,
         ...(body.tool_choice && body.tool_choice.type === 'none' && tools.length ? { tool_choice: { type: 'none' } } : {}),
@@ -119,5 +134,5 @@ module.exports = async function handler(req, res) {
     return send(res, 502, { error: 'The AI could not answer: ' + msg.slice(0, 160) });
   }
   console.log('ok', email, bot, j.stop_reason, (j.content || []).map(b => b.type).join('+'), JSON.stringify(j.usage || {}));
-  return send(res, 200, { content: j.content || [], stop_reason: j.stop_reason || 'end_turn' });
+  return send(res, 200, { content: j.content || [], stop_reason: j.stop_reason || 'end_turn', left: slot });
 };

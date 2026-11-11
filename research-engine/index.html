@@ -66,8 +66,10 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
 #t-nb button.mini{background:none;border:1px solid var(--line);border-radius:999px;color:var(--cy);padding:3px 10px;cursor:pointer;font:600 13px 'Noto Sans'}
 #keepbtn{position:fixed;right:14px;bottom:14px;z-index:6;background:#0a1820;border:1px solid var(--go);color:var(--go);border-radius:999px;padding:10px 16px;font:600 15px 'Noto Sans';cursor:pointer;display:none}
 </style></head><body>
-<div id="gate"><div class="bx"><h2>SYMBOLIC ENGINE</h2><p>Private research tool. Sign in with your member account.</p>
+<div id="gate"><div class="bx"><h2>SYMBOLIC ENGINE</h2><p id="gt">Research tool for members. Sign in, or create a free account.</p>
 <form id="gf"><input id="ge" type="email" autocomplete="username" placeholder="Email"><input id="gp" type="password" autocomplete="current-password" placeholder="Password"><button type="submit" id="gb">Sign in</button></form>
+<p style="margin:12px 0 0"><a href="#" id="gs">New here? Create a free account</a></p>
+<p id="gn" style="display:none;margin:10px 0 0;font-size:13px;color:#8fa6ab">Free members get a few bot questions every day. Your questions are answered by an AI service. We keep only your email and a count of how many steps you used.</p>
 <p class="msg" id="gm"></p><p style="margin:10px 0 0"><a href="../library.html">&larr; Library</a></p></div></div><button id="outbtn" style="display:none">Sign out</button>
 <div class="w">
 <header><p style="margin:0 0 8px;font-size:14px"><a href="../library.html" style="color:var(--dim);text-decoration:none">← Library</a></p><h1>SYMBOLIC ENGINE</h1><p>Type a Greek or Hebrew word, a number, or a verse. Numbers, sounds and the Ellin Logos Code, all in one place.</p></header>
@@ -87,6 +89,7 @@ details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
  <p style="margin:0 0 12px">Ask in plain words. Each bot uses the engine for every number and every verse, so the sums are always checked.</p>
  <div class="bots" id="bots"></div>
  <p class="mut" id="bot-role" style="margin:10px 0 0"></p>
+<p class="mut" id="a-meter" style="margin:4px 0 0;font-size:14px"></p>
  <textarea id="a-in" dir="auto" style="width:100%;min-height:90px;margin-top:12px;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:12px;font:19px 'Noto Serif',serif" placeholder="Ask here"></textarea>
  <div class="chips" id="a-chips"></div>
  <p style="margin:10px 0 0"><button class="btn" id="a-go" style="padding:12px 26px">Ask</button> <button class="cmp-b" id="a-stop">Stop</button> <button class="cmp-b" id="a-new">New conversation</button> <span class="mut" id="a-st"></span></p></div>
@@ -356,7 +359,11 @@ const BOTS={
 const BASE='You work for Mandos (ΦΥ ΨΗ), the lead investigator, who spots the patterns while you test them. Write in warm, plain language, short paragraphs, no jargon. Phonetic Archaeology does not judge people; it checks claims. Every number and every verse must come from your tools; never add letter values in your head, never invent verses, Strong\'s numbers or sources, and if a tool finds nothing say so. Greek is counted in the house system of 27 signs (stigma 6, koppa 90, sampi 900, final sigma 200, accents ignored); Hebrew counts finals as plain letters unless asked. Whenever you write a Hebrew or Greek word, put its Latin-letter reading in brackets right after it (Greek by its living modern sound), for example λόγος (logos) and בראשית (bereshit). Keep answers focused and not long. When a question is about the Ellin Logos Code or Simioforos, search the lessons tool first and then speak the Code as your own working language: read words letter by letter and join the meanings directly. Never mention lessons, lesson numbers, parts, titles or timestamps, and never say "according to the lesson". Say "my own reading" when you go beyond what the Code states. Answer in the language the person writes in: an English question gets an English answer, with every Greek or Hebrew word kept in its own script and the Latin reading beside it; only a question written in Greek gets an answer in Greek.';
 let curBot='b1';const HIST={b1:[],b2:[],b3:[],b4:[]};
 function mkBots(){const w=$('bots');Object.keys(BOTS).forEach(k=>{const b=document.createElement('button');b.textContent=BOTS[k].name;b.dataset.k=k;b.onclick=()=>pick(k);w.appendChild(b)});pick('b1')}
-function pick(k){curBot=k;document.querySelectorAll('#bots button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$('bot-role').textContent=BOTS[k].role;$('a-chips').innerHTML='<span>Try:</span>';BOTS[k].chips.forEach(c=>{const b=document.createElement('button');b.className='chip';b.style.font="15px 'Noto Sans',sans-serif";b.textContent=c;b.onclick=()=>{$('a-in').value=c};$('a-chips').appendChild(b)});render()}
+function meterWait(m){m=m||60;return m>=90?'about '+Math.round(m/60)+' hours':m>=60?'about an hour':m+' min'}
+function refreshMeter(){const el=$('a-meter');if(!el||!window.__sb)return;window.__sb.rpc('bot_take_tier',{p_bot:null,p_take:false}).then(r=>{const d=r&&r.data;if(!d||d.reason==='auth'){el.textContent='';return}
+ if(!d.ok){el.textContent=d.reason==='hour'?'No steps left this hour. More in '+meterWait(d.wait_min)+'.':d.reason==='pool'?'The free bots are used up for today. They start again in '+meterWait(d.wait_min)+'.':'No steps left today. They start again in '+meterWait(d.wait_min)+'.';return}
+ el.textContent=d.tier==='owner'?'Steps left today: '+d.day_left+' of '+d.day_limit+'.':'Free steps left: '+d.day_left+' of '+d.day_limit+' today, '+d.hour_left+' of '+d.hour_limit+' this hour. One question uses about 3 steps.'}).catch(()=>{})}
+function pick(k){refreshMeter();curBot=k;document.querySelectorAll('#bots button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$('bot-role').textContent=BOTS[k].role;$('a-chips').innerHTML='<span>Try:</span>';BOTS[k].chips.forEach(c=>{const b=document.createElement('button');b.className='chip';b.style.font="15px 'Noto Sans',sans-serif";b.textContent=c;b.onclick=()=>{$('a-in').value=c};$('a-chips').appendChild(b)});render()}
 const mdl=t=>{let h=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');const out=[];let li=false;h.split(/\n/).forEach(l=>{if(/^\s*[-•]\s+/.test(l)){if(!li){out.push('<ul>');li=true}out.push('<li>'+l.replace(/^\s*[-•]\s+/,'')+'</li>')}else{if(li){out.push('</ul>');li=false}if(l.trim())out.push('<p>'+l+'</p>')}});if(li)out.push('</ul>');return out.join('')};
 function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>{const wait=m.role!=='user'&&!m.content&&window.__busy;const c=wait?'\u23F3 '+(($('a-st').textContent||'Thinking...').replace(/\.+$/,''))+'... Please wait, it can take up to a minute. No need to press Ask again.':m.content;return'<div class="msg '+(m.role==='user'?'me':'bot')+(wait?' wait':'')+'"><b class="n">'+(m.role==='user'?'You':BOTS[curBot].name)+'</b>'+mdl(c)+'</div>'}).join('')
  try{botSpeak($('a-out'))}catch(e){}}
@@ -443,7 +450,7 @@ async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;
  H.push({role:'assistant',content:''});const my=H[H.length-1];render();try{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}catch(e){}
  try{if(useProxy){const t=await askProxy(H,sys,my,ctl,st);my.content=t||my.content;st.textContent=''}else{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'default',signal:ctl.signal,onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}}
  catch(e){H.pop();if(e&&e.code==='proxy'){H.pop();$('a-in').value=q}st.textContent=e&&e.code==='proxy'?e.message:e&&(e.code==='cancelled'||e.name==='AbortError')?'Stopped.':e&&e.code==='rate_limited'?'Too many questions at once. Wait a moment and try again.':e&&e.code==='not_granted'?'Permission was not given, so the bots cannot answer.':'The bot could not answer: '+((e&&e.message)||'error')}
- busy=false;window.__busy=false;gb.textContent='Ask';gb.style.opacity='';render()}
+ busy=false;window.__busy=false;gb.textContent='Ask';gb.style.opacity='';render();refreshMeter()}
 $('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
 mkBots();
 // ===== Notebook =====
@@ -498,9 +505,22 @@ lib().then(function(){
   sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});window.__sb=sb;
   sb.auth.getSession().then(function(r){after(r.data&&r.data.session)});
 },function(){msg('Could not reach the sign-in service. Check your connection.')});
-g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Still loading, try again in a second.');msg('Signing in...');
-  sb.auth.signInWithPassword({email:g('ge').value.trim().toLowerCase(),password:g('gp').value}).then(function(r){
-    if(r.error)return msg('Wrong email or password.');g('gp').value='';after(r.data.session)})};
+var mode='in';
+g('gs').onclick=function(e){e.preventDefault();mode=mode==='in'?'up':'in';var up=mode==='up';g('gb').textContent=up?'Create my free account':'Sign in';g('gs').textContent=up?'Already a member? Sign in':'New here? Create a free account';g('gn').style.display=up?'block':'none';g('gp').autocomplete=up?'new-password':'current-password';g('gp').placeholder=up?'Password (at least 8 characters)':'Password';msg('')};
+g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Still loading, try again in a second.');
+  var em=g('ge').value.trim().toLowerCase(),pw=g('gp').value;
+  if(mode==='up'){
+    if(!/^[^ @]+@[^ @]+[.][^ @]+$/.test(em))return msg('Please type a real email address.');
+    if(pw.length<8)return msg('Please choose a password of at least 8 characters.');
+    msg('Creating your account...');
+    return sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
+      if(r.error)return msg(/registered|exists/i.test(r.error.message)?'That email already has an account. Use Sign in.':'Could not create the account: '+r.error.message);
+      if(r.data&&r.data.session){g('gp').value='';return after(r.data.session)}
+      if(r.data&&r.data.user&&r.data.user.identities&&!r.data.user.identities.length)return msg('That email already has an account. Use Sign in.');
+      g('gp').value='';msg('Almost done. We sent you an email: open it, click the link, then come back here and sign in.')})}
+  msg('Signing in...');
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error)return msg(/confirm/i.test(r.error.message)?'Please open the email we sent you and click the link first.':'Wrong email or password.');g('gp').value='';after(r.data.session)})};
 g('outbtn').onclick=function(){if(sb)sb.auth.signOut().then(function(){location.reload()})};
 })();
 </script></body></html>
