@@ -233,7 +233,16 @@ function trl(w){const l=lang(w);try{if(l==='he'&&YHWH.test(w.replace(/[֑-ׇ]/g,
 function sayNote(m){let d=document.getElementById('say-note');if(!d){d=document.createElement('div');d.id='say-note';document.body.appendChild(d)}d.textContent=m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display='none'},5000)}
 function gsay(w){return w.normalize('NFD').replace(/[\u0313\u0314\u0342\u0343\u0344\u0345]/g,'').replace(/\u0300/g,'\u0301').normalize('NFC').toLowerCase().replace(/[^\u0370-\u03FF\s'-]/g,' ').replace(/\s+/g,' ').trim()}
 function sayText(w){if(YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'אֲדֹנָי';const l=lang(w);return l==='he'?w.trim().split(/\s+/).map(x=>hpt(x)||x).join(' '):l==='gr'?gsay(w):w}
-function say(w){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
+const VURL=(l,t,r)=>'/api/tts?l='+l+'&r='+(r||1)+'&t='+encodeURIComponent(t);
+let VP=null;
+function vstop(){if(VP){try{VP.onended=null;VP.onerror=null;VP.pause()}catch(e){}VP=null}}
+function vplay(l,t,r,done,fail){vstop();let fired=false;const bad=()=>{if(fired)return;fired=true;fail&&fail()},ok=()=>{if(fired)return;fired=true;done&&done()};
+ try{const a=new Audio(VURL(l,t,r));VP=a;a.onended=ok;a.onerror=bad;const p=a.play();if(p&&p.catch)p.catch(bad)}catch(e){bad()}}
+function vchunks(t){const out=[];let cur='';const add=p=>{if(cur&&(cur+' '+p).length>300){out.push(cur);cur=p}else cur=cur?cur+' '+p:p};
+ String(t).split(/\n+/).forEach(line=>{line=line.replace(/\s+/g,' ').trim();if(!line)return;line.split(/(?<=[.;!?·:;·])\s+/).forEach(p=>{while(p.length>380){let k=p.lastIndexOf(' ',380);if(k<100)k=380;add(p.slice(0,k));p=p.slice(k).trim()}if(p)add(p)})});if(cur)out.push(cur);return out}
+const gprep=w=>w.normalize('NFD').replace(/[̓̔͂̓̈́ͅ]/g,'').replace(/̀/g,'́').normalize('NFC').replace(/[^Ͱ-Ͽἀ-῿A-Za-z0-9\s'.,;:!?··-]/g,' ');
+function say(w){try{const code=lang(w)==='he'?'he':'el',t=sayText(w);if(!t||!/\p{L}/u.test(t)){devSay(w);return}try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}window.__ra=null;raReset();vplay(code,t,.85,null,()=>devSay(w))}catch(e){devSay(w)}}
+function devSay(w){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
  const code=lang(w)==='he'?'he':'el',go=()=>{const v=ss.getVoices().find(x=>x.lang.toLowerCase().replace('_','-').startsWith(code));if(!v){sayNote('This computer has no '+(code==='he'?'Hebrew':'Greek')+' voice yet. Microsoft Edge usually has one built in.');return}ss.cancel();const u=new SpeechSynthesisUtterance(sayText(w));u.voice=v;u.lang=v.lang;u.rate=.85;ss.speak(u)};
  if(ss.getVoices().length)go();else{let done=false;const f=()=>{if(done)return;done=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Could not play the sound.')}}
 const sayBtn=w=>'<button class="say" data-w="'+esc(w)+'" title="Hear it" aria-label="Hear it">🔊</button>';
@@ -373,27 +382,37 @@ function botSpeak(root){const RUN=/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,}
  nodes.forEach(t=>{const txt=t.nodeValue;RUN.lastIndex=0;if(!RUN.test(txt))return;RUN.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;while((m=RUN.exec(txt))){f.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));const b=document.createElement('button');b.className='say';b.dataset.w=m[0].replace(/\u00A0/g,' ');b.textContent='\uD83D\uDD0A';b.title='Hear it';b.setAttribute('aria-label','Hear it');f.appendChild(b);last=m.index+m[0].length}
  f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)})})}
 function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Read all';b.dataset.on=''});window.__raBtn=null}
-function readAll(box,btn){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('This browser cannot speak out loud.');return}
- if(btn&&btn.dataset.on==='1'){if(ss.paused){ss.resume();btn.textContent='⏸ Pause'}else{ss.pause();btn.textContent='▶ Resume'}return}
- ss.cancel();try{ss.resume()}catch(e){}raReset();
+function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=>EP?g:e;try{const ss=window.speechSynthesis,R0=window.__ra;
+ if(btn&&btn.dataset.on==='1'&&R0){if(R0.paused){R0.paused=false;R0.dev?(ss&&ss.resume()):(VP&&VP.play());btn.textContent=S('⏸ Pause','⏸ Παύση')}else{R0.paused=true;R0.dev?(ss&&ss.pause()):(VP&&VP.pause());btn.textContent=S('▶ Resume','▶ Συνέχεια')}return}
+ try{ss&&ss.cancel()}catch(e){}vstop();window.__ra=null;raReset();
  const clone=box.cloneNode(true);clone.querySelectorAll('.say,.sayall,.saystop,.n').forEach(x=>x.remove());
  let txt=clone.innerText||clone.textContent||'';
  const GH='Ͱ-Ͽἀ-῿֐-׿';
  txt=txt.replace(new RegExp('(['+GH+'])\\s*\\(([A-Za-z\\u00C0-\\u024F\\s\\u00B7\\-\\u2019\']+)\\)','g'),'$1');
- const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
- txt=txt.replace(/(^|[^Ͱ-Ͽἀ-῿])([α-ω])(?![Ͱ-Ͽἀ-῿])/g,(a,b,c)=>b+(LN[c]||c));
- const latin=run=>run.split(/\s+/).map(x=>{let t='';try{t=trl(x)||''}catch(e){}return t.replace(/ · vowels unknown/,'')||x}).join(' ');
- const parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;
- while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),'en']);parts.push(lang(m[0])==='he'?[m[0],'he']:[latin(m[0]),'en']);last=m.index+m[0].length}
- if(last<txt.length)parts.push([txt.slice(last),'en']);
- const go=()=>{const V=ss.getVoices(),pick=c=>V.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(c));const need={};ss.cancel();const us=[];
-  parts.forEach(([t,c])=>{t=t.replace(/[*_#●•]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='en'?t:sayText(t));u.voice=v;u.lang=v.lang;u.rate=1;us.push(u)});
-  if(!us.length){sayNote('No voice available to read this.');return}
-  if(btn){btn.dataset.on='1';btn.textContent='⏸ Pause';window.__raBtn=btn;us[us.length-1].onend=raReset;us[us.length-1].onerror=raReset}
-  us.forEach(u=>ss.speak(u));
-  if(need.he)sayNote('No Hebrew voice on this computer, so the Hebrew parts were skipped.')};
- if(ss.getVoices().length)go();else{let d=false;const f=()=>{if(d)return;d=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Could not play the sound.')}}
-document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);
+ if(!EP){const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
+  txt=txt.replace(new RegExp('(^|[^'+GH+'])([α-ω])(?!['+GH+'])','g'),(a,b,c)=>b+(LN[c]||c))}
+ let parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;const other=EP?'el':'en';
+ while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),other]);parts.push([m[0],lang(m[0])==='he'?'he':'el']);last=m.index+m[0].length}
+ if(last<txt.length)parts.push([txt.slice(last),other]);
+ const mg=[];parts.forEach(p=>{const q=mg[mg.length-1];if(q&&q[1]===p[1])q[0]+=p[0];else mg.push([p[0],p[1]])});parts=mg;
+ const has=x=>/[\p{L}\p{N}]/u.test(x),items=[];
+ parts.forEach(([t,c])=>{t=t.replace(/[*_#●•]/g,' ');if(!has(t))return;
+  if(c==='en'){items.push({t:t.replace(/\s+/g,' ').trim(),c});return}
+  vchunks(c==='he'?sayText(t):gprep(t)).forEach(x=>{if(has(x))items.push({t:x,c})})});
+ if(!items.length){sayNote(S('No voice available to read this.','Δεν υπάρχει διαθέσιμη φωνή για να διαβαστεί αυτό.'));return}
+ const R={items,i:0,paused:false,dev:false,fails:0};window.__ra=R;
+ if(btn){btn.dataset.on='1';btn.textContent=S('⏸ Pause','⏸ Παύση');window.__raBtn=btn}
+ const fin=()=>{if(window.__ra===R){window.__ra=null;raReset()}};
+ const step=()=>{if(window.__ra!==R)return;if(R.i>=R.items.length){fin();return}
+  const it=R.items[R.i++];
+  const dev=()=>{R.dev=true;if(!ss||!window.SpeechSynthesisUtterance){step();return}
+   let vs=[];try{vs=ss.getVoices()}catch(e){}const want=it.c==='en'?'en':it.c,v=vs.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(want));
+   if(!v&&it.c!=='en'){step();return}
+   const u=new SpeechSynthesisUtterance(it.t);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=1;u.onend=step;u.onerror=()=>{if(window.__ra===R)step()};ss.speak(u)};
+  if(it.c==='en'||R.fails>=2){dev();return}
+  R.dev=false;vplay(it.c,it.t,.95,step,()=>{if(window.__ra!==R)return;R.fails++;dev()})};
+ step()}catch(e){sayNote(S('Could not play the sound.','Δεν έγινε αναπαραγωγή ήχου.'))}}
+document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}vstop();window.__ra=null;raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);
 // tools the bots can call (all run inside this page)
 function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase().replace(/\s/g,'')===canon(n))}
 const TOOLS=[
