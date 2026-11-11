@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="el"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Μηχανή Συμβόλων</title>
+<style>
+#gate{position:fixed;inset:0;z-index:99;background:radial-gradient(1200px 500px at 50% -120px,#0b1f2a,#04080c);display:flex;align-items:center;justify-content:center;padding:16px}
+#gate .bx{width:100%;max-width:380px;background:#0a1820;border:1px solid rgba(70,227,240,.22);border-radius:14px;padding:26px 22px;text-align:center}
+#gate h2{margin:0 0 6px;font-weight:400;font-size:18px;letter-spacing:.3em;color:#e8c375}
+#gate p{margin:6px 0 14px;color:#8fa6ab;font-size:15px}
+#gate input{width:100%;box-sizing:border-box;margin:0 0 10px;padding:12px;border-radius:8px;border:1px solid rgba(70,227,240,.3);background:#04080c;color:#e6f1f3;font:17px "Noto Sans",sans-serif}
+#gate button{width:100%;padding:12px;border-radius:8px;border:1px solid #46e3f0;background:rgba(70,227,240,.12);color:#46e3f0;font:600 16px "Noto Sans",sans-serif;cursor:pointer}
+#gate .msg{min-height:22px;margin:10px 0 0;font-size:15px;color:#e8c375}
+#gate a{color:#8fa6ab;font-size:14px}
+#outbtn{position:fixed;top:8px;right:10px;z-index:5;background:none;border:0;color:#8fa6ab;font-size:13px;cursor:pointer}
+</style>
+<style>
+:root{--bg:#04080c;--panel:#0a1820;--line:rgba(70,227,240,.22);--cy:#46e3f0;--go:#e8c375;--ink:#e6f1f3;--dim:#8fa6ab}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 500px at 50% -120px,#0b1f2a,#04080c);color:var(--ink);font:18px/1.55 "Noto Sans",system-ui,sans-serif;min-height:100vh}
+.w{max-width:900px;margin:0 auto;padding:0 16px}
+header{padding:26px 0 6px;text-align:center}
+h1{margin:0;font-weight:400;font-size:20px;letter-spacing:.32em;color:var(--go)}
+header p{margin:8px 0 0;color:var(--dim);font-size:16px}
+nav{flex-wrap:wrap;display:flex;justify-content:center;gap:6px;margin:14px 0 6px}
+nav button{font:600 15px "Noto Sans",sans-serif;padding:8px 16px;border-radius:999px;border:1px solid transparent;background:none;color:var(--dim);cursor:pointer}
+nav button.on{color:var(--go);border-color:rgba(232,195,117,.5);background:rgba(232,195,117,.1)}
+.tab{display:none}.tab.on{display:block}
+.search{display:flex;gap:8px;margin-top:10px}
+.search input{flex:1;min-width:0;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:14px 16px;font:24px "Noto Serif","Times New Roman",serif}
+.search button,.btn{font:600 16px "Noto Sans",sans-serif;background:var(--cy);color:#04141a;border:0;border-radius:12px;padding:0 22px;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;align-items:center}.chips span{color:var(--dim);font-size:14px}
+.chip{font:20px "Noto Serif",serif;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(70,227,240,.06);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--cy)}
+.kbtog{display:flex;gap:14px;margin:6px 0;font-size:14px;color:var(--dim)}.kbtog a{cursor:pointer;color:var(--cy)}
+.kb{display:none;flex-wrap:wrap;gap:5px;margin:6px 0 2px;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(10,24,32,.7)}
+.kb.on{display:flex}.kb button{min-width:38px;height:40px;font:22px "Noto Serif",serif;background:#0a1d27;color:var(--ink);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.kb button.sp{font:14px "Noto Sans",sans-serif;padding:0 12px}
+.kb.he{direction:rtl}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+.cap{color:var(--dim);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
+.word{font:44px/1.2 "Noto Serif","Times New Roman",serif;margin:0}.word.he{direction:rtl;text-align:right}
+.val{font-size:54px;font-weight:600;color:var(--go);line-height:1}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.chain{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.chain.he{direction:rtl}
+.bead{display:flex;flex-direction:column;align-items:center;min-width:46px;padding:6px 8px 5px;border-radius:12px;border:1px solid rgba(232,195,117,.45);background:linear-gradient(#17140a,#0b0a05)}
+.bead b{font:26px "Noto Serif",serif;font-weight:400;color:var(--ink)}.bead i{font:600 14px "Noto Sans",sans-serif;font-style:normal;color:var(--go)}
+.plus{color:var(--dim);font-size:14px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid rgba(70,227,240,.1);padding:7px 6px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:500;font-size:13px}td.n{text-align:right;color:var(--go);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gr,.he2{font:22px "Noto Serif",serif}.he2{direction:rtl;unicode-bidi:isolate}
+a.w2{color:var(--ink);cursor:pointer;border-bottom:1px dotted var(--cy)}
+.mut{color:var(--dim);font-size:15px}.say{background:none;border:0;cursor:pointer;font-size:.8em;padding:0 5px;opacity:.8;color:inherit}.say:hover{opacity:1}#say-note{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;max-width:90%;background:#0b2230;border:1px solid #2fd6b8;border-radius:10px;padding:10px 14px;color:#e6f4f1;font:15px 'Noto Sans',sans-serif}.tl{color:var(--dim);font-size:.72em;font-family:'Noto Sans',sans-serif;font-style:normal;margin-left:7px;white-space:nowrap}.tip{margin:10px 0 0;padding:8px 12px;border-left:3px solid #2fd6b8;background:rgba(47,214,184,.07);border-radius:6px;font-size:14px;line-height:1.5;color:var(--dim)}body.notips .tip{display:none}.ok{color:#7be0a0}
+.cmp{display:flex;gap:8px;margin-top:6px}.cmp input{flex:1;min-width:0;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:20px "Noto Serif",serif}
+.cmp button{font:600 15px "Noto Sans",sans-serif;background:rgba(70,227,240,.15);color:var(--cy);border:1px solid var(--cy);border-radius:10px;padding:0 16px;cursor:pointer}
+select{background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:16px "Noto Sans",sans-serif;width:100%}
+label{display:block;color:var(--dim);font-size:13px;margin:6px 0 4px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>div{flex:1;min-width:110px}
+details{margin-top:10px;color:var(--dim);font-size:14px}summary{cursor:pointer}
+.bots{display:flex;flex-wrap:wrap;gap:8px}.bots button{font:600 15px 'Noto Sans',sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}.bots button.on{border-color:var(--go);color:var(--go);background:rgba(232,195,117,.12)}.cmp-b{font:600 14px 'Noto Sans',sans-serif;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;padding:9px 14px;cursor:pointer}.msg{border-radius:14px;padding:14px 16px;margin:12px 0;line-height:1.6}.msg.me{background:rgba(70,227,240,.08);border:1px solid var(--line)}.msg.bot{background:var(--panel);border:1px solid rgba(232,195,117,.3)}.msg b.n{display:block;color:var(--go);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.msg p{margin:0 0 10px}.msg ul{margin:0 0 10px;padding-left:20px}.empty{text-align:center;color:var(--dim);padding:26px 10px}
+@media(max-width:600px){body{font-size:17px}.word{font-size:36px}.val{font-size:44px}.search input{font-size:20px}}
+.sayall,.saystop{font:600 13px 'Noto Sans',sans-serif;margin:2px 0 6px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}</style><style>
+#t-nb .it{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+#t-nb .it:last-child{border-bottom:0}
+#t-nb .k{font:600 11px 'Noto Sans';letter-spacing:.12em;text-transform:uppercase;color:var(--go);min-width:56px}
+#t-nb .qq{flex:1;min-width:140px;cursor:pointer;color:var(--ink);font:19px 'Noto Serif',serif;word-break:break-word}
+#t-nb .d{color:var(--dim);font-size:13px}
+#t-nb .nt{width:100%;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:15px 'Noto Sans'}
+#t-nb button.mini{background:none;border:1px solid var(--line);border-radius:999px;color:var(--cy);padding:3px 10px;cursor:pointer;font:600 13px 'Noto Sans'}
+#keepbtn{position:fixed;right:14px;bottom:14px;z-index:6;background:#0a1820;border:1px solid var(--go);color:var(--go);border-radius:999px;padding:10px 16px;font:600 15px 'Noto Sans';cursor:pointer;display:none}
+</style></head><body>
+<div id="gate"><div class="bx"><h2>ΜΗΧΑΝΗ ΣΥΜΒΟΛΩΝ</h2><p id="gt">Εργαλείο έρευνας για μέλη. Συνδέσου ή φτιάξε δωρεάν λογαριασμό.</p>
+<form id="gf"><input id="ge" type="email" autocomplete="username" placeholder="Email"><input id="gp" type="password" autocomplete="current-password" placeholder="Κωδικός"><button type="submit" id="gb">Σύνδεση</button></form>
+<p style="margin:12px 0 0"><a href="#" id="gs">Νέος εδώ; Φτιάξε δωρεάν λογαριασμό</a></p>
+<p id="gn" style="display:none;margin:10px 0 0;font-size:13px;color:#8fa6ab">Τα δωρεάν μέλη έχουν λίγες ερωτήσεις στα μποτ κάθε μέρα. Οι ερωτήσεις σου απαντώνται από υπηρεσία τεχνητής νοημοσύνης. Κρατάμε μόνο το email σου και πόσα βήματα χρησιμοποίησες.</p>
+<p class="msg" id="gm"></p><p style="margin:10px 0 0"><a href="../greek-sphere-el.html">&larr; Ελληνική Σφαίρα</a></p></div></div><button id="outbtn" style="display:none">Αποσύνδεση</button>
+<div class="w">
+<header><p style="margin:0 0 8px;font-size:14px"><a href="../greek-sphere-el.html" style="color:var(--dim);text-decoration:none">← Ελληνική Σφαίρα</a></p><h1>ΜΗΧΑΝΗ ΣΥΜΒΟΛΩΝ</h1><p>Γράψε μια ελληνική ή εβραϊκή λέξη, έναν αριθμό ή έναν στίχο. Αριθμοί, ήχοι και ο Κώδικας Ελλήν Λόγος, όλα σε ένα μέρος.</p></header>
+<nav id="nav"></nav><button id="keepbtn">&#9733; Κράτησέ το</button>
+
+<section class="tab on" id="t-go">
+ <div class="search"><input id="q" dir="auto" autocomplete="off" spellcheck="false" placeholder="ΚΑΔΜΟΣ   ·   ים סוף   ·   430   ·   John 1:1"><button id="go">Αναζήτηση</button></div>
+ <div class="kbtog"><span>Δεν έχεις εβραϊκό πληκτρολόγιο;</span><a id="kg">Ελληνικά γράμματα</a><a id="kh">Εβραϊκά γράμματα</a><a id="kx">Καθαρισμός</a><a id="tg">Απόκρυψη σημειώσεων</a></div>
+ <div class="kb" id="kbg"></div><div class="kb he" id="kbh"></div>
+ <div class="chips"><span>Δοκίμασε:</span><button class="chip" data-q="ΚΑΔΜΟΣ">ΚΑΔΜΟΣ</button><button class="chip" data-q="ΚΑΛΑΜΟΣ">ΚΑΛΑΜΟΣ</button><button class="chip" data-q="ים סוף">ים סוף</button><button class="chip" data-q="ΝΟΜΟΣ">ΝΟΜΟΣ</button><button class="chip" data-q="430">430</button><button class="chip" data-q="Gen 1:1">Gen 1:1</button></div>
+ <details><summary>Περισσότερες επιλογές</summary><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="cl"> Να περιλαμβάνονται Όμηρος, Ησίοδος και Πλάτων στις αναζητήσεις (φορτώνει 7 MB)</label><span class="mut" id="cl-st"></span><label>Εβραϊκή μέθοδος</label><select id="hm"><option value="hechrachi">Κανονική (τα τελικά γράμματα μετρούν όπως τα απλά)</option><option value="gadol">Γκαντόλ (τελικά γράμματα 500 έως 900)</option><option value="katan">Κατάν (τα ψηφία αθροίζονται σε ένα)</option><option value="atbash">Ατμπάς</option></select></details>
+ <div id="out"><div class="empty">Πάτησε μία από τις λέξεις παραπάνω για να δεις πώς δουλεύει.</div></div>
+</section>
+
+<section class="tab" id="t-ask">
+ <div class="card"><p class="cap">Τα Μποτ</p>
+ <p style="margin:0 0 12px">Ρώτα με απλά λόγια. Κάθε μποτ χρησιμοποιεί τη μηχανή για κάθε αριθμό και κάθε στίχο, έτσι τα αθροίσματα ελέγχονται πάντα.</p>
+ <div class="bots" id="bots"></div>
+ <p class="mut" id="bot-role" style="margin:10px 0 0"></p>
+<p class="mut" id="a-meter" style="margin:4px 0 0;font-size:14px"></p>
+ <textarea id="a-in" dir="auto" style="width:100%;min-height:90px;margin-top:12px;background:#06121a;color:var(--ink);border:1px solid var(--cy);border-radius:12px;padding:12px;font:19px 'Noto Serif',serif" placeholder="Ρώτα εδώ"></textarea>
+ <div class="chips" id="a-chips"></div>
+ <p style="margin:10px 0 0"><button class="btn" id="a-go" style="padding:12px 26px">Ρώτα</button> <button class="cmp-b" id="a-stop">Στοπ</button> <button class="cmp-b" id="a-new">Νέα συζήτηση</button> <span class="mut" id="a-st"></span></p></div>
+ <div id="a-out"></div></section>
+
+<section class="tab" id="t-decode">
+ <div class="card"><p class="cap">Κώδικας Ελλήν Λόγος</p>
+ <p style="margin:0 0 10px">Γράψε μια ελληνική λέξη, ένα όνομα ή μια φράση. Κάθε γράμμα και κάθε δίφθογγος διαβάζεται με τη σημασία του Κώδικα του Θεολόγου Σημαιοφόρου (ramafa.gr) και ύστερα ενώνονται σε μία ανάγνωση.</p>
+ <div class="search"><input id="d-in" dir="auto" autocomplete="off" spellcheck="false" placeholder="ΑΒΡΑΣΑΞ   ·   ΒΟΥΛΗ   ·   ΗΛΙΟΣ"><button id="d-go">Αποκωδικοποίηση</button></div>
+ <div class="chips"><span>Δοκίμασε:</span><button class="chip" data-d="ΑΒΡΑΣΑΞ">ΑΒΡΑΣΑΞ</button><button class="chip" data-d="ΒΟΥΛΗ">ΒΟΥΛΗ</button><button class="chip" data-d="ΗΛΙΟΣ">ΗΛΙΟΣ</button><button class="chip" data-d="ΚΑΔΜΟΣ">ΚΑΔΜΟΣ</button><button class="chip" data-d="ΚΑΛΑΜΟΣ">ΚΑΛΑΜΟΣ</button></div></div>
+ <div id="d-out"><div class="empty">Πάτησε μια λέξη παραπάνω.</div></div></section>
+
+<section class="tab" id="t-hunt">
+ <div class="card"><p class="cap">Ο κυνηγός</p>
+ <p style="margin:0 0 10px">Δώσε του ένα ολόκληρο κείμενο και πάει για κυνήγι: αλλαγές όπως Κάδμος και Κάλαμος, λέξεις κρυμμένες μέσα σε λέξεις, λέξεις που έχουν τον ίδιο αριθμό με λέξεις της Βίβλου, και ό,τι επαναλαμβάνεται.</p>
+ <div class="row"><div><label>Άνοιξε ένα PDF ή αρχείο κειμένου</label><input type="file" id="h-file" accept=".pdf,.txt,.text,.md,.html" style="width:100%;color:var(--ink)"></div></div>
+ <label>ή επικόλλησε το κείμενο εδώ</label>
+ <textarea id="h-txt" dir="auto" style="width:100%;min-height:110px;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:19px 'Noto Serif',serif"></textarea>
+ <details><summary>Επιλογές</summary>
+  <label><input type="checkbox" id="h-end"> Να μετρούν και οι καταλήξεις (γραμματικές αλλαγές όπως -ος και -οι)</label>
+  <label>Ψάξε και για αυτούς τους αριθμούς (προαιρετικά, με κόμμα ανάμεσα)</label><input id="h-num" placeholder="430, 1746, 666" style="width:100%;background:#06121a;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:17px 'Noto Sans',sans-serif">
+ </details>
+ <p style="margin:12px 0 0"><button class="btn" id="h-go" style="padding:12px 26px">Κυνήγι</button> <span class="mut" id="h-st"></span></p></div>
+ <div id="h-out"></div></section>
+
+<section class="tab" id="t-read"><div class="card"><div class="row">
+ <div><label>Βιβλίο</label><select id="s-b"></select></div><div><label>Κεφάλαιο</label><select id="s-c"></select></div>
+ <div><label>Από στίχο</label><select id="s-v1"></select></div><div><label>Έως στίχο</label><select id="s-v2"></select></div></div>
+ <p class="mut" style="margin:10px 0 0">Ο Όμηρος, ο Ησίοδος και ο Πλάτων φορτώνουν όταν τους επιλέξεις. <a class="w2" id="s-cl">Φόρτωσέ τους τώρα</a></p>
+ <p class="mut" style="margin:6px 0 0">Η Μετάφραση των Εβδομήκοντα είναι μεγαλύτερο αρχείο, γι αυτό φορτώνει μόνο όταν το ζητήσεις. <a class="w2" id="s-lx">Φόρτωσε τους Εβδομήκοντα</a></p>
+ <p style="margin:12px 0 0"><button class="btn" id="s-go" style="padding:10px 22px">Δείξε</button></p></div>
+<div class="card"><label>Λεξικό: Liddell και Scott</label><div class="row"><div><input id="lx-in" placeholder="μια ελληνική λέξη, π.χ. λόγος" autocomplete="off"></div><div><button class="btn" id="lx-go" style="padding:10px 22px">Αναζήτηση</button></div></div>
+ <p class="mut" style="margin:8px 0 0">116.000 λέξεις. Φορτώνει την πρώτη φορά που θα ψάξεις κάτι. Οι σημασίες είναι στα αγγλικά.</p><div id="lx-out"></div></div><div id="s-out"></div></section>
+
+<section class="tab" id="t-nb">
+ <div class="card"><p class="cap">Κρατημένα στο σημειωματάριό σου</p><p class="mut" style="margin:0 0 8px">Ιδιωτικό, στον λογαριασμό σου. Σε ακολουθεί από τον υπολογιστή στο κινητό. Πάτησε ένα στοιχείο για να το ανοίξεις ξανά.</p><div id="nb-kept"><div class="empty">Φορτώνει...</div></div></div>
+ <div class="card"><p class="cap">Πρόσφατα σε αυτόν τον υπολογιστή</p><p class="mut" style="margin:0 0 8px">Προστίθενται αυτόματα. Πάτησε το αστέρι για να κρατήσεις ένα.</p><div id="nb-rec"></div><p style="margin:10px 0 0"><button class="chip" id="nb-clr">Καθαρισμός πρόσφατων</button></p></div>
+</section>
+<section class="tab" id="t-help"><div class="card"><p class="cap">Πώς δουλεύει</p>
+<p>Χρησιμοποίησε το πλαίσιο της πρώτης οθόνης. Καταλαβαίνει τρία πράγματα:</p>
+<p><b>Μια λέξη</b> (ελληνική ή εβραϊκή). Παίρνεις τον αριθμό της, χτισμένο γράμμα γράμμα σαν χάντρες σε αλυσίδα, μετά τις άλλες λέξεις με τον ίδιο αριθμό, και πού εμφανίζεται στη Βίβλο.</p>
+<p><b>Έναν αριθμό.</b> Παίρνεις κάθε λέξη με αυτόν τον αριθμό.</p>
+<p><b>Έναν στίχο</b>, όπως Gen 1:1 ή John 1:1-3 (τα βιβλία γράφονται με τις λατινικές συντομογραφίες). Επίσης Yetzirah 1:1 (Σεφέρ Γετζιρά), LXX Gen 1:1 (οι Εβδομήκοντα, με ελληνική αρίθμηση), Iliad 1:1, Odyssey 1:1, Theogony 1:116, και ο Πλάτων με σελίδα και τμήμα, όπως Cratylus 383a. Παίρνεις κάθε λέξη με τον αριθμό της και το σύνολο.</p>
+<p>Η καρτέλα <b>Σημειωματάριο</b> θυμάται τι έψαξες, και το κουμπί με το αστέρι κρατά ένα εύρημα στον ιδιωτικό σου λογαριασμό. Πάτησε οποιαδήποτε λέξη στα αποτελέσματα για να την ψάξεις. Για να συγκρίνεις δύο λέξεις, χρησιμοποίησε το πλαίσιο Σύγκριση κάτω από μια λέξη.</p>
+<p>Δεν έχεις εβραϊκό πληκτρολόγιο; Πάτησε «Εβραϊκά γράμματα» κάτω από το πλαίσιο.</p>
+<p>Τα ελληνικά μετρούν τα 27 σημεία (στίγμα 6, κόππα 90, σαμπί 900). Το τελικό σίγμα είναι 200. Οι τόνοι αγνοούνται.</p>
+<p class="mut">Κείμενα: Όμηρος, Ησίοδος και Πλάτων από την Perseus Digital Library (Πανεπιστήμιο Tufts, CC BY-SA 4.0· εκδόσεις Allen, Solmsen και Burnet). Σεφέρ Γετζιρά, έκδοση Βαρσοβίας 1884, ψηφιοποιημένη από το Sefaria (κοινό κτήμα). Open Scriptures Hebrew Bible (Westminster Leningrad Codex, CC BY 4.0)· SBL Greek New Testament με MorphGNT (CC BY-SA 3.0). Κατάλογος λέξεων: λεξικά Strong από το Open Scriptures (CC-BY-SA). Η Μετάφραση των Εβδομήκοντα είναι η έκδοση Swete του Cambridge (1901 έως 1905) από το έργο First1KGreek του Πανεπιστημίου της Λειψίας και την Perseus Digital Library (CC BY-SA 4.0). Ο Εκκλησιαστής δεν υπάρχει ακόμη σε εκείνη τη συλλογή. Το λεξικό είναι το A Greek-English Lexicon των Liddell και Scott (αναθεώρηση Jones και McKenzie), ψηφιακή έκδοση Perseus (perseus.tufts.edu· github.com/PerseusDL/lexica), CC BY-SA 4.0· οι σύντομες σημασίες που φαίνονται εδώ προέρχονται από τα λήμματά του με τους ίδιους όρους.</p></div></section>
+</div>
+<script src="pdf.min.js"></script><script src="pdf.worker.min.js"></script>
+<script type="text/plain" id="mainjs">
+const $=id=>document.getElementById(id);
+const HEB={א:1,ב:2,ג:3,ד:4,ה:5,ו:6,ז:7,ח:8,ט:9,י:10,כ:20,ל:30,מ:40,נ:50,ס:60,ע:70,פ:80,צ:90,ק:100,ר:200,ש:300,ת:400};
+const FIN={ך:'כ',ם:'מ',ן:'נ',ף:'פ',ץ:'צ'},GAD={ך:500,ם:600,ן:700,ף:800,ץ:900},AB='אבגדהוזחטיכלמנסעפצקרשת';
+const GRK={α:1,β:2,γ:3,δ:4,ε:5,ϛ:6,ζ:7,η:8,θ:9,ι:10,κ:20,λ:30,μ:40,ν:50,ξ:60,ο:70,π:80,ϟ:90,ϙ:90,ρ:100,σ:200,ς:200,τ:300,υ:400,φ:500,χ:600,ψ:700,ω:800,ϡ:900};
+const lang=w=>{for(const ch of w){if(ch>='֐'&&ch<='׿')return'he';if((ch>='Ͱ'&&ch<='Ͽ')||(ch>='ἀ'&&ch<='῿'))return'gr'}return''};
+const M=()=>$('hm').value;
+function heb(w){const rows=[];let t=0;for(const ch of w.normalize('NFD')){if(!(ch in HEB)&&!(ch in FIN))continue;const b=FIN[ch]||ch,m=M();let v;
+ if(m==='gadol'&&GAD[ch])v=GAD[ch];else if(m==='katan'){v=HEB[b];while(v>9)v=String(v).split('').reduce((a,d)=>a+ +d,0)}else if(m==='atbash')v=HEB[AB[21-AB.indexOf(b)]];else v=HEB[b];rows.push([ch,v]);t+=v}return{t,rows}}
+function grk(w){const rows=[];let t=0;for(const ch of w.toLowerCase().normalize('NFD')){if(/\p{M}/u.test(ch)||!(ch in GRK))continue;rows.push([ch,GRK[ch]]);t+=GRK[ch]}return{t,rows}}
+const val=w=>{const l=lang(w);return l?Object.assign({l},l==='he'?heb(w):grk(w)):null};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BK=window.BIBLE;
+const ref=(b,ch,vs)=>b.c==='PL'?b.n+' '+ch+String.fromCharCode(96+vs):b.n+' '+ch+':'+vs;
+const CLS={loaded:false,p:null};
+function ensureClassics(){if(CLS.loaded)return Promise.resolve();if(CLS.p)return CLS.p;
+ CLS.p=new Promise((ok,no)=>{const go=()=>{try{window.CLASSICS.forEach(b=>BK.push({c:b.c,n:b.n,v:b.v.map(([ch,vs,ws])=>[ch,vs,ws.map(w=>{const i=w.lastIndexOf(':');return[w.slice(0,i),'',+w.slice(i+1)]})])}));CLS.loaded=true;IDX=null;if(window.rebuildBooks)window.rebuildBooks();ok()}catch(e){CLS.p=null;no(e)}};
+  if(window.CLASSICS)return go();window.__loadEnc('classics.enc').then(go,()=>{CLS.p=null;no(new Error('Could not load the classical texts'))})});return CLS.p}
+const LXC={loaded:false,p:null};
+function ensureLXX(){if(LXC.loaded)return Promise.resolve();if(LXC.p)return LXC.p;
+ LXC.p=new Promise((ok,no)=>{const go=()=>{try{window.LXXBOOKS.forEach(b=>BK.push({c:b.c,n:b.n,v:b.v.map(([ch,vs,ws])=>[ch,vs,ws.map(w=>{const i=w.lastIndexOf(':');return[w.slice(0,i),'',+w.slice(i+1)]})])}));LXC.loaded=true;IDX=null;if(window.rebuildBooks)window.rebuildBooks();ok()}catch(e){LXC.p=null;no(e)}};
+  if(window.LXXBOOKS)return go();window.__loadEnc('lxx.enc').then(go,()=>{LXC.p=null;no(new Error('Could not load the Septuagint'))})});return LXC.p}
+const LSC={loaded:false,p:null,m:null};
+function ensureLSJ(){if(LSC.loaded)return Promise.resolve();if(LSC.p)return LSC.p;
+ LSC.p=new Promise((ok,no)=>{const go=()=>{try{const m=new Map();const nz=s=>{let o='';for(const ch of String(s).toLowerCase().normalize('NFD')){if(/\p{M}/u.test(ch))continue;o+=ch==='ς'?'σ':ch}return o};LSC.nz=nz;window.LSJ.forEach(r=>{[r[0]].concat(r[2]||[]).forEach(f=>{const k=nz(f).replace(/[^α-ωϝ]/g,'');if(!k)return;if(!m.has(k))m.set(k,[]);const a=m.get(k);if(a.indexOf(r)<0)a.push(r)})});LSC.m=m;LSC.keys=null;LSC.loaded=true;ok()}catch(e){LSC.p=null;no(e)}};
+  if(window.LSJ)return go();window.__loadEnc('lsj.enc').then(go,()=>{LSC.p=null;no(new Error('Could not load the lexicon'))})});return LSC.p}
+function lsjFind(w){const k=LSC.nz(w).replace(/[^α-ωϝ]/g,'');if(!k)return{error:'γράψε μια ελληνική λέξη'};let hit=LSC.m.get(k)||[];let kind='exact';if(!hit.length){if(!LSC.keys)LSC.keys=[...LSC.m.keys()];hit=[];for(const x of LSC.keys){if(x.startsWith(k)){hit=hit.concat(LSC.m.get(x));if(hit.length>=8)break}}kind='starts with';}
+ return{word:w,match:hit.length?kind:'none',entries:hit.slice(0,6).map(r=>({word:r[0],meaning:r[1]}))}}
+// one word, everywhere: what you looked up follows you to the next tab
+function carry(k){const w=window.__sw;if(!w)return;const free=el=>!el.value.trim()||el.dataset.auto==='1',put=(el,v)=>{el.value=v;el.dataset.auto='1'},he=lang(w)==='he',gr=lang(w)==='gr';
+ if(k==='go'&&free($('q'))&&$('q').value!==w){put($('q'),w);explore()}
+ if(k==='decode'&&gr&&free($('d-in'))&&$('d-in').value!==w){put($('d-in'),w);doDecode()}
+ if(k==='read'&&gr&&free($('lx-in'))&&$('lx-in').value!==w){put($('lx-in'),w);if(LSC.loaded)lxRun()}
+ if(k==='ask'&&(he||gr)&&free($('a-in'))&&!(HIST[curBot]&&HIST[curBot].length)){const t=trl(w);put($('a-in'),'Πες μου για τη λέξη '+w+'.');if(he&&curBot!=='b1')pick('b1');else if(gr&&curBot==='b1')pick('b2')}}
+['q','d-in','lx-in','a-in'].forEach(id=>{const el=$(id);if(el)el.addEventListener('input',()=>{delete el.dataset.auto})});
+// tabs
+[['go','Εξερεύνηση'],['ask','Μποτ'],['decode','Αποκωδικοποίηση'],['hunt','Κυνήγι'],['read','Ανάγνωση'],['nb','Σημειωματάριο'],['help','Βοήθεια']].forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.dataset.k=k;b.onclick=()=>show(k);$('nav').appendChild(b)});
+function show(k){if(k==='nb'&&window.nbRender)window.nbRender();window.__tab=k;try{carry(k)}catch(e){}if(window.nbKeepBtn)window.nbKeepBtn();document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.id==='t-'+k));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}show('go');
+// keyboards
+'αβγδεϛζηθικλμνξοπϟρσςτυφχψωϡ'.split('').forEach(c=>kb('kbg',c));'אבגדהוזחטיכלמנסעפצקרשתךםןףץ'.split('').forEach(c=>kb('kbh',c));
+function kb(id,c){const b=document.createElement('button');b.textContent=c;b.onclick=()=>{const q=$('q'),s=q.selectionStart??q.value.length,e=q.selectionEnd??s;q.value=q.value.slice(0,s)+c+q.value.slice(e);q.selectionStart=q.selectionEnd=s+1};$(id).appendChild(b)}
+['kbg','kbh'].forEach(id=>{const b=document.createElement('button');b.className='sp';b.textContent='⌫';b.onclick=()=>{const q=$('q');q.value=q.value.slice(0,-1)};$(id).appendChild(b);const g=document.createElement('button');g.className='sp';g.textContent='space';g.onclick=()=>{$('q').value+=' '};$(id).appendChild(g)});
+$('kg').onclick=()=>{$('kbg').classList.toggle('on');$('kbh').classList.remove('on')};$('kh').onclick=()=>{$('kbh').classList.toggle('on');$('kbg').classList.remove('on')};(function(){const g=$('tg');const set=on=>{document.body.classList.toggle('notips',on);g.textContent=on?'Εμφάνιση σημειώσεων':'Απόκρυψη σημειώσεων';try{localStorage.setItem('se_notips',on?'1':'')}catch(e){}};let s=false;try{s=!!localStorage.getItem('se_notips')}catch(e){}set(s);g.onclick=()=>set(!document.body.classList.contains('notips'))})();
+$('kx').onclick=()=>{$('q').value='';$('out').innerHTML='<div class="empty">Πάτησε μία από τις λέξεις παραπάνω για να δεις πώς δουλεύει.</div>'};
+// index for "same value"
+let IDX=null;function index(){IDX=new Map();BK.forEach((b,bi)=>b.v.forEach(([ch,vs,ws])=>ws.forEach(w=>{let a=IDX.get(w[2]);if(!a)IDX.set(w[2],a=[]);a.push([bi,ch,vs,w[0],w[1]])})))}
+function same(n,cp,limit){if(!IDX)index();const hits=(IDX.get(n)||[]).filter(x=>!cp||BK[x[0]].c===cp),g=new Map();
+ hits.forEach(x=>{const k=BK[x[0]].c+'|'+x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(ref(BK[x[0]],x[1],x[2]))});
+ const rows=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,limit);
+ let h='<div class="card"><p class="cap">Στα κείμενα</p>';
+ if(!hits.length)return h+'<p class="mut">Καμία λέξη της Εβραϊκής Βίβλου ή της Καινής Διαθήκης δεν έχει την τιμή '+n+'.</p></div>';
+ h+='<p style="margin:0 0 6px"><b>'+hits.length+'</b> σημεία, <b>'+g.size+'</b> διαφορετικοί τύποι</p>'+tip('Κάθε λέξη της Εβραϊκής Βίβλου, της Καινής Διαθήκης και των Εβδομήκοντα που αθροίζει στον ίδιο αριθμό με τη δική σου. Σε κάθε γραμμή: η λέξη, πόσες φορές εμφανίζεται και τα πρώτα σημεία όπου βρίσκεται. Πάτησε οποιαδήποτε λέξη για να την ψάξεις.')+'<table>'+rows.map(([k,refs])=>{const[c,s]=k.split('|');return'<tr><td><a class="w2 '+((c==='MT'||c==='KB')?'he2':'gr')+'" data-q="'+esc(s)+'">'+esc(s)+'</a>'+tl(s)+'</td><td class="n">'+refs.length+'×</td><td class="mut">'+esc(refs.slice(0,2).join(', '))+'</td></tr>'}).join('')+'</table>';
+ if(g.size>limit)h+='<p class="mut" style="margin:8px 0 0">Φαίνονται οι '+limit+' συχνότεροι τύποι.</p>';
+ let lw=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===n)lw.push([l,e])}));
+ h+='</div>';
+ if(lw.length)h+='<div class="card"><p class="cap">Στον κατάλογο λέξεων Strong</p><table>'+lw.slice(0,15).map(([l,e])=>'<tr><td><a class="w2 '+(l==='hebrew'?'he2':'gr')+'" data-q="'+esc(e[1])+'">'+esc(e[1])+'</a></td><td class="mut">'+esc(e[2])+'</td><td class="mut">'+esc(e[3])+'</td></tr>').join('')+'</table>'+(lw.length>15?'<p class="mut" style="margin:8px 0 0">'+lw.length+' λέξεις συνολικά· φαίνονται οι πρώτες 15.</p>':'')+tip('Συνηθισμένες λέξεις του λεξικού (ο κατάλογος Strong) με τον ίδιο αριθμό και τη σημασία τους. Πολλές λέξεις μοιράζονται τον ίδιο αριθμό, άρα μια ταύτιση είναι ένα ίχνος να το δεις, ποτέ απόδειξη.')+'</div>';
+ return h}
+function chance(la,lb){const d=l=>{const c=new Map();LEX[l].forEach(e=>c.set(e[4],(c.get(e[4])||0)+1));return[c,LEX[l].length]};const[A,na]=d(la),[B,nb]=d(lb);let p=0;A.forEach((n,v)=>{if(B.has(v))p+=n/na*B.get(v)/nb});return p}
+const nm=l=>l==='gr'?'greek':'hebrew';
+function beads(r){return'<div class="chain '+(r.l==='he'?'he':'')+'">'+r.rows.map((x,i)=>(i?'<span class="plus">+</span>':'')+'<div class="bead"><b>'+esc(x[0])+'</b><i>'+x[1]+'</i></div>').join('')+'</div>'}
+const GTR={α:'a',β:'v',γ:'g',δ:'d',ε:'e',ζ:'z',η:'i',θ:'th',ι:'i',κ:'k',λ:'l',μ:'m',ν:'n',ξ:'x',ο:'o',π:'p',ρ:'r',σ:'s',τ:'t',υ:'i',φ:'f',χ:'ch',ψ:'ps',ω:'o',ϛ:'st',ϟ:'q',ϡ:'ts'};
+function gtr(w){const t=[...norm(w,'gr')];let o='';for(let i=0;i<t.length;i++){const c=t[i],n=t[i+1]||'',n2=t[i+2]||'',d=c+n;
+ if(d==='ου'){o+='ou';i++;continue}if(d==='ει'||d==='οι'||d==='υι'){o+='i';i++;continue}if(d==='αι'){o+='e';i++;continue}
+ if(d==='ευ'||d==='αυ'){o+=(c==='ε'?'e':'a')+('κπτσφχψξθ'.indexOf(n2)>=0?'f':'v');i++;continue}
+ if(d==='γγ'){o+='ng';i++;continue}if(d==='γκ'){o+=i?'ng':'g';i++;continue}if(d==='μπ'){o+=i?'mb':'b';i++;continue}if(d==='ντ'){o+=i?'nd':'d';i++;continue}
+ if(c==='γ'){o+=('εηιυ'.indexOf(n)>=0||n+n2==='ει'||n+n2==='οι'||n+n2==='αι')?'y':'g';continue}
+ o+=GTR[c]!=null?GTR[c]:''}return o}
+const HCM={א:'',ב:'v',ג:'g',ד:'d',ה:'h',ו:'v',ז:'z',ח:'ch',ט:'t',י:'y',כ:'kh',ך:'kh',ל:'l',מ:'m',ם:'m',נ:'n',ן:'n',ס:'s',ע:'',פ:'f',ף:'f',צ:'ts',ץ:'ts',ק:'q',ר:'r',ש:'sh',ת:'t'};
+const HVW={'ַ':'a','ָ':'a','ֶ':'e','ֵ':'e','ִ':'i','ֹ':'o','ֺ':'o','ֻ':'u','ֱ':'e','ֲ':'a','ֳ':'o'};
+let HMAP=null,HCORP=null;
+function hpt(w){const sp=s=>s.replace(/[֑-ׇ]/g,'');const k=sp(w);if(/[\u05b0-\u05bb\u05bc\u05c1\u05c2]/.test(w))return w;
+ if(!HCORP){HCORP=new Map();BK.forEach(b=>{if(b.c!=='MT')return;b.v.forEach(([ch,vs,ws])=>ws.forEach(x=>{const f=x[0],kk=sp(f);let m=HCORP.get(kk);if(!m)HCORP.set(kk,m=new Map());m.set(f,(m.get(f)||0)+1)}))})}
+ const m=HCORP.get(k);if(!m)return null;let best=null,n=0;m.forEach((c,f)=>{if(c>n){n=c;best=f}});return best}
+function htr(w){if(/\s/.test(w.trim())){const ps=w.trim().split(/\s+/).map(htr1);return ps.map(x=>x.replace(' · άγνωστα φωνήεντα','')).join(' ')+(ps.some(x=>x.indexOf(' · άγνωστα φωνήεντα')>=0)?' · άγνωστα φωνήεντα':'')}return htr1(w)}
+function htr1(w){const strip=s=>s.replace(/[֑-ֽֿ֯׀׃-ׇ]/g,'');w=strip(w);let pointed=/[ְ-ֻּׁׂ]/.test(w),exact=true;
+ if(!pointed){const hp=hpt(w);if(hp){w=strip(hp);pointed=true}}
+ if(!pointed){if(!HMAP){HMAP=new Map();LEX.hebrew.forEach(e=>{const k=e[1].replace(/[֑-ׇ]/g,''),pf=strip(e[1]);if(!HMAP.has(k))HMAP.set(k,new Set());HMAP.get(k).add(pf)})}const f=HMAP.get(w);if(f&&f.size===1){w=[...f][0];pointed=true}}
+ const re=/([א-ת])([ְ-ּׁׂ]*)/g;let m,o='',lastV='',first=true;
+ while((m=re.exec(w))){const L=m[1],mk=m[2];let v='';for(const ch of mk)if(HVW[ch])v=HVW[ch];const dag=mk.indexOf('ּ')>=0,shva=mk.indexOf('ְ')>=0;let c;
+  if(L==='ו'){if(mk.indexOf('ֹ')>=0){o+='o';lastV='o';first=false;continue}if(dag&&!v){o+='u';lastV='u';first=false;continue}c='v'}
+  else if(L==='ש')c=mk.indexOf('ׂ')>=0?'s':'sh';
+  else if(dag&&L==='ב')c='b';else if(dag&&L==='כ')c='k';else if(dag&&L==='פ')c='p';
+  else if(L==='י'&&!mk&&lastV==='i')c='';
+  else if(L==='ה'&&!mk&&lastV&&m.index+2>=w.length)c='';
+  else c=HCM[L];
+  if(!pointed){if(L==='א'||L==='ע')c='';else if(L==='ב')c='b';else if(L==='כ'||L==='ך')c='k';else if(L==='פ'||L==='ף')c='p'}
+  o+=c+(v||(shva&&first?'e':''));lastV=v;first=false}
+ return pointed?o:o+' · άγνωστα φωνήεντα'}
+const YHWH=/^[י][ה][ו][ה]$/;
+function trl(w){const l=lang(w);try{if(l==='he'&&YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'YHWH, το Όνομα (λέγεται Αδωνάι)';return l==='gr'?gtr(w):l==='he'?htr(w):''}catch(e){return''}}
+function sayNote(m){let d=document.getElementById('say-note');if(!d){d=document.createElement('div');d.id='say-note';document.body.appendChild(d)}d.textContent=m;d.style.display='block';clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display='none'},5000)}
+function gsay(w){return w.normalize('NFD').replace(/[\u0313\u0314\u0342\u0343\u0344\u0345]/g,'').replace(/\u0300/g,'\u0301').normalize('NFC').toLowerCase().replace(/[^\u0370-\u03FF\s'-]/g,' ').replace(/\s+/g,' ').trim()}
+function sayText(w){if(YHWH.test(w.replace(/[֑-ׇ]/g,'')))return'אֲדֹנָי';const l=lang(w);return l==='he'?w.trim().split(/\s+/).map(x=>hpt(x)||x).join(' '):l==='gr'?gsay(w):w}
+function say(w){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('Αυτός ο browser δεν μπορεί να μιλήσει φωναχτά.');return}
+ const code=lang(w)==='he'?'he':'el',go=()=>{const v=ss.getVoices().find(x=>x.lang.toLowerCase().replace('_','-').startsWith(code));if(!v){sayNote('Αυτός ο υπολογιστής δεν έχει ακόμη '+(code==='he'?'εβραϊκή':'ελληνική')+' φωνή. Ο Microsoft Edge συνήθως έχει ενσωματωμένη.');return}ss.cancel();const u=new SpeechSynthesisUtterance(sayText(w));u.voice=v;u.lang=v.lang;u.rate=.85;ss.speak(u)};
+ if(ss.getVoices().length)go();else{let done=false;const f=()=>{if(done)return;done=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Δεν έγινε αναπαραγωγή ήχου.')}}
+const sayBtn=w=>'<button class="say" data-w="'+esc(w)+'" title="Άκουσέ το" aria-label="Άκουσέ το">🔊</button>';
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.say');if(b){e.preventDefault();e.stopPropagation();say(b.dataset.w)}},true);
+const tl=w=>{const t=trl(w);return t?(lang(w)==='gr'?sayBtn(w):'<span class="tl">'+esc(t)+'</span>'+sayBtn(w)):''};
+const tip=t=>'<p class="tip">'+t+'</p>';
+function wordCard(w,r){return'<div class="card"><div class="top"><p class="word '+r.l+'">'+esc(w)+'</p><div class="val">'+r.t+'</div></div><p class="mut" style="margin:0 0 8px">'+(trl(w)?(lang(w)==='gr'?sayBtn(w):'Προφορά με λατινικά γράμματα: <b>'+esc(trl(w))+'</b>'+sayBtn(w)):'')+'</p>'+beads(r)+tip('Τι βλέπεις: κάθε γράμμα έχει έναν αριθμό. Ο μικρός αριθμός κάτω από κάθε γράμμα είναι η τιμή του και ο μεγάλος αριθμός δεξιά είναι όλα μαζί. Αυτό το σύνολο είναι η τιμή της λέξης.'+(r.l==='gr'?'':' Τα εβραϊκά διαβάζονται από δεξιά προς τα αριστερά.'))+'</div>'}
+function bind(el){el.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;explore();window.scrollTo({top:0,behavior:'smooth'})});
+ const c=el.querySelector('#cmp-go');if(c)c.onclick=()=>doCmp(el);const ci=el.querySelector('#cmp-in');if(ci)ci.onkeydown=e=>{if(e.key==='Enter')doCmp(el)}}
+let cur=null;
+function doCmp(el){const b=el.querySelector('#cmp-in').value.trim(),rb=val(b),o=el.querySelector('#cmp-out');if(!rb){o.innerHTML='<p class="mut">Γράψε μια ελληνική ή εβραϊκή λέξη.</p>';return}
+ const d=rb.t-cur.t;let h='<div style="margin-top:14px"><div class="top"><p class="word '+rb.l+'" style="font-size:32px">'+esc(b)+'</p><div class="val" style="font-size:38px">'+rb.t+'</div></div>'+beads(rb)+'<p style="margin:14px 0 4px">Διαφορά: <b style="color:var(--go);font-size:24px">'+(d>0?'+':'')+d+'</b></p>';
+ if(!d){const one=Math.round(1/chance(nm(cur.l),nm(rb.l)));h+='<p class="ok" style="margin:4px 0">Ίσες.</p><p class="mut" style="margin:0">Περίπου 1 τυχαίο ζευγάρι στα '+one+' έχει την ίδια τιμή, άρα μια τέτοια ταύτιση βγαίνει τυχαία περίπου κάθε '+one+' ζευγάρια που δοκιμάζεις.</p>'}
+ o.innerHTML=h+'</div>'}
+const AL={"genesis": "gen", "gn": "gen", "exodus": "exod", "ex": "exod", "exo": "exod", "leviticus": "lev", "lv": "lev", "numbers": "num", "nm": "num", "deuteronomy": "deut", "dt": "deut", "joshua": "josh", "judges": "judg", "1samuel": "1sam", "2samuel": "2sam", "1kings": "1kgs", "2kings": "2kgs", "1chronicles": "1chr", "2chronicles": "2chr", "nehemiah": "neh", "esther": "esth", "psalms": "ps", "psalm": "ps", "proverbs": "prov", "ecclesiastes": "eccl", "songofsongs": "song", "songofsolomon": "song", "isaiah": "isa", "jeremiah": "jer", "lamentations": "lam", "ezekiel": "ezek", "daniel": "dan", "hosea": "hos", "obadiah": "obad", "micah": "mic", "nahum": "nah", "habakkuk": "hab", "zephaniah": "zeph", "haggai": "hag", "zechariah": "zech", "malachi": "mal", "matthew": "matt", "mathew": "matt", "mathhew": "matt", "mat": "matt", "mt": "matt", "mk": "mark", "lk": "luke", "jn": "john", "romans": "rom", "1corinthians": "1cor", "2corinthians": "2cor", "galatians": "gal", "ephesians": "eph", "philippians": "phil", "colossians": "col", "1thessalonians": "1thess", "2thessalonians": "2thess", "1timothy": "1tim", "2timothy": "2tim", "philemon": "phlm", "hebrews": "heb", "james": "jas", "1peter": "1pet", "2peter": "2pet", "revelation": "rev", "apocalypse": "rev", "yetzirah": "yetzirah", "seferyetzirah": "yetzirah", "workandays": "worksdays", "worksanddays": "worksdays", "worksdays": "worksdays", "republic": "republic"};const LXXAL={'1sam':'1kgdms','2sam':'2kgdms','1kgs':'3kgdms','2kgs':'4kgdms','ezra':'2esd','neh':'2esd','sirach':'sir','ecclesiasticus':'sir','wisdom':'wis','tobit':'tob','judith':'jdt','baruch':'bar','psalmsofsolomon':'psssol','lamentations':'lam'};
+function canon(n){const k=String(n).toLowerCase().replace(/[\s.]/g,'');if(/^lxx./.test(k)){let r=k.slice(3);r=AL[r]||r;return 'lxx'+(LXXAL[r]||r)}return AL[k]||k}
+function explore(){const q=$('q').value.trim(),out=$('out');if(!q){out.innerHTML='';return}if(window.nbLog)nbLog('look',q);
+ if(/^\d+$/.test(q)){out.innerHTML='<div class="card"><p class="cap">Αριθμός</p><div class="val">'+q+'</div>'+tip('Έγραψες έναν αριθμό, οπότε παρακάτω βλέπεις κάθε λέξη που αθροίζει σε αυτόν.')+'</div>'+same(+q,'',40);bind(out);return}
+ const pm=q.match(/^([A-Za-z]+)\s+(\d+)([a-e])$/);
+ const qv=q.replace(/\s*:\s*/g,':').replace(/\s*[-–]\s*(?=\d)/g,'-');const vm=pm?[q,pm[1],pm[2],String(pm[3].charCodeAt(0)-96)]:qv.match(/^((?:LXX\s*)?\d?\s?[A-Za-z]+)\.?\s+(\d+)[:.](\d+)(?:\s*[-–]\s*(\d+))?$/i);
+ if(vm){const go=()=>{const bi=BK.findIndex(b=>b.n.toLowerCase().replace(/\s/g,'')===canon(vm[1]));if(bi<0){out.innerHTML='<div class="empty">Δεν ξέρω αυτό το βιβλίο. Δοκίμασε Gen, Ps, Matt, John, Rev, Iliad, Odyssey, Yetzirah, LXX Gen, Cratylus 383a.</div>';return}verseOut(out,bi,+vm[2],+vm[3],+(vm[4]||vm[3]))};if(!LXC.loaded&&/^lxx/i.test(vm[1])){out.innerHTML='<div class="empty">Φορτώνουν οι Εβδομήκοντα...</div>';ensureLXX().then(go).catch(e=>{out.innerHTML='<div class="empty">'+esc(e.message)+'</div>'})}else if(!CLS.loaded&&/^(yetzirah|iliad|odyssey|theogony|worksdays|cratylus|timaeus|critias|republic|phaedrus|symposium|phaedo)$/i.test(vm[1])){out.innerHTML='<div class="empty">Φορτώνουν τα κλασικά κείμενα...</div>';ensureClassics().then(go).catch(e=>{out.innerHTML='<div class="empty">'+esc(e.message)+'</div>'})}else go();return}
+ const ws=q.split(/[\s,;]+/).filter(Boolean),rs=ws.map(w=>[w,val(w)]).filter(x=>x[1]);
+ if(!rs.length){out.innerHTML='<div class="empty">Διαβάζω ελληνικές και εβραϊκές λέξεις, αριθμούς όπως το 430 και στίχους όπως Gen 1:1 ή Matt 1:2.</div>';return}
+ let h='';
+ if(rs.length>1){const tot=rs.reduce((a,x)=>a+x[1].t,0);h+='<div class="card"><p class="cap">Όλα μαζί</p><div class="val">'+tot+'</div><p class="mut" style="margin:6px 0 0">'+rs.length+' λέξεις αθροίστηκαν. Πάτησε μια λέξη παρακάτω για να την εξερευνήσεις.</p></div>';
+  rs.forEach(([w,r])=>{h+='<div class="card"><div class="top"><a class="w2 word '+r.l+'" data-q="'+esc(w)+'" style="border:0;font-size:34px">'+esc(w)+'</a>'+tl(w)+'<div class="val" style="font-size:40px">'+r.t+'</div></div>'+beads(r)+'</div>'});out.innerHTML=h;bind(out);return}
+ const[w,r]=rs[0];cur=r;window.__sw=w;
+ h+=wordCard(w,r)+(r.l==='gr'?'<div class="card"><p class="cap">Ανάγνωση του Κώδικα</p>'+(()=>{const u=kodUnits(w);return u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')})()+tip('Αυτός είναι ο Κώδικας Ελλήν Λόγος του Θεολόγου Σημαιοφόρου. Κάθε γράμμα φέρει μια σημασία και τα βέλη τις διαβάζουν με τη σειρά, από αριστερά προς τα δεξιά. Δεν έχει καμία σχέση με τον αριθμό παραπάνω.')+'</div>':'')+'<div class="card"><p class="cap">Σύγκριση με άλλη λέξη</p><div class="cmp"><input id="cmp-in" dir="auto" placeholder="ΚΑΛΑΜΟΣ" autocomplete="off"><button id="cmp-go">Σύγκριση</button></div><div id="cmp-out"></div>'+tip('Γράψε εδώ μια δεύτερη λέξη. Δείχνει αν οι δύο λέξεις έχουν τον ίδιο αριθμό και πόσο συχνά συμβαίνει αυτό καθαρά τυχαία, ώστε να κρίνεις αν μια ταύτιση σημαίνει πολλά.')+'</div>'+same(r.t,'',12);
+ out.innerHTML=h;bind(out)}
+function verseOut(out,bi,c,v1,v2){const b=BK[bi];let tot=0,h='<div class="card"><p class="cap">'+esc(b.c==='PL'?b.n+' '+c+String.fromCharCode(96+v1)+(v2>v1?'-'+String.fromCharCode(96+v2):''):b.n+' '+c+':'+v1+(v2>v1?'-'+v2:''))+'</p><table>';const cls=(b.c==='MT'||b.c==='KB')?'he2':'gr';let any=false;
+ b.v.forEach(([ch,vs,ws])=>{if(ch!==c||vs<v1||vs>v2)return;any=true;let vt=0;ws.forEach(w=>{vt+=w[2];h+='<tr><td class="mut">'+(b.c==='PL'?ch+String.fromCharCode(96+vs):ch+':'+vs)+'</td><td><a class="w2 '+cls+'" data-q="'+esc(w[0])+'">'+esc(w[0])+'</a>'+tl(w[0])+'</td><td class="mut">'+esc(w[1])+'</td><td class="n">'+w[2]+'</td></tr>'});tot+=vt;if(v2>v1)h+='<tr><td></td><td class="mut">σύνολο στίχου</td><td></td><td class="n">'+vt+'</td></tr>'});
+ if(!any){out.innerHTML='<div class="empty">Δεν υπάρχει τέτοιος στίχος.</div>';return}
+ h+='</table>'+tip('Κάθε γραμμή είναι μια λέξη του στίχου, με τον αριθμό της δεξιά. Το σύνολο είναι ολόκληρος ο στίχος αθροισμένος. Πάτησε μια λέξη για να την εξερευνήσεις.')+'<p style="margin:12px 0 0">Σύνολο <span class="val" style="font-size:40px">'+tot+'</span> <a class="w2" data-q="'+tot+'" style="margin-left:10px;font-size:15px">λέξεις με αυτόν τον αριθμό</a></p></div>';out.innerHTML=h;bind(out)}
+// read tab
+const sb=$('s-b');function rebuildBooks(){const keep=sb.value;sb.innerHTML='';[['MT','Εβραϊκή Βίβλος'],['NT','Καινή Διαθήκη'],['GK','Όμηρος και Ησίοδος'],['PL','Πλάτων'],['KB','Καμπαλά: Σεφέρ Γετζιρά'],['LX','Παλαιά Διαθήκη: Εβδομήκοντα']].forEach(([c,n])=>{const g=document.createElement('optgroup');g.label=n;BK.forEach((b,i)=>{if(b.c===c){const o=document.createElement('option');o.value=i;o.textContent=b.n;g.appendChild(o)}});if(g.children.length)sb.appendChild(g)});if(keep&&sb.querySelector('option[value="'+keep+'"]'))sb.value=keep;chapters()}
+window.rebuildBooks=rebuildBooks;
+function fill(sel,arr,lab){sel.innerHTML='';arr.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=lab?lab(x):x;sel.appendChild(o)})}
+function chapters(){fill($('s-c'),[...new Set(BK[sb.value].v.map(x=>x[0]))]);verses()}
+function verses(){const pl=BK[sb.value].c==='PL';const lab=pl?(x=>String.fromCharCode(96+x)):null;const vs=BK[sb.value].v.filter(x=>x[0]===+$('s-c').value).map(x=>x[1]);fill($('s-v1'),vs,lab);fill($('s-v2'),vs,lab);$('s-v2').value=vs[0]}
+sb.onchange=chapters;$('s-c').onchange=verses;$('s-v1').onchange=()=>{if(+$('s-v2').value<+$('s-v1').value)$('s-v2').value=$('s-v1').value};rebuildBooks();
+const lxRun=()=>{const w=$('lx-in').value.trim();if(!w)return;window.__sw=w;const o=$('lx-out');o.textContent='Φορτώνει...';ensureLSJ().then(()=>{const r=lsjFind(w);o.innerHTML='';if(r.error||!r.entries.length){o.textContent=r.error||'Δεν βρέθηκε τίποτα για αυτή τη λέξη.';return}r.entries.forEach(e=>{const d=document.createElement('p');d.style.margin='10px 0 0';const b=document.createElement('b');b.textContent=e.word;d.appendChild(b);const t0=document.createElement('span');t0.className='tl';t0.textContent='';d.appendChild(t0);const sb=document.createElement('button');sb.className='say';sb.dataset.w=e.word;sb.textContent='🔊';sb.title='Άκουσέ το';d.appendChild(sb);d.appendChild(document.createTextNode('  '+e.meaning));o.appendChild(d)});if(r.match!=='exact'){const n=document.createElement('p');n.className='mut';n.textContent='Καμία ακριβής ταύτιση, γι αυτό βλέπεις λέξεις που αρχίζουν με τον ίδιο τρόπο.';o.appendChild(n)}}).catch(e=>{o.textContent=e.message})};$('lx-go').onclick=lxRun;$('lx-in').onkeydown=e=>{if(e.key==='Enter')lxRun()};
+$('s-lx').onclick=()=>{$('s-lx').textContent='Loading...';ensureLXX().then(()=>{$('s-lx').textContent='Loaded'}).catch(e=>{$('s-lx').textContent=e.message})};
+$('s-cl').onclick=()=>{$('s-cl').textContent='Loading...';ensureClassics().then(()=>{$('s-cl').textContent='Loaded'}).catch(e=>{$('s-cl').textContent=e.message})};
+$('s-go').onclick=()=>{const v1=+$('s-v1').value;if(window.nbLog){const bk=BK[+sb.value];nbLog('look',ref(bk,+$('s-c').value,v1)+(bk.c!=='PL'&&Math.max(v1,+$('s-v2').value)>v1?'-'+Math.max(v1,+$('s-v2').value):''))}verseOut($('s-out'),+sb.value,+$('s-c').value,v1,Math.max(v1,+$('s-v2').value));$('s-out').querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore()})};
+$('cl').onchange=()=>{if($('cl').checked){$('cl-st').textContent='Loading...';ensureClassics().then(()=>{$('cl-st').textContent='Loaded.';explore()}).catch(e=>{$('cl-st').textContent=e.message;$('cl').checked=false})}};
+$('go').onclick=explore;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')explore()});$('hm').onchange=explore;
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{$('q').value=c.dataset.q;explore()});
+
+
+// ======== ELLIN LOGOS CODE (Theologos Simioforos, ramafa.gr; meanings paraphrased) ========
+const KOD={α:'αρχική δύναμη, το πρώτο φως του ήλιου',β:'ενέργεια σε κάθε μορφή· ήχος και φωνή σε κίνηση',γ:'γήινο σωματίδιο· ροή που κατακάθεται στο έδαφος',δ:'η δύναμη που χτίζει και διαμορφώνει· δημιουργία',ε:'δύναμη που ρέει προς τα έξω από το φως· κίνηση και έκταση',ζ:'ζωή, θερμότητα, ζεστασιά',η:'διπλή κάθοδος φωτός· εμφάνιση, αποκάλυψη',θ:'όραση, παρατήρηση',ι:'μικρή δύναμη του ηλιακού φωτός, που τροφοδοτεί συνεχώς· κατεβαίνει σαν ακτίνα',κ:'ό,τι είναι κάτω· κατώτερη ενέργεια',λ:'ηλιακό φως επάνω, υγρασία κάτω',μ:'ορατή, συγκεντρωμένη φύση',ν:'νους, νόμος και νερό στη φύση',ξ:'Κ + Σ: ό,τι βρίσκεται κάτω, μέσα σε έναν εσωτερικό χώρο',ο:'περιορισμένος χώρος οποιουδήποτε μεγέθους',π:'φωτιά, το πρώτο στοιχείο· επάνω, πατρική',ρ:'ροή, η πρώτη από τις ενέργειες του φωτός, ύστερα κάθε ροή',σ:'εσωτερική όραση',τ:'σταθεροποίηση δύναμης ή όρασης· στερεό',υ:'μεγάλη συσσώρευση δύναμης ή φωτός',φ:'φως',χ:'γήινη, χωμάτινη ουσία',ψ:'Π + Σ: εσωτερική φωτιά, η ψυχή',ω:'ο πλανήτης, γήινος χώρος· φως που κατακάθεται στη γη'};
+const KDI={αι:'η αρχική δύναμη, αιώνια, που κατεβαίνει συνεχώς',αυ:'αρχικό φως συσσωρευμένο σε μεγάλη ποσότητα',ει:'κίνηση ή έκταση που τροφοδοτείται συνεχώς',ευ:'κίνηση με συσσώρευση: το αγαθό',οι:'χώρος με όριο που δέχεται μικρή κατερχόμενη δύναμη, ρέοντας συνεχώς, αόρατος',ου:'γεμάτος, δομημένος χώρος'};
+function kodUnits(w){const t=grk(w).rows.map(r=>r[0]==='ς'?'σ':r[0]);const out=[];for(let i=0;i<t.length;i++){const d=t[i]+(t[i+1]||'');if(KDI[d]){out.push([d,KDI[d]]);i++}else if(KOD[t[i]])out.push([t[i],KOD[t[i]]])}return out}
+function kodCard(w){const u=kodUnits(w);if(!u.length)return'';return'<div class="card"><div class="top"><p class="word gr" style="font-size:36px">'+esc(w)+'</p></div><p class="mut" style="margin:0 0 8px">'+sayBtn(w)+'</p><div class="chain">'+u.map((x,i)=>(i?'<span class="plus">·</span>':'')+'<div class="bead" style="max-width:150px;text-align:center"><b>'+esc(x[0])+'</b><i style="font:13px/1.3 \'Noto Sans\',sans-serif;color:var(--dim)">'+esc(x[1])+'</i></div>').join('')+'</div><p style="margin:14px 0 0"><span class="mut">Διαβάζεται:</span> '+u.map(x=>esc(x[1])).join(' <span class="mut">→</span> ')+'</p></div>'}
+function doDecode(){const q=$('d-in').value.trim(),o=$('d-out');if(!q){o.innerHTML='';return}if(window.nbLog)nbLog('decode',q);const ws=q.split(/[\s,;]+/).filter(w=>lang(w)==='gr');if(ws[0])window.__sw=ws[0];o.innerHTML=ws.length?ws.map(kodCard).join('')+'<p class="mut" style="margin:6px 4px">Οι σημασίες είναι του ίδιου του Κώδικα, παραφρασμένες από το ramafa.gr. Είναι μια ανάγνωση, όχι η συνηθισμένη ετυμολογία.</p>':'<div class="empty">Γράψε μια ελληνική λέξη.</div>'}
+$('d-go').onclick=doDecode;$('d-in').addEventListener('keydown',e=>{if(e.key==='Enter')doDecode()});document.querySelectorAll('[data-d]').forEach(c=>c.onclick=()=>{$('d-in').value=c.dataset.d;doDecode()});
+
+// ======== THE HUNTER ========
+function norm(w,l){if(l==='gr'){let o='';for(const ch of w.toLowerCase().normalize('NFD')){if(/\p{M}/u.test(ch))continue;const c=ch==='ς'?'σ':ch;if(c in GRK)o+=c}return o}
+ let o='';for(const ch of w.normalize('NFD')){if(ch in HEB)o+=ch;else if(ch in FIN)o+=FIN[ch]}return o}
+function pdist(a,b,max){ // edit distance up to max (returns max+1 if more)
+ if(Math.abs(a.length-b.length)>max)return max+1;let p=[];for(let j=0;j<=b.length;j++)p[j]=j;
+ for(let i=1;i<=a.length;i++){const c=[i];let m=i;for(let j=1;j<=b.length;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));if(c[j]<m)m=c[j]}if(m>max)return max+1;p=c}return p[b.length]}
+function delvars(w,depth){const out=new Set([w]);let cur=[w];for(let d=0;d<depth;d++){const nx=[];for(const x of cur)for(let i=0;i<x.length;i++){const y=x.slice(0,i)+x.slice(i+1);if(!out.has(y)){out.add(y);nx.push(y)}}cur=nx}return out}
+function isEnding(a,b){let i=0;while(i<a.length&&i<b.length&&a[i]===b[i])i++;return i>=Math.min(a.length,b.length)-2}
+let LEMSET=null;function lemmas(){if(LEMSET)return LEMSET;LEMSET={gr:new Map(),he:new Map()};LEX.greek.forEach(e=>{const n=norm(e[1],'gr');if(n.length>=4&&!LEMSET.gr.has(n))LEMSET.gr.set(n,e)});LEX.hebrew.forEach(e=>{const n=norm(e[1],'he');if(n.length>=3&&!LEMSET.he.has(n))LEMSET.he.set(n,e)});return LEMSET}
+function tokenise(text){const sents=text.split(/[.·;!?;·׃\n\r]+/);const toks=[];let sid=0;for(const s of sents){const parts=s.split(/[^\p{L}\p{M}]+/u).filter(Boolean);let any=false;for(const p of parts){const l=lang(p);if(!l)continue;const n=norm(p,l);if(!n)continue;toks.push({raw:p,n,l,sid});any=true}if(any)sid++}return toks}
+function hunt(text,opt){
+ const toks=tokenise(text);const D={gr:new Map(),he:new Map()};
+ toks.forEach(t=>{const m=D[t.l];let e=m.get(t.n);if(!e)m.set(t.n,e={n:t.n,raw:t.raw,c:0,v:(t.l==='gr'?grk(t.raw):heb(t.raw)).t});e.c++});
+ const R={words:toks.length,gd:D.gr.size,hd:D.he.size,swaps:[],hidden:[],matches:[],repeat:[],phr:[],nums:[]};
+ for(const l of ['gr','he']){
+  const words=[...D[l].values()].filter(w=>w.n.length>=(l==='gr'?4:3));
+  // swaps
+  const buckets=new Map();words.filter(w=>w.n.length>=(l==='gr'?5:4)).forEach(w=>{for(const k of delvars(w.n,2)){if(!k)continue;let b=buckets.get(k);if(!b)buckets.set(k,b=[]);b.push(w)}});
+  const seen=new Set();
+  buckets.forEach(b=>{if(b.length<2||b.length>40)return;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];const key=a.n<c.n?a.n+'|'+c.n:c.n+'|'+a.n;if(seen.has(key))continue;seen.add(key);const d=pdist(a.n,c.n,2);if(d>2||(d===2&&Math.abs(a.n.length-c.n.length)!==1))continue;if(!opt.end&&isEnding(a.n,c.n))continue;
+   R.swaps.push({a,c,l,d,delta:c.v-a.v})}});
+  // hidden words
+  const lm=lemmas()[l];words.forEach(w=>{if(w.n.length<(l==='gr'?6:4))return;const found=[];for(let len=Math.min(w.n.length-1,10);len>=(l==='gr'?4:3);len--){for(let i=0;i+len<=w.n.length;i++){const sub=w.n.slice(i,i+len);const e=lm.get(sub);if(!e)continue;if(w.n.startsWith(sub)&&w.n.length-len<=3)continue;if(w.n.endsWith(sub)&&w.n.length-len<=3)continue;if(found.some(f=>f.sub.includes(sub)))continue;found.push({sub,e,at:i})}}
+   found.slice(0,2).forEach(f=>R.hidden.push({w,l,sub:f.sub,e:f.e}))});
+  // same value
+  words.forEach(w=>{const hits=LEX[l==='gr'?'greek':'hebrew'].filter(e=>e[4]===w.v&&norm(e[1],l)!==w.n);if(hits.length&&hits.length<=5)R.matches.push({w,l,hits})});
+ }
+ // repeats
+ R.repeat=[...D.gr.values(),...D.he.values()].filter(w=>w.n.length>=4&&w.c>=3).sort((a,b)=>b.c-a.c).slice(0,25).map(w=>({w,l:lang(w.raw)}));
+ const ph=new Map();for(let i=0;i<toks.length-1;i++){for(let k=2;k<=3;k++){if(i+k>toks.length)break;const sl=toks.slice(i,i+k);if(sl.some(t=>t.sid!==sl[0].sid))break;const key=sl.map(t=>t.n).join(' ');let e=ph.get(key);if(!e)ph.set(key,e={key,raw:sl.map(t=>t.raw).join(' '),c:0,l:sl[0].l,k});e.c++}}
+ R.phr=[...ph.values()].filter(p=>p.c>=3&&p.raw.length>=8).sort((a,b)=>b.c*b.k-a.c*a.k).slice(0,20);
+ // optional numbers
+ if(opt.nums.length){const vs=toks.map(t=>(t.l==='gr'?grk(t.raw):heb(t.raw)).t);const P=[0];vs.forEach(v=>P.push(P[P.length-1]+v));const T=new Set(opt.nums);
+  for(let k=1;k<=6;k++)for(let i=0;i+k<=toks.length;i++){const s=P[i+k]-P[i];if(T.has(s)&&toks[i].sid===toks[i+k-1].sid)R.nums.push({n:s,raw:toks.slice(i,i+k).map(t=>t.raw).join(' '),l:toks[i].l})}}
+ R.swaps.sort((a,b)=>Math.min(b.a.n.length,b.c.n.length)-Math.min(a.a.n.length,a.c.n.length)||a.d-b.d||Math.min(b.a.c,b.c.c)-Math.min(a.a.c,a.c.c));
+ R.hidden.sort((a,b)=>b.sub.length-a.sub.length||b.w.c-a.w.c);
+ R.matches.sort((a,b)=>a.hits.length-b.hits.length||b.w.c-a.w.c);
+ return R}
+const cl=l=>l==='he'?'he2':'gr';
+const wl=(raw,l)=>'<a class="w2 '+cl(l)+'" data-q="'+esc(raw)+'">'+esc(raw)+'</a>';
+function huntOut(R){let h='<div class="card"><p class="cap">Τι διάβασα</p><p style="margin:0"><b>'+R.words+'</b> λέξεις συνολικά: <b>'+R.gd+'</b> διαφορετικές ελληνικές και <b>'+R.hd+'</b> διαφορετικές εβραϊκές λέξεις.</p></div>';
+ if(!R.words)return'<div class="empty">Δεν βρήκα ελληνικές ή εβραϊκές λέξεις εκεί. Αν είναι σκαναρισμένο PDF (εικόνα σελίδων), δεν μπορώ να το διαβάσω. Δουλεύει κείμενο που μπορείς να επιλέξεις και να αντιγράψεις.</div>';
+ const sec=(t,sub,body)=>'<div class="card"><p class="cap">'+t+'</p><p class="mut" style="margin:0 0 8px">'+sub+'</p>'+body+'</div>';
+ h+=sec('Αλλαγές','Λέξεις του κειμένου σου που διαφέρουν κατά ένα ή δύο γράμματα. Η τελευταία στήλη δείχνει πώς μετακινείται ο αριθμός.',R.swaps.length?'<table>'+R.swaps.slice(0,40).map(s=>'<tr><td>'+wl(s.a.raw,s.l)+' <span class="mut">'+s.a.v+'</span></td><td class="mut">→</td><td>'+wl(s.c.raw,s.l)+' <span class="mut">'+s.c.v+'</span></td><td class="n">'+(s.delta>0?'+':'')+s.delta+'</td></tr>').join('')+'</table>'+(R.swaps.length>40?'<p class="mut" style="margin:8px 0 0">'+R.swaps.length+' ζευγάρια βρέθηκαν, φαίνονται τα πρώτα 40.</p>':''):'<p class="mut">Δεν βρέθηκε τίποτα.</p>');
+ h+=sec('Λέξεις κρυμμένες μέσα σε λέξεις','Μια μακρύτερη λέξη που κουβαλά μέσα της μια μικρότερη λέξη του λεξικού.',R.hidden.length?'<table>'+R.hidden.slice(0,40).map(x=>'<tr><td>'+wl(x.w.raw,x.l)+'</td><td class="mut">κρατά</td><td>'+wl(x.e[1],x.l)+'</td><td class="mut">'+esc(x.e[2])+' '+esc(x.e[3].slice(0,40))+'</td></tr>').join('')+'</table>'+(R.hidden.length>40?'<p class="mut" style="margin:8px 0 0">'+R.hidden.length+' βρέθηκαν, φαίνονται οι μακρύτερες 40.</p>':''):'<p class="mut">Δεν βρέθηκε τίποτα.</p>');
+ h+=sec('Ίδιος αριθμός, άλλες λέξεις','Λέξεις του κειμένου σου που μοιράζονται τον αριθμό τους με λίγες μόνο λέξεις του λεξικού.',R.matches.length?'<table>'+R.matches.slice(0,30).map(m=>'<tr><td>'+wl(m.w.raw,m.l)+'</td><td class="n">'+m.w.v+'</td><td>'+m.hits.slice(0,3).map(e=>wl(e[1],m.l)+' <span class="mut">'+esc(e[3].slice(0,24))+'</span>').join(' · ')+'</td></tr>').join('')+'</table>'+(R.matches.length>30?'<p class="mut" style="margin:8px 0 0">'+R.matches.length+' λέξεις ταιριάζουν, φαίνονται οι πρώτες 30.</p>':''):'<p class="mut">Δεν βρέθηκε τίποτα.</p>');
+ h+=sec('Ό,τι ξαναγυρίζει','Λέξεις και φράσεις που επαναλαμβάνονται.','<table>'+R.repeat.slice(0,15).map(x=>'<tr><td>'+wl(x.w.raw,x.l)+'</td><td class="n">'+x.w.c+'×</td><td class="mut">'+x.w.v+'</td></tr>').join('')+R.phr.slice(0,10).map(p=>'<tr><td>'+esc(p.raw)+'</td><td class="n">'+p.c+'×</td><td class="mut">φράση</td></tr>').join('')+'</table>');
+ if(R.nums.length){const g=new Map();R.nums.forEach(x=>{const k=x.n+'|'+x.raw;g.set(k,(g.get(k)||0)+1)});h+=sec('Οι αριθμοί σου','Λέξεις και φράσεις που αθροίζουν σε αριθμό που ζήτησες.','<table>'+[...g.entries()].slice(0,40).map(([k,c])=>{const[n,raw]=k.split('|');return'<tr><td>'+esc(raw)+'</td><td class="n">'+n+'</td><td class="mut">'+c+'×</td></tr>'}).join('')+'</table>')}
+ return h}
+function runHunt(text){if(window.nbLog)nbLog('hunt',text.trim().replace(/\s+/g,' ').slice(0,70),text);const o=$('h-out'),st=$('h-st');st.textContent='Κυνηγάω...';o.innerHTML='';setTimeout(()=>{try{const nums=($('h-num').value.match(/\d+/g)||[]).map(Number);const R=hunt(text,{end:$('h-end').checked,nums});o.innerHTML=huntOut(R);o.querySelectorAll('[data-q]').forEach(a=>a.onclick=()=>{$('q').value=a.dataset.q;show('go');explore();window.scrollTo(0,0)});st.textContent='Έτοιμο.'}catch(e){st.textContent='Κάτι πήγε στραβά: '+e.message}},30)}
+$('h-go').onclick=()=>{const t=$('h-txt').value;if(!t.trim()){$('h-st').textContent='Άνοιξε πρώτα ένα αρχείο ή επικόλλησε κείμενο.';return}runHunt(t)};
+$('h-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;const st=$('h-st');st.textContent='Διαβάζω '+f.name+'...';
+ try{let text='';if(/\.pdf$/i.test(f.name)){const buf=await f.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p);const tc=await pg.getTextContent();text+=tc.items.map(i=>i.str+(i.hasEOL?'\n':' ')).join('')+'\n';if(p%10===0)st.textContent='Διαβάζω τη σελίδα '+p+' από '+pdf.numPages+'...'}}else text=await f.text();
+  $('h-txt').value=text;st.textContent='Διάβασα '+text.length.toLocaleString()+' χαρακτήρες. Κυνηγάω...';runHunt(text)}catch(err){st.textContent='Δεν μπόρεσα να διαβάσω αυτό το αρχείο: '+err.message}};
+
+// ======== THE THREE BOTS (Claude, with the engine as its tools) ========
+const BOTS={
+ b1:{name:'Μποτ 1 · Εβραϊκά',role:'Εβραϊκές λέξεις και στίχοι, ρίζες, δάνεια και παραλλαγές.',chips:['ים סוף: τι είναι και πού εμφανίζεται;','Δείξε την Έξοδο 14:21 λέξη προς λέξη','Ποιες εβραϊκές λέξεις κάνουν 86;'],
+  sys:'You are Bot 1, the Hebrew bot of Mandos\'s Symbolic Engine. Corpus: the Hebrew Bible (Westminster Leningrad Codex) and Sefer Yetzirah (book name Yetzirah, chapter, mishnah; Warsaw 1884 text) held in the tools. You give the Hebrew side of a question: the verse and where it sits, the words, their Strong\'s numbers, roots and meanings, loanword flags (for example Egyptian or Akkadian origins), and variants. You do not interpret symbolically and you do not compare with Greek; if asked, say Bot 3 does that.'},
+ b2:{name:'Μποτ 2 · Ελληνικά',role:'Ελληνικές λέξεις, η Καινή Διαθήκη, η μυθολογία και ο Κώδικας Ελλήν Λόγος.',chips:['Αποκωδικοποίησε το ΑΒΡΑΣΑΞ με τον Κώδικα','Αποκωδικοποίησε το ΚΑΔΜΟΣ και το ΚΑΛΑΜΟΣ και δείξε τι αλλάζει','Διάβασε το Κατά Ιωάννην 1:1-3 μέσα από τον Κώδικα'],
+  sys:'You are Bot 2, the Greek bot of Mandos\'s Symbolic Engine. Corpus: the Greek New Testament, Homer (Iliad, Odyssey), Hesiod (Theogony, Works and Days) and Plato (Cratylus, Timaeus, Critias, Republic, Phaedrus, Symposium, Phaedo) and the Septuagint (Swete\'s edition, books named LXX Gen, LXX Ps and so on), all held in the tools, plus what you know of the tragedians, Nonnus and Greek myth. Read Greek by its living sounds (ου is one sound; β sounds v; η, ι, υ, ει, οι sound alike). Your main method is the Ellin Logos Code of Theologos Simioforos (ramafa.gr): every letter and diphthong has one code meaning, and a word is read by joining them, cutting the word into syllables the way his decodes do. Use the code_reading tool for the units, then write the reading as a flowing sentence and say how it fits the myth or text. Lead with sound and the Code. Give numbers only when asked or as a short side note. For texts older than the isopsephy tradition (Homer, Hesiod, most of Plato) say plainly that a number is applied afterwards. Call the Code readings "Code reading". Never invent letter meanings: use only the table the tool returns.'},
+ b3:{name:'Μποτ 3 · Νέξους',role:'Συγκρίνει εβραϊκά και ελληνικά, δοκιμάζει τις ιδέες σου και ελέγχει τα αθροίσματα.',chips:['Σύγκρινε το ΚΑΔΜΟΣ με το ΚΑΛΑΜΟΣ: στέκει η αλλαγή;','Είναι ασυνήθιστο το ΝΟΜΟΣ = ΑΡΙΘΜΟΣ;','Σύγκρινε το ים סוף με την Ἐρυθρὰ Θάλασσα κατά τον ήχο'],
+  sys:'You are Bot 3, the Nexus bot of Mandos\'s Symbolic Engine. You work with Mandos as an investigator. He gives a lead; you test it. Always answer in two parts. First "The Codex": the symbolic, sound-based reading in warm plain words, using the Ellin Logos Code where it helps (code_reading tool) and living Greek sounds. Then "The Record": redo every sum with the tools, say whether each claim holds, say how common such a match is by chance (chance tool), and add one short line wherever the Codex goes beyond standard linguistics or anatomy. Mark each claim as checked (a tool or named source backs it), a reading (interpretation), or disputed. Never let a strong Codex reading raise the Record. If a sum fails, say so kindly and show it.'},
+ b4:{name:'Μποτ 4 · Αντήχηση (πειραματικό)',role:'Διαβάζει λέξεις και χωρία από τον ήχο: πόσο είναι ανοιχτό φως (φωνήεντα) και πόσο όριο (σύμφωνα).',chips:['Διάβασε το ΛΟΓΟΣ μέσα από τα φωνήεντα και τα σύμφωνά του','Μέτρησε τα φωνήεντα και τα σύμφωνα στο Κατά Ιωάννην 1:1-3 και πες τι δείχνει η ισορροπία','Σύγκρινε την ισορροπία φωνηέντων του ΚΑΔΜΟΣ και του ΚΑΛΑΜΟΣ'],
+  sys:'You are Bot 4, the experimental Resonance bot of Mandos\'s Symbolic Engine. You read Greek by living sound, together with the Ellin Logos Code of Theologos Simioforos (ramafa.gr: orthological orthography, word decodes, myth decodes, diphthong lessons). Your lens, which Mandos holds as his working frame: vowels are the open, luminous side of a word (frequency, light, what passes through); consonants are the boundary side (structure, form, Nomos); a diphthong is a joined sound. Ask of any word or passage: how open is it, how bounded is it, where do the two meet, and what does that balance say in the Code? Always get the counts from the sound_ratio tool (never count by eye) and the unit meanings from code_reading (never invent letter meanings). Search the lessons tool first when a question touches the Code or Simioforos, use it as your own understanding, and never mention lessons, numbers, parts or timestamps. Mandos also explores wider ideas with this lens: universal patterns between art, science and music; cymatics and standing waves; proportions and musical intervals in ancient buildings; the implicate and explicate order; vibration and toroidal geometry. You may explore these with him as ideas, but always answer in two parts. First "The Lens": the sound-based reading in warm plain words. Then "What holds up": say plainly which statements are established physics or history, which are the Code\'s own reading, and which are open hypotheses that still need testing, and name what would test them. Never state a speculative link, such as a building encoding musical ratios, as settled fact. The Code uses no anagrams and no number methods, so never apply them to a Code reading.'}
+};
+const BASE='You work for Mandos (ΦΥ ΨΗ), the lead investigator, who spots the patterns while you test them. Write in warm, plain language, short paragraphs, no jargon. Phonetic Archaeology does not judge people; it checks claims. Every number and every verse must come from your tools; never add letter values in your head, never invent verses, Strong\'s numbers or sources, and if a tool finds nothing say so. Greek is counted in the house system of 27 signs (stigma 6, koppa 90, sampi 900, final sigma 200, accents ignored); Hebrew counts finals as plain letters unless asked. Greek words stay in Greek script and Hebrew words stay in Hebrew script, with their meaning in Greek beside them. Never add Latin-letter readings in brackets. Keep answers focused and not long. When a question is about the Ellin Logos Code or Simioforos, search the lessons tool first and then speak the Code as your own working language: read words letter by letter and join the meanings directly. Never mention lessons, lesson numbers, parts, titles or timestamps, and never say "according to the lesson". Say "my own reading" when you go beyond what the Code states. ALWAYS answer in Modern Greek, in plain warm words, whatever language the question is written in, unless the person explicitly asks for another language. Where your instructions name headings or labels in English, use these Greek ones instead: The Codex = Ο Κώδικας; The Record = Η Καταγραφή; The Lens = Ο Φακός; What holds up = Τι στέκει; Code reading = Ανάγνωση του Κώδικα; checked = ελέγχθηκε; a reading = ανάγνωση; disputed = αμφισβητείται. Say Bot 3 is Μποτ 3 · Νέξους when you refer to it.';
+let curBot='b1';const HIST={b1:[],b2:[],b3:[],b4:[]};
+function mkBots(){const w=$('bots');Object.keys(BOTS).forEach(k=>{const b=document.createElement('button');b.textContent=BOTS[k].name;b.dataset.k=k;b.onclick=()=>pick(k);w.appendChild(b)});pick('b1')}
+function meterWait(m){m=m||60;return m>=90?'περίπου '+Math.round(m/60)+' ώρες':m>=60?'περίπου μία ώρα':m+' λεπτά'}
+function refreshMeter(){const el=$('a-meter');if(!el||!window.__sb)return;window.__sb.rpc('bot_take_tier',{p_bot:null,p_take:false}).then(r=>{const d=r&&r.data;if(!d||d.reason==='auth'){el.textContent='';return}
+ if(!d.ok){el.textContent=d.reason==='hour'?'Δεν έμειναν βήματα αυτή την ώρα. Ξανά σε '+meterWait(d.wait_min)+'.':d.reason==='pool'?'Τα δωρεάν μποτ εξαντλήθηκαν για σήμερα. Ξαναρχίζουν σε '+meterWait(d.wait_min)+'.':'Δεν έμειναν βήματα σήμερα. Ξαναρχίζουν σε '+meterWait(d.wait_min)+'.';return}
+ el.textContent=d.tier==='owner'?'Βήματα που απομένουν σήμερα: '+d.day_left+' από '+d.day_limit+'.':'Δωρεάν βήματα που απομένουν: '+d.day_left+' από '+d.day_limit+' σήμερα, '+d.hour_left+' από '+d.hour_limit+' αυτή την ώρα. Μια ερώτηση κάνει περίπου 3 βήματα.'}).catch(()=>{})}
+function pick(k){refreshMeter();curBot=k;document.querySelectorAll('#bots button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));$('bot-role').textContent=BOTS[k].role;$('a-chips').innerHTML='<span>Δοκίμασε:</span>';BOTS[k].chips.forEach(c=>{const b=document.createElement('button');b.className='chip';b.style.font="15px 'Noto Sans',sans-serif";b.textContent=c;b.onclick=()=>{$('a-in').value=c};$('a-chips').appendChild(b)});render()}
+const mdl=t=>{let h=esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');const out=[];let li=false;h.split(/\n/).forEach(l=>{if(/^\s*[-•]\s+/.test(l)){if(!li){out.push('<ul>');li=true}out.push('<li>'+l.replace(/^\s*[-•]\s+/,'')+'</li>')}else{if(li){out.push('</ul>');li=false}if(l.trim())out.push('<p>'+l+'</p>')}});if(li)out.push('</ul>');return out.join('')};
+function render(){const H=HIST[curBot];$('a-out').innerHTML=H.map(m=>{const wait=m.role!=='user'&&!m.content&&window.__busy;const c=wait?'\u23F3 '+(($('a-st').textContent||'Σκέφτομαι...').replace(/\.+$/,''))+'... Περίμενε λίγο, μπορεί να πάρει έως και ένα λεπτό. Δεν χρειάζεται να πατήσεις ξανά Ρώτα.':m.content;return'<div class="msg '+(m.role==='user'?'me':'bot')+(wait?' wait':'')+'"><b class="n">'+(m.role==='user'?'Εσύ':BOTS[curBot].name)+'</b>'+mdl(c)+'</div>'}).join('')
+ try{botSpeak($('a-out'))}catch(e){}}
+function botSpeak(root){const RUN=/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,}(?:[ \u00A0][\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,})*/g;
+ root.querySelectorAll('.msg.bot').forEach(box=>{if(box.classList.contains('wait'))return;if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Διάβασέ τα όλα';ra.title='Διάβασε ολόκληρη την απάντηση φωναχτά';box.insertBefore(ra,box.children[1]||null);const sp=document.createElement('button');sp.className='saystop';sp.type='button';sp.textContent='\u25A0 Στοπ';sp.title='Σταμάτα την ανάγνωση';box.insertBefore(sp,ra.nextSibling)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
+ nodes.forEach(t=>{const txt=t.nodeValue;RUN.lastIndex=0;if(!RUN.test(txt))return;RUN.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;while((m=RUN.exec(txt))){f.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));const b=document.createElement('button');b.className='say';b.dataset.w=m[0].replace(/\u00A0/g,' ');b.textContent='\uD83D\uDD0A';b.title='Άκουσέ το';b.setAttribute('aria-label','Άκουσέ το');f.appendChild(b);last=m.index+m[0].length}
+ f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)})})}
+function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Διάβασέ τα όλα';b.dataset.on=''});window.__raBtn=null}
+function readAll(box,btn){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('Αυτός ο browser δεν μπορεί να μιλήσει φωναχτά.');return}
+ if(btn&&btn.dataset.on==='1'){if(ss.paused){ss.resume();btn.textContent='⏸ Παύση'}else{ss.pause();btn.textContent='▶ Συνέχεια'}return}
+ ss.cancel();try{ss.resume()}catch(e){}raReset();
+ const clone=box.cloneNode(true);clone.querySelectorAll('.say,.sayall,.saystop,.n').forEach(x=>x.remove());
+ let txt=clone.innerText||clone.textContent||'';
+ const GH='Ͱ-Ͽἀ-῿֐-׿';
+ txt=txt.replace(new RegExp('(['+GH+'])\\s*\\(([A-Za-z\\u00C0-\\u024F\\s\\u00B7\\-\\u2019\']+)\\)','g'),'$1');
+ const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
+ 
+ const latin=run=>run.split(/\s+/).map(x=>{let t='';try{t=trl(x)||''}catch(e){}return t.replace(/ · άγνωστα φωνήεντα/,'')||x}).join(' ');
+ const parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;
+ while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),'el']);parts.push(lang(m[0])==='he'?[m[0],'he']:[m[0],'el']);last=m.index+m[0].length}
+ if(last<txt.length)parts.push([txt.slice(last),'el']);
+ const go=()=>{const V=ss.getVoices(),pick=c=>V.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(c));const need={};ss.cancel();const us=[];
+  parts.forEach(([t,c])=>{t=t.replace(/[*_#●•]/g,' ').trim();if(!t||!/[\p{L}\p{N}]/u.test(t))return;const v=pick(c);if(!v){need[c]=1;return}const u=new SpeechSynthesisUtterance(c==='he'?sayText(t):t);u.voice=v;u.lang=v.lang;u.rate=1;us.push(u)});
+  if(!us.length){sayNote('Δεν υπάρχει διαθέσιμη φωνή για να διαβαστεί αυτό.');return}
+  if(btn){btn.dataset.on='1';btn.textContent='⏸ Παύση';window.__raBtn=btn;us[us.length-1].onend=raReset;us[us.length-1].onerror=raReset}
+  us.forEach(u=>ss.speak(u));
+  (need.he&&sayNote('Δεν υπάρχει εβραϊκή φωνή σε αυτόν τον υπολογιστή, γι αυτό παραλείφθηκαν τα εβραϊκά μέρη.'),need.el&&sayNote('Δεν υπάρχει ελληνική φωνή σε αυτόν τον υπολογιστή. Ο Microsoft Edge συνήθως έχει.'))};
+ if(ss.getVoices().length)go();else{let d=false;const f=()=>{if(d)return;d=true;go()};ss.onvoiceschanged=f;setTimeout(f,700)}}catch(e){sayNote('Δεν έγινε αναπαραγωγή ήχου.')}}
+document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);
+// tools the bots can call (all run inside this page)
+function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase().replace(/\s/g,'')===canon(n))}
+const TOOLS=[
+ {name:'value',description:'Number value of a Greek or Hebrew word or phrase, with every letter. Greek: 27-sign house system. Hebrew: standard.',inputSchema:{type:'object',properties:{text:{type:'string'},hebrew_method:{type:'string',enum:['hechrachi','gadol','katan','atbash']}},required:['text']},
+  execute:({text,hebrew_method})=>{const old=$('hm').value;if(hebrew_method)$('hm').value=hebrew_method;try{return text.split(/\s+/).filter(Boolean).map(w=>{const r=val(w);return r?{word:w,value:r.t,letters:r.rows.map(x=>x[0]+x[1]).join(' + ')}:{word:w,error:'not Greek or Hebrew'}})}finally{$('hm').value=old}}},
+ {name:'verse',description:'Words of a Bible verse range with Strong\'s numbers and values. Hebrew Bible, Greek New Testament, Iliad and Odyssey (chapter = book number, from/to = line), Theogony and WorksDays (chapter 1, from/to = line), and the Septuagint books named LXX Gen, LXX Exod, LXX Ps, LXX Isa and so on (Swete\'s edition; Greek numbering, so 1 Samuel is LXX 1Kgdms), Sefer Yetzirah, and the Plato dialogues Cratylus, Timaeus, Critias, Republic, Phaedrus, Symposium, Phaedo (chapter = Stephanus page number, from/to = section number with a=1, b=2, c=3, d=4, e=5). Book names: Gen, Exod, Lev, Num, Deut, Ps, Isa, Matt, Mark, Luke, John, Acts, Rom, Rev and so on.',inputSchema:{type:'object',properties:{book:{type:'string'},chapter:{type:'integer'},from:{type:'integer'},to:{type:'integer'}},required:['book','chapter','from']},
+  execute:async({book,chapter,from,to})=>{await ensureClassics();if(/^lxx/i.test(String(book).replace(/\s/g,'')))await ensureLXX();const bi=bookIdx(book);if(bi<0)return{error:'unknown book',books:BK.map(b=>b.n).join(', ')};const b=BK[bi],t=to||from;let tot=0;const verses=[];b.v.forEach(([ch,vs,ws])=>{if(ch!==chapter||vs<from||vs>t)return;const vt=ws.reduce((a,w)=>a+w[2],0);tot+=vt;if(verses.length<12)verses.push({verse:b.c==='PL'?ch+String.fromCharCode(96+vs):ch+':'+vs,total:vt,words:ws.map(w=>w[0]+' ('+w[1]+', '+w[2]+')').join(' ')})});return verses.length?{book:b.n,corpus:({MT:'Hebrew Bible',NT:'Greek New Testament',GK:'Homer or Hesiod',PL:'Plato',KB:'Sefer Yetzirah',LX:'Septuagint (Swete)'})[b.c],verses,total:tot}:{error:'no such verse'}}},
+ {name:'same_value',description:'Every word in the Hebrew Bible and Greek New Testament with a given number value, plus dictionary words with that value.',inputSchema:{type:'object',properties:{value:{type:'integer'},corpus:{type:'string',enum:['MT','NT','GK','PL','LX']}},required:['value']},
+  execute:async({value,corpus})=>{await ensureClassics();if(corpus==='LX')await ensureLXX();if(!IDX)index();const hits=(IDX.get(value)||[]).filter(x=>!corpus||BK[x[0]].c===corpus),g=new Map();hits.forEach(x=>{const k=x[3]+'|'+x[4];if(!g.has(k))g.set(k,[]);g.get(k).push(ref(BK[x[0]],x[1],x[2]))});const forms=[...g.entries()].sort((a,b)=>b[1].length-a[1].length).slice(0,15).map(([k,r])=>({form:k.split('|')[0],strongs:k.split('|')[1],times:r.length,first:r[0]}));const lex=[];['greek','hebrew'].forEach(l=>LEX[l].forEach(e=>{if(e[4]===value&&lex.length<12)lex.push({word:e[1],says:e[2],meaning:e[3].slice(0,50)})}));return{places:hits.length,different_forms:g.size,top_forms:forms,dictionary_words:lex}}},
+ {name:'code_reading',description:'Ellin Logos Code (Theologos Simioforos, ramafa.gr) reading of a Greek word: each letter or diphthong with its code meaning. Use only these meanings.',inputSchema:{type:'object',properties:{word:{type:'string'}},required:['word']},
+  execute:({word})=>{const u=kodUnits(word);return u.length?{word,units:u.map(x=>({unit:x[0],meaning:x[1]}))}:{error:'not a Greek word'}}},
+ {name:'chance',description:'How often two random words share a number value, in the dictionary word list. Use to judge whether an equal-value match is rare.',inputSchema:{type:'object',properties:{a:{type:'string'},b:{type:'string'}},required:['a','b']},
+  execute:({a,b})=>{const ra=val(a),rb=val(b);if(!ra||!rb)return{error:'need Greek or Hebrew words'};const p=chance(nm(ra.l),nm(rb.l));return{a_value:ra.t,b_value:rb.t,equal:ra.t===rb.t,one_random_pair_in:Math.round(1/p)}}},
+ {name:'sound_ratio',description:'Count the open sounds (vowels) and boundary sounds (consonants) in Greek words or a passage. ου counts as one vowel sound. Returns totals, the share of each, and a per-word pattern. Use it for every vowel and consonant count; never count by eye.',inputSchema:{type:'object',properties:{text:{type:'string'}},required:['text']},
+  execute:({text})=>{const ws=String(text||'').slice(0,4000).split(/[\s,;.·:]+/).filter(Boolean);let V=0,C=0;const rows=[];ws.forEach(w=>{const t=[...norm(w,'gr')];if(!t.length)return;let v=0,c=0,pat='';for(let i=0;i<t.length;i++){if(t[i]==='ο'&&t[i+1]==='υ'){v++;pat+='V';i++}else if('αεηιουω'.indexOf(t[i])>=0){v++;pat+='V'}else{c++;pat+='C'}}V+=v;C+=c;if(rows.length<60)rows.push({word:w,vowels:v,consonants:c,pattern:pat})});const n=V+C;return n?{words:ws.length,vowels:V,consonants:C,vowel_share_percent:Math.round(1000*V/n)/10,consonant_share_percent:Math.round(1000*C/n)/10,per_word:rows,note:rows.length<ws.length?'per-word list shows the first 60 words':undefined}:{error:'no Greek letters found'}}},
+ {name:'lexicon',description:'Look up a Greek word in Liddell and Scott (LSJ, Perseus digital edition). Gives the headword and a short list of the English meanings the dictionary records. The meanings are a quick summary, not the full entry; accents do not matter. Use it to check what a word ordinarily means, never to override the Code reading.',inputSchema:{type:'object',properties:{word:{type:'string'}},required:['word']},
+  execute:async({word})=>{await ensureLSJ();return lsjFind(String(word||'').slice(0,60))}},
+ {name:'lessons',description:'Search the private lessons library: the Ellin Logos lessons of Theologos Simioforos (in Greek). Give one to four Greek keywords; accents do not matter. Returns up to four passages of text. Use them as your own understanding; never cite where they came from.',inputSchema:{type:'object',properties:{keywords:{type:'string'}},required:['keywords']},
+  execute:async({keywords})=>{const sb=window.__sb;if(!sb)return{error:'not signed in'};const r=await sb.rpc('search_lessons',{q:String(keywords||'').slice(0,200),k:4});if(r.error)return{error:'library error: '+r.error.message};if(!r.data||!r.data.length)return{found:0,note:'The lessons library has nothing on this yet.'};return{found:r.data.length,passages:r.data.map(x=>({text:String(x.body).slice(0,1500)}))}}}
+];
+// Outside Claude the bots run through the site's own gateway (/api/bot). The page runs the tools; the gateway holds the key.
+async function askProxy(H,sys,my,ctl,st){
+ const sb=window.__sb;const g=await sb.auth.getSession();const tok=g&&g.data&&g.data.session&&g.data.session.access_token;
+ if(!tok)throw{code:'proxy',message:'Ανανέωσε τη σελίδα και συνδέσου ξανά.'};
+ const tools=TOOLS.map(t=>({name:t.name,description:t.description,input_schema:t.inputSchema}));
+ const msgs=H.slice(0,-1).map(m=>({role:m.role,content:m.content}));let shown='',nudged=0,lastStop='',lastTypes='';
+ for(let hop=0;hop<8;hop++){
+  const r=await fetch('/api/bot',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify({bot:curBot,system:sys,messages:msgs,tools,tool_choice:nudged>=2?{type:'none'}:undefined}),signal:ctl.signal});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw{code:'proxy',message:j.error||('Το μποτ δεν μπόρεσε να απαντήσει (σφάλμα '+r.status+').')};
+  const content=j.content||[];const text=content.filter(b=>b.type==='text').map(b=>b.text).join('');
+  if(text){shown+=(shown?'\n\n':'')+text;my.content=shown;render();window.scrollTo({top:document.body.scrollHeight})}
+  const uses=content.filter(b=>b.type==='tool_use');
+  lastStop=j.stop_reason||'';lastTypes=content.map(b=>b.type).join('+')||'nothing';
+  if(j.stop_reason!=='tool_use'||!uses.length){
+   if(!shown&&nudged<2){nudged++;const last=msgs[msgs.length-1],ask='Now write your full answer for Mandos, in Modern Greek and plain words, from what you have already found. Do not call any more tools.';
+    if(last&&last.role==='user'){if(typeof last.content==='string')last.content+='\n\n'+ask;else last.content=last.content.concat([{type:'text',text:ask}])}else msgs.push({role:'user',content:ask});
+    continue}
+   return shown||'Το μποτ δεν έστειλε απάντηση αυτή τη φορά (τέλος: '+lastStop+', '+lastTypes+'). Πάτησε ξανά Ρώτα ή ρώτα σε μικρότερα κομμάτια.'}
+  msgs.push({role:'assistant',content});const results=[];
+  for(const u of uses){let out;try{const t=TOOLS.find(x=>x.name===u.name);out=t?await t.execute(u.input||{}):{error:'unknown tool'}}catch(e){out={error:String((e&&e.message)||e)}}
+   results.push({type:'tool_result',tool_use_id:u.id,content:JSON.stringify(out).slice(0,12000)})}
+  msgs.push({role:'user',content:results});st.textContent='Ελέγχω τη μηχανή...';render();
+ }
+ return shown||'Τελείωσαν τα βήματα για αυτή την ερώτηση. Ρώτα κάτι πιο απλό.';
+}
+let busy=false;
+async function ask(){if(busy)return;const q=$('a-in').value.trim();if(!q)return;const st=$('a-st');
+ let sample=null;try{sample=await (window.claude&&window.claude.use?window.claude.use('sample'):null)}catch(e){}
+ const useProxy=!sample&&!!window.__sb;
+ if(!sample&&!useProxy){st.textContent='Συνδέσου για να χρησιμοποιήσεις τα μποτ. Οι άλλες καρτέλες δουλεύουν και χωρίς αυτά.';return}
+ busy=true;window.__busy=true;const gb=$('a-go');gb.textContent='Σκέφτομαι...';gb.style.opacity='.6';const ctl=new AbortController();window.__stop=()=>ctl.abort();st.textContent='Σκέφτομαι...';const H=HIST[curBot];H.push({role:'user',content:q});$('a-in').value='';
+ const sys=BASE+'\n\n'+BOTS[curBot].sys;
+ const msgs=H.map((m,i)=>i===0?{role:'user',content:'INSTRUCTIONS (follow them, do not repeat them):\n'+sys+'\n\nMANDOS ASKS:\n'+m.content}:m);
+ H.push({role:'assistant',content:''});const my=H[H.length-1];render();try{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}catch(e){}
+ try{if(useProxy){const t=await askProxy(H,sys,my,ctl,st);my.content=t||my.content;st.textContent=''}else{const r=await sample(msgs,{tools:TOOLS,cache:false,modelTier:'default',signal:ctl.signal,onText:({text})=>{my.content=text;render();window.scrollTo({top:document.body.scrollHeight})}});my.content=r.text||my.content;st.textContent=''}}
+ catch(e){H.pop();if(e&&e.code==='proxy'){H.pop();$('a-in').value=q}st.textContent=e&&e.code==='proxy'?e.message:e&&(e.code==='cancelled'||e.name==='AbortError')?'Σταμάτησε.':e&&e.code==='rate_limited'?'Πολλές ερωτήσεις μαζί. Περίμενε λίγο και ξαναδοκίμασε.':e&&e.code==='not_granted'?'Δεν δόθηκε άδεια, οπότε τα μποτ δεν μπορούν να απαντήσουν.':'Το μποτ δεν μπόρεσε να απαντήσει: '+((e&&e.message)||'error')}
+ busy=false;window.__busy=false;gb.textContent='Ask';gb.style.opacity='';render();refreshMeter()}
+$('a-go').onclick=ask;$('a-stop').onclick=()=>{if(window.__stop)window.__stop()};$('a-new').onclick=()=>{HIST[curBot]=[];render();$('a-st').textContent=''};$('a-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))ask()});
+mkBots();
+// ===== Notebook =====
+const NB={rec:[],kept:[],cur:{look:null,decode:null,hunt:null},msg:''};
+const NBLS='se.rec.v1';
+try{NB.rec=JSON.parse(localStorage.getItem(NBLS)||'[]')}catch(e){NB.rec=[]}
+function nbSaveRec(){try{localStorage.setItem(NBLS,JSON.stringify(NB.rec))}catch(e){}}
+window.nbLog=function(kind,q,text){q=String(q||'').trim();if(!q)return;const key=kind+'|'+q.slice(0,200);NB.rec=NB.rec.filter(x=>x.key!==key);const it={key,kind,q:q.slice(0,200),t:Date.now()};if(text)it.text=String(text).slice(0,20000);NB.rec.unshift(it);NB.rec=NB.rec.slice(0,150);NB.cur[kind]=it;nbSaveRec();nbKeepBtn()};
+const NBK={go:'look',read:'look',decode:'decode',hunt:'hunt'};
+window.nbKeepBtn=function(){const b=$('keepbtn');if(!b)return;const k=NBK[window.__tab],it=k&&NB.cur[k];b.style.display=it?'block':'none';if(it)b.title='Keep: '+it.q};
+function nbDate(t){const d=new Date(t);return d.toLocaleDateString(undefined,{day:'numeric',month:'short'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}
+function nbOpen(it){if(it.kind==='look'){$('q').value=it.q;show('go');explore()}else if(it.kind==='decode'){$('d-in').value=it.q;show('decode');doDecode()}else{const tx=(it.text||(it.data&&it.data.text)||it.q);$('h-txt').value=tx;show('hunt');runHunt(tx)}window.scrollTo({top:0})}
+async function nbKeep(it){const sb=window.__sb;if(!sb)return nbSay('Δεν έχεις συνδεθεί.');const row={kind:it.kind,q:it.q,data:it.text?{text:it.text}:(it.data||{}),note:it.note||''};const r=await sb.from('engine_notes').insert(row).select().single();if(r.error){nbSay('Δεν κρατήθηκε: '+r.error.message);return}nbSay('Κρατήθηκε.');await nbLoadKept();nbRender()}
+function nbSay(m){const b=$('keepbtn');NB.msg=m;if(b){const o=b.innerHTML;b.innerHTML=m;setTimeout(()=>{b.innerHTML='&#9733; Κράτησέ το'},1600)}const e=$('nb-msg');if(e)e.textContent=m}
+async function nbLoadKept(){const sb=window.__sb;if(!sb)return;const r=await sb.from('engine_notes').select('*').order('created_at',{ascending:false}).limit(300);if(!r.error)NB.kept=r.data||[];else NB.keptErr=r.error.message}
+window.nbRender=async function(){
+ await nbLoadKept();
+ const K=$('nb-kept'),R=$('nb-rec');
+ K.innerHTML=NB.kept.length?'':'<div class="empty">Τίποτα κρατημένο ακόμη. Χρησιμοποίησε το αστέρι μετά από αναζήτηση, αποκωδικοποίηση ή κυνήγι.</div>';
+ NB.kept.forEach(it=>{const d=document.createElement('div');d.className='it';d.innerHTML='<span class="k">'+esc(it.kind)+'</span><span class="qq">'+esc(it.q)+'</span><span class="d">'+nbDate(it.created_at)+'</span><button class="mini" data-x="1">Διαγραφή</button><input class="nt" placeholder="Η σημείωσή σου..." value="'+esc(it.note||'')+'">';d.querySelector('.qq').onclick=()=>nbOpen(it);d.querySelector('[data-x]').onclick=async()=>{if(!confirm('Να διαγραφεί από το σημειωματάριό σου;'))return;await window.__sb.from('engine_notes').delete().eq('id',it.id);nbRender()};const nt=d.querySelector('.nt');nt.onchange=async()=>{const r=await window.__sb.from('engine_notes').update({note:nt.value}).eq('id',it.id);nbSay(r.error?'Could not save the note.':'Η σημείωση αποθηκεύτηκε.')};K.appendChild(d)});
+ R.innerHTML=NB.rec.length?'':'<div class="empty">Τίποτα ακόμη. Ψάξε κάτι.</div>';
+ NB.rec.slice(0,60).forEach(it=>{const d=document.createElement('div');d.className='it';d.innerHTML='<span class="k">'+esc(it.kind)+'</span><span class="qq">'+esc(it.q)+'</span><span class="d">'+nbDate(it.t)+'</span><button class="mini">&#9733; Κράτησε</button>';d.querySelector('.qq').onclick=()=>nbOpen(it);d.querySelector('button').onclick=()=>nbKeep(it);R.appendChild(d)});
+};
+$('nb-clr').onclick=()=>{if(!confirm('Να καθαριστεί η λίστα των πρόσφατων σε αυτόν τον υπολογιστή; Τα κρατημένα μένουν.'))return;NB.rec=[];nbSaveRec();nbRender()};
+$('keepbtn').onclick=()=>{const k=NBK[window.__tab],it=k&&NB.cur[k];if(it)nbKeep(it)};
+try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
+</script><script>
+(function(){
+var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz',LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js';
+var g=function(i){return document.getElementById(i)},sb=null,K=null,booted=false;
+function msg(t){g('gm').textContent=t||''}
+function lib(){return new Promise(function(ok,no){if(window.supabase&&window.supabase.createClient)return ok();var s=document.createElement('script');s.src=LIB;s.onload=ok;s.onerror=function(){no(new Error('lib'))};document.head.appendChild(s)})}
+function hex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
+function dec(buf){var b=new Uint8Array(buf);return crypto.subtle.importKey('raw',hex(K),'AES-GCM',false,['decrypt']).then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:b.slice(0,12)},k,b.slice(12))}).then(function(p){return new Response(new Blob([p]).stream().pipeThrough(new DecompressionStream('gzip'))).text()})}
+function runText(t){var s=document.createElement('script');s.text=t;document.head.appendChild(s)}
+window.__loadEnc=function(f){return fetch(f).then(function(r){if(!r.ok)throw new Error('fetch');return r.arrayBuffer()}).then(dec).then(runText)};
+function open_(){
+  msg('Ανοίγουν τα κείμενα...');
+  window.__loadEnc('data.enc').then(function(){
+    g('gate').style.display='none';g('outbtn').style.display='';
+    if(!booted){booted=true;runText(g('mainjs').textContent)}
+  }).catch(function(){msg('Δεν άνοιξαν τα κείμενα. Έλεγξε τη σύνδεσή σου και ξαναδοκίμασε.')});
+}
+function after(sess){
+  if(!sess){g('gate').style.display='flex';return}
+  sb.from('engine_keys').select('k').eq('id','v1').maybeSingle().then(function(r){
+    if(r.error||!r.data||!r.data.k){g('gate').style.display='flex';msg('Αυτός ο λογαριασμός δεν έχει πρόσβαση.');sb.auth.signOut();return}
+    K=r.data.k;open_();
+  });
+}
+lib().then(function(){
+  sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});window.__sb=sb;
+  sb.auth.getSession().then(function(r){after(r.data&&r.data.session)});
+},function(){msg('Δεν έγινε σύνδεση με την υπηρεσία εισόδου. Έλεγξε τη σύνδεσή σου.')});
+var mode='in';
+g('gs').onclick=function(e){e.preventDefault();mode=mode==='in'?'up':'in';var up=mode==='up';g('gb').textContent=up?'Φτιάξε τον δωρεάν λογαριασμό μου':'Σύνδεση';g('gs').textContent=up?'Είσαι ήδη μέλος; Σύνδεση':'Νέος εδώ; Φτιάξε δωρεάν λογαριασμό';g('gn').style.display=up?'block':'none';g('gp').autocomplete=up?'new-password':'current-password';g('gp').placeholder=up?'Κωδικός (τουλάχιστον 8 χαρακτήρες)':'Κωδικός';msg('')};
+g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Φορτώνει ακόμη, ξαναδοκίμασε σε ένα δευτερόλεπτο.');
+  var em=g('ge').value.trim().toLowerCase(),pw=g('gp').value;
+  if(mode==='up'){
+    if(!/^[^ @]+@[^ @]+[.][^ @]+$/.test(em))return msg('Γράψε μια πραγματική διεύθυνση email.');
+    if(pw.length<8)return msg('Διάλεξε κωδικό με τουλάχιστον 8 χαρακτήρες.');
+    msg('Φτιάχνω τον λογαριασμό σου...');
+    return sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
+      if(r.error)return msg(/registered|exists/i.test(r.error.message)?'Αυτό το email έχει ήδη λογαριασμό. Πάτησε Σύνδεση.':'Δεν δημιουργήθηκε ο λογαριασμός: '+r.error.message);
+      if(r.data&&r.data.session){g('gp').value='';return after(r.data.session)}
+      if(r.data&&r.data.user&&r.data.user.identities&&!r.data.user.identities.length)return msg('Αυτό το email έχει ήδη λογαριασμό. Πάτησε Σύνδεση.');
+      g('gp').value='';msg('Σχεδόν έτοιμο. Σου στείλαμε email: άνοιξέ το, πάτησε τον σύνδεσμο και γύρνα εδώ να συνδεθείς.')})}
+  msg('Συνδέομαι...');
+  sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){
+    if(r.error)return msg(/confirm/i.test(r.error.message)?'Άνοιξε πρώτα το email που σου στείλαμε και πάτησε τον σύνδεσμο.':'Λάθος email ή κωδικός.');g('gp').value='';after(r.data.session)})};
+g('outbtn').onclick=function(){if(sb)sb.auth.signOut().then(function(){location.reload()})};
+})();
+</script></body></html>
