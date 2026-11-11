@@ -89,10 +89,11 @@ var voices=[];function loadVoices(){try{voices=speechSynthesis.getVoices()||[];}
 if(window.speechSynthesis){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
 function say(){
   stopAll();if(!window.speechSynthesis||!cur.length){note.textContent=U('nospeech','Speech is not available in this browser.');return;}
+  var isEl=/^el/i.test(CFG.lang||'');
   loadVoices();var hy=CFG.speakLatin?null:voices.filter(function(v){return CFG.voice.test(v.lang);})[0];
-  var u;if(hy){u=new SpeechSynthesisUtterance(cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
+  var u;if(hy){u=new SpeechSynthesisUtterance(isEl?cur.join('').toLowerCase().trim().split(/\s+/).join(', '):cur.join('').toLowerCase());u.voice=hy;u.lang=hy.lang;note.textContent='';}
   else{u=new SpeechSynthesisUtterance(translit(cur));u.lang='en-US';note.textContent=CFG.sayNote||('This device has no '+CFG.voiceName+' voice, so the word is spoken from its Latin spelling.');}
-  u.rate=.8;u.onstart=function(){pulse=1;};try{speechSynthesis.speak(u);}catch(e){}
+  u.rate=isEl?.62:.8;u.onstart=function(){pulse=1;};try{speechSynthesis.speak(u);}catch(e){}
 }
 $('hyplay').onclick=play;$('hysay').onclick=say;$('hystop').onclick=stopAll;
 /* ---------- the hologram ---------- */
