@@ -47,6 +47,10 @@ ul.lex b{font-size:19px}
 .note{color:var(--muted);font-size:14px}
 footer{max-width:980px;margin:34px auto 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font:400 12px/1.7 var(--f-mono)}
 footer a{color:var(--cyan)}
+.go{display:none;margin-top:8px;font:500 13px var(--f-mono)}
+.go.on{display:block}
+.go a{color:var(--cyan);margin-right:14px;text-decoration:none;border-bottom:1px solid var(--line)}
+.row .g{cursor:pointer}
 .embed .nav,.embed footer{display:none!important}
 </style></head><body>
 <div class="wrap">
@@ -59,7 +63,7 @@ footer a{color:var(--cyan)}
 <a class="navtab" href="about.html">About</a>
 </nav>
 <h1>Greek Isopsephy Index</h1>
-<p class="sub">Every entry is added up letter by letter, so you can check it yourself. Standard letter values, 27 signs: α 1 to ω 800, with final ς counted as 200.</p>
+<p class="sub">Tap any Greek word below to send it to the Research Engine, the bots or the Greek Sphere. Every entry is added up letter by letter, so you can check it yourself. Standard letter values, 27 signs: α 1 to ω 800, with final ς counted as 200.</p>
 
 <div class="box"><h2>Count a word, or search a number</h2>
 <form class="q" id="f"><input id="in" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Type Greek (ψυχή) or a number (1224)" aria-label="Greek word or number"><button class="btn" type="submit">Go</button></form>
@@ -182,7 +186,10 @@ var by={};E.forEach(function(e){(by[e[2]]=by[e[2]]||[]).push(e)});
 var keys=Object.keys(by).map(Number).sort(function(a,b){return a-b});
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function row(e){var r=count(e[0]),ok=r.sum===e[2];
- return '<div class="row"><span class="g">'+esc(e[0])+'</span><span class="e">'+esc(e[1])+'</span><span class="tag '+(ok?'ok':'no')+'">'+(ok?'checked '+r.sum:'page says '+r.sum+', source says '+e[2])+'</span><div class="work">'+r.parts.join(' + ')+' = <b>'+r.sum+'</b></div></div>'}
+ return '<div class="row"><span class="g" role="button" tabindex="0" title="Tap to send this word on">'+esc(e[0])+'</span><span class="e">'+esc(e[1])+'</span><span class="tag '+(ok?'ok':'no')+'">'+(ok?'checked '+r.sum:'page says '+r.sum+', source says '+e[2])+'</span><div class="work">'+r.parts.join(' + ')+' = <b>'+r.sum+'</b></div>'+golinks(e[0])+'</div>'}
+function golinks(w){var q=encodeURIComponent(w);return '<div class="go">Send to: <a href="research-engine/#q='+q+'" target="_blank" rel="noopener">Research Engine</a><a href="research-engine/#q='+q+'&tab=ask" target="_blank" rel="noopener">Ask the bots</a><a href="greek-sphere.html#w='+q+'" target="_blank" rel="noopener">Greek Sphere</a></div>'}
+document.addEventListener('click',function(ev){var g=ev.target.closest&&ev.target.closest('.row .g');if(!g)return;var go=g.parentNode.querySelector('.go');if(go)go.classList.toggle('on')});
+document.addEventListener('keydown',function(ev){if((ev.key==='Enter'||ev.key===' ')&&ev.target.classList&&ev.target.classList.contains('g')){ev.preventDefault();ev.target.click()}});
 function render(list){
  var h='';
  keys.forEach(function(k){var es=by[k].filter(function(e){return list===null||list.indexOf(k)>-1});
@@ -211,13 +218,13 @@ function go(q){
   return}
  var r=count(q);
  if(!r.parts.length){res.innerHTML='<span class="muted">I could not find Greek letters there. Type Greek letters, or a number.</span>';return}
- res.innerHTML='<div><span class="big">'+r.sum+'</span></div><div class="work">'+r.parts.join(' + ')+' = '+r.sum+'</div><p class="note" style="margin:8px 0 0">Letters counted: '+r.parts.length+'. <a href="#v'+r.sum+'" style="color:var(--cyan)" id="jump">Jump to '+r.sum+' in the index</a> if it is there.</p>';
+ res.innerHTML='<div><span class="big">'+r.sum+'</span></div><div class="work">'+r.parts.join(' + ')+' = '+r.sum+'</div><p class="note" style="margin:8px 0 0">Letters counted: '+r.parts.length+'. <a href="#v'+r.sum+'" style="color:var(--cyan)" id="jump">Jump to '+r.sum+' in the index</a> if it is there.</p>'+golinks(q).replace('class="go"','class="go on"');
  render([r.sum]);
  var j=document.getElementById('jump');if(j&&!by[r.sum])j.remove();
 }
 document.getElementById('f').addEventListener('submit',function(e){e.preventDefault();go(document.getElementById('in').value)});
 document.getElementById('in').addEventListener('input',function(){if(!this.value.trim())go('')});
-var m=/[?&]n=(\d+)/.exec(location.search);if(m){document.getElementById('in').value=m[1];go(m[1])}else render(null);
+var m=/[?&]n=(\d+)/.exec(location.search),mw=/[#&?]w=([^&]*)/.exec(location.hash+location.search);if(mw){try{var wv=decodeURIComponent(mw[1]);document.getElementById('in').value=wv;go(wv)}catch(e){render(null)}}else if(m){document.getElementById('in').value=m[1];go(m[1])}else render(null);
 })();
 </script>
 <script src="account.js"></script>

@@ -62,7 +62,8 @@
   var order = ['calc', 'find', 'dict', 'texts', 'mine', 'list', 'help'];
   var engA = null, ENG = el ? 'research-engine/el.html' : 'research-engine/';
   if (/greek-sphere|hebrew-sphere/.test(location.pathname)) { engA = document.createElement('a'); engA.className = 'eng'; engA.target = '_blank'; engA.rel = 'noopener'; engA.href = ENG; engA.textContent = el ? 'Μηχανή έρευνας ↗' : 'Research Engine ↗'; }
-  function build() { tabs.innerHTML = ''; order.forEach(addTab); if (engA) tabs.appendChild(engA); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
+  var isoA = document.createElement('a'); isoA.className = 'eng'; isoA.target = '_blank'; isoA.rel = 'noopener'; isoA.href = 'isopsephy-index.html'; isoA.textContent = el ? 'Ευρετήριο Ισοψηφίας ↗' : 'Isopsephy Index ↗';
+  function build() { tabs.innerHTML = ''; order.forEach(addTab); if (engA) tabs.appendChild(engA); tabs.appendChild(isoA); var s = null; try { s = sessionStorage.getItem('ophbench'); } catch (e) { } show(panes[s] ? s : 'calc'); }
   /* the My words panel is added by mywords.js a little later */
   var tries = 0, tm = setInterval(function () { var mw = document.getElementById('mywords'); tries++; if (mw && !pane('mine').contains(mw)) { pane('mine').appendChild(mw); var cur = tabs.querySelector('.on'); build(); if (cur) show(cur.getAttribute('data-k')); } if (tries > 40 || (mw && pane('mine').contains(mw))) clearInterval(tm); }, 250);
   build();
@@ -74,8 +75,9 @@
     function put(inp, v, force) { if (!inp) return; var cur = inp.value.trim(); if (force || cur === '' || cur === last) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); var f = inp.closest && inp.closest('form'); if (f) f.dispatchEvent(new Event('rt-fill')); } }
     function sync(first) {
       var v = conv(hy.value); if (v === last) return;
-      if (engA) engA.href = ENG + (v ? '#q=' + encodeURIComponent(v.split(/\s+/)[0]) : ''); put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
+      if (engA) engA.href = ENG + (v ? '#q=' + encodeURIComponent(v.split(/\s+/)[0]) : ''); isoA.href = 'isopsephy-index.html' + (v && /greek-sphere/.test(location.pathname) ? '#w=' + encodeURIComponent(v) : ''); put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
     }
+    var mw0 = /[#&?]w=([^&]*)/.exec(location.hash || ''); if (mw0) { try { hy.value = decodeURIComponent(mw0[1]); hy.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) { } }
     sync(true); setInterval(function () { sync(false); }, 400);
   })();
   /* results sent onward from Find a word: switch to the tab that received them */

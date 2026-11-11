@@ -477,7 +477,7 @@ window.nbRender=async function(){
 };
 $('nb-clr').onclick=()=>{if(!confirm('Clear the recent list on this computer? Kept items stay.'))return;NB.rec=[];nbSaveRec();nbRender()};
 $('keepbtn').onclick=()=>{const k=NBK[window.__tab],it=k&&NB.cur[k];if(it)nbKeep(it)};
-try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore()}}catch(e){}
+try{const m=location.hash.match(/q=([^&]*)/);if(m&&m[1]){$('q').value=decodeURIComponent(m[1]);explore();const tb=location.hash.match(/tab=(ask|decode|hunt|read)/);if(tb)show(tb[1])}}catch(e){}
 </script><script>
 (function(){
 var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz',LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js';
