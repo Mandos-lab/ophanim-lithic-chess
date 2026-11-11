@@ -253,7 +253,7 @@ function vplay(l,t,r,done,fail){vstop();let fired=false;const bad=()=>{if(fired)
  try{const a=new Audio(VURL(l,t,r));VP=a;a.onended=ok;a.onerror=bad;const p=a.play();if(p&&p.catch)p.catch(bad)}catch(e){bad()}}
 function vchunks(t){const out=[];let cur='';const add=p=>{if(cur&&(cur+' '+p).length>300){out.push(cur);cur=p}else cur=cur?cur+' '+p:p};
  String(t).split(/\n+/).forEach(line=>{line=line.replace(/\s+/g,' ').trim();if(!line)return;line.split(/(?<=[.;!?·:;·])\s+/).forEach(p=>{while(p.length>380){let k=p.lastIndexOf(' ',380);if(k<100)k=380;add(p.slice(0,k));p=p.slice(k).trim()}if(p)add(p)})});if(cur)out.push(cur);return out}
-const gprep=w=>w.normalize('NFD').replace(/[̓̔͂̓̈́ͅ]/g,'').replace(/̀/g,'́').normalize('NFC').replace(/[^Ͱ-Ͽἀ-῿A-Za-z0-9\s'.,;:!?··-]/g,' ');
+const gprep=w=>w.normalize('NFD').replace(/[̓̔̓̈́ͅ]/g,'').replace(/[̀͂]/g,'́').normalize('NFC').replace(/[^Ͱ-Ͽἀ-῿A-Za-z0-9\s'.,;:!?··-]/g,' ');
 function say(w){try{const code=lang(w)==='he'?'he':'el',t=sayText(w);if(!t||!/\p{L}/u.test(t)){devSay(w);return}try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}window.__ra=null;raReset();vplay(code,t,.85,null,()=>devSay(w))}catch(e){devSay(w)}}
 function devSay(w){try{const ss=window.speechSynthesis;if(!ss||!window.SpeechSynthesisUtterance){sayNote('Αυτός ο browser δεν μπορεί να μιλήσει φωναχτά.');return}
  const code=lang(w)==='he'?'he':'el',go=()=>{const v=ss.getVoices().find(x=>x.lang.toLowerCase().replace('_','-').startsWith(code));if(!v){sayNote('Αυτός ο υπολογιστής δεν έχει ακόμη '+(code==='he'?'εβραϊκή':'ελληνική')+' φωνή. Ο Microsoft Edge συνήθως έχει ενσωματωμένη.');return}ss.cancel();const u=new SpeechSynthesisUtterance(sayText(w));u.voice=v;u.lang=v.lang;u.rate=.85;ss.speak(u)};
@@ -410,8 +410,7 @@ function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=
  const mg=[];parts.forEach(p=>{const q=mg[mg.length-1];if(q&&q[1]===p[1])q[0]+=p[0];else mg.push([p[0],p[1]])});parts=mg;
  const has=x=>/[\p{L}\p{N}]/u.test(x),items=[];
  parts.forEach(([t,c])=>{t=t.replace(/[*_#●•]/g,' ');if(!has(t))return;
-  if(c==='en'){items.push({t:t.replace(/\s+/g,' ').trim(),c});return}
-  vchunks(c==='he'?sayText(t):gprep(t)).forEach(x=>{if(has(x))items.push({t:x,c})})});
+  vchunks(c==='he'?sayText(t):c==='el'?gprep(t):t).forEach(x=>{if(has(x))items.push({t:x,c})})});
  if(!items.length){sayNote(S('No voice available to read this.','Δεν υπάρχει διαθέσιμη φωνή για να διαβαστεί αυτό.'));return}
  const R={items,i:0,paused:false,dev:false,fails:0};window.__ra=R;
  if(btn){btn.dataset.on='1';btn.textContent=S('⏸ Pause','⏸ Παύση');window.__raBtn=btn}
@@ -422,7 +421,7 @@ function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=
    let vs=[];try{vs=ss.getVoices()}catch(e){}const want=it.c==='en'?'en':it.c,v=vs.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(want));
    if(!v&&it.c!=='en'){step();return}
    const u=new SpeechSynthesisUtterance(it.t);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=1;u.onend=step;u.onerror=()=>{if(window.__ra===R)step()};ss.speak(u)};
-  if(it.c==='en'||R.fails>=2){dev();return}
+  if(R.fails>=2){dev();return}
   R.dev=false;vplay(it.c,it.t,.95,step,()=>{if(window.__ra!==R)return;R.fails++;dev()})};
  step()}catch(e){sayNote(S('Could not play the sound.','Δεν έγινε αναπαραγωγή ήχου.'))}}
 document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}vstop();window.__ra=null;raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);

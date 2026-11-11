@@ -3,7 +3,7 @@
    The Google key lives only here, in the Vercel setting GOOGLE_TTS_KEY. It never reaches the browser.
    Every answer is cached by the web for a year, so each sentence is paid for once. */
 
-const LANG = { el: 'el-GR', he: 'he-IL', ar: 'ar-XA' };
+const LANG = { el: 'el-GR', he: 'he-IL', ar: 'ar-XA', en: 'en-US' };
 const VOICES = ['Aoede', 'Kore', 'Leda', 'Zephyr', 'Charon', 'Fenrir', 'Orus', 'Puck'];
 const MAX = 400;
 

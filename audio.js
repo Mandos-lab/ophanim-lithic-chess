@@ -2,7 +2,7 @@
    1. OphanimSound: short sounds made in the browser (no audio files): stone tap, clatter, chime, thud, water, win; plus an optional low drone.
    2. OphanimNarrate: a "Listen" bar for long articles. Mark a section with data-narrate. If it also has data-audio="audio/name.mp3"
       and that file exists, the recording is offered. Otherwise a "Read aloud" button uses the browser's own voice, paragraph by paragraph.
-   For Greek, Hebrew and Arabic pages "Read aloud" asks the site's own /api/tts for a natural voice (Google Chirp 3 HD, kept behind the site); if that is not available it falls back to the device voice. */
+   For Greek, Hebrew, Arabic and English pages "Read aloud" asks the site's own /api/tts for a natural voice (Google Chirp 3 HD, kept behind the site); if that is not available it falls back to the device voice. */
 (function () {
   'use strict';
   function $(id) { return document.getElementById(id); }
@@ -85,8 +85,15 @@
     '.narr-now{background:rgba(70,227,240,.10);box-shadow:-6px 0 0 rgba(70,227,240,.10),6px 0 0 rgba(70,227,240,.10);border-radius:2px}' +
     '@media(max-width:900px){section[data-narrate]{flex-direction:column;align-items:stretch}section[data-narrate]>.narr{align-self:stretch;margin:0 0 10px}}';
   var speaking = null, player = null;
-  var RL = (function () { var l = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return /^(el|he|ar)$/.test(l) ? l : ''; })();
-  function voiceUrl(text, rate) { return '/api/tts?l=' + RL + '&r=' + (Math.round(rate * 100) / 100) + '&t=' + encodeURIComponent(text); }
+  var RL = (function () { var l = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return /^(el|he|ar|en)$/.test(l) ? l : ''; })();
+  function gnorm(t) { return t.normalize('NFD').replace(/[\u0313\u0314\u0343\u0344\u0345]/g, '').replace(/[\u0300\u0342]/g, '\u0301').normalize('NFC'); }   // polytonic marks to the one accent a Greek voice understands
+  function voiceUrl(lang, text, rate) { if (lang === 'el') text = gnorm(text); return '/api/tts?l=' + lang + '&r=' + (Math.round(rate * 100) / 100) + '&t=' + encodeURIComponent(text); }
+  function segs(txt) {                                             // split a sentence by script, so Greek and Hebrew words get their own voice inside an English page
+    var out = [], re = /[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]+(?:[\u00A0 ][\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]+)*/g, last = 0, m;
+    function push(t, l) { if (!/\S/.test(t)) return; var q = out[out.length - 1]; if (q && q[1] === l) q[0] += t; else out.push([t, l]); }
+    while ((m = re.exec(txt))) { push(txt.slice(last, m.index), RL); push(m[0], /[\u0590-\u05FF]/.test(m[0]) ? 'he' : 'el'); last = m.index + m[0].length; }
+    push(txt.slice(last), RL); return out.length ? out : [[txt, RL]];
+  }
   var EL = /^el/i.test(document.documentElement.lang || '');
   function T(en, el) { return EL ? el : en; }
   function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} if (player) { try { player.onended = null; player.onerror = null; player.pause(); } catch (e) {} } try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); }
@@ -115,20 +122,28 @@
       (function nextChunk() {
         if (token.stop) return; if (j >= cs.length) { nextNode(); return; }
         var txt = cs[j++];
+        function deviceSpeak(t) {
+          if (!('speechSynthesis' in window)) { stopSpeak(); return; }
+          var u = new SpeechSynthesisUtterance(t); u.rate = rate(); if (voice) u.voice = voice; u.lang = voice ? voice.lang : (document.documentElement.lang || 'en');
+          u.onend = nextChunk; u.onerror = function () { if (!token.stop) nextChunk(); };
+          speechSynthesis.speak(u);
+        }
         if (RL && !token.dev) {
-          var fired = false, rate0 = rate();
-          var bad = function () { if (fired || token.stop) return; fired = true; token.dev = true; j--; nextChunk(); };
-          if (!player) player = new Audio();
-          var p = player; p.onended = function () { if (fired || token.stop) return; fired = true; nextChunk(); }; p.onerror = bad;
-          p.src = voiceUrl(txt, rate0);
-          var pr = p.play(); if (pr && pr.catch) pr.catch(bad);
-          if (cs[j]) { try { fetch(voiceUrl(cs[j], rate0)).catch(function () {}); } catch (e) {} }   // fetch the next sentence ahead so there is no gap
+          var sg = segs(txt), k = 0, rate0 = rate();
+          (function nextSeg() {
+            if (token.stop) return; if (k >= sg.length) { nextChunk(); return; }
+            var it = sg[k++], fired = false;
+            var bad = function () { if (fired || token.stop) return; fired = true; token.dev = true; k--; deviceSpeak(sg.slice(k).map(function (x) { return x[0]; }).join(' ')); };
+            if (!player) player = new Audio();
+            var p = player; p.onended = function () { if (fired || token.stop) return; fired = true; nextSeg(); }; p.onerror = bad;
+            p.src = voiceUrl(it[1], it[0], rate0);
+            var pr = p.play(); if (pr && pr.catch) pr.catch(bad);
+            var nx = sg[k] || (cs[j] ? segs(cs[j])[0] : null);
+            if (nx) { try { fetch(voiceUrl(nx[1], nx[0], rate0)).catch(function () {}); } catch (e) {} }   // fetch the next piece ahead so there is no gap
+          })();
           return;
         }
-        if (!('speechSynthesis' in window)) { stopSpeak(); return; }
-        var u = new SpeechSynthesisUtterance(txt); u.rate = rate(); if (voice) u.voice = voice; u.lang = voice ? voice.lang : (document.documentElement.lang || 'en');
-        u.onend = nextChunk; u.onerror = function () { if (!token.stop) nextChunk(); };
-        speechSynthesis.speak(u);
+        deviceSpeak(txt);
       })();
     }
     nextNode();
