@@ -99,9 +99,9 @@ function say(){
   };
   if(isEl){                                                        // natural Greek voice from the site's own /api/tts, with the device voice as fallback
     var gt=inp.value.toLowerCase().trim().replace(/\s+/g,', '),gdone=false;
-    var gfail=function(){if(gdone)return;gdone=true;vplayer=null;sayDevice();};
+    var gfail=function(){if(gdone)return;gdone=true;try{if(vplayer){vplayer.onended=null;vplayer.onerror=null;vplayer.pause();}}catch(e){}vplayer=null;sayDevice();};
     if(!gt){return;}
-    try{vplayer=new Audio('/api/tts?l=el&r=.8&t='+encodeURIComponent(gt));vplayer.onplay=function(){pulse=1;note.textContent='';};vplayer.onerror=gfail;var gp=vplayer.play();if(gp&&gp.catch)gp.catch(gfail);}catch(e){gfail();}
+    try{vplayer=new Audio('/api/tts?l=el&r=1&t='+encodeURIComponent(gt));vplayer.onplay=function(){pulse=1;note.textContent='';};vplayer.onerror=gfail;var gp=vplayer.play();if(gp&&gp.catch)gp.catch(function(e){if(e&&e.name==='AbortError')return;gfail();});}catch(e){gfail();}
     return;
   }
   sayDevice();

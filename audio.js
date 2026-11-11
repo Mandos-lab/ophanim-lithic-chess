@@ -78,7 +78,8 @@
   window.OphanimSound = { play: play };
 
   /* ---------------- narration ---------------- */
-  var CSS = '.narr{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0 14px;padding:8px 10px;border:1px solid var(--line,#1a2638);border-radius:4px;background:var(--panel,#0a0f17);font:500 12px var(--f-mono,monospace);color:var(--muted,#7f95a6)}' +
+  var CSS = '.selsay{position:fixed;z-index:99999;font:600 13px system-ui,sans-serif;color:#e8c375;background:#0a1820;border:1px solid #e8c375;border-radius:6px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)}' +
+    '.narr{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0 14px;padding:8px 10px;border:1px solid var(--line,#1a2638);border-radius:4px;background:var(--panel,#0a0f17);font:500 12px var(--f-mono,monospace);color:var(--muted,#7f95a6)}' +
     '.narr button,.narr select{font:500 12px var(--f-mono,monospace);color:#ff4d5e;background:var(--panel2,#0e1521);border:1px solid #ff4d5e;border-radius:3px;padding:6px 10px;cursor:pointer}' +
     '.narr label{color:#ff4d5e}.narr button:hover{background:rgba(255,77,94,.14);color:#ff7d8a}.narr audio{height:34px;max-width:100%}' +
     '.narr .nn{flex-basis:100%;font-weight:400;font-size:11px}' +
@@ -90,13 +91,13 @@
   function voiceUrl(lang, text, rate) { if (lang === 'el') text = gnorm(text); return '/api/tts?l=' + lang + '&r=' + (Math.round(rate * 100) / 100) + '&t=' + encodeURIComponent(text); }
   function segs(txt) {                                             // split a sentence by script, so Greek and Hebrew words get their own voice inside an English page
     var out = [], re = /[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]+(?:[\u00A0 ][\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]+)*/g, last = 0, m;
-    function push(t, l) { if (!/\S/.test(t)) return; var q = out[out.length - 1]; if (q && q[1] === l) q[0] += t; else out.push([t, l]); }
+    function push(t, l) { if (!/\S/.test(t)) return; var q = out[out.length - 1]; if (q && (q[1] === l || !/[\p{L}\p{N}]/u.test(t))) q[0] += t; else if (/[\p{L}\p{N}]/u.test(t) || !q) out.push([t, l]); }   // pieces with only punctuation stay with the neighbour, never sent alone
     while ((m = re.exec(txt))) { push(txt.slice(last, m.index), RL); push(m[0], /[\u0590-\u05FF]/.test(m[0]) ? 'he' : 'el'); last = m.index + m[0].length; }
     push(txt.slice(last), RL); return out.length ? out : [[txt, RL]];
   }
   var EL = /^el/i.test(document.documentElement.lang || '');
   function T(en, el) { return EL ? el : en; }
-  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} if (player) { try { player.onended = null; player.onerror = null; player.pause(); } catch (e) {} } try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); }
+  function stopSpeak() { try { speechSynthesis.cancel(); } catch (e) {} if (player) { try { player.onended = null; player.onerror = null; player.pause(); } catch (e) {} } try { window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: false } })); } catch (e) {} if (speaking) { speaking.stop = true; speaking = null; } document.querySelectorAll('.narr-now').forEach(function (e) { e.classList.remove('narr-now'); }); document.querySelectorAll('.narr [data-say]').forEach(function (b) { b.textContent = T('Read aloud', 'Ανάγνωση φωναχτά'); }); document.querySelectorAll('.selsay').forEach(function (b) { b.textContent = T('\uD83D\uDD0A Read', '\uD83D\uDD0A Ανάγνωση'); }); }
   function pickVoice() {
     var vs = []; try { vs = speechSynthesis.getVoices() || []; } catch (e) {}
     var lang = (document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
@@ -110,7 +111,7 @@
   }
   function speakSection(sec, rate, btn) {
     stopSpeak();
-    var nodes = Array.prototype.slice.call(sec.querySelectorAll('h2,h3,p,li')).filter(function (n) { return !n.closest('.narr') && !n.closest('table') && !n.classList.contains('src') && n.textContent.trim().length > 1; });
+    var nodes = Array.prototype.slice.call(sec.querySelectorAll('h1,h2,h3,h4,p,li')).filter(function (n) { return !n.closest('.narr') && !n.closest('nav,footer,form,button,select,textarea') && !n.closest('table') && !n.classList.contains('src') && n.textContent.trim().length > 1; });
     var token = { stop: false }; speaking = token; btn.textContent = T('Stop', 'Διακοπή');
     try { var hh = sec.querySelector('h2'); window.dispatchEvent(new CustomEvent('ophanim-speech', { detail: { on: true, title: hh ? hh.textContent.replace(/\s+/g, ' ').trim() : T('This page', 'Αυτή η σελίδα') } })); } catch (e) {}
     var i = 0, voice = pickVoice();
@@ -148,9 +149,36 @@
     }
     nextNode();
   }
+  function initSelect() {
+    var L1 = T('\uD83D\uDD0A Read', '\uD83D\uDD0A Ανάγνωση'), L2 = T('\u25A0 Stop', '\u25A0 Διακοπή');
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'selsay'; b.textContent = L1; b.style.display = 'none'; document.body.appendChild(b);
+    var txt = '', tm = 0;
+    function show() {
+      var s = window.getSelection && getSelection(), x = s ? String(s).replace(/\s+/g, ' ').trim() : '';
+      if (x.length < 2 || !s.rangeCount) { if (!speaking) b.style.display = 'none'; return; }
+      var an = s.anchorNode, el = an && (an.nodeType === 1 ? an : an.parentNode);
+      if (el && el.closest && el.closest('input,textarea,select,.selsay,[contenteditable]')) return;
+      txt = String(s).trim(); var r = s.getRangeAt(0).getBoundingClientRect();
+      b.style.top = Math.max(8, r.top - 44) + 'px'; b.style.left = Math.min(window.innerWidth - 130, Math.max(8, r.left)) + 'px'; b.style.display = 'block';
+    }
+    document.addEventListener('selectionchange', function () { clearTimeout(tm); tm = setTimeout(show, 250); });
+    b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    b.addEventListener('click', function () {
+      if (speaking) { stopSpeak(); return; }
+      var d = document.createElement('section'), p = document.createElement('p'); p.textContent = txt; d.appendChild(p);
+      speakSection(d, function () { return 1; }, document.createElement('button')); b.textContent = L2;
+    });
+  }
   function initNarrate() {
-    var secs = document.querySelectorAll('[data-narrate]'); if (!secs.length) return;
     var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    initSelect();                                                    // any text on any page can be selected and read
+    var secs = Array.prototype.slice.call(document.querySelectorAll('[data-narrate]'));
+    if (!secs.length) {                                              // pages written as articles but without a marked section get one bar for the whole page
+      var root = document.querySelector('main,article,#main,#content,.wrap,.page,.container') || document.body, len = 0;
+      Array.prototype.forEach.call(root.querySelectorAll('p'), function (p) { if (!p.closest('nav,footer,form,.narr,button')) len += p.textContent.length; });
+      if (len > 800) { root.setAttribute('data-narrate-auto', ''); secs = [root]; }
+    }
+    if (!secs.length) return;
     var canTTS = !!RL || ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window);
     secs.forEach(function (sec) {
       var bar = document.createElement('div'); bar.className = 'narr'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', T('Listen to this section', 'Ακούστε αυτή την ενότητα'));
@@ -167,7 +195,7 @@
       var note = document.createElement('span'); note.className = 'nn';
       note.textContent = canTTS ? (sec.getAttribute('data-note') || (RL ? T('Natural voice. If it is not available, your device voice is used.', 'Φυσική φωνή. Αν δεν είναι διαθέσιμη, χρησιμοποιείται η φωνή της συσκευής σας.') : T('Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.', 'Φωνή υπολογιστή. Μπορεί να παραλείψει ή να προφέρει λάθος ελληνικές και αρμενικές λέξεις· για αυτές είναι καλύτερη μια ηχογράφηση.'))) : T('Read aloud is not available in this browser.', 'Η ανάγνωση φωναχτά δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.');
       bar.appendChild(note);
-      var h = sec.querySelector('h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
+      var h = sec.querySelector(sec.hasAttribute('data-narrate-auto') ? 'h1,h2' : 'h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
       if (audioSrc) {                                                // offer the recording only if the file really exists
         fetch(audioSrc, { method: 'HEAD' }).then(function (r) {
           if (!r.ok) return;

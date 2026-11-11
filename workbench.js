@@ -75,7 +75,7 @@
     function put(inp, v, force) { if (!inp) return; var cur = inp.value.trim(); if (force || cur === '' || cur === last) { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); var f = inp.closest && inp.closest('form'); if (f) f.dispatchEvent(new Event('rt-fill')); } }
     function sync(first) {
       var v = conv(hy.value); if (v === last) return;
-      if (engA) engA.href = ENG + (v ? '#q=' + encodeURIComponent(v.split(/\s+/)[0]) : ''); isoA.href = 'isopsephy-index.html' + (v && /greek-sphere/.test(location.pathname) ? '#w=' + encodeURIComponent(v) : ''); put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
+      if (engA) engA.href = ENG + (v ? '#q=' + encodeURIComponent(v) : ''); isoA.href = 'isopsephy-index.html' + (v && /greek-sphere/.test(location.pathname) ? '#w=' + encodeURIComponent(v) : ''); put(dictIn, v, first); put(document.getElementById('mwW'), v, false); last = v;
     }
     var mw0 = /[#&?]w=([^&]*)/.exec(location.hash || ''); if (mw0) { try { hy.value = decodeURIComponent(mw0[1]); hy.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) { } }
     sync(true); setInterval(function () { sync(false); }, 400);

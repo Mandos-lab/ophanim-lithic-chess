@@ -3,8 +3,8 @@
    The Google key lives only here, in the Vercel setting GOOGLE_TTS_KEY. It never reaches the browser.
    Every answer is cached by the web for a year, so each sentence is paid for once. */
 
-const LANG = { el: 'el-GR', he: 'he-IL', ar: 'ar-XA', en: 'en-US' };
-const VOICES = ['Aoede', 'Kore', 'Leda', 'Zephyr', 'Charon', 'Fenrir', 'Orus', 'Puck'];
+const LANG = { el: 'el-GR', he: 'he-IL', ar: 'ar-XA', en: 'en-GB' };
+const VOICES = ['Achird','Algenib','Algieba','Alnilam','Charon','Enceladus','Fenrir','Iapetus','Orus','Puck','Rasalgethi','Sadachbia','Sadaltager','Schedar','Umbriel','Zubenelgenubi','Achernar','Aoede','Autonoe','Callirrhoe','Despina','Erinome','Gacrux','Kore','Laomedeia','Leda','Pulcherrima','Sulafat','Vindemiatrix','Zephyr'];   // first 16 male, then 14 female
 const MAX = 400;
 
 function fail(res, code, msg) {
@@ -32,8 +32,8 @@ export default async function handler(req, res) {
   if (!text) return fail(res, 400, 'no text');
   if (text.length > MAX) return fail(res, 400, 'text too long');
   let rate = parseFloat(q.r); if (!(rate >= 0.5 && rate <= 1.5)) rate = 1;
-  const want = String(q.v || process.env.GOOGLE_TTS_VOICE || 'Aoede');
-  const voice = VOICES.indexOf(want) >= 0 ? want : 'Aoede';
+  const want = String(q.v || process.env.GOOGLE_TTS_VOICE || 'Charon');
+  const voice = VOICES.indexOf(want) >= 0 ? want : 'Charon';
 
   try {
     const r = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize?key=' + encodeURIComponent(key), {

@@ -381,17 +381,21 @@ function botSpeak(root){const RUN=/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]{2,}
  root.querySelectorAll('.msg.bot').forEach(box=>{if(box.classList.contains('wait'))return;if(!box.querySelector('.sayall')){const ra=document.createElement('button');ra.className='sayall';ra.type='button';ra.textContent='\uD83D\uDD0A Read all';ra.title='Read this whole answer out loud';box.insertBefore(ra,box.children[1]||null);const sp=document.createElement('button');sp.className='saystop';sp.type='button';sp.textContent='\u25A0 Stop';sp.title='Stop reading';box.insertBefore(sp,ra.nextSibling)}const tx=box.textContent||'',gh=(tx.match(/[\u0370-\u03FF\u1F00-\u1FFF\u0590-\u05FF]/g)||[]).length,la=(tx.match(/[A-Za-z]/g)||[]).length;if(gh>la)return;const nodes=[];const tw=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode.closest('.say,.n,button')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});let n;while(n=tw.nextNode())nodes.push(n);
  nodes.forEach(t=>{const txt=t.nodeValue;RUN.lastIndex=0;if(!RUN.test(txt))return;RUN.lastIndex=0;const f=document.createDocumentFragment();let last=0,m;while((m=RUN.exec(txt))){f.appendChild(document.createTextNode(txt.slice(last,m.index+m[0].length)));const b=document.createElement('button');b.className='say';b.dataset.w=m[0].replace(/\u00A0/g,' ');b.textContent='\uD83D\uDD0A';b.title='Hear it';b.setAttribute('aria-label','Hear it');f.appendChild(b);last=m.index+m[0].length}
  f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)})})}
-function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Read all';b.dataset.on=''});window.__raBtn=null}
+function raReset(){document.querySelectorAll('.sayall').forEach(b=>{b.textContent='🔊 Read all';b.dataset.on=''});document.querySelectorAll('.selsay').forEach(b=>{b.textContent=b.dataset.l1});window.__raBtn=null}
 function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=>EP?g:e;try{const ss=window.speechSynthesis,R0=window.__ra;
  if(btn&&btn.dataset.on==='1'&&R0){if(R0.paused){R0.paused=false;R0.dev?(ss&&ss.resume()):(VP&&VP.play());btn.textContent=S('⏸ Pause','⏸ Παύση')}else{R0.paused=true;R0.dev?(ss&&ss.pause()):(VP&&VP.pause());btn.textContent=S('▶ Resume','▶ Συνέχεια')}return}
  try{ss&&ss.cancel()}catch(e){}vstop();window.__ra=null;raReset();
  const clone=box.cloneNode(true);clone.querySelectorAll('.say,.sayall,.saystop,.n').forEach(x=>x.remove());
- let txt=clone.innerText||clone.textContent||'';
+ clone.querySelectorAll('p,li,h1,h2,h3,h4,div,tr,br').forEach(e=>e.appendChild(document.createTextNode('\n')));
+ let txt=clone.textContent||'';
  const GH='Ͱ-Ͽἀ-῿֐-׿';
  txt=txt.replace(new RegExp('(['+GH+'])\\s*\\(([A-Za-z\\u00C0-\\u024F\\s\\u00B7\\-\\u2019\']+)\\)','g'),'$1');
- if(!EP){const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
-  txt=txt.replace(new RegExp('(^|[^'+GH+'])([α-ω])(?!['+GH+'])','g'),(a,b,c)=>b+(LN[c]||c))}
- let parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;const other=EP?'el':'en';
+ const nGH=(txt.match(new RegExp('['+GH+']','g'))||[]).length,nLA=(txt.replace(/\([^()]*\)/g,' ').match(/[A-Za-z]/g)||[]).length,GM=EP||nGH>nLA;
+ if(GM)txt=txt.replace(/\(\s*[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F\s\u00B7\-\u2019']*\)/g,' ');
+ if(!GM){const LN={'α':'alpha','β':'vita','γ':'gamma','δ':'delta','ε':'epsilon','ζ':'zita','η':'ita','θ':'theta','ι':'iota','κ':'kappa','λ':'lambda','μ':'mi','ν':'ni','ξ':'xi','ο':'omicron','π':'pi','ρ':'rho','σ':'sigma','ς':'sigma','τ':'taf','υ':'ypsilon','φ':'phi','χ':'chi','ψ':'psi','ω':'omega'};
+  txt=txt.replace(new RegExp('(^|[^'+GH+'])([α-ω])(?!['+GH+'])','g'),(a,b,c)=>b+(LN[c]||c))}else{const GN={'\u03B2':'βήτα','\u03B3':'γάμα','\u03B4':'δέλτα','\u03B6':'ζήτα','\u03B8':'θήτα','\u03BA':'κάπα','\u03BB':'λάμδα','\u03BC':'μι','\u03BD':'νι','\u03BE':'ξι','\u03C0':'πι','\u03C1':'ρο','\u03C3':'σίγμα','\u03C2':'σίγμα','\u03C4':'ταφ','\u03C6':'φι','\u03C7':'χι','\u03C8':'ψι'};
+  txt=txt.replace(new RegExp('(^|[^'+GH+'])([βγδζθκλμνξπρσςτφχψ])(?!['+GH+'])','g'),(a,b,c)=>b+(GN[c]||c))}
+ let parts=[];const RX=new RegExp('['+GH+']+(?:[  ]['+GH+']+)*','g');let last=0,m;const other=GM?'el':'en';
  while((m=RX.exec(txt))){if(m.index>last)parts.push([txt.slice(last,m.index),other]);parts.push([m[0],lang(m[0])==='he'?'he':'el']);last=m.index+m[0].length}
  if(last<txt.length)parts.push([txt.slice(last),other]);
  const mg=[];parts.forEach(p=>{const q=mg[mg.length-1];if(q&&q[1]===p[1])q[0]+=p[0];else mg.push([p[0],p[1]])});parts=mg;
@@ -411,6 +415,16 @@ function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=
   if(R.fails>=2){dev();return}
   R.dev=false;vplay(it.c,it.t,.95,step,()=>{if(window.__ra!==R)return;R.fails++;dev()})};
  step()}catch(e){sayNote(S('Could not play the sound.','Δεν έγινε αναπαραγωγή ήχου.'))}}
+(function(){const EP=document.documentElement.lang==='el',L1=EP?'🔊 Ανάγνωση':'🔊 Read',L2=EP?'■ Διακοπή':'■ Stop';
+ const b=document.createElement('button');b.type='button';b.className='selsay';b.dataset.l1=L1;b.textContent=L1;b.style.cssText='position:fixed;z-index:99999;display:none;font:600 13px system-ui,sans-serif;color:#e8c375;background:#0a1820;border:1px solid #e8c375;border-radius:6px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)';document.body.appendChild(b);
+ let txt='',tm=0;
+ const show=()=>{const s=window.getSelection&&getSelection(),x=s?String(s).replace(/\s+/g,' ').trim():'';if(x.length<2||!s.rangeCount){if(!window.__ra)b.style.display='none';return}
+  const an=s.anchorNode,el=an&&(an.nodeType===1?an:an.parentNode);if(el&&el.closest&&el.closest('input,textarea,select,.selsay,[contenteditable]'))return;
+  txt=String(s).trim();const r=s.getRangeAt(0).getBoundingClientRect();b.style.top=Math.max(8,r.top-44)+'px';b.style.left=Math.min(innerWidth-130,Math.max(8,r.left))+'px';b.style.display='block'};
+ document.addEventListener('selectionchange',()=>{clearTimeout(tm);tm=setTimeout(show,250)});
+ b.addEventListener('mousedown',e=>e.preventDefault());
+ b.addEventListener('click',()=>{if(window.__ra){try{speechSynthesis.cancel()}catch(e){}vstop();window.__ra=null;raReset();return}const d=document.createElement('div');d.textContent=txt;readAll(d,null);if(window.__ra)b.textContent=L2});
+})();
 document.addEventListener('click',e=>{const st=e.target.closest&&e.target.closest('.saystop');if(st){e.preventDefault();e.stopPropagation();try{window.speechSynthesis.cancel()}catch(x){}vstop();window.__ra=null;raReset();return}const b=e.target.closest&&e.target.closest('.sayall');if(b){e.preventDefault();e.stopPropagation();readAll(b.closest('.msg'),b)}},true);
 // tools the bots can call (all run inside this page)
 function bookIdx(n){return BK.findIndex(b=>b.n.toLowerCase().replace(/\s/g,'')===canon(n))}
