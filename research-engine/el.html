@@ -425,8 +425,11 @@ function readAll(box,btn){const EP=document.documentElement.lang==='el',S=(e,g)=
    let vs=[];try{vs=ss.getVoices()}catch(e){}const want=it.c==='en'?'en':it.c,v=vs.find(x=>x.lang.toLowerCase().replace('_','-').startsWith(want));
    if(!v&&it.c!=='en'){step();return}
    const u=new SpeechSynthesisUtterance(it.t);if(v){u.voice=v;u.lang=v.lang}else u.lang='en-US';u.rate=1;u.onend=step;u.onerror=()=>{if(window.__ra===R)step()};ss.speak(u)};
-  if(R.fails>=2){dev();return}
-  R.dev=false;vplay(it.c,it.t,.95,step,()=>{if(window.__ra!==R)return;R.fails++;dev()})};
+  if(R.fails>=3){dev();return}
+  R.dev=false;let tried=0;
+  const nx=R.items[R.i];if(nx){try{fetch(VURL(nx.c,nx.t,.95)).catch(()=>{})}catch(e){}}
+  const go=()=>vplay(it.c,it.t,.95,()=>{R.fails=0;step()},()=>{if(window.__ra!==R)return;if(tried++<1){setTimeout(()=>{if(window.__ra===R)go()},600);return}R.fails++;dev()});
+  go()};
  step()}catch(e){sayNote(S('Could not play the sound.','Δεν έγινε αναπαραγωγή ήχου.'))}}
 (function(){const EP=document.documentElement.lang==='el',L1=EP?'🔊 Ανάγνωση':'🔊 Read',L2=EP?'■ Διακοπή':'■ Stop';
  const b=document.createElement('button');b.type='button';b.className='selsay';b.dataset.l1=L1;b.textContent=L1;b.style.cssText='position:fixed;z-index:99999;display:none;font:600 13px system-ui,sans-serif;color:#e8c375;background:#0a1820;border:1px solid #e8c375;border-radius:6px;padding:7px 12px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.5)';document.body.appendChild(b);
