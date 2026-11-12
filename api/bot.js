@@ -9,7 +9,7 @@ const MODEL = process.env.BOT_MODEL || 'claude-sonnet-5-5';
 const FREE_MODEL = process.env.BOT_FREE_MODEL || MODEL;
 const ALLOW = (process.env.BOT_ALLOW || 'polycarpoumandos@gmail.com,mandospolycarpou@hotmail.com')
   .toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
-const BOTS = ['b1', 'b2', 'b3', 'b4'];
+const BOTS = ['b1', 'b2', 'b3', 'b4', 'b5'];
 const CLOSED = true; // temporary closure for members; set to false to reopen
 
 const COMMON = [
@@ -25,7 +25,7 @@ const CODE = [
   '- Be honest about what is what: say "my own reading" when you go beyond what the Code states, and keep Greek quotations in Greek.'
 ].join('\n');
 const ACADEMIC = 'Bot 2 is the academic bot. The Ellin Logos Code is not part of its answers unless Mandos asks for it by name. Say what is established, what is general knowledge and what is disputed, and keep Greek quotations in Greek.';
-const rulesFor = b => COMMON + (b === 'b3' || b === 'b4' ? '\n' + CODE : b === 'b2' ? '\n' + ACADEMIC : '');
+const rulesFor = b => COMMON + (b === 'b3' || b === 'b4' || b === 'b5' ? '\n' + CODE : b === 'b2' ? '\n' + ACADEMIC : '');
 
 
 // Prompt caching: the instructions, the tool list and the conversation so far are the same on every step
