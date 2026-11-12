@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Lesson PDFs · Ophanim Codex</title>
+<style>
+:root{--bg:#04080c;--panel:rgba(10,24,32,.72);--lime:#46e3f0;--gold:#e8c375;--ink:#dcd6c4;--ink2:#b4bec2;--line:rgba(70,227,240,.22)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 ui-monospace,"JetBrains Mono",monospace;padding:40px 16px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font:500 clamp(28px,5vw,44px)/1.15 Georgia,serif;margin:0 0 8px}h1 em{color:var(--gold);font-style:normal}
+p{color:var(--ink2);margin:0 0 14px}
+a{color:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:20px 0}
+button{font:14px ui-monospace,monospace;color:var(--gold);background:var(--panel);border:1px solid rgba(232,195,117,.45);border-radius:8px;padding:12px 14px;cursor:pointer;text-align:left}
+button:hover:not(:disabled){border-color:var(--gold)}
+button:disabled{opacity:.5;cursor:default}
+#msg{min-height:26px;color:var(--lime)}
+.all{margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>The ten lessons <em>as PDFs</em></h1>
+<p>ΣΧΟΛΕΙΟΝ ΕΛΛΗΝΟΣ ΛΟΓΟΥ. Each button makes one lesson as a PDF, with all its parts joined in order. This page is for the site owner and works only when signed in.</p>
+<div id="msg" aria-live="polite">Checking sign-in...</div>
+<div class="grid" id="grid"></div>
+<button type="button" class="all" id="all" disabled>Download all ten</button>
+<p style="margin-top:24px"><a href="research-engine/">Sign in through the Research Engine</a></p>
+</div>
+<script src="lessons-pdf/pdf-lib.min.js"></script>
+<script src="lessons-pdf/fontkit.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz';
+var msg=function(t){document.getElementById('msg').textContent=t||''};
+var sb=null,fontBytes=null,btns=[];
+var grid=document.getElementById('grid'),allBtn=document.getElementById('all');
+for(var n=1;n<=10;n++){(function(n){var b=document.createElement('button');b.type='button';b.textContent='Μάθημα '+n+'  ·  PDF';b.disabled=true;b.onclick=function(){one(n,true)};grid.appendChild(b);btns.push(b)})(n)}
+
+async function font(){ if(!fontBytes){var r=await fetch('lessons-pdf/DejaVuSerif.ttf');if(!r.ok)throw new Error('font');fontBytes=await r.arrayBuffer()} return fontBytes }
+
+function wrap(text,f,size,maxW){
+  var words=text.split(/\s+/).filter(Boolean),lines=[],cur='';
+  for(var i=0;i<words.length;i++){
+    var t=cur?cur+' '+words[i]:words[i];
+    if(f.widthOfTextAtSize(t,size)<=maxW){cur=t}
+    else{ if(cur)lines.push(cur); cur=words[i];
+      while(f.widthOfTextAtSize(cur,size)>maxW){var k=cur.length;while(k>1&&f.widthOfTextAtSize(cur.slice(0,k),size)>maxW)k--;lines.push(cur.slice(0,k));cur=cur.slice(k)} }
+  }
+  if(cur)lines.push(cur); return lines;
+}
+
+async function makePdf(n,rows){
+  var PDF=window.PDFLib,doc=await PDF.PDFDocument.create();doc.registerFontkit(window.fontkit);
+  var f=await doc.embedFont(await font(),{subset:true});
+  var W=595.28,H=841.89,M=62,size=11,lh=16,maxW=W-2*M,pages=[],page,y;
+  function newPage(){page=doc.addPage([W,H]);pages.push(page);y=H-M}
+  newPage();
+  var title='ΣΧΟΛΕΙΟΝ ΕΛΛΗΝΟΣ ΛΟΓΟΥ';
+  page.drawText(title,{x:M,y:y-6,size:20,font:f,color:PDF.rgb(.1,.1,.1)});y-=34;
+  page.drawText('Μάθημα '+n,{x:M,y:y,size:16,font:f,color:PDF.rgb(.55,.4,.1)});y-=30;
+  var lastPart=null;
+  rows.forEach(function(r){
+    if(r.part!==lastPart){ if(lastPart!==null)y-=6; lastPart=r.part;
+      if(y<M+60)newPage();
+      page.drawText('— μέρος '+r.part+' —',{x:M,y:y,size:10,font:f,color:PDF.rgb(.45,.45,.45)});y-=lh+4}
+    String(r.body||'').split(/\n+/).forEach(function(par){
+      par=par.trim();if(!par)return;
+      wrap(par,f,size,maxW).forEach(function(line){
+        if(y<M+10)newPage();
+        page.drawText(line,{x:M,y:y,size:size,font:f,color:PDF.rgb(.1,.1,.1)});y-=lh});
+      y-=7});
+  });
+  pages.forEach(function(p,i){p.drawText('Μάθημα '+n+'  ·  '+(i+1)+' / '+pages.length,{x:W/2-34,y:30,size:9,font:f,color:PDF.rgb(.5,.5,.5)})});
+  return doc.save();
+}
+
+async function one(n,say){
+  if(say)msg('Making lesson '+n+'...');
+  var r=await sb.rpc('get_lesson_text',{p_n:n});
+  if(r.error)throw new Error(r.error.message);
+  if(!r.data||!r.data.length)throw new Error('Lesson '+n+' has no text.');
+  var bytes=await makePdf(n,r.data);
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+  a.download='Ellin-Logos-Mathima-'+(n<10?'0'+n:n)+'.pdf';document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},4000);
+  if(say)msg('Lesson '+n+' downloaded ('+r.data.length+' pieces).');
+}
+allBtn.onclick=async function(){
+  allBtn.disabled=true;
+  try{for(var n=1;n<=10;n++){msg('Making lesson '+n+' of 10...');await one(n,false);await new Promise(function(ok){setTimeout(ok,700)})}msg('All ten downloaded.')}
+  catch(e){msg('Stopped: '+e.message)}
+  allBtn.disabled=false;
+};
+
+function ready(){btns.forEach(function(b){b.disabled=false});allBtn.disabled=false}
+if(!window.supabase){msg('Could not reach the sign-in service. Check your connection.')}
+else{
+  sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});
+  sb.auth.getSession().then(function(r){
+    if(r.data&&r.data.session){msg('Signed in as '+r.data.session.user.email+'. Pick a lesson.');ready()}
+    else msg('Please sign in first through the Research Engine, then come back to this page.');
+  });
+}
+window.addEventListener('error',function(e){msg('Something went wrong: '+(e.message||''))});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Members' PDFs · Ophanim Codex</title>
+<style>
+:root{--bg:#04080c;--panel:rgba(10,24,32,.72);--lime:#46e3f0;--gold:#e8c375;--ink:#dcd6c4;--ink2:#b4bec2;--line:rgba(70,227,240,.22)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 ui-monospace,"JetBrains Mono",monospace;padding:40px 16px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font:500 clamp(28px,5vw,44px)/1.15 Georgia,serif;margin:0 0 8px}h1 em{color:var(--gold);font-style:normal}
+p{color:var(--ink2);margin:0 0 14px}a{color:var(--lime)}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:16px 18px;margin:14px 0}
+.card h2{font:600 15px ui-monospace,monospace;letter-spacing:.08em;color:var(--gold);margin:0 0 6px}
+.card p{font-size:14.5px;margin:0 0 10px}
+button{font:14px ui-monospace,monospace;color:var(--gold);background:none;border:1px solid rgba(232,195,117,.45);border-radius:6px;padding:9px 14px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--gold)}button:disabled{opacity:.5;cursor:default}
+#msg{min-height:26px;color:var(--lime)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Members&rsquo; <em>PDFs</em></h1>
+<p>Reading copies for signed-in members. Sign in through the <a href="research-engine/">Research Engine</a> (a free account is enough), then come back here.</p>
+<div id="msg" aria-live="polite">Checking sign-in...</div>
+
+<div class="card"><h2>The Nag Hammadi Library</h2>
+<p>James M. Robinson, general editor. The English translation of the Coptic Gnostic texts found in 1945. Text PDF, 297 pages (2.2 MB).</p>
+<button type="button" data-f="nag-hammadi-library" disabled>Download PDF</button></div>
+
+<div class="card"><h2>Manetho (Waddell, Loeb Classical Library)</h2>
+<p>Greek on one page, English opposite. This is a scan of the book, 784 pages (23 MB), so it takes a moment to open. The Greek text is also in the Research Engine to search and read.</p>
+<button type="button" data-f="manetho-waddell-loeb" disabled>Download PDF</button></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz';
+var msg=function(t){document.getElementById('msg').textContent=t||''},sb=null,K=null;
+var btns=[].slice.call(document.querySelectorAll('button[data-f]'));
+function hex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
+async function key(){
+  if(K)return K;
+  var r=await sb.from('engine_keys').select('k').eq('id','files').maybeSingle();
+  if(r.error||!r.data||!r.data.k)throw new Error('This account does not have access.');
+  K=await crypto.subtle.importKey('raw',hex(r.data.k),'AES-GCM',false,['decrypt']);return K;
+}
+async function get(name){
+  msg('Opening '+name+'...');
+  var k=await key();
+  var r=await fetch('members-pdfs/'+name+'.pdf.enc');if(!r.ok)throw new Error('File not found.');
+  var b=new Uint8Array(await r.arrayBuffer());
+  var p=await crypto.subtle.decrypt({name:'AES-GCM',iv:b.slice(0,12)},k,b.slice(12));
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([p],{type:'application/pdf'}));a.download=name+'.pdf';
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},6000);
+  msg('Downloaded '+name+'.pdf');
+}
+btns.forEach(function(b){b.onclick=function(){b.disabled=true;get(b.getAttribute('data-f')).catch(function(e){msg('Could not open it: '+e.message)}).then(function(){b.disabled=false})}});
+if(!window.supabase)msg('Could not reach the sign-in service. Check your connection.');
+else{sb=window.supabase.createClient(URL_,KEY_,{auth:{persistSession:true,autoRefreshToken:true}});
+  sb.auth.getSession().then(function(r){if(r.data&&r.data.session){msg('Signed in. Pick a PDF.');btns.forEach(function(b){b.disabled=false})}else msg('Please sign in first through the Research Engine, then come back.')})}
+})();
+</script>
+</body>
+</html>
