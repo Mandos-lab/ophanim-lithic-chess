@@ -21,7 +21,7 @@ button:disabled{opacity:.5;cursor:default}
 <body>
 <div class="wrap">
 <h1>Teach the <em>bots</em></h1>
-<p>For the site owner, signed in. This copies the four Pythagorean texts (Golden Verses, Iamblichus, Porphyry, Lambropoulou) into the bots' lesson store, so they can search them. Running it again replaces the earlier copy and never doubles it.</p>
+<p>For the site owner, signed in. This copies the Pythagorean texts (Golden Verses, Iamblichus, Porphyry, Lambropoulou, Hierocles) into the bots' lesson store, so they can search them. Running it again replaces the earlier copy and never doubles it.</p>
 <div id="msg" aria-live="polite">Checking sign-in...</div>
 <button type="button" id="go" disabled>Teach the bots</button>
 <div id="log" aria-live="polite" hidden></div>
@@ -48,6 +48,8 @@ var SRC={
  'Golden Verses':'Pythagorean Golden Verses (Χρυσά Ἔπη), Greek text from Wikisource, public domain. 71 lines; each line numbered.',
  'Iamblichus, Life of Pythagoras':'Iamblichus, On the Pythagorean Life (Περὶ τοῦ Πυθαγορικοῦ βίου), Greek text of August Nauck (1884) from First1KGreek, Open Greek and Latin, CC BY-SA 4.0. Words only, punctuation not kept. References are chapter.section.',
  'Porphyry, Life of Pythagoras':'Porphyry, Life of Pythagoras (Πορφυρίου Πυθαγόρου βίος), Greek text of August Nauck (1860) from First1KGreek, Open Greek and Latin, CC BY-SA 4.0. Words only, punctuation not kept. References are section numbers.',
+ 'Hierocles, On the Golden Verses':'Hierocles of Alexandria, Commentary on the Pythagorean Golden Verses (Ἱεροκλέους ὑπόμνημα εἰς τὰ χρυσᾶ ἔπη), Greek text from the Eulogikon project (eulogikon.org). Words only, punctuation not kept. References are chapter.section; the commentary quotes each Golden Verse and then explains it.',
+ 'Hierocles, Prologue to the Golden Verses':'Hierocles of Alexandria, prologue to his Commentary on the Golden Verses, Greek text from the Eulogikon project (eulogikon.org). Words only, punctuation not kept.',
  'Initiation of Pythagoras':'Stavroula Lambropoulou, "Η μύηση του Πυθαγόρα στα Λείβηθρα της Θράκης" (The Initiation of Pythagoras at Leivithra in Thrace), Greek part, typed from a scan and tidied. A modern scholarly article; use as a reading aid, a few words may be misread.'
 };
 function lessons(books){
@@ -55,7 +57,7 @@ function lessons(books){
   books.forEach(function(b){
     var src=SRC[b.n]||b.n, groups=[], cur=null, size=0;
     var chapters=new Set(b.v.map(function(x){return x[0]}));
-    var byChapter=b.n.indexOf('Iamblichus')===0;
+    var byChapter=b.n.indexOf('Iamblichus')===0||b.n==='Hierocles, On the Golden Verses';
     b.v.forEach(function(v){
       var words=v[2].map(function(w){return w.slice(0,w.lastIndexOf(':'))}).join(' ');
       var ref=(chapters.size>1?v[0]+'.':'')+v[1];
