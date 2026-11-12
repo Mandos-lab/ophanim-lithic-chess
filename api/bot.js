@@ -40,6 +40,25 @@ function withCache(messages) {
   } catch (e) { return messages; }
 }
 
+// Answer cache: an identical question (same bot, same instructions, same conversation, same tool results) gets the
+// saved answer back for free and does not use up a step. The key is a keyed hash, so nobody can guess or plant one.
+const CACHE_V = 'v1'; // change this text to empty the cache after the library changes a lot
+const crypto = require('crypto');
+function cacheKey(secret, parts) { return crypto.createHmac('sha256', secret).update(CACHE_V + JSON.stringify(parts)).digest('hex'); }
+async function cacheGet(token, k) {
+  try {
+    const r = await fetch(SUPA + '/rest/v1/rpc/bot_cache_get', { method: 'POST', headers: { apikey: PUB, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_k: k }), signal: AbortSignal.timeout(4000) });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j && Array.isArray(j.content) ? j : null;
+  } catch (e) { return null; }
+}
+async function cachePut(token, k, resp) {
+  try {
+    await fetch(SUPA + '/rest/v1/rpc/bot_cache_put', { method: 'POST', headers: { apikey: PUB, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_k: k, p_resp: resp }), signal: AbortSignal.timeout(4000) });
+  } catch (e) { /* the cache is a bonus; ignore failures */ }
+}
+
 function send(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -114,6 +133,12 @@ module.exports = async function handler(req, res) {
     return send(res, 400, { error: 'The conversation is too long. Press New chat and ask again.' });
   if (messages[0].role !== 'user') return send(res, 400, { error: 'Bad conversation.' });
 
+  const sysText = rulesFor(bot) + (system ? '\n\n' + system : '');
+  const toolDefs = tools.map(t => [t.name, t.description, t.input_schema]);
+  const ck = cacheKey(key, [owner ? MODEL : FREE_MODEL, sysText, messages, toolDefs, body.tool_choice || null]);
+  const hit = await cacheGet(token, ck);
+  if (hit) { console.log('cache-hit', email, bot); return send(res, 200, { content: hit.content, stop_reason: hit.stop_reason || 'end_turn', cached: true }); }
+
   let slot;
   try { slot = await take(token, bot); } catch (e) { slot = null; }
   if (slot === null) return send(res, 502, { error: 'Could not check your allowance. Try again in a moment.' });
@@ -131,7 +156,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         model: owner ? MODEL : FREE_MODEL,
         max_tokens: owner ? 1800 : 1200,
-        system: [{ type: 'text', text: rulesFor(bot) + (system ? '\n\n' + system : ''), cache_control: { type: 'ephemeral' } }],
+        system: [{ type: 'text', text: sysText, cache_control: { type: 'ephemeral' } }],
         messages: withCache(messages),
         ...(body.tool_choice && body.tool_choice.type === 'none' && tools.length ? { tool_choice: { type: 'none' } } : {}),
         tools: tools.map((t, i) => ({ name: String(t.name).slice(0, 64), description: String(t.description || '').slice(0, 2000), input_schema: t.input_schema || { type: 'object', properties: {} }, ...(i === tools.length - 1 ? { cache_control: { type: 'ephemeral' } } : {}) }))
@@ -153,5 +178,6 @@ module.exports = async function handler(req, res) {
     return send(res, 502, { error: 'The AI could not answer: ' + msg.slice(0, 160) });
   }
   console.log('ok', email, bot, j.stop_reason, (j.content || []).map(b => b.type).join('+'), JSON.stringify(j.usage || {}));
+  if ((j.stop_reason === 'end_turn' || j.stop_reason === 'tool_use') && Array.isArray(j.content) && j.content.length) await cachePut(token, ck, { content: j.content, stop_reason: j.stop_reason });
   return send(res, 200, { content: j.content || [], stop_reason: j.stop_reason || 'end_turn', left: slot });
 };
