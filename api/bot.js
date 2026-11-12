@@ -28,6 +28,18 @@ const ACADEMIC = 'Bot 2 is the academic bot. The Ellin Logos Code is not part of
 const rulesFor = b => COMMON + (b === 'b3' || b === 'b4' ? '\n' + CODE : b === 'b2' ? '\n' + ACADEMIC : '');
 
 
+// Prompt caching: the instructions, the tool list and the conversation so far are the same on every step
+// of a question, so the AI re-reads them at a fraction of the price instead of paying full price each time.
+function withCache(messages) {
+  try {
+    const m = JSON.parse(JSON.stringify(messages));
+    const last = m[m.length - 1];
+    if (typeof last.content === 'string') last.content = [{ type: 'text', text: last.content, cache_control: { type: 'ephemeral' } }];
+    else if (Array.isArray(last.content) && last.content.length) last.content[last.content.length - 1].cache_control = { type: 'ephemeral' };
+    return m;
+  } catch (e) { return messages; }
+}
+
 function send(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -118,11 +130,11 @@ module.exports = async function handler(req, res) {
       headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
         model: owner ? MODEL : FREE_MODEL,
-        max_tokens: owner ? 3000 : 2000,
-        system: rulesFor(bot) + (system ? '\n\n' + system : ''),
-        messages,
+        max_tokens: owner ? 1800 : 1200,
+        system: [{ type: 'text', text: rulesFor(bot) + (system ? '\n\n' + system : ''), cache_control: { type: 'ephemeral' } }],
+        messages: withCache(messages),
         ...(body.tool_choice && body.tool_choice.type === 'none' && tools.length ? { tool_choice: { type: 'none' } } : {}),
-        tools: tools.map(t => ({ name: String(t.name).slice(0, 64), description: String(t.description || '').slice(0, 2000), input_schema: t.input_schema || { type: 'object', properties: {} } }))
+        tools: tools.map((t, i) => ({ name: String(t.name).slice(0, 64), description: String(t.description || '').slice(0, 2000), input_schema: t.input_schema || { type: 'object', properties: {} }, ...(i === tools.length - 1 ? { cache_control: { type: 'ephemeral' } } : {}) }))
       }),
       signal: AbortSignal.timeout(55000)
     });
