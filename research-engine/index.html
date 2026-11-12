@@ -560,4 +560,21 @@ g('gf').onsubmit=function(e){e.preventDefault();if(!sb)return msg('Still loading
     if(r.error)return msg(/confirm/i.test(r.error.message)?'Please open the email we sent you and click the link first.':'Wrong email or password.');g('gp').value='';after(r.data.session)})};
 g('outbtn').onclick=function(){if(sb)sb.auth.signOut().then(function(){location.reload()})};
 })();
-</script></body></html>
+</script><script>
+/* Temporary closure of the Research Engine for members. Set CLOSED to false to reopen. */
+(function(){var CLOSED=true;if(!CLOSED)return;
+var OWNERS=['polycarpoumandos@gmail.com','mandospolycarpou@hotmail.com'],GR=document.documentElement.lang==='el';
+var T=GR?['Η Μηχανή Συμβόλων ξεκουράζεται για λίγο','Ξαναπέρασε σύντομα. Ευχαριστούμε για την υπομονή.']:['The Research Engine is resting for a short while','Please come back soon. Thank you for your patience.'];
+var o=document.createElement('div');o.id='rest-veil';
+o.style.cssText='position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:#071016;color:#e8c375;font:400 20px/1.5 Georgia,serif';
+o.innerHTML='<div><div style="font-size:28px;margin-bottom:12px">'+T[0]+'</div><div style="font-size:17px;color:#b9c7cc">'+T[1]+'</div></div>';
+function show(){if(!o.parentNode)document.body.appendChild(o);document.documentElement.style.overflow='hidden'}
+function hide(){if(o.parentNode)o.parentNode.removeChild(o);document.documentElement.style.overflow=''}
+var ownerLink=/owner/.test(location.hash);
+function check(){var sb=window.__sb;if(!sb){show();return}
+sb.auth.getSession().then(function(r){var s=r&&r.data&&r.data.session,em=s&&s.user&&String(s.user.email||'').toLowerCase();
+if(em&&OWNERS.indexOf(em)>-1)hide();else if(!em&&ownerLink)hide();else show()}).catch(show)}
+function start(){show();check();setInterval(check,1500)}
+if(document.body)start();else document.addEventListener('DOMContentLoaded',start)})();
+</script>
+</body></html>

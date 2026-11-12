@@ -10,6 +10,7 @@ const FREE_MODEL = process.env.BOT_FREE_MODEL || MODEL;
 const ALLOW = (process.env.BOT_ALLOW || 'polycarpoumandos@gmail.com,mandospolycarpou@hotmail.com')
   .toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
 const BOTS = ['b1', 'b2', 'b3', 'b4'];
+const CLOSED = true; // temporary closure for members; set to false to reopen
 
 const COMMON = [
   'HOUSE RULES (they come before everything else):',
@@ -86,6 +87,7 @@ module.exports = async function handler(req, res) {
   if (!me.confirmed) return send(res, 403, { error: 'Please confirm your email first: open the link we sent you, then sign in again.' });
   const email = me.email;
   const owner = ALLOW.includes(email);
+  if (CLOSED && !owner) return send(res, 503, { error: 'The Research Engine is resting for a short while. Please come back soon.' });
 
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return send(res, 503, { error: 'The bot is built but not switched on yet: the AI key has not been added to the site.' });
