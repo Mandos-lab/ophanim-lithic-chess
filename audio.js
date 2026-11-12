@@ -195,7 +195,7 @@
       var note = document.createElement('span'); note.className = 'nn';
       note.textContent = canTTS ? (sec.getAttribute('data-note') || (RL ? T('Natural voice. If it is not available, your device voice is used.', 'Φυσική φωνή. Αν δεν είναι διαθέσιμη, χρησιμοποιείται η φωνή της συσκευής σας.') : T('Computer voice. It may skip or mispronounce Greek and Armenian words; a recording is better for those.', 'Φωνή υπολογιστή. Μπορεί να παραλείψει ή να προφέρει λάθος ελληνικές και αρμενικές λέξεις· για αυτές είναι καλύτερη μια ηχογράφηση.'))) : T('Read aloud is not available in this browser.', 'Η ανάγνωση φωναχτά δεν είναι διαθέσιμη σε αυτόν τον περιηγητή.');
       bar.appendChild(note);
-      var h = sec.querySelector(sec.hasAttribute('data-narrate-auto') ? 'h1,h2' : 'h2'); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
+      var h = sec.querySelector(sec.hasAttribute('data-narrate-auto') ? 'h1,h2' : (sec.getAttribute('data-bar') || 'h2')); if (h && h.nextSibling) h.parentNode.insertBefore(bar, h.nextSibling); else sec.insertBefore(bar, sec.firstChild);
       if (audioSrc) {                                                // offer the recording only if the file really exists
         fetch(audioSrc, { method: 'HEAD' }).then(function (r) {
           if (!r.ok) return;

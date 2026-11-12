@@ -406,7 +406,7 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
     <div class="kicker" style="justify-content:center">Ophanim Codex &middot; The Engine</div>
     <h1>The Ophanim Engine<br><em>A Compass Made of Letters</em></h1>
     <p style="font-size:clamp(19px,2.2vw,26px);color:var(--cyan);margin:18px auto 26px;max-width:54ch">Every letter is a number. Every number is a direction on a circle. Add up a word and it points somewhere.</p>
-    <p class="dim" style="max-width:62ch;margin:0 auto;font-size:18px">This page explains the idea from the start, in plain words, with the detail underneath for anyone who wants it. Look for the small tags: <span class="tag ok">checked</span> means we ran the arithmetic and it holds, <span class="tag fw">framework</span> means it is our way of reading the numbers, and <span class="tag no">did not hold</span> means we found it does not add up as written.</p>
+    <p class="dim" style="max-width:62ch;margin:0 auto;font-size:18px">This page explains the idea from the start, in plain words, with the detail underneath for anyone who wants it. Look for the small tags: <span class="tag ok">checked</span> means we ran the arithmetic and it holds, and <span class="tag fw">framework</span> means it is our way of reading the numbers.</p>
     <div class="scrollcue" style="margin-top:40px">SCROLL &#9662;</div>
   </div>
 </section>
@@ -467,16 +467,9 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
     <figure class="figw reveal"><img src="img/st-michael-line.png" alt="Map of the St Michael line with the four sites, and a bar chart comparing two ways of measuring the offsets" loading="lazy"><figcaption><span class="tag ok">checked</span> both sets of numbers, from the same coordinates. They answer different questions, so a figure should always say which method it uses.</figcaption></figure>
   </div>
 </section>
-<section data-narrate id="cadmus" data-label="Kalamos">
-  <div class="wrap">
-    <div class="reveal"><div class="kicker">VI &middot; The Reed and Cadmus</div><h2>A closed delta, <em>opened</em></h2>
-    <p class="dim" style="max-width:66ch">&ldquo;Cadmus&rdquo; (ΚΑΔΜΟΣ) adds up to 335, and &ldquo;reed&rdquo; (ΚΑΛΑΜΟΣ) to 362. The difference, 27, is what you get when the delta (4) is opened into lambda plus alpha (30 + 1 = 31).</p></div>
-    <figure class="figw reveal"><img src="img/kalamos-cadmus-b.png" alt="Cadmus and Kalamos letter values, and the difference of 27" loading="lazy"><figcaption><span class="tag ok">checked</span> 335, 362 and the difference 27.</figcaption></figure>
-  </div>
-</section>
 <section data-narrate id="globe" data-label="The globe">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">VII &middot; The Globe and Its Offsets</div><h2>Turn the Earth, <em>move the offset</em></h2>
+    <div class="reveal"><div class="kicker">VI &middot; The Globe and Its Offsets</div><h2>Turn the Earth, <em>move the offset</em></h2>
     <p class="dim" style="max-width:66ch">Drag the globe to turn it. Switch layers on and off. The gold dashed ring is the offset: it sits &epsilon; degrees south of the 1/135 latitude (1.3333&deg; S). Slide &epsilon; or use a preset to move it, and the distances below are worked out live, once for a perfectly round Earth and once for the real, slightly flattened Earth (WGS84).</p>
     <p class="dim" style="max-width:66ch;font-size:15px">The compass centre and the offset points are placed on the Kaaba&rsquo;s meridian (39.83&deg; E) because their longitude is not yet fixed. The coastlines are rough outlines to help you find your way, not a map.</p></div>
     <div class="cvw reveal"><canvas id="gl-cv"></canvas></div>
@@ -501,7 +494,7 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
 </section>
 <section data-narrate id="jitter" data-label="Jitterbug">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">VIII &middot; The Jitterbug and the Ladder</div><h2>Shapes that <em>grow and turn</em></h2>
+    <div class="reveal"><div class="kicker">VII &middot; The Jitterbug and the Ladder</div><h2>Shapes that <em>grow and turn</em></h2>
     <p class="dim" style="max-width:66ch">Buckminster Fuller found that a cuboctahedron, 12 points around a centre, can fold and twist into an icosahedron and then an octahedron, as if it were breathing. Press Play, or drag the slider to move it yourself.</p>
     <p class="dim" style="max-width:66ch">The second view is a ladder of shapes by number of points: tetrahedron 4, octahedron 6, cube 8, icosahedron 12, the 13-point vector equilibrium, the 26-point cage, the 27-point block and the 34-point radiator. Then 36: the vector equilibrium again, this time with all 36 of its vectors drawn (24 outer edges and 12 spokes from the centre). And 37: the shell of cells left when a 3 x 3 x 3 block sits in a 4 x 4 x 4 grid, 64 &minus; 27 = 37. Pick a rung and the points move to the next shape.</p></div>
     <div class="ctl reveal"><button type="button" id="jt-m1" class="on">Jitterbug</button><button type="button" id="jt-m2">Ladder of shapes</button><span id="jt-cnt" style="font:13px var(--mono);color:var(--ink-2);margin-left:auto"></span></div>
@@ -515,7 +508,7 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
 </section>
 <section data-narrate id="salt" data-label="Salt">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">IX &middot; Salt</div><h2>The cube <em>that conducts</em></h2>
+    <div class="reveal"><div class="kicker">VIII &middot; Salt</div><h2>The cube <em>that conducts</em></h2>
     <p class="dim" style="max-width:66ch">Table salt, sodium chloride (NaCl), forms cubic crystals. Inside, each sodium ion is surrounded by six chloride ions at right angles, and each chloride by six sodium: an octahedron around every ion, inside a cube. That is chemistry, and it fits the geometry of this page well: the cube and the octahedron are the two shapes it keeps using.</p>
     <p class="dim" style="max-width:66ch">Salt dissolved in water carries electricity, which is why the saline drip in a hospital is about 0.9% NaCl. Your nerves and heart depend on sodium and potassium ions crossing cell membranes. Pure distilled water carries almost no current.</p>
     <p class="dim" style="max-width:66ch">Mark 9:49 reads &ldquo;every sacrifice will be seasoned with salt&rdquo;. <span class="tag ok">checked</span> The Greek of that phrase adds up to 1748, the same as εἰδωλόθυτον (food offered to idols). Zamzam, the well water of Mecca, contains sodium chloride along with other minerals; the white papers do not mention it.</p></div>
@@ -523,28 +516,14 @@ table.eng tr.hot td{background:rgba(176,156,236,.12)}
 </section>
 <section data-narrate id="words" data-label="Words">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">X &middot; Words That Add Up</div><h2>The sums <em>we checked</em></h2>
+    <div class="reveal"><div class="kicker">IX &middot; Words That Add Up</div><h2>The sums <em>we checked</em></h2>
     <p class="dim" style="max-width:66ch">Every line below was recomputed with the 27-letter Greek system (stigma 6, koppa 90, sampi 900).</p>
     <div class="scr"><table class="eng"><thead><tr><th>Word</th><th>Value</th><th>Note</th></tr></thead><tbody><tr><td class="n" lang="el">ΓΡΑΜΜΑ</td><td class="v">185</td><td>&ldquo;letter&rdquo;. 4,995 / 185 = 27, the number of letters in the grid</td></tr><tr><td class="n" lang="el">ΑΡΙΘΜΟΣ</td><td class="v">430</td><td>number</td></tr><tr><td class="n" lang="el">ΝΟΜΟΣ</td><td class="v">430</td><td>law</td></tr><tr><td class="n" lang="el">ΜΑΘΗΜΑΤΙΚΑ</td><td class="v">430</td><td>mathematics</td></tr><tr><td class="n" lang="el">τὸ δίκτυον</td><td class="v">1224</td><td>the net (John 21)</td></tr><tr><td class="n" lang="el">ἰχθύες</td><td class="v">1224</td><td>fishes. 1224 = 153 x 8</td></tr><tr><td class="n" lang="el">Ἰησοῦς</td><td class="v">888</td><td></td></tr><tr><td class="n" lang="el">Ἀλήθεια</td><td class="v">64</td><td>truth. 37 x 64 = 2368</td></tr><tr><td class="n" lang="el">Ἰησοῦς Χριστός</td><td class="v">2368</td><td>= 37 x 64</td></tr><tr><td class="n" lang="el">τὸ Ἅγιον Πνεῦμα</td><td class="v">1080</td><td>the Holy Spirit</td></tr><tr><td class="n" lang="el">ἡ δόξα τοῦ θεοῦ Ἰσραήλ</td><td class="v">1746</td><td>1080 + 666 = 1746</td></tr><tr><td class="n" lang="el">ἐποίησεν πηλόν</td><td class="v">666</td><td>he made clay (John 9:6)</td></tr><tr><td class="n" lang="el">πλευράν</td><td class="v">666</td><td>rib</td></tr><tr><td class="n" lang="el">Γάιος Καῖσαρ</td><td class="v">616</td><td>Caligula, the 616 variant</td></tr><tr><td class="n" lang="el">καὶ πᾶσα θυσία ἁλὶ ἁλισθήσεται</td><td class="v">1748</td><td>Mark 9:49, every sacrifice salted</td></tr><tr><td class="n" lang="el">εἰδωλόθυτον</td><td class="v">1748</td><td>food offered to idols</td></tr><tr><td class="n" lang="el">οὐδὲ ὁ Υἱός</td><td class="v">1229</td><td>nor the Son</td></tr><tr><td class="n" lang="el">πληρῶσαι</td><td class="v">1229</td><td>to fill up</td></tr><tr><td class="n" lang="el">περιστερά</td><td class="v">801</td><td>dove. Also Α + Ω = 1 + 800</td></tr><tr><td class="n" lang="el">ὁ Κτίσας</td><td class="v">801</td><td>the Creator</td></tr><tr><td class="n" lang="el">ὁ Θεὸς Ἑρμῆς</td><td class="v">707</td><td>the god Hermes. &radic;5000 = 70.71</td></tr><tr><td class="n" lang="el">Χριστός</td><td class="v">1480</td><td></td></tr><tr><td class="n" lang="el">ἄρτοι</td><td class="v">481</td><td>loaves</td></tr><tr><td class="n" lang="el">κάλαμος</td><td class="v">362</td><td>reed</td></tr></tbody></table></div>
     <p class="dim" style="max-width:66ch;margin-top:12px"><span class="tag ok">checked</span> Also: the 27 letters add up to 4,995, and 4,995 / 185 (ΓΡΑΜΜΑ) = 27. The words for 666 written out (ἑξακόσιοι ἑξήκοντα ἕξ) and Αὐτοκράτωρ Καῖσαρ both come to 199 when letters are counted in order (α = 1 to ω = 24), a different method from the one above.</p></div>
   </div>
 </section>
-<section data-narrate id="audit" data-label="For audit">
+<section id="audit" data-label="Links">
   <div class="wrap">
-    <div class="reveal"><div class="kicker">XI &middot; Open for Audit</div><h2>What <em>did not hold</em></h2></div>
-    <div class="record reveal audit">
-      <p>We recomputed every number we could. These did not hold as written, so they are kept off the page as facts:</p>
-      <ul style="margin:10px 0 0 22px">
-        <li><span class="tag no">did not hold</span> <b>ΑΓΝΩΣΤΟΣ = 135.</b> It adds up to 1624. The 135 in the engine comes from 27 x 5, which does hold.</li>
-        <li><span class="tag no">did not hold</span> <b>Helios = 666.</b> Ἥλιος adds up to 318. The two numbers in &ldquo;1080 + 666 = 1746&rdquo; are still right: 1080 is the Holy Spirit and 666 is &ldquo;he made clay&rdquo; and &ldquo;rib&rdquo;.</li>
-        <li><span class="tag no">did not hold</span> <b>τὸ πνεῦμα τοῦ κόσμου = 1746.</b> It adds up to 2516. The other 1746, ἡ δόξα τοῦ θεοῦ Ἰσραήλ, does hold.</li>
-        <li><span class="tag no">did not hold</span> <b>Ἰδιώτης = 1331 (11 cubed).</b> It adds up to 1332.</li>
-        <li><span class="tag no">did not hold</span> <b>λαός μοι οἶκος Ἰσραήλ = 1530.</b> As spelled here it adds up to 1140.</li>
-        <li><span class="tag no">did not hold</span> <b>Node 34 at 330 degrees.</b> Node 34 is at 340 degrees. Node 33 is at 330.</li>
-        <li><span class="tag no">did not hold</span> <b>The 20 km offset &ldquo;on the WGS84 ellipsoid&rdquo;.</b> 19.6 km is the round-Earth figure. On the ellipsoid it is 19.5 km from the same latitude, or about 8.7 km if the golden-ratio point is found along the real flattened meridian. The paper does not say which it means.</li>
-      </ul>
-      <p style="margin-top:14px"><span class="tag fw">framework</span> Everything about what the numbers mean (the cage as a perceptual box, the offsets as pressure valves, the &minus;2.6 valve, the connections to Hoffman and Penrose) is the author&rsquo;s reading, not established science. The white papers also say they are a &ldquo;topological field theory&rdquo;; they are not a published or tested theory, and this page does not present them as one.</p>
-    </div>
     <div class="links"><a href="greek-sphere.html">Greek Sphere</a><a href="hebrew-sphere.html">Hebrew Sphere</a><a href="ellin-logos-codex.html">Ellin Logos</a><a href="ophanim-engine-codex-el.html" lang="el">Ελληνικά</a><a href="library.html">Library</a></div>
   </div>
 </section>
