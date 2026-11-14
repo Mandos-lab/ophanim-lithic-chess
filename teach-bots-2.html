@@ -34,7 +34,7 @@ var URL_='https://pbhtnlxvouwxxnwatynp.supabase.co',KEY_='sb_publishable_J2G1Hqq
 var msg=function(t){document.getElementById('msg').textContent=t||''},log=document.getElementById('log'),go=document.getElementById('go'),sb=null;
 function say(t){log.hidden=false;log.textContent+=t+'\n';log.scrollTop=log.scrollHeight}
 function hex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
-var FILES=['lessons-strongs.enc','lessons-lex2.enc'];
+var FILES=['lessons-strongs.enc','lessons-lex2.enc','lessons-plutarch.enc','lessons-plotinus.enc','lessons-philo.enc','lessons-josephus.enc','lessons-lxx.enc'];
 async function loadAll(){
   var r=await sb.from('engine_keys').select('k').eq('id','files').maybeSingle();
   if(r.error||!r.data||!r.data.k)throw new Error('no access to the key');
@@ -53,14 +53,16 @@ go.onclick=async function(){
   go.disabled=true;log.textContent='';
   try{
     msg('Opening the texts...');var ls=await loadAll();
-    say('Found '+ls.length+' lessons to add.');
+    var have={};try{var ex=await sb.from('engine_lessons').select('title').limit(5000);if(!ex.error&&ex.data)ex.data.forEach(function(x){have[x.title]=1})}catch(e){}
+    var before=ls.length;ls=ls.filter(function(x){return !have[x.title]});
+    say('Found '+before+' lessons, '+(before-ls.length)+' already taught, '+ls.length+' to add.');
     for(var i=0;i<ls.length;i++){
       msg('Teaching '+(i+1)+' of '+ls.length+'...');
       var r=await sb.rpc('add_lesson_owner',{p_title:ls[i].title,p_source:ls[i].source,p_body:ls[i].body});
       if(r.error)throw new Error(ls[i].title+': '+r.error.message);
       say('Added: '+ls[i].title+' ('+ls[i].body.length+' characters)');
     }
-    msg('Done. The bots can now search all '+ls.length+' lessons.');
+    msg('Done. '+ls.length+' lessons added. The bots can now search them.');
   }catch(e){msg('Stopped: '+e.message)}
   go.disabled=false;
 };
