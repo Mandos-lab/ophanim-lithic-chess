@@ -88,6 +88,16 @@ footer{max-width:1000px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-
     </div>
 
     <div class="card">
+      <h2 style="margin-top:0">My reading</h2>
+      <p>Reading copies for members: <a href="members-pdfs.html">The Nag Hammadi Library and Manetho (Waddell, Loeb) as PDFs</a>. The Greek texts we hold, from Homer to Hierocles, are in the <a href="research-engine/">Research Engine</a> under the Read tab.</p>
+    </div>
+
+    <div class="card" id="ownCard" hidden>
+      <h2 style="margin-top:0">Owner tools</h2>
+      <p><a href="lessons-pdf.html">The ten Ellin Logos lessons as PDFs</a> &middot; <a href="teach-bots.html">Teach the bots</a> &middot; <a href="research-engine/#owner">Research Engine (owner entrance)</a></p>
+    </div>
+
+    <div class="card">
       <h2 style="margin-top:0">Change my password</h2>
       <label for="cpw">New password</label><input type="password" id="cpw" autocomplete="new-password">
       <div class="row"><button type="button" class="btn" id="bCpw">Change password</button></div>
@@ -131,6 +141,7 @@ footer{max-width:1000px;margin:0 auto;padding:0 14px 30px;color:var(--dim);font-
   }
   function enter() {
     $('who').textContent = 'Signed in as ' + M.email();
+    $('ownCard').hidden = ['polycarpoumandos@gmail.com', 'mandospolycarpou@hotmail.com'].indexOf(String(M.email() || '').toLowerCase()) < 0;
     $('hd').value = M.handle() || '';
     show('stIn'); $('wc').textContent = 'Loading your words...';
     M.words.list().then(function (r) { rows = r.map(function (x) { return { id: x.id, en: x.en, f: x.forms || {} }; }); draw(); }, function () { $('wc').textContent = 'Could not load your words just now.'; });
