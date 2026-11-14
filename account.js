@@ -214,7 +214,7 @@
     if (mmode === 'in') { var f = el('button', 'oa-sub', m.forgot); f.type = 'button'; f.addEventListener('click', function () { mmode = 'reset'; memberForm(tx); }); box.appendChild(f); }
     if (mmode === 'reset') { var bk = el('button', 'oa-sub', m.back); bk.type = 'button'; bk.addEventListener('click', function () { mmode = 'in'; memberForm(tx); }); box.appendChild(bk); }
     var back = el('button', 'oa-go alt', m.guestBtn || tx.tabs[2]); back.type = 'button'; back.addEventListener('click', function () { tab = 2; render(); }); box.appendChild(back);
-    var pr = el('a', 'oa-link', m.privacy); pr.href = 'privacy.html'; box.appendChild(pr);
+    var pr = el('a', 'oa-link', m.privacy); pr.href = (lang() === 'el') ? 'privacy-el.html' : 'privacy.html'; box.appendChild(pr);
     setTimeout(function () { em.focus(); }, 30);
   }
   function memberView(tx) {
