@@ -42,14 +42,14 @@
       hi: 'Συνδεδεμένος ως', since: 'σε αυτή τη συσκευή από', out: 'Αποσύνδεση', forget: 'Διαγραφή αυτού του προφίλ και της αποθηκευμένης προόδου', sure: 'Να αφαιρεθεί αυτό το προφίλ και η αποθηκευμένη πρόοδος από τη συσκευή;',
       close: 'Κλείσιμο', tooShort: 'Χρησιμοποιήστε τουλάχιστον 2 γράμματα ή αριθμούς.', greek: 'Άνοιγμα της σελίδας στα ελληνικά', english: 'Open this page in English', saved: 'Αποθηκεύτηκε σε αυτή τη συσκευή' }
   };
-  T.en.m = { guestBtn: 'Or carry on as a guest, no email', join: 'Join free', title: 'Free member account', lead: 'A free account keeps your saved words and work on your own page, on any device. We keep your email only to sign you in.',
+  T.en.m = { guestBtn: 'Or carry on as a guest, no email', join: 'Join free', title: 'Free member account', lead: 'A free account keeps your saved words and work on your own page, on any device. We keep your email to sign you in, and to send the newsletter only if you tick the box below.',
     tabJoin: 'Create account', tabIn: 'Sign in', email: 'Email', pw: 'Password', pwHint: 'At least 8 characters.', create: 'Create my free account', signin: 'Sign in', forgot: 'Forgot my password', sendReset: 'Send me a reset link',
     back: 'Back to sign in', checkMail: 'Almost done. We sent a message to your email: open the link in it to confirm, then come back and sign in.', resetSent: 'If that email has an account, a reset link is on its way.',
-    privacy: 'Privacy and cookies', member: 'Member', hi: 'Signed in as member', dash: 'My dashboard', out: 'Sign out', banner: 'Free member account: save your words and work, on any device.', bannerBtn: 'Join free or sign in', busy: 'Please wait...' };
-  T.el.m = { guestBtn: 'Ή συνεχίστε ως επισκέπτης, χωρίς email', join: 'Εγγραφή δωρεάν', title: 'Δωρεάν λογαριασμός μέλους', lead: 'Ένας δωρεάν λογαριασμός κρατά τις λέξεις και τη δουλειά σας στη δική σας σελίδα, σε κάθε συσκευή. Κρατάμε το email σας μόνο για τη σύνδεση.',
+    privacy: 'Privacy and cookies', member: 'Member', hi: 'Signed in as member', dash: 'My dashboard', out: 'Sign out', banner: 'Free member account: save your words and work, on any device.', bannerBtn: 'Join free or sign in', busy: 'Please wait...', news: 'Send me the occasional newsletter about new pages and tools. I can unsubscribe at any time.' };
+  T.el.m = { guestBtn: 'Ή συνεχίστε ως επισκέπτης, χωρίς email', join: 'Εγγραφή δωρεάν', title: 'Δωρεάν λογαριασμός μέλους', lead: 'Ένας δωρεάν λογαριασμός κρατά τις λέξεις και τη δουλειά σας στη δική σας σελίδα, σε κάθε συσκευή. Κρατάμε το email σας για τη σύνδεση και, μόνο αν επιλέξετε το πλαίσιο παρακάτω, για το ενημερωτικό δελτίο.',
     tabJoin: 'Δημιουργία λογαριασμού', tabIn: 'Σύνδεση', email: 'Email', pw: 'Κωδικός', pwHint: 'Τουλάχιστον 8 χαρακτήρες.', create: 'Δημιουργία δωρεάν λογαριασμού', signin: 'Σύνδεση', forgot: 'Ξέχασα τον κωδικό μου', sendReset: 'Στείλτε μου σύνδεσμο επαναφοράς',
     back: 'Πίσω στη σύνδεση', checkMail: 'Σχεδόν έτοιμο. Στείλαμε μήνυμα στο email σας: ανοίξτε τον σύνδεσμο για επιβεβαίωση και μετά συνδεθείτε.', resetSent: 'Αν το email έχει λογαριασμό, ο σύνδεσμος επαναφοράς είναι καθ\u2019 οδόν.',
-    privacy: 'Απόρρητο και cookies', member: 'Μέλος', hi: 'Συνδεδεμένος ως μέλος', dash: 'Ο πίνακάς μου', out: 'Αποσύνδεση', banner: 'Δωρεάν λογαριασμός μέλους: κρατήστε λέξεις και δουλειά, σε κάθε συσκευή.', bannerBtn: 'Εγγραφή ή σύνδεση', busy: 'Περιμένετε...' };
+    privacy: 'Απόρρητο και cookies', member: 'Μέλος', hi: 'Συνδεδεμένος ως μέλος', dash: 'Ο πίνακάς μου', out: 'Αποσύνδεση', banner: 'Δωρεάν λογαριασμός μέλους: κρατήστε λέξεις και δουλειά, σε κάθε συσκευή.', bannerBtn: 'Εγγραφή ή σύνδεση', busy: 'Περιμένετε...', news: 'Στείλτε μου περιστασιακά ενημερωτικό δελτίο για νέες σελίδες και εργαλεία. Μπορώ να διαγραφώ οποτεδήποτε.' };
   function t() { return T[lang()]; }
   function M() { return window.OphanimMember || null; }
   function member() { var m = M(); return m && m.user() ? m : null; }
@@ -78,7 +78,7 @@
     '.oa-box input[type=email]:focus,.oa-box input[type=password]:focus{outline:none;border-color:#e8c375}' +
     '.oa-ban{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:10px 12px;border:1px solid rgba(70,227,240,.4);background:rgba(70,227,240,.06);border-radius:6px;font-size:15px}' +
     '.oa-ban button{background:none;border:1px solid #46e3f0;color:#46e3f0;font:600 11px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:4px;cursor:pointer}' +
-    '.oa-ok{color:#8fe3b0;font-size:15px;margin:8px 0 0}.oa-sub{background:none;border:0;color:#46e3f0;font:15px "EB Garamond",Georgia,serif;text-decoration:underline;cursor:pointer;padding:0;margin-top:12px;display:inline-block}';
+    '.oa-box label.oa-nl{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font:14px/1.4 "EB Garamond",Georgia,serif;letter-spacing:0;text-transform:none;color:#c9d3e0;cursor:pointer}.oa-nl input{margin-top:3px;flex:none}.oa-ok{color:#8fe3b0;font-size:15px;margin:8px 0 0}.oa-sub{background:none;border:0;color:#46e3f0;font:15px "EB Garamond",Georgia,serif;text-decoration:underline;cursor:pointer;padding:0;margin-top:12px;display:inline-block}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var badge = document.createElement('button'); badge.type = 'button'; badge.className = 'oa-badge'; badge.setAttribute('aria-haspopup', 'dialog');
@@ -190,6 +190,8 @@
       pw = el('input'); pw.type = 'password'; pw.id = 'oa-pw'; pw.autocomplete = mmode === 'join' ? 'new-password' : 'current-password'; box.appendChild(pw); eye(pw);
       if (mmode === 'join') box.appendChild(el('p', 'oa-hint', m.pwHint));
     }
+    var nl = null;
+    if (mmode === 'join') { var nlb = el('label', 'oa-nl'); nl = el('input'); nl.type = 'checkbox'; nl.id = 'oa-nl'; nlb.appendChild(nl); nlb.appendChild(el('span', null, m.news)); box.appendChild(nlb); }
     var err = el('p', 'oa-err'); err.setAttribute('role', 'alert'); box.appendChild(err);
     var ok = el('p', 'oa-ok'); ok.setAttribute('role', 'status'); box.appendChild(ok);
     var go = el('button', 'oa-go', mmode === 'join' ? m.create : mmode === 'in' ? m.signin : m.sendReset); go.type = 'button';
@@ -201,6 +203,7 @@
         go.disabled = false; go.textContent = old;
         if (!r.ok) { err.textContent = r.error; return; }
         if (mmode === 'reset') { ok.textContent = m.resetSent; return; }
+        if (mmode === 'join' && nl && nl.checked) { try { localStorage.setItem('ophanim.newsletter.pending', String(Date.now())); } catch (e) {} }
         if (mmode === 'join' && r.needsConfirm) { ok.textContent = m.checkMail; return; }
         fire(); render();
       });
@@ -261,6 +264,16 @@
   addEventListener('storage', function (e) { if (e.key === K.stone || e.key === K.prefs) paintBadge(); });
   document.addEventListener('ophanim:member', function () { paintBadge(); if (ov && ov.classList.contains('on')) render(); });
   paintBadge();
+
+  /* A newsletter tick made at sign-up is saved once the member is signed in (after the email confirmation). */
+  function syncNewsletter() {
+    var when; try { when = localStorage.getItem('ophanim.newsletter.pending'); } catch (e) { return; }
+    if (!when || !member() || !window.supabase) return;
+    var c = window.supabase.createClient('https://pbhtnlxvouwxxnwatynp.supabase.co', 'sb_publishable_J2G1HqqRw0ii4s49O8OFNw_X3UrU_Rz', { auth: { persistSession: true, autoRefreshToken: false } });
+    c.rpc('set_newsletter', { p_on: true, p_at: new Date(+when).toISOString() }).then(function (r) { if (!r.error) { try { localStorage.removeItem('ophanim.newsletter.pending'); } catch (e) {} } });
+  }
+  document.addEventListener('ophanim:member', function () { setTimeout(syncNewsletter, 600); });
+  setTimeout(syncNewsletter, 2500);
 
   /* a visitor who chose Greek is offered the Greek page once per tab session */
   try {
